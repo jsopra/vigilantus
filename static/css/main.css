@@ -1,0 +1,193 @@
+body {
+
+}
+
+.unica {
+	font-family: 'Unica One', cursive;
+}
+
+.pathway {
+	font-family: 'Pathway Gothic One', sans-serif;
+}
+
+img { 
+    -webkit-filter: drop-shadow(0.1em 0.1em 0.1em #222);
+    filter:         drop-shadow(0.1em 0.1em 0.1em #222); 
+}
+
+header {
+	width: 100%;
+	margin: 0 auto;
+}
+
+header div.header {
+	padding-top: 30px;
+}
+
+h1 {
+	color: #000000;
+	text-shadow: 0.03em 0.03em #ccc;
+	font-weight: bold;
+	font-size: 10em;
+	color: #DA4E49;
+	line-height: 0.9em;
+}
+
+h2 {
+	font-size: 2.2em;
+	color: #000000;
+	text-shadow: 0.03em 0.03em #ccc;
+	line-height: 1.2em;
+	font-weight: bold;
+}
+
+div.left_breaker {
+	margin: 0 auto;
+}
+
+div.q0 {
+	width: 250px;
+	height: 250px;
+	background-color: #FFF;
+	padding: 40px;
+	border-radius: 20em;
+	margin: 0 auto;
+	box-shadow: inset 0 0 1px 1px #E5CDA0;
+}
+
+div.q0 p {
+	padding-top: 30px;
+	font-size: 2.5em;
+	color: #000;
+	margin: 0;
+}
+
+.qualificadores {
+	font-family: 'Unica One', cursive;
+	text-transform: uppercase;
+	color: #636363;
+	font-size: 1.5em;
+}
+
+div.q1,
+div.q2,
+div.q3,
+div.q4 {
+	width: 500px;
+	background-color: #FFF;
+	margin-right: 20px;
+	padding: 40px;
+	margin: 0 auto;
+	text-align: center;
+	box-shadow: inset 0 0 1px 1px #E5CDA0;
+}
+
+.itensQ2 p {
+	margin-top: 20px;
+	font-size: 1.3em;
+}
+
+.medidor {
+	font-size: 1.5em;
+	font-family: 'Unica One', cursive;
+	text-align: right;
+}
+
+div.items {
+	text-align: center;
+	margin: 0 auto;
+	font-family: 'Unica One', cursive;
+	text-transform: uppercase;
+}
+
+div.item {
+	
+	
+}
+
+p.titulo {
+	font-size: 1.3em;
+	font-family: 'Pathway Gothic One', sans-serif;
+}
+
+.right {
+	margin-right: 20px;
+}
+
+.left {
+	margin-left: 20px;
+}
+
+ul {
+	text-align: right;
+	margin: 0;
+}
+
+ul li {
+	display: inline;
+	margin: 0 5px;
+}
+
+footer {
+	margin: 0 auto;
+}
+
+.first_breaker {
+	margin: 20px 0;
+}
+
+.breaker {
+	margin: 0 0 20px 0;
+}
+
+.perspectiva{
+	font-size: 1.5em;
+	margin-top: 1em;
+	font-family: 'Roboto Condensed', sans-serif;
+	text-align: right;
+	margin-right: 1em;
+}
+
+.perspectiva a {
+	color: #000;
+	text-decoration: none;
+}
+
+span.domain {
+	color: red;
+}
+
+span.gray {
+	color: gray;
+}
+
+.marginTop {
+	margin-top: -30px;
+}
+
+footer {
+	text-align: left;
+	margin: 0 auto;
+	width: 450px;
+}
+
+footer div.header p.titulo {
+	margin: 0.3em 0 !important;
+}
+
+p.subtitulo {
+	
+	font-family: 'Pathway Gothic One', sans-serif;
+	font-size: 2em;
+}
+
+div.error {
+	padding: 50px 0 100px 0;
+	margin: 0 0 50px 0;
+}
+
+form label {
+	font-size: 0.9em;
+	font-weight: bold;
+	margin-top: 8px;
+}
