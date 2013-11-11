@@ -1,0 +1,170 @@
+2013/11/11 07:17:17 [trace] [system.CModule] Loading "log" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:17 [trace] [system.CModule] Loading "request" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:17 [trace] [system.CModule] Loading "urlManager" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:17 [trace] [system.base.CModule] Loading "default" module
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:17 [trace] [system.CModule] Loading "assetManager" application component
+in /home/juliano/www/dengue/protected/components/Controller.php (20)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "clientScript" application component
+in /home/juliano/www/dengue/protected/components/Controller.php (22)
+2013/11/11 07:17:18 [trace] [system.web.filters.CFilterChain] Running filter DefaultController.filteraccessControl()
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "user" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "session" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "coreMessages" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "log" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "request" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "urlManager" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:18 [trace] [system.base.CModule] Loading "default" module
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "assetManager" application component
+in /home/juliano/www/dengue/protected/components/Controller.php (20)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "clientScript" application component
+in /home/juliano/www/dengue/protected/components/Controller.php (22)
+2013/11/11 07:17:18 [trace] [system.web.filters.CFilterChain] Running filter SessionController.filteraccessControl()
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "user" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "session" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "messages" application component
+in /home/juliano/www/dengue/protected/modules/default/views/session/login.php (2)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "widgetFactory" application component
+in /home/juliano/www/dengue/protected/modules/default/views/session/login.php (15)
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "coreMessages" application component
+in /home/juliano/www/dengue/protected/modules/default/views/session/login.php (15)
+2013/11/11 07:17:18 [error] [exception.CException] exception 'CException' with message 'O alias "bootstrap.widgets.TbActiveForm" é inválido. Assegure-se de que ele aponta para um arquivo PHP existente.' in /home/juliano/www/startup/dev/lib/common/framework/YiiBase.php:318
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWidgetFactory.php(147): YiiBase::import('bootstrap.widge...', true)
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(147): CWidgetFactory->createWidget(Object(SessionController), 'bootstrap.widge...', Array)
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(190): CBaseController->createWidget('bootstrap.widge...', Array)
+#3 /home/juliano/www/dengue/protected/modules/default/views/session/login.php(15): CBaseController->beginWidget('bootstrap.widge...', Array)
+#4 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(127): require('/home/juliano/w...')
+#5 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(96): CBaseController->renderInternal('/home/juliano/w...', Array, true)
+#6 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(870): CBaseController->renderFile('/home/juliano/w...', Array, true)
+#7 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(783): CController->renderPartial('login', Array, true)
+#8 /home/juliano/www/dengue/protected/modules/default/controllers/SessionController.php(96): CController->render('login', Array)
+#9 /home/juliano/www/startup/dev/lib/common/framework/web/actions/CInlineAction.php(50): SessionController->actionLogin()
+#10 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#11 /home/juliano/www/startup/dev/lib/common/framework/web/filters/CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#12 /home/juliano/www/startup/dev/lib/common/framework/web/filters/CFilter.php(41): CFilterChain->run()
+#13 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(1146): CFilter->filter(Object(CFilterChain))
+#14 /home/juliano/www/startup/dev/lib/common/framework/web/filters/CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#15 /home/juliano/www/startup/dev/lib/common/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#16 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(292): CFilterChain->run()
+#17 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#18 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('login')
+#19 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/session...')
+#20 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#21 /home/juliano/www/dengue/index.php(9): CApplication->run()
+#22 {main}
+REQUEST_URI=/dengue/default/session/login
+---
+2013/11/11 07:17:18 [trace] [system.CModule] Loading "errorHandler" application component
+2013/11/11 07:18:53 [trace] [system.CModule] Loading "log" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:18:53 [trace] [system.CModule] Loading "request" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:18:53 [trace] [system.CModule] Loading "urlManager" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:18:53 [trace] [system.base.CModule] Loading "default" module
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:18:53 [trace] [system.CModule] Loading "assetManager" application component
+in /home/juliano/www/dengue/protected/components/Controller.php (20)
+2013/11/11 07:18:53 [trace] [system.CModule] Loading "clientScript" application component
+in /home/juliano/www/dengue/protected/components/Controller.php (22)
+2013/11/11 07:18:53 [trace] [system.web.filters.CFilterChain] Running filter SessionController.filteraccessControl()
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:18:53 [trace] [system.CModule] Loading "user" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:18:53 [trace] [system.CModule] Loading "session" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:18:53 [trace] [system.CModule] Loading "messages" application component
+in /home/juliano/www/dengue/protected/modules/default/views/session/login.php (2)
+2013/11/11 07:18:53 [trace] [system.CModule] Loading "widgetFactory" application component
+in /home/juliano/www/dengue/protected/modules/default/views/session/login.php (15)
+2013/11/11 07:18:53 [trace] [system.CModule] Loading "coreMessages" application component
+in /home/juliano/www/dengue/protected/modules/default/views/session/login.php (15)
+2013/11/11 07:18:53 [error] [exception.CException] exception 'CException' with message 'O alias "bootstrap.widgets.TbActiveForm" é inválido. Assegure-se de que ele aponta para um arquivo PHP existente.' in /home/juliano/www/dengue/protected/framework/YiiBase.php:318
+Stack trace:
+#0 /home/juliano/www/dengue/protected/framework/web/CWidgetFactory.php(147): YiiBase::import('bootstrap.widge...', true)
+#1 /home/juliano/www/dengue/protected/framework/web/CBaseController.php(147): CWidgetFactory->createWidget(Object(SessionController), 'bootstrap.widge...', Array)
+#2 /home/juliano/www/dengue/protected/framework/web/CBaseController.php(190): CBaseController->createWidget('bootstrap.widge...', Array)
+#3 /home/juliano/www/dengue/protected/modules/default/views/session/login.php(15): CBaseController->beginWidget('bootstrap.widge...', Array)
+#4 /home/juliano/www/dengue/protected/framework/web/CBaseController.php(127): require('/home/juliano/w...')
+#5 /home/juliano/www/dengue/protected/framework/web/CBaseController.php(96): CBaseController->renderInternal('/home/juliano/w...', Array, true)
+#6 /home/juliano/www/dengue/protected/framework/web/CController.php(870): CBaseController->renderFile('/home/juliano/w...', Array, true)
+#7 /home/juliano/www/dengue/protected/framework/web/CController.php(783): CController->renderPartial('login', Array, true)
+#8 /home/juliano/www/dengue/protected/modules/default/controllers/SessionController.php(96): CController->render('login', Array)
+#9 /home/juliano/www/dengue/protected/framework/web/actions/CInlineAction.php(50): SessionController->actionLogin()
+#10 /home/juliano/www/dengue/protected/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#11 /home/juliano/www/dengue/protected/framework/web/filters/CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#12 /home/juliano/www/dengue/protected/framework/web/filters/CFilter.php(41): CFilterChain->run()
+#13 /home/juliano/www/dengue/protected/framework/web/CController.php(1146): CFilter->filter(Object(CFilterChain))
+#14 /home/juliano/www/dengue/protected/framework/web/filters/CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#15 /home/juliano/www/dengue/protected/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#16 /home/juliano/www/dengue/protected/framework/web/CController.php(292): CFilterChain->run()
+#17 /home/juliano/www/dengue/protected/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#18 /home/juliano/www/dengue/protected/framework/web/CWebApplication.php(276): CController->run('login')
+#19 /home/juliano/www/dengue/protected/framework/web/CWebApplication.php(135): CWebApplication->runController('default/session...')
+#20 /home/juliano/www/dengue/protected/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#21 /home/juliano/www/dengue/index.php(9): CApplication->run()
+#22 {main}
+REQUEST_URI=/dengue/default/session/login
+---
+2013/11/11 07:18:53 [trace] [system.CModule] Loading "errorHandler" application component
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "log" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "request" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "urlManager" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.base.CModule] Loading "default" module
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "assetManager" application component
+in /home/juliano/www/dengue/protected/components/Controller.php (20)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "clientScript" application component
+in /home/juliano/www/dengue/protected/components/Controller.php (22)
+2013/11/11 07:25:15 [trace] [system.web.filters.CFilterChain] Running filter DefaultController.filteraccessControl()
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "user" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "session" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "coreMessages" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "log" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "request" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "urlManager" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.base.CModule] Loading "default" module
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "assetManager" application component
+in /home/juliano/www/dengue/protected/components/Controller.php (20)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "clientScript" application component
+in /home/juliano/www/dengue/protected/components/Controller.php (22)
+2013/11/11 07:25:15 [trace] [system.web.filters.CFilterChain] Running filter SessionController.filteraccessControl()
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "user" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "session" application component
+in /home/juliano/www/dengue/index.php (9)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "messages" application component
+in /home/juliano/www/dengue/protected/modules/default/views/session/login.php (2)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "widgetFactory" application component
+in /home/juliano/www/dengue/protected/modules/default/views/session/login.php (15)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "coreMessages" application component
+in /home/juliano/www/dengue/protected/extensions/bootstrap/widgets/TbActiveForm.php (437)
+2013/11/11 07:25:15 [trace] [system.CModule] Loading "bootstrap" application component
+in /home/juliano/www/dengue/protected/views/layouts/main.php (2)

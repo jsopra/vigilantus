@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Options
+END
+ClientOptions.php
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Options/ClientOptions.php
+END
+ClientPrefix.php
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Options/ClientPrefix.php
+END
+ClientProfile.php
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Options/ClientProfile.php
+END
+ClientCluster.php
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Options/ClientCluster.php
+END
+IOption.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Options/IOption.php
+END
+CustomOption.php
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Options/CustomOption.php
+END
+IClientOptions.php
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Options/IClientOptions.php
+END
+ClientConnectionFactory.php
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Options/ClientConnectionFactory.php
+END
+ClientReplication.php
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Options/ClientReplication.php
+END
+Option.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Options/Option.php
+END

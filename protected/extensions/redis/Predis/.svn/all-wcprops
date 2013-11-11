@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis
+END
+ConnectionParameters.php
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/ConnectionParameters.php
+END
+CommunicationException.php
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/CommunicationException.php
+END
+NotSupportedException.php
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/NotSupportedException.php
+END
+ServerException.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/ServerException.php
+END
+ConnectionFactory.php
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/ConnectionFactory.php
+END
+IReplyObject.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/IReplyObject.php
+END
+MonitorContext.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/MonitorContext.php
+END
+IConnectionParameters.php
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/IConnectionParameters.php
+END
+ClientException.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/ClientException.php
+END
+Autoloader.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Autoloader.php
+END
+IConnectionFactory.php
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/IConnectionFactory.php
+END
+Helpers.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Helpers.php
+END
+PredisException.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/PredisException.php
+END
+ResponseQueued.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/ResponseQueued.php
+END
+ResponseError.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/ResponseError.php
+END
+Client.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Client.php
+END
+IRedisServerError.php
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/IRedisServerError.php
+END

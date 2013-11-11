@@ -1,0 +1,934 @@
+2013/07/12 21:27:21 [error] [php] file_get_contents(noticias): failed to open stream: No such file or directory (/home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php:30)
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/actions/CAction.php(107): ReflectionMethod->invokeArgs()
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/actions/CInlineAction.php(48): CInlineAction->runWithParamsInternal()
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(309): CInlineAction->runWithParams()
+#3 /home/juliano/www/startup/dev/lib/common/framework/web/filters/CFilterChain.php(134): DefaultController->runAction()
+#4 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(292): CFilterChain->run()
+#5 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(266): DefaultController->runActionWithFilters()
+#6 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): DefaultController->run()
+#7 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#8 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#9 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CWebApplication->run()
+REQUEST_URI=/startup/dev/projects/dengue/
+in /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php (30)
+in /home/juliano/www/startup/dev/projects/dengue/index.php (9)
+2013/07/12 21:27:56 [error] [php] Undefined variable: noticias (/home/juliano/www/startup/dev/projects/dengue/protected/views/default/index.php:7)
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(870): DefaultController->renderFile()
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(783): DefaultController->renderPartial()
+#2 /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php(6): DefaultController->render()
+#3 /home/juliano/www/startup/dev/lib/common/framework/web/actions/CInlineAction.php(50): DefaultController->actionIndex()
+#4 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(309): CInlineAction->runWithParams()
+#5 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(287): DefaultController->runAction()
+#6 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(266): DefaultController->runActionWithFilters()
+#7 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): DefaultController->run()
+#8 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#9 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#10 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CWebApplication->run()
+REQUEST_URI=/startup/dev/projects/dengue/
+in /home/juliano/www/startup/dev/projects/dengue/protected/views/default/index.php (7)
+in /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php (6)
+in /home/juliano/www/startup/dev/projects/dengue/index.php (9)
+2013/07/12 21:28:20 [error] [exception.CException] exception 'CException' with message 'A propriedade "DefaultController.tagsSelecionadas" não está definida.' in /home/juliano/www/startup/dev/lib/common/framework/base/CComponent.php:131
+Stack trace:
+#0 /home/juliano/www/startup/dev/projects/dengue/protected/views/layouts/main.php(13): CComponent->__get('tagsSelecionada...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(127): require('/home/juliano/w...')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(96): CBaseController->renderInternal('/home/juliano/w...', Array, true)
+#3 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(785): CBaseController->renderFile('/home/juliano/w...', Array, true)
+#4 /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php(6): CController->render('index', Array)
+#5 /home/juliano/www/startup/dev/lib/common/framework/web/actions/CInlineAction.php(50): DefaultController->actionIndex()
+#6 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#7 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#8 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('index')
+#10 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/index')
+#11 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#12 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#13 {main}
+REQUEST_URI=/startup/dev/projects/dengue/
+---
+2013/07/12 21:28:36 [error] [exception.CException] exception 'CException' with message 'A propriedade "DefaultController.tags" não está definida.' in /home/juliano/www/startup/dev/lib/common/framework/base/CComponent.php:131
+Stack trace:
+#0 /home/juliano/www/startup/dev/projects/dengue/protected/views/layouts/main.php(54): CComponent->__get('tags')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(127): require('/home/juliano/w...')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(96): CBaseController->renderInternal('/home/juliano/w...', Array, true)
+#3 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(785): CBaseController->renderFile('/home/juliano/w...', Array, true)
+#4 /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php(6): CController->render('index', Array)
+#5 /home/juliano/www/startup/dev/lib/common/framework/web/actions/CInlineAction.php(50): DefaultController->actionIndex()
+#6 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#7 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#8 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('index')
+#10 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/index')
+#11 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#12 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#13 {main}
+REQUEST_URI=/startup/dev/projects/dengue/
+---
+2013/07/12 21:30:04 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/img/topo_bg.jpg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/img/topo...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/img/topo_bg.jpg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/12 21:30:04 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/img/section_bg.jpg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/img/sect...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/img/section_bg.jpg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/12 21:30:04 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/img/rodape_bg.png".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/img/roda...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/img/rodape_bg.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/12 21:31:45 [error] [php] include(ContactForm.php): failed to open stream: No such file or directory (/home/juliano/www/startup/dev/lib/common/framework/YiiBase.php:418)
+Stack trace:
+#0 /home/juliano/www/startup/dev/projects/dengue/protected/components/Controller.php(14): spl_autoload_call()
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(275): DefaultController->init()
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CWebApplication->run()
+REQUEST_URI=/startup/dev/projects/dengue/
+in /home/juliano/www/startup/dev/projects/dengue/protected/components/Controller.php (14)
+in /home/juliano/www/startup/dev/projects/dengue/index.php (9)
+2013/07/12 21:32:03 [error] [exception.CException] exception 'CException' with message 'A propriedade "DefaultController.contectForm" não está definida.' in /home/juliano/www/startup/dev/lib/common/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/juliano/www/startup/dev/projects/dengue/protected/components/Controller.php(14): CComponent->__set('contectForm', Object(ContactForm))
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(275): Controller->init()
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/index')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/
+---
+2013/07/12 23:59:50 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.woff".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.woff
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/12 23:59:50 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.woff".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.woff
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/12 23:59:50 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.ttf".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.ttf
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/12 23:59:50 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.ttf".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.ttf
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/12 23:59:50 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.svg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.svg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/12 23:59:50 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.svg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.svg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:00:01 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.woff".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.woff
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:00:01 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.woff".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.woff
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:00:01 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.ttf".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.ttf
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:00:01 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.ttf".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.ttf
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:00:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.svg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.svg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:00:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.svg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.svg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:00:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.woff".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.woff
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:00:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.woff".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.woff
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:00:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.ttf".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.ttf
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:00:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.ttf".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.ttf
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:00:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.svg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.svg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:00:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.svg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.svg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.woff".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.woff
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.woff".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.woff
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.ttf".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.ttf
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.ttf".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.ttf
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.svg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.svg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.svg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.svg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:16 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.woff".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.woff
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:16 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.woff".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.woff
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:16 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.ttf".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.ttf
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:16 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.ttf".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.ttf
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:16 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.svg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.svg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:16 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.svg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.svg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:54 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.woff".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.woff
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:54 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.woff".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.woff
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:54 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.ttf".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.ttf
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:54 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.ttf".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.ttf
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:54 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-demibold-webfont.svg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-demibold-webfont.svg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:01:54 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/font/novecentowide-normal-webfont.svg".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/font/nov...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/font/novecentowide-normal-webfont.svg
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 00:26:09 [error] [php] Undefined variable: model (/home/juliano/www/startup/dev/projects/dengue/protected/views/default/index.php:126)
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(870): DefaultController->renderFile()
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(783): DefaultController->renderPartial()
+#2 /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php(6): DefaultController->render()
+#3 /home/juliano/www/startup/dev/lib/common/framework/web/actions/CInlineAction.php(50): DefaultController->actionIndex()
+#4 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(309): CInlineAction->runWithParams()
+#5 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(287): DefaultController->runAction()
+#6 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(266): DefaultController->runActionWithFilters()
+#7 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): DefaultController->run()
+#8 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#9 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#10 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CWebApplication->run()
+REQUEST_URI=/startup/dev/projects/dengue/
+in /home/juliano/www/startup/dev/projects/dengue/protected/views/default/index.php (126)
+in /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php (6)
+in /home/juliano/www/startup/dev/projects/dengue/index.php (9)
+2013/07/13 00:26:17 [error] [php] include(mail.php): failed to open stream: No such file or directory (/home/juliano/www/startup/dev/lib/common/framework/YiiBase.php:418)
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/validators/CValidator.php(171): import()
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CModel.php(285): createValidator()
+#2 /home/juliano/www/startup/dev/lib/common/framework/base/CModel.php(259): ContactForm->createValidators()
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CModel.php(302): ContactForm->getValidators()
+#4 /home/juliano/www/startup/dev/lib/common/framework/web/helpers/CHtml.php(1185): ContactForm->isAttributeRequired()
+#5 /home/juliano/www/startup/dev/lib/common/framework/web/widgets/CActiveForm.php(560): activeLabelEx()
+#6 /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/input/TbInput.php(253): TbActiveForm->labelEx()
+#7 /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/input/TbInputVertical.php(140): TbInputVertical->getLabel()
+#8 /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/input/TbInput.php(230): TbInputVertical->textField()
+#9 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(174): TbInputVertical->run()
+#10 /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/TbActiveForm.php(497): DefaultController->widget()
+#11 /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/TbActiveForm.php(186): TbActiveForm->inputRow()
+#12 /home/juliano/www/startup/dev/projects/dengue/protected/views/default/index.php(126): TbActiveForm->textFieldRow()
+#13 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(127): require()
+#14 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(96): DefaultController->renderInternal()
+#15 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(870): DefaultController->renderFile()
+#16 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(783): DefaultController->renderPartial()
+#17 /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php(6): DefaultController->render()
+#18 /home/juliano/www/startup/dev/lib/common/framework/web/actions/CInlineAction.php(50): DefaultController->actionIndex()
+#19 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(309): CInlineAction->runWithParams()
+#20 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(287): DefaultController->runAction()
+#21 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(266): DefaultController->runActionWithFilters()
+#22 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): DefaultController->run()
+#23 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#24 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#25 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CWebApplication->run()
+REQUEST_URI=/startup/dev/projects/dengue/
+in /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/input/TbInput.php (253)
+in /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/input/TbInputVertical.php (140)
+in /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/input/TbInput.php (230)
+2013/07/13 00:26:25 [error] [php] include(mail.php): failed to open stream: No such file or directory (/home/juliano/www/startup/dev/lib/common/framework/YiiBase.php:418)
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/validators/CValidator.php(171): import()
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CModel.php(285): createValidator()
+#2 /home/juliano/www/startup/dev/lib/common/framework/base/CModel.php(259): ContactForm->createValidators()
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CModel.php(302): ContactForm->getValidators()
+#4 /home/juliano/www/startup/dev/lib/common/framework/web/helpers/CHtml.php(1185): ContactForm->isAttributeRequired()
+#5 /home/juliano/www/startup/dev/lib/common/framework/web/widgets/CActiveForm.php(560): activeLabelEx()
+#6 /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/input/TbInput.php(253): TbActiveForm->labelEx()
+#7 /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/input/TbInputVertical.php(140): TbInputVertical->getLabel()
+#8 /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/input/TbInput.php(230): TbInputVertical->textField()
+#9 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(174): TbInputVertical->run()
+#10 /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/TbActiveForm.php(497): DefaultController->widget()
+#11 /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/TbActiveForm.php(186): TbActiveForm->inputRow()
+#12 /home/juliano/www/startup/dev/projects/dengue/protected/views/default/index.php(126): TbActiveForm->textFieldRow()
+#13 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(127): require()
+#14 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(96): DefaultController->renderInternal()
+#15 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(870): DefaultController->renderFile()
+#16 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(783): DefaultController->renderPartial()
+#17 /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php(6): DefaultController->render()
+#18 /home/juliano/www/startup/dev/lib/common/framework/web/actions/CInlineAction.php(50): DefaultController->actionIndex()
+#19 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(309): CInlineAction->runWithParams()
+#20 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(287): DefaultController->runAction()
+#21 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(266): DefaultController->runActionWithFilters()
+#22 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): DefaultController->run()
+#23 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#24 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#25 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CWebApplication->run()
+REQUEST_URI=/startup/dev/projects/dengue/
+in /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/input/TbInput.php (253)
+in /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/input/TbInputVertical.php (140)
+in /home/juliano/www/startup/dev/lib/common/extensions/bootstrap/widgets/input/TbInput.php (230)
+2013/07/13 01:33:49 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/img/icon/execucao.png".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/img/icon...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/img/icon/execucao.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 02:26:42 [error] [exception.CException] exception 'CException' with message 'A propriedade "TbButton.class" não está definida.' in /home/juliano/www/startup/dev/lib/common/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWidgetFactory.php(162): CComponent->__set('class', 'pull-right')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(147): CWidgetFactory->createWidget(Object(DefaultController), 'bootstrap.widge...', Array)
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(173): CBaseController->createWidget('bootstrap.widge...', Array)
+#3 /home/juliano/www/startup/dev/projects/dengue/protected/views/layouts/main.php(52): CBaseController->widget('bootstrap.widge...', Array)
+#4 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(127): require('/home/juliano/w...')
+#5 /home/juliano/www/startup/dev/lib/common/framework/web/CBaseController.php(96): CBaseController->renderInternal('/home/juliano/w...', Array, true)
+#6 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(785): CBaseController->renderFile('/home/juliano/w...', Array, true)
+#7 /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php(6): CController->render('index', Array)
+#8 /home/juliano/www/startup/dev/lib/common/framework/web/actions/CInlineAction.php(50): DefaultController->actionIndex()
+#9 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#10 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#11 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('index')
+#13 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/index')
+#14 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#15 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#16 {main}
+REQUEST_URI=/startup/dev/projects/dengue/
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/13 10:20:46 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/13 10:20:57 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/13 10:21:16 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/13 10:21:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/13 10:21:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/13 10:21:53 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/13 10:21:59 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/13 10:22:15 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/13 10:22:22 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/13 10:22:35 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/13 10:22:55 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/13 10:23:05 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/14 11:01:42 [error] [php] Creating default object from empty value (/home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php:8)
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(287): DefaultController->runAction()
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(266): DefaultController->runActionWithFilters()
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): DefaultController->run()
+#3 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CWebApplication->run()
+REQUEST_URI=/startup/dev/projects/dengue/
+in /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php (8)
+in /home/juliano/www/startup/dev/projects/dengue/index.php (9)
+2013/07/14 11:16:44 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "asd".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('asd')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/asd
+---
+2013/07/14 11:20:38 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "defautl/index".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('defautl/index')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/defautl/index
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/mobile.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/arrow_black_center.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/desktop.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/icones/agenda.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/icones/arquivo.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/logo.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/icones/roteiro.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/arrow_black_inverse.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/icones/pesquisa.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/icones/acompanhamento.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/icones/server.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/arrow_black.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/icones/execucao.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/icones/planejamento.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "static" solicitada.' in /home/juliano/www/startup/dev/lib/common/framework/web/CController.php:484
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(271): CController->missingAction('static')
+#1 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): CController->run('static')
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('default/static/...')
+#3 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#5 {main}
+REQUEST_URI=/startup/dev/projects/dengue/default/static/img/icones/analise.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/default/index
+---
+2013/07/14 11:21:43 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "index".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('index')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/index
+---
+2013/07/14 11:22:31 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "start".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('start')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/start
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/07/14 11:34:37 [error] [php] include(YiiMailMessage.php): failed to open stream: No such file or directory (/home/juliano/www/startup/dev/lib/common/framework/YiiBase.php:418)
+Stack trace:
+#0 /home/juliano/www/startup/dev/projects/dengue/protected/models/forms/ContactForm.php(30): spl_autoload_call()
+#1 /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php(9): ContactForm->send()
+#2 /home/juliano/www/startup/dev/lib/common/framework/web/actions/CInlineAction.php(50): DefaultController->actionIndex()
+#3 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(309): CInlineAction->runWithParams()
+#4 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(287): DefaultController->runAction()
+#5 /home/juliano/www/startup/dev/lib/common/framework/web/CController.php(266): DefaultController->runActionWithFilters()
+#6 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(276): DefaultController->run()
+#7 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#8 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#9 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CWebApplication->run()
+REQUEST_URI=/startup/dev/projects/dengue/
+in /home/juliano/www/startup/dev/projects/dengue/protected/models/forms/ContactForm.php (30)
+in /home/juliano/www/startup/dev/projects/dengue/protected/controllers/DefaultController.php (9)
+in /home/juliano/www/startup/dev/projects/dengue/index.php (9)
+2013/09/23 20:28:18 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/img/dengueciucone_big".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/img/deng...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/img/dengueciucone_big
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/09/23 20:28:31 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/img/dengueciucone_big".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/img/deng...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/img/dengueciucone_big
+---
+2013/09/23 20:28:31 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/img/dengueciucone_big".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/img/deng...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/img/dengueciucone_big
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/static/img/dengueciucone_big
+---
+2013/09/23 20:28:39 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/img/dengueciucone_big.png".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/img/deng...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/img/dengueciucone_big.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---
+2013/09/23 20:28:44 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/img/dengueciucone_big.png".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/img/deng...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/img/dengueciucone_big.png
+---
+2013/09/23 20:28:44 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "static/img/dengueciucone_big.png".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('static/img/deng...')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/static/img/dengueciucone_big.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/static/img/dengueciucone_big.png
+---
+2013/09/23 20:43:06 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "img/logo.png".' in /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /home/juliano/www/startup/dev/lib/common/framework/web/CWebApplication.php(135): CWebApplication->runController('img/logo.png')
+#1 /home/juliano/www/startup/dev/lib/common/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /home/juliano/www/startup/dev/projects/dengue/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/startup/dev/projects/dengue/img/logo.png
+HTTP_REFERER=http://localhost/startup/dev/projects/dengue/
+---

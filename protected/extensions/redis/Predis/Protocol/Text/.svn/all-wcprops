@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/Text
+END
+ResponseErrorSilentHandler.php
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/Text/ResponseErrorSilentHandler.php
+END
+ResponseMultiBulkHandler.php
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/Text/ResponseMultiBulkHandler.php
+END
+ResponseErrorHandler.php
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/Text/ResponseErrorHandler.php
+END
+TextProtocol.php
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/Text/TextProtocol.php
+END
+TextResponseReader.php
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/Text/TextResponseReader.php
+END
+ResponseBulkHandler.php
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/Text/ResponseBulkHandler.php
+END
+ResponseIntegerHandler.php
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/Text/ResponseIntegerHandler.php
+END
+ComposableTextProtocol.php
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/Text/ComposableTextProtocol.php
+END
+TextCommandSerializer.php
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/Text/TextCommandSerializer.php
+END
+ResponseStatusHandler.php
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/Text/ResponseStatusHandler.php
+END
+ResponseMultiBulkStreamHandler.php
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/Text/ResponseMultiBulkStreamHandler.php
+END

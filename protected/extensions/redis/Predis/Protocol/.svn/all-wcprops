@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol
+END
+IResponseHandler.php
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/IResponseHandler.php
+END
+IProtocolProcessor.php
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/IProtocolProcessor.php
+END
+IResponseReader.php
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/IResponseReader.php
+END
+IComposableProtocolProcessor.php
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/IComposableProtocolProcessor.php
+END
+ProtocolException.php
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/ProtocolException.php
+END
+ICommandSerializer.php
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/jeeran-ii/!svn/ver/12474/trunk/application/protected/extensions/redis/Predis/Protocol/ICommandSerializer.php
+END
