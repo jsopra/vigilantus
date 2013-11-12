@@ -10,7 +10,7 @@
 		<?php Yii::app()->getClientScript()->registerScriptFile(Yii::app()->controller->assetPath . '/js/common.js.php');?>
     </head>
     <body>
-        <div class="container" id="page">
+        <div class="" id="page">
 			
 			<header id="header">
 				<?php 

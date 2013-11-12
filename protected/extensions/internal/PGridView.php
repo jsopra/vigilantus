@@ -245,6 +245,7 @@ class PGridView extends CGridView
 			}
 				
 			// Temporário
+            $moduleName = Yii::app()->controller->module ? Yii::app()->controller->module->id : null;
 			$controllerName = $this->modelName;
 
 			if ($controllerName) {
@@ -275,25 +276,25 @@ class PGridView extends CGridView
 				// Se não foi definido o nome do parâmetro "ajax"
 				if ($this->ajaxUpdateUrlExpression === null) {
 					
-					$this->ajaxUpdateUrlExpression = 'Yii::app()->createUrl("' . $controllerName . '/ajaxSave", array("id" => $data->id))'; 
+					$this->ajaxUpdateUrlExpression = 'Yii::app()->createUrl("' . $moduleName . '", "' . $controllerName . '/ajaxSave", array("id" => $data->id))'; 
 				}
 				
 				// Se não foi definida a URL para criação de novos usuários
 				if ($this->ajaxCreateUrl === null) {
-					$this->ajaxCreateUrl = Yii::app()->createUrl($controllerName . '/ajaxSave');
+					$this->ajaxCreateUrl = Yii::app()->createUrl($moduleName . '/' . $controllerName . '/ajaxSave');
 				}
 			}
 			
 			// Se precisa detectar automaticamente estas URLs (false = não usado)
 			if ($this->createButtonEnabled && $this->createUrl === null) {
-				$this->createUrl = Yii::app()->createUrl($controllerName . '/create');
+				$this->createUrl = Yii::app()->createUrl($moduleName . '/' . $controllerName . '/create');
 			}
 			
 			if ($this->deleteManyButtonEnabled !== false) {
 
 				// URL padrão de exclusão em massa
 				if ($this->deleteUrl === null) {
-					$this->deleteUrl = Yii::app()->createUrl($controllerName . '/ajaxDelete');
+					$this->deleteUrl = Yii::app()->createUrl($moduleName . '/' . $controllerName . '/ajaxDelete');
 				}
 				
 				$hasCheckboxColumn = false;
@@ -422,12 +423,12 @@ class PGridView extends CGridView
 				
 				$this->columns[$k] = array(
 					'name'  => $column,
-					'class' => 'perspectiva.PDataColumn',
+					'class' => 'ext.internal.PDataColumn',
 				);
 			}
 			// Se não tem classe definida
 			else if (is_array($column) && !isset($column['class'])) {
-				$this->columns[$k]['class'] = 'perspectiva.PDataColumn';
+				$this->columns[$k]['class'] = 'ext.internal.PDataColumn';
 			}
         }
         
@@ -558,7 +559,7 @@ class PGridView extends CGridView
 	{
 		// Publica assets
 		$assetsUrl = Yii::app()->getAssetManager()->publish(
-			Yii::getPathOfAlias('perspectiva.assets'), // deve apontar para o diretório atual
+			Yii::getPathOfAlias('ext.internal.assets'), // deve apontar para o diretório atual
 			false, // FALSE $hashByName
 			-1, //$level=-1
 			YII_DEBUG //$forceCopy=NULL

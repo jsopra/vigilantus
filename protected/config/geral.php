@@ -20,6 +20,11 @@ return array(
 				'application.modules.default.models.forms.*',
 			),
 		),
+        'cadastro' => array(
+			'import' => array(
+			
+			),
+		),
     ),
     'components' => array(
 		'gearman' => array(

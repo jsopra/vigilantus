@@ -14,11 +14,11 @@ class Controller extends CController
 	public $breadcrumbs=array();
 	
 	public function init() {
-		
+        
 		parent::init();
 
 		$this->assetPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.assets'));
 		
-		Yii::app()->clientScript->registerCoreScript('jquery');
+		Yii::app()->clientScript->registerCoreScript('jquery'); 
 	}
 }

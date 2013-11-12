@@ -5,7 +5,7 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<div class="form">
+
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 	'id'=>'login-form',
 	'enableClientValidation'=>true,
@@ -14,21 +14,13 @@ $this->breadcrumbs=array(
 	),
 )); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'username'); ?>
-		<?php echo $form->textField($model,'username'); ?>
-		<?php echo $form->error($model,'username'); ?>
-	</div>
+        <?php echo $form->textFieldRow($model,'username',array('class'=>'span4')); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->passwordField($model,'password'); ?>
-		<?php echo $form->error($model,'password'); ?>
-	</div>
+        <?php echo $form->passwordFieldRow($model,'password',array('class'=>'span4')); ?>
 
-	<div class="row buttons">
+
+	<div class="form-btns">
 		<?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'size'=>'medium', 'icon'=>'ok white', 'label'=>'Logar')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
-</div>

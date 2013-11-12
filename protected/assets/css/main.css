@@ -27,7 +27,7 @@ body
 
 section
 {
-    padding: 20px;
+    padding: 0 20px;
 }
 
 #sidebar
@@ -298,3 +298,7 @@ div.search-form
 }
 
 .form-btns *{margin-right:10px;}
+
+.brand {
+    margin-left: 0 !important;
+}

@@ -10,7 +10,7 @@ echo "/*\$this->breadcrumbs=array(
 
 <h1><?php echo "<?php echo Yii::t('{$this->modelClass}',  '" . $label . "'); ?>"; ?></h1>
 
-<?php echo "<?php"; ?> $this->widget('perspectiva.PGridView', array(
+<?php echo "<?php"; ?> $this->widget('ext.internal.PGridView', array(
 	'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
 	'isExportable' => true,
 	'isEditable' => true,
@@ -19,7 +19,7 @@ echo "/*\$this->breadcrumbs=array(
 	'columns'=>array(
 		array(
 			'id'             => 'selectedItems',
-			'class'          => 'perspectiva.PCheckBoxColumn',
+			'class'          => 'ext.internal.PCheckBoxColumn',
 			'selectableRows' => 2,
 		),
 <?php

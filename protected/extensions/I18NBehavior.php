@@ -154,7 +154,7 @@ class I18NBehavior extends CActiveRecordBehavior
     {
         foreach ($this->getColumnsOfTypeForEvent($event, 'date') as $columnName) {
             
-            $event->sender->$columnName = FidelizeDate::getDate(
+            $event->sender->$columnName = Date::getDate(
                 CDateTimeParser::parse(
                     substr($event->sender->$columnName, 0, 10),
                     $this->dateIncomeFormat
@@ -164,7 +164,7 @@ class I18NBehavior extends CActiveRecordBehavior
         
         foreach ($this->getColumnsOfTypeForEvent($event, 'time') as $columnName) {
             
-            $event->sender->$columnName = FidelizeDate::getTime(
+            $event->sender->$columnName = Date::getTime(
                 CDateTimeParser::parse(
                     substr($event->sender->$columnName, 0, 8),
                     $this->timeIncomeFormat
@@ -174,7 +174,7 @@ class I18NBehavior extends CActiveRecordBehavior
         
         foreach ($this->getColumnsOfTypeForEvent($event, 'datetime') as $columnName) {
             
-           $event->sender->$columnName = FidelizeDate::getDateTime(
+           $event->sender->$columnName = Date::getDateTime(
                 CDateTimeParser::parse(
                     substr($event->sender->$columnName, 0, 19),
                     $this->dateTimeIncomeFormat
@@ -203,7 +203,7 @@ class I18NBehavior extends CActiveRecordBehavior
                 $this->dateOutcomeFormat,
                 CDateTimeParser::parse(
                     $event->sender->$columnName,
-                    FidelizeDate::getDateFormat()
+                    Date::getDateFormat()
                 )
             );
         }
@@ -221,7 +221,7 @@ class I18NBehavior extends CActiveRecordBehavior
                 $this->timeOutcomeFormat,
                 CDateTimeParser::parse(
                     $valor,
-                    FidelizeDate::getTimeFormat()
+                    Date::getTimeFormat()
                 )
             );
         }
@@ -242,7 +242,7 @@ class I18NBehavior extends CActiveRecordBehavior
             $event->sender->$columnName = date(
                 $this->dateTimeOutcomeFormat, CDateTimeParser::parse(
                     $event->sender->$columnName,
-                    FidelizeDate::getDateTimeFormat()
+                    Date::getDateTimeFormat()
                 )
             );
         }

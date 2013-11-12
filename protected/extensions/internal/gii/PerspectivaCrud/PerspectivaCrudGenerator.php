@@ -4,5 +4,5 @@ Yii::import('system.gii.generators.crud.CrudGenerator');
 
 class PerspectivaCrudGenerator extends CrudGenerator
 {
-	public $codeModel = 'perspectiva.gii.PerspectivaCrud.PerspectivaCrudCode';
+	public $codeModel = 'application.extensions.internal.gii.PerspectivaCrud.PerspectivaCrudCode';
 }

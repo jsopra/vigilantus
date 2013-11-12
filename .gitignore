@@ -1,0 +1,5 @@
+assets/**
+protected/config/defines.php
+protected/config/geral.php
+protected/logs/**
+protected/runtime/*

@@ -18,26 +18,26 @@ $aConfigDefault = array(
 		),
 	),
     'components' => array(
-		
+		'authManager' => array(
+            'class' => 'UserRole',
+        ),
+		'user' => array(
+			// enable cookie-based authentication
+			'allowAutoLogin' => true,
+			'loginUrl' => array('default/session/login'),
+			'loginRequiredAjaxResponse' => 'YII_LOGIN_REQUIRED',
+			'class' => 'WebUser',
+			'authTimeout' => 60 * 30,
+		),
 		'errorHandler' => array(
-			'errorAction' => '/default/default/error',
+			'errorAction' => '/default/session/error',
 		),
 		'bootstrap'=>array(
 			'class'=>'bootstrap.components.Bootstrap', 
 		),
-		'user' => array(
-			'allowAutoLogin' => true,
-			'loginUrl' => array('default/session/login'),
-			/*
-			'loginRequiredAjaxResponse' => 'YII_LOGIN_REQUIRED',
-			'class' => 'WebUser',
-			*/
+        'session' => array(
+			'savePath' =>  '/tmp/',
 		),
-		/*
-		'authManager' => array(
-            'class' => 'UserRole',
-        ),
-		 */
     ),
 );
 

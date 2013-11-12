@@ -83,12 +83,10 @@ class SessionController extends Controller
         // collect user input data
         if (isset($_POST['LoginForm'])) {
 
-            $user = new User();
-
-			
             $model->attributes = $_POST['LoginForm'];
+            
             // validate user input and redirect to the previous page if valid
-            if ($model->validate() && $user->internalLogin($_POST['LoginForm']['username'], $_POST['LoginForm']['password']))
+            if($model->validate() && $model->login())
                 $this->redirect(Yii::app()->user->returnUrl);
         }
 		
@@ -105,7 +103,7 @@ class SessionController extends Controller
     {
         User::logout();
 
-        $this->redirect(Yii::app()->homeUrl . '/admin');
+        $this->redirect(Yii::app()->homeUrl);
     }
 
     protected function performAjaxValidation($model) {

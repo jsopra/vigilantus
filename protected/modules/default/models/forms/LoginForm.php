@@ -10,6 +10,10 @@ class LoginForm extends CFormModel {
     public $username;
     public $password;
     public $rememberMe;
+    
+    public $returnUrl;
+
+	private $_identity;
 
     /**
      * Declares the validation rules.
@@ -22,8 +26,7 @@ class LoginForm extends CFormModel {
             array('username, password', 'required'),
             // rememberMe needs to be a boolean
             array('rememberMe', 'boolean'),
-            // password needs to be validate
-            array('password', 'validatePasswd'),
+            array('returnUrl', 'safe'),
         );
     }
 
@@ -32,21 +35,46 @@ class LoginForm extends CFormModel {
      */
     public function attributeLabels() {
         return array(
-            'password' => Yii::t('site', 'Senha'),
-            'username' => Yii::t('site', 'Usuário'),
-            'rememberMe' => Yii::t('login', 'Lembrar-me da próxima vez'),
+            'password' => Yii::t('Site', 'Senha'),
+            'username' => Yii::t('Site', 'Usuário'),
+            'rememberMe' => Yii::t('Site', 'Lembrar-me da próxima vez'),
         );
     }
 
     /**
-     * Authenticates the password.
-     * This is the 'validatePasswd' validator as declared in rules().
-     */
-    public function validatePasswd() {
-        if (!$this->hasErrors()) {
-            $identity = new Identity($this->username, $this->password);
-            if (!$identity->authenticate())
-                $this->addError('password', Yii::t('login', 'Usuário ou senha incorretos.'));
+	 * Authenticates the password.
+	 * This is the 'authenticate' validator as declared in rules().
+	 */
+	public function authenticate($attribute,$params)
+	{
+		if(!$this->hasErrors())
+		{
+			$this->_identity=new UserIdentity($this->username,$this->password);
+			if(!$this->_identity->authenticate())
+				$this->addError('password',Yii::t('Site','As informações de login são inválidas'));
+		}
+	}
+
+	/**
+	 * Logs in the user using the given username and password in the model.
+	 * @return boolean whether login is successful
+	 */
+	public function login()
+	{
+		
+		if($this->_identity===null) {
+			$this->_identity=new UserIdentity($this->username,$this->password);
+			$this->_identity->authenticate();
+		}
+
+		if($this->_identity->errorCode===UserIdentity::ERROR_NONE) {
+			
+			Yii::app()->user->login($this->_identity,Yii::app()->user->authTimeout);
+			return true;
+		}
+		else {
+			$this->addError('password',Yii::t('Site', 'As informações de login são inválidas'));
+            return false;
         }
-    }
+	}
 }

@@ -31,9 +31,9 @@ class DefaultController extends Controller
 	}
 	
 	public function actionIndex()
-	{
+	{        
 		if(Yii::app()->user->isGuest) {
-			$this->redirect(array("session/login")); 
+			$this->redirect(array("default/session/login")); 
 		}
 		
 		$this->render('index');

@@ -7,9 +7,7 @@ header('Content-Type: text/css; charset=utf-8');
  * TODO Minimizar arquivo
  */
 
-require __DIR__ . '/screen.css';
 require __DIR__ . '/main.css';
-require __DIR__ . '/form.css';
 
 ?>
 

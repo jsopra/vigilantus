@@ -4,5 +4,5 @@ Yii::import('system.gii.generators.model.ModelGenerator');
 
 class PerspectivaModelGenerator extends ModelGenerator {
 
-	public $codeModel = 'perspectiva.gii.PerspectivaModel.PerspectivaModelCode';
+	public $codeModel = 'application.extensions.internal.gii.PerspectivaModel.PerspectivaModelCode';
 }

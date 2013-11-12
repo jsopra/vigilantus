@@ -24,96 +24,19 @@ class Layout {
 				'class'=>'bootstrap.widgets.TbMenu',
 				'htmlOptions'=>array('class'=>'pull-left'),
 				'items'=> array(
-					array( 
-						'label' => 'Gestão de Notícias',
-						'url' => '#',
-						'visible'=>!Yii::app()->user->isGuest,
-						'items' => array(
-							array(
-								'label'=>'Feeds', 
-								'items'=> array(
-									array('label'=>'Gerenciar', 'url'=> array('/gerenciador/fonte/index'),'visible'=>!Yii::app()->user->isGuest),
-									array('label'=>'Importar de Excel', 'url'=> array('/gerenciador/importaFonte/index'),'visible'=>!Yii::app()->user->isGuest),
-								)
-							),
-							array(
-								'label'=>'Noticias', 
-								'url'=> array('/gerenciador/fonteItem/index'),
-								'visible'=>!Yii::app()->user->isGuest,
-							),
-						),
-					),
-					array(
-						'label' => 'Tweet',
-						'url' => '#',
-						'visible'=>!Yii::app()->user->isGuest,
-						'url'=> array('/tweetad/mensagem/index'),
-						/*
-						array(
-							'label'=>'Categorias', 
-							'url'=> array('/tweetad/categoria/index'),
-							'visible'=>!Yii::app()->user->isGuest,
-						),
-						*/
-					),
-					array(
-						'label' => 'Monitoramento',
-						'url' => '#',
-						'visible'=>!Yii::app()->user->isGuest,
-						'url'=> array('/monitor/report/index'),
-					),
-					array(
-						'label' => 'Interno',
-						'url' => '#',
-						'visible'=>!Yii::app()->user->isGuest,
-						'items' => array(
-							array(
-								'label'=>'Processamento', 
-								'url'=> array('/monitor/processamento/index'),
-								'visible'=>!Yii::app()->user->isGuest,
-							),
-							array(
-								'label'=>'Fontes', 
-								'url'=> array('/monitor/contaExterna/index'),
-								'visible'=>!Yii::app()->user->isGuest,
-							),
-						),
-					),
-					array(
-						'label'=>'Tags', 
-						'url'=> array('/gerenciador/tag/index'),
-						'visible'=>!Yii::app()->user->isGuest,
-					),
-					array(
-						'label' => 'Conta',
-						'url' => '#',
-						'visible'=>!Yii::app()->user->isGuest,
-						'items' => array(
-							array(
-								'label'=>'Contas', 
-								'url'=> array('/gerenciador/conta/index'),
-								'visible'=>!Yii::app()->user->isGuest,
-							),
-							array(
-								'label'=>'Grupos', 
-								'url'=> array('/gerenciador/grupo/index'),
-								'visible'=>!Yii::app()->user->isGuest,
-							),
-						),
-					),
-					array(
-						'label'=>'Configurações', 
-						'url'=> array('/default/configuracao/index'),
-						'visible'=>!Yii::app()->user->isGuest,
-					),
                     array(
-						'label' => 'Feedhits',
+						'label' => 'Sistema',
 						'url' => '#',
 						'visible'=>!Yii::app()->user->isGuest,
 						'items' => array(
 							array(
-								'label'=>'AD', 
-								'url'=> array('/feedhits/aD/index'),
+								'label'=>'Usuários', 
+								'url'=> array('/cadastro/usuario/index'),
+								'visible'=>!Yii::app()->user->isGuest && Yii::app()->user->isAdministrador(),
+							),
+                            array(
+								'label'=>'Atualizar senha', 
+								'url'=> array('/cadastro/usuario/updatePassword'),
 								'visible'=>!Yii::app()->user->isGuest,
 							),
                         ),

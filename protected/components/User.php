@@ -46,16 +46,6 @@ class User
             return false;
     }
 
-    /**
-     * Codificação de senha
-     * 
-     * @param string $sal
-     * @param string $senha
-     * @return string 
-     */
-    public static function encryptPassword($sal,$password) 
-    {   
-        return md5($password . $sal);
-    }
+    
     
 }
