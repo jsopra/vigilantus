@@ -34,7 +34,7 @@ class m131111_095524_tabela_usuario extends CDbMigration
         $this->insert('usuarios', array(
             'nome' => 'perspectiva.in',
             'login' => 'perspectiva',
-            'senha' => User::encryptPassword($sal, 'a1s2d3f4g5'),
+            'senha' => Usuario::encryptPassword($sal, 'a1s2d3f4g5'),
             'sal' => $sal,
             'usuario_role_id' => 1,
             'email' => 'dengue@perspectiva.in',

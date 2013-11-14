@@ -1,6 +1,6 @@
 <?php
 
-class UsuarioRoleTest extends FDbTestCase
+class UsuarioRoleTest extends PDbTestCase
 {
 	public function testAlgumaCoisa()
 	{

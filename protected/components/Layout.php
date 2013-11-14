@@ -25,6 +25,18 @@ class Layout {
 				'htmlOptions'=>array('class'=>'pull-left'),
 				'items'=> array(
                     array(
+						'label' => 'Cadastro',
+						'url' => '#',
+						'visible'=>!Yii::app()->user->isGuest && Yii::app()->user->isAdministrador(),
+						'items' => array(
+							array(
+								'label'=>'Tipos de Bairros', 
+								'url'=> array('/cadastro/bairroTipo/index'),
+								'visible'=>!Yii::app()->user->isGuest && Yii::app()->user->isAdministrador(),
+							),
+                        ),
+					),
+                    array(
 						'label' => 'Sistema',
 						'url' => '#',
 						'visible'=>!Yii::app()->user->isGuest,

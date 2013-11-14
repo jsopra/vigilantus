@@ -353,6 +353,11 @@ jQuery.fn.extend({
 						}
 					}
 				}
+                else if (fieldType == 'label') {
+					
+                    formField = $('<span />');
+                    formField.html(element.html());
+                }
 				// Data: como não usamos HTML5, será um <input type=text> com DatePicker
 				else if (fieldType == 'date') {
 

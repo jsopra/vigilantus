@@ -1,7 +1,4 @@
 <?php
-
-Yii::setPathOfAlias('bootstrap', dirname(__FILE__) . '/../extensions/bootstrap');
-
 $commonConfig = require_once(dirname(__FILE__) . "/geral.php");
 unset($commonConfig['components']['session']);
 

@@ -276,7 +276,7 @@ class PGridView extends CGridView
 				// Se não foi definido o nome do parâmetro "ajax"
 				if ($this->ajaxUpdateUrlExpression === null) {
 					
-					$this->ajaxUpdateUrlExpression = 'Yii::app()->createUrl("' . $moduleName . '", "' . $controllerName . '/ajaxSave", array("id" => $data->id))'; 
+					$this->ajaxUpdateUrlExpression = 'Yii::app()->createUrl("' . $moduleName . '/' . $controllerName . '/ajaxSave", array("id" => $data->id))'; 
 				}
 				
 				// Se não foi definida a URL para criação de novos usuários
@@ -452,7 +452,7 @@ class PGridView extends CGridView
 		else if(is_array($this->rowCssClass) && ($n=count($this->rowCssClass))>0)
 			$htmlOptions['class'] = $this->rowCssClass[$row%$n];
 		
-		// Se for um grid editável, precisa armazenar a URL com o ID de destino
+		// Se for um grid edit?vel, precisa armazenar a URL com o ID de destino
 		if ($this->isEditable) {
 			
 			$data=$this->dataProvider->data[$row];

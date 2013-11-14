@@ -1,10 +1,10 @@
 <?php
 
-class MunicipioTest extends PDbTestCase
+class BairroTipoTest extends PDbTestCase
 {
 	public function testAlgumaCoisa()
 	{
-		$model = new Municipio;
+		$model = new BairroTipo;
 		$this->assertTrue($model != null);
 	}
 }

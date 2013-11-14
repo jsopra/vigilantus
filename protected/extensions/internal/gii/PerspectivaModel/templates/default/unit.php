@@ -1,6 +1,6 @@
 <?php echo "<?php\n"; ?>
 
-class <?php echo $modelClass; ?>Test extends FDbTestCase
+class <?php echo $modelClass; ?>Test extends PDbTestCase
 {
 	public function testAlgumaCoisa()
 	{
