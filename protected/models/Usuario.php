@@ -71,7 +71,10 @@ class Usuario extends PActiveRecord
         return array(
             'ativo' => array(
                 'condition' => 'excluido IS FALSE',
-            )  
+            ) ,
+            'excluido' => array(
+                'condition' => 'excluido IS TRUE',
+            )
         );
         
     }
@@ -112,7 +115,7 @@ class Usuario extends PActiveRecord
     
     public function beforeValidate() {
 		
-		if($this->getScenario() == 'insert')
+		if($this->getScenario() == 'insert' && !$this->sal)
 			$this->sal = uniqid();
 		
 		return parent::beforeValidate();

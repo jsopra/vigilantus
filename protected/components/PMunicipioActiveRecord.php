@@ -6,8 +6,8 @@ class PMunicipioActiveRecord extends PActiveRecord
 {
 	
 	public function beforeFind() {
-		
-        if(Yii::app()->hasComponent('user') && Yii::app()->user->getUser()->municipio_id) {
+
+        if(Yii::app()->hasComponent('user') && method_exists(Yii::app()->user, 'getUser') && Yii::app()->user->getUser()->municipio_id) {
             
             $alias = $this->getTableAlias(false, false);
             
@@ -24,12 +24,12 @@ class PMunicipioActiveRecord extends PActiveRecord
 		
 		$parent = parent::beforeValidate();
 		
-		if(Yii::app()->hasComponent('user')) {
+		if(Yii::app()->hasComponent('user') && method_exists(Yii::app()->user, 'getUser')) {
 		
 			if(!$this->municipio_id) {
 				$this->municipio_id = Yii::app()->user->getUser()->municipio_id;
 			} 
-			else if($this->municipio_id != Yii::app()->user->getUser()->municipio_id) {
+			else if(Yii::app()->user->getUser()->municipio_id && $this->municipio_id != Yii::app()->user->getUser()->municipio_id) {
 				$this->addError('municipio_id', Yii::t('Site', 'Município inválido!'));
 			}
 		}

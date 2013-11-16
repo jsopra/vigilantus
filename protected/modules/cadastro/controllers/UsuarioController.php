@@ -55,6 +55,8 @@ class UsuarioController extends Controller
 				$this->redirect(array('index'));
 		}
 
+        $this->setPageTitle(Yii::t('Site', 'Cadastrar usuário'));
+        
 		$this->render('create',array(
 			'model'=>$model,
 		));
@@ -81,6 +83,8 @@ class UsuarioController extends Controller
 		}
 
         $model->senha = null;
+        
+        $this->setPageTitle(Yii::t('Site', 'Atualizar usuário'));
         
 		$this->render('update',array(
 			'model'=>$model,
@@ -117,6 +121,8 @@ class UsuarioController extends Controller
 		if(isset($_GET['Usuario']))
 			$model->attributes=$_GET['Usuario'];
 
+        $this->setPageTitle(Yii::t('Site', 'Usuários do sistema'));
+        
 		$this->render('index',array(
 			'model'=>$model,
 		));
@@ -138,7 +144,9 @@ class UsuarioController extends Controller
 			}
 		}
 
-		$this->render('updatePassword',array(
+        $this->setPageTitle(Yii::t('Site', 'Atualizar senha'));
+        
+        $this->render('updatePassword',array(
 			'model'=>$model,
 		));
 	}

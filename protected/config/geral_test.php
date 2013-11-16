@@ -1,6 +1,7 @@
 <?php
 $commonConfig = require_once(dirname(__FILE__) . "/geral.php");
 unset($commonConfig['components']['session']);
+unset($commonConfig['components']['user']);
 
 $aConfigDefault =  array(
 	'name'=>'Vigilantus Test',
@@ -29,4 +30,8 @@ $aConfigDefault =  array(
 	),
 );
 
-return CMap::mergeArray($commonConfig,$aConfigDefault);
+$geralTest = CMap::mergeArray($commonConfig,$aConfigDefault);
+
+$geralTest['components']['db'] = $geralTest['components']['testDb'];
+
+return $geralTest;

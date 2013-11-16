@@ -48,7 +48,7 @@ class BairroTipo extends PMunicipioActiveRecord
             array('data_cadastro', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'insert'),
             array('data_atualizacao', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'update'),
             array('atualizado_por', 'required', 'on' => 'update'),
-            array('municipio_id+nome','uniqueMultiColumnValidator'),
+            array('municipio_id+nome','uniqueMultiColumnValidator', 'caseSensitive' => true),
 			array('data_atualizacao', 'safe'),
 			// Esta regra é usada pelo método search().
 			// Remova os atributos que não deveriam ser pesquisáveis.

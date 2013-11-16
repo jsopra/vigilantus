@@ -12,6 +12,8 @@ class Controller extends CController
 	public $assetPath;
 	
 	public $breadcrumbs=array();
+    
+    public $pageTitle;
 	
 	public function init() {
         
@@ -21,4 +23,10 @@ class Controller extends CController
 		
 		Yii::app()->clientScript->registerCoreScript('jquery'); 
 	}
+    
+    public function setPageTitle($title) {
+        
+        $this->pageTitle = $title . ' | ' . Yii::app()->name;
+        
+    }
 }

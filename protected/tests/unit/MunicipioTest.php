@@ -2,9 +2,10 @@
 
 class MunicipioTest extends PDbTestCase
 {
-	public function testAlgumaCoisa()
-	{
-		$model = new Municipio;
-		$this->assertTrue($model != null);
-	}
+	public function testDelete() {
+        
+        $municipio = Municipio::model()->findByPk(1);
+        $this->setExpectedException('Exception');
+        $municipio->delete();
+    }
 }

@@ -53,6 +53,7 @@ class UserIdentity extends CUserIdentity
             $this->username=$user->login;
             $this->errorCode=self::ERROR_NONE;
 			
+            $user->scenario = 'login';
 			$user->ultimo_login = new CDbExpression('NOW()');
             $user->save();
 			

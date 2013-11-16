@@ -4,7 +4,7 @@ Yii::import('system.test.CDbFixtureManager');
 
 class PDbFixtureManager extends CDbFixtureManager
 {
-	public $schemas = array('follow', 'log', 'public', 'tweetad');
+	public $schemas = array('public');
 	
     /**
      * Prepares the fixtures for the whole test.

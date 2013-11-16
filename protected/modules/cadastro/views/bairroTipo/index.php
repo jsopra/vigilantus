@@ -8,7 +8,7 @@
 
 <?php $this->widget('ext.internal.PGridView', array(
 	'id'=>'bairro-tipo-grid',
-	'isExportable' => true,
+	'isExportable' => false,
 	'isEditable' => true,
     'createButtonEnabled' => false,
 	'dataProvider'=>$model->search(),
@@ -19,11 +19,13 @@
             'value' => '$data->municipio->nome',
             'filter' =>  CHtml::listData(Municipio::model()->findAll(array('order' => 'nome asc')),'id', 'nome'),
             'fieldType' => 'select',
-            'fieldData' => CHtml::listData(Municipio::model()->findAll(array('order' => 'nome asc')), 'id', 'nome'),
-			'fieldRefreshDataUrl' => Yii::app()->createUrl('cadastro/bairroTipo/cidade.busca'),
+            'fieldData' => array(null => Yii::t('Site', 'Selecione...')) + CHtml::listData(Municipio::model()->findAll(array('order' => 'nome asc')), 'id', 'nome'),
             'visible' => Yii::app()->user->isRoot(),
         ),
-		'nome',
+        array(
+            'name' => 'nome',
+            'value' => '$data->nome',
+        ),
         array(
             'name' => 'data_cadastro',
             'value' => '$data->data_cadastro',

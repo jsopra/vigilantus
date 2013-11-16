@@ -62,6 +62,8 @@ class BairroTipoController extends Controller
 		if(isset($_GET['BairroTipo']))
 			$model->attributes=$_GET['BairroTipo'];
 
+        $this->setPageTitle(Yii::t('Site', 'Tipos de Bairro'));
+        
 		$this->render('index',array(
 			'model'=>$model,
 		));
@@ -74,15 +76,20 @@ class BairroTipoController extends Controller
 	 */
 	public function actionAjaxSave($id = null)
 	{
-	   if (Yii::app()->request->isPostRequest && isset($_POST['BairroTipo'])) {
+        if (Yii::app()->request->isPostRequest && isset($_POST['BairroTipo'])) {
 
-		   $model = $id ? $this->loadModel($id) : new BairroTipo;
+            $model = $id ? $this->loadModel($id) : new BairroTipo;
 
-		   $model->attributes = $_POST['BairroTipo'];
+            $model->attributes = $_POST['BairroTipo'];
+           
+            if($id)
+                $model->atualizado_por = Yii::app()->user->id;
+            else
+                $model->inserido_por = Yii::app()->user->id;
+           
+            $data = ($model->save() ? array('saved' => true) : array('saved' => false, 'errors' => $model->getErrors()));
 
-		   $data = ($model->save() ? array('saved' => true) : array('saved' => false, 'errors' => $model->getErrors()));
-
-		   echo CJSON::encode($data);
+            echo CJSON::encode($data);
 	   }
 	   else
 		   throw new CHttpException(400);

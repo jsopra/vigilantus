@@ -92,7 +92,7 @@ class UsuarioRole extends PActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('nome',$this->nome,true);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
@@ -104,25 +104,6 @@ class UsuarioRole extends PActiveRecord
 	 */
 	public function delete()
 	{
-		$transaction = $this->getDbConnection()->beginTransaction();
-
-		try {
-			
-			// Implemente aqui as exclusões mais complexas
-			$return = parent::delete();
-
-			if ($return)
-				$transaction->commit();
-			else
-				$transaction->rollback();
-		}
-		catch(Exception $e) {
-
-			$transaction->rollback();
-
-			throw $e;
-		}
-
-		return $return;
+		throw new Exception(Yii::t('Site', 'Exclusão não habilitada'),500);
 	}
 }
