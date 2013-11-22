@@ -29,6 +29,11 @@ class Layout {
 						'url' => '#',
 						'visible'=>!Yii::app()->user->isGuest && Yii::app()->user->isAdministrador(),
 						'items' => array(
+                            array(
+								'label'=>'Bairros', 
+								'url'=> array('/cadastro/bairro/index'),
+								'visible'=>!Yii::app()->user->isGuest && Yii::app()->user->isAdministrador(),
+							),
 							array(
 								'label'=>'Tipos de Bairros', 
 								'url'=> array('/cadastro/bairroTipo/index'),

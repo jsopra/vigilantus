@@ -14,9 +14,9 @@ $this->breadcrumbs=array(
 	),
 )); ?>
 
-        <?php echo $form->textFieldRow($model,'username',array('class'=>'span4')); ?>
+        <?php echo $form->textFieldRow($model,'username',array('class'=>'span3')); ?>
 
-        <?php echo $form->passwordFieldRow($model,'password',array('class'=>'span4')); ?>
+        <?php echo $form->passwordFieldRow($model,'password',array('class'=>'span3')); ?>
 
 
 	<div class="form-btns">

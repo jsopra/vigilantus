@@ -35,6 +35,16 @@ class BairroTipo extends PMunicipioActiveRecord
 	{
 		return 'bairro_tipos';
 	}
+    
+    public function beforeDelete() {
+        
+        if($this->qtdeBairros > 0) {
+            $this->addError('id', Yii::t('BairroTipo', 'O tipo tem bairros vinculados'));
+            return false;
+        }
+        
+        return parent::beforeDelete();
+    }
 
 	/**
 	 * @return array regras de validação para os atributos do modelo
@@ -66,6 +76,9 @@ class BairroTipo extends PMunicipioActiveRecord
 			'municipio' => array(self::BELONGS_TO, 'Municipio', 'municipio_id'),
 			'inseridoPor' => array(self::BELONGS_TO, 'Usuario', 'inserido_por'),
 			'atualizadoPor' => array(self::BELONGS_TO, 'Usuario', 'atualizado_por'),
+            'bairros' => array(self::HAS_MANY, 'Bairro', 'bairro_tipo_id'),
+            
+            'qtdeBairros' => array(self::STAT, 'Bairro', 'bairro_tipo_id'),
 		);
 	}
 

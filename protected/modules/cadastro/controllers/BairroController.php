@@ -1,6 +1,6 @@
 <?php
 
-class BairroTipoController extends Controller
+class BairroController extends Controller
 {
 	/**
 	 * @return array filtros das actions
@@ -22,7 +22,7 @@ class BairroTipoController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('index', 'ajaxSave','delete'),
+				'actions'=>array('index','ajaxSave','delete'),
 				'users'=>array('@'),
                 'roles' => array('Administrador'),
 			),
@@ -42,25 +42,11 @@ class BairroTipoController extends Controller
 		if (Yii::app()->request->isPostRequest) {
 		
 			// a exclusão só é permitida via requisição POST
-			$model = $this->loadModel($id);
-			$return = $model->delete();
+			$this->loadModel($id)->delete();
 
-			if(isset($_GET['ajax'])) {
-                if($return) {
-					echo CJSON::encode(array(
-						'message' => Yii::t('Site', 'O registro foi removido com sucesso'),
-						'deleted' => true, // false para caso esteja retornando uma mensagem de erro
-					));
-				}
-				else {
-					echo CJSON::encode(array(
-						'message' => $model->getError('id'),
-						'deleted' => false, // false para caso esteja retornando uma mensagem de erro
-					));
-				}
-            }
-			else
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+			// se for uma requisição AJAX (disparada por um grid view), não deve redirecionar
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 		}
 		else
 			throw new CHttpException(400,'Requisição inválida.');
@@ -71,13 +57,11 @@ class BairroTipoController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model=new BairroTipo('search');
+		$model=new Bairro('search');
 		$model->unsetAttributes();  // limpa quaisquer valores padrão
-		if(isset($_GET['BairroTipo']))
-			$model->attributes=$_GET['BairroTipo'];
+		if(isset($_GET['Bairro']))
+			$model->attributes=$_GET['Bairro'];
 
-        $this->setPageTitle(Yii::t('Site', 'Tipos de Bairro'));
-        
 		$this->render('index',array(
 			'model'=>$model,
 		));
@@ -90,20 +74,15 @@ class BairroTipoController extends Controller
 	 */
 	public function actionAjaxSave($id = null)
 	{
-        if (Yii::app()->request->isPostRequest && isset($_POST['BairroTipo'])) {
+	   if (Yii::app()->request->isPostRequest && isset($_POST['Bairro'])) {
 
-            $model = $id ? $this->loadModel($id) : new BairroTipo;
+		   $model = $id ? $this->loadModel($id) : new Bairro;
 
-            $model->attributes = $_POST['BairroTipo'];
-           
-            if($id)
-                $model->atualizado_por = Yii::app()->user->id;
-            else
-                $model->inserido_por = Yii::app()->user->id;
-           
-            $data = ($model->save() ? array('saved' => true) : array('saved' => false, 'errors' => $model->getErrors()));
+		   $model->attributes = $_POST['Bairro'];
 
-            echo CJSON::encode($data);
+		   $data = ($model->save() ? array('saved' => true) : array('saved' => false, 'errors' => $model->getErrors()));
+
+		   echo CJSON::encode($data);
 	   }
 	   else
 		   throw new CHttpException(400);
@@ -116,7 +95,7 @@ class BairroTipoController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=BairroTipo::model()->findByPk($id);
+		$model=Bairro::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'A página solicitada não existe.');
 		return $model;
@@ -128,7 +107,7 @@ class BairroTipoController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='bairro-tipo-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='bairro-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
