@@ -20,13 +20,14 @@ class PGridView extends CGridView
 	const TYPE_HOVER = 'hover';
 	
 	/**
-	 * @var string|array the table type.
-	 * Valid values are 'striped', 'bordered' and/or 'condensed'.
+	 * Se permite que relat?rios com muito dados sejam exportados em um job
+	 * rodando em background.
+	 * @var boolean
 	 */
-	public $type;
-	
+	public $allowBackgroundExport = false;
+
 	/**
-	 * Se será feito debug do grid ou não (inclusive do JavaScript)
+	 * Se ser? feito debug do grid ou n?o (inclusive do JavaScript)
 	 * @var boolean
 	 */
 	public $debug = false;
@@ -38,92 +39,121 @@ class PGridView extends CGridView
 	public $itemsCssClass = 'tabela-style';
 	
 	/**
-	 * Indica se este grid possui um botão que permite exportar seus dados
+	 * Indica se este grid possui um bot?o que permite exportar seus dados
 	 * @var boolean
 	 */
 	public $isExportable = false;
 	
 	/**
-	 * Indica se este grid possui edição inline (na tabela)
+	 * Indica se ? para fixar os headers e footers
+	 * @var boolean
+	 */
+	public $isFixed = false;
+	
+	/**
+	 * Indica se este grid possui edi??o inline (na tabela)
 	 * @var boolean 
 	 */
 	public $isEditable = false;
 	
     /**
-     * Nome da variável GET pra indicar que está exportando
+     * Nome da vari?vel GET pra indicar que est? exportando
      * @var string 
      */
     public $exportFlagName = 'export';
+
+    /**
+     * Nome da vari?vel GET que armazena o endere?o de e-mail de quem receber?
+     * a vers?o CSV deste grid (caso haja muitas linhas para processar).
+     * @var string 
+     */
+    public $csvReceiverEmailFlagName = '_emailToSendGridCsv';
+
+    /**
+     * E-mail do destinat?rio no envio do relat?rio por e-mail, caso seja
+     * necess?rio, que vir? preenchido por padr?o (ex: email do usuario logado).
+     * @var string 
+     */
+    public $csvReceiverEmail;
+
+    /**
+     * Array de rodapes da tabela.
+     * 
+     * @var array 
+     */
+    public $footers;
+    
+    
     
     /**
-     * Nome do arquivo exportado. Será dado append no AnoMesDia.
+     * Nome do arquivo exportado. Ser? dado append no AnoMesDia.
      * @var string 
      */
     public $exportFileName = 'export';
     
     /**
-     * Label do botão que exporta
+     * Label do bot?o que exporta
      * @var string 
      */
     public $exportButtonLabel = 'Exportar Planilha';
     
     /**
-     * Label do botão que limpa o filtro
+     * Label do bot?o que limpa o filtro
      * @var string 
      */
     public $clearFilterButtonLabel = 'Limpar Filtro';
     
     /**
-     * Parâmetro para limpar filtros salvos na sessão
+     * Par?metro para limpar filtros salvos na sess?o
      * @var string 
      */
     public $clearSessionFilterUrlParam = 'limpa_sessao';
     
     /**
-     * Ativa ou desativa o botão de limpar o filtro
+     * Ativa ou desativa o bot?o de limpar o filtro
      * @var boolean 
      */
     public $clearFilterButtonEnabled;
     
     /**
-     * Ativa ou desativa o botão de cadastrar
+     * Ativa ou desativa o bot?o de cadastrar
      * @var boolean 
      */
     public $createButtonEnabled;
     
     /**
-     * Ativa ou desativa o botão de excluir vários registros
+     * Ativa ou desativa o bot?o de excluir v?rios registros
      * @var boolean 
      */
     public $deleteManyButtonEnabled;
     
     /**
-     * Quantidade de registros que carregará por consulta (para não estourar a memória)
+     * Quantidade de registros que carregar? por consulta (para n?o estourar a mem?ria)
      * @var integer 
      */
     public $recordsLoadingStep = 1000;
 	
 	/**
-	 * Mapeamento de posição das células e atributos de um grid com edição inline
+	 * Mapeamento de posi??o das c?lulas e atributos de um grid com edi??o inline
 	 * 
-	 * Por exemplo: célula 0 terá o campo do atributo "nome_completo", etc.
+	 * Por exemplo: c?lula 0 ter? o campo do atributo "nome_completo", etc.
 	 * 
-	 * Por padrão pegará todas as colunas do grid que tenham definida a propriedade "name" que referencia o modelo.
+	 * Por padr?o pegar? todas as colunas do grid que tenham definida a propriedade "name" que referencia o modelo.
 	 * 
 	 * @var array 
 	 */
 	public $modelAttributesMapping = null;
 	
 	/**
-	 * Nome do modelo da edição inline. Por padrão tenta encontrar o modelo do dataProvider
+	 * Nome do modelo da edi??o inline. Por padr?o tenta encontrar o modelo do dataProvider
 	 * 
 	 * @var string 
 	 */
 	public $modelName = null;
 	
 	/**
-	 * Expressão PHP para a URL onde serão postados os dados da edição, e que
-	 * deverá retornar um JSON com erros de validação e o status, no seguinte formato:
+	 * Express?o PHP para a URL onde ser?o postados os dados da edi??o, e que
+	 * dever? retornar um JSON com erros de valida??o e o status, no seguinte formato:
 	 * 
 	 * Sucesso: {saved: true}
 	 * Erro:    {saved: false, errors: { ...erros... } }
@@ -133,8 +163,8 @@ class PGridView extends CGridView
 	public $ajaxUpdateUrlExpression = null;
 	
 	/**
-	 * URL onde serão postados os dados da inserção, e que deverá retornar 
-	 * um JSON com erros de validação e o status, no seguinte formato:
+	 * URL onde ser?o postados os dados da inser??o, e que dever? retornar 
+	 * um JSON com erros de valida??o e o status, no seguinte formato:
 	 * 
 	 * Sucesso: {saved: true}
 	 * Erro:    {saved: false, errors: { ...erros... } }
@@ -144,7 +174,7 @@ class PGridView extends CGridView
 	public $ajaxCreateUrl = null;
 	
 	/**
-	 * Se permite mostrar um botão para excluir várias linhas ao mesmo tempo.
+	 * Se permite mostrar um bot?o para excluir v?rias linhas ao mesmo tempo.
 	 * 
 	 * Funciona melhor com uma coluna do tipo checkbox:
 	 * 
@@ -156,20 +186,20 @@ class PGridView extends CGridView
 	 * 
 	 * NULL    = Detecta a URL correta automaticamente (modelo/ajaxDelete)
 	 * FALSE   = Desativa a funcionalidade
-	 * STRING  = URL da action de exclusão
+	 * STRING  = URL da action de exclus?o
 	 * 
 	 * @var null|boolean|string 
 	 */
 	public $deleteUrl = null;
 	
 	/**
-	 * Nome do botão de exclusão.
+	 * Nome do bot?o de exclus?o.
 	 * @var string 
 	 */
 	public $deleteLabel = 'Excluir';
 	
 	/**
-	 * Se permite mostrar um botão para cadastrar um novo modelo.
+	 * Se permite mostrar um bot?o para cadastrar um novo modelo.
 	 * 
 	 * NULL    = Detecta a URL correta automaticamente (modelo/create)
 	 * FALSE   = Desativa a funcionalidade
@@ -180,16 +210,36 @@ class PGridView extends CGridView
 	public $createUrl = null;
 	
 	/**
-	 * Nome do botão de cadastro.
+	 * Nome do bot?o de cadastro.
 	 * @var string 
 	 */
 	public $createLabel = 'Cadastrar';
-	
-    /**
-     * Filtros que não vieram do CGridView e precisam ser renderizados
+
+	/**
+	 * M?ximo de linhas que consegue exportar para CSV imediatamente.
+	 * Qualquer n?mero acima destes e o relat?rio ser? processado em background
+	 * e enviado por e-mail para quem o solicitou.
+	 * @var integer
+	 */
+	public $maxRowsToExportInstantly = 10000;
+
+	/**
+	 * M?ximo de linhas que consegue exportar para CSV de qualquer forma.
+	 * Qualquer n?mero acima destes e o relat?rio n?o ser? processado
+	 * @var integer
+	 */
+	public $maxRowsToExportBackground = 200000;
+
+	/**
+     * Filtros que n?o vieram do CGridView e precisam ser renderizados
      * @var array 
      */    
     protected $extraFilters = array();
+
+    /**
+     * @var PGridCsvExporter
+     */
+    protected $_exporter;
 	
 	/**
 	 * @var string the CSS class name for the pager container. Defaults to 'pagination'.
@@ -213,7 +263,7 @@ class PGridView extends CGridView
 			$this->filter = null;
 		}
 
-		// Default de botão de limpar filtro
+		// Default de bot?o de limpar filtro
 		if ($this->isEditable && $this->clearFilterButtonEnabled === null) {
 			$this->clearFilterButtonEnabled = true;
 		}
@@ -223,7 +273,7 @@ class PGridView extends CGridView
 
 		if ($refersToModel) {
 
-			// Default dos botões de cadastro/excluir vários
+			// Default dos bot?es de cadastro/excluir v?rios
 			if ($this->deleteManyButtonEnabled === null) {
 				$this->deleteManyButtonEnabled = true;
 			}
@@ -238,24 +288,20 @@ class PGridView extends CGridView
 				$this->deleteManyButtonEnabled = false;
 			}
 			
-			// Se não foi definido o nome do modelo
+			// Se n?o foi definido o nome do modelo
 			if ($this->modelName === null) {
 
 				$this->modelName = get_class($this->dataProvider->model);
 			}
 				
-			// Temporário
-            $moduleName = Yii::app()->controller->module ? Yii::app()->controller->module->id : null;
-			$controllerName = $this->modelName;
-
-			if ($controllerName) {
-				$controllerName[0] = strtolower($controllerName[0]);
-			}
+			$module = Yii::app()->controller->module ? Yii::app()->controller->module->id : null;
+			$controller = Yii::app()->controller ? Yii::app()->controller->id : null;
+			$thisUrl = $module ? $module . '/' . $controller : $controller;
 			
-			// Se for um grid com edição inline
+			// Se for um grid com edi??o inline
 			if ($this->isEditable) {
 				
-				// Se não foram definidos os atributos do modelo carrega os "name" das colunas
+				// Se n?o foram definidos os atributos do modelo carrega os "name" das colunas
 				if ($this->modelAttributesMapping === null) {
 					
 					$this->modelAttributesMapping = array();
@@ -273,88 +319,88 @@ class PGridView extends CGridView
 					}
 				}
 				
-				// Se não foi definido o nome do parâmetro "ajax"
+				// Se n?o foi definido o nome do par?metro "ajax"
 				if ($this->ajaxUpdateUrlExpression === null) {
 					
-					$this->ajaxUpdateUrlExpression = 'Yii::app()->createUrl("' . $moduleName . '/' . $controllerName . '/ajaxSave", array("id" => $data->id))'; 
+					$this->ajaxUpdateUrlExpression = 'Yii::app()->createUrl("' . $thisUrl . '/ajaxSave", array("id" => $data->id))'; 
 				}
 				
-				// Se não foi definida a URL para criação de novos usuários
+				// Se n?o foi definida a URL para cria??o de novos usu?rios
 				if ($this->ajaxCreateUrl === null) {
-					$this->ajaxCreateUrl = Yii::app()->createUrl($moduleName . '/' . $controllerName . '/ajaxSave');
+					$this->ajaxCreateUrl = Yii::app()->createUrl($thisUrl . '/ajaxSave');
 				}
 			}
 			
-			// Se precisa detectar automaticamente estas URLs (false = não usado)
+			// Se precisa detectar automaticamente estas URLs (false = n?o usado)
 			if ($this->createButtonEnabled && $this->createUrl === null) {
-				$this->createUrl = Yii::app()->createUrl($moduleName . '/' . $controllerName . '/create');
+				$this->createUrl = Yii::app()->createUrl($thisUrl . '/create');
 			}
 			
 			if ($this->deleteManyButtonEnabled !== false) {
 
-				// URL padrão de exclusão em massa
+				// URL padr?o de exclus?o em massa
 				if ($this->deleteUrl === null) {
-					$this->deleteUrl = Yii::app()->createUrl($moduleName . '/' . $controllerName . '/ajaxDelete');
+					$this->deleteUrl = Yii::app()->createUrl($thisUrl . '/ajaxDelete');
 				}
 				
 				$hasCheckboxColumn = false;
 				
 				foreach ($this->columns as $column) {
 					
-					if ($column instanceof PCheckBoxColumn && $column->selectableRows == 2) {
+					if ($column instanceof FCheckBoxColumn && $column->selectableRows == 2) {
 						$hasCheckboxColumn = true;
 						break;
 					}
 				}
 				
-				// Se não houver uma coluna com os checkboxes, desativa a exclusão em massa
+				// Se n?o houver uma coluna com os checkboxes, desativa a exclus?o em massa
 				if (!$hasCheckboxColumn) {
 					$this->deleteManyButtonEnabled = false;
 				}
 			}
 		}
-		// Se não se refere a um modelo
+		// Se n?o se refere a um modelo
 		else {
 
-			// Default dos botões de cadastro/excluir vários
+			// Default dos bot?es de cadastro/excluir v?rios
 			if ($this->deleteManyButtonEnabled === null)
 				$this->deleteManyButtonEnabled = false;
 
 			if ($this->createButtonEnabled === null)
 				$this->createButtonEnabled = false;
 
-			// Não foi definido o nome do modelo? Então... 
+			// N?o foi definido o nome do modelo? Ent?o... 
 			if ($this->modelName === null) {
 				
-				// ... não consegue adivinhar a URL de criação
+				// ... n?o consegue adivinhar a URL de cria??o
 				if ($this->createButtonEnabled && $this->createUrl === null)
 					throw new Exception(Yii::t(
-						'Perspectiva', 
+						'Fidelize', 
 						'Informe o nome do modelo ("modelName") para detectar a URL de cadastro ou a informe explicitamente ("createUrl").'
 					));
 				
-				// ... não consegue adivinhar a URL de exclusão em massa
+				// ... n?o consegue adivinhar a URL de exclus?o em massa
 				if ($this->deleteManyButtonEnabled && $this->deleteUrl === null)
 					throw new Exception(Yii::t(
-						'Perspectiva', 
-						'Informe o nome do modelo ("modelName") para detectar a URL de exclusão em massa ou a informe explicitamente ("deleteUrl").'
+						'Fidelize', 
+						'Informe o nome do modelo ("modelName") para detectar a URL de exclus?o em massa ou a informe explicitamente ("deleteUrl").'
 					));
 				
-				// ... se for um grid com edição inline...
+				// ... se for um grid com edi??o inline...
 				if ($this->isEditable) {
 					
-					// ... não consegue adivinhar a URL de cadastro inline
+					// ... n?o consegue adivinhar a URL de cadastro inline
 					if ($this->ajaxCreateUrl === null)
 						throw new Exception(Yii::t(
-							'Perspectiva', 
+							'Fidelize', 
 							'Informe o nome do modelo ("modelName") para detectar a URL do AJAX do cadastro inline ou a informe explicitamente ("ajaxCreateUrl").'
 						));
 
-					// ... não consegue adivinhar a URL de atualização inline
+					// ... n?o consegue adivinhar a URL de atualiza??o inline
 					if ($this->ajaxUpdateUrlExpression === null)
 						throw new Exception(Yii::t(
-							'Perspectiva', 
-							'Informe o nome do modelo ("modelName") para detectar a URL do AJAX de atualização inline ou a informe explicitamente ("ajaxUpdateUrlExpression").'
+							'Fidelize', 
+							'Informe o nome do modelo ("modelName") para detectar a URL do AJAX de atualiza??o inline ou a informe explicitamente ("ajaxUpdateUrlExpression").'
 						));
 				}
 			}
@@ -377,7 +423,7 @@ class PGridView extends CGridView
 			}
 		}
 		
-		// Coloca a função de recarregar o PGridView no CGridView
+		// Coloca a fun??o de recarregar o PGridView no CGridView
 		$userDefinedFunction = $this->afterAjaxUpdate;
 
 		if ($userDefinedFunction != null) {
@@ -387,14 +433,28 @@ class PGridView extends CGridView
 			;
 		}
 
-		// Não podemos deixar sobrescrever o init()
+		// N?o podemos deixar sobrescrever o init()
 		$this->afterAjaxUpdate = 'function(gridId, ajaxResponseData){ window.loadedPGridView[gridId].init(); ' . $userDefinedFunction . ' }';
 
-		// Função de erro padrão
+		// Fun??o de erro padr?o
 		if ($this->ajaxUpdateError == null) {
 
-			$this->ajaxUpdateError = 'function(xhr,textStatus,errorThrown,errorMessage){ PerspectivaGrid.message(xhr.responseText, "error"); }';
+			$this->ajaxUpdateError = 'function(xhr,textStatus,errorThrown,errorMessage){ perspectivaGrid.message(xhr.responseText, "error"); }';
 		}
+
+		// Se estiver usando bootstrap
+		if ($this->isUsingBoostrap()) {
+			$this->pagerCssClass = 'pagination';
+			$this->pager = array('class' => 'bootstrap.widgets.TbPager');
+		}
+	}
+	
+	/**
+	 * @return boolean Se est? usando a extens?o do twitter bootstrap
+	 */
+	protected function isUsingBoostrap()
+	{
+		return YiiBase::getPathOfAlias('bootstrap') !== false;
 	}
 	
 	/**
@@ -404,19 +464,29 @@ class PGridView extends CGridView
 	{
 		// Icones personalizados para todos os grids
 		foreach ($this->columns as $k => $column) {
-			
+   
 			// Botões
             if (is_array($column) && isset($column['class']) && strpos($column['class'],'PButtonColumn') !== false) {
-                
-                /*if (!isset($column['viewButtonImageUrl']))
-                    $this->columns[$k]['viewButtonImageUrl']   = Yii::app()->baseUrl.'/../webol/images/grid/view.png';
-                if (!isset($column['updateButtonImageUrl']))
-                    $this->columns[$k]['updateButtonImageUrl'] = Yii::app()->baseUrl.'/../webol/images/grid/update.png';
-                if (!isset($column['deleteButtonImageUrl']))
-                    $this->columns[$k]['deleteButtonImageUrl'] = Yii::app()->baseUrl.'/../webol/images/grid/delete.png';
-                */
-				$this->columns[$k]['updateButtonOptions'] = array('class' => 'update icon-pencil','rel'=>'tooltip','data-title'=>'Atualizar');
-				$this->columns[$k]['deleteButtonOptions'] = array('class' => 'delete icon-trash','rel'=>'tooltip','data-title'=>'Deletar');
+             
+                $this->columns[$k]['viewButtonOptions'] = array(
+                    'class'      => 'view icon-view',
+                    'rel'        => 'tooltip',
+                    'data-title' => 'Exibir',
+                );
+                $this->columns[$k]['updateButtonOptions'] = array(
+                    'class'      => 'update icon-pencil',
+                    'rel'        => 'tooltip',
+                    'data-title' => 'Atualizar',
+                );
+                $this->columns[$k]['deleteButtonOptions'] = array(
+                    'class'      => 'delete icon-trash',
+                    'rel'        => 'tooltip',
+                    'data-title' => 'Deletar'
+                );
+               
+                if (!isset($this->columns[$k]['afterDelete']))
+					$this->columns[$k]['afterDelete'] = 'perspectivaGrid.afterDelete';
+				
             }
 			// Se for uma coluna padrão
 			else if (is_string($column)) {
@@ -434,6 +504,23 @@ class PGridView extends CGridView
         
 		// Instancia normalmente
         parent::initColumns();
+    }
+    
+    /**
+	 * Renders a table footer.
+	 */
+	public function renderTableFidelizeFooter()
+	{
+        if (empty($this->footers)) {
+            return true;
+        }
+		echo "<tfoot>\n";
+        echo "<tr>\n";
+        foreach ($this->footers as $footer) {
+            echo "<td>".$footer."</td>";
+        }
+        echo "</tr>\n";
+		echo "</tfoot>\n";
     }
 	
 	/**
@@ -487,7 +574,7 @@ class PGridView extends CGridView
 			echo "</td></tr>\n";
 		}
 		
-		// Linha para adição de campos
+		// Linha para adi??o de campos
 		if ($this->isEditable && $this->ajaxCreateUrl !== false) {
 			
 			$row = isset($row) ? $row : 1;
@@ -506,16 +593,18 @@ class PGridView extends CGridView
 			for ($i = 0; $i < ($totalColumns - 1); $i++)
 				echo '<td>', $this->blankDisplay, '</td>';
 			
-			echo '<td class="button-column"><a href="' . $this->ajaxCreateUrl . '" class="add icon-plus-sign" rel="tooltip" data-title="Cadastrar">Adicionar</a></td>';
+			echo '<td class="button-column"><a href="' . $this->ajaxCreateUrl . '" class="add tbl_icon incluir" title="Adicionar um novo registro">Adicionar</a></td>';
 				
 			echo "</tr>\n";;
 		}
 		
 		echo "</tbody>\n";
+        $this->renderTableFidelizeFooter();
+        
 	}
     
     /**
-     * Renderiza o botão que limpa os filtros 
+     * Renderiza o bot?o que limpa os filtros 
      */
     public function renderClearFilterButton()
     {
@@ -537,7 +626,7 @@ class PGridView extends CGridView
             unset($params['ajax']);
         }
         
-        // Para casos onde usa filtro na sessão
+        // Para casos onde usa filtro na sess?o
         $params[$this->clearSessionFilterUrlParam] = 1;
         
         $url = Yii::app()->createUrl($request, $params);
@@ -547,7 +636,7 @@ class PGridView extends CGridView
             $this->clearFilterButtonLabel,
             '" onclick="window.location=\'',
             $url,
-            '\'">'
+            '\'" />'
         ;
     }
     
@@ -556,43 +645,16 @@ class PGridView extends CGridView
      * @return string
 	 */
 	public function renderItems()
-	{
-		// Publica assets
-		$assetsUrl = Yii::app()->getAssetManager()->publish(
-			Yii::getPathOfAlias('ext.internal.assets'), // deve apontar para o diretório atual
-			false, // FALSE $hashByName
-			-1, //$level=-1
-			YII_DEBUG //$forceCopy=NULL
-		);
-
-		// Registra assets e jQuery
-		Yii::app()->clientScript->registerCoreScript('jquery');
-		Yii::app()->clientScript->registerScriptFile($assetsUrl . '/js/pgridview.js');
-		Yii::app()->clientScript->registerScriptFile($assetsUrl . '/js/jquery.toastmessage.js');
-		Yii::app()->clientScript->registerCssFile($assetsUrl . '/css/main.css');
-		Yii::app()->clientScript->registerCssFile($assetsUrl . '/css/pgridview.css');
-		Yii::app()->clientScript->registerCssFile($assetsUrl . '/css/jquery.toastmessage.css');
-		
-		$options = array(
-			'isEditable'              => $this->isEditable,
-			'isExportable'            => $this->isExportable,
-			'hasClearFilter'          => $this->clearFilterButtonEnabled,
-			'modelAttributesMapping'  => $this->modelAttributesMapping,
-			'modelName'               => $this->modelName,
-			'blankDisplay'            => $this->blankDisplay,
-			'charset'                 => Yii::app()->charset,
-			'debug'                   => ($this->debug ? true : false),
-		);
-		
-		// Se tem botões
+	{		
+		// Se tem bot?es
 		if ($this->isExportable || $this->createUrl !== false || $this->deleteUrl !== false) {
 			
 			echo '<div class="grid-buttons">', "\n";
 			
-			
 			// Tem a funcionalidade de exportar ativa?
 			if ($this->isExportable) {
 
+				// Bot?o exportar
 				echo '
 				<div class="grid-export-button"><input class="btn button-export" type="button" id="'
 				. $this->getId() . '-export-btn" value="'. $this->exportButtonLabel . '" />
@@ -605,16 +667,47 @@ class PGridView extends CGridView
 
 				echo "</div>\n";
 
-				// Configurações passadas pro JS
-				$options['exportFlagName'] = $this->exportFlagName;
+				Yii::app()->clientScript->registerCoreScript('jquery.ui');
+
+				$dialogId = $this->id . '-dialog';
+				$dialogOptions = CJavaScript::encode(array(
+		            'modal' => true,
+		            'width' => 400,
+		            'autoOpen' => false,
+		            'buttons' => array(
+		            	'Preparar Planilha' => 'js:function(){void(0);}',
+		            	'Cancelar'          => 'js:function(){jQuery(this).dialog("close")}'
+		            )
+				));
+
+				if (Yii::app()->request && !Yii::app()->request->isAjaxRequest) {
+					echo '
+					<div id="' . $dialogId . '" style="display: none;">
+					<p>
+						Devido ao grande volume de dados, a planilha ser?
+						preparada em segundo plano e um link para acess?-la
+						ser? enviado por e-mail em alguns minutos.
+					</p>
+					<p>
+						<strong>Digite seu e-mail: </strong>
+						<input type="email" value="' . $this->csvReceiverEmail . '" />
+					</p>
+					</div>
+					<script type="text/javascript">
+					jQuery(document).ready(function(){
+						jQuery("#' . $dialogId . '").dialog(' . $dialogOptions . ');
+					});
+					</script>
+					';
+				}
 			}
 
-			// Se tem o botão de cadastrar ou excluir
+			// Se tem o bot?o de cadastrar ou excluir
 			if ($this->createButtonEnabled || $this->deleteManyButtonEnabled) {
 				
 				echo '<div class="grid-crud-buttons">';
 				
-				// Botão de excluir?
+				// Bot?o de excluir?
 				if ($this->deleteManyButtonEnabled) {
 					
 					echo '<input type="button" class="btn delete-many" data-url="',
@@ -622,7 +715,7 @@ class PGridView extends CGridView
 					;
 				}
 				
-				// Botão de cadastrar?
+				// Bot?o de cadastrar?
 				if ($this->createButtonEnabled) {
 					
 					echo '<a class="link button-create" href="',
@@ -635,20 +728,73 @@ class PGridView extends CGridView
 			
 			echo '</div>';
 		}
+        
+        parent::renderItems();
+    }
 
-		// Configurações de linhas editáveis
+    /**
+	 * Registra os scripts necess?rios
+	 */
+	public function registerClientScript()
+	{
+		// Publica assets
+		$assetsUrl = Yii::app()->getAssetManager()->publish(
+			Yii::getPathOfAlias('ext.internal.assets'), // deve apontar para o diret?rio atual
+			false, // FALSE $hashByName
+			-1, //$level=-1
+			YII_DEBUG //$forceCopy=NULL
+		);
+
+		// Registra assets e jQuery
+		Yii::app()->clientScript->registerCoreScript('jquery');
+		Yii::app()->clientScript->registerScriptFile($assetsUrl . '/js/pgridview.js');
+		Yii::app()->clientScript->registerScriptFile($assetsUrl . '/js/jquery.toastmessage.js');
+        if ($this->isFixed) {
+            Yii::app()->clientScript->registerScriptFile($assetsUrl . '/js/jquery.tablescroll.js');
+        }
+		Yii::app()->clientScript->registerCssFile($assetsUrl . '/css/main.css');
+		Yii::app()->clientScript->registerCssFile($assetsUrl . '/css/pgridview.css');
+		Yii::app()->clientScript->registerCssFile($assetsUrl . '/css/jquery.toastmessage.css');
+		
+		$options = array(
+			'isUsingBoostrap'          => $this->isUsingBoostrap(),
+			'isEditable'               => $this->isEditable,
+			'isExportable'             => $this->isExportable,
+            'isFixed'                  => $this->isFixed,
+			'isStreamed'               => $this->isStreamed(),
+			'hasClearFilter'           => $this->clearFilterButtonEnabled,
+			'modelAttributesMapping'   => $this->modelAttributesMapping,
+			'modelName'                => $this->modelName,
+			'blankDisplay'             => $this->blankDisplay,
+			'charset'                  => Yii::app()->charset,
+			'debug'                    => ($this->debug ? true : false),
+            'footers'                  => $this->footers,
+
+		);
+
+		// Tem a funcionalidade de exportar ativa?
+		if ($this->isExportable) {
+
+			// Configura??es passadas pro JS
+			$options['exportFlagName']           = $this->exportFlagName;
+			$options['csvReceiverEmailFlagName'] = $this->csvReceiverEmailFlagName;
+		}
+
+		// Configura??es de linhas edit?veis
 		if ($this->isEditable) {
 
 			$options['modelFormFieldsMapping'] = array();
 
-			// Pega o esquema da tabela para detectar informações adicionais
+			// Pega o esquema da tabela para detectar informa??es adicionais
 			$tableSchema = (isset($this->dataProvider->model) ? $this->dataProvider->model->getTableSchema() : null);
 
 			foreach ($this->columns as $index => $column) {
 
-				if ($column instanceof PDataColumn && $column->name && isset($tableSchema->columns[$column->name])) {
+				if ($column instanceof PDataColumn && $column->name) {
 
-					$tableColumn = ($tableSchema ? $tableSchema->columns[$column->name] : null);
+					$tableColumn = null;
+					if($tableSchema && isset($tableSchema->columns[$column->name]))
+						$tableColumn = $tableSchema->columns[$column->name];
 
 					$fieldData = array();
 
@@ -667,7 +813,7 @@ class PGridView extends CGridView
 					$fieldHtmlOptions = $column->fieldHtmlOptions ? $column->fieldHtmlOptions : array();
 					$pluginOptions = $column->fieldPluginOptions ? $column->fieldPluginOptions : array();
 
-					// Seta configurações adicionais baseadas no banco de dados
+					// Seta configura??es adicionais baseadas no banco de dados
 					if ($column->fieldType == 'text' && $tableColumn) {
 
 						// Maxlength
@@ -676,10 +822,10 @@ class PGridView extends CGridView
 						}
 					}
 
-					// Configurações padrão para um campo do tipo Date
+					// Configura??es padr?o para um campo do tipo Date
 					if ($column->fieldType == 'date') {
 
-						// Inclui os assets necessários
+						// Inclui os assets necess?rios
 						$jQueryUiCssFile = Yii::app()->clientScript->getCoreScriptUrl() . '/jui/css/base/jquery-ui.css';
 						
 						Yii::app()->clientScript->registerCoreScript('jquery.ui');
@@ -688,7 +834,7 @@ class PGridView extends CGridView
 						$pluginOptions = array(
 							'uiLanguage' => Yii::app()->language,
 							'showMonthAfterYear' => false,
-							'dateFormat' => Date::getDateFormat(),
+							'dateFormat' => FidelizeDate::getDateFormat(),
 							'changeMonth' => true,
 							'changeYear' => true,
 							'showButtonPanel' => true,
@@ -697,13 +843,13 @@ class PGridView extends CGridView
 							'duration' => 'fast',
 						);
 
-						// Mescla configurações padrão com as do usuário
+						// Mescla configura??es padr?o com as do usu?rio
 						$pluginOptions = array_merge($pluginOptions, $column->fieldPluginOptions);
 
 						// Converte formato de data do PHP pro JS
 						$pluginOptions['dateFormat'] = preg_replace('/(y(?=y))?(d(?=dd))?(m(?=mm))?/', '', strtolower($pluginOptions['dateFormat']));
 
-						// Corrige código do idioma que é diferente no JS
+						// Corrige c?digo do idioma que ? diferente no JS
 						switch (substr(strtolower($pluginOptions['uiLanguage']), 0, 2)) {
 
 							case 'en':
@@ -724,182 +870,169 @@ class PGridView extends CGridView
 						'refreshDataUrl' => $column->fieldRefreshDataUrl,
 					);
 				}
+				elseif (($column instanceof FModalColumn) && $column->name) {
+					$options['modelFormFieldsMapping'][$index] = array(
+						'type'           => $column->fieldType,
+						'data'           => null,
+						'htmlOptions'    => null,
+						'pluginOptions'  => null,
+						'refreshDataUrl' => null,
+					);
+				}
 			}
 		}
-		
+
 		// Instancia os scripts do GRID
-		Yii::app()->clientScript->registerScript('Perspectiva-grid-instance-' . $this->getId(), '
-		jQuery("#' . $this->getId() . '").PerspectivaGrid(' . CJSON::encode($options) . ');
-		', CClientScript::POS_READY);
-        
-        parent::renderItems();
-    }
+		$idScript = 'PGridView#' . $this->getId();
+		$script = 'jQuery("#' . $this->getId() . '").perspectivaGrid(' . CJSON::encode($options) . ');'."\n";
+
+		Yii::app()->clientScript->registerScript($idScript, $script); //, CClientScript::POS_READY);
+
+		parent::registerClientScript();
+	}
+    
+    /**
+	 * @return boolean
+	 */
+	public function isStreamed()
+	{
+		$naoExtrapolouMaximoRegistrosStream = $this->dataProvider->getTotalItemCount() <= $this->maxRowsToExportInstantly;
+		$naoExportaEmBackground = ! $this->allowBackgroundExport;
+
+		return ($naoExportaEmBackground || $naoExtrapolouMaximoRegistrosStream);
+	}
+
+	/**
+	 * Valida se o tamanho do array a ser exportado ? grande demais
+	 * @return boolean
+	 */
+	public function acimaDoLimiteDeExportacao()
+	{
+		return $this->dataProvider->getTotalItemCount() > $this->maxRowsToExportBackground;
+	}
+    
+    /**
+	 * @return PGridCsvExporter
+	 */
+	public function getExporter()
+	{
+		if ($this->_exporter === null) {
+
+			Yii::import('ext.internal.PGridCsvExporter');
+
+			$email = null;
+
+			if (isset($_GET[$this->csvReceiverEmailFlagName])) {
+				$email = $_GET[$this->csvReceiverEmailFlagName];
+			}
+
+			$exporter = new PGridCsvExporter;
+
+			$exporter->grid = $this;
+			$exporter->receiverEmail = $email;
+
+			$this->_exporter = $exporter;
+		}
+
+		return $this->_exporter;
+	}
     
     /**
      * Verifica se printa a tabela ou retorna a planilha CSV
+     * @return void
      */
     public function run()
     {
-        if (isset($_GET[$this->exportFlagName]) && $_GET[$this->exportFlagName]) {
-            
-            // Sem limite de tempo
-            set_time_limit(0);
-            
-            // Limpa qualquer saída do navegador
-            ob_clean();
-            
-            // Headers
-            if ($this->debug) {
+    	// Se est? exportando
+		if (false == empty($_GET[$this->exportFlagName])) {
 
-            	header("Content-type: text/plain; charset=" . Yii::app()->charset);
-            }
-			else {
-                
-                header("Content-Type: application/csv; charset=" . Yii::app()->charset);
-                header('Content-Disposition: attachment; filename="' . $this->exportFileName . '_' . date('YmdHis') . '.csv"');
+			if ($this->acimaDoLimiteDeExportacao()) {
+				throw new Exception(
+					'Tamanho da exportação grande demais (acima de '
+					. $this->maxRowsToExportBackground . ' registros). Por favor filtre as informa??es.'
+				);
 			}
+
+			if ($this->isStreamed()) {
+	            return $this->getExporter()->stream();
+	        }
+	        else {
+
+	        	// Checagem de requisitos, para evitar problemas
+	        	if (!Yii::app()->mail || !class_exists('YiiMailMessage')) {
+					throw new Exception('Configure o componente "mail" do Yii com a extens?o Yii-Mail!');
+				}
+
+				if (!extension_loaded('gearman')) {
+		            throw new Exception('A extensão "gearman" do PHP n?o foi instalada!');
+		        }
+
+				if (!Yii::app()->gearman) {
+		            throw new Exception('A extensão "gearman" do Yii n?o foi instalada!');
+		        }
+
+	            return $this->getExporter()->registerJob();
+	        }
+        }
+
+        $this->registerClientScript();
+
+        echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
+        
+        // Se houver filtro
+        if ($this->filter != null && isset($_GET[get_class($this->dataProvider->model)])) {
             
-            // Abre pra escrever na tela
-            $handle = fopen('php://output', 'w');
-            
-            // Monta header
-            $header = array();
-            
+            // Colunas que se referem a atributos
+            $attributesNames = array();
+
             foreach ($this->columns as $column) {
-                
-                if (!in_array(get_class($column), array('CGridColumn', 'CDataColumn', 'PDataColumn'))) {
+
+                if (!in_array(get_class($column), array('CGridColumn', 'CDataColumn', 'PDataColumn', 'PModalColumn'))) {
                     continue;
                 }
-                
-                $name = null;
-                
-                if ($column->header) {
-                    $name = $column->header;
-                }
-                elseif ($this->dataProvider instanceof CActiveDataProvider) {
-                    $name = $this->dataProvider->model->getAttributeLabel($column->name);
-                }
-				elseif ($column->name) {
-					$name = $column->name;
-				}
-                
-                $header[] = $name;
-            }
-			
-			// Corrige bug com o Excel quando a primeira coluna se chama ID
-			if (isset($header[0]) && strtoupper($header[0]) == 'ID') {
-				$header[0] = ' ' . $header[0];
-			}
-            
-            // Imprime cabeçalho
-            fputcsv($handle, $header, ';');
-            
-            // Seta em quantos registros por vez ele carrega (pra não estourar a memória)
-            $pagination = $this->dataProvider->getPagination();
-            $pagination->setPageSize($this->recordsLoadingStep);
-            
-            $steps = $pagination->getPageCount();
-            
-            for ($currentStep = 0; $currentStep < $steps; $currentStep++) {
-                
-                // Muda bloco atual
-                $pagination->setCurrentPage($currentStep);
-                
-                // Obtém dados
-                $rows = $this->dataProvider->getData(true);
-            
-                // Monta o CSV
-                foreach ($rows as $data) {
 
-                    $row = array();
-
-                    foreach ($this->columns as $column) {
-
-                        if (!in_array(get_class($column), array('CGridColumn', 'CDataColumn', 'PDataColumn'))) {
-                            continue;
-                        }
-
-                        $value = null;
-
-                        if ($column->value !== null) {
-
-                            $value = $this->evaluateColumnExpression($column->value, array('data'=>$data));
-                        }
-                        else if ($column->name !== null) {
-                            $value = CHtml::value($data, $column->name);
-                        }
-
-                        $row[] = strip_tags(($value === null) ? '' : $this->getFormatter()->format($value, $column->type));
-                    }
-
-                    // Imprime na tela
-                    fputcsv($handle, $row, ';');
+                if ($column->name) {
+                    $attributesNames[] = $column->name;
                 }
             }
 
-            // Encerra
-            fclose($handle);
+            // Para cada atributo n?o nulo do modelo, ele tenta aplicar qualquer poss?vel filtro
+            $extraFilters = array();
             
-            exit;
+            $class = $this->dataProvider->modelClass;
+            
+            $this->dataProvider->model->setScenario('search');
+        
+            $this->dataProvider->model->attributes = $_GET[$class];
+            
+            // Pega nome dos atributos reais
+            $classAttributes = array_keys($this->dataProvider->model->attributeNames()) + get_class_vars($class);
+
+            foreach ($_GET[$class] as $attribute => $value) {
+
+                // Se tiver valor, n?o for array, e n?o estiver nas colunas do grid (e for um atributo v?lido, claro)
+                if ($value && !is_array($value) && !in_array($attribute, $attributesNames) && 
+                    (property_exists($class, $attribute) || in_array($attribute, $classAttributes) )) {
+
+                    $extraFilters[] = $attribute;
+                }
+            }
+            
+            // Seta para que o renderizador pegue adiante
+            $this->extraFilters = $extraFilters;
         }
-        else {
-            
-            $this->registerClientScript();
+        
+        echo CHtml::hiddenField('url-' . $this->getId(), $_SERVER['REQUEST_URI']) . "\n";
+        echo CHtml::hiddenField('is-streamed-' . $this->getId(), $this->isStreamed() ? 1 : 0) . "\n";
+        echo CHtml::hiddenField('rows-total-' . $this->getId(), $this->dataProvider->getTotalItemCount()) . "\n";
+        echo CHtml::hiddenField('rows-limit-' . $this->getId(), $this->maxRowsToExportBackground) . "\n";
 
-            echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
-            
-            // Se houver filtro
-            if ($this->filter != null && isset($_GET[get_class($this->dataProvider->model)])) {
-                
-                // Colunas que se referem a atributos
-                $attributesNames = array();
+        $this->renderContent();
 
-                foreach ($this->columns as $column) {
+        if ($this->dataProvider && $this->dataProvider instanceof CDataProvider)
+        	$this->renderKeys();
 
-                    if (!in_array(get_class($column), array('CGridColumn', 'CDataColumn', 'PDataColumn'))) {
-                        continue;
-                    }
-
-                    if ($column->name) {
-                        $attributesNames[] = $column->name;
-                    }
-                }
-
-                // Para cada atributo não nulo do modelo, ele tenta aplicar qualquer possível filtro
-                $extraFilters = array();
-                
-                $class = $this->dataProvider->modelClass;
-                
-                $this->dataProvider->model->setScenario('search');
-            
-                $this->dataProvider->model->attributes = $_GET[$class];
-                
-                // Pega nome dos atributos reais
-                $classAttributes = array_keys($this->dataProvider->model->attributeNames()) + get_class_vars($class);
-
-                foreach ($_GET[$class] as $attribute => $value) {
-
-                    // Se tiver valor, não for array, e não estiver nas colunas do grid (e for um atributo válido, claro)
-                    if ($value && !is_array($value) && !in_array($attribute, $attributesNames) && 
-                        (property_exists($class, $attribute) || in_array($attribute, $classAttributes) )) {
-
-                        $extraFilters[] = $attribute;
-                    }
-                }
-                
-                // Seta para que o renderizador pegue adiante
-                $this->extraFilters = $extraFilters;
-            }
-            
-            echo CHtml::hiddenField('url-' . $this->getId(), $_SERVER['REQUEST_URI']) . "\n";
-            
-            $this->renderContent();
-
-            if ($this->dataProvider && $this->dataProvider instanceof CActiveDataProvider)
-            	$this->renderKeys();
-
-            echo CHtml::closeTag($this->tagName);
-        }
+        echo CHtml::closeTag($this->tagName);
     }
     
     /**

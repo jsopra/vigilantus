@@ -36,8 +36,8 @@ $columns[] = array(
 $columns[] = 'email';
 
 $columns[] = array(
-    'class'=>'bootstrap.widgets.TbButtonColumn',
-			'template' => '{update}{delete}'
+    'class'=>'ext.internal.PButtonColumn',
+    'template' => '{update}{delete}'
 );
 ?>
 

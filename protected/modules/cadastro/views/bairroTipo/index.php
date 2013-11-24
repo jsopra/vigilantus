@@ -51,7 +51,7 @@
             'fieldType' => 'label',
         ),
 		array(
-			'class'=>'bootstrap.widgets.TbButtonColumn',
+			'class'=>'ext.internal.PButtonColumn',
 			'template' => '{update}{delete}'
  		),
 	),
