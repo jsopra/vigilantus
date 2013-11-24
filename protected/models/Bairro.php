@@ -89,7 +89,7 @@ class Bairro extends PMunicipioActiveRecord
 		$criteria->compare('nome',$this->nome,true);
 		$criteria->compare('bairro_tipo_id',$this->bairro_tipo_id);
 
-		return new CActiveDataProvider($this, array(
+		return new PMunicipioActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}

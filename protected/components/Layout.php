@@ -39,6 +39,11 @@ class Layout {
 								'url'=> array('/cadastro/bairroTipo/index'),
 								'visible'=>!Yii::app()->user->isGuest && Yii::app()->user->isAdministrador(),
 							),
+                            array(
+								'label'=>'Tipos de Imóveis', 
+								'url'=> array('/cadastro/imovelTipo/index'),
+								'visible'=>!Yii::app()->user->isGuest && Yii::app()->user->isAdministrador(),
+							),
                         ),
 					),
                     array(

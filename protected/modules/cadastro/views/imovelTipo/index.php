@@ -1,20 +1,19 @@
 <?php
 /*$this->breadcrumbs=array(
-	Yii::t('BairroTipo', 'Bairro Tipos'),
+	Yii::t('ImovelTipo', 'Imovel Tipos'),
 );*/
 ?>
 
-<h1><?php echo Yii::t('BairroTipo',  'Tipos de Bairro'); ?></h1>
+<h1><?php echo Yii::t('ImovelTipo',  'Imovel Tipos'); ?></h1>
 
 <?php $this->widget('ext.internal.PGridView', array(
-	'id'=>'bairro-tipo-grid',
-	'isExportable' => false,
+	'id'=>'imovel-tipo-grid',
+	'isExportable' => true,
 	'isEditable' => true,
-    'createButtonEnabled' => false,
-	'dataProvider'=>$model->search(),
+	'dataProvider'=>$model->ativo()->search(),
 	'filter'=>$model,
 	'columns'=>array(
-        array(
+		array(
             'name' => 'municipio_id',
             'value' => '$data->municipio->nome',
             'filter' =>  CHtml::listData(Municipio::model()->findAll(array('order' => 'nome asc')),'id', 'nome'),
@@ -25,6 +24,10 @@
         array(
             'name' => 'nome',
             'value' => '$data->nome',
+        ),
+        array(
+            'name' => 'sigla',
+            'value' => '$data->sigla',
         ),
         array(
             'name' => 'inserido_por',

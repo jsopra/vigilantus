@@ -206,7 +206,7 @@ class Usuario extends PActiveRecord
 		$criteria->compare('data_recupera_senha',$this->data_recupera_senha,true);
 		$criteria->compare('excluido',$this->excluido);
 
-		return new CActiveDataProvider($this, array(
+		return new PMunicipioActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}

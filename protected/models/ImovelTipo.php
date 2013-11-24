@@ -1,27 +1,32 @@
 <?php
 
 /**
- * Este é a classe de modelo da tabela "bairro_tipos".
+ * Este é a classe de modelo da tabela "imovel_tipos".
  *
- * Estas são as colunas disponíveis na tabela 'bairro_tipos':
+ * Estas são as colunas disponíveis na tabela 'imovel_tipos':
  * @property integer $id
  * @property integer $municipio_id
  * @property string $nome
+ * @property string $sigla
  * @property string $data_cadastro
  * @property string $data_atualizacao
  * @property integer $inserido_por
  * @property integer $atualizado_por
+ * @property boolean $excluido
+ * @property integer $excluido_por
+ * @property string $data_exclusao
  *
  * Estas são as relações do modelo disponíveis:
  * @property Municipios $municipio
  * @property Usuarios $inseridoPor
  * @property Usuarios $atualizadoPor
+ * @property Usuarios $excluidoPor
  */
-class BairroTipo extends PMunicipioActiveRecord
+class ImovelTipo extends PMunicipioActiveRecord
 {
 	/**
 	 * Retorna o modelo estático da classe de AR especificada
-	 * @return BairroTipo the static model class
+	 * @return ImovelTipos the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -33,18 +38,8 @@ class BairroTipo extends PMunicipioActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'bairro_tipos';
+		return 'imovel_tipos';
 	}
-    
-    public function beforeDelete() {
-        
-        if($this->qtdeBairros > 0) {
-            $this->addError('id', Yii::t('BairroTipo', 'O tipo tem bairros vinculados'));
-            return false;
-        }
-        
-        return parent::beforeDelete();
-    }
 
 	/**
 	 * @return array regras de validação para os atributos do modelo
@@ -53,18 +48,31 @@ class BairroTipo extends PMunicipioActiveRecord
 	{
 		// AVISO: só defina regras dos atributos que receberão dados do usuário
 		return array(
-			array('municipio_id, nome, inserido_por', 'required'),
-			array('municipio_id, inserido_por, atualizado_por', 'numerical', 'integerOnly'=>true),
+			array('municipio_id, nome, data_cadastro, inserido_por', 'required'),
+			array('municipio_id, inserido_por, atualizado_por, excluido_por', 'numerical', 'integerOnly'=>true),
+			array('sigla, data_atualizacao, excluido, data_exclusao', 'safe'),
             array('data_cadastro', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'insert'),
             array('data_atualizacao', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'update'),
+            array('data_exclusao', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'delete'),
             array('atualizado_por', 'required', 'on' => 'update'),
-            array('municipio_id+nome','uniqueMultiColumnValidator', 'caseSensitive' => true),
-			array('data_atualizacao', 'safe'),
+            array('excluido_por', 'required', 'on' => 'delete'),
 			// Esta regra é usada pelo método search().
 			// Remova os atributos que não deveriam ser pesquisáveis.
-			array('id, municipio_id, nome, data_cadastro, data_atualizacao, inserido_por, atualizado_por', 'safe', 'on'=>'search'),
+			array('id, municipio_id, nome, sigla, data_cadastro, data_atualizacao, inserido_por, atualizado_por, excluido, excluido_por, data_exclusao', 'safe', 'on'=>'search'),
 		);
 	}
+    
+    public function scopes() {
+        
+        return array(
+            'ativo' => array(
+                'condition' => 'excluido IS FALSE',
+            ),
+            'excluido' => array(
+                'condition' => 'excluido IS TRUE',
+            ),
+        );
+    }
 
 	/**
 	 * @return array regras de relações
@@ -76,9 +84,7 @@ class BairroTipo extends PMunicipioActiveRecord
 			'municipio' => array(self::BELONGS_TO, 'Municipio', 'municipio_id'),
 			'inseridoPor' => array(self::BELONGS_TO, 'Usuario', 'inserido_por'),
 			'atualizadoPor' => array(self::BELONGS_TO, 'Usuario', 'atualizado_por'),
-            'bairros' => array(self::HAS_MANY, 'Bairro', 'bairro_tipo_id'),
-            
-            'qtdeBairros' => array(self::STAT, 'Bairro', 'bairro_tipo_id'),
+			'excluidoPor' => array(self::BELONGS_TO, 'Usuario', 'excluido_por'),
 		);
 	}
 
@@ -88,13 +94,17 @@ class BairroTipo extends PMunicipioActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => Yii::t('BairroTipo', 'ID'),
-			'municipio_id' => Yii::t('BairroTipo', 'Município'),
-			'nome' => Yii::t('BairroTipo', 'Nome'),
-			'data_cadastro' => Yii::t('BairroTipo', 'Data Cadastro'),
-			'data_atualizacao' => Yii::t('BairroTipo', 'Data Atualização'),
-			'inserido_por' => Yii::t('BairroTipo', 'Inserido Por'),
-			'atualizado_por' => Yii::t('BairroTipo', 'Atualizado Por'),
+			'id' => Yii::t('ImovelTipos', 'ID'),
+			'municipio_id' => Yii::t('ImovelTipos', 'Município'),
+			'nome' => Yii::t('ImovelTipos', 'Nome'),
+			'sigla' => Yii::t('ImovelTipos', 'Sigla'),
+			'data_cadastro' => Yii::t('ImovelTipos', 'Data Cadastro'),
+			'data_atualizacao' => Yii::t('ImovelTipos', 'Data Atualização'),
+			'inserido_por' => Yii::t('ImovelTipos', 'Inserido Por'),
+			'atualizado_por' => Yii::t('ImovelTipos', 'Atualizado Por'),
+			'excluido' => Yii::t('ImovelTipos', 'Excluído'),
+			'excluido_por' => Yii::t('ImovelTipos', 'Excluído Por'),
+			'data_exclusao' => Yii::t('ImovelTipos', 'Data Exclusão'),
 		);
 	}
 
@@ -112,10 +122,14 @@ class BairroTipo extends PMunicipioActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('municipio_id',$this->municipio_id);
 		$criteria->compare('nome',$this->nome,true);
+		$criteria->compare('sigla',$this->sigla,true);
 		$criteria->compare('data_cadastro',$this->data_cadastro,true);
 		$criteria->compare('data_atualizacao',$this->data_atualizacao,true);
 		$criteria->compare('inserido_por',$this->inserido_por);
 		$criteria->compare('atualizado_por',$this->atualizado_por);
+		$criteria->compare('excluido',$this->excluido);
+		$criteria->compare('excluido_por',$this->excluido_por);
+		$criteria->compare('data_exclusao',$this->data_exclusao,true);
 
 		return new PMunicipioActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -133,10 +147,9 @@ class BairroTipo extends PMunicipioActiveRecord
 
 		try {
 			
-			// Implemente aqui as exclusões mais complexas
-			$return = parent::delete();
+			$this->excluido = true;
 
-			if ($return)
+			if ($this->save())
 				$transaction->commit();
 			else
 				$transaction->rollback();
