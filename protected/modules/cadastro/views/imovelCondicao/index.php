@@ -1,17 +1,17 @@
 <?php
 /*$this->breadcrumbs=array(
-	Yii::t('ImovelTipo', 'Imovel Tipos'),
+	Yii::t('ImovelCondicao', 'Imovel Condicaos'),
 );*/
 ?>
 
-<h1><?php echo Yii::t('ImovelTipo',  'Imovel Tipos'); ?></h1>
+<h1><?php echo Yii::t('ImovelCondicao',  'Condições de Imóvel'); ?></h1>
 
 <?php $this->widget('ext.internal.PGridView', array(
-	'id'=>'imovel-tipo-grid',
+	'id'=>'imovel-condicao-grid',
 	'isExportable' => false,
 	'isEditable' => true,
     'createButtonEnabled' => false,
-	'dataProvider'=>$model->ativo()->search(),
+	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
 		array(
@@ -27,10 +27,12 @@
             'value' => '$data->nome',
         ),
         array(
-            'name' => 'sigla',
-            'value' => '$data->sigla',
+            'name' => 'exibe_nome',
+            'fieldType' => 'checkbox',
+            'filter' => array(true =>  Yii::t("Site", "Sim"), false =>  Yii::t("Site", "Não")),
+            'value' => '$data->exibe_nome ? Yii::t("Site", "Sim") : Yii::t("Site", "Não")',
         ),
-        array(
+		array(
             'name' => 'inserido_por',
             'value' => '$data->inseridoPor->nome',
             'filter' =>  CHtml::listData(Usuario::model()->doNivelDoUsuario(Yii::app()->user->getUser())->findAll(array('order' => 'nome asc')),'id', 'nome'),

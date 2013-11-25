@@ -55,8 +55,10 @@ class ImovelTipo extends PMunicipioActiveRecord
             array('data_cadastro', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'insert'),
             array('data_atualizacao', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'update'),
             array('data_exclusao', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'remove'),
+            array('inserido_por', 'required', 'on' => 'insert'),
             array('atualizado_por', 'required', 'on' => 'update'),
             array('excluido_por', 'required', 'on' => 'remove'),
+            
 			// Esta regra é usada pelo método search().
 			// Remova os atributos que não deveriam ser pesquisáveis.
 			array('id, municipio_id, nome, sigla, data_cadastro, data_atualizacao, inserido_por, atualizado_por, excluido, excluido_por, data_exclusao', 'safe', 'on'=>'search'),
