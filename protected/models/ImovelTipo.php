@@ -48,19 +48,54 @@ class ImovelTipo extends PMunicipioActiveRecord
 	{
 		// AVISO: só defina regras dos atributos que receberão dados do usuário
 		return array(
-			array('municipio_id, nome, data_cadastro, inserido_por', 'required'),
+			array('municipio_id, nome, inserido_por', 'required'),
 			array('municipio_id, inserido_por, atualizado_por, excluido_por', 'numerical', 'integerOnly'=>true),
 			array('sigla, data_atualizacao, excluido, data_exclusao', 'safe'),
+            array('id','uniqueImovelTipo', 'on' => 'insert, update'),
             array('data_cadastro', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'insert'),
             array('data_atualizacao', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'update'),
-            array('data_exclusao', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'delete'),
+            array('data_exclusao', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'remove'),
             array('atualizado_por', 'required', 'on' => 'update'),
-            array('excluido_por', 'required', 'on' => 'delete'),
+            array('excluido_por', 'required', 'on' => 'remove'),
 			// Esta regra é usada pelo método search().
 			// Remova os atributos que não deveriam ser pesquisáveis.
 			array('id, municipio_id, nome, sigla, data_cadastro, data_atualizacao, inserido_por, atualizado_por, excluido, excluido_por, data_exclusao', 'safe', 'on'=>'search'),
 		);
 	}
+    
+    public function uniqueImovelTipo($attribute, $params) {
+        
+        if($this->scenario == 'remove')
+            return;
+        
+        $criteria = new CDbCriteria;
+        
+        if(!$this->isNewRecord) {
+            $criteria->addCondition('t.id <> :id');
+            $criteria->params[':id'] = $this->id;
+        }
+        
+        if($this->nome) {
+            $criteria->addCondition('LOWER(t.nome) = LOWER(:nome)');
+            $criteria->params[':nome'] = $this->nome;
+        }
+        
+        if($this->sigla) {
+            $criteria->addCondition('LOWER(t.sigla) = LOWER(:sigla)');
+            $criteria->params[':sigla'] = $this->sigla;
+        }
+        
+        if($this->municipio_id) {
+            $criteria->addCondition('t.municipio_id = :municipio');
+            $criteria->params[':municipio'] = $this->municipio_id;
+        }
+             
+        $objects = $this->findAll($criteria);
+
+        if(count($objects) > 0)
+             $this->addError('id',Yii::t('Site', 'Registro já existe'));
+        
+    }
     
     public function scopes() {
         
@@ -147,10 +182,14 @@ class ImovelTipo extends PMunicipioActiveRecord
 
 		try {
 			
+            $this->scenario = 'remove';
+            
 			$this->excluido = true;
 
-			if ($this->save())
+			if ($this->save()) {
 				$transaction->commit();
+                return true;
+            }
 			else
 				$transaction->rollback();
 		}
@@ -161,6 +200,6 @@ class ImovelTipo extends PMunicipioActiveRecord
 			throw $e;
 		}
 
-		return $return;
+		return false;
 	}
 }
