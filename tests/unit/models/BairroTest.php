@@ -54,10 +54,15 @@ class BairroTest extends TestCase
 
     public function testDelete()
     {
-        $bairro = Bairro::find(4);
+        $bairro = new Bairro;
 
-        $this->assertInstanceOf('app\models\Bairro', $bairro);
+        $this->assertFalse($bairro->save());
 
-        $this->assertTrue($bairro->delete());
+        $bairro->municipio_id = 1;
+        $bairro->bairro_tipo_id = 2;
+        $bairro->nome = 'teste ' . uniqid();
+
+        $this->assertTrue($bairro->save());
+        $this->assertTrue((bool) $bairro->delete());
     }
 }

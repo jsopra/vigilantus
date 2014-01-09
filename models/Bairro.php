@@ -30,7 +30,7 @@ class Bairro extends ActiveRecord
     {
         return array(
             array(['municipio_id', 'nome'], 'required'),
-            array(['nome', 'municipio_id'], 'unique', 'targetAttribute' => ['nome', 'municipio_id']),
+            array('nome', 'unique', 'compositeWith' => 'municipio_id'),
             array(['municipio_id', 'bairro_tipo_id'], 'integer'),
         );
     }
