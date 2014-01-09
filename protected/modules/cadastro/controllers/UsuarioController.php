@@ -158,7 +158,7 @@ class UsuarioController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Usuario::model()->findByPk($id);
+		$model=Usuario::find($id);
 		if($model===null)
 			throw new CHttpException(404,'A página solicitada não existe.');
 		return $model;

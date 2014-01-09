@@ -103,7 +103,7 @@ class ImovelTipoController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=ImovelTipo::model()->findByPk($id);
+		$model=ImovelTipo::find($id);
 		if($model===null)
 			throw new CHttpException(404,'A página solicitada não existe.');
 		return $model;

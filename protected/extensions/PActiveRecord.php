@@ -133,7 +133,7 @@ abstract class PActiveRecord extends CActiveRecord
     public function checkChanged($attributes)
     {
         $class = get_class($this);
-        $old = $class::model()->findByPk($this->primaryKey);
+        $old = $class::find($this->primaryKey);
 
         if (empty($old))
             return false;

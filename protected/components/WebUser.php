@@ -14,7 +14,7 @@ class WebUser extends CWebUser {
 	 */
 	public function getUser() {
 		if ($this->_model === null) {
-			$this->_model = Usuario::model()->findByPk($this->id);
+			$this->_model = Usuario::find($this->id);
 		}
 		return $this->_model;
 	}
@@ -22,7 +22,7 @@ class WebUser extends CWebUser {
 	public function isRoot() {
         
         if(!$this->_model)
-			$this->_model = Usuario::model()->findByPk($this->id);
+			$this->_model = Usuario::find($this->id);
         
 		return $this->_model->usuario_role_id == UsuarioRole::ROOT;
 	}
@@ -30,7 +30,7 @@ class WebUser extends CWebUser {
 	public function isAdministrador() {
 		
 		if(!$this->_model)
-			$this->_model = Usuario::model()->findByPk($this->id);
+			$this->_model = Usuario::find($this->id);
 
 		return in_array($this->_model->usuario_role_id, array(UsuarioRole::ROOT, UsuarioRole::ADMINISTRADOR));
 	}

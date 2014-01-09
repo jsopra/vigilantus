@@ -99,7 +99,7 @@ class ImovelCondicaoController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=ImovelCondicao::model()->findByPk($id);
+		$model=ImovelCondicao::find($id);
 		if($model===null)
 			throw new CHttpException(404,'A página solicitada não existe.');
 		return $model;

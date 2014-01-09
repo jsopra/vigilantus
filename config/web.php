@@ -4,7 +4,8 @@ $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
 
 $config = [
-	'id' => 'basic',
+	'id' => 'vigilantus',
+    'language' => 'pt-BR',
 	'basePath' => dirname(__DIR__),
 	'extensions' => require(__DIR__ . '/../vendor/yiisoft/extensions.php'),
 	'components' => [

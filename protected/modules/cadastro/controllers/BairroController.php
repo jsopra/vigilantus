@@ -95,7 +95,7 @@ class BairroController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Bairro::model()->findByPk($id);
+		$model=Bairro::find($id);
 		if($model===null)
 			throw new CHttpException(404,'A página solicitada não existe.');
 		return $model;

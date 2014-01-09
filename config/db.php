@@ -2,8 +2,8 @@
 
 return [
 	'class' => 'yii\db\Connection',
-	'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-	'username' => 'root',
-	'password' => '',
+	'dsn' => getenv('VIGILANTUS_DB_DSN'),
+	'username' => getenv('VIGILANTUS_DB_USERNAME'),
+	'password' => getenv('VIGILANTUS_DB_PASSWORD'),
 	'charset' => 'utf8',
 ];

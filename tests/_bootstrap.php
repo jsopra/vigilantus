@@ -1,11 +1,13 @@
 <?php
 
-// the entry script URL (without host info) for functional and acceptance tests
-// PLEASE ADJUST IT TO THE ACTUAL ENTRY SCRIPT URL
-defined('TEST_ENTRY_URL') or define('TEST_ENTRY_URL', '/basic/web/index-test.php');
+if (getenv('VIGILANTUS_ENV') != 'test') {
+    throw new Exception('Parece que a variável de ambiente VIGILANTUS_ENV não é test. Verifique suas configurações!');
+}
+
+defined('TEST_ENTRY_URL') or define('TEST_ENTRY_URL', 'index.php');
 
 // the entry script file path for functional and acceptance tests
-defined('TEST_ENTRY_FILE') or define('TEST_ENTRY_FILE', dirname(__DIR__) . '/web/index-test.php');
+defined('TEST_ENTRY_FILE') or define('TEST_ENTRY_FILE', dirname(__DIR__) . '/index.php');
 
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 

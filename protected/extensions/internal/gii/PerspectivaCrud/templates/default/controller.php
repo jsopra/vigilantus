@@ -182,7 +182,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	 */
 	public function loadModel($id)
 	{
-		$model=<?php echo $this->modelClass; ?>::model()->findByPk($id);
+		$model=<?php echo $this->modelClass; ?>::find($id);
 		if($model===null)
 			throw new CHttpException(404,'A página solicitada não existe.');
 		return $model;
