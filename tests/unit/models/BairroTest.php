@@ -20,7 +20,7 @@ class BairroTest extends TestCase
         $this->assertFalse($bairro->save());
 
         $bairro->nome = 'teste1';
-
+        
         $this->assertTrue($bairro->save());
 
         unset($bairro);

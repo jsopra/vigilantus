@@ -72,4 +72,6 @@ CONFIGURANDO O AMBIENTE DE TESTES
 
 3. Gere as classes `Guy` do Codeception: `vendor/bin/codecept build`
 
-4. Rode os testes com `vendor/bin/codecept run`
+4. Recarregue as fixtures com `php yii fixture all`
+
+5. Rode os testes com `vendor/bin/codecept run`

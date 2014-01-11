@@ -13,6 +13,13 @@ return yii\helpers\ArrayHelper::merge(
                 'username' => getenv('VIGILANTUS_DB_USERNAME'),
                 'password' => getenv('VIGILANTUS_DB_PASSWORD'),
             ],
+            'phactory' => [
+                'class' => 'hadnu\phactory\Base',
+                'loader' => [
+                    'class' => 'hadnu\phactory\Loader',
+                    'factoriesNamespace' => 'tests\factories',
+                ]
+            ],
         ],
     ]
 );
