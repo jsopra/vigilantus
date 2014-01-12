@@ -91,10 +91,4 @@ export VIGILANTUS_TEST_DB_PASSWORD='qwerty'
 
 – 6. Gere as classes `Guy` do Codeception: `vendor/bin/codecept build`
 
-Os passos acima só precisam ser feitos uma vez. Os passos abaixos são para aquando há novos testes e alterações no banco de dados:
-
-– 7. Rode as migrations com `php yii migrate --db=testDb`
-
-– 8. Recarregue as fixtures com `php yii fixture all`
-
-– 9. Rode os testes com `vendor/bin/codecept run`
+– 7. Rode os testes com `vendor/bin/codecept run unit`

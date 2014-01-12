@@ -1,3 +1,6 @@
 <?php
 
-// add unit testing specific bootstrap code here
+use tests\TestHelper;
+
+TestHelper::recreateSchema();
+

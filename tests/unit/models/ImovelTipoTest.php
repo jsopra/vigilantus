@@ -74,11 +74,11 @@ class ImovelTipoTest extends TestCase
         
         $this->assertInstanceOf('app\models\ImovelTipo', $imovel);
         
-        $this->assertFalse($imovel->delete());
+        $this->assertEquals(0, $imovel->delete());
         
         $imovel->excluido_por = 1;
         
-        $this->assertTrue($imovel->delete());
+        $this->assertEquals(1, $imovel->delete());
         
         $imovel = ImovelTipo::find(4);
         

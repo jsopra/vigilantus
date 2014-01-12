@@ -5,6 +5,7 @@ namespace tests\unit\models;
 use app\models\Usuario;
 use app\models\UsuarioRole;
 use yii\codeception\TestCase;
+use yii\db\Expression;
 
 class UsuarioTest extends TestCase
 {
@@ -65,7 +66,7 @@ class UsuarioTest extends TestCase
         $this->assertEquals($senhaEncriptada, $usuario->senha);
 
         $usuario->scenario = 'login';
-        $usuario->ultimo_login = new CDbExpression('NOW()');
+        $usuario->ultimo_login = new Expression('NOW()');
         $usuario->save();
 
         $this->assertEquals($senhaEncriptada, $usuario->senha);

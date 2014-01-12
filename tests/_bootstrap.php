@@ -17,3 +17,11 @@ $_SERVER['SCRIPT_FILENAME'] = TEST_ENTRY_FILE;
 $_SERVER['SCRIPT_NAME'] = TEST_ENTRY_URL;
 
 Yii::setAlias('@tests', __DIR__);
+
+// Dá acesso ao Yii::$app->db e outros
+$application = new yii\console\Application(require 'unit/_config.php');
+
+use tests\TestHelper;
+
+TestHelper::recreateDataBase();
+

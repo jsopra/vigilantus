@@ -27,7 +27,6 @@ class BairroTest extends TestCase
 
         $bairro = new Bairro;
         
-        // @FIXME não implementaram composite-key, podemos fazer e compartilhar
         $this->assertFalse($bairro->save());
 
         $bairro->municipio_id = 2;
