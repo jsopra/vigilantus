@@ -36,15 +36,19 @@ class Bairro extends ActiveRecord
     }
 
     /**
-     * @return array regras de relações
+     * @return Municipio
      */
-    public function relations()
+    public function getMunicipio()
     {
-        // AVISO: você talvez tenha de ajustar o nome da relação gerada.
-        return array(
-            'municipio' => array(self::BELONGS_TO, 'Municipio', 'municipio_id'),
-            'bairroTipo' => array(self::BELONGS_TO, 'BairroTipo', 'bairro_tipo_id'),
-        );
+        return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+    }
+    
+    /**
+     * @return BairroTipo
+     */
+    public function getTipo()
+    {
+        return $this->hasOne(BairroTipo::className(), ['id' => 'bairro_tipo_id']);
     }
 
     /**
