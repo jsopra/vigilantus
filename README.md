@@ -35,10 +35,9 @@ NameVirtualHost 127.0.0.1
 </VirtualHost>
 ```
 
-3. Configure o terminal com as variáveis de ambiente necessárias:
+3. Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente necessárias:
 
-```apache
-export VIGILANTUS_ENV='development' # ou "production"
+```bash
 export VIGILANTUS_DB_DSN='pgsql:host=localhost;dbname=vigilantus_development'
 export VIGILANTUS_DB_USERNAME='postgres'
 export VIGILANTUS_DB_PASSWORD='qwerty'
@@ -51,6 +50,8 @@ export VIGILANTUS_DB_PASSWORD='qwerty'
 ```
 
 5. IMPORTANTE: Reinicie o Apache.
+
+6. Rode as migrations com `php yii migrate`
 
 CONFIGURANDO O AMBIENTE DE TESTES
 ---------------------------------
@@ -72,13 +73,12 @@ NameVirtualHost 127.0.0.1
 </VirtualHost>
 ```
 
-3. Configure o terminal com as variáveis de ambiente necessárias:
+3. Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente necessárias:
 
-```apache
-export VIGILANTUS_ENV='test'
-export VIGILANTUS_DB_DSN='pgsql:host=localhost;dbname=vigilantus_test'
-export VIGILANTUS_DB_USERNAME='postgres'
-export VIGILANTUS_DB_PASSWORD='qwerty'
+```bash
+export VIGILANTUS_TEST_DB_DSN='pgsql:host=localhost;dbname=vigilantus_test'
+export VIGILANTUS_TEST_DB_USERNAME='postgres'
+export VIGILANTUS_TEST_DB_PASSWORD='qwerty'
 ```
 
 4. Configure o seu arquivo `hosts`:
@@ -91,6 +91,10 @@ export VIGILANTUS_DB_PASSWORD='qwerty'
 
 6. Gere as classes `Guy` do Codeception: `vendor/bin/codecept build`
 
-7. Recarregue as fixtures com `php yii fixture all`
+Os passos acima só precisam ser feitos uma vez. Os passos abaixos são para aquando há novos testes e alterações no banco de dados:
+
+7. Rode as migrations com `php yii migrate --db=testDb`
+
+8. Recarregue as fixtures com `php yii fixture all`
 
 8. Rode os testes com `vendor/bin/codecept run`

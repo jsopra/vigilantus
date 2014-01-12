@@ -5,7 +5,7 @@ Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
 $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
 
-return [
+$config = [
     'id' => 'vigilantus-console',
     'name' => 'Vigilantus Console',
     'language' => 'pt-BR',
@@ -34,3 +34,16 @@ return [
     ],
     'params' => $params,
 ];
+
+if (file_exists(__DIR__ . '/test_db.php')) {
+    
+    $config['components']['testDb'] = [
+        'class' => 'yii\db\Connection',
+        'dsn' => getenv('VIGILANTUS_TEST_DB_DSN'),
+        'username' => getenv('VIGILANTUS_TEST_DB_USERNAME'),
+        'password' => getenv('VIGILANTUS_TEST_DB_PASSWORD'),
+        'charset' => 'utf8',
+    ];
+}
+
+return $config;
