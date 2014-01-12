@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\db\Expression;
 use yii\web\AccessControl;
 use yii\web\Controller;
 use yii\web\VerbFilter;
@@ -11,6 +12,7 @@ use app\forms\ContatoForm;
 
 class SiteController extends Controller
 {
+
     public function behaviors()
     {
         return [
@@ -60,6 +62,10 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load($_POST) && $model->login()) {
+            
+            $model->user->ultimo_login = new Expression('NOW()');
+            $model->user->update(false, ['ultimo_login']);
+            
             return $this->goBack();
         } else {
             return $this->render('login', [
