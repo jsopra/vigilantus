@@ -37,6 +37,22 @@ AppAsset::register($this);
             'items' => [
                 ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'Sobre', 'url' => ['/site/about']],
+                [
+                    'label' => 'Cadastro',
+                    'items' => [
+                        ['label' => 'Bairros', 'url' => ['/bairro']],
+                        ['label' => 'Condições de Imóveis', 'url' => ['/imovel-condicao']],
+                        ['label' => 'Tipos de Bairros', 'url' => ['/bairro-tipo']],
+                        ['label' => 'Tipos de Imóveis', 'url' => ['/imovel-tipo']],
+                    ]
+                ],
+                [
+                    'label' => 'Sistema',
+                    'items' => [
+                        ['label' => 'Usuários', 'url' => ['/bairro']],
+                        ['label' => 'Atualizar senha', 'url' => ['/usuario/update-password']],
+                    ]
+                ],
                 ['label' => 'Contato', 'url' => ['/site/contact']],
                 Yii::$app->user->isGuest ?
                     ['label' => 'Login', 'url' => ['/site/login']] :
