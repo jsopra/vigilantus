@@ -9,8 +9,7 @@ use yii\helpers\Html;
 
 $this->title = 'Tipo de Bairro: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Tipos de Bairro', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Atualizar';
 ?>
 <div class="bairro-tipo-update">
 

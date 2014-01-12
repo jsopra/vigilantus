@@ -68,7 +68,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->formatted_data_atualizacao;
                 }
             ],
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+            ],
         ],
     ]);
     ?>
