@@ -4,11 +4,12 @@ namespace app\models\search;
 
 use app\components\SearchModel;
 
-class BairroTipoSearch extends SearchModel
+class ImovelTipoSearch extends SearchModel
 {
     public $id;
     public $municipio_id;
     public $nome;
+    public $sigla;
     public $data_cadastro;
     public $data_atualizacao;
     public $inserido_por;
@@ -17,16 +18,25 @@ class BairroTipoSearch extends SearchModel
     public function rules()
     {
         return [
-            [['id', 'municipio_id', 'inserido_por', 'atualizado_por'], 'integer'],
-            [['nome', 'data_cadastro', 'data_atualizacao'], 'safe'],
+            [['id', 'municipio_id', 'inserido_por', 'atualizado_por', 'excluido_por'], 'integer'],
+            [['nome', 'sigla', 'data_cadastro', 'data_atualizacao', 'data_exclusao'], 'safe'],
+            [['excluido'], 'boolean'],
         ];
+    }
+    
+    public function searchScopes($query)
+    {
+        $query->ativo();
     }
 
     public function searchConditions($query)
     {
+        $query->andWhere('excluido = 0');
+        
         $this->addCondition($query, 'id');
         $this->addCondition($query, 'municipio_id');
         $this->addCondition($query, 'nome', true);
+        $this->addCondition($query, 'sigla', true);
         $this->addCondition($query, 'data_cadastro', true);
         $this->addCondition($query, 'data_atualizacao', true);
         $this->addCondition($query, 'inserido_por');

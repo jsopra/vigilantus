@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use app\components\CRUDController;
 
-class BairroTipoController extends CRUDController
+class ImovelTipoController extends CRUDController
 {
     
 }

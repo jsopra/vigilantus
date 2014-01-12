@@ -41,48 +41,34 @@ class ImovelTipo extends ActiveRecord
             array(['municipio_id', 'nome', 'inserido_por'], 'required'),
             array(['municipio_id', 'inserido_por', 'atualizado_por', 'excluido_por'], 'integer'),
             array(['sigla', 'data_atualizacao', 'excluido', 'data_exclusao'], 'safe'),
-            array('id', 'uniqueImovelTipo', 'on' => 'insert, update'),
-            array('data_cadastro', 'default', 'value' => new Expression('NOW()'), 'on' => 'insert'),
-            array('data_atualizacao', 'default', 'value' => new Expression('NOW()'), 'on' => 'update'),
-            array('data_exclusao', 'default', 'value' => new Expression('NOW()'), 'on' => 'remove'),
+            array('id', 'uniqueImovelTipo'),
             array('inserido_por', 'required', 'on' => 'insert'),
             array('atualizado_por', 'required', 'on' => 'update'),
-            array('excluido_por', 'required', 'on' => 'remove'),
         );
     }
 
     public function uniqueImovelTipo($attribute, $params)
     {
-        if ($this->scenario == 'remove') {
-            return;
-        }
-            
-        $criteria = new CDbCriteria;
+        $query = static::find();
 
         if (!$this->isNewRecord) {
-            $criteria->addCondition('t.id <> :id');
-            $criteria->params[':id'] = $this->id;
+            $query->andWhere('id <> :id', [':id' => $this->id]);
         }
 
         if ($this->nome) {
-            $criteria->addCondition('LOWER(t.nome) = LOWER(:nome)');
-            $criteria->params[':nome'] = $this->nome;
+            $query->andWhere('LOWER(nome) = LOWER(:nome)', [':nome' => $this->nome]);
         }
 
         if ($this->sigla) {
-            $criteria->addCondition('LOWER(t.sigla) = LOWER(:sigla)');
-            $criteria->params[':sigla'] = $this->sigla;
+            $query->andWhere('LOWER(sigla) = LOWER(:sigla)', [':sigla' => $this->sigla]);
         }
 
         if ($this->municipio_id) {
-            $criteria->addCondition('t.municipio_id = :municipio');
-            $criteria->params[':municipio'] = $this->municipio_id;
+            $query->andWhere(['municipio_id' => $this->municipio_id]);
         }
 
-        $objects = $this->findAll($criteria);
-
-        if (count($objects) > 0) {
-            $this->addError('id', 'Registro já existe');
+        if ($query->count() > 0) {
+            $this->addError('id', 'Um registro idêntico já existe');
         }
     }
 
@@ -152,16 +138,5 @@ class ImovelTipo extends ActiveRecord
             'excluido_por' => 'Excluído Por',
             'data_exclusao' => 'Data Exclusão',
         );
-    }
-
-    /**
-     * Exclui a linha da tabela correspondente a este active record.
-     * @return boolean se a exclusão foi feita com sucesso ou não.
-     */
-    public function delete()
-    {
-        $this->scenario = 'remove';
-        $this->excluido = true;
-        return $this->save();
     }
 }

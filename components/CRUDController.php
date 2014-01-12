@@ -2,6 +2,7 @@
 namespace app\components;
 
 use Yii;
+use yii\db\Expression;
 use yii\web\VerbFilter;
 
 class CRUDController extends Controller
@@ -84,7 +85,31 @@ class CRUDController extends Controller
     
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        
+        if ($model->hasAttribute('excluido')) {
+            
+            $model->excluido = true;
+            $updatedAttributes = ['excluido'];
+            
+            if ($model->hasAttribute('excluido_por')) {
+                $model->excluido_por = Yii::$app->user->id;
+                $updatedAttributes[] = 'excluido_por';
+            }
+            
+            if ($model->hasAttribute('data_exclusao')) {
+                $model->data_exclusao = new Expression('NOW()');
+                $updatedAttributes[] = 'data_exclusao';
+            }
+            
+            $runValidations = false;
+            
+            $model->update($runValidations, $updatedAttributes);
+            
+        } else {
+            $model->delete();
+        }
+        
         $this->redirect(['index']);
     }
     
@@ -107,5 +132,24 @@ class CRUDController extends Controller
     protected function getModelDescription()
     {
         return $this->getModelClassName();
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    protected function loadAndSaveModel(ActiveRecord $model, $data = null)
+    {
+        if ($model->load($_POST)) {
+            
+            if ($model->isNewRecord && $model->hasAttribute('inserido_por')) {
+                $model->inserido_por = Yii::$app->user->identity->id;
+            } elseif ($model->hasAttribute('atualizado_por')) {
+                $model->atualizado_por = Yii::$app->user->identity->id;
+            }
+            
+            if ($model->save()) {
+                return $this->redirect(['index']);
+            }
+        }
     }
 }
