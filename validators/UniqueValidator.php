@@ -2,6 +2,7 @@
 
 namespace app\validators;
 
+use yii\db\ActiveRecordInterface;
 use yii\validators\UniqueValidator as YiiUniqueValidator;
 
 class UniqueValidator extends YiiUniqueValidator

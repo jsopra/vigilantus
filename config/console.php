@@ -7,6 +7,7 @@ $db = require(__DIR__ . '/db.php');
 
 return [
     'id' => 'vigilantus-console',
+    'name' => 'Vigilantus Console',
     'language' => 'pt-BR',
     'basePath' => dirname(__DIR__),
     'preload' => ['log'],

@@ -5,6 +5,7 @@ namespace app\models;
 use app\components\ActiveRecord;
 use app\models\Municipio;
 use app\models\UsuarioRole;
+use yii\web\IdentityInterface;
 
 /**
  * Este é a classe de modelo da tabela "usuarios".
@@ -23,8 +24,44 @@ use app\models\UsuarioRole;
  * @property string $data_recupera_senha
  * @property boolean $excluido
  */
-class Usuario extends ActiveRecord
+class Usuario extends ActiveRecord implements IdentityInterface
 {
+    /* Métodos pra interface IdentityInterface */
+    
+    /**
+     * @inheritdoc
+     */
+    public function getAuthKey()
+    {
+        return $this->sal;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->getAuthKey() === $authKey;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentity($id)
+    {
+        return static::find($id);
+    }
+    
+    /* Métodos ActiveRecord */
+    
     public $senha2;
 
     /**
@@ -199,7 +236,6 @@ class Usuario extends ActiveRecord
      */
     public function getPassword($senha = null)
     {
-
         $senha = $senha ? $senha : $this->senha;
 
         return self::encryptPassword($this->sal, $senha);
@@ -213,10 +249,7 @@ class Usuario extends ActiveRecord
      */
     public function validatePassword($senha)
     {
-
         $senhaCriptografada = $this->encryptPassword($this->sal, $senha);
-
-        Yii::log("Senha: " . $senhaCriptografada . " com o sal " . $this->sal, 'info', 'application.models.Login');
 
         if ($senhaCriptografada !== $this->senha) {
             return false;
@@ -259,5 +292,28 @@ class Usuario extends ActiveRecord
     {
         $this->excluido = true;
         return (bool) $this->update(false, ['excluido']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRBACRole()
+    {
+        switch ($this->usuario_role_id) {
+            case UsuarioRole::ROOT:
+                return 'Root';
+                break;
+            case UsuarioRole::ADMINISTRADOR:
+                return 'Administrador';
+                break;
+            case UsuarioRole::GERENTE:
+                return 'Gerente';
+                break;
+            case UsuarioRole::USUARIO:
+                return 'Usuario';
+                break;
+            default:
+                return null;
+        }
     }
 }

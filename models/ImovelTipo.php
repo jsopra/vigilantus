@@ -3,8 +3,6 @@
 namespace app\models;
 
 use app\components\ActiveRecord;
-use app\models\Municipio;
-use app\models\Usuario;
 use yii\db\Expression;
 
 /**

@@ -19,7 +19,6 @@ use yii\db\Expression;
  */
 class BairroTipo extends ActiveRecord
 {
-
     /**
      * @return string nome da tabela do banco de dados
      */
@@ -30,8 +29,7 @@ class BairroTipo extends ActiveRecord
 
     public function beforeDelete()
     {
-
-        if ($this->qtdeBairros > 0) {
+        if ($this->getBairros()->count() > 0) {
             $this->addError('id', 'O tipo tem bairros vinculados');
             return false;
         }
@@ -47,27 +45,42 @@ class BairroTipo extends ActiveRecord
         return array(
             array(['municipio_id', 'nome', 'inserido_por'], 'required'),
             array(['municipio_id', 'inserido_por', 'atualizado_por'], 'integer'),
-            array('data_cadastro', 'default', 'value' => new Expression('NOW()'), 'on' => 'insert'),
-            array('data_atualizacao', 'default', 'value' => new Expression('NOW()'), 'on' => 'update'),
             array('atualizado_por', 'required', 'on' => 'update'),
-            array(['municipio_id', 'nome'], 'unique'),
+            array('nome', 'unique', 'compositeWith' => 'municipio_id'),
             array('data_atualizacao', 'safe'),
         );
     }
-
+    
     /**
-     * @return array regras de relações
+     * @return Bairro[]
      */
-    public function relations()
+    public function getBairros()
     {
-        // AVISO: você talvez tenha de ajustar o nome da relação gerada.
-        return array(
-            'municipio' => array(self::BELONGS_TO, 'Municipio', 'municipio_id'),
-            'inseridoPor' => array(self::BELONGS_TO, 'Usuario', 'inserido_por'),
-            'atualizadoPor' => array(self::BELONGS_TO, 'Usuario', 'atualizado_por'),
-            'bairros' => array(self::HAS_MANY, 'Bairro', 'bairro_tipo_id'),
-            'qtdeBairros' => array(self::STAT, 'Bairro', 'bairro_tipo_id'),
-        );
+        return $this->hasMany(Bairro::className(), ['bairro_tipo_id' => 'id']);
+    }
+    
+    /**
+     * @return Municipio
+     */
+    public function getMunicipio()
+    {
+        return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+    }
+    
+    /**
+     * @return Usuario
+     */
+    public function getInseridoPor()
+    {
+        return $this->hasOne(Usuario::className(), ['id' => 'inserido_por']);
+    }
+    
+    /**
+     * @return Usuario
+     */
+    public function getAtualizadoPor()
+    {
+        return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
     }
 
     /**
