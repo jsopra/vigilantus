@@ -23,7 +23,7 @@ CONFIGURANDO O AMBIENTE DE DESENVOLVIMENTO E PRODUÇÃO
 
 2. Configure o Apache com as variáveis de ambiente necessárias:
 
-```
+```apache
 NameVirtualHost 127.0.0.1
 <VirtualHost 127.0.0.1>
     ServerName vigilantus
@@ -37,7 +37,7 @@ NameVirtualHost 127.0.0.1
 
 3. Configure o terminal com as variáveis de ambiente necessárias:
 
-```
+```apache
 export VIGILANTUS_ENV='development' # ou "production"
 export VIGILANTUS_DB_DSN='pgsql:host=localhost;dbname=vigilantus_development'
 export VIGILANTUS_DB_USERNAME='postgres'
@@ -60,7 +60,7 @@ CONFIGURANDO O AMBIENTE DE TESTES
 
 2. Configure o Apache com as variáveis de ambiente necessárias:
 
-```
+```apache
 NameVirtualHost 127.0.0.1
 <VirtualHost 127.0.0.1>
     ServerName vigilantustest
@@ -74,7 +74,7 @@ NameVirtualHost 127.0.0.1
 
 3. Configure o terminal com as variáveis de ambiente necessárias:
 
-```
+```apache
 export VIGILANTUS_ENV='test'
 export VIGILANTUS_DB_DSN='pgsql:host=localhost;dbname=vigilantus_test'
 export VIGILANTUS_DB_USERNAME='postgres'
