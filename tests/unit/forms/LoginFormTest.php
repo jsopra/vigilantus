@@ -28,7 +28,7 @@ class LoginFormTest extends TestCase
 	{
 		$model = $this->mockUser(new Usuario);
 
-		$model->username = 'demo';
+		$model->username = 'administrador';
 		$model->password = 'wrong-password';
 
 		$this->specify('user should not be able to login with wrong password', function () use ($model) {
@@ -40,7 +40,7 @@ class LoginFormTest extends TestCase
 
 	public function testLoginCorrect()
 	{
-		$model = $this->mockUser(new Usuario(['login' => 'administrador', 'senha' => 'administrador']));
+		$model = $this->mockUser(Usuario::find(2));
 
 		$model->username = 'administrador';
 		$model->password = 'administrador';
