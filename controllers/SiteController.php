@@ -80,10 +80,10 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    public function actionContact()
+    public function actionContato()
     {
         $model = new ContatoForm;
-        if ($model->load($_POST) && $model->contact(Yii::$app->params['adminEmail'])) {
+        if ($model->load($_POST) && $model->contact(Yii::$app->params['emailContato'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
             return $this->refresh();
         } else {

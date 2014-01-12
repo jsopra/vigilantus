@@ -55,7 +55,7 @@ AppAsset::register($this);
                         ['label' => 'Alterar senha', 'url' => ['/usuario/change-password']],
                     ]
                 ],
-                ['label' => 'Contato', 'url' => ['/site/contact']],
+                ['label' => 'Contato', 'url' => ['/site/contato']],
                 Yii::$app->user->isGuest ?
                     ['label' => 'Login', 'url' => ['/site/login']] :
                     ['label' => 'Logout (' . Yii::$app->user->identity->login . ')',
