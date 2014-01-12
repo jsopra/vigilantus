@@ -1,2 +1,3 @@
-/protected/config/defines.php
-/protected/config/geral.php
+/vendor
+/nbproject
+.DS_Store

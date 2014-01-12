@@ -1,0 +1,49 @@
+<?php
+
+Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
+
+$params = require(__DIR__ . '/params.php');
+$db = require(__DIR__ . '/db.php');
+
+$config = [
+    'id' => 'vigilantus-console',
+    'name' => 'Vigilantus Console',
+    'language' => 'pt-BR',
+    'basePath' => dirname(__DIR__),
+    'preload' => ['log'],
+    'controllerPath' => dirname(__DIR__) . '/commands',
+    'controllerNamespace' => 'app\commands',
+    'extensions' => require(__DIR__ . '/../vendor/yiisoft/extensions.php'),
+    'components' => [
+        'cache' => [
+            'class' => 'yii\caching\FileCache',
+        ],
+        'log' => [
+            'targets' => [
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning'],
+                ],
+            ],
+        ],
+        'db' => $db,
+        'fixture' => [
+            'class' => 'yii\test\DbFixtureManager',
+            'basePath' => '@tests/unit/fixtures',
+        ]
+    ],
+    'params' => $params,
+];
+
+if (file_exists(__DIR__ . '/test_db.php')) {
+    
+    $config['components']['testDb'] = [
+        'class' => 'yii\db\Connection',
+        'dsn' => getenv('VIGILANTUS_TEST_DB_DSN'),
+        'username' => getenv('VIGILANTUS_TEST_DB_USERNAME'),
+        'password' => getenv('VIGILANTUS_TEST_DB_PASSWORD'),
+        'charset' => 'utf8',
+    ];
+}
+
+return $config;
