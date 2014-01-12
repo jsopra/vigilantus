@@ -3,7 +3,6 @@
 namespace app\models;
 
 use app\components\ActiveRecord;
-use yii\db\Expression;
 
 /**
  * Este é a classe de modelo da tabela "imovel_condicoes".
@@ -37,24 +36,34 @@ class ImovelCondicao extends ActiveRecord
             array(['municipio_id', 'nome', 'inserido_por'], 'required'),
             array(['municipio_id', 'inserido_por', 'atualizado_por'], 'integer'),
             array('exibe_nome', 'default', 'value' => false),
-            array('data_cadastro', 'default', 'value' => new Expression('NOW()'), 'on' => 'insert'),
-            array('data_atualizacao', 'default', 'value' => new Expression('NOW()'), 'on' => 'update'),
             array('atualizado_por', 'required', 'on' => 'update'),
             array('inserido_por', 'required', 'on' => 'insert'),
-            array(['municipio_id', 'nome'], 'unique'),
+            array('nome', 'unique', 'compositeWith' => 'municipio_id'),
         );
     }
-
+    
     /**
-     * @return array regras de relações
+     * @return Municipio
      */
-    public function relations()
+    public function getMunicipio()
     {
-        return array(
-            'municipio' => array(self::BELONGS_TO, 'Municipio', 'municipio_id'),
-            'inseridoPor' => array(self::BELONGS_TO, 'Usuario', 'inserido_por'),
-            'atualizadoPor' => array(self::BELONGS_TO, 'Usuario', 'atualizado_por'),
-        );
+        return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+    }
+    
+    /**
+     * @return Usuario
+     */
+    public function getInseridoPor()
+    {
+        return $this->hasOne(Usuario::className(), ['id' => 'inserido_por']);
+    }
+    
+    /**
+     * @return Usuario
+     */
+    public function getAtualizadoPor()
+    {
+        return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
     }
 
     /**
