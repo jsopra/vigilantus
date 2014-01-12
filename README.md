@@ -18,10 +18,10 @@ porém a partir do mesmo diretório.
 CONFIGURANDO O AMBIENTE DE DESENVOLVIMENTO E PRODUÇÃO
 -----------------------------------------------------
 
-1. Instale o [Composer](http://getcomposer.org/) e rode `composer install` na
+– 1. Instale o [Composer](http://getcomposer.org/) e rode `composer install` na
    raiz do projeto.
 
-2. Configure o Apache com as variáveis de ambiente necessárias:
+– 2. Configure o Apache com as variáveis de ambiente necessárias:
 
 ```apache
 NameVirtualHost 127.0.0.1
@@ -35,7 +35,7 @@ NameVirtualHost 127.0.0.1
 </VirtualHost>
 ```
 
-3. Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente necessárias:
+– 3. Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente necessárias:
 
 ```bash
 export VIGILANTUS_DB_DSN='pgsql:host=localhost;dbname=vigilantus_development'
@@ -43,23 +43,23 @@ export VIGILANTUS_DB_USERNAME='postgres'
 export VIGILANTUS_DB_PASSWORD='qwerty'
 ```
 
-4. Configure o seu arquivo `hosts`:
+– 4. Configure o seu arquivo `hosts`:
 
 ```
 127.0.0.1   vigilantus
 ```
 
-5. IMPORTANTE: Reinicie o Apache.
+– 5. IMPORTANTE: Reinicie o Apache.
 
-6. Rode as migrations com `php yii migrate`
+– 6. Rode as migrations com `php yii migrate`
 
 CONFIGURANDO O AMBIENTE DE TESTES
 ---------------------------------
 
-1. Instale o [Composer](http://getcomposer.org/) e rode `composer install` na
+– 1. Instale o [Composer](http://getcomposer.org/) e rode `composer install` na
    raiz do projeto.
 
-2. Configure o Apache com as variáveis de ambiente necessárias:
+– 2. Configure o Apache com as variáveis de ambiente necessárias:
 
 ```apache
 NameVirtualHost 127.0.0.1
@@ -73,7 +73,7 @@ NameVirtualHost 127.0.0.1
 </VirtualHost>
 ```
 
-3. Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente necessárias:
+– 3. Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente necessárias:
 
 ```bash
 export VIGILANTUS_TEST_DB_DSN='pgsql:host=localhost;dbname=vigilantus_test'
@@ -81,20 +81,20 @@ export VIGILANTUS_TEST_DB_USERNAME='postgres'
 export VIGILANTUS_TEST_DB_PASSWORD='qwerty'
 ```
 
-4. Configure o seu arquivo `hosts`:
+– 4. Configure o seu arquivo `hosts`:
 
 ```
 127.0.0.1   vigilantustest
 ```
 
-5. IMPORTANTE: Reinicie o Apache.
+– 5. IMPORTANTE: Reinicie o Apache.
 
-6. Gere as classes `Guy` do Codeception: `vendor/bin/codecept build`
+– 6. Gere as classes `Guy` do Codeception: `vendor/bin/codecept build`
 
 Os passos acima só precisam ser feitos uma vez. Os passos abaixos são para aquando há novos testes e alterações no banco de dados:
 
-7. Rode as migrations com `php yii migrate --db=testDb`
+– 7. Rode as migrations com `php yii migrate --db=testDb`
 
-8. Recarregue as fixtures com `php yii fixture all`
+– 8. Recarregue as fixtures com `php yii fixture all`
 
-8. Rode os testes com `vendor/bin/codecept run`
+– 9. Rode os testes com `vendor/bin/codecept run`
