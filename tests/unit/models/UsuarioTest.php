@@ -15,8 +15,8 @@ class UsuarioTest extends TestCase
         $this->assertEquals(2, Usuario::find()->ativo()->count());
         $this->assertEquals(1, Usuario::find()->excluido()->count());
 
-        $this->assertEquals(1, Usuario::find()->doEmail('dengue@perspectiva.in')->count());
-        $this->assertEquals(0, Usuario::find()->doEmail('dengueKKKK@perspectiva.in')->count());
+        $this->assertEquals(1, Usuario::find()->where(['email' => 'dengue@perspectiva.in'])->count());
+        $this->assertEquals(0, Usuario::find()->where(['email' => 'dengueKKKK@perspectiva.in'])->count());
 
         $usuarioRoot = Usuario::find(1);
         $usuarioAdministrador = Usuario::find(2);
@@ -55,17 +55,16 @@ class UsuarioTest extends TestCase
 
     public function testUpdate()
     {
-        $sal = '123123asd';
-        $password = 'testeteste';
+        $sal = 'asd7y%i3';
+        $password = 'administrador';
         $senhaEncriptada = Usuario::encryptPassword($sal, $password);
 
-        $usuario = Usuario::find(4);
+        $usuario = Usuario::find(2);
 
         $this->assertInstanceOf('app\models\Usuario', $usuario);
 
         $this->assertEquals($senhaEncriptada, $usuario->senha);
 
-        $usuario->scenario = 'login';
         $usuario->ultimo_login = new Expression('NOW()');
         $usuario->save();
 
@@ -74,7 +73,7 @@ class UsuarioTest extends TestCase
 
     public function testDelete()
     {
-        $usuario = Usuario::find(4);
+        $usuario = Usuario::find(2);
 
         $this->assertInstanceOf('app\models\Usuario', $usuario);
 

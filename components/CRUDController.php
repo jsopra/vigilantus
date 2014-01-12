@@ -59,6 +59,7 @@ class CRUDController extends Controller
     {
         $class = $this->getModelClassName();
         $model = new $class;
+        $model->scenario = 'insert';
         
         if (!$this->loadAndSaveModel($model, $_POST)) {
             return $this->render('create', ['model' => $model]);
@@ -73,6 +74,7 @@ class CRUDController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = 'update';
 
         if (!$this->loadAndSaveModel($model, $_POST)) {
             return $this->render('update', ['model' => $model]);

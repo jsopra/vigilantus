@@ -39,37 +39,13 @@ class ImovelTipo extends ActiveRecord
     {
         return array(
             array(['municipio_id', 'nome', 'inserido_por'], 'required'),
-            array(['municipio_id', 'inserido_por', 'atualizado_por', 'excluido_por'], 'integer'),
-            array(['sigla', 'data_atualizacao', 'excluido', 'data_exclusao'], 'safe'),
-            array('id', 'uniqueImovelTipo'),
+            array(['municipio_id', 'inserido_por', 'atualizado_por', '!excluido_por'], 'integer'),
+            array(['sigla', 'data_atualizacao', 'data_exclusao'], 'safe'),
+            array('nome', 'unique', 'compositeWith' => 'municipio_id'),
+            array('sigla', 'unique', 'compositeWith' => 'municipio_id', 'skipOnEmpty' => true),
             array('inserido_por', 'required', 'on' => 'insert'),
             array('atualizado_por', 'required', 'on' => 'update'),
         );
-    }
-
-    public function uniqueImovelTipo($attribute, $params)
-    {
-        $query = static::find();
-
-        if (!$this->isNewRecord) {
-            $query->andWhere('id <> :id', [':id' => $this->id]);
-        }
-
-        if ($this->nome) {
-            $query->andWhere('LOWER(nome) = LOWER(:nome)', [':nome' => $this->nome]);
-        }
-
-        if ($this->sigla) {
-            $query->andWhere('LOWER(sigla) = LOWER(:sigla)', [':sigla' => $this->sigla]);
-        }
-
-        if ($this->municipio_id) {
-            $query->andWhere(['municipio_id' => $this->municipio_id]);
-        }
-
-        if ($query->count() > 0) {
-            $this->addError('id', 'Um registro idêntico já existe');
-        }
     }
 
     /**

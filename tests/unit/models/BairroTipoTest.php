@@ -39,13 +39,12 @@ class BairroTipoTest extends TestCase
     public function testUpdate()
     {
         $bairro = BairroTipo::find(1);
+        $bairro->scenario = 'update';
 
         $this->assertInstanceOf('app\models\BairroTipo', $bairro);
-
         $this->assertFalse($bairro->save());
 
         $bairro->atualizado_por = 1;
-
         $this->assertTrue($bairro->save());
 
         $bairro->nome = null;
@@ -57,16 +56,13 @@ class BairroTipoTest extends TestCase
 
     public function testDelete()
     {
-        $bairro = BairroTipo::find(4);
-
+        $bairro = BairroTipo::find(1);
         $this->assertInstanceOf('app\models\BairroTipo', $bairro);
-
-        $this->assertTrue($bairro->delete());
+        $this->assertEquals(1, $bairro->delete());
 
         $bairro = BairroTipo::find(2);
-
         $this->assertInstanceOf('app\models\BairroTipo', $bairro);
-
-        $this->assertFalse($bairro->delete());
+        $this->setExpectedException('\Exception');
+        $bairro->delete();
     }
 }

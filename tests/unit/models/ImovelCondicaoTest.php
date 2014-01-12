@@ -7,6 +7,16 @@ use yii\codeception\TestCase;
 
 class ImovelCondicaoTest extends TestCase
 {
+    protected function getObject()
+    {
+        $imovel = new ImovelCondicao;
+        $imovel->municipio_id = 1;
+        $imovel->nome = 'Normal ' . uniqid();
+        $imovel->inserido_por = 1;
+
+        return $imovel;
+    }
+
 	public function testInsert() {
      
         $imovel = new ImovelCondicao;
@@ -20,15 +30,11 @@ class ImovelCondicaoTest extends TestCase
         $this->assertFalse($imovel->save());
         
         $imovel->nome = 'Normalis';
-        
         $this->assertTrue($imovel->save());
         
         unset($imovel);
         
         $imovel = new ImovelCondicao;
-        
-        $this->assertFalse($imovel->save());
-        
         $imovel->municipio_id = 2;
         $imovel->nome = 'Normal';
         $imovel->inserido_por = 1;
@@ -39,19 +45,16 @@ class ImovelCondicaoTest extends TestCase
     public function testUpdate() {
         
         $imovel = ImovelCondicao::find(1);
+        $imovel->scenario = 'update';
         
         $this->assertInstanceOf('app\models\ImovelCondicao', $imovel);
-
         $this->assertFalse($imovel->save());
         
         $imovel->atualizado_por = 1;
-        
         $imovel->nome = 'Área de Foco';
-        
         $this->assertFalse($imovel->save());
         
         $imovel->nome = 'Normal';
-        
         $this->assertTrue($imovel->save());
         
         $imovel->nome = null;        
@@ -63,10 +66,8 @@ class ImovelCondicaoTest extends TestCase
     
     public function testDelete() {
      
-        $imovel = ImovelCondicao::find(5);
-        
-        $this->assertInstanceOf('app\models\ImovelCondicao', $imovel);
-        
-        $this->assertTrue($imovel->delete());
+        $imovel = $this->getObject();
+        $this->assertTrue($imovel->save());
+        $this->assertEquals(1, $imovel->delete());
     }
 }

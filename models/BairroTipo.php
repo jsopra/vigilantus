@@ -30,8 +30,7 @@ class BairroTipo extends ActiveRecord
     public function beforeDelete()
     {
         if ($this->getBairros()->count() > 0) {
-            $this->addError('id', 'O tipo tem bairros vinculados');
-            return false;
+            throw new \Exception('O tipo tem bairros vinculados');
         }
 
         return parent::beforeDelete();

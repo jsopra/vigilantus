@@ -117,8 +117,10 @@ class TestHelper
      */ 
     public static function clearSchema()
     {
+        self::getDb()->pdo->query('BEGIN');
         self::getDb()->pdo->query('drop schema public cascade');
         self::getDb()->pdo->query('create schema public');
+        self::getDb()->pdo->query('COMMIT');
     }
     
     /**

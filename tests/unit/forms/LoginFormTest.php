@@ -40,10 +40,10 @@ class LoginFormTest extends TestCase
 
 	public function testLoginCorrect()
 	{
-		$model = $this->mockUser(new Usuario(['senha' => 'demo']));
+		$model = $this->mockUser(new Usuario(['login' => 'administrador', 'senha' => 'administrador']));
 
-		$model->username = 'demo';
-		$model->password = 'demo';
+		$model->username = 'administrador';
+		$model->password = 'administrador';
 
 		$this->specify('user should be able to login with correct credentials', function() use ($model) {
 			$this->assertTrue($model->login());

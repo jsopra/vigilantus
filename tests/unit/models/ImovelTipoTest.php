@@ -7,86 +7,87 @@ use yii\codeception\TestCase;
 
 class ImovelTipoTest extends TestCase
 {
+    public function getObject()
+    {
+        $tipoImovel = new ImovelTipo;
+
+        $tipoImovel->municipio_id = 1;
+        $tipoImovel->nome = uniqid();
+        $tipoImovel->inserido_por = 1;
+
+        return $tipoImovel;
+    }
+
     public function testCount()
     {
+        $this->assertEquals(0, ImovelTipo::find()->excluido()->count());
         $this->assertEquals(5, ImovelTipo::find()->ativo()->count());
+
+        $tipoImovel = $this->getObject();
+        $this->assertTrue($tipoImovel->save());
+
+        $this->assertEquals(0, ImovelTipo::find()->excluido()->count());
+        $this->assertEquals(6, ImovelTipo::find()->ativo()->count());
+
+        $tipoImovel->excluido = true;
+        $this->assertTrue($tipoImovel->save());
+
         $this->assertEquals(1, ImovelTipo::find()->excluido()->count());
+        $this->assertEquals(5, ImovelTipo::find()->ativo()->count());
     }
     
     public function testInsert()
     {
-        $imovel = new ImovelTipo;
+        $tipoImovel = new ImovelTipo;
         
-        $this->assertFalse($imovel->save());
+        $this->assertFalse($tipoImovel->save());
 
-        $imovel->municipio_id = 1;
-        $imovel->nome = 'Residencial';
-        $imovel->inserido_por = 1;
+        $tipoImovel->municipio_id = 1;
+        $tipoImovel->nome = 'Residencial';
+        $tipoImovel->inserido_por = 1;
         
-        $this->assertFalse($imovel->save());
+        $this->assertFalse($tipoImovel->save());
         
-        $imovel->nome = 'Residencialo';
+        $tipoImovel->nome = 'Residencialo';
         
-        $this->assertTrue($imovel->save());
+        $this->assertTrue($tipoImovel->save());
         
-        unset($imovel);
+        unset($tipoImovel);
         
-        $imovel = new ImovelTipo;
+        $tipoImovel = new ImovelTipo;
         
-        $this->assertFalse($imovel->save());
+        $this->assertFalse($tipoImovel->save());
         
-        $imovel->municipio_id = 2;
-        $imovel->nome = 'Residencial';
-        $imovel->inserido_por = 1;
+        $tipoImovel->municipio_id = 2;
+        $tipoImovel->nome = 'Residencial';
+        $tipoImovel->inserido_por = 1;
         
-        $this->assertTrue($imovel->save());
+        $this->assertTrue($tipoImovel->save());
     }
     
     public function testUpdate()
     {
-        $imovel = ImovelTipo::find(1);
+        $tipoImovel = ImovelTipo::find(1);
+        $tipoImovel->scenario = 'update';
         
-        $this->assertInstanceOf('app\models\ImovelTipo', $imovel);
+        $this->assertInstanceOf('app\models\ImovelTipo', $tipoImovel);
 
-        $this->assertFalse($imovel->save());
+        $this->assertFalse($tipoImovel->save());
         
-        $imovel->atualizado_por = 1;
+        $tipoImovel->atualizado_por = 1;
         
-        $imovel->nome = 'Comercial';
+        $tipoImovel->nome = 'Comercial';
         
-        $this->assertFalse($imovel->save());
+        $this->assertFalse($tipoImovel->save());
         
-        $imovel->nome = 'Residencial';
+        $tipoImovel->nome = 'Residencial';
         
-        $this->assertTrue($imovel->save());
+        $this->assertTrue($tipoImovel->save());
         
-        $imovel->nome = null;
-        $this->assertFalse($imovel->save());
+        $tipoImovel->nome = null;
+        $this->assertFalse($tipoImovel->save());
         
-        $imovel->nome = 'Residencial';
-        $this->assertTrue($imovel->save());
-    }
-    
-    public function testDelete()
-    {
-     
-        $imovel = ImovelTipo::find(4);
-        
-        $this->assertInstanceOf('app\models\ImovelTipo', $imovel);
-        
-        $this->assertEquals(0, $imovel->delete());
-        
-        $imovel->excluido_por = 1;
-        
-        $this->assertEquals(1, $imovel->delete());
-        
-        $imovel = ImovelTipo::find(4);
-        
-        $this->assertTrue($imovel->excluido);
-        $this->assertNotNull($imovel->excluido_por);
-        $this->assertNotNull($imovel->data_exclusao);
-        
-        $this->assertEquals(6, ImovelTipo::find()->ativo()->count());
-        $this->assertEquals(2, ImovelTipo::find()->excluido()->count());
+        $tipoImovel->nome = 'Residencial';
+        $this->assertTrue($tipoImovel->save());
     }
 }
