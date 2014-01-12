@@ -60,9 +60,7 @@ class CRUDController extends Controller
         $class = $this->getModelClassName();
         $model = new $class;
         
-        if ($this->loadAndSaveModel($model, $_POST)) {
-            Yii::$app->session->setFlash('success', $this->createFlashMessage);
-        } else {
+        if (!$this->loadAndSaveModel($model, $_POST)) {
             return $this->render('create', ['model' => $model]);
         }
     }
@@ -76,9 +74,7 @@ class CRUDController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->loadAndSaveModel($model, $_POST)) {
-            Yii::$app->session->setFlash('success', $this->updateFlashMessage);
-        } else {
+        if (!$this->loadAndSaveModel($model, $_POST)) {
             return $this->render('update', ['model' => $model]);
         }
     }
@@ -148,6 +144,11 @@ class CRUDController extends Controller
             }
             
             if ($model->save()) {
+                
+                $message = ($model->isNewRecord) ? $this->createFlashMessage : $this->updateFlashMessage;
+                
+                Yii::$app->session->setFlash('success', $message);
+                
                 return $this->redirect(['index']);
             }
         }

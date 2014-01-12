@@ -5,6 +5,7 @@ namespace app\models;
 use app\components\ActiveRecord;
 use app\models\Municipio;
 use app\models\UsuarioRole;
+use yii\validators\Validator;
 use yii\web\IdentityInterface;
 
 /**
@@ -77,17 +78,40 @@ class Usuario extends ActiveRecord implements IdentityInterface
      */
     public function rules()
     {
+        $requiredAttributes = ['nome', 'login', '!sal', 'usuario_role_id', 'email'];
+        
+        if ($this->isNewRecord) {
+            $requiredAttributes[] = 'senha';
+            $requiredAttributes[] = 'senha2';
+        }
+        
         return array(
-            array(['nome', 'login', 'sal', 'usuario_role_id', 'email'], 'required'),
+            array($requiredAttributes, 'required'),
             array(['municipio_id', 'usuario_role_id'], 'integer'),
-            array(['ultimo_login', 'token_recupera_senha', 'data_recupera_senha', 'excluido'], 'safe'),
             array('login', 'unique'),
             array('email', 'unique'),
             array('email', 'email'),
-            array('senha', 'string', 'min' => 8),
-            array(['senha', 'senha2'], 'required', 'on' => ['insert', 'updatePassword']),
-            array('senha', 'compare', 'compareAttribute' => 'senha2', 'on' => ['insert', 'updatePassword']),
+            array('senha', 'verificarSenha'),
+            array(['senha', 'senha2'], 'safe'),
         );
+    }
+    
+    public function verificarSenha($attribute)
+    {
+        if ($this->isNewRecord || $this->senha != null) {
+            
+            $requiredValidator = Validator::createValidator('required', $this, ['senha', 'senha2']);
+            $requiredValidator->validateAttributes($this, ['senha', 'senha2']);
+            
+            $lengthValidator = Validator::createValidator('string', $this, 'senha', ['min' => 8]);
+            $lengthValidator->validateAttribute($this, 'senha');
+            
+            var_dump($this->senha);
+            var_dump($this->senha2);
+            
+            $compareValidator = Validator::createValidator('compare', $this, 'senha', ['compareAttribute' => 'senha2']);
+            $compareValidator->validateAttribute($this, 'senha');
+        }
     }
 
     /**
@@ -107,6 +131,22 @@ class Usuario extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @param ActiveQuery $query
+     * @param Usuario $usuario
+     */
+    public static function doNivelDoUsuario($query, Usuario $usuario)
+    {
+        if ($usuario->role->id != UsuarioRole::ROOT) {
+            
+            $query->andWhere('usuario_role_id <> ' . UsuarioRole::ROOT);
+            
+            if ($usuario->municipio_id) {
+                $query->andWhere(['municipio_id' => $usuario->municipio_id]);
+            }
+        }
+    }
+
+    /**
      * @return Municipio
      */
     public function getMunicipio()
@@ -122,32 +162,9 @@ class Usuario extends ActiveRecord implements IdentityInterface
         return $this->hasOne(UsuarioRole::className(), ['id' => 'usuario_role_id']);
     }
 
-    public function doNivelDoUsuario(Usuario $usuario)
-    {
-        if ($usuario->municipio_id) {
-            $this->getDbCriteria()->mergeWith(array('condition' => 'municipio_id = ' . $usuario->municipio_id));
-        }
-        
-        if ($usuario->role->id == UsuarioRole::ADMINISTRADOR) {
-            $this->getDbCriteria()->mergeWith(array('condition' => 'usuario_role_id <> ' . UsuarioRole::ROOT));
-        }
-
-        return $this;
-    }
-
-    public function doEmail($email)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "email = :email",
-            'params' => array(':email' => $email)
-        ));
-
-        return $this;
-    }
-
     public function beforeValidate()
     {
-        if ($this->getScenario() == 'insert' && !$this->sal) {
+        if (!$this->sal) {
             $this->sal = uniqid();
         }
 
@@ -172,24 +189,11 @@ class Usuario extends ActiveRecord implements IdentityInterface
     public function beforeSave($insert)
     {
         $return = parent::beforeSave($insert);
-
-        switch ($this->getScenario()) {
-
-            case 'insert':
-                $this->senha = $this->senha ? $this->getPassword() : null;
-                break;
-
-            case 'update':
-
-                $this->senha = $this->senha ? $this->getPassword() : $this->attributeOriginalValue('senha');
-                break;
-
-            case 'updatePassword':
-                $this->senha = $this->getPassword();
-                break;
-
-            default:
-                break;
+        
+        if ($this->isNewRecord) {
+            $this->senha = $this->senha ? $this->getEncryptedPassword() : null;
+        } else {
+            $this->senha = $this->senha ? $this->getEncryptedPassword() : $this->getOldAttribute('senha');
         }
 
         return $return;
@@ -234,7 +238,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
      * @param string $senha Default get user password
      * @return string Senha criptografada considerando o sal do usuario
      */
-    public function getPassword($senha = null)
+    public function getEncryptedPassword($senha = null)
     {
         $senha = $senha ? $senha : $this->senha;
 

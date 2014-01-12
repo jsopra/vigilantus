@@ -39,6 +39,7 @@ AppAsset::register($this);
                 ['label' => 'Sobre', 'url' => ['/site/about']],
                 [
                     'label' => 'Cadastro',
+                    'visible' => (Yii::$app->user->isGuest == false),
                     'items' => [
                         ['label' => 'Bairros', 'url' => ['/bairro']],
                         ['label' => 'Condições de Imóveis', 'url' => ['/imovel-condicao']],
@@ -48,9 +49,10 @@ AppAsset::register($this);
                 ],
                 [
                     'label' => 'Sistema',
+                    'visible' => (Yii::$app->user->isGuest == false),
                     'items' => [
-                        ['label' => 'Usuários', 'url' => ['/bairro']],
-                        ['label' => 'Atualizar senha', 'url' => ['/usuario/update-password']],
+                        ['label' => 'Usuários', 'url' => ['/usuario']],
+                        ['label' => 'Alterar senha', 'url' => ['/usuario/change-password']],
                     ]
                 ],
                 ['label' => 'Contato', 'url' => ['/site/contact']],

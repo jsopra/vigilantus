@@ -62,7 +62,7 @@ class UsuarioRole extends ActiveRecord
      */
     public static function doNivelDoUsuario($query, Usuario $usuario)
     {
-        if ($usuario->role->id == self::ADMINISTRADOR) {
+        if ($usuario->role->id != self::ROOT) {
             $query->andWhere('id <> ' . self::ROOT);
         }
     }
@@ -75,5 +75,25 @@ class UsuarioRole extends ActiveRecord
     public function delete()
     {
         throw new \Exception('Exclusão não habilitada', 500);
+    }
+    
+    /**
+     * @return array
+     */
+    public static function listDataNivelUsuario(Usuario $usuario)
+    {
+        $listData = [];
+        
+        $query = self::find()
+            ->doNivelDoUsuario($usuario)
+            ->select('id,nome')
+            ->orderBy('nome')
+        ;
+        
+        foreach ($query->all() as $row) {
+            $listData[$row->id] = $row->nome;
+        }
+        
+        return $listData;
     }
 }
