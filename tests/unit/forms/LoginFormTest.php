@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use Yii;
 use yii\codeception\TestCase;
-use app\models\User;
+use app\models\Usuario;
 
 class LoginFormTest extends TestCase
 {
@@ -26,7 +26,7 @@ class LoginFormTest extends TestCase
 
 	public function testLoginWrongPassword()
 	{
-		$model = $this->mockUser(new User);
+		$model = $this->mockUser(new Usuario);
 
 		$model->username = 'demo';
 		$model->password = 'wrong-password';
@@ -40,7 +40,7 @@ class LoginFormTest extends TestCase
 
 	public function testLoginCorrect()
 	{
-		$model = $this->mockUser(new User(['password' => 'demo']));
+		$model = $this->mockUser(new Usuario(['senha' => 'demo']));
 
 		$model->username = 'demo';
 		$model->password = 'demo';
@@ -54,7 +54,7 @@ class LoginFormTest extends TestCase
 
 	private function mockUser($user)
 	{
-		$loginForm = $this->getMock('app\models\LoginForm',['getUser']);
+		$loginForm = $this->getMock('app\forms\LoginForm',['getUser']);
 		$loginForm->expects($this->any())->method('getUser')->will($this->returnValue($user));
 		return $loginForm;
 	}
