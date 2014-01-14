@@ -4,9 +4,9 @@ namespace tests\_pages;
 
 use yii\codeception\BasePage;
 
-class ContactPage extends BasePage
+class ContatoPage extends BasePage
 {
-	public $route = 'site/contact';
+	public $route = 'site/contato';
 
 	/**
 	 * @param array $contactData
@@ -15,7 +15,7 @@ class ContactPage extends BasePage
 	{
 		$data = [];
 		foreach ($contactData as $name => $value) {
-			$data["ContactForm[$name]"] = $value;
+			$data["ContatoForm[$name]"] = $value;
 		}
 		$this->guy->submitForm('#contact-form', $data);
 	}
