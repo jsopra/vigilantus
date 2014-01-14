@@ -1,9 +1,9 @@
 <?php
 
 $I = new WebGuy($scenario);
-$I->wantTo('ensure that home page works');
+$I->wantTo('verificar que a home funciona');
 $I->amOnPage(Yii::$app->homeUrl);
-$I->see('My Company');
-$I->seeLink('About');
-$I->click('About');
-$I->see('This is the About page.');
+$I->see('Vigilantus');
+$I->seeLink('Login');
+$I->click('Login');
+$I->see('Continuar conectado');
