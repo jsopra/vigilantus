@@ -14,6 +14,7 @@ return [
         ],
         'urlManager' => [
             'showScriptName' => true,
+            'enablePrettyUrl' => false,
         ],
     ],
 ];

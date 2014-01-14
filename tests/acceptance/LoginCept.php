@@ -3,27 +3,27 @@
 use tests\_pages\LoginPage;
 
 $I = new WebGuy($scenario);
-$I->wantTo('ensure that login works');
+$I->wantTo('verificar se o login funciona');
 
 $loginPage = LoginPage::openBy($I);
 
 $I->see('Login', 'h1');
 
-$I->amGoingTo('try to login with empty credentials');
+$I->amGoingTo('tentar logar sem login e senha');
 $loginPage->login('', '');
-$I->expectTo('see validations errors');
-$I->see('Username cannot be blank.');
-$I->see('Password cannot be blank.');
+$I->expectTo('ver erros de validação');
+$I->see('“Usuário” não pode ficar em branco.');
+$I->see('“Senha” não pode ficar em branco.');
 
-$I->amGoingTo('try to login with wrong credentials');
-$loginPage->login('admin', 'wrong');
-$I->expectTo('see validations errors');
-$I->see('Incorrect username or password.');
+$I->amGoingTo('tentar logar com senha inválida');
+$loginPage->login('administrador', 'senhaerrada');
+$I->expectTo('ver erros de validação');
+$I->see('Usuário ou senha inválida.');
 
-$I->amGoingTo('try to login with correct credentials');
-$loginPage->login('admin', 'admin');
+$I->amGoingTo('tentar logar com dados válidos');
+$loginPage->login('administrador', 'administrador');
 if (method_exists($I, 'wait')) {
-	$I->wait(3); // only for selenium
+	$I->wait(3);
 }
-$I->expectTo('see user info');
-$I->see('Logout (admin)');
+$I->expectTo('ver as informações do usuário');
+$I->see('Logout (administrador)');
