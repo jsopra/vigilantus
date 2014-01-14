@@ -59,7 +59,7 @@ class CRUDController extends Controller
     {
         $class = $this->getModelClassName();
         $model = new $class;
-        $model->scenario = 'insert';
+        //$model->scenario = 'insert';
         
         if (!$this->loadAndSaveModel($model, $_POST)) {
             return $this->render('create', ['model' => $model]);
@@ -74,7 +74,7 @@ class CRUDController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->scenario = 'update';
+        //$model->scenario = 'update';
 
         if (!$this->loadAndSaveModel($model, $_POST)) {
             return $this->render('update', ['model' => $model]);
@@ -138,8 +138,10 @@ class CRUDController extends Controller
     protected function loadAndSaveModel(ActiveRecord $model, $data = null)
     {
         if ($model->load($_POST)) {
+
+            $isNewRecord = $model->isNewRecord;
             
-            if ($model->isNewRecord && $model->hasAttribute('inserido_por')) {
+            if ($isNewRecord && $model->hasAttribute('inserido_por')) {
                 $model->inserido_por = Yii::$app->user->identity->id;
             } elseif ($model->hasAttribute('atualizado_por')) {
                 $model->atualizado_por = Yii::$app->user->identity->id;
@@ -147,7 +149,7 @@ class CRUDController extends Controller
             
             if ($model->save()) {
                 
-                $message = ($model->isNewRecord) ? $this->createFlashMessage : $this->updateFlashMessage;
+                $message = $isNewRecord ? $this->createFlashMessage : $this->updateFlashMessage;
                 
                 Yii::$app->session->setFlash('success', $message);
                 
