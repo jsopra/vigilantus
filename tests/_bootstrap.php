@@ -25,3 +25,4 @@ use tests\TestHelper;
 
 TestHelper::recreateDataBase();
 
+require_once 'CaraDaWeb.php';

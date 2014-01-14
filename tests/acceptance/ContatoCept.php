@@ -2,48 +2,48 @@
 
 use tests\_pages\ContatoPage;
 
-$I = new WebGuy($scenario);
-$I->wantTo('verifica que o contato funciona');
+$eu = new CaraDaWeb($scenario);
+$eu->quero('verifica que o contato funciona');
 
-$contactPage = ContatoPage::openBy($I);
+$paginaDeContato = ContatoPage::openBy($eu);
 
-$I->see('Contato', 'h1');
+$eu->vejo('Contato', 'h1');
 
-$I->amGoingTo('enviar o form de contato sem dados');
-$contactPage->submit([]);
-$I->expectTo('ver erros de validação');
-$I->see('Contato', 'h1');
-$I->see('“Nome” não pode ficar em branco.');
-$I->see('“E-mail” não pode ficar em branco.');
-$I->see('“Assunto” não pode ficar em branco.');
-$I->see('“Mensagem” não pode ficar em branco.');
-$I->see('O código de verificação está incorreto.');
+$eu->vou('enviar o form de contato sem dados');
+$paginaDeContato->submit([]);
+$eu->espero('ver erros de validação');
+$eu->vejo('Contato', 'h1');
+$eu->vejo('“Nome” não pode ficar em branco.');
+$eu->vejo('“E-mail” não pode ficar em branco.');
+$eu->vejo('“Assunto” não pode ficar em branco.');
+$eu->vejo('“Mensagem” não pode ficar em branco.');
+$eu->vejo('O código de verificação está incorreto.');
 
-$I->amGoingTo('enviar o form de contato com um e-mail inválido');
-$contactPage->submit([
+$eu->vou('enviar o form de contato com um e-mail inválido');
+$paginaDeContato->submit([
 	'name'			=>	'tester',
 	'email'			=>	'tester.email',
 	'subject'		=>	'test subject',
 	'body'			=>	'test content',
 	'verifyCode'	=>	'testme',
 ]);
-$I->expectTo('ver que o e-mail está errado');
-$I->dontSee('“Nome” não pode ficar em branco.');
-$I->see('“E-mail” não é um endereço de e-mail válido.');
-$I->dontSee('“Assunto” não pode ficar em branco.');
-$I->dontSee('“Mensagem” não pode ficar em branco.');
-$I->dontSee('O código de verificação está incorreto.');
+$eu->espero('ver que o e-mail está errado');
+$eu->naoVejo('“Nome” não pode ficar em branco.');
+$eu->vejo('“E-mail” não é um endereço de e-mail válido.');
+$eu->naoVejo('“Assunto” não pode ficar em branco.');
+$eu->naoVejo('“Mensagem” não pode ficar em branco.');
+$eu->naoVejo('O código de verificação está incorreto.');
 
-$I->amGoingTo('enviar o form de contato com dados corretos');
-$contactPage->submit([
+$eu->vou('enviar o form de contato com dados corretos');
+$paginaDeContato->submit([
 	'name'			=>	'tester',
 	'email'			=>	'tester@example.com',
 	'subject'		=>	'test subject',
 	'body'			=>	'test content',
 	'verifyCode'	=>	'testme',
 ]);
-if (method_exists($I, 'wait')) {
-	$I->wait(3); // only for selenium
+if (method_exists($eu, 'wait')) {
+	$eu->wait(3); // only for selenium
 }
-$I->see('Obrigado por entrar em contato conosco. Responderemos o mais breve possível.');
-$I->dontSeeElement('#contact-form');
+$eu->vejo('Obrigado por entrar em contato conosco. Responderemos o mais breve possível.');
+$eu->naoVejoElemento('#contact-form');

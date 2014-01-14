@@ -1,9 +1,9 @@
 <?php
 
-$I = new WebGuy($scenario);
-$I->wantTo('verificar que a home funciona');
-$I->amOnPage(Yii::$app->homeUrl);
-$I->see('Vigilantus');
-$I->seeLink('Login');
-$I->click('Login');
-$I->see('Continuar conectado');
+$eu = new CaraDaWeb($scenario);
+$eu->quero('verificar que a home funciona');
+$eu->estouNaPagina(Yii::$app->homeUrl);
+$eu->vejo('Vigilantus');
+$eu->vejoLink('Login');
+$eu->clico('Login');
+$eu->vejo('Continuar conectado');
