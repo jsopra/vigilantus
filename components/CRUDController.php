@@ -57,8 +57,7 @@ class CRUDController extends Controller
     
     public function actionCreate()
     {
-        $class = $this->getModelClassName();
-        $model = new $class;
+        $model = $this->buildNewModel();
         //$model->scenario = 'insert';
         
         if (!$this->loadAndSaveModel($model, $_POST)) {
@@ -156,5 +155,14 @@ class CRUDController extends Controller
                 return $this->redirect(['index']);
             }
         }
+    }
+    
+    /**
+     * @return \app\components\ActiveRecord
+     */
+    protected function buildNewModel()
+    {
+        $class = $this->getModelClassName();
+        return new $class;
     }
 }

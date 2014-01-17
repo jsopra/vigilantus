@@ -106,9 +106,6 @@ class Usuario extends ActiveRecord implements IdentityInterface
             $lengthValidator = Validator::createValidator('string', $this, 'senha', ['min' => 8]);
             $lengthValidator->validateAttribute($this, 'senha');
             
-            var_dump($this->senha);
-            var_dump($this->senha2);
-            
             $compareValidator = Validator::createValidator('compare', $this, 'senha', ['compareAttribute' => 'senha2']);
             $compareValidator->validateAttribute($this, 'senha');
         }
@@ -209,12 +206,12 @@ class Usuario extends ActiveRecord implements IdentityInterface
             'nome' => 'Nome',
             'login' => 'Login',
             'senha' => 'Senha',
-            'senha2' => 'Repetição da senha',
+            'senha2' => 'Repita a senha',
             'sal' => 'Sal',
             'municipio_id' => 'Município',
             'usuario_role_id' => 'Nível do Usuário',
             'ultimo_login' => 'Último Login',
-            'email' => 'Email',
+            'email' => 'E-mail',
             'token_recupera_senha' => 'Token de Recuperação de Senha',
             'data_recupera_senha' => 'Data de Recuperação de Senha',
             'excluido' => 'Excluído',

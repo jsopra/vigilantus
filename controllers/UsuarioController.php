@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\CRUDController;
+use app\forms\AlterarSenhaForm;
 use Yii;
 
 class UsuarioController extends CRUDController
@@ -24,17 +25,11 @@ class UsuarioController extends CRUDController
     
     public function actionChangePassword()
     {
-        $model = $this->findModel(Yii::$app->user->id);
+        $model = new AlterarSenhaForm;
         
-        if (Yii::$app->request->isPost && isset($_POST['Usuario'])) {
-            
-            $model->senha = $_POST['Usuario']['senha'];
-            $model->senha2 = $_POST['Usuario']['senha2'];
-            
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Senha alterada com sucesso');
-                return $this->goHome();
-            }
+        if ($model->load($_POST) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Senha alterada com sucesso.');
+            return $this->goHome();
         }
         
         return $this->render('change-password', ['model' => $model]);
@@ -50,6 +45,17 @@ class UsuarioController extends CRUDController
         // Remove a senha da edição
         $model->senha = null;
         
+        return $model;
+    }
+    
+    /**
+     * @return \app\components\ActiveRecord
+     */
+    protected function buildNewModel()
+    {
+        $class = $this->getModelClassName();
+        $model = new $class;
+        $model->municipio_id = Yii::$app->user->identity->municipio_id;
         return $model;
     }
 }

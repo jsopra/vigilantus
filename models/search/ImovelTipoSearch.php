@@ -18,9 +18,8 @@ class ImovelTipoSearch extends SearchModel
     public function rules()
     {
         return [
-            [['id', 'municipio_id', 'inserido_por', 'atualizado_por', 'excluido_por'], 'integer'],
-            [['nome', 'sigla', 'data_cadastro', 'data_atualizacao', 'data_exclusao'], 'safe'],
-            [['excluido'], 'boolean'],
+            [['id', 'municipio_id', 'inserido_por', 'atualizado_por'], 'integer'],
+            [['nome', 'sigla', 'data_cadastro', 'data_atualizacao'], 'safe'],
         ];
     }
     
@@ -31,7 +30,7 @@ class ImovelTipoSearch extends SearchModel
 
     public function searchConditions($query)
     {
-        $query->andWhere('excluido = 0');
+        $query->andWhere('excluido IS FALSE');
         
         $this->addCondition($query, 'id');
         $this->addCondition($query, 'municipio_id');
