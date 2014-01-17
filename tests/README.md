@@ -1,28 +1,70 @@
-This folder contains various tests for the basic application.
-These tests are developed with [Codeception PHP Testing Framework](http://codeception.com/).
+Testando
+========
 
-After creating the basic application, follow these steps to prepare for the tests:
+RODANDO OS TESTES
+-----------------
 
-1. In the file `_bootstrap.php`, modify the definition of the constant `TEST_ENTRY_URL` so
-   that it points to the correct entry script URL.
-2. Go to the application base directory and build the test suites:
+Rode os testes unitários com `vendor/bin/codecept run unit`
 
-   ```
-   vendor/bin/codecept build
-   ```
+Para testes de aceitação, instale e rode o Selenium2 com 
+`java -jar selenium-server-standalone-2.37.0.jar`, e então rode os testes com
+`vendor/bin/codecept run acceptance`
 
-Now you can run the tests with the following commands:
+Você também pode rodar o teste somente para um arquivo, mas não esqueça de rodar
+para todos antes de comitar: `vendor/bin/codecept run tests/unit/models/BairroTipoTest.php`
+
+Consulte o [manual do Codeception](http://codeception.com) para saber mais.
+
+COMO FUNCIONAM OS TESTES
+------------------------
+
+O script excluirá o esquema `public` do seu banco de testes, então rodará todas
+as migrations, carregará as fixtures e exportará o resultado em um arquivo SQL
+(o modelo de esquema limpo). Antes de cada método de teste unitário ou arquivo
+de teste de aceitação, ele recarregará o banco de dados com esse esquema limpo
+que foi gerado antes de começar, garantindo que você tenha os testes
+completamente isolados um do outro.
+
+Caso o seu teste falhe, experimente conferir os logs na pasta `tests/_logs`. O
+Codeception até mesmo tira uma screenshot nos testes de aceitação.
+
+CONFIGURANDO O AMBIENTE DE TESTES
+---------------------------------
+
+Instale o [Composer](http://getcomposer.org/) e rode `composer install` na
+   raiz do projeto.
+
+Configure o Apache com as variáveis de ambiente necessárias:
+
+```apache
+NameVirtualHost 127.0.0.1
+<VirtualHost 127.0.0.1>
+    ServerName vigilantustest
+    DocumentRoot /var/www/vigilantus/web
+    SetEnv VIGILANTUS_ENV test
+    SetEnv VIGILANTUS_DB_DSN "pgsql:host=localhost;dbname=vigilantus_test"
+    SetEnv VIGILANTUS_DB_USERNAME postgres
+    SetEnv VIGILANTUS_DB_PASSWORD postgres
+</VirtualHost>
+```
+
+Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente necessárias:
+
+```bash
+export VIGILANTUS_TEST_DB_DSN='pgsql:host=localhost;dbname=vigilantus_test'
+export VIGILANTUS_TEST_DB_USERNAME='postgres'
+export VIGILANTUS_TEST_DB_PASSWORD='qwerty'
+```
+
+Configure o seu arquivo `hosts`:
 
 ```
-# run all available tests
-vendor/bin/codecept run
-# run acceptance tests
-vendor/bin/codecept run acceptance
-# run functional tests
-vendor/bin/codecept run functional
-# run unit tests
-vendor/bin/codecept run unit
+127.0.0.1   vigilantustest
 ```
 
-Please refer to [Codeception tutorial](http://codeception.com/docs/01-Introduction) for
-more details about writing and running acceptance, functional and unit tests.
+IMPORTANTE: Reinicie o Apache.
+
+Gere as classes `Guy` do Codeception: `vendor/bin/codecept build`
+
+Instale o browser **Mozilla Firefox** e baixe o **Selenium Server Standalone**
+para poder rodar testes de aceitação.

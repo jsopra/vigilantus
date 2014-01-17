@@ -2,6 +2,8 @@
 
 ## Versão 0.2.2
 
+* Adiciona testes de aceitação
+
 ## Versão 0.2.1
 
 * Conversão para o Yii Framework 2
