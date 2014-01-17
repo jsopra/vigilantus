@@ -47,4 +47,15 @@ class UsuarioController extends CRUDController
         
         return $model;
     }
+    
+    /**
+     * @return \app\components\ActiveRecord
+     */
+    protected function buildNewModel()
+    {
+        $class = $this->getModelClassName();
+        $model = new $class;
+        $model->municipio_id = Yii::$app->user->identity->municipio_id;
+        return $model;
+    }
 }
