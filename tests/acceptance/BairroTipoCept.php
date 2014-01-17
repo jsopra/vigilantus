@@ -5,11 +5,6 @@ $eu->quero('verificar que o CRUD de tipos de bairro funciona');
 $eu->facoLoginComo('administrador', 'administrador');
 $eu->clico('Cadastro');
 $eu->clico('Tipos de Bairros');
-
-//$eu->clicoNoGrid('Rural', 'Atualizar');
-//
-//return;
-
 $eu->espero('que a listagem inclua os pré-cadastrados');
 $eu->vejo('Urbano');
 $eu->vejo('Rural');
@@ -23,8 +18,6 @@ $eu->clico('Cadastrar');
 $eu->aguardoPor(1);
 $eu->vejo('O cadastro foi realizado com sucesso.');
 
-// ver se na lista ta certo
-
 $eu->espero('editar um tipo de bairro');
 $eu->clicoNoGrid('Espacial', 'Atualizar');
 $eu->vejoNoTitulo('Atualizar Tipo de Bairro');
@@ -33,8 +26,6 @@ $eu->preenchoCampo('Nome', 'Bairro Aéreo');
 $eu->clico('Atualizar');
 $eu->aguardoPor(1);
 $eu->vejo('O registro foi atualizado com sucesso.');
-
-// ver se na lista ta certo
 
 $eu->espero('excluir um tipo de bairro');
 $eu->clicoNoGrid('Bairro Aéreo', 'Excluir');
