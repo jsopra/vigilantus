@@ -2,11 +2,93 @@
 
 require_once 'acceptance/WebGuy.php';
 
+use tests\_pages\LoginPage;
+
 /**
  * Traduz métodos da WebGuy para o português
  */
 class CaraDaWeb extends WebGuy
 {
+    /**
+     * Autentica-se com um nome de usuário
+     * @param string $login Login do usuário
+     */
+    public function facoLoginComo($login, $senha)
+    {
+        $eu = $this;
+        $paginaDeLogin = LoginPage::openBy($eu);
+        $paginaDeLogin->login($login, $senha);
+        $eu->vejo('Logout (' . $login . ')');
+    }
+
+    /**
+     * Espera por N segundos
+     * @param integer $segundos
+     */
+    public function aguardoPor($segundos)
+    {
+        sleep($segundos);
+    }
+
+    /**
+     * Clica em um link no grid (exemplo: existem vários botões editar na tela)
+     * @param string|integer $id Um label em uma coluna ou o ID do registro
+     * @param string $botao Seletor do botão ou link
+     */
+    public function clicoNoGrid($id, $botao)
+    {
+        $this->clico("//tr//td[text()='$id']//parent::tr//td//a[@title='$botao' or text()='$botao']");
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function envioFormulario($selector, $params)
+    {
+        foreach ($params as $field => $value) {
+            $this->preenchoCampo($field, $value);
+        }
+
+        $this->clico('//button[@type=\'submit\']', $selector);
+        $this->aguardoPor(1);
+        
+        //return parent::submitForm($selector, $params);
+    }
+
+    // ##### ALIAS PARA MÉTODOS DO CODECEPTION
+
+    /**
+     * @inheritdoc Selenium2
+     */
+    public function vejoNaPopUp($text)
+    {
+        return parent::seeInPopup($text);
+    }
+
+    /**
+     * @inheritdoc Selenium2
+     */
+    public function naoVejoNaPopUp($texto)
+    {
+        return parent::dontSeeInPopup($text);
+    }
+
+    /**
+     * @inheritdoc Selenium2
+     */
+    public function aceitoPopUp()
+    {
+        return parent::acceptPopup();
+    }
+
+    /**
+     * @inheritdoc Selenium2
+     */
+    public function canceloPopUp()
+    {
+        return parent::cancelPopup();
+    }
+
     /**
      * @inheritdoc
      */
@@ -42,7 +124,8 @@ class CaraDaWeb extends WebGuy
     /**
      * @inheritdoc
      */
-    public function sou($role) {
+    public function sou($role)
+    {
         return parent::am($role);
     }
 
@@ -52,13 +135,6 @@ class CaraDaWeb extends WebGuy
     public function esperoQue($achieveValue)
     {
         return parent::lookForwardTo($achieveValue);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function envioFormulario($selector, $params) {
-        return parent::submitForm($selector, $params);
     }
 
     /**

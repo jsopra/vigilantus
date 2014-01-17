@@ -91,4 +91,8 @@ export VIGILANTUS_TEST_DB_PASSWORD='qwerty'
 
 – 6. Gere as classes `Guy` do Codeception: `vendor/bin/codecept build`
 
-– 7. Rode os testes com `vendor/bin/codecept run unit`
+– 7. Rode os testes unitários com `vendor/bin/codecept run unit`
+
+– 8. Para testes de aceitação, instale e rode o Selenium2: `java -jar selenium-server-standalone-2.37.0.jar`
+
+– 9. Para rodar os testes de aceitação: `vendor/bin/codecept run acceptance`

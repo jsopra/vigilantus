@@ -12,13 +12,10 @@ class_name: WebGuy
 modules:
     enabled:
         - WebHelper
-        - PhpBrowser
-# you can use WebDriver instead of PhpBrowser to test javascript and ajax.
-# This will require you to install selenium. See http://codeception.com/docs/04-AcceptanceTests#Selenium
-#        - WebDriver
+        - Selenium2
     config:
-        PhpBrowser:
-            url: 'http://vigilantustest'
-#        WebDriver:
-#            url: 'http://vigilantustest'
-#            browser: firefox
+        Selenium2:
+           url: 'http://vigilantustest'
+           browser: firefox
+           wait: 10
+           share_session: true

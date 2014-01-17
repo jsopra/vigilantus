@@ -22,8 +22,5 @@ $eu->vejo('Usuário ou senha inválida.');
 
 $eu->vou('tentar logar com dados válidos');
 $paginaDeLogin->login('administrador', 'administrador');
-if (method_exists($eu, 'wait')) {
-	$eu->wait(3);
-}
 $eu->espero('ver as informações do usuário');
 $eu->vejo('Logout (administrador)');

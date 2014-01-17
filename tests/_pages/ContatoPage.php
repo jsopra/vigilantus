@@ -17,6 +17,6 @@ class ContatoPage extends BasePage
 		foreach ($contactData as $name => $value) {
 			$data["ContatoForm[$name]"] = $value;
 		}
-		$this->guy->submitForm('#contact-form', $data);
+		$this->guy->envioFormulario('#contact-form', $data);
 	}
 }
