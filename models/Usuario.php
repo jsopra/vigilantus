@@ -209,7 +209,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
             'nome' => 'Nome',
             'login' => 'Login',
             'senha' => 'Senha',
-            'senha2' => 'Repetição da senha',
+            'senha2' => 'Repita a senha',
             'sal' => 'Sal',
             'municipio_id' => 'Município',
             'usuario_role_id' => 'Nível do Usuário',

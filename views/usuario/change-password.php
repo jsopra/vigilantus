@@ -23,8 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		<div class="form-group">
 			<?php
             echo Html::submitButton(
-                'Alterar senha',
-                ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']
+                'Alterar Senha',
+                ['class' => 'btn btn-primary']
             ) ?>
 		</div>
 
