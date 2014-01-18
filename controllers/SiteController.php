@@ -102,18 +102,15 @@ class SiteController extends Controller
         $return = array();
         
         $model = new FeedbackForm;
-        if ($model->load($_POST) && $model->sendFeedback(Yii::$app->user->identity, Yii::$app->params['emailContato'])) 
-            $return = [
-                'status' => true,
-                'message' => 'Feedback enviado com sucesso',
-            
-            ];
-        else
-            $return = [
-                'status' => false,
-                'message' => 'Erro ao enviar mensagem',
-            
-            ];
+        
+        if($model->load($_POST) && $model->validate()) {
+            if ($model->sendFeedback(Yii::$app->user->identity, Yii::$app->params['emailContato'])) 
+                $return = ['status' => true, 'message' => 'Feedback enviado com sucesso'];
+            else
+                $return = ['status' => false, 'message' => 'Erro ao enviar mensagem'];
+        }
+        else 
+            $return = ['status' => false, 'message' => ''];
         
         header('Content-type: application/json; charset=UTF-8');
         echo Json::encode($return);
