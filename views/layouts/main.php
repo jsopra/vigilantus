@@ -51,6 +51,7 @@ AppAsset::register($this);
                     'visible' => !Yii::$app->user->isGuest,
                     'items' => [
                         ['label' => 'Bairros', 'url' => ['/bairro']],
+                        ['label' => 'Quarteirões de Bairros', 'url' => ['/bairro-quarteirao']],
                         ['label' => 'Condições de Imóveis', 'url' => ['/imovel-condicao']],
                         ['label' => 'Tipos de Bairros', 'url' => ['/bairro-tipo']],
                         ['label' => 'Tipos de Imóveis', 'url' => ['/imovel-tipo']],

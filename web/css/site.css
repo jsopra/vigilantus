@@ -133,3 +133,18 @@ a.desc:after {
     padding-top: 0.3em;
     font-size: 0.9em;
 }
+
+.vigilantus-form {
+    border-top: 1px dashed #ccc;
+    margin-top: 0.5em;
+    padding-top: 1em;
+    clear: both;
+}
+
+.vigilantus-form a {
+    margin-left: 10px;
+}
+
+.vigilantus-grid-buttons-ud {
+    width: 50px;
+}
