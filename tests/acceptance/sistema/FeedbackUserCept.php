@@ -25,7 +25,7 @@ $eu->vou('enviar o form com um motivo');
 
 $pagina->submitFeedback(['body' => 'test content']);
 
-$eu->vejo('Enviando...');
+//$eu->vejo('Enviando...');
 
 $eu->aguardoPor(3);
 
