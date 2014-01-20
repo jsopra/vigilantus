@@ -17,14 +17,14 @@ use yii\db\Expression;
  * @property integer $inserido_por
  * @property integer $atualizado_por
  */
-class BairroTipo extends ActiveRecord
+class BairroCategoria extends ActiveRecord
 {
     /**
      * @return string nome da tabela do banco de dados
      */
     public static function tableName()
     {
-        return 'bairro_tipos';
+        return 'bairro_categorias';
     }
 
     public function beforeDelete()

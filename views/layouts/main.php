@@ -42,9 +42,16 @@ AppAsset::register($this);
                     'visible' => (Yii::$app->user->isGuest == false),
                     'items' => [
                         ['label' => 'Bairros', 'url' => ['/bairro']],
+                        ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria']],
                         ['label' => 'Condições de Imóveis', 'url' => ['/imovel-condicao']],
-                        ['label' => 'Tipos de Bairros', 'url' => ['/bairro-tipo']],
-                        ['label' => 'Tipos de Imóveis', 'url' => ['/imovel-tipo']],
+                        ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo']],
+                    ]
+                ],
+                [
+                    'label' => 'Fichas',
+                    'visible' => (Yii::$app->user->isGuest == false),
+                    'items' => [
+                        ['label' => 'Boletim de RG', 'url' => ['/ficha-rg']],
                     ]
                 ],
                 [

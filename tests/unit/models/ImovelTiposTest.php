@@ -2,14 +2,14 @@
 
 namespace tests\unit\models;
 
-use app\models\ImovelTipo;
+use app\models\ImovelTipos;
 use yii\codeception\TestCase;
 
-class ImovelTipoTest extends TestCase
+class ImovelTiposTest extends TestCase
 {
     public function getObject()
     {
-        $tipoImovel = new ImovelTipo;
+        $tipoImovel = new ImovelTipos;
 
         $tipoImovel->municipio_id = 1;
         $tipoImovel->nome = uniqid();
@@ -20,25 +20,25 @@ class ImovelTipoTest extends TestCase
 
     public function testCount()
     {
-        $this->assertEquals(0, ImovelTipo::find()->excluido()->count());
-        $this->assertEquals(5, ImovelTipo::find()->ativo()->count());
+        $this->assertEquals(0, ImovelTipos::find()->excluido()->count());
+        $this->assertEquals(5, ImovelTipos::find()->ativo()->count());
 
         $tipoImovel = $this->getObject();
         $this->assertTrue($tipoImovel->save());
 
-        $this->assertEquals(0, ImovelTipo::find()->excluido()->count());
-        $this->assertEquals(6, ImovelTipo::find()->ativo()->count());
+        $this->assertEquals(0, ImovelTipos::find()->excluido()->count());
+        $this->assertEquals(6, ImovelTipos::find()->ativo()->count());
 
         $tipoImovel->excluido = true;
         $this->assertTrue($tipoImovel->save());
 
-        $this->assertEquals(1, ImovelTipo::find()->excluido()->count());
-        $this->assertEquals(5, ImovelTipo::find()->ativo()->count());
+        $this->assertEquals(1, ImovelTipos::find()->excluido()->count());
+        $this->assertEquals(5, ImovelTipos::find()->ativo()->count());
     }
     
     public function testInsert()
     {
-        $tipoImovel = new ImovelTipo;
+        $tipoImovel = new ImovelTipos;
         
         $this->assertFalse($tipoImovel->save());
 
@@ -54,7 +54,7 @@ class ImovelTipoTest extends TestCase
         
         unset($tipoImovel);
         
-        $tipoImovel = new ImovelTipo;
+        $tipoImovel = new ImovelTipos;
         
         $this->assertFalse($tipoImovel->save());
         
@@ -67,10 +67,10 @@ class ImovelTipoTest extends TestCase
     
     public function testUpdate()
     {
-        $tipoImovel = ImovelTipo::find(1);
+        $tipoImovel = ImovelTipos::find(1);
         $tipoImovel->scenario = 'update';
         
-        $this->assertInstanceOf('app\models\ImovelTipo', $tipoImovel);
+        $this->assertInstanceOf('app\models\ImovelTipos', $tipoImovel);
 
         $this->assertFalse($tipoImovel->save());
         

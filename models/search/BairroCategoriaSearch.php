@@ -4,7 +4,7 @@ namespace app\models\search;
 
 use app\components\SearchModel;
 
-class BairroTipoSearch extends SearchModel
+class BairroCategoriaSearch extends SearchModel
 {
     public $id;
     public $municipio_id;

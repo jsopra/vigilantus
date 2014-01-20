@@ -1,6 +1,6 @@
 <?php
 
-use app\models\BairroTipo;
+use app\models\BairroCategoria;
 use app\models\Municipio;
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'nome',
             [
                 'attribute' => 'bairro_tipo_id',
-                'filter' => BairroTipo::listData('nome'),
+                'filter' => BairroCategoria::listData('nome'),
                 'value' => function ($model, $index, $widget) {
                     return $model->tipo ? $model->tipo->nome : null;
                 }

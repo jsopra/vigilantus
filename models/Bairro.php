@@ -44,11 +44,11 @@ class Bairro extends ActiveRecord
     }
     
     /**
-     * @return BairroTipo
+     * @return BairroCategoria
      */
     public function getTipo()
     {
-        return $this->hasOne(BairroTipo::className(), ['id' => 'bairro_tipo_id']);
+        return $this->hasOne(BairroCategoria::className(), ['id' => 'bairro_tipo_id']);
     }
 
     /**
@@ -60,7 +60,7 @@ class Bairro extends ActiveRecord
             'id' => 'ID',
             'municipio_id' => 'Município',
             'nome' => 'Nome',
-            'bairro_tipo_id' => 'Tipo de Bairro',
+            'bairro_tipo_id' => 'Categoria de Bairro',
         );
     }
 }

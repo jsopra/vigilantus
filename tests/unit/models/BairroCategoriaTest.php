@@ -2,14 +2,14 @@
 
 namespace tests\unit\models;
 
-use app\models\BairroTipo;
+use app\models\BairroCategoria;
 use yii\codeception\TestCase;
 
-class BairroTipoTest extends TestCase
+class BairroCategoriaTest extends TestCase
 {
     public function testInsert()
     {
-        $bairro = new BairroTipo;
+        $bairro = new BairroCategoria;
 
         $this->assertFalse($bairro->save());
 
@@ -25,7 +25,7 @@ class BairroTipoTest extends TestCase
 
         unset($bairro);
 
-        $bairro = new BairroTipo;
+        $bairro = new BairroCategoria;
 
         $this->assertFalse($bairro->save());
 
@@ -38,10 +38,10 @@ class BairroTipoTest extends TestCase
 
     public function testUpdate()
     {
-        $bairro = BairroTipo::find(1);
+        $bairro = BairroCategoria::find(1);
         $bairro->scenario = 'update';
 
-        $this->assertInstanceOf('app\models\BairroTipo', $bairro);
+        $this->assertInstanceOf('app\models\BairroCategoria', $bairro);
         $this->assertFalse($bairro->save());
 
         $bairro->atualizado_por = 1;
@@ -56,12 +56,12 @@ class BairroTipoTest extends TestCase
 
     public function testDelete()
     {
-        $bairro = BairroTipo::find(1);
-        $this->assertInstanceOf('app\models\BairroTipo', $bairro);
+        $bairro = BairroCategoria::find(1);
+        $this->assertInstanceOf('app\models\BairroCategoria', $bairro);
         $this->assertEquals(1, $bairro->delete());
 
-        $bairro = BairroTipo::find(2);
-        $this->assertInstanceOf('app\models\BairroTipo', $bairro);
+        $bairro = BairroCategoria::find(2);
+        $this->assertInstanceOf('app\models\BairroCategoria', $bairro);
         $this->setExpectedException('\Exception');
         $bairro->delete();
     }

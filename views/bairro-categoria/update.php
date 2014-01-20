@@ -7,8 +7,8 @@ use yii\helpers\Html;
  * @var app\models\BairroTipo $model
  */
 
-$this->title = 'Atualizar Tipo de Bairro: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Tipos de Bairro', 'url' => ['index']];
+$this->title = 'Atualizar Categoria de Bairro: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Categorias de Bairro', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Atualizar';
 ?>
 <div class="bairro-tipo-update">

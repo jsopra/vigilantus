@@ -1,6 +1,6 @@
 <?php
 
-use app\models\BairroTipo;
+use app\models\BairroCategoria;
 use app\models\Municipio;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 	<?php $form = ActiveForm::begin(); ?>
 
 		<?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome')) ?>
-		<?= $form->field($model, 'bairro_tipo_id')->dropDownList(BairroTipo::listData('nome')) ?>
+		<?= $form->field($model, 'bairro_tipo_id')->dropDownList(BairroCategoria::listData('nome')) ?>
 		<?= $form->field($model, 'nome') ?>
 
 		<div class="form-group">

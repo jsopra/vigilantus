@@ -11,7 +11,7 @@ use yii\grid\GridView;
  * @var app\models\search\BairroTipoSearch $searchModel
  */
 
-$this->title = 'Tipos de Bairro';
+$this->title = 'Categorias de Bairro';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bairro-tipo-index">
@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 	<p>
-		<?= Html::a('Cadastrar Tipo de Bairro', ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Cadastrar Categoria de Bairro', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php

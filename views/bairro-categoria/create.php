@@ -7,8 +7,8 @@ use yii\helpers\Html;
  * @var app\models\BairroTipo $model
  */
 
-$this->title = 'Cadastrar Tipo de Bairro';
-$this->params['breadcrumbs'][] = ['label' => 'Tipos de Bairro', 'url' => ['index']];
+$this->title = 'Cadastrar Categoria de Bairro';
+$this->params['breadcrumbs'][] = ['label' => 'Categorias de Bairro', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bairro-tipo-create">
