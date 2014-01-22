@@ -17,13 +17,22 @@ use yii\widgets\ActiveForm;
 		<?= $form->field($model, 'nome') ?>
 		<?= $form->field($model, 'exibe_nome')->checkbox() ?>
 
-		<div class="form-group">
+		<div class="form-group vigilantus-form">
 			<?php
             echo Html::submitButton(
                 $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
-                ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']
-            ) ?>
-		</div>
+                ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
+            );
+            
+            echo Html::a(
+                'Cancelar',
+                array('/imovel-condicao/index'),
+                array('class'=>'link','rel'=>'tooltip','data-title'=>'Ir à lista de condições de imóvel')
+            );
+
+            ?>
+            
+       </div>
     
 	<?php ActiveForm::end(); ?>
 </div>

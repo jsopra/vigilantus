@@ -14,8 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Preencha os campos abaixo para fazer o login:</p>
-
     <?php
     $form = ActiveForm::begin([
         'id' => 'login-form',
@@ -39,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
-            <?= Html::submitButton('Login', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Login', ['class' => 'btn btn-flat primary']) ?>
         </div>
     </div>
 

@@ -15,16 +15,16 @@ use app\components\Controller;
 
 class SiteController extends Controller
 {
-
+    
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['feedback', 'logout'],
+                'only' => ['feedback', 'logout', 'home'],
                 'rules' => [
                     [
-                        'actions' => ['feedback', 'logout'],
+                        'actions' => ['feedback', 'logout', 'home'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -53,16 +53,23 @@ class SiteController extends Controller
         ];
     }
 
+    public function actionHome() 
+    {
+        return $this->render('home');
+    }
+    
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest)
+            $this->redirect('site/home');
+        
         return $this->render('index');
     }
 
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
-            $this->goHome();
-        }
+        if (!Yii::$app->user->isGuest)
+            $this->redirect('site/home');
 
         $model = new LoginForm();
         if ($model->load($_POST) && $model->login()) {
@@ -87,6 +94,12 @@ class SiteController extends Controller
     public function actionContato()
     {
         $model = new ContatoForm;
+        
+        if(!Yii::$app->user->isGuest) {
+            $model->name = Yii::$app->user->identity->nome;
+            $model->email = Yii::$app->user->identity->email;
+        }
+        
         if ($model->load($_POST) && $model->contact(Yii::$app->params['emailContato'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
             return $this->refresh();

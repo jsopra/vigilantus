@@ -36,8 +36,8 @@ use yii\widgets\ActiveForm;
                     <p class="modal-feedback-message"></p>
                 </div>
                 <div class="pull-right">
-                    <?= Html::button('Cancelar', ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) ?>
-                    <?= Html::submitButton('Enviar', ['class' => 'btn btn-success submitFeedback']) ?>
+                    <?= Html::button('Cancelar', ['class' => 'btn btn-flat white', 'data-dismiss' => 'modal']) ?>
+                    <?= Html::submitButton('Enviar', ['class' => 'btn btn-flat success submitFeedback']) ?>
                 </div>
             </div>
 

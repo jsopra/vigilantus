@@ -23,15 +23,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php else: ?>
 
-        <p>
-            Por favor, preencha o formulário para entrar em contato conosco. Obrigado.
-        </p>
+        <p>Preencha o formulário para entrar em contato conosco.</p>
 
         <div class="row">
             <div class="col-lg-5">
                 <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
-                    <?= $form->field($model, 'name') ?>
-                    <?= $form->field($model, 'email') ?>
+                
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <?= $form->field($model, 'name') ?>
+                        </div>
+                        <div class="col-xs-6">
+                            <?= $form->field($model, 'email') ?>
+                        </div>
+                    </div>
+                
                     <?= $form->field($model, 'subject') ?>
                     <?= $form->field($model, 'body')->textArea(['rows' => 6]) ?>
                     <?=
@@ -40,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ])
                     ?>
                     <div class="form-group">
-                        <?= Html::submitButton('Enviar', ['class' => 'btn btn-primary']) ?>
+                        <?= Html::submitButton('Enviar', ['class' => 'btn btn-flat primary']) ?>
                     </div>
                 <?php ActiveForm::end(); ?>
             </div>

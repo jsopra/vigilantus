@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 	<p>
-		<?= Html::a('Cadastrar Quarteirão de Bairro', ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Cadastrar Quarteirão de Bairro', ['create'], ['class' => 'btn btn-flat success']) ?>
 	</p>
 
 	<?php echo GridView::widget([
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'numero_quarteirao',
 			'numero_quarteirao_2',
 			[
-                'class' => 'yii\grid\ActionColumn',
+                'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
                 'options' => ['class' => 'vigilantus-grid-buttons-ud'],
             ],

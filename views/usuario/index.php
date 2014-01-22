@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'email:email',
             [
-                'class' => 'yii\grid\ActionColumn',
+                'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
             ],
         ],

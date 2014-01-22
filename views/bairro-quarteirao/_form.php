@@ -38,7 +38,7 @@ use yii\widgets\ActiveForm;
 			<?php
             echo Html::submitButton(
                 $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
-                ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']
+                ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
             );
             
             echo Html::a(
