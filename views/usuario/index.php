@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 	<p>
-		<?= Html::a('Cadastrar Usuário', ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Cadastrar Usuário', ['create'], ['class' => 'btn btn-flat success']) ?>
 	</p>
 
     <?php
