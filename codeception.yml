@@ -21,8 +21,8 @@ coverage:
     include:
         - forms/*
         - models/*
+        - validators/*
     exclude:
-    	- validators/*
     	- helpers/*
     	- controllers/*
         - runtime/*
