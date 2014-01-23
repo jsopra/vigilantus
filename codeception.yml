@@ -19,12 +19,12 @@ modules:
 coverage:
     enabled: true
     include:
-        - controllers/*
         - forms/*
-        - helpers/*
         - models/*
-        - validators/*
     exclude:
+    	- validators/*
+    	- helpers/*
+    	- controllers/*
         - runtime/*
         - tests/*
         - vendor/*
