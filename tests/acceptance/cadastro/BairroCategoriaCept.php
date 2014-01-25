@@ -4,14 +4,14 @@ $eu = new CaraDaWeb($scenario);
 $eu->quero('verificar que o CRUD de categorias de bairro funciona');
 $eu->facoLoginComo('administrador', 'administrador');
 $eu->clico('Cadastro');
-$eu->clico('categorias de Bairros');
+$eu->clico('Categoria de Bairros');
 $eu->espero('que a listagem inclua os pré-cadastrados');
 $eu->vejo('Urbano');
 $eu->vejo('Rural');
 
 $eu->espero('cadastrar uma categoria de bairro');
-$eu->clico('Cadastrar categoria de Bairro');
-$eu->vejoNoTitulo('Cadastrar categoria de Bairro');
+$eu->clico('Cadastrar Categoria de Bairro');
+$eu->vejoNoTitulo('Cadastrar Categoria de Bairro');
 $eu->selecionoOpcao('Município', 'Chapecó');
 $eu->preenchoCampo('Nome', 'Espacial');
 $eu->clico('Cadastrar');
@@ -20,7 +20,7 @@ $eu->vejo('O cadastro foi realizado com sucesso.');
 
 $eu->espero('editar uma categoria de bairro');
 $eu->clicoNoGrid('Espacial', 'Atualizar');
-$eu->vejoNoTitulo('Atualizar categoria de Bairro');
+$eu->vejoNoTitulo('Atualizar Categoria de Bairro');
 $eu->selecionoOpcao('Município', 'Tapera');
 $eu->preenchoCampo('Nome', 'Bairro Aéreo');
 $eu->clico('Atualizar');

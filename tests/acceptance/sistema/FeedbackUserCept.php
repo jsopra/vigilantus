@@ -13,13 +13,13 @@ $eu->clico('Feedback');
 
 $eu->aguardoPor(1);
 
-$eu->vejo('Envie comentários, idéias, problemas, ...');
+$eu->vejo('Envie comentários, ideias, problemas, ...');
 
 $pagina->submitFeedback([]);
 
 $eu->espero('ver erros de validação');
 
-$eu->vejo('Você escrever dizer alguma coisa');
+$eu->vejo('Você deve escrever alguma coisa');
 
 $eu->vou('enviar o form com um motivo');
 
@@ -33,7 +33,7 @@ $eu->vejo('Feedback enviado com sucesso');
 
 $eu->vejo('Enviar');
 
-$eu->vejo('Envie comentários, idéias, problemas, ...');
+$eu->vejo('Envie comentários, ideias, problemas, ...');
 
 $eu->aguardoPor(1);
 
@@ -41,4 +41,4 @@ $eu->clico('Cancelar');
 
 $eu->aguardoPor(1);
 
-$eu->naoVejo('Envie comentários, idéias, problemas, ...');
+$eu->naoVejo('Envie comentários, ideias, problemas, ...');

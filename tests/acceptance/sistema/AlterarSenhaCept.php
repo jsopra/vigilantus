@@ -6,7 +6,7 @@ $eu = new CaraDaWeb($scenario);
 $eu->quero('verificar que consigo alterar minha senha');
 $eu->facoLoginComo('administrador', 'administrador');
 $eu->clico('Sistema');
-$eu->clico('Alterar senha');
+$eu->clico('Alterar minha senha');
 
 $eu->espero('verificar que requer uma nova senha');
 $eu->clico('Alterar Senha');

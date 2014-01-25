@@ -61,11 +61,13 @@ AppAsset::register($this);
                 [
                     'visible' => Yii::$app->user->isGuest,
                     'url' => ['/site/login'], 
+                    'label' => ' Login' ,
                     'icon' => 'off',
                 ],
                 [
                     'visible' => !Yii::$app->user->isGuest,
                     'url' => ['/site/logout'], 
+                    'label' => ' Logout (' . (Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->login) . ')' ,
                     'icon' => 'off',
                     'linkOptions' => ['data-method' => 'post']
                 ],
@@ -103,7 +105,7 @@ AppAsset::register($this);
                     'icon' => 'cog',
                     'items' => [
                         ['label' => 'Usuários', 'url' => ['/usuario/']],
-                        ['label' => 'Alterar senha', 'url' => ['/usuario/change-password']],
+                        ['label' => 'Alterar minha senha', 'url' => ['/usuario/change-password']],
                     ]
                 ],
                 ['label' => 'Contato', 'url' => ['/site/contato'], 'icon' => 'envelope-alt'],     

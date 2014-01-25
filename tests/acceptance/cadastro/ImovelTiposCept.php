@@ -4,7 +4,7 @@ $eu = new CaraDaWeb($scenario);
 $eu->quero('verificar que o CRUD de tipos de imóveis funciona');
 $eu->facoLoginComo('administrador', 'administrador');
 $eu->clico('Cadastro');
-$eu->clico('Tipos de Imóveis');
+$eu->clico('Tipos de Imóvel');
 
 $eu->espero('que a listagem inclua os pré-cadastrados');
 $eu->vejo('Residencial');

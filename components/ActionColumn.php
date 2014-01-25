@@ -91,7 +91,7 @@ class ActionColumn extends Column
 			$this->buttons['delete'] = function ($url, $model) {
 				return Html::a('<i class="table-delete"></i>', $url, [
 					'title' => Yii::t('yii', 'Excluir'),
-					'data-confirm' => Yii::t('yii', 'Você realmente quer excluir este item?'),
+					'data-confirm' => Yii::t('yii', 'Tem certeza de que deseja excluir este item?'),
 					'data-method' => 'post',
 				]);
 			};

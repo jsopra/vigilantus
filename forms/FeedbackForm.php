@@ -17,7 +17,7 @@ class FeedbackForm extends Model
     public function rules()
     {
         return [
-            [['body','url'], 'required', 'message'=>'Você escrever dizer alguma coisa'],
+            [['body','url'], 'required', 'message'=>'Você deve escrever alguma coisa'],
         ];
     }
 
@@ -27,7 +27,7 @@ class FeedbackForm extends Model
     public function attributeLabels()
     {
         return [
-            'body' => 'Envie comentários, idéias, problemas, ...',
+            'body' => 'Envie comentários, ideias, problemas, ...',
         ];
     }
 
