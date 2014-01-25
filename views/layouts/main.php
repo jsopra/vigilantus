@@ -23,6 +23,7 @@ AppAsset::register($this);
         <?php $this->head() ?>
     </head>
     <body>
+        
         <?php $this->beginBody() ?>
         <?php
         NavBar::begin([
@@ -35,11 +36,19 @@ AppAsset::register($this);
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
-                ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'Sobre', 'url' => ['/site/about']],
+                [
+                    'label' => 'Home', 
+                    'url' => ['/site/index'],
+                    'visible' => Yii::$app->user->isGuest,
+                ],
+                [
+                    'label' => 'Mais informações', 
+                    'url' => ['/site/about'],
+                    'visible' => Yii::$app->user->isGuest,
+                ],
                 [
                     'label' => 'Cadastro',
-                    'visible' => (Yii::$app->user->isGuest == false),
+                    'visible' => !Yii::$app->user->isGuest,
                     'items' => [
                         ['label' => 'Bairros', 'url' => ['/bairro']],
                         ['label' => 'Condições de Imóveis', 'url' => ['/imovel-condicao']],
@@ -49,7 +58,7 @@ AppAsset::register($this);
                 ],
                 [
                     'label' => 'Sistema',
-                    'visible' => (Yii::$app->user->isGuest == false),
+                    'visible' => !Yii::$app->user->isGuest,
                     'items' => [
                         ['label' => 'Usuários', 'url' => ['/usuario']],
                         ['label' => 'Alterar senha', 'url' => ['/usuario/change-password']],
@@ -57,7 +66,7 @@ AppAsset::register($this);
                 ],
                 ['label' => 'Contato', 'url' => ['/site/contato']],
                 Yii::$app->user->isGuest ?
-                    ['label' => 'Login', 'url' => ['/site/login']] :
+                    ['label' => 'Login', 'url' => ['/site/login'], 'itemOptions' => ['icon' => 'icon-off']] :
                     ['label' => 'Logout (' . Yii::$app->user->identity->login . ')',
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post']],
@@ -78,11 +87,15 @@ AppAsset::register($this);
 
         <footer class="footer">
             <div class="container">
-                <p class="pull-left">&copy; Perspectiva <?= date('Y') ?></p>
-                <p class="pull-right"><?= Yii::powered() ?></p>
+                <p class="text-center">&copy; Perspectiva <?= date('Y') ?></p>
             </div>
         </footer>
 
+        <?php 
+        if (!Yii::$app->user->isGuest) 
+            echo $this->render('//shared/_feedback', array('model' => $this->context->feedbackModel)); 
+        ?>
+        
 <?php $this->endBody() ?>
     </body>
 </html>

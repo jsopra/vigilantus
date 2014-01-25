@@ -5,10 +5,13 @@ namespace app\controllers;
 use Yii;
 use yii\db\Expression;
 use yii\web\AccessControl;
-use yii\web\Controller;
 use yii\web\VerbFilter;
+use yii\web\Response;
+use yii\helpers\Json;
 use app\forms\LoginForm;
 use app\forms\ContatoForm;
+use app\forms\FeedbackForm;
+use app\components\Controller;
 
 class SiteController extends Controller
 {
@@ -18,10 +21,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['feedback', 'logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['feedback', 'logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -31,6 +34,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+                    'feedback' => ['post'],
                 ],
             ],
         ];
@@ -91,6 +95,25 @@ class SiteController extends Controller
                     'model' => $model,
             ]);
         }
+    }
+    
+    public function actionFeedback() 
+    {
+        $return = array();
+        
+        $model = new FeedbackForm;
+        
+        if($model->load($_POST) && $model->validate()) {
+            if ($model->sendFeedback(Yii::$app->user->identity, Yii::$app->params['emailContato'])) 
+                $return = ['status' => true, 'message' => 'Feedback enviado com sucesso'];
+            else
+                $return = ['status' => false, 'message' => 'Erro ao enviar mensagem'];
+        }
+        else 
+            $return = ['status' => false, 'message' => ''];
+        
+        header('Content-type: application/json; charset=UTF-8');
+        echo Json::encode($return);
     }
 
     public function actionAbout()

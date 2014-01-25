@@ -40,6 +40,14 @@ $config = [
         ],
         'mail' => [
             'class' => 'yii\swiftmailer\Mailer',
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.vigilantus.com.br',
+                'username' => 'vigilantus@vigilantus.com.br',
+                'password' => 'f33dh1t5',
+                'port' => '587',
+                'encryption' => 'tls',
+            ],
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
