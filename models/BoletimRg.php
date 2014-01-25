@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\components\ActiveRecord;
+
 /**
  * This is the model class for table "boletins_rg".
  *
@@ -14,13 +16,14 @@ namespace app\models;
  * @property string $seq
  * @property string $data_cadastro
  * @property integer $inserido_por
+ * @property integer $municipio_id
  *
  * @property BoletimRgImoveis[] $boletimRgImoveis
  * @property BoletimRgFechamento[] $boletimRgFechamentos
  * @property Bairros $bairro
  * @property Usuarios $inseridoPor
  */
-class BoletimRg extends \yii\db\ActiveRecord
+class BoletimRg extends ActiveRecord
 {
 	/**
 	 * @inheritdoc
@@ -36,9 +39,9 @@ class BoletimRg extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['data', 'folha', 'ano', 'bairro_id', 'inserido_por'], 'required'],
+			[['data', 'folha', 'ano', 'bairro_id', 'inserido_por', 'municipio_id'], 'required'],
 			[['data'], 'safe'],
-			[['folha', 'ano', 'bairro_id', 'quarteirao_numero', 'inserido_por'], 'integer'],
+			[['folha', 'ano', 'bairro_id', 'quarteirao_numero', 'inserido_por', 'municipio_id'], 'integer'],
 			[['seq', 'data_cadastro'], 'string']
 		];
 	}
@@ -58,6 +61,7 @@ class BoletimRg extends \yii\db\ActiveRecord
 			'seq' => 'Seq',
 			'data_cadastro' => 'Data Cadastro',
 			'inserido_por' => 'Inserido Por',
+            'municipio_id' => 'Município',
 		];
 	}
 
@@ -92,4 +96,12 @@ class BoletimRg extends \yii\db\ActiveRecord
 	{
 		return $this->hasOne(Usuarios::className(), ['id' => 'inserido_por']);
 	}
+        
+    /**
+     * @return Municipio
+     */
+    public function getMunicipio()
+    {
+        return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+    }
 }

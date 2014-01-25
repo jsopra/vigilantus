@@ -5,23 +5,26 @@ namespace app\controllers;
 use Yii;
 use yii\db\Expression;
 use yii\web\AccessControl;
-use yii\web\Controller;
 use yii\web\VerbFilter;
+use yii\web\Response;
+use yii\helpers\Json;
 use app\forms\LoginForm;
 use app\forms\ContatoForm;
+use app\forms\FeedbackForm;
+use app\components\Controller;
 
 class SiteController extends Controller
 {
-
+    
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['feedback', 'logout', 'home'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['feedback', 'logout', 'home'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -31,6 +34,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+                    'feedback' => ['post'],
                 ],
             ],
         ];
@@ -49,16 +53,23 @@ class SiteController extends Controller
         ];
     }
 
+    public function actionHome() 
+    {
+        return $this->render('home');
+    }
+    
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest)
+            $this->redirect('site/home');
+        
         return $this->render('index');
     }
 
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
-            $this->goHome();
-        }
+        if (!Yii::$app->user->isGuest)
+            $this->redirect('site/home');
 
         $model = new LoginForm();
         if ($model->load($_POST) && $model->login()) {
@@ -83,6 +94,12 @@ class SiteController extends Controller
     public function actionContato()
     {
         $model = new ContatoForm;
+        
+        if(!Yii::$app->user->isGuest) {
+            $model->name = Yii::$app->user->identity->nome;
+            $model->email = Yii::$app->user->identity->email;
+        }
+        
         if ($model->load($_POST) && $model->contact(Yii::$app->params['emailContato'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
             return $this->refresh();
@@ -91,6 +108,25 @@ class SiteController extends Controller
                     'model' => $model,
             ]);
         }
+    }
+    
+    public function actionFeedback() 
+    {
+        $return = array();
+        
+        $model = new FeedbackForm;
+        
+        if($model->load($_POST) && $model->validate()) {
+            if ($model->sendFeedback(Yii::$app->user->identity, Yii::$app->params['emailContato'])) 
+                $return = ['status' => true, 'message' => 'Feedback enviado com sucesso'];
+            else
+                $return = ['status' => false, 'message' => 'Erro ao enviar mensagem'];
+        }
+        else 
+            $return = ['status' => false, 'message' => ''];
+        
+        header('Content-type: application/json; charset=UTF-8');
+        echo Json::encode($return);
     }
 
     public function actionAbout()

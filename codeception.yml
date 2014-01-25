@@ -16,3 +16,18 @@ modules:
             user: ''
             password: ''
             dump: tests/_data/dump.sql
+coverage:
+    enabled: true
+    include:
+        - controllers/*
+        - forms/*
+        - helpers/*
+        - models/*
+        - validators/*
+    exclude:
+        - runtime/*
+        - tests/*
+        - vendor/*
+        - views/*
+        - web/*
+        - widgets/*

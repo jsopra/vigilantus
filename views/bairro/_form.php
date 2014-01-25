@@ -19,13 +19,22 @@ use yii\widgets\ActiveForm;
 		<?= $form->field($model, 'bairro_tipo_id')->dropDownList(BairroCategoria::listData('nome')) ?>
 		<?= $form->field($model, 'nome') ?>
 
-		<div class="form-group">
+		<div class="form-group vigilantus-form">
 			<?php
             echo Html::submitButton(
                 $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
-                ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']
-            ) ?>
-		</div>
+                ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
+            );
+            
+            echo Html::a(
+                'Cancelar',
+                array('/bairro/index'),
+                array('class'=>'link','rel'=>'tooltip','data-title'=>'Ir à lista de bairros')
+            );
+
+            ?>
+            
+       </div>
 
 	<?php ActiveForm::end(); ?>
 </div>

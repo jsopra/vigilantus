@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 	<p>
-		<?= Html::a('Cadastrar Categoria de Bairro', ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Cadastrar Categoria de Bairro', ['create'], ['class' => 'btn btn-flat success']) ?>
     </p>
 
     <?php
@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'class' => 'yii\grid\ActionColumn',
+                'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
             ],
         ],

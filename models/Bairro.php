@@ -29,9 +29,9 @@ class Bairro extends ActiveRecord
     public function rules()
     {
         return array(
-            array(['municipio_id', 'nome'], 'required'),
-            array('nome', 'unique', 'compositeWith' => 'municipio_id'),
-            array(['municipio_id', 'bairro_tipo_id'], 'integer'),
+            [['municipio_id', 'nome'], 'required'],
+            ['nome', 'unique', 'compositeWith' => 'municipio_id'],
+            [['municipio_id', 'bairro_tipo_id'], 'integer'],
         );
     }
 

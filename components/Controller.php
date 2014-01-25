@@ -6,6 +6,7 @@ use app\components\ActiveRecord;
 use app\helpers\StringHelper;
 use yii\web\Controller as YiiController;
 use yii\web\NotFoundHttpException;
+use app\forms\FeedbackForm;
 
 class Controller extends YiiController
 {
@@ -20,6 +21,13 @@ class Controller extends YiiController
      * for more details on how to specify this property.
      */
     public $breadcrumbs = [];
+    
+    public $feedbackModel;
+    
+    public function init()
+    {
+        $this->feedbackModel = new FeedbackForm();
+    }
     
     /**
 	 * Finds the model based on its primary key value.
@@ -51,10 +59,6 @@ class Controller extends YiiController
         $words = explode(' ', $words);
         
         array_pop($words);
-
-        foreach ($words as &$word) {
-            $word = StringHelper::singularize($word);
-        }
 
         $words = implode(' ', $words);
 
