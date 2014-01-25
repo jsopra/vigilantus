@@ -11,9 +11,9 @@ $this->title = Yii::$app->name;
 	<div class="jumbotron">
 		<h1><?= Html::encode($this->title); ?></h1>
 
-		<p class="lead">Apoio e gestão de prevenção da Dengue</p>
+		<p class="lead">Apoio e gestão de prevenção de Zoonoses</p>
 
-		<p><a class="btn btn-lg btn-success" href="#">Saiba mais sobre o projeto</a></p>
+		<p><a class="btn btn-lg btn-glow success" href="/site/about">Saiba mais</a></p>
 	</div>
 
 	<div class="body-content">
@@ -27,7 +27,7 @@ $this->title = Yii::$app->name;
 					ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
 					fugiat nulla pariatur.</p>
 
-				<p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+				<p><a class="btn btn-flat white" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
 			</div>
 			<div class="col-lg-4">
 				<h2>Integração</h2>
@@ -37,7 +37,7 @@ $this->title = Yii::$app->name;
 					ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
 					fugiat nulla pariatur.</p>
 
-				<p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+				<p><a class="btn btn-flat white" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
 			</div>
 			<div class="col-lg-4">
 				<h2>Apoio à Decisão</h2>
@@ -47,7 +47,7 @@ $this->title = Yii::$app->name;
 					ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
 					fugiat nulla pariatur.</p>
 
-				<p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+				<p><a class="btn btn-flat white" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
 			</div>
 		</div>
 

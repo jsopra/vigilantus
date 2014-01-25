@@ -60,10 +60,6 @@ class Controller extends YiiController
         
         array_pop($words);
 
-        foreach ($words as &$word) {
-            $word = StringHelper::singularize($word);
-        }
-
         $words = implode(' ', $words);
 
         return 'app\\models\\' . str_replace(' ', '', ucwords($words));

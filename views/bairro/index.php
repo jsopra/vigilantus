@@ -1,6 +1,6 @@
 <?php
 
-use app\models\BairroTipo;
+use app\models\BairroCategoria;
 use app\models\Municipio;
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <p>
-        <?= Html::a('Cadastrar Bairro', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Cadastrar Bairro', ['create'], ['class' => 'btn btn-flat success']) ?>
     </p>
 
     <?php
@@ -41,13 +41,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'nome',
             [
                 'attribute' => 'bairro_tipo_id',
-                'filter' => BairroTipo::listData('nome'),
+                'filter' => BairroCategoria::listData('nome'),
                 'value' => function ($model, $index, $widget) {
                     return $model->tipo ? $model->tipo->nome : null;
                 }
             ],
             [
-                'class' => 'yii\grid\ActionColumn',
+                'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
             ],
         ],

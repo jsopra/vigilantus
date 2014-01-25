@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 	<p>
-		<?= Html::a('Cadastrar Condição de Imóvel', ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Cadastrar Condição de Imóvel', ['create'], ['class' => 'btn btn-flat success']) ?>
 	</p>
 
 	<?php echo GridView::widget([
@@ -73,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'class' => 'yii\grid\ActionColumn',
+                'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
             ],
         ],

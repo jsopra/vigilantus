@@ -13,21 +13,30 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="usuario-change-password">
 	<h1><?= Html::encode($this->title) ?></h1>
-<div class="usuario-form">
+    <div class="usuario-form">
 
-	<?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(); ?>
 
-		<?= $form->field($model, 'senha')->passwordInput() ?>
-		<?= $form->field($model, 'senha2')->passwordInput() ?>
+            <div class="row">
+                <div class="col-xs-3">
+                    <?= $form->field($model, 'senha')->passwordInput() ?>
+                </div>
+                <div class="col-xs-3">
+                    <?= $form->field($model, 'senha2')->passwordInput() ?>
+                </div>
+            </div>
 
-		<div class="form-group">
-			<?php
-            echo Html::submitButton(
-                'Alterar Senha',
-                ['class' => 'btn btn-primary']
-            ) ?>
-		</div>
+            <div class="clearfix"></div>
 
-	<?php ActiveForm::end(); ?>
+            <div class="form-group">
+                <?php
+                echo Html::submitButton(
+                    'Alterar Senha',
+                    ['class' => 'btn btn-flat primary']
+                ) ?>
+            </div>
 
+        <?php ActiveForm::end(); ?>
+
+    </div>
 </div>
