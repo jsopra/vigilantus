@@ -95,16 +95,6 @@ AppAsset::register($this);
                     'label' => 'Fichas',
                     'icon' => 'folder-open-alt',
                     'items' => [
-                        ['label' => 'Bairros', 'url' => ['/bairro']],
-                        ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria']],
-                        ['label' => 'Condições de Imóveis', 'url' => ['/imovel-condicao']],
-                        ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo']],
-                    ]
-                ],
-                [
-                    'label' => 'Fichas',
-                    'visible' => (Yii::$app->user->isGuest == false),
-                    'items' => [
                         ['label' => 'Boletim de RG', 'url' => ['/ficha-rg']],
                     ]
                 ],
