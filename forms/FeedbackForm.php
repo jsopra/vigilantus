@@ -40,7 +40,7 @@ class FeedbackForm extends Model
         $message .= '<p>Data/Hora: '. date('d/m/Y H:i:s') . '</p>';
         $message .= '<p>URL: ' . $this->url . '</p>';
         $message .= '<p>Mensagem: ' . $this->body . '</p>';
-        
+
         if ($this->validate()) {
             Yii::$app->mail->compose()
                 ->setTo($email)

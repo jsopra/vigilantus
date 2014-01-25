@@ -21,6 +21,10 @@ Yii::setAlias('@tests', __DIR__);
 // Dá acesso ao Yii::$app->db e outros
 $application = new yii\console\Application(require 'unit/_config.php');
 
+if (isset($_SERVER['argv']) && isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'build') {
+    return;
+}
+
 use tests\TestHelper;
 
 TestHelper::recreateDataBase();

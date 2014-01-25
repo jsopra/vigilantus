@@ -90,7 +90,7 @@ class TestHelper
     {
         $transaction = self::getDb()->beginTransaction();
 
-        $fixturesDir = Yii::getAlias(Yii::$app->fixture->basePath);
+        $fixturesDir = Yii::getAlias(__DIR__ . '/fixtures/');
         $fixtureFiles = [];
 
         foreach (scandir($fixturesDir) as $file) {
@@ -99,7 +99,23 @@ class TestHelper
             }
         }
 
-        Yii::$app->fixture->load($fixtureFiles);
+        foreach ($fixtureFiles as $tableName) {
+
+            $tableSchema = self::getDb()->getSchema()->getTableSchema($tableName);
+
+            $rows = require($fixturesDir . $tableName . '.php');
+
+            foreach ($rows as $row) {
+
+                $command = self::getDb()->createCommand();
+                $command->insert($tableName, $row);
+                $command->execute();
+            }
+
+            self::getDb()->createCommand(
+                "SELECT SETVAL('" . $tableSchema->sequenceName . "', (SELECT MAX(id)+1 FROM " . $tableName . "))"
+            )->execute();
+        }
 
         $transaction->commit();
     }
@@ -118,8 +134,8 @@ class TestHelper
     public static function clearSchema()
     {
         self::getDb()->pdo->query('BEGIN');
-        self::getDb()->pdo->query('drop schema public cascade');
-        self::getDb()->pdo->query('create schema public');
+        self::getDb()->pdo->query('DROP SCHEMA public CASCADE');
+        self::getDb()->pdo->query('CREATE SCHEMA public');
         self::getDb()->pdo->query('COMMIT');
     }
     
