@@ -29,7 +29,7 @@ class UsuarioController extends CRUDController
         
         if ($model->load($_POST) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Senha alterada com sucesso.');
-            return $this->goHome();
+            return $this->redirect(['site/home']);
         }
         
         return $this->render('change-password', ['model' => $model]);

@@ -15,7 +15,7 @@ $eu->aguardoPor(1);
 
 $eu->vejo('Envie comentários, ideias, problemas, ...');
 
-$pagina->submitFeedback([]);
+$pagina->submitFeedback(['body' => '']);
 
 $eu->espero('ver erros de validação');
 
@@ -25,9 +25,7 @@ $eu->vou('enviar o form com um motivo');
 
 $pagina->submitFeedback(['body' => 'test content']);
 
-//$eu->vejo('Enviando...');
-
-$eu->aguardoPor(3);
+$eu->aguardoPor(1);
 
 $eu->vejo('Feedback enviado com sucesso');
 

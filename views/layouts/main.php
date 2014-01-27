@@ -7,6 +7,7 @@ use app\components\themes\DetailwrapSideBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\widgets\Alert;
+use yii\web\View;
 
 /**
  * @var \yii\web\View $this
@@ -32,6 +33,11 @@ AppAsset::register($this);
         <?php $this->head() ?>
     </head>
     <body>
+        
+        <?php 
+        $view = Yii::$app->getView();
+        $view->registerJs('var feedbackUrl = "' .Html::url(['site/feedback']) . '";', View::POS_HEAD);
+        ?>
         
         <?php $this->beginBody() ?>
         <?php
@@ -143,8 +149,6 @@ AppAsset::register($this);
         if (!Yii::$app->user->isGuest) 
             echo $this->render('//shared/_feedback', array('model' => $this->context->feedbackModel)); 
         ?>
-        
-        <!-- asdasd-->
         
         <?php $this->endBody() ?>
     </body>
