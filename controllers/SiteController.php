@@ -61,7 +61,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         if (!Yii::$app->user->isGuest)
-            $this->redirect('site/home');
+            $this->redirect(['home']);
         
         return $this->render('index');
     }
@@ -69,7 +69,7 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest)
-            $this->redirect('site/home');
+            $this->redirect(['home']);
 
         $model = new LoginForm();
         if ($model->load($_POST) && $model->login()) {

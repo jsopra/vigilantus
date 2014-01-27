@@ -9,6 +9,9 @@ return [
             'password' => getenv('VIGILANTUS_TEST_DB_PASSWORD'),
             'charset' => 'utf8',
         ],
+        'mail' => [
+            'useFileTransport' => true,
+        ],
         'urlManager' => [
             'showScriptName' => true,
             'enablePrettyUrl' => false,

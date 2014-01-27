@@ -3,7 +3,7 @@ Testando
 
 RODANDO OS TESTES
 -----------------
-
+ 
 Rode os testes unitários com `vendor/bin/codecept run unit`
 
 Para testes de aceitação, instale e rode o Selenium2 com 
@@ -42,9 +42,9 @@ NameVirtualHost 127.0.0.1
     ServerName vigilantustest
     DocumentRoot /var/www/vigilantus/web
     SetEnv VIGILANTUS_ENV test
-    SetEnv VIGILANTUS_DB_DSN "pgsql:host=localhost;dbname=vigilantus_test"
-    SetEnv VIGILANTUS_DB_USERNAME postgres
-    SetEnv VIGILANTUS_DB_PASSWORD postgres
+    SetEnv VIGILANTUS_TEST_DB_DSN "pgsql:host=localhost;dbname=vigilantus_test"
+    SetEnv VIGILANTUS_TEST_DB_USERNAME postgres
+    SetEnv VIGILANTUS_TEST_DB_PASSWORD postgres
 </VirtualHost>
 ```
 
