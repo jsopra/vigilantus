@@ -89,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],  
             [   
                 'class' => 'app\extensions\grid\FModalColumn',
-                'iconClass' => 'icon-time opacity50',
+                'iconClass' => 'icon-search opacity50',
                 'modalId' => 'fechamento-detalhes',
                 'modalAjaxContent' => function ($model, $index, $widget) {
                     return Html::url(array('ficha-rg/fechamento', 'id' => $model->id));
