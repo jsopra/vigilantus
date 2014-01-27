@@ -17,11 +17,11 @@ class FichaRgController extends Controller
         return [
             'access' => [
                 'class' => '\yii\web\AccessControl',
-                'only' => ['create', 'delete', 'index', 'update'],
+                'only' => ['create', 'delete', 'index', 'update', 'fechamento'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'update', 'delete', 'index'],
+                        'actions' => ['create', 'update', 'delete', 'index', 'fechamento'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -99,6 +99,10 @@ class FichaRgController extends Controller
         }
         
         $this->redirect(['index']);
+    }
+    
+    public function actionFechamento($id) {
+        die('s');
     }
     
     /**
