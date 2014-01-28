@@ -56,9 +56,13 @@ class BairroCategoriaTest extends TestCase
 
     public function testDelete()
     {
-        $bairro = BairroCategoria::find(1);
-        $this->assertInstanceOf('app\models\BairroCategoria', $bairro);
-        $this->assertEquals(1, $bairro->delete());
+        $categoriaBairro = new BairroCategoria;
+        $categoriaBairro->municipio_id = 1;
+        $categoriaBairro->nome = 'Dummy ' . uniqid();
+        $categoriaBairro->inserido_por = 1;
+        $this->assertTrue($categoriaBairro->save());
+        $this->assertEquals(1, $categoriaBairro->delete());
+        $this->assertNull(BairroCategoria::find($categoriaBairro->id));
 
         $bairro = BairroCategoria::find(2);
         $this->assertInstanceOf('app\models\BairroCategoria', $bairro);
