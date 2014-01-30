@@ -117,7 +117,7 @@ class SiteController extends Controller
         $model = new FeedbackForm;
         
         if ($model->load($_POST) && $model->validate())
-            if ($model->sendFeedback(Yii::$app->user->identity, Yii::$app->params['emailContato']))
+            if ($model->sendFeedback(Yii::$app->user->identity, Yii::$app->params['emailFeedback']))
                 $return = ['status' => true, 'message' => 'Feedback enviado com sucesso'];
         
         if($return === null)
