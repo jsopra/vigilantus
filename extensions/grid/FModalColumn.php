@@ -144,7 +144,7 @@ class FModalColumn extends Column
         $hideLinkExpression = $this->hideLinkExpression ? call_user_func($this->hideLinkExpression, $model, $key, $index, $this) : null;
         
         if($this->iconClass && !$hideLinkExpression)
-			$columnContent .= "<i class=\"{$this->iconClass}\"></i>&nbsp;&nbsp;";
+			$columnContent .= "<i class=\"{$this->iconClass}\"></i>&nbsp;";
         
 		$columnContent .= call_user_func($this->value, $model, $key, $index, $this);
 		
