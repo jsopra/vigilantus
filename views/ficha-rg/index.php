@@ -80,15 +80,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     'width' => '9%',
                 ]
             ],  
-            [
-                
-                'value' => function ($model, $index, $widget) {
-                    
-                },
-                'options' => [
-                    'width' => '5%',
-                ]
-            ],  
             [   
                 'class' => 'app\extensions\grid\FModalColumn',
                 'iconClass' => 'icon-search opacity50',
@@ -97,12 +88,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::url(array('ficha-rg/fechamento', 'id' => $model->id));
                 },
                 'requestType' => 'GET',
-                'header' => 'Qtde.<br />Imóveis',
+                'header' => 'Qtde. Imóveis',
                 'value' => function ($model, $index, $widget) {
                     return $model->quantidadeImoveis . ' (Ver fechamento)';
                 },
                 'options' => [
-                    'width' => '10%',
+                    'width' => '15%',
                 ]
             ],  
             [
