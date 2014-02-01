@@ -30,7 +30,7 @@ abstract class SearchModel extends Model
      */
     public function attributeLabels()
     {
-        $className = $this->getModelClassFullName;
+        $className = $this->getModelClassFullName();
         return (new $className)-> attributeLabels();
     }
 

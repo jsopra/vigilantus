@@ -15,9 +15,20 @@ use yii\widgets\ActiveForm;
 
 	<?php $form = ActiveForm::begin(); ?>
 
-		<?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome')) ?>
-		<?= $form->field($model, 'nome') ?>
-		<?= $form->field($model, 'sigla') ?>
+        <div class="row">
+            <div class="col-xs-3">
+                <?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome')) ?>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-xs-3">
+                <?= $form->field($model, 'nome') ?>
+            </div>
+            <div class="col-xs-3">
+                <?= $form->field($model, 'sigla') ?>
+            </div>
+        </div>
 
 		<div class="form-group vigilantus-form">
 			<?php

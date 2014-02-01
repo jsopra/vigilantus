@@ -8,11 +8,14 @@ use app\components\ActiveRecord;
  * This is the model class for table "boletim_rg_fechamento".
  *
  * @property integer $id
- * @property string $data
  * @property integer $boletim_rg_id
  * @property integer $condicao_imovel_id
  * @property integer $quantidade
  * @property integer $municipio_id
+ * @property integer $mes
+ * @property integer $ano
+ * @property boolean $area_de_foco
+ * 
  *
  * @property BoletinsRg $boletimRg
  * @property ImovelCondicoes $condicaoImovel
@@ -33,9 +36,9 @@ class BoletimRgFechamento extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['data', 'boletim_rg_id', 'condicao_imovel_id', 'municipio_id'], 'required'],
-			[['data'], 'safe'],
-			[['boletim_rg_id', 'condicao_imovel_id', 'quantidade', 'municipio_id'], 'integer']
+			[['mes', 'ano', 'boletim_rg_id', 'condicao_imovel_id', 'municipio_id'], 'required'],
+			[['mes', 'ano', 'boletim_rg_id', 'condicao_imovel_id', 'quantidade', 'municipio_id'], 'integer'],
+            [['area_de_foco'], 'boolean'],
 		];
 	}
 
@@ -46,11 +49,13 @@ class BoletimRgFechamento extends ActiveRecord
 	{
 		return [
 			'id' => 'ID',
-			'data' => 'Data',
 			'boletim_rg_id' => 'Boletim Rg ID',
-			'condicao_imovel_id' => 'Condicao Imovel ID',
+			'condicao_imovel_id' => 'Condição do Imóvel',
 			'quantidade' => 'Quantidade',
             'municipio_id' => 'Município',
+            'mes' => 'Mês',
+            'ano' => 'Ano',
+            'area_de_foco' => 'Área de Foco?'
 		];
 	}
 
@@ -67,7 +72,7 @@ class BoletimRgFechamento extends ActiveRecord
 	 */
 	public function getCondicaoImovel()
 	{
-		return $this->hasOne(ImovelCondicoes::className(), ['id' => 'condicao_imovel_id']);
+		return $this->hasOne(ImovelCondicao::className(), ['id' => 'condicao_imovel_id']);
 	}
     
     /**

@@ -8,20 +8,31 @@ use yii\web\AccessControl;
 use app\components\Controller;
 use yii\web\VerbFilter;
 use app\models\search\BoletimRgSearch;
+use app\models\search\BoletimRgFechamentoSearch;
 use app\models\BoletimRg;
+use app\models\search\BoletimRgFechamento;
 
 class FichaRgController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'bairroCategoria' => ['class' => 'app\components\actions\BairroCategoria'],
+            'bairroQuarteiroes' => ['class' => 'app\components\actions\BairroQuarteiroes'],
+            'bairroRuas' => ['class' => 'app\components\actions\BairroRuas'],
+        ];
+    }
+    
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => '\yii\web\AccessControl',
-                'only' => ['create', 'delete', 'index', 'update', 'fechamento'],
+                'only' => ['create', 'delete', 'index', 'update', 'fechamento', 'bairroCategoria', 'bairroQuarteiroes', 'bairroRuas'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'update', 'delete', 'index', 'fechamento'],
+                        'actions' => ['create', 'update', 'delete', 'index', 'fechamento', 'bairroCategoria', 'bairroQuarteiroes', 'bairroRuas'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -102,7 +113,16 @@ class FichaRgController extends Controller
     }
     
     public function actionFechamento($id) {
-        die('s');
+        
+        $this->layout = false;
+     
+        $searchModel = new BoletimRgFechamentoSearch;
+        $dataProvider = $searchModel->search(['BoletimRgFechamento' => ['boletim_rg_id' => $id]]);
+        
+        return $this->render(
+            '_fechamento',
+            ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
+        );
     }
     
     /**
@@ -158,5 +178,21 @@ class FichaRgController extends Controller
     protected function buildNewModel()
     {
         return new BoletimRg;
+    }
+    
+    /**
+	 * Finds the model based on its primary key value.
+	 * If the model is not found, a 404 HTTP exception will be thrown.
+	 * @param integer $id
+	 * @return BairroTipo the loaded model
+	 * @throws NotFoundHttpException if the model cannot be found
+	 */
+    protected function findModel($id)
+    {
+
+        if (($model = BoletimRg::find(intval($id))) !== null)
+            return $model;
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
