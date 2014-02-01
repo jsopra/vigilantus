@@ -12,6 +12,8 @@ use app\components\ActiveRecord;
  * @property integer $municipio_id
  * @property string $nome
  * @property integer $bairro_tipo_id
+ * @property integer $ultimo_mes_rg
+ * @property integer $ultimo_ano_rg
  */
 class Bairro extends ActiveRecord
 {
@@ -30,8 +32,9 @@ class Bairro extends ActiveRecord
     {
         return array(
             [['municipio_id', 'nome'], 'required'],
+            [['ultimo_mes_rg', 'ultimo_ano_rg'], 'required', 'on' => 'setAtualizacaoRG'],
             ['nome', 'unique', 'compositeWith' => 'municipio_id'],
-            [['municipio_id', 'bairro_tipo_id'], 'integer'],
+            [['municipio_id', 'bairro_tipo_id', 'ultimo_mes_rg', 'ultimo_ano_rg'], 'integer'],
         );
     }
 
@@ -61,6 +64,8 @@ class Bairro extends ActiveRecord
             'municipio_id' => 'Município',
             'nome' => 'Nome',
             'bairro_tipo_id' => 'Categoria de Bairro',
+            'ultimo_mes_rg' => 'Último Mês com informações de RG',
+            'ultimo_mes_rg' => 'Último Ano com informações de RG'
         );
     }
 }
