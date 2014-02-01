@@ -50,6 +50,22 @@ class Bairro extends ActiveRecord
     {
         return $this->hasOne(BairroCategoria::className(), ['id' => 'bairro_tipo_id']);
     }
+    
+    /**
+     * @return BairroCategoria
+     */
+    public function getQuarteiroes()
+    {
+        return $this->hasMany(BairroQuarteirao::className(), ['bairro_id' => 'id']);
+    }
+    
+    /**
+     * @return BairroCategoria
+     */
+    public function getRuas()
+    {
+        return $this->hasMany(BairroRua::className(), ['bairro_id' => 'id']);
+    }
 
     /**
      * @return array descrição dos atributos (name=>label)

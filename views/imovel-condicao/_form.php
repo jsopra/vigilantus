@@ -13,9 +13,20 @@ use yii\widgets\ActiveForm;
 <div class="imovel-condicao-form">
 	<?php $form = ActiveForm::begin(); ?>
     
-		<?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome')) ?>
-		<?= $form->field($model, 'nome') ?>
-		<?= $form->field($model, 'exibe_nome')->checkbox() ?>
+        <div class="row">
+            <div class="col-xs-3">
+                <?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome')) ?>
+            </div>
+            <div class="col-xs-3">
+                <?= $form->field($model, 'nome') ?>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-xs-3">
+                <?= $form->field($model, 'exibe_nome')->checkbox() ?>
+            </div>
+        </div>
 
 		<div class="form-group vigilantus-form">
 			<?php

@@ -13,6 +13,7 @@ use app\components\ActiveRecord;
  * @property integer $bairro_rua_imovel_id
  * @property integer $condicao_imovel_id
  * @property integer $municipio_id
+ * @property boolean $area_de_foco
  * 
  * @property BoletinsRg $boletimRg
  * @property BairroRuaImoveis $bairroRuaImovel
@@ -35,7 +36,8 @@ class BoletimRgImoveis extends ActiveRecord
 	{
 		return [
 			[['data', 'boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'condicao_imovel_id'], 'required'],
-			[['data'], 'safe'],
+			[['data', 'area_de_foco'], 'safe'],
+            [['area_de_foco'], 'boolean'],
 			[['boletim_rg_id', 'bairro_rua_imovel_id', 'condicao_imovel_id', 'municipio_id'], 'integer']
 		];
 	}
@@ -51,7 +53,8 @@ class BoletimRgImoveis extends ActiveRecord
 			'boletim_rg_id' => 'Boletim Rg ID',
 			'bairro_rua_imovel_id' => 'Bairro Rua Imovel ID',
 			'condicao_imovel_id' => 'Condicao Imovel ID',
-            'municipio_id' => 'Município',    
+            'municipio_id' => 'Município',  
+            'area_de_foco' => 'Área de foco?',
 		];
 	}
 

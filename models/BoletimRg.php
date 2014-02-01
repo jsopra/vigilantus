@@ -27,6 +27,7 @@ use app\components\ActiveRecord;
 class BoletimRg extends ActiveRecord
 {
     public $categoria_id;
+    public $imoveis;
     
 	/**
 	 * @inheritdoc
@@ -42,9 +43,10 @@ class BoletimRg extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['folha', 'ano', 'mes', 'bairro_id', 'inserido_por', 'municipio_id', 'bairro_quarteirao_id'], 'required'],
+			[['folha', 'ano', 'mes', 'bairro_id', 'inserido_por', 'municipio_id', 'bairro_quarteirao_id', 'imoveis'], 'required'],
             ['bairro_quarteirao_id', 'unique', 'compositeWith' => ['ano', 'mes']],
             ['categoria_id', 'safe'],
+            //['imoveis', 'array'],
             ['folha', 'unique', 'compositeWith' => ['ano']],
             ['mes', 'integer', 'min' => 1, 'max' => 12],
             ['ano', 'integer', 'min' => (date('Y') - 1), 'max' => date('Y')],
@@ -86,7 +88,7 @@ class BoletimRg extends ActiveRecord
 	 */
 	public function getBoletimFechamento()
 	{
-		return $this->hasOne(BoletimRgFechamento::className(), ['boletim_rg_id' => 'id']);
+		return $this->hasMany(BoletimRgFechamento::className(), ['boletim_rg_id' => 'id']);
 	}
 
 	/**
@@ -95,6 +97,14 @@ class BoletimRg extends ActiveRecord
 	public function getBairro()
 	{
 		return $this->hasOne(Bairro::className(), ['id' => 'bairro_id']);
+	}
+    
+    /**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getQuarteirao()
+	{
+		return $this->hasOne(BairroQuarteirao::className(), ['id' => 'bairro_quarteirao_id']);
 	}
 
 	/**
@@ -119,5 +129,20 @@ class BoletimRg extends ActiveRecord
     public function getQuantidadeImoveis() 
     {
         return BoletimRgImoveis::find()->where(['boletim_rg_id' => $this->id])->count();
+    }
+    
+    public function beforeDelete() {
+        
+        $parent = parent::beforeDelete();
+        
+        $boletimImoveis = $this->boletimImoveis;
+        foreach($boletimImoveis as $imovel)
+            $imovel->delete();
+        
+        $boletimFechamento = $this->boletimFechamento;
+        foreach($boletimFechamento as $fechamento)
+            $fechamento->delete();
+        
+        return $parent;
     }
 }

@@ -21,7 +21,8 @@ class BoletimRgSearch extends SearchModel
     public function rules()
     {
         return [
-            [['municipio_id', 'bairro_id', 'bairro_quarteirao_id', 'seq', 'folha', 'mes', 'ano'], 'required'],
+            [['municipio_id', 'bairro_id', 'bairro_quarteirao_id', 'seq', 'folha', 'mes', 'ano'], 'integer'],
+            [['data_cadastro'], 'safe'],
         ];
     }
 
@@ -32,7 +33,7 @@ class BoletimRgSearch extends SearchModel
         $this->addCondition($query, 'folha', true);
         $this->addCondition($query, 'ano');
         $this->addCondition($query, 'bairro_id');
-        $this->addCondition($query, 'quarteirao_id');
+        $this->addCondition($query, 'bairro_quarteirao_id');
         $this->addCondition($query, 'data_cadastro', true);
         $this->addCondition($query, 'inserido_por');
         $this->addCondition($query, 'mes');
