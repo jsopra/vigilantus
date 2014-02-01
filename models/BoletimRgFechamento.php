@@ -13,6 +13,7 @@ use app\components\ActiveRecord;
  * @property integer $condicao_imovel_id
  * @property integer $quantidade
  * @property integer $municipio_id
+ * @property integer $imovel_tipo_id
  *
  * @property BoletinsRg $boletimRg
  * @property ImovelCondicoes $condicaoImovel
@@ -33,9 +34,9 @@ class BoletimRgFechamento extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['data', 'boletim_rg_id', 'condicao_imovel_id', 'municipio_id'], 'required'],
+			[['data', 'boletim_rg_id', 'condicao_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'required'],
 			[['data'], 'safe'],
-			[['boletim_rg_id', 'condicao_imovel_id', 'quantidade', 'municipio_id'], 'integer']
+			[['boletim_rg_id', 'condicao_imovel_id', 'quantidade', 'municipio_id', 'imovel_tipo_id'], 'integer']
 		];
 	}
 
@@ -47,10 +48,11 @@ class BoletimRgFechamento extends ActiveRecord
 		return [
 			'id' => 'ID',
 			'data' => 'Data',
-			'boletim_rg_id' => 'Boletim Rg ID',
-			'condicao_imovel_id' => 'Condicao Imovel ID',
+			'boletim_rg_id' => 'Boletim RG',
+			'condicao_imovel_id' => 'Condição Imóvel',
 			'quantidade' => 'Quantidade',
             'municipio_id' => 'Município',
+            'imovel_tipo_id' => 'Tipo do Imóvel'
 		];
 	}
 
@@ -77,4 +79,12 @@ class BoletimRgFechamento extends ActiveRecord
     {
         return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
     }
+    
+    /**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getImovelTipo()
+	{
+		return $this->hasOne(ImovelTipo::className(), ['id' => 'imovel_tipo_id']);
+	}
 }
