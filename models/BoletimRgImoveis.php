@@ -13,6 +13,7 @@ use app\components\ActiveRecord;
  * @property integer $bairro_rua_imovel_id
  * @property integer $condicao_imovel_id
  * @property integer $municipio_id
+ * @property integer $imovel_tipo_id
  * 
  * @property BoletinsRg $boletimRg
  * @property BairroRuaImoveis $bairroRuaImovel
@@ -34,9 +35,9 @@ class BoletimRgImoveis extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['data', 'boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'condicao_imovel_id'], 'required'],
+			[['data', 'boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'condicao_imovel_id', 'imovel_tipo_id'], 'required'],
 			[['data'], 'safe'],
-			[['boletim_rg_id', 'bairro_rua_imovel_id', 'condicao_imovel_id', 'municipio_id'], 'integer']
+			[['boletim_rg_id', 'bairro_rua_imovel_id', 'condicao_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'integer']
 		];
 	}
 
@@ -48,10 +49,11 @@ class BoletimRgImoveis extends ActiveRecord
 		return [
 			'id' => 'ID',
 			'data' => 'Data',
-			'boletim_rg_id' => 'Boletim Rg ID',
-			'bairro_rua_imovel_id' => 'Bairro Rua Imovel ID',
-			'condicao_imovel_id' => 'Condicao Imovel ID',
+			'boletim_rg_id' => 'Boletim RG',
+			'bairro_rua_imovel_id' => 'Bairro Rua Imóvel',
+			'condicao_imovel_id' => 'Condição do Imóvel',
             'municipio_id' => 'Município',    
+            'imovel_tipo_id' => 'Tipo do Imóvel'
 		];
 	}
 
@@ -69,6 +71,14 @@ class BoletimRgImoveis extends ActiveRecord
 	public function getBairroRuaImovel()
 	{
 		return $this->hasOne(BairroRuaImoveis::className(), ['id' => 'bairro_rua_imovel_id']);
+	}
+    
+    /**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getImovelTipo()
+	{
+		return $this->hasOne(ImovelTipo::className(), ['id' => 'imovel_tipo_id']);
 	}
 
 	/**
