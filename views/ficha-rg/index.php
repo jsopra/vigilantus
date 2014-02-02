@@ -53,33 +53,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->quarteirao ? $model->quarteirao->numero_quarteirao : null;
                 },
                 'options' => [
-                    'width' => '10%',
+                    'width' => '20%',
                 ]
             ],
             [
                 'attribute' => 'seq',
                 'options' => [
-                    'width' => '7%',
+                    'width' => '10%',
                 ]
             ], 
             [
                 'attribute' => 'folha',
                 'options' => [
-                    'width' => '7%',
+                    'width' => '10%',
                 ]
-            ], 
-            [
-                'attribute' => 'mes',
-                'options' => [
-                    'width' => '7%',
-                ]
-            ], 
-            [
-                'attribute' => 'ano',
-                'options' => [
-                    'width' => '9%',
-                ]
-            ],  
+            ],
             [   
                 'class' => 'app\extensions\grid\FModalColumn',
                 'iconClass' => 'icon-search opacity50',

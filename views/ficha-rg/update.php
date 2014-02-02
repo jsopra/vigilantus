@@ -7,7 +7,7 @@ use yii\helpers\Html;
  * @var app\models\BairroTipo $model
  */
 
-$this->title = 'Atualizar Boletim de RG nº ' . $model->folha .' - ' . $model->mes . '/' . $model->ano;
+$this->title = 'Atualizar Boletim de RG nº ' . $model->folha;
 $this->params['breadcrumbs'][] = ['label' => 'Boletim de Reconhecimento Geográfico', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Atualizar';
 ?>

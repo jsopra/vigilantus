@@ -13,8 +13,6 @@ use app\components\ActiveRecord;
  * @property integer $quantidade
  * @property integer $municipio_id
  * @property integer $imovel_tipo_id
- * @property integer $mes
- * @property integer $ano
  * @property boolean $area_de_foco
  * 
  *
@@ -37,8 +35,8 @@ class BoletimRgFechamento extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['mes', 'ano', 'boletim_rg_id', 'condicao_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'required'],
-			[['mes', 'ano', 'boletim_rg_id', 'condicao_imovel_id', 'quantidade', 'municipio_id', 'imovel_tipo_id'], 'integer'],
+			[['boletim_rg_id', 'condicao_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'required'],
+			[['boletim_rg_id', 'condicao_imovel_id', 'quantidade', 'municipio_id', 'imovel_tipo_id'], 'integer'],
             [['area_de_foco'], 'boolean'],
 		];
 	}
@@ -50,8 +48,6 @@ class BoletimRgFechamento extends ActiveRecord
 	{
 		return [
 			'id' => 'ID',
-            'mes' => 'Mês',
-            'ano' => 'Ano',
 			'boletim_rg_id' => 'Boletim RG',
 			'condicao_imovel_id' => 'Condição Imóvel',
 			'quantidade' => 'Quantidade',
@@ -135,8 +131,6 @@ class BoletimRgFechamento extends ActiveRecord
             $boletimExistente->quantidade = 0;
             $boletimExistente->municipio_id = $oBoletim->municipio_id;
             $boletimExistente->imovel_tipo_id = $imovelTipoId;
-            $boletimExistente->mes = $oBoletim->mes;
-            $boletimExistente->ano = $oBoletim->ano;
             $boletimExistente->area_de_foco = $areaDeFoco;
             
             if(!$boletimExistente->save())

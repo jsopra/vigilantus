@@ -9,7 +9,6 @@ use app\components\ActiveRecord;
  *
  * @property integer $id
  * @property integer $folha
- * @property integer $ano
  * @property integer $bairro_id
  * @property integer $bairro_quarteirao_id
  * @property string $seq
@@ -17,7 +16,6 @@ use app\components\ActiveRecord;
  * @property integer $inserido_por
  * @property integer $municipio_id
  * @property integer $categoria_id
- * @property integer $mes
  *
  * @property BoletimRgImoveis[] $boletimRgImoveis
  * @property BoletimRgFechamento[] $boletimRgFechamentos
@@ -43,26 +41,12 @@ class BoletimRg extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['folha', 'ano', 'mes', 'bairro_id', 'municipio_id', 'bairro_quarteirao_id', 'imoveis'], 'required'],
-            ['bairro_quarteirao_id', 'unique', 'compositeWith' => ['ano', 'mes']],
+			[['folha', 'bairro_id', 'municipio_id', 'bairro_quarteirao_id', 'imoveis'], 'required'],
             ['categoria_id', 'safe'],
-            ['folha', 'unique', 'compositeWith' => ['ano']],
-            ['mes', 'integer', 'min' => 1, 'max' => 12],
-            ['ano', 'integer', 'min' => (date('Y') - 1), 'max' => date('Y')],
-            ['mes', 'validaMes'],
-			[['folha', 'ano', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id', 'mes'], 'integer'],
+			[['folha', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id'], 'integer'],
 			[['seq', 'data_cadastro'], 'string'],
 		];
 	}
-    
-    public function validaMes($attribute) {
-        
-        if(!$this->mes || !$this->ano)
-            return;
-        
-        if($this->mes > date('m') && $this->ano == date('Y'))
-            $this->addError('mes', 'Mês não pode ser no futuro');
-    }
 
 	/**
 	 * @inheritdoc
@@ -72,8 +56,6 @@ class BoletimRg extends ActiveRecord
 		return [
 			'id' => 'ID',
 			'folha' => 'Folha nº',
-			'ano' => 'Ano',
-            'mes' => 'Mês',
 			'bairro_id' => 'Bairro',
 			'bairro_quarteirao_id' => 'Quarteirão',
 			'seq' => 'Seq',
@@ -172,16 +154,13 @@ class BoletimRg extends ActiveRecord
                     $boletimImovel->condicao_imovel_id = $imovel['imovel_condicao'];
                     $boletimImovel->boletim_rg_id = $this->id;
                     $boletimImovel->area_de_foco = isset($imovel['existe_foco']) && $imovel['existe_foco'] == '1';
-                    $boletimImovel->data = '01/' . $this->mes . '/' . $this->ano;
                     $boletimImovel->bairro_rua_imovel_id = $ruaBairroImovel->id;
                     
-                    if($boletimImovel->save())
+                    if ($boletimImovel->save())
                         $imoveisSalvos++;
-                    else
-                        var_dump($boletimImovel->errors);
                 }
                 
-                if($imoveisSalvos == 0) {
+                if ($imoveisSalvos == 0) {
                     $transaction->rollback();
                     $this->addError('imoveis', 'Nenhum imóvel salvo');
                     return false;

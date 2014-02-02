@@ -8,7 +8,6 @@ use app\components\ActiveRecord;
  * This is the model class for table "boletim_rg_imoveis".
  *
  * @property integer $id
- * @property string $data
  * @property integer $boletim_rg_id
  * @property integer $bairro_rua_imovel_id
  * @property integer $condicao_imovel_id
@@ -36,8 +35,7 @@ class BoletimRgImoveis extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['data', 'boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'condicao_imovel_id', 'imovel_tipo_id'], 'required'],
-			[['data', 'area_de_foco'], 'safe'],
+			[['boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'condicao_imovel_id', 'imovel_tipo_id'], 'required'],
             [['area_de_foco'], 'boolean'],
 			[['boletim_rg_id', 'bairro_rua_imovel_id', 'condicao_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'integer']
 		];

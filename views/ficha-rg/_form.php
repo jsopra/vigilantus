@@ -36,12 +36,6 @@ use yii\widgets\ActiveForm;
         <div class="col-xs-2 col-lg-offset-1 bairro-hide">
             <?= $form->field($model, 'folha')->textInput() ?>
         </div>
-        <div class="col-xs-1 bairro-hide">
-            <?= $form->field($model, 'mes')->textInput() ?>
-        </div>
-        <div class="col-xs-1 bairro-hide">
-            <?= $form->field($model, 'ano')->textInput() ?>
-        </div>
     </div>
     <br />
     <div class="row bairro-hide">
