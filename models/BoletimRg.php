@@ -196,6 +196,14 @@ class BoletimRg extends ActiveRecord
 		return $this->hasMany(BoletimRgFechamento::className(), ['boletim_rg_id' => 'id']);
 	}
 
+    /**
+     * @return \yii\db\ActiveRelation
+     */
+    public function getBoletinsFechamento()
+    {
+        return $this->hasMany(BoletimRgFechamento::className(), ['boletim_rg_id' => 'id']);
+    }
+
 	/**
 	 * @return \yii\db\ActiveRelation
 	 */

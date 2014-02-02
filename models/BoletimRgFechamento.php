@@ -62,7 +62,7 @@ class BoletimRgFechamento extends ActiveRecord
 	 */
 	public function getBoletimRg()
 	{
-		return $this->hasOne(BoletinsRg::className(), ['id' => 'boletim_rg_id']);
+		return $this->hasOne(BoletimRg::className(), ['id' => 'boletim_rg_id']);
 	}
 
 	/**

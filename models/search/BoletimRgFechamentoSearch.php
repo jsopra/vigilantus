@@ -17,8 +17,13 @@ class BoletimRgFechamentoSearch extends SearchModel
     public function rules()
     {
         return [
-            [['boletim_rg_id'], 'required'],
-            [['municipio_id', 'boletim_rg_id', 'condicao_imovel_id', 'condicao_imovel_id', 'quantidade'], 'integer'],
+            [
+                [
+                    'municipio_id', 'boletim_rg_id', 'condicao_imovel_id',
+                    'condicao_imovel_id', 'quantidade',
+                ],
+                'integer'
+            ],
             [['area_de_foco'], 'boolean']
         ];
     }

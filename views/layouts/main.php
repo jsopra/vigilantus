@@ -108,6 +108,13 @@ AppAsset::register($this);
                     ]
                 ],
                 [
+                    'label' => 'Relatórios',
+                    'icon' => 'bar-chart',
+                    'items' => [
+                        ['label' => 'Boletim de RG', 'url' => ['/resumo-rg']],
+                    ]
+                ],
+                [
                     'label' => 'Sistema',
                     'icon' => 'cog',
                     'items' => [
