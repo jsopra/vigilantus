@@ -1,0 +1,15 @@
+#resumo-rg-bairro th {
+    word-break: break-word;
+}
+
+#resumo-rg-bairro th.number {
+    width: 5em;
+}
+
+#resumo-rg-bairro th.total {
+    width: 8em;
+}
+
+#resumo-rg-bairro th.date {
+    width: 6em;
+}

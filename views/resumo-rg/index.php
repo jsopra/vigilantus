@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php if ($searchModel->bairro_id) : ?>
 <?php if ($dataProvider->getTotalCount()) : ?>
-<table class="table table-striped table-condensed table-bordered">
+<table id="resumo-rg-bairro" class="table table-striped table-condensed table-bordered">
     <?php
     $dadosTotaisImoveis = $dadosTotaisFoco = [];
     $totalAreasFoco = 0;
@@ -35,21 +35,21 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
     <thead>
         <tr>
-            <td rowspan="2">Número Quarteirão</td>
-            <td rowspan="2">Número Alternativo</td>
-            <td rowspan="2">Seq.</td>
-            <td colspan="<?= count($tiposImoveis) ?>">TIPO DO IMÓVEL</td>
-            <td rowspan="2">Total de Imóveis</td>
-            <td rowspan="2">Área de Foco</td>
-            <td colspan="<?= count($tiposImoveis) ?>">TIPO DO IMÓVEL – ÁREA DE FOCO</td>
-            <td rowspan="2">Total de Imóveis</td>
+            <th rowspan="2" class="number">Nº Quart.</th>
+            <th rowspan="2" class="number">Nº Alt.</th>
+            <th rowspan="2" class="number">Seq.</th>
+            <th colspan="<?= count($tiposImoveis) ?>">TIPO DO IMÓVEL</th>
+            <th rowspan="2" class="total">Total de Imóveis</th>
+            <th rowspan="2" class="date">Área de Foco</th>
+            <th colspan="<?= count($tiposImoveis) ?>">TIPO DO IMÓVEL – ÁREA DE FOCO</th>
+            <th rowspan="2" class="total">Total de Imóveis</th>
         </tr>
         <tr>
             <?php foreach ($tiposImoveis as $tipoImovel) : ?>
-            <td><?= $tipoImovel->sigla ? $tipoImovel->sigla : $tipoImovel->nome ?></td>
+            <th><?= $tipoImovel->sigla ? $tipoImovel->sigla : $tipoImovel->nome ?></th>
             <?php endforeach; ?>
             <?php foreach ($tiposImoveis as $tipoImovel) : ?>
-            <td><?= $tipoImovel->sigla ? $tipoImovel->sigla : $tipoImovel->nome ?></td>
+            <th><?= $tipoImovel->sigla ? $tipoImovel->sigla : $tipoImovel->nome ?></th>
             <?php endforeach; ?>
         </tr>
     </thead>
@@ -96,25 +96,25 @@ $this->params['breadcrumbs'][] = $this->title;
             <td><?= $row->quarteirao->numero_quarteirao ?></td>
             <td><?= $row->quarteirao->numero_quarteirao_2 ?></td>
             <td><?= $row->seq ?></td>
-            <?php foreach ($dadosImoveis as $info) : ?>
-            <td><?= $info ?></td>
+            <?php foreach ($dadosImoveis as $key => $info) : ?>
+            <td><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
             <?php endforeach; ?>
             <td><?= $areaFoco ?></td>
-            <?php foreach ($dadosFoco as $info) : ?>
-            <td><?= $info ?></td>
+            <?php foreach ($dadosFoco as $key => $info) : ?>
+            <td><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
             <?php endforeach; ?>
         </tr>
         <?php endforeach; ?>
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3">Total:</td>
-            <?php foreach ($dadosTotaisImoveis as $info) : ?>
-            <td><?= $info ?></td>
+            <th colspan="3">Total:</th>
+            <?php foreach ($dadosTotaisImoveis as $key => $info) : ?>
+            <td><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
             <?php endforeach; ?>
             <td><?= $totalAreasFoco ?></td>
-            <?php foreach ($dadosTotaisFoco as $info) : ?>
-            <td><?= $info ?></td>
+            <?php foreach ($dadosTotaisFoco as $key => $info) : ?>
+            <td><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
             <?php endforeach; ?>
         </tr>
     </tfoot>
