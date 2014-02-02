@@ -58,7 +58,7 @@ class BairroRuaImovel extends \yii\db\ActiveRecord
 	 */
 	public function getBoletimRgImoveis()
 	{
-		return $this->hasMany(BoletimRgImoveis::className(), ['bairro_rua_imovel_id' => 'id']);
+		return $this->hasMany(BoletimRgImovel::className(), ['bairro_rua_imovel_id' => 'id']);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class BairroRuaImovel extends \yii\db\ActiveRecord
 	 */
 	public function getBairroRua()
 	{
-		return $this->hasOne(BairroRuas::className(), ['id' => 'bairro_rua_id']);
+		return $this->hasOne(BairroRua::className(), ['id' => 'bairro_rua_id']);
     }
 
     public static function daRua($query, $id) {

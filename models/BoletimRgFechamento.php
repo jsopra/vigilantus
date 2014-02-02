@@ -124,7 +124,8 @@ class BoletimRgFechamento extends ActiveRecord
             ->doBoletim($oBoletim->id)
             ->daCondicaoDeImovel($condicaoImovelId)
             ->doTipoDeImovel($imovelTipoId)
-            ->doTipoDeFoco($areaDeFoco);
+            ->doTipoDeFoco($areaDeFoco)
+            ->one();
             
         if(!$boletimExistente instanceof self) {
             
@@ -144,6 +145,6 @@ class BoletimRgFechamento extends ActiveRecord
         
         $boletimExistente->quantidade = $boletimExistente->quantidade + 1;
         
-        return $boletimExistente->save();
+        return $boletimExistente->save() ? $boletimExistente : false;
     }
 }

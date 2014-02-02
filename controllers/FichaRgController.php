@@ -14,6 +14,16 @@ use app\models\search\BoletimRgFechamento;
 
 class FichaRgController extends Controller
 {
+    /**
+     * @var string
+     */
+    protected $createFlashMessage = 'O cadastro foi realizado com sucesso.';
+    
+    /**
+     * @var string
+     */
+    protected $updateFlashMessage = 'O registro foi atualizado com sucesso.';
+    
     public function actions()
     {
         return [
@@ -86,19 +96,40 @@ class FichaRgController extends Controller
         return $this->render('create', ['model' => $model]);
     }
 
-    public function actionView($id)
-    {
-        return $this->render('view', ['model' => $this->findModel($id)]);
-    }
-
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        //$model->scenario = 'update';
 
-        if (!$this->loadAndSaveModel($model, $_POST)) {
-            return $this->render('update', ['model' => $model]);
+        $model->municipio_id = 1; //@todo fix
+        
+        if ($model->load($_POST)) {
+            
+            if($model->validate()) {
+
+                $isNewRecord = $model->isNewRecord;
+
+                if ($isNewRecord && $model->hasAttribute('inserido_por'))
+                    $model->inserido_por = Yii::$app->user->identity->id;
+
+                elseif ($model->hasAttribute('atualizado_por'))
+                    $model->atualizado_por = Yii::$app->user->identity->id;
+
+                if ($model->save()) {
+
+                    $message = $isNewRecord ? $this->createFlashMessage : $this->updateFlashMessage;
+
+                    Yii::$app->session->setFlash('success', $message);
+
+                    return $this->redirect(['index']);
+                }
+            }
         }
+        else {
+            
+            $model->populaImoveis();
+        }
+        
+        return $this->render('update', ['model' => $model]);
     }
     
     public function actionDelete($id)
@@ -136,7 +167,7 @@ class FichaRgController extends Controller
         $this->layout = false;
      
         $searchModel = new BoletimRgFechamentoSearch;
-        $dataProvider = $searchModel->search(['BoletimRgFechamento' => ['boletim_rg_id' => $id]]);
+        $dataProvider = $searchModel->search(['boletim_rg_id' => $id]);
         
         return $this->render(
             '_fechamento',

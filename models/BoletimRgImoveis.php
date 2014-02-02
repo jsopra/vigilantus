@@ -65,7 +65,7 @@ class BoletimRgImoveis extends ActiveRecord
 	 */
 	public function getBoletimRg()
 	{
-		return $this->hasOne(BoletinsRg::className(), ['id' => 'boletim_rg_id']);
+		return $this->hasOne(BoletimRg::className(), ['id' => 'boletim_rg_id']);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class BoletimRgImoveis extends ActiveRecord
 	 */
 	public function getBairroRuaImovel()
 	{
-		return $this->hasOne(BairroRuaImoveis::className(), ['id' => 'bairro_rua_imovel_id']);
+		return $this->hasOne(BairroRuaImovel::className(), ['id' => 'bairro_rua_imovel_id']);
 	}
     
     /**
@@ -89,7 +89,7 @@ class BoletimRgImoveis extends ActiveRecord
 	 */
 	public function getCondicaoImovel()
 	{
-		return $this->hasOne(ImovelCondicoes::className(), ['id' => 'condicao_imovel_id']);
+		return $this->hasOne(ImovelCondicao::className(), ['id' => 'condicao_imovel_id']);
 	}
     
     /**
@@ -103,7 +103,9 @@ class BoletimRgImoveis extends ActiveRecord
     
     public function save($runValidation = true, $attributes = NULL) {
 
-        $transaction = $this->getDb()->beginTransaction();
+        $currentTransaction = $this->getDb()->getTransaction();		
+		$newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
+        
         try {
             
             $result = parent::save($runValidation, $attributes);
@@ -111,28 +113,35 @@ class BoletimRgImoveis extends ActiveRecord
             if ($result) {
                 
                 $boletimFechamento = BoletimRgFechamento::incrementaContagemImovel(
-                    $this->boletim_rg_id,
+                    $this->boletimRg,
                     $this->condicao_imovel_id,
                     $this->imovel_tipo_id,
                     $this->area_de_foco
                 );
-                
-                if($boletimFechamento)
-                    $transaction->commit();
+
+                if($boletimFechamento instanceof BoletimRgFechamento) {
+                    if($newTransaction)
+                        $transaction->commit();
+                }
                 else {
-                    $transaction->rollback();
+
+                    if($newTransaction)
+                        $transaction->rollback();
+                    
                     $result = false;                    
                 }
             } 
             else {
-                $transaction->rollback();
+                if($newTransaction)
+                    $transaction->rollback();
             }
         } 
         catch (\Exception $e) {
-            $transaction->rollback();
+            if($newTransaction)
+                $transaction->rollback();
             throw $e;
         }
-        
+
         return $result;
     }
 }

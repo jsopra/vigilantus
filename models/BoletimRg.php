@@ -49,10 +49,20 @@ class BoletimRg extends ActiveRecord
             ['folha', 'unique', 'compositeWith' => ['ano']],
             ['mes', 'integer', 'min' => 1, 'max' => 12],
             ['ano', 'integer', 'min' => (date('Y') - 1), 'max' => date('Y')],
+            ['mes', 'validaMes'],
 			[['folha', 'ano', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id', 'mes'], 'integer'],
-			[['seq', 'data_cadastro'], 'string']
+			[['seq', 'data_cadastro'], 'string'],
 		];
 	}
+    
+    public function validaMes($attribute) {
+        
+        if(!$this->mes || !$this->ano)
+            return;
+        
+        if($this->mes > date('m') && $this->ano == date('Y'))
+            $this->addError('mes', 'Mês não pode ser no futuro');
+    }
 
 	/**
 	 * @inheritdoc
@@ -100,7 +110,7 @@ class BoletimRg extends ActiveRecord
                     return false;
                 }
             }
-            
+
             $this->bairro_quarteirao_id = $bairroQuarteirao->id;
             
             $result = parent::save($runValidation, $attributes);
@@ -161,12 +171,14 @@ class BoletimRg extends ActiveRecord
                     $boletimImovel->imovel_tipo_id = $imovel['imovel_tipo'];
                     $boletimImovel->condicao_imovel_id = $imovel['imovel_condicao'];
                     $boletimImovel->boletim_rg_id = $this->id;
-                    $boletimImovel->area_de_foco = $imovel['existe_foco'] == '1';
+                    $boletimImovel->area_de_foco = isset($imovel['existe_foco']) && $imovel['existe_foco'] == '1';
                     $boletimImovel->data = '01/' . $this->mes . '/' . $this->ano;
                     $boletimImovel->bairro_rua_imovel_id = $ruaBairroImovel->id;
                     
                     if($boletimImovel->save())
                         $imoveisSalvos++;
+                    else
+                        var_dump($boletimImovel->errors);
                 }
                 
                 if($imoveisSalvos == 0) {
@@ -187,6 +199,21 @@ class BoletimRg extends ActiveRecord
         }
         
         return $result;
+    }
+    
+    public function beforeDelete() {
+        
+        $parent = parent::beforeDelete();
+        
+        $boletimImoveis = $this->boletimImoveis;
+        foreach($boletimImoveis as $imovel)
+            $imovel->delete();
+        
+        $boletimFechamento = $this->boletimFechamento;
+        foreach($boletimFechamento as $fechamento)
+            $fechamento->delete();
+        
+        return $parent;
     }
     
 	/**
@@ -245,18 +272,25 @@ class BoletimRg extends ActiveRecord
         return BoletimRgImoveis::find()->where(['boletim_rg_id' => $this->id])->count();
     }
     
-    public function beforeDelete() {
+    /**
+     * Popula imóveis cadastrados em $this->imoveis
+     * @return void
+     */
+    public function populaImoveis() {
         
-        $parent = parent::beforeDelete();
+        $imoveis = $this->boletimImoveis;
         
-        $boletimImoveis = $this->boletimImoveis;
-        foreach($boletimImoveis as $imovel)
-            $imovel->delete();
+        foreach($imoveis as $imovel)
+            $this->imoveis[] = [
+                'rua' => $imovel->bairroRuaImovel->bairroRua->nome,
+                'numero' => $imovel->bairroRuaImovel->numero,
+                'seq' => $imovel->bairroRuaImovel->sequencia,
+                'complemento' => $imovel->bairroRuaImovel->complemento,
+                'imovel_tipo' => $imovel->imovel_tipo_id,
+                'imovel_condicao' => $imovel->condicao_imovel_id,
+                'existe_foco' => $imovel->area_de_foco,
+            ];
         
-        $boletimFechamento = $this->boletimFechamento;
-        foreach($boletimFechamento as $fechamento)
-            $fechamento->delete();
-        
-        return $parent;
+        return;
     }
 }

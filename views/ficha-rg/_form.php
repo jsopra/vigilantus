@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
     
 	<?php $form = ActiveForm::begin(); ?>
 
-	<div class="row">
+	<div class="row" id="dadosPrincipais">
         <div class="col-xs-2">
             <?= $form->field($model, 'bairro_id')->dropDownList(Bairro::listData('nome'), ['prompt' => 'Selecione..']) ?>
         </div>
@@ -59,6 +59,26 @@ use yii\widgets\ActiveForm;
                 </tr>
             </thread>
             <tbody>
+                <?php
+                $qtdeImoveis = 0;
+                if($model->imoveis) :
+                    foreach($model->imoveis as $imovel) :
+                ?>
+                    <tr id="linha-<?= $qtdeImoveis; ?>">
+                        <td><?= Html::textInput('BoletimRg[imoveis][' . $qtdeImoveis . '][rua]', $imovel['rua'], ['class' => 'form-control']) ?></td>
+                        <td><?= Html::textInput('BoletimRg[imoveis][' . $qtdeImoveis . '][numero]', $imovel['numero'], ['class' => 'form-control']) ?></td>
+                        <td><?= Html::textInput('BoletimRg[imoveis][' . $qtdeImoveis . '][seq]', $imovel['seq'], ['class' => 'form-control']) ?></td>
+                        <td><?= Html::textInput('BoletimRg[imoveis][' . $qtdeImoveis . '][complemento]', $imovel['complemento'], ['class' => 'form-control']) ?></td>
+                        <td><?= Html::dropDownList('BoletimRg[imoveis][' . $qtdeImoveis . '][imovel_tipo]', $imovel['imovel_tipo'], (['' => 'Selecione...'] + ImovelTipo::listData('nome')), ['class' => 'form-control']) ?></td>
+                        <td><?= Html::dropDownList('BoletimRg[imoveis][' . $qtdeImoveis . '][imovel_condicao]', $imovel['imovel_condicao'], (['' => 'Selecione...'] + ImovelCondicao::listData('nome')), ['class' => 'form-control']) ?></td>
+                        <td style="text-align: center;"><?= Html::checkbox('BoletimRg[imoveis][' . $qtdeImoveis . '][existe_foco]', (isset($imovel['existe_foco']) ? $imovel['existe_foco'] : false)) ?></td>
+                        <td style="text-align: center;" class="add-row-button"><a href="javascript:void(0);" onclick="javascript:removeImovel('linha-<?= $qtdeImoveis; ?>');"><i class="icon-trash"></i></a></td>
+                    </tr>
+                <?php 
+                        $qtdeImoveis++;
+                    endforeach;
+                endif; 
+                ?>
                 <tr class="add-row">
                     <td><?= Html::textInput('BoletimRg[imoveis][exemplo][rua]', null, ['class' => 'form-control', 'id' => 'selecaoRua']) ?></td>
                     <td><?= Html::textInput('BoletimRg[imoveis][exemplo][numero]', null, ['class' => 'form-control', 'id' => 'selecaoNumero']) ?></td>
@@ -71,6 +91,7 @@ use yii\widgets\ActiveForm;
                 </tr>
             </tbody>
         </table>
+       <?= Html::error($model, 'imoveis') ?>
     </div>
 
     <div class="form-group vigilantus-form">
@@ -106,6 +127,13 @@ if(!$model->bairro_id)
     $script .= 'jQuery(".bairro-hide").hide();';
 else
     $script .= 'bairroID = ' . $model->bairro_id . ';';
+
+if(!$model->isNewRecord) {
+    $script .= '
+        jQuery("#dadosPrincipais").find("input").attr("readonly","readonly");
+        jQuery("#dadosPrincipais").find("select").attr("readonly","readonly");
+    ';
+}
 
 $script .= '
 
@@ -149,13 +177,28 @@ $script .= '
             }]);
             
             jQuery("form").submit(function(){
+';
+
+if($model->isNewRecord) {
+    $script .= '
                 jQuery("#boletimrg-bairro_id").removeAttr("disabled");
                 jQuery("#boletimrg-categoria_id").removeAttr("disabled");
                 
                 jQuery("#boletimrg-bairro_id").attr("readonly","readonly");
                 jQuery("#boletimrg-categoria_id").attr("readonly","readonly");
+    ';
+}
+else {
+    $script .= '
+                jQuery("#dadosPrincipais").find("input").removeAttr("disabled");
+                jQuery("#dadosPrincipais").find("select").removeAttr("disabled");
                 
-                jQuery("tr.add-row").remove();
+                jQuery("#dadosPrincipais").find("input").attr("readonly","readonly");
+                jQuery("#dadosPrincipais").find("select").attr("readonly","readonly");
+    ';
+}
+
+$script .= '
             });
         });
     });
@@ -163,7 +206,7 @@ $script .= '
 $view->registerJs($script);
 ?>
 <script>
-    var itemAtual = 0;
+    var itemAtual = <?= $qtdeImoveis > 0 ? $qtdeImoveis : '0'; ?>;
     
     function adicionaImovel() {
         
