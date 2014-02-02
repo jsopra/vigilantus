@@ -3,6 +3,7 @@ namespace app\components\actions;
 
 use yii\base\Action;
 use app\models\Bairro;
+use app\models\BairroRua;
 use yii\helpers\Json;
 
 class BairroRuas extends Action
@@ -11,6 +12,7 @@ class BairroRuas extends Action
     {
         $bairroID = isset($_REQUEST['bairro_id']) ? $_REQUEST['bairro_id'] : null;
         $onlyName = isset($_REQUEST['onlyName']) && $_REQUEST['onlyName'] == 'true';
+        $queryString = isset($_REQUEST['q']) ? $_REQUEST['q'] : null;
         
         if(!is_numeric($bairroID))
             exit;
@@ -20,9 +22,15 @@ class BairroRuas extends Action
             exit;
 
         $array = [];
+
+        $query = BairroRua::find();
+        $query->andWhere(['"bairro_id"' => $oBairro->id]);
+  
+        if($queryString)
+            $query->andWhere('nome ILIKE \'%' . $queryString . '%\'');
         
-        $ruas = $oBairro->ruas;
-      
+        $ruas = $query->all();
+
         foreach($ruas as $rua)
             if(!$onlyName)
                 $array[$rua->id] = $rua->nome;

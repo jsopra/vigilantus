@@ -13,6 +13,7 @@ use app\components\ActiveRecord;
  * @property integer $bairro_rua_imovel_id
  * @property integer $condicao_imovel_id
  * @property integer $municipio_id
+ * @property integer $imovel_tipo_id
  * @property boolean $area_de_foco
  * 
  * @property BoletinsRg $boletimRg
@@ -35,10 +36,10 @@ class BoletimRgImoveis extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['data', 'boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'condicao_imovel_id'], 'required'],
+			[['data', 'boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'condicao_imovel_id', 'imovel_tipo_id'], 'required'],
 			[['data', 'area_de_foco'], 'safe'],
             [['area_de_foco'], 'boolean'],
-			[['boletim_rg_id', 'bairro_rua_imovel_id', 'condicao_imovel_id', 'municipio_id'], 'integer']
+			[['boletim_rg_id', 'bairro_rua_imovel_id', 'condicao_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'integer']
 		];
 	}
 
@@ -48,12 +49,11 @@ class BoletimRgImoveis extends ActiveRecord
 	public function attributeLabels()
 	{
 		return [
-			'id' => 'ID',
-			'data' => 'Data',
-			'boletim_rg_id' => 'Boletim Rg ID',
-			'bairro_rua_imovel_id' => 'Bairro Rua Imovel ID',
-			'condicao_imovel_id' => 'Condicao Imovel ID',
-            'municipio_id' => 'Município',  
+			'boletim_rg_id' => 'Boletim RG',
+			'bairro_rua_imovel_id' => 'Bairro Rua Imóvel',
+			'condicao_imovel_id' => 'Condição do Imóvel',
+            'municipio_id' => 'Município',    
+            'imovel_tipo_id' => 'Tipo do Imóvel',
             'area_de_foco' => 'Área de foco?',
 		];
 	}
@@ -63,7 +63,7 @@ class BoletimRgImoveis extends ActiveRecord
 	 */
 	public function getBoletimRg()
 	{
-		return $this->hasOne(BoletinsRg::className(), ['id' => 'boletim_rg_id']);
+		return $this->hasOne(BoletimRg::className(), ['id' => 'boletim_rg_id']);
 	}
 
 	/**
@@ -71,7 +71,15 @@ class BoletimRgImoveis extends ActiveRecord
 	 */
 	public function getBairroRuaImovel()
 	{
-		return $this->hasOne(BairroRuaImoveis::className(), ['id' => 'bairro_rua_imovel_id']);
+		return $this->hasOne(BairroRuaImovel::className(), ['id' => 'bairro_rua_imovel_id']);
+	}
+    
+    /**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getImovelTipo()
+	{
+		return $this->hasOne(ImovelTipo::className(), ['id' => 'imovel_tipo_id']);
 	}
 
 	/**
@@ -79,7 +87,7 @@ class BoletimRgImoveis extends ActiveRecord
 	 */
 	public function getCondicaoImovel()
 	{
-		return $this->hasOne(ImovelCondicoes::className(), ['id' => 'condicao_imovel_id']);
+		return $this->hasOne(ImovelCondicao::className(), ['id' => 'condicao_imovel_id']);
 	}
     
     /**
@@ -88,5 +96,50 @@ class BoletimRgImoveis extends ActiveRecord
     public function getMunicipio()
     {
         return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+    }
+    
+    
+    public function save($runValidation = true, $attributes = NULL) {
+
+        $currentTransaction = $this->getDb()->getTransaction();		
+		$newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
+        
+        try {
+            
+            $result = parent::save($runValidation, $attributes);
+            
+            if ($result) {
+                
+                $boletimFechamento = BoletimRgFechamento::incrementaContagemImovel(
+                    $this->boletimRg,
+                    $this->condicao_imovel_id,
+                    $this->imovel_tipo_id,
+                    $this->area_de_foco
+                );
+
+                if($boletimFechamento instanceof BoletimRgFechamento) {
+                    if($newTransaction)
+                        $transaction->commit();
+                }
+                else {
+
+                    if($newTransaction)
+                        $transaction->rollback();
+                    
+                    $result = false;                    
+                }
+            } 
+            else {
+                if($newTransaction)
+                    $transaction->rollback();
+            }
+        } 
+        catch (\Exception $e) {
+            if($newTransaction)
+                $transaction->rollback();
+            throw $e;
+        }
+
+        return $result;
     }
 }

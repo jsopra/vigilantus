@@ -24,6 +24,7 @@ class AppAsset extends AssetBundle
         'js/feedback.js',
         'js/site.js',
         'js/typeahead.min.js',
+        'js/jquery.numeric.min.js'
 	];
 	public $depends = [
 		'yii\web\YiiAsset',

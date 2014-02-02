@@ -51,7 +51,7 @@ class ImovelCondicaoTest extends TestCase
         $this->assertFalse($imovel->save());
         
         $imovel->atualizado_por = 1;
-        $imovel->nome = 'Área de Foco';
+        $imovel->nome = 'RG Lira';
         $this->assertFalse($imovel->save());
         
         $imovel->nome = 'Normal';

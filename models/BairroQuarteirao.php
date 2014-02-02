@@ -97,4 +97,12 @@ class BairroQuarteirao extends ActiveRecord
 	{
 		return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
 	}
+    
+    public static function doBairro($query, $id) {
+        $query->andWhere('bairro_id = :id', [':id' => $id]);
+    }
+    
+    public static function doNumero($query, $numero) {
+        $query->andWhere('numero_quarteirao = :numero', [':numero' => $numero]);
+    }
 }
