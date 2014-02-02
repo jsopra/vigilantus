@@ -105,7 +105,7 @@ use yii\widgets\ActiveForm;
 
         echo Html::a(
             'Cancelar',
-            array('/bairro-quarteirao/index'),
+            array('index'),
             array('class'=>'link','rel'=>'tooltip','data-title'=>'Ir à lista de boletins cadastrados')
         );
 
