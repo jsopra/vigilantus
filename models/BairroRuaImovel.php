@@ -75,5 +75,21 @@ class BairroRuaImovel extends \yii\db\ActiveRecord
 	public function getBairroRua()
 	{
 		return $this->hasOne(BairroRuas::className(), ['id' => 'bairro_rua_id']);
-	}
+    }
+
+    public static function daRua($query, $id) {
+        $query->andWhere('bairro_rua_id = :rua', [':rua' => $id]);
+    }
+    
+    public static function doNumero($query, $numero) {
+        $query->andWhere('numero = :numero', [':numero' => $numero]);
+    }
+    
+    public static function daSeq($query, $seq) {
+        $query->andWhere('sequencia = :seq', [':seq' => $seq]);
+    }
+    
+    public static function doComplemento($query, $complemento) {
+        $query->andWhere('complemento = :compl', [':compl' => $complemento]);
+    }
 }

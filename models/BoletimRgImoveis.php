@@ -14,6 +14,7 @@ use app\components\ActiveRecord;
  * @property integer $condicao_imovel_id
  * @property integer $municipio_id
  * @property integer $imovel_tipo_id
+ * @property boolean $area_de_foco
  * 
  * @property BoletinsRg $boletimRg
  * @property BairroRuaImoveis $bairroRuaImovel
@@ -36,7 +37,8 @@ class BoletimRgImoveis extends ActiveRecord
 	{
 		return [
 			[['data', 'boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'condicao_imovel_id', 'imovel_tipo_id'], 'required'],
-			[['data'], 'safe'],
+			[['data', 'area_de_foco'], 'safe'],
+            [['area_de_foco'], 'boolean'],
 			[['boletim_rg_id', 'bairro_rua_imovel_id', 'condicao_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'integer']
 		];
 	}
@@ -53,7 +55,8 @@ class BoletimRgImoveis extends ActiveRecord
 			'bairro_rua_imovel_id' => 'Bairro Rua Imóvel',
 			'condicao_imovel_id' => 'Condição do Imóvel',
             'municipio_id' => 'Município',    
-            'imovel_tipo_id' => 'Tipo do Imóvel'
+            'imovel_tipo_id' => 'Tipo do Imóvel',
+            'area_de_foco' => 'Área de foco?',
 		];
 	}
 
@@ -95,5 +98,41 @@ class BoletimRgImoveis extends ActiveRecord
     public function getMunicipio()
     {
         return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+    }
+    
+    
+    public function save($runValidation = true, $attributes = NULL) {
+
+        $transaction = $this->getDb()->beginTransaction();
+        try {
+            
+            $result = parent::save($runValidation, $attributes);
+            
+            if ($result) {
+                
+                $boletimFechamento = BoletimRgFechamento::incrementaContagemImovel(
+                    $this->boletim_rg_id,
+                    $this->condicao_imovel_id,
+                    $this->imovel_tipo_id,
+                    $this->area_de_foco
+                );
+                
+                if($boletimFechamento)
+                    $transaction->commit();
+                else {
+                    $transaction->rollback();
+                    $result = false;                    
+                }
+            } 
+            else {
+                $transaction->rollback();
+            }
+        } 
+        catch (\Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+        
+        return $result;
     }
 }
