@@ -139,14 +139,15 @@ class FModalColumn extends Column
 	
 	protected function renderDataCellContent($model, $key, $index) {
 
-		$columnData = call_user_func($this->value, $model, $key, $index, $this);
-		$columnContent = $columnData;
+        $columnContent = '';
+        
+        $hideLinkExpression = $this->hideLinkExpression ? call_user_func($this->hideLinkExpression, $model, $key, $index, $this) : null;
+        
+        if($this->iconClass && !$hideLinkExpression)
+			$columnContent .= "<i class=\"{$this->iconClass}\"></i>&nbsp;";
+        
+		$columnContent .= call_user_func($this->value, $model, $key, $index, $this);
 		
-		$hideLinkExpression = $this->hideLinkExpression ? call_user_func($this->hideLinkExpression, $model, $key, $index, $this) : null;
-		
-		if($this->iconClass && $columnData && !$hideLinkExpression)
-			$columnContent .= "&nbsp;&nbsp;<i class=\"{$this->iconClass}\"></i>";
-				
 		$onClick = $this->onClick ? call_user_func($this->onClick, $model, $key, $index, $this) : null;
 
 		$modalAjaxContent = $this->modalAjaxContent ? call_user_func($this->modalAjaxContent, $model, $key, $index, $this) : null;

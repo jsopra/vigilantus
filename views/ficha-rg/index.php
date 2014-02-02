@@ -47,65 +47,58 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => 'quarteirao_id',
+                'attribute' => 'bairro_quarteirao_id',
                 'visible' => Yii::$app->user->checkAccess('Root'),
-                'filter' => BairroQuarteirao::listData('numero_quarteirao'),
                 'value' => function ($model, $index, $widget) {
-                    return $model->bairro ? $model->bairro->nome : null;
-                }
+                    return $model->quarteirao ? $model->quarteirao->numero_quarteirao : null;
+                },
+                'options' => [
+                    'width' => '10%',
+                ]
             ],
             [
                 'attribute' => 'seq',
                 'options' => [
-                    'width' => '5%',
+                    'width' => '7%',
                 ]
             ], 
             [
                 'attribute' => 'folha',
                 'options' => [
-                    'width' => '5%',
+                    'width' => '7%',
                 ]
             ], 
             [
                 'attribute' => 'mes',
                 'options' => [
-                    'width' => '5%',
+                    'width' => '7%',
                 ]
             ], 
             [
                 'attribute' => 'ano',
                 'options' => [
-                    'width' => '10%',
-                ]
-            ],  
-            [
-                'header' => 'Qtde.<br />Imóveis',
-                'value' => function ($model, $index, $widget) {
-                    return $model->quantidadeImoveis;
-                },
-                'options' => [
-                    'width' => '5%',
+                    'width' => '9%',
                 ]
             ],  
             [   
                 'class' => 'app\extensions\grid\FModalColumn',
-                'iconClass' => 'icon-time opacity50',
+                'iconClass' => 'icon-search opacity50',
                 'modalId' => 'fechamento-detalhes',
                 'modalAjaxContent' => function ($model, $index, $widget) {
                     return Html::url(array('ficha-rg/fechamento', 'id' => $model->id));
                 },
                 'requestType' => 'GET',
-                'header' => 'Fechamento',
+                'header' => 'Qtde. Imóveis',
                 'value' => function ($model, $index, $widget) {
-                    return 'Ver (modal)';
+                    return $model->quantidadeImoveis . ' (Ver fechamento)';
                 },
                 'options' => [
-                    'width' => '10%',
+                    'width' => '15%',
                 ]
             ],  
             [
                 'class' => 'app\components\ActionColumn',
-                'template' => '{view} {update} {delete}',
+                'template' => '{update} {delete}',
             ],
         ],
     ]);

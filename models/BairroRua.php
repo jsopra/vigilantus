@@ -72,4 +72,12 @@ class BairroRua extends \yii\db\ActiveRecord
 	{
 		return $this->hasMany(BairroRuaImoveis::className(), ['bairro_rua_id' => 'id']);
 	}
+    
+    public static function doBairro($query, $id) {
+        $query->andWhere('bairro_id = :id', [':id' => $id]);
+    }
+    
+    public static function daRua($query, $nome) {
+        $query->andWhere('nome = :rua', [':rua' => $nome]);
+    }
 }

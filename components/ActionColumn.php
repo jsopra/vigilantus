@@ -75,7 +75,7 @@ class ActionColumn extends Column
 	{
 		if (!isset($this->buttons['view'])) {
 			$this->buttons['view'] = function ($url, $model) {
-				return Html::a('<i class="table-edit"></i>', $url, [
+				return Html::a('<i class="table-view"></i>', $url, [
 					'title' => Yii::t('yii', 'Ver'),
 				]);
 			};
