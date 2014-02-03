@@ -266,3 +266,21 @@ span.domain {
     color: #FFF;
     float: left;
 }
+
+.alignCenter {
+    text-align: center;
+}
+
+.jumbotron {
+    margin-top: 0;
+    padding-top: 0;
+    margin-bottom: 0;
+}
+
+.jumbotron h1 {
+    margin-bottom: 20px;
+}
+
+p.titulo {
+	font-size: 2em;
+}
