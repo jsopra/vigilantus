@@ -25,4 +25,15 @@ return array(
         'email' => 'dengueexcluido@perspectiva.in',
         'excluido' => new yii\db\Expression('true'),
     ),
+    'usuarios_4' => array(
+        'id' => '4',
+        'nome' => 'root',
+        'login' => 'root',
+        'senha' => md5('root' . $sal),
+        'sal' => $sal,
+        'usuario_role_id' => 1,
+        'municipio_id' => null,
+        'email' => 'dengueroot@perspectiva.in',
+        'excluido' => new yii\db\Expression('false'),
+    ),
 );

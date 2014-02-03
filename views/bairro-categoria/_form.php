@@ -16,9 +16,6 @@ use yii\widgets\ActiveForm;
 
         <div class="row">
             <div class="col-xs-3">
-                <?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome')) ?>
-            </div>
-            <div class="col-xs-3">
                 <?= $form->field($model, 'nome') ?>
             </div>
         </div>

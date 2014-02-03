@@ -29,6 +29,9 @@ class DetailwrapNavBar extends Widget
 	 * Set this to false for a 100% width navbar.
 	 */
 	public $padded = true;
+    
+    public $municipios;
+    public $municipioLogado;
 
 	/**
 	 * Initializes the widget.W
@@ -51,6 +54,23 @@ class DetailwrapNavBar extends Widget
         if ($this->brandLabel !== null)  {
 			Html::addCssClass($this->brandOptions, 'navbar-brand');
             echo Html::a($this->brandLabel, $this->brandUrl, $this->brandOptions);
+        }
+        
+        $qtdeMunicipios = count($this->municipios);
+        if($qtdeMunicipios > 0) {
+            
+            echo Html::beginTag('div', ['class' => 'navbar-municipio']);
+
+            $listMunicipios = [];
+            foreach ($this->municipios as $object)
+                $listMunicipios[Html::url(['site/session', 'id' => $object->id])] = $object->nome . '/' . $object->sigla_estado;
+
+            if($qtdeMunicipios == 1)
+                echo '<p class="unico-municipio">' . $this->municipios[0]->nome . '/' . $this->municipios[0]->sigla_estado . '</p>';
+            else if(is_object($this->municipioLogado))
+                echo Html::dropDownList('user_municipio', Html::url(['site/session', 'id' => $this->municipioLogado->id]), $listMunicipios);
+            
+            echo Html::endTag('div');
         }
         
 		echo Html::endTag('div');

@@ -142,7 +142,8 @@ class CRUDController extends Controller
             
             if ($isNewRecord && $model->hasAttribute('inserido_por')) {
                 $model->inserido_por = Yii::$app->user->identity->id;
-            } elseif ($model->hasAttribute('atualizado_por')) {
+            } 
+            elseif ($model->hasAttribute('atualizado_por')) {
                 $model->atualizado_por = Yii::$app->user->identity->id;
             }
             

@@ -16,18 +16,32 @@ use yii\widgets\ActiveForm;
 
 	<?php $form = ActiveForm::begin(); ?>
     
-		<?= $form->field($model, 'nome') ?>
-		<?= $form->field($model, 'login') ?>
-		<?= $form->field($model, 'email')->input('email') ?>
-		<?= $form->field($model, 'senha')->passwordInput() ?>
-		<?= $form->field($model, 'senha2')->passwordInput() ?>
-		<?= $form->field($model, 'usuario_role_id')->dropDownList(UsuarioRole::listDataNivelUsuario(Yii::$app->user->identity)) ?>
+        <div class="row">
+            <div class="col-xs-3">
+                <?= $form->field($model, 'nome') ?>
+            </div>
+            <div class="col-xs-3">
+                <?= $form->field($model, 'login') ?>
+            </div>
+        </div>
     
-        <?php
-        if (Yii::$app->user->checkAccess('Root')) : ?>
-            <?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome')) ?>
-            <?php
-        endif; ?>
+        <div class="row">
+            <div class="col-xs-3">
+                <?= $form->field($model, 'email')->input('email') ?>
+            </div>
+            <div class="col-xs-3">
+                <?= $form->field($model, 'usuario_role_id')->dropDownList(['' => 'Selecione...'] + UsuarioRole::listDataNivelUsuario(Yii::$app->user->identity)) ?>
+            </div>
+        </div>
+		
+		<div class="row">
+            <div class="col-xs-3">
+                <?= $form->field($model, 'senha')->passwordInput() ?>
+            </div>
+            <div class="col-xs-3">
+                <?= $form->field($model, 'senha2')->passwordInput() ?>
+            </div>
+        </div>	
 
 		<div class="form-group">
 			<?php

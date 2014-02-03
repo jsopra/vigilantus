@@ -45,6 +45,8 @@ abstract class SearchModel extends Model
         $this->searchScopes($query);
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         
+        $params['municipio_id'] = \Yii::$app->session->get('user.municipio')->id;
+        
         $searchClassName = $this->getModelClassName() . 'Search';
         
         if (is_array($params) && count($params) && !isset($params[$searchClassName])) {

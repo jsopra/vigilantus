@@ -46,6 +46,8 @@ AppAsset::register($this);
         DetailwrapNavBar::begin([
             'brandLabel' => 'Vigilantus',
             'brandUrl' => Yii::$app->homeUrl,
+            'municipios' => $this->context->municipiosDisponiveis,
+            'municipioLogado' => $this->context->municipioLogado,
         ]);
         
         echo DetailwrapNav::widget([

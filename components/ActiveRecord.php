@@ -7,6 +7,9 @@ use app\components\StringHelper;
 use yii\db\ActiveRecord as YiiActiveRecord;
 use yii\db\Expression;
 use yii\validators\Validator;
+use yii\db\ActiveQuery;
+use app\models\Municipio;
+use app\models\UsuarioRole;
 
 class ActiveRecord extends YiiActiveRecord
 {
@@ -247,5 +250,53 @@ class ActiveRecord extends YiiActiveRecord
     public static function randomOrdered($query)
     {
         $query->orderBy('RANDOM()');
+    }
+    
+    /**
+	 * Creates an [[ActiveQuery]] instance.
+	 *
+	 * This method is called by [[find()]], [[findBySql()]] to start a SELECT query.
+	 * You may override this method to return a customized query (e.g. `CustomerQuery` specified
+	 * written for querying `Customer` purpose.)
+	 *
+	 * You may also define default conditions that should apply to all queries unless overridden:
+	 *
+	 * ```php
+	 * public static function createQuery()
+	 * {
+	 *     return parent::createQuery()->where(['deleted' => false]);
+	 * }
+	 * ```
+	 *
+	 * Note that all queries should use [[Query::andWhere()]] and [[Query::orWhere()]] to keep the
+	 * default condition. Using [[Query::where()]] will override the default condition.
+	 *
+	 * @return ActiveQuery the newly created [[ActiveQuery]] instance.
+	 */
+	public static function createQuery()
+	{
+        $class = get_called_class();
+        
+		$query = new ActiveQuery(['modelClass' => $class]);
+
+        if($class == 'app\models\Usuario')
+            return $query;
+            
+        $model = new $class;
+        
+        if(\Yii::$app->hasComponent('session') && \Yii::$app->session->get('user.municipio') instanceof Municipio && $model->hasAttribute('municipio_id'))
+            $query->where(['municipio_id' => \Yii::$app->session->get('user.municipio')->id]);
+        
+        unset($model);
+        
+        return $query;
+	}
+    
+	public function beforeValidate()
+	{
+        if(\Yii::$app->hasComponent('session') && \Yii::$app->session->get('user.municipio') instanceof Municipio && $this->hasAttribute('municipio_id'))
+            $this->municipio_id = \Yii::$app->session->get('user.municipio')->id;
+        
+		return parent::beforeValidate();
     }
 }

@@ -254,3 +254,15 @@ table th {
 span.domain {
 	color: red;
 }
+
+.navbar-municipio {
+    float: left;
+    margin-top: 12px;
+}
+
+.unico-municipio {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #FFF;
+    float: left;
+}

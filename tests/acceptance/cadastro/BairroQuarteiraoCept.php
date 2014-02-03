@@ -9,7 +9,6 @@ $eu->clico('Quarteirões de Bairros');
 $eu->espero('cadastrar um quarteirão');
 $eu->clico('Cadastrar Quarteirão de Bairro');
 $eu->vejoNoTitulo('Cadastrar Quarteirão de Bairro');
-$eu->selecionoOpcao('Município', 'Chapecó');
 $eu->selecionoOpcao('Bairro', 'Seminário');
 $eu->preenchoCampo('Número principal', '156');
 $eu->preenchoCampo('Número alternativo', '418');

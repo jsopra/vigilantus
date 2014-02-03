@@ -34,14 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'nome',
             'login',
             [
-                'attribute' => 'municipio_id',
-                'visible' => Yii::$app->user->checkAccess('Root'),
-                'filter' => Municipio::listData('nome'),
-                'value' => function ($model, $index, $widget) {
-                    return $model->municipio ? $model->municipio->nome : null;
-                }
-            ],
-            [
                 'attribute' => 'usuario_role_id',
                 'filter' => UsuarioRole::listData('nome'),
                 'value' => function ($model, $index, $widget) {

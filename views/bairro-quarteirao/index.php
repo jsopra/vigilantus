@@ -31,16 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
             //'id',
 			[
-                'attribute' => 'municipio_id',
-                'visible' => Yii::$app->user->checkAccess('Root'),
-                'filter' => Municipio::listData('nome'),
-                'value' => function ($model, $index, $widget) {
-                    return $model->municipio ? $model->municipio->nome : null;
-                }
-            ],
-			[
                 'attribute' => 'bairro_id',
-                'visible' => Yii::$app->user->checkAccess('Root'),
                 'filter' => Bairro::listData('nome'),
                 'value' => function ($model, $index, $widget) {
                     return $model->bairro ? $model->bairro->nome : null;
