@@ -28,4 +28,7 @@ class DetailwrapAsset extends AssetBundle
         'js/jquery-ui-1.10.2.custom.min.js',
         'js/theme.js',
     ];
+    public $depends = [
+        'yii\bootstrap\BootstrapAsset'
+    ];
 }
