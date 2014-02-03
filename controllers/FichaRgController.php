@@ -72,8 +72,6 @@ class FichaRgController extends Controller
     {
         $model = $this->buildNewModel();
         
-        $model->municipio_id = 1; //@todo fix
-        
         if ($model->load($_POST) && $model->validate()) {
 
             $isNewRecord = $model->isNewRecord;
@@ -100,8 +98,6 @@ class FichaRgController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        $model->municipio_id = 1; //@todo fix
         
         if ($model->load($_POST)) {
             

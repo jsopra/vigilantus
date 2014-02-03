@@ -106,4 +106,19 @@ class Municipio extends ActiveRecord
     {
         throw new \Exception(\Yii::t('Site', 'Exclusão não habilitada'), 500);
     }
+    
+    /**
+     * Busca municípios
+     * @param int $id Default is null
+     * @return Municipio[] 
+     */
+    public static function getMunicipios($id = null) {
+        
+        $query = self::find();
+
+        if($id)
+            $query->andWhere(['"id"' => $id]);
+        
+        return $query->all();
+    }
 }

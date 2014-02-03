@@ -12,6 +12,7 @@ use app\forms\LoginForm;
 use app\forms\ContatoForm;
 use app\forms\FeedbackForm;
 use app\components\Controller;
+use app\models\Municipio;
 
 class SiteController extends Controller
 {
@@ -21,12 +22,17 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['feedback', 'logout', 'home'],
+                'only' => ['feedback', 'logout', 'home', 'session'],
                 'rules' => [
                     [
                         'actions' => ['feedback', 'logout', 'home'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['session'],
+                        'allow' => true,
+                        'roles' => ['Root'],
                     ],
                 ],
             ],
@@ -131,5 +137,14 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+    
+    public function actionSession($id) {
+        
+        Yii::$app->session->set('user.municipio',Municipio::find($id));
+        
+        Yii::$app->session->setFlash('success', 'Município alterado com sucesso');
+
+        return $this->redirect(['home']);
     }
 }

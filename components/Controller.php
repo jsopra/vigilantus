@@ -7,6 +7,7 @@ use app\helpers\StringHelper;
 use yii\web\Controller as YiiController;
 use yii\web\NotFoundHttpException;
 use app\forms\FeedbackForm;
+use app\models\Municipio;
 
 class Controller extends YiiController
 {
@@ -24,9 +25,17 @@ class Controller extends YiiController
     
     public $feedbackModel;
     
+    public $municipiosDisponiveis;
+    public $municipioLogado;
+    
     public function init()
     {
         $this->feedbackModel = new FeedbackForm();
+
+        if(!\Yii::$app->user->isGuest) {
+            $this->municipiosDisponiveis = Municipio::getMunicipios(\Yii::$app->user->identity->municipio_id); 
+            $this->municipioLogado = \Yii::$app->session->get('user.municipio');
+        }
     }
     
     /**

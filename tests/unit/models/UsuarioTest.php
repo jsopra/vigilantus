@@ -11,8 +11,8 @@ class UsuarioTest extends TestCase
 {
     public function testScopes()
     {
-        $this->assertEquals(3, Usuario::find()->count());
-        $this->assertEquals(2, Usuario::find()->ativo()->count());
+        $this->assertEquals(4, Usuario::find()->count());
+        $this->assertEquals(3, Usuario::find()->ativo()->count());
         $this->assertEquals(1, Usuario::find()->excluido()->count());
 
         $this->assertEquals(1, Usuario::find()->where(['email' => 'dengue@perspectiva.in'])->count());
@@ -21,7 +21,7 @@ class UsuarioTest extends TestCase
         $usuarioRoot = Usuario::find(1);
         $usuarioAdministrador = Usuario::find(2);
 
-        $this->assertEquals(3, Usuario::find()->doNivelDoUsuario($usuarioRoot)->count());
+        $this->assertEquals(4, Usuario::find()->doNivelDoUsuario($usuarioRoot)->count());
         $this->assertEquals(1, Usuario::find()->doNivelDoUsuario($usuarioAdministrador)->count());
     }
 
@@ -35,7 +35,7 @@ class UsuarioTest extends TestCase
 
         $this->assertFalse($usuario->save());
 
-        $usuario->id = 4;
+        $usuario->id = 5;
         $usuario->nome = 'teste';
         $usuario->login = 'teste';
         $usuario->senha = $password;

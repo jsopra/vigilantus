@@ -18,10 +18,7 @@ use yii\widgets\ActiveForm;
 
         <div class="row">
             <div class="col-xs-3">
-                <?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome')) ?>
-            </div>
-            <div class="col-xs-3">
-                <?= $form->field($model, 'bairro_id')->dropDownList(Bairro::listData('nome')) ?>
+                <?= $form->field($model, 'bairro_id')->dropDownList(['' => 'Selecione...'] + Bairro::listData('nome')) ?>
             </div>
         </div>
     
