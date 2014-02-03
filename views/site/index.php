@@ -19,37 +19,86 @@ $this->title = Yii::$app->name;
 	<div class="body-content">
 
 		<div class="row">
+            
 			<div class="col-lg-4">
-				<h2>Instrumentalização</h2>
+                
+				<h2 class="index-title">Apoio à Decisão</h2>
 
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-					dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-					ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-					fugiat nulla pariatur.</p>
+				<div class="items items-small row-fluid">
+                    
+                    <div class="item col-lg-4">
+                        <a rel="tooltip" title="Acompanhamento de execução de visitas">
+                            <img src="img/icones/execucao.png" alt="Execução" />
+                        </a>	
+                        <p>Execução</p>
+                    </div>
 
-				<p><a class="btn btn-flat white" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+                    <div class="item col-lg-4">
+                        <a rel="tooltip" title="Acompanhamento de roteiros e ações">
+                            <img src="img/icones/acompanhamento.png" alt="Acompanhamento" />
+                        </a>
+                        <p>Acompanhamento</p>
+                    </div>
+
+                    <div class="item col-lg-4">
+                        <a rel="tooltip" title="Planejamento de ações: metas e ações integradas">
+                            <img src="img/icones/planejamento.png" alt="Planejamento" />
+                        </a>
+                        <p>Planejamento</p>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
 			</div>
+            
 			<div class="col-lg-4">
-				<h2>Integração</h2>
+                
+				<h2 class="index-title">Integração</h2>
 
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-					dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-					ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-					fugiat nulla pariatur.</p>
+				<div class="items itensQ2">
 
-				<p><a class="btn btn-flat white" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+                    <img src="img/icones/server.png" alt="Servidor" />
+                    <p>Integrações com sistemas terceiros</p>
+
+                    <div class="clearfix"></div>
+                </div>
+                
 			</div>
-			<div class="col-lg-4">
-				<h2>Apoio à Decisão</h2>
+            
+            <div class="col-lg-4">
+                
+				<h2 class="index-title">Instrumentalização</h2>
 
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-					dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-					ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-					fugiat nulla pariatur.</p>
+				<div class="items items-small row-fluid">
 
-				<p><a class="btn btn-flat white" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+                    <div class="item col-lg-4">
+                        <a rel="tooltip" title="Histórico de visitação">
+                            <img src="img/icones/arquivo.png" alt="Arquivo" />
+                        </a>
+                        <p>Histórico</p>
+                    </div>
+
+                    <div class="item col-lg-4">
+                        <a rel="tooltip" title="Roteiros de execução de visitação">
+                            <img src="img/icones/roteiro.png" alt="Roteiro" />
+                        </a>
+                        <p>Roteiro e Execução</p>
+                    </div>
+
+                    <div class="item col-lg-4">
+                        <a rel="tooltip" title="Pesquisas segmentadas e com ferramentas auxiliares">
+                            <img src="img/icones/pesquisa.png" alt="Pesquisa" />
+                        </a>
+                        <p>Pesquisa</p>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+
 			</div>
-		</div>
+            
+        </div>
+	
+    </div>
 
-	</div>
 </div>
