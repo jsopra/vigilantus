@@ -222,18 +222,7 @@ class ActiveRecord extends YiiActiveRecord
      */
     public static function listData($descriptionAttribute, $idAttribute = 'id')
     {
-        $query = self::find()
-            ->select($idAttribute . ',' . $descriptionAttribute)
-            ->orderBy($descriptionAttribute)
-        ;
-        
-        $data = [];
-        
-        foreach ($query->all() as $object) {
-            $data[$object->$idAttribute] = $object->$descriptionAttribute;
-        }
-        
-        return $data;
+        return static::find()->listData($descriptionAttribute, $idAttribute);
     }
     
     /**
