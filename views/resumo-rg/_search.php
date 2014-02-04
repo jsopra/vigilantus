@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome')) ?>
         <?php endif; ?>
 
-        <?= $form->field($model, 'bairro_id')->dropDownList(Bairro::listData('nome')) ?>
+        <?= $form->field($model, 'bairro_id')->dropDownList(['' => '-'] + Bairro::listData('nome')) ?>
 
         <div class="form-group">
             <?= Html::submitButton('Gerar Planilha', ['class' => 'btn btn-primary']) ?>

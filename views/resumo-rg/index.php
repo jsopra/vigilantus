@@ -122,4 +122,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php else : ?>
     <p><?= Yii::t('yii', 'No results found.') ?></p>
 <?php endif; ?>
+<?php else : ?>
+    <?= $this->render('_capa'); ?>
 <?php endif; ?>
