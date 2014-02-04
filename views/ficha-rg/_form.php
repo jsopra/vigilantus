@@ -69,7 +69,7 @@ use yii\widgets\ActiveForm;
                         <td><?= Html::textInput('BoletimRg[imoveis][' . $qtdeImoveis . '][numero]', $imovel['numero'], ['class' => 'form-control']) ?></td>
                         <td><?= Html::textInput('BoletimRg[imoveis][' . $qtdeImoveis . '][seq]', $imovel['seq'], ['class' => 'form-control']) ?></td>
                         <td><?= Html::textInput('BoletimRg[imoveis][' . $qtdeImoveis . '][complemento]', $imovel['complemento'], ['class' => 'form-control']) ?></td>
-                        <td><?= Html::dropDownList('BoletimRg[imoveis][' . $qtdeImoveis . '][imovel_tipo]', $imovel['imovel_tipo'], (['' => 'Selecione...'] + ImovelTipo::listData('nome')), ['class' => 'form-control']) ?></td>
+                        <td><?= Html::dropDownList('BoletimRg[imoveis][' . $qtdeImoveis . '][imovel_tipo]', $imovel['imovel_tipo'], (['' => 'Selecione...'] + ImovelTipo::find()->ativo()->listData('nome')), ['class' => 'form-control']) ?></td>
                         <td><?= Html::dropDownList('BoletimRg[imoveis][' . $qtdeImoveis . '][imovel_condicao]', $imovel['imovel_condicao'], (['' => 'Selecione...'] + ImovelCondicao::listData('nome')), ['class' => 'form-control']) ?></td>
                         <td style="text-align: center;"><?= Html::checkbox('BoletimRg[imoveis][' . $qtdeImoveis . '][existe_foco]', (isset($imovel['existe_foco']) ? $imovel['existe_foco'] : false)) ?></td>
                         <td style="text-align: center;" class="add-row-button"><a href="javascript:void(0);" onclick="javascript:removeImovel('linha-<?= $qtdeImoveis; ?>');"><i class="icon-trash"></i></a></td>
@@ -84,7 +84,7 @@ use yii\widgets\ActiveForm;
                     <td><?= Html::textInput('BoletimRg[imoveis][exemplo][numero]', null, ['class' => 'form-control', 'id' => 'selecaoNumero']) ?></td>
                     <td><?= Html::textInput('BoletimRg[imoveis][exemplo][seq]', null, ['class' => 'form-control', 'id' => 'selecaoSeq']) ?></td>
                     <td><?= Html::textInput('BoletimRg[imoveis][exemplo][complemento]', null, ['class' => 'form-control', 'id' => 'selecaoComplemento']) ?></td>
-                    <td><?= Html::dropDownList('BoletimRg[imoveis][exemplo][imovel_tipo]', null, (['' => 'Selecione...'] + ImovelTipo::listData('nome')), ['class' => 'form-control', 'id' => 'selecaoTipoImovel']) ?></td>
+                    <td><?= Html::dropDownList('BoletimRg[imoveis][exemplo][imovel_tipo]', null, (['' => 'Selecione...'] + ImovelTipo::find()->ativo()->listData('nome')), ['class' => 'form-control', 'id' => 'selecaoTipoImovel']) ?></td>
                     <td><?= Html::dropDownList('BoletimRg[imoveis][exemplo][imovel_condicao]', null, (['' => 'Selecione...'] + ImovelCondicao::listData('nome')), ['class' => 'form-control', 'id' => 'selecaoCondicaoImovel']) ?></td>
                     <td style="text-align: center;"><?= Html::checkbox('BoletimRg[imoveis][exemplo][existe_foco]', false, ['id' => 'selecaoExisteFoco']) ?></td>
                     <td style="text-align: center;" class="add-row-button"><a href="javascript:void(0);" onclick="javascript:adicionaImovel();"><i class="icon-plus-sign"></i></a></td>

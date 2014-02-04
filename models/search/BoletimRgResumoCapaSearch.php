@@ -28,7 +28,7 @@ class BoletimRgResumoCapaSearch extends Object
         ];
 
         // Tipos de imóveis
-        foreach (ImovelTipo::find()->orderBy('nome')->all() as $tipoImovel) {
+        foreach (ImovelTipo::find()->ativo()->orderBy('nome')->all() as $tipoImovel) {
             $dados['tipos_imoveis'][$tipoImovel->nome] = [
                 'geral' => 0,
                 'areasDeFoco' => 0
@@ -36,7 +36,10 @@ class BoletimRgResumoCapaSearch extends Object
         }
 
         // Valores dos tipos de imóveis
-        foreach (BoletimRgImoveis::find()->with('imovelTipo')->all() as $boletim) {
+        $query = BoletimRgImoveis::find()->with(['imovelTipo' => function($query) {
+            $query->andWhere('excluido = FALSE');
+        }]);
+        foreach ($query->all() as $boletim) {
 
             if ($boletim->area_de_foco) {
                 $dados['tipos_imoveis'][$boletim->imovelTipo->nome]['areasDeFoco']++;
