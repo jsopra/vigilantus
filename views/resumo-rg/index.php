@@ -79,13 +79,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     $cssClass = 'danger';
                     $totalAreasFoco++;
 
-                    $dadosFoco[$boletimFechamento->imovel_tipo_id] = $quantidade;
+                    $dadosFoco[$boletimFechamento->imovel_tipo_id] += $quantidade;
                     $dadosFoco['total'] += $quantidade;
 
                     $dadosTotaisFoco[$boletimFechamento->imovel_tipo_id] += $quantidade;
                     $dadosTotaisFoco['total'] += $quantidade;
                 }
-                $dadosImoveis[$boletimFechamento->imovel_tipo_id] = $quantidade;
+                $dadosImoveis[$boletimFechamento->imovel_tipo_id] += $quantidade;
                 $dadosImoveis['total'] += $quantidade;
 
                 $dadosTotaisImoveis[$boletimFechamento->imovel_tipo_id] += $quantidade;
@@ -123,5 +123,5 @@ $this->params['breadcrumbs'][] = $this->title;
     <p><?= Yii::t('yii', 'No results found.') ?></p>
 <?php endif; ?>
 <?php else : ?>
-    <?= $this->render('_capa'); ?>
+    <?= $this->render('_capa', ['resumoBairros' => $resumoBairros]); ?>
 <?php endif; ?>

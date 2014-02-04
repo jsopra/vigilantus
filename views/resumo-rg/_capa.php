@@ -1,21 +1,5 @@
 <div id="capa-resumo-rg" class="row">
-    <div class="col-md-4">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Bairro</th>
-                    <th>Imóveis</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>Passo dos Fortes</th>
-                    <td>32352</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-8">
+    <div class="col-md-6">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -26,7 +10,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <th>Quarteirões</th>
+                    <td>Quarteirões</td>
                     <td>3042</td>
                     <td>2749</td>
                 </tr>
@@ -68,6 +52,24 @@
                     <td>2749</td>
                 </tr>
             </tfoot>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Bairro</th>
+                    <th>Imóveis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($resumoBairros as $bairro => $imoveis) : ?>
+                <tr>
+                    <td><?= $bairro ?></td>
+                    <td><?= $imoveis ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
         </table>
     </div>
 </div>

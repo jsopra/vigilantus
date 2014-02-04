@@ -13,6 +13,7 @@ use app\forms\ContatoForm;
 use app\forms\FeedbackForm;
 use app\components\Controller;
 use app\models\Municipio;
+use app\models\search\BoletimRgResumoCapaSearch;
 
 class SiteController extends Controller
 {
@@ -61,7 +62,7 @@ class SiteController extends Controller
 
     public function actionHome() 
     {
-        return $this->render('home');
+        return $this->render('home', ['resumoBairros' => BoletimRgResumoCapaSearch::porBairros()]);
     }
     
     public function actionIndex()
