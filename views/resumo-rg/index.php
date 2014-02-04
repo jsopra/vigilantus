@@ -93,15 +93,15 @@ $this->params['breadcrumbs'][] = $this->title;
             }
             ?>
         <tr class="<?= $cssClass ?>">
-            <td><?= $row->quarteirao->numero_quarteirao ?></td>
-            <td><?= $row->quarteirao->numero_quarteirao_2 ?></td>
-            <td><?= $row->seq ?></td>
+            <td style="text-align: center;"><?= $row->quarteirao->numero_quarteirao ?></td>
+            <td style="text-align: center;"><?= $row->quarteirao->numero_quarteirao_2 ?></td>
+            <td style="text-align: center;"><?= $row->seq ?></td>
             <?php foreach ($dadosImoveis as $key => $info) : ?>
-            <td><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
+            <td style="text-align: center;"><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
             <?php endforeach; ?>
-            <td><?= $areaFoco ?></td>
+            <td style="text-align: center;"><?= $areaFoco ?></td>
             <?php foreach ($dadosFoco as $key => $info) : ?>
-            <td><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
+            <td style="text-align: center;"><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
             <?php endforeach; ?>
         </tr>
         <?php endforeach; ?>
@@ -110,11 +110,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <th colspan="3">Total:</th>
             <?php foreach ($dadosTotaisImoveis as $key => $info) : ?>
-            <td><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
+            <td style="text-align: center;"><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
             <?php endforeach; ?>
-            <td><?= $totalAreasFoco ?></td>
+            <td style="text-align: center;"><?= $totalAreasFoco ?></td>
             <?php foreach ($dadosTotaisFoco as $key => $info) : ?>
-            <td><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
+            <td style="text-align: center;"><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
             <?php endforeach; ?>
         </tr>
     </tfoot>
