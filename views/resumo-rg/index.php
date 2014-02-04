@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 if ($boletimFechamento->area_de_foco) {
 
-                    $areaFoco = '@TODO';
+                    $areaFoco = $row->formatted_data;
                     $cssClass = 'danger';
                     $totalAreasFoco++;
 
