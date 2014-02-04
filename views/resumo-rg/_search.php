@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
         <div class="row" id="dadosPrincipais">
             <div class="col-xs-4">
-                <?= $form->field($model, 'bairro_id')->dropDownList(Bairro::listData('nome'), ['prompt' => 'Selecione..']) ?>
+                <?= $form->field($model, 'bairro_id')->dropDownList(Bairro::listData('nome'), ['prompt' => 'Selecione…']) ?>
             </div>
             
             <div class="col-xs-2" style="padding-top: 20px;">
