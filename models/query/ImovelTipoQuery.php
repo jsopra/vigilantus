@@ -1,7 +1,7 @@
 <?php
 namespace app\models\query;
 
-use yii\db\ActiveQuery;
+use app\components\ActiveQuery;
 
 class ImovelTipoQuery extends ActiveQuery
 {  
@@ -23,7 +23,3 @@ class ImovelTipoQuery extends ActiveQuery
         return $this;
     }
 }
-
-
-
-    

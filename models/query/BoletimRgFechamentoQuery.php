@@ -1,7 +1,7 @@
 <?php
 namespace app\models\query;
 
-use yii\db\ActiveQuery;
+use app\components\ActiveQuery;
 
 class BoletimRgFechamentoQuery extends ActiveQuery
 {  

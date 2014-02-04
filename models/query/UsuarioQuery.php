@@ -3,7 +3,7 @@ namespace app\models\query;
 
 use app\models\Usuario;
 use app\models\UsuarioRole;
-use yii\db\ActiveQuery;
+use app\components\ActiveQuery;
 
 class UsuarioQuery extends ActiveQuery
 {  
