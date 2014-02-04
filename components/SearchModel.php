@@ -45,8 +45,6 @@ abstract class SearchModel extends Model
         $this->searchScopes($query);
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         
-        // $params['municipio_id'] = \Yii::$app->session->get('user.municipio')->id;
-        
         $searchClassName = $this->getModelClassName() . 'Search';
         
         if (is_array($params) && count($params) && !isset($params[$searchClassName])) {
@@ -71,14 +69,22 @@ abstract class SearchModel extends Model
     protected function addCondition($query, $attribute, $partialMatch = false)
     {
         $value = $this->$attribute;
-        
-        if (trim($value) === '') {
-            return;
+        if(preg_match('/^(?:\s*(<>|<=|>=|<|>|=))?(.*)$/',$value,$matches))
+        {
+            $value=$matches[2];
         }
         
-        if ($partialMatch) {
-            $value = '%' . strtr($value, ['%' => '\%', '_' => '\_', '\\' => '\\\\']) . '%';
-            $query->andWhere(['like', $attribute, $value]);
+        if($value==='')
+            return $this;
+
+        if($partialMatch)
+        {
+            $value = '%' . str_replace("'", "''", $value) . '%';
+
+            $condition = 'lower(public.unaccent('.$attribute .')) ilike lower(public.unaccent(\''. $value .'\'))';
+
+            $query->andWhere($condition);
+
         } else {
             $query->andWhere([$attribute => $value]);
         }
