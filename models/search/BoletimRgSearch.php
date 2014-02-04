@@ -20,7 +20,6 @@ class BoletimRgSearch extends SearchModel
     public function rules()
     {
         return [
-            [['municipio_id', 'bairro_id', 'bairro_quarteirao_id', 'seq', 'folha', 'data'], 'required'],
             [['municipio_id', 'bairro_id', 'bairro_quarteirao_id', 'seq', 'folha', 'data'], 'integer'],
             [['data_cadastro'], 'safe'],
         ];
