@@ -15,30 +15,35 @@ class BoletimRgResumoCapaSearch extends Object
      */
     public static function porTiposDeImoveis()
     {
-        $dados = [];
-
-        // Quarteirões
-        $dados['Quarteirões'] = [
-            BoletimRg::find()->count(),
-            BoletimRg::find()->comAreasDeFoco()->count(),
+        $dados = [
+            'quarteiroes' => [
+                'geral' => BoletimRg::find()->count(),
+                'areasDeFoco' => BoletimRg::find()->comAreasDeFoco()->count(),
+            ],
+            'tipos_imoveis' => [],
+            'total' => [
+                'geral' => 0,
+                'areasDeFoco' => 0
+            ]
         ];
 
         // Tipos de imóveis
         foreach (ImovelTipo::find()->orderBy('nome')->all() as $tipoImovel) {
-            $dados[$tipoImovel->nome] = [0, 0];
+            $dados['tipos_imoveis'][$tipoImovel->nome] = [
+                'geral' => 0,
+                'areasDeFoco' => 0
+            ];
         }
-
-        $dados['Total'] = [0, 0];
 
         // Valores dos tipos de imóveis
         foreach (BoletimRgImoveis::find()->with('imovelTipo')->all() as $boletim) {
 
             if ($boletim->area_de_foco) {
-                $dados[$boletim->imovelTipo->nome][1]++;
-                $dados['Total'][1]++;
+                $dados['tipos_imoveis'][$boletim->imovelTipo->nome]['areasDeFoco']++;
+                $dados['total']['areasDeFoco']++;
             } else {
-                $dados[$boletim->imovelTipo->nome][0]++;
-                $dados['Total'][0]++;
+                $dados['tipos_imoveis'][$boletim->imovelTipo->nome]['geral']++;
+                $dados['total']['geral']++;
             }
         }
 

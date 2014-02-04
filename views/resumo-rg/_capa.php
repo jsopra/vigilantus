@@ -9,14 +9,26 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($resumoTiposImoveis as $label => list($geral, $areasDeFoco)) : ?>
+                <tr class="totalizador">
+                    <td>Quarteirões</td>
+                    <td><?= $resumoTiposImoveis['quarteiroes']['geral'] ?></td>
+                    <td><?= $resumoTiposImoveis['quarteiroes']['areasDeFoco'] ?></td>
+                </tr>
+                <?php foreach ($resumoTiposImoveis['tipos_imoveis'] as $label => $values) : ?>
                 <tr>
                     <td><?= $label ?></td>
-                    <td><?= $geral ?></td>
-                    <td><?= $areasDeFoco ?></td>
+                    <td><?= $values['geral'] ?></td>
+                    <td><?= $values['areasDeFoco'] ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
+            <tfoot>
+                <tr class="totalizador">
+                    <td>Total</td>
+                    <td><?= $resumoTiposImoveis['total']['geral'] ?></td>
+                    <td><?= $resumoTiposImoveis['total']['areasDeFoco'] ?></td>
+                </tr>
+            </tfoot>
         </table>
     </div>
     <div class="col-md-6">

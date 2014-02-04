@@ -13,3 +13,8 @@
 #resumo-rg-bairro th.date {
     width: 6em;
 }
+
+#capa-resumo-rg tr.totalizador td {
+    background-color: #eee;
+    font-weight: bold;
+}
