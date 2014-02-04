@@ -15,7 +15,7 @@ modules:
         - Selenium2
     config:
         Selenium2:
-           url: 'http://vigilantustest:8080'
+           url: 'http://vigilantustest'
            browser: firefox
            wait: 10
            share_session: true
