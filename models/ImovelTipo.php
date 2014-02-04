@@ -99,9 +99,4 @@ class ImovelTipo extends ActiveRecord
             'data_exclusao' => 'Data Exclusão',
         );
     }
-    
-    public static function createQuery()
-	{
-        return parent::createQuery('\app\models\ImovelTipoQuery');
-	}
 }

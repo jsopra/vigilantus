@@ -86,9 +86,4 @@ class UsuarioRole extends ActiveRecord
         
         return $listData;
     }
-    
-    public static function createQuery()
-	{
-        return parent::createQuery('\app\models\UsuarioRoleQuery');
-	}
 }

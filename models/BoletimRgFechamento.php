@@ -125,9 +125,4 @@ class BoletimRgFechamento extends ActiveRecord
         
         return $boletimExistente->save() ? $boletimExistente : false;
     }
-    
-    public static function createQuery()
-	{
-        return parent::createQuery('\app\models\BoletimRgFechamentoQuery');
-	}
 }

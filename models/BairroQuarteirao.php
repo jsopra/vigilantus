@@ -97,9 +97,4 @@ class BairroQuarteirao extends ActiveRecord
 	{
 		return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
 	}
-    
-    public static function createQuery()
-	{
-        return parent::createQuery('\app\models\BairroQuarteiraoQuery');
-	}
 }

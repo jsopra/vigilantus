@@ -3,11 +3,11 @@
 namespace app\components;
 
 use \IntlDateFormatter;
+use app\components\ActiveQuery;
 use app\components\StringHelper;
 use yii\db\ActiveRecord as YiiActiveRecord;
 use yii\db\Expression;
 use yii\validators\Validator;
-use yii\db\ActiveQuery;
 use app\models\Municipio;
 use app\models\UsuarioRole;
 
@@ -237,68 +237,51 @@ class ActiveRecord extends YiiActiveRecord
     }
     
     /**
-     * @param ActiveQuery $query
-     */
-    public static function limit($query, $rows)
-    {
-        $query->limit($rows);
-    }
-    
-    /**
-     * @param ActiveQuery $query
-     */
-    public static function randomOrdered($query)
-    {
-        $query->orderBy('RANDOM()');
-    }
-    
-    /**
-	 * Creates an [[ActiveQuery]] instance.
-	 *
-	 * This method is called by [[find()]], [[findBySql()]] to start a SELECT query.
-	 * You may override this method to return a customized query (e.g. `CustomerQuery` specified
-	 * written for querying `Customer` purpose.)
-	 *
-	 * You may also define default conditions that should apply to all queries unless overridden:
-	 *
-	 * ```php
-	 * public static function createQuery()
-	 * {
-	 *     return parent::createQuery()->where(['deleted' => false]);
-	 * }
-	 * ```
-	 *
-	 * Note that all queries should use [[Query::andWhere()]] and [[Query::orWhere()]] to keep the
-	 * default condition. Using [[Query::where()]] will override the default condition.
-	 *
-	 * @return ActiveQuery the newly created [[ActiveQuery]] instance.
+	 * @inheritdoc
 	 */
-	public static function createQuery($modelQuery = null)
+	public static function createQuery()
 	{
-        $class = get_called_class();
-        
-        if($modelQuery) {
-            $query = new $modelQuery(['modelClass' => $class]);
+        $className = get_called_class();
+        $queryClassName = str_replace('\\models\\', '\\models\\query\\', $className) . 'Query';
+
+        if (class_exists($queryClassName)) {
+            $query = new $queryClassName(['modelClass' => $className]);
         }
         else {
-            $query = new ActiveQuery(['modelClass' => $class]);
+            $query = new ActiveQuery(['modelClass' => $className]);
         }
         
-        $model = new $class;
-        
-        if(\Yii::$app->hasComponent('session') && \Yii::$app->session->get('user.municipio') instanceof Municipio && $model->hasAttribute('municipio_id'))
-            $query->andWhere('"municipio_id" IS NULL OR "municipio_id" = ' . \Yii::$app->session->get('user.municipio')->id);
-        
-        unset($model);
+        if (self::temFiltroMunicipio()) {
+            $idMunicipio = Municipio::find()->one()->id;//intval(\Yii::$app->session->get('user.municipio')->id);
+            $query->andWhere(
+                '[[municipio_id]] IS NULL OR [[municipio_id]] = ' . $idMunicipio
+            );
+        }
         
         return $query;
 	}
     
+    /**
+     * @inheritdoc
+     */
 	public function beforeValidate()
 	{
-        if(\Yii::$app->hasComponent('session') && \Yii::$app->session->get('user.municipio') instanceof Municipio && $this->hasAttribute('municipio_id'))
-            $this->municipio_id = \Yii::$app->session->get('user.municipio')->id;
+        if (self::temFiltroMunicipio()) {
+            $this->municipio_id = Municipio::find()->one()->id;//\Yii::$app->session->get('user.municipio')->id;
+        }
         
 		return parent::beforeValidate();
+    }
+
+    /**
+     * @return boolean
+     */
+    protected static function temFiltroMunicipio()
+    {
+        return (
+            \Yii::$app->hasComponent('session')
+            //&& \Yii::$app->session->get('user.municipio') instanceof Municipio
+            && isset(static::getTableSchema()->columns['municipio_id'])
+        );
     }
 }

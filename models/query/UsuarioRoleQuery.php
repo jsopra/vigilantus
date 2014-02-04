@@ -1,6 +1,8 @@
 <?php
-namespace app\models;
+namespace app\models\query;
 
+use app\models\Usuario;
+use app\models\UsuarioRole;
 use yii\db\ActiveQuery;
 
 class UsuarioRoleQuery extends ActiveQuery

@@ -285,9 +285,4 @@ class Usuario extends ActiveRecord implements IdentityInterface
                 return null;
         }
     }
-    
-    public static function createQuery()
-	{
-        return parent::createQuery('\app\models\UsuarioQuery');
-	}
 }

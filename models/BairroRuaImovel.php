@@ -77,9 +77,4 @@ class BairroRuaImovel extends ActiveRecord
 	{
 		return $this->hasOne(BairroRua::className(), ['id' => 'bairro_rua_id']);
     }
-    
-    public static function createQuery()
-	{
-        return parent::createQuery('\app\models\BairroRuaImovelQuery');
-	}
 }
