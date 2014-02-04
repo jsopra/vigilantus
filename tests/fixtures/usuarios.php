@@ -34,6 +34,5 @@ return array(
         'usuario_role_id' => 1,
         'municipio_id' => null,
         'email' => 'dengueroot@perspectiva.in',
-        'excluido' => new yii\db\Expression('false'),
     ),
 );

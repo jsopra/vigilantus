@@ -268,7 +268,8 @@ class ActiveRecord extends YiiActiveRecord
     protected static function temFiltroMunicipio()
     {
         return (
-            \Yii::$app->hasComponent('session')
+            php_sapi_name() != 'cli'
+            && \Yii::$app->hasComponent('session')
             //&& \Yii::$app->session->get('user.municipio') instanceof Municipio
             && isset(static::getTableSchema()->columns['municipio_id'])
         );
