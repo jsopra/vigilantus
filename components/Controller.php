@@ -33,6 +33,13 @@ class Controller extends YiiController
         $this->feedbackModel = new FeedbackForm();
 
         if(!\Yii::$app->user->isGuest) {
+            
+            if(!\Yii::$app->session->get('user.municipio') && method_exists($this, 'getUser')) {
+                $municipios = Municipio::getMunicipios($this->getUser()->municipio_id);
+                $municipio = count($municipios) > 0 ? $municipios[0] : null;
+                Yii::$app->session->set('user.municipio',$municipio);
+            }
+            
             $this->municipiosDisponiveis = Municipio::getMunicipios(\Yii::$app->user->identity->municipio_id); 
             $this->municipioLogado = \Yii::$app->session->get('user.municipio');
         }
