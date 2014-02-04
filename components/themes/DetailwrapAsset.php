@@ -26,6 +26,7 @@ class DetailwrapAsset extends AssetBundle
     public $js = [
         'js/bootstrap.min.js',
         'js/jquery-ui-1.10.2.custom.min.js',
+        'js/bootstrap.datepicker.js',
         'js/theme.js',
     ];
     public $depends = [
