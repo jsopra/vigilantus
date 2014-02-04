@@ -13,7 +13,6 @@ class DetailwrapAsset extends AssetBundle
 {
     public $sourcePath = '@vendor/../components/themes/detailwrap';
     public $css = [
-        'css/bootstrap/bootstrap.css',
         'css/bootstrap/bootstrap-overrides.css',
         'css/lib/jquery-ui-1.10.2.custom.css',
         'css/lib/font-awesome.css',
