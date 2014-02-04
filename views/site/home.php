@@ -1,1 +1,1 @@
-home
+<h1>Painel Administrativo</h1>
