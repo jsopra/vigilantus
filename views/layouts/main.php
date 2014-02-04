@@ -112,15 +112,16 @@ AppAsset::register($this);
                 [
                     'label' => 'Relatórios',
                     'icon' => 'bar-chart',
+                    'visible' => Yii::$app->user->checkAccess('Administrador'),
                     'items' => [
                         ['label' => 'Boletim de RG', 'url' => ['/resumo-rg']],
-                    ]
+                    ],
                 ],
                 [
                     'label' => 'Sistema',
                     'icon' => 'cog',
                     'items' => [
-                        ['label' => 'Usuários', 'url' => ['/usuario/']],
+                        ['label' => 'Usuários', 'url' => ['/usuario/'], 'visible' => Yii::$app->user->checkAccess('Administrador'),],
                         ['label' => 'Alterar minha senha', 'url' => ['/usuario/change-password']],
                     ]
                 ],
