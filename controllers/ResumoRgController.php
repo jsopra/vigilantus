@@ -30,6 +30,7 @@ class ResumoRgController extends Controller
         $searchModel = new BoletimRgSearch;
         $dataProvider = $searchModel->search($_GET);
         $dataProvider->query->with('boletinsFechamento');
+        $dataProvider->query->orderBy('id');
         
         return $this->render(
             'index',
