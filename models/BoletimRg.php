@@ -247,7 +247,13 @@ class BoletimRg extends ActiveRecord
     {
         return BoletimRgImoveis::find()->where(['boletim_rg_id' => $this->id])->count();
     }
-    
+
+    public static function comAreasDeFoco($query)
+    {
+        $query->where(
+            'id IN (SELECT boletim_rg_id FROM boletim_rg_fechamento WHERE area_de_foco = TRUE)'
+        );
+    }
 
     public function beforeDelete() {
         

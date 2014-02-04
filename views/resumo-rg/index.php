@@ -123,5 +123,5 @@ $this->params['breadcrumbs'][] = $this->title;
     <p><?= Yii::t('yii', 'No results found.') ?></p>
 <?php endif; ?>
 <?php else : ?>
-    <?= $this->render('_capa', ['resumoBairros' => $resumoBairros]); ?>
+    <?= $this->render('_capa', ['resumoBairros' => $resumoBairros, 'resumoTiposImoveis' => $resumoTiposImoveis]); ?>
 <?php endif; ?>

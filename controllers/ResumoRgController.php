@@ -41,6 +41,7 @@ class ResumoRgController extends Controller
 
         if ($searchModel->bairro_id == null) {
             $params['resumoBairros'] = BoletimRgResumoCapaSearch::porBairros();
+            $params['resumoTiposImoveis'] = BoletimRgResumoCapaSearch::porTiposDeImoveis();
         }
         
         return $this->render(

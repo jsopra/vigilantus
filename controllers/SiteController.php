@@ -62,7 +62,13 @@ class SiteController extends Controller
 
     public function actionHome() 
     {
-        return $this->render('home', ['resumoBairros' => BoletimRgResumoCapaSearch::porBairros()]);
+        return $this->render(
+            'home',
+            [
+                'resumoBairros' => BoletimRgResumoCapaSearch::porBairros(),
+                'resumoTiposImoveis' => BoletimRgResumoCapaSearch::porTiposDeImoveis(),
+            ]
+        );
     }
     
     public function actionIndex()

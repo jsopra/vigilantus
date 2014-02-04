@@ -9,49 +9,14 @@
                 </tr>
             </thead>
             <tbody>
+                <?php foreach ($resumoTiposImoveis as $label => list($geral, $areasDeFoco)) : ?>
                 <tr>
-                    <td>Quarteirões</td>
-                    <td>3042</td>
-                    <td>2749</td>
+                    <td><?= $label ?></td>
+                    <td><?= $geral ?></td>
+                    <td><?= $areasDeFoco ?></td>
                 </tr>
-                <tr>
-                    <th>Residências</th>
-                    <td>3042</td>
-                    <td>2749</td>
-                </tr>
-                <tr>
-                    <th>Comércios</th>
-                    <td>3042</td>
-                    <td>2749</td>
-                </tr>
-                <tr>
-                    <th>TB´s</th>
-                    <td>3042</td>
-                    <td>2749</td>
-                </tr>
-                <tr>
-                    <th>PE´s</th>
-                    <td>3042</td>
-                    <td>2749</td>
-                </tr>
-                <tr>
-                    <th>Outros</th>
-                    <td>3042</td>
-                    <td>2749</td>
-                </tr>
+                <?php endforeach; ?>
             </tbody>
-            <tfoot>
-                <tr>
-                    <th>Total</th>
-                    <td>3042</td>
-                    <td>2749</td>
-                </tr>
-                <tr>
-                    <th>Total Soma 2</th>
-                    <td>3042</td>
-                    <td>2749</td>
-                </tr>
-            </tfoot>
         </table>
     </div>
     <div class="col-md-6">
