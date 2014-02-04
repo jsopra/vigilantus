@@ -30,7 +30,7 @@ class CRUDController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['create', 'update', 'delete', 'index'],
-                        'roles' => ['Administrador'],
+                        'roles' => ['Usuario'],
                     ],
                 ],
             ],

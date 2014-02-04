@@ -112,38 +112,6 @@ class Usuario extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @param ActiveQuery $query
-     */
-    public static function ativo($query)
-    {
-        $query->andWhere('excluido IS FALSE');
-    }
-    
-    /**
-     * @param ActiveQuery $query
-     */
-    public static function excluido($query)
-    {
-        $query->andWhere('excluido IS TRUE');
-    }
-
-    /**
-     * @param ActiveQuery $query
-     * @param Usuario $usuario
-     */
-    public static function doNivelDoUsuario($query, Usuario $usuario)
-    {
-        if ($usuario->role->id != UsuarioRole::ROOT) {
-            
-            $query->andWhere('usuario_role_id <> ' . UsuarioRole::ROOT);
-            
-            if ($usuario->municipio_id) {
-                $query->andWhere(['municipio_id' => $usuario->municipio_id]);
-            }
-        }
-    }
-
-    /**
      * @return Municipio
      */
     public function getMunicipio()
@@ -317,4 +285,9 @@ class Usuario extends ActiveRecord implements IdentityInterface
                 return null;
         }
     }
+    
+    public static function createQuery()
+	{
+        return parent::createQuery('\app\models\UsuarioQuery');
+	}
 }

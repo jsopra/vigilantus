@@ -19,14 +19,14 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-        <?php if (Yii::$app->user->checkAccess('Root')) : ?>
-        <?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome')) ?>
-        <?php endif; ?>
-
-        <?= $form->field($model, 'bairro_id')->dropDownList(Bairro::listData('nome')) ?>
-
-        <div class="form-group">
-            <?= Html::submitButton('Gerar Planilha', ['class' => 'btn btn-primary']) ?>
+        <div class="row" id="dadosPrincipais">
+            <div class="col-xs-4">
+                <?= $form->field($model, 'bairro_id')->dropDownList(Bairro::listData('nome'), ['prompt' => 'Selecione…']) ?>
+            </div>
+            
+            <div class="col-xs-2" style="padding-top: 20px;">
+                <?= Html::submitButton('Gerar Planilha', ['class' => 'btn btn-primary']) ?>
+            </div>
         </div>
 
     <?php ActiveForm::end(); ?>

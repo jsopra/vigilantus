@@ -165,7 +165,7 @@ class ActiveRecord extends YiiActiveRecord
      * @return void
      */
     public function setFormattedAttribute($attribute, $value)
-    {
+    { 
         if (!empty($this->tableSchema->columns[$attribute])) {
             
             $metaData = $this->tableSchema->columns[$attribute];
@@ -273,19 +273,21 @@ class ActiveRecord extends YiiActiveRecord
 	 *
 	 * @return ActiveQuery the newly created [[ActiveQuery]] instance.
 	 */
-	public static function createQuery()
+	public static function createQuery($modelQuery = null)
 	{
         $class = get_called_class();
         
-		$query = new ActiveQuery(['modelClass' => $class]);
-
-        if($class == 'app\models\Usuario')
-            return $query;
-            
+        if($modelQuery) {
+            $query = new $modelQuery(['modelClass' => $class]);
+        }
+        else {
+            $query = new ActiveQuery(['modelClass' => $class]);
+        }
+        
         $model = new $class;
         
         if(\Yii::$app->hasComponent('session') && \Yii::$app->session->get('user.municipio') instanceof Municipio && $model->hasAttribute('municipio_id'))
-            $query->where(['municipio_id' => \Yii::$app->session->get('user.municipio')->id]);
+            $query->andWhere('"municipio_id" IS NULL OR "municipio_id" = ' . \Yii::$app->session->get('user.municipio')->id);
         
         unset($model);
         

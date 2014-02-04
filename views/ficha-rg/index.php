@@ -53,6 +53,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ], 
             [
+                'attribute' => 'data',
+                'options' => [
+                    'width' => '10%',
+                ],
+                'value' => function ($model, $index, $widget) {
+                    return $model->getFormattedAttribute('data');
+                },
+            ], 
+            [
                 'attribute' => 'folha',
                 'options' => [
                     'width' => '10%',
@@ -83,3 +92,14 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
 </div>
+<?php
+$view = Yii::$app->getView();
+$script = '
+    jQuery(document).ready(function(){
+        $("input[name=\'BoletimRgSearch[data]\'").datepicker().on("changeDate", function (ev) {
+            $(this).datepicker("hide");
+        });
+    });
+';
+$view->registerJs($script);
+?>

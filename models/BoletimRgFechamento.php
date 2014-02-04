@@ -89,22 +89,6 @@ class BoletimRgFechamento extends ActiveRecord
 		return $this->hasOne(ImovelTipo::className(), ['id' => 'imovel_tipo_id']);
 	}
     
-    public static function doBoletim($query, $id) {
-        $query->andWhere('boletim_rg_id = :id', [':id' => $id]);
-    }
-    
-    public static function daCondicaoDeImovel($query, $id) {
-        $query->andWhere('condicao_imovel_id = :condicao', [':condicao' => $id]);
-    }
-    
-    public static function doTipoDeImovel($query, $id) {
-        $query->andWhere('imovel_tipo_id = :tipo', [':tipo' => $id]);
-    }
-    
-    public static function doTipoDeFoco($query, $foco) {
-        $query->andWhere('area_de_foco = :foco', [':foco' => $foco]);
-    }
-    
     /**
      * Incrementa contage de imóveis em fechamento de boletim
      * 
@@ -141,4 +125,9 @@ class BoletimRgFechamento extends ActiveRecord
         
         return $boletimExistente->save() ? $boletimExistente : false;
     }
+    
+    public static function createQuery()
+	{
+        return parent::createQuery('\app\models\BoletimRgFechamentoQuery');
+	}
 }

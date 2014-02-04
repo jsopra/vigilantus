@@ -36,6 +36,10 @@ use yii\widgets\ActiveForm;
         <div class="col-xs-2 col-lg-offset-1 bairro-hide">
             <?= $form->field($model, 'folha')->textInput() ?>
         </div>
+        
+        <div class="col-xs-2 bairro-hide">
+            <?= $form->field($model, 'data')->textInput(['class' => 'form-control input-datepicker']) ?>
+        </div>
     </div>
     <br />
     <div class="row bairro-hide">
@@ -116,6 +120,10 @@ $script = '
     jQuery(document).ready(function(){
 
     var bairroID = null;
+    
+    $(".input-datepicker").datepicker().on("changeDate", function (ev) {
+        $(this).datepicker("hide");
+    });
 ';
 
 if(!$model->bairro_id)
@@ -157,7 +165,7 @@ $script .= '
 
                 jQuery(this).attr("disabled","disabled");
 
-                jQuery.getJSON("' . Html::url(['ficha-rg/bairroCategoria']) . '?bairro_id=" + bairroID, function(data) {
+                jQuery.getJSON("' . Html::url(['ficha-rg/bairroCategoria', 'bairro_id' => '']) . '" + bairroID, function(data) {
 
                     $("#boletimrg-categoria_id").val(data.id);
                     $("#boletimrg-categoria_id").attr("disabled","disabled");
@@ -169,7 +177,7 @@ $script .= '
             
             jQuery("#selecaoRua").typeahead([{
                 name: "BoletimRg[imoveis][exemplo][rua]",
-                remote: "' . Html::url(['ficha-rg/bairroRuas']) . '?onlyName=true&bairro_id=" + bairroID + "&q=%QUERY"
+                remote: "' . Html::url(['ficha-rg/bairroRuas', 'onlyName' => 'true', 'bairro_id' => '']) . '&bairro_id=" + bairroID + "&q=%QUERY"
             }]);
             
             jQuery("form").submit(function(){

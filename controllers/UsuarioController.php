@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\components\CRUDController;
 use app\forms\AlterarSenhaForm;
 use Yii;
+use yii\web\VerbFilter;
 
 class UsuarioController extends CRUDController
 {
@@ -13,14 +14,30 @@ class UsuarioController extends CRUDController
      */
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors['access']['only'][] = 'change-password';
-        $behaviors['access']['rules'][] = [
-            'allow' => true,
-            'actions' => ['change-password'],
-            'roles' => ['@'],
+        return [
+            'access' => [
+                'class' => '\yii\web\AccessControl',
+                'only' => ['change-password','create', 'delete', 'index', 'update'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['change-password'],
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create', 'update', 'delete', 'index'],
+                        'roles' => ['Administrador'],
+                    ],
+                ], 
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
         ];
-        return $behaviors;
     }
     
     public function actionChangePassword()
