@@ -41,6 +41,10 @@ class BoletimRgResumoCapaSearch extends Object
         }]);
         foreach ($query->all() as $boletim) {
 
+            if (!$boletim->imovelTipo) {
+                continue;
+            }
+
             if ($boletim->area_de_foco) {
                 $dados['tipos_imoveis'][$boletim->imovelTipo->nome]['areasDeFoco']++;
                 $dados['total']['areasDeFoco']++;
