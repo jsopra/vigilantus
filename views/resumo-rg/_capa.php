@@ -19,7 +19,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>&nbsp;</th>
+                    <th>Imóveis</th>
                     <th class="number">Geral</th>
                     <th class="number">Área de Foco</th>
                 </tr>
