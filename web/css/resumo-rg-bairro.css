@@ -18,3 +18,7 @@
     background-color: #eee;
     font-weight: bold;
 }
+
+#capa-resumo-rg th.number {
+    width: 10em;
+}

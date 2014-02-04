@@ -41,10 +41,9 @@ class BoletimRgResumoCapaSearch extends Object
             if ($boletim->area_de_foco) {
                 $dados['tipos_imoveis'][$boletim->imovelTipo->nome]['areasDeFoco']++;
                 $dados['total']['areasDeFoco']++;
-            } else {
-                $dados['tipos_imoveis'][$boletim->imovelTipo->nome]['geral']++;
-                $dados['total']['geral']++;
             }
+            $dados['tipos_imoveis'][$boletim->imovelTipo->nome]['geral']++;
+            $dados['total']['geral']++;
         }
 
         return $dados;

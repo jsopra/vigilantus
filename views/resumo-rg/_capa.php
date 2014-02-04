@@ -3,9 +3,9 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Resumo</th>
-                    <th>Geral</th>
-                    <th>Área de Foco</th>
+                    <th>&nbsp;</th>
+                    <th class="number">Geral</th>
+                    <th class="number">Área de Foco</th>
                 </tr>
             </thead>
             <tbody>
@@ -14,6 +14,17 @@
                     <td><?= $resumoTiposImoveis['quarteiroes']['geral'] ?></td>
                     <td><?= $resumoTiposImoveis['quarteiroes']['areasDeFoco'] ?></td>
                 </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th class="number">Geral</th>
+                    <th class="number">Área de Foco</th>
+                </tr>
+            </thead>
+            <tbody>
                 <?php foreach ($resumoTiposImoveis['tipos_imoveis'] as $label => $values) : ?>
                 <tr>
                     <td><?= $label ?></td>
