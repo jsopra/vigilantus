@@ -10,6 +10,14 @@ $config = [
     'basePath' => dirname(__DIR__),
     'extensions' => require(__DIR__ . '/../vendor/yiisoft/extensions.php'),
     'components' => [
+        'assetManager' => [
+            //'basePath' => realpath(__DIR__ . $ds . '..' . $ds . '..' . $ds . 'public' . $ds . 'assets'),
+            'bundles' => [
+                'yii\bootstrap\BootstrapAsset' => [
+                    'css' => [],
+                ],
+            ]
+        ],
         'authManager' => [
             'class' => 'app\components\AuthManager',
             'authFile' => __DIR__ . '/../data/rbac.php',
