@@ -47,22 +47,6 @@ class ImovelTipo extends ActiveRecord
             array('atualizado_por', 'required', 'on' => 'update'),
         );
     }
-
-    /**
-     * @param ActiveQuery $query
-     */
-    public static function ativo($query)
-    {
-        $query->andWhere('excluido IS FALSE');
-    }
-    
-    /**
-     * @param ActiveQuery $query
-     */
-    public static function excluido($query)
-    {
-        $query->andWhere('excluido IS TRUE');
-    }
     
     /**
      * @return Municipio
@@ -115,4 +99,9 @@ class ImovelTipo extends ActiveRecord
             'data_exclusao' => 'Data Exclusão',
         );
     }
+    
+    public static function createQuery()
+	{
+        return parent::createQuery('\app\models\ImovelTipoQuery');
+	}
 }

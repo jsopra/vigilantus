@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components\validators;
+namespace app\validators;
 
 use yii\validators\DateValidator as YiiDateValidator;
 
