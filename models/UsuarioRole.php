@@ -56,16 +56,6 @@ class UsuarioRole extends ActiveRecord
             'nome' => 'Nome',
         );
     }
-    
-    /**
-     * @param ActiveQuery $query
-     */
-    public static function doNivelDoUsuario($query, Usuario $usuario)
-    {
-        if ($usuario->role->id != self::ROOT) {
-            $query->andWhere('id <> ' . self::ROOT);
-        }
-    }
 
     /**
      * Exclui a linha da tabela correspondente a este active record.
@@ -96,4 +86,9 @@ class UsuarioRole extends ActiveRecord
         
         return $listData;
     }
+    
+    public static function createQuery()
+	{
+        return parent::createQuery('\app\models\UsuarioRoleQuery');
+	}
 }

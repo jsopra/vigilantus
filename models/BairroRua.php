@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use app\components\ActiveRecord;
 
 /**
  * This is the model class for table "bairro_ruas".
@@ -14,7 +15,7 @@ namespace app\models;
  * @property Bairros $bairro
  * @property BairroRuaImoveis[] $bairroRuaImoveis
  */
-class BairroRua extends \yii\db\ActiveRecord
+class BairroRua extends ActiveRecord
 {
 	/**
 	 * @inheritdoc
@@ -73,11 +74,8 @@ class BairroRua extends \yii\db\ActiveRecord
 		return $this->hasMany(BairroRuaImoveis::className(), ['bairro_rua_id' => 'id']);
 	}
     
-    public static function doBairro($query, $id) {
-        $query->andWhere('bairro_id = :id', [':id' => $id]);
-    }
-    
-    public static function daRua($query, $nome) {
-        $query->andWhere('nome = :rua', [':rua' => $nome]);
-    }
+    public static function createQuery()
+	{
+        return parent::createQuery('\app\models\BairroRuaQuery');
+	}
 }

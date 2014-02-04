@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use app\components\ActiveRecord;
 
 /**
  * This is the model class for table "bairro_rua_imoveis".
@@ -16,7 +17,7 @@ namespace app\models;
  * @property Municipios $municipio
  * @property BairroRuas $bairroRua
  */
-class BairroRuaImovel extends \yii\db\ActiveRecord
+class BairroRuaImovel extends ActiveRecord
 {
 	/**
 	 * @inheritdoc
@@ -45,10 +46,10 @@ class BairroRuaImovel extends \yii\db\ActiveRecord
 	{
 		return [
 			'id' => 'ID',
-			'municipio_id' => 'Municipio ID',
-			'bairro_rua_id' => 'Bairro Rua ID',
-			'numero' => 'Numero',
-			'sequencia' => 'Sequencia',
+			'municipio_id' => 'Município',
+			'bairro_rua_id' => 'Bairro Rua',
+			'numero' => 'Nímero',
+			'sequencia' => 'Sequência',
 			'complemento' => 'Complemento',
 		];
 	}
@@ -76,20 +77,9 @@ class BairroRuaImovel extends \yii\db\ActiveRecord
 	{
 		return $this->hasOne(BairroRua::className(), ['id' => 'bairro_rua_id']);
     }
-
-    public static function daRua($query, $id) {
-        $query->andWhere('bairro_rua_id = :rua', [':rua' => $id]);
-    }
     
-    public static function doNumero($query, $numero) {
-        $query->andWhere('numero = :numero', [':numero' => $numero]);
-    }
-    
-    public static function daSeq($query, $seq) {
-        $query->andWhere('sequencia = :seq', [':seq' => $seq]);
-    }
-    
-    public static function doComplemento($query, $complemento) {
-        $query->andWhere('complemento = :compl', [':compl' => $complemento]);
-    }
+    public static function createQuery()
+	{
+        return parent::createQuery('\app\models\BairroRuaImovelQuery');
+	}
 }

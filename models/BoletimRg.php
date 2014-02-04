@@ -42,9 +42,10 @@ class BoletimRg extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['folha', 'bairro_id', 'municipio_id', 'bairro_quarteirao_id', 'imoveis'], 'required'],
-            ['categoria_id', 'safe'],
-            //['data', 'date'],
+			[['folha', 'bairro_id', 'municipio_id', 'bairro_quarteirao_id', 'imoveis', 'data'], 'required'],
+            [['categoria_id'], 'safe'],
+            ['folha', 'unique', 'compositeWith' => ['data', 'municipio_id']],
+            ['data', 'date'],
 			[['folha', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id'], 'integer'],
 			[['seq', 'data_cadastro'], 'string'],
 		];
@@ -65,7 +66,7 @@ class BoletimRg extends ActiveRecord
 			'inserido_por' => 'Inserido Por',
             'municipio_id' => 'Município',
             'categoria_id' => 'Categoria',
-            'data' => 'Data Coleta',
+            'data' => 'Data da Coleta',
 		];
 	}
 
