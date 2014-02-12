@@ -10,14 +10,6 @@ $config = [
     'basePath' => dirname(__DIR__),
     'extensions' => require(__DIR__ . '/../vendor/yiisoft/extensions.php'),
     'components' => [
-        'assetManager' => [
-            //'basePath' => realpath(__DIR__ . $ds . '..' . $ds . '..' . $ds . 'public' . $ds . 'assets'),
-            'bundles' => [
-                'yii\bootstrap\BootstrapAsset' => [
-                    'css' => [],
-                ],
-            ]
-        ],
         'authManager' => [
             'class' => 'app\components\AuthManager',
             'authFile' => __DIR__ . '/../data/rbac.php',
@@ -73,7 +65,14 @@ if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
     $config['preload'][] = 'debug';
     $config['modules']['debug'] = 'yii\debug\Module';
-    $config['modules']['gii'] = 'yii\gii\Module';
+    $config['modules']['gii'] = [
+        'class' => 'yii\gii\Module',
+        'generators' => [
+            'vigilantus-model' => ['class' => 'app\extensions\gii\generators\model\Generator'],
+            'vigilantus-crud' => ['class' => 'app\extensions\gii\generators\crud\Generator'],
+            'vigilantus-controller' => ['class' => 'app\extensions\gii\generators\controller\Generator'],
+        ],
+    ];
 }
 
 return $config;
