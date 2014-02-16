@@ -14,21 +14,21 @@ $(document).ready(function(){
        window.location.href =  $(this).val();
     });
 
-    $('.bairro-index a.success').add('.bairro-index a:has(.table-edit)').each(function(index, element){
-        var anchor = $(element);
-        anchor.click(function(event){
-            event.preventDefault();
-            createModalElement();
-            $('#modal-window').modal();
-            $.ajax({
-                url: anchor.attr('href'),
-                success: function(data) {
-                    fillModalElement(data);
-                }
-            });
-            return false;
-        });
-    });
+    // $('.bairro-index a.success').add('.bairro-index a:has(.table-edit)').each(function(index, element){
+    //     var anchor = $(element);
+    //     anchor.click(function(event){
+    //         event.preventDefault();
+    //         createModalElement();
+    //         $('#modal-window').modal();
+    //         $.ajax({
+    //             url: anchor.attr('href'),
+    //             success: function(data) {
+    //                 fillModalElement(data);
+    //             }
+    //         });
+    //         return false;
+    //     });
+    // });
 });
 
 function fillModalElement(html)
