@@ -25,6 +25,7 @@ class AppAsset extends AssetBundle
 	public $js = [
         'js/feedback.js',
         'js/site.js',
+        'js/grid.js',
         'js/typeahead.min.js',
         'js/jquery.numeric.min.js'
 	];
