@@ -36,7 +36,7 @@ class ResumoRgController extends Controller
         $params = [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'tiposImoveis' => ImovelTipo::find()->all(),
+            'tiposImoveis' => ImovelTipo::find()->ativo()->all(),
         ];
 
         if ($searchModel->bairro_id == null) {
