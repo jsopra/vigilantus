@@ -14,14 +14,14 @@ use yii\grid\GridView;
 $this->title = 'Quarteirões de Bairros';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="bairro-quarteirao-index">
+<div class="bairro-quarteirao-index" data-role="modal-grid">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
 	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 	<p>
-		<?= Html::a('Cadastrar Quarteirão de Bairro', ['create'], ['class' => 'btn btn-flat success']) ?>
+		<?= Html::a('Cadastrar Quarteirão de Bairro', ['create'], ['class' => 'btn btn-flat success', 'data-role' => 'create']) ?>
 	</p>
 
 	<?php echo GridView::widget([

@@ -14,14 +14,14 @@ use yii\grid\GridView;
 $this->title = 'Condições de Imóveis';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="imovel-condicao-index">
+<div class="imovel-condicao-index" data-role="modal-grid">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
 	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 	<p>
-		<?= Html::a('Cadastrar Condição de Imóvel', ['create'], ['class' => 'btn btn-flat success']) ?>
+		<?= Html::a('Cadastrar Condição de Imóvel', ['create'], ['class' => 'btn btn-flat success', 'data-role' => 'create']) ?>
 	</p>
 
 	<?php echo GridView::widget([

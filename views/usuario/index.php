@@ -14,14 +14,14 @@ use yii\grid\GridView;
 $this->title = 'Usuários';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="usuario-index">
+<div class="usuario-index" data-role="modal-grid">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
 	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 	<p>
-		<?= Html::a('Cadastrar Usuário', ['create'], ['class' => 'btn btn-flat success']) ?>
+		<?= Html::a('Cadastrar Usuário', ['create'], ['class' => 'btn btn-flat success', 'data-role' => 'create']) ?>
 	</p>
 
     <?php

@@ -16,12 +16,12 @@ use yii\grid\GridView;
 $this->title = 'Boletim de Reconhecimento Geográfico';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="bairro-tipo-index">
+<div class="bairro-tipo-index" data-role="modal-grid">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
 	<p>
-		<?= Html::a('Preencher novo Boletim', ['create'], ['class' => 'btn btn-flat success']) ?>
+		<?= Html::a('Preencher novo Boletim', ['create'], ['class' => 'btn btn-flat success', 'data-role' => 'create']) ?>
     </p>
 
     <?php
