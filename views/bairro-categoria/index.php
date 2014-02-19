@@ -33,34 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id',
             'nome',
             [
-                'attribute' => 'inserido_por',
-                'filter' => Usuario::listData('nome'),
-                'value' => function ($model, $index, $widget) {
-                    return $model->inseridoPor ? $model->inseridoPor->nome : null;
-                }
-            ],
-            [
-                'attribute' => 'data_cadastro',
-                'filter' => false,
-                'value' => function ($model, $index, $widget) {
-                    return $model->formatted_data_cadastro;
-                }
-            ],
-            [
-                'attribute' => 'atualizado_por',
-                'filter' => Usuario::listData('nome'),
-                'value' => function ($model, $index, $widget) {
-                    return $model->atualizadoPor ? $model->atualizadoPor->nome : null;
-                }
-            ],
-            [
-                'attribute' => 'data_atualizacao',
-                'filter' => false,
-                'value' => function ($model, $index, $widget) {
-                    return $model->formatted_data_atualizacao;
-                }
-            ],
-            [
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
             ],

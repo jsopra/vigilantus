@@ -98,7 +98,6 @@ AppAsset::register($this);
                         ['label' => 'Bairros', 'url' => ['/bairro/']],
                         ['label' => 'Quarteirões de Bairros', 'url' => ['/bairro-quarteirao/']],
                         ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria/']],
-                        ['label' => 'Condições de Imóveis', 'url' => ['/imovel-condicao/']],
                         ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
                     ]
                 ],
