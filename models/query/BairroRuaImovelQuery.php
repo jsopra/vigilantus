@@ -24,4 +24,9 @@ class BairroRuaImovelQuery extends ActiveQuery
         $this->andWhere('complemento = :compl', [':compl' => $complemento]);
         return $this;
     }
+    
+    public function doTipoLira($foco) {
+        $this->andWhere('imovel_lira = :lira', [':lira' => $foco]);
+        return $this;
+    }
 }

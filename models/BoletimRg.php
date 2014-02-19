@@ -138,6 +138,7 @@ class BoletimRg extends ActiveRecord
                         ->doNumero($imovel['numero'])
                         ->daSeq($imovel['seq'])
                         ->doComplemento($imovel['complemento'])
+                        ->doTipoLira((isset($imovel['imovel_lira']) && $imovel['imovel_lira'] == '1'))
                         ->one();
                     
                     if(!$ruaBairroImovel instanceof BairroRuaImovel) {
@@ -147,6 +148,7 @@ class BoletimRg extends ActiveRecord
                         $ruaBairroImovel->numero = $imovel['numero'];
                         $ruaBairroImovel->sequencia = $imovel['seq'];
                         $ruaBairroImovel->complemento = $imovel['complemento'];
+                        $ruaBairroImovel->imovel_lira = isset($imovel['imovel_lira']) && $imovel['imovel_lira'] == '1';
                         
                         if(!$ruaBairroImovel->save())
                             continue 2;
@@ -155,9 +157,7 @@ class BoletimRg extends ActiveRecord
                     $boletimImovel = new BoletimRgImoveis;
                     $boletimImovel->municipio_id = $this->municipio_id;
                     $boletimImovel->imovel_tipo_id = $imovel['imovel_tipo'];
-                    $boletimImovel->condicao_imovel_id = $imovel['imovel_condicao'];
                     $boletimImovel->boletim_rg_id = $this->id;
-                    $boletimImovel->area_de_foco = isset($imovel['existe_foco']) && $imovel['existe_foco'] == '1';
                     $boletimImovel->bairro_rua_imovel_id = $ruaBairroImovel->id;
                     
                     if ($boletimImovel->save())
@@ -278,8 +278,7 @@ class BoletimRg extends ActiveRecord
                 'seq' => $imovel->bairroRuaImovel->sequencia,
                 'complemento' => $imovel->bairroRuaImovel->complemento,
                 'imovel_tipo' => $imovel->imovel_tipo_id,
-                'imovel_condicao' => $imovel->condicao_imovel_id,
-                'existe_foco' => $imovel->area_de_foco,
+                'imovel_lira' => $imovel->bairroRuaImovel->imovel_lira,
             ];
         
         return;
