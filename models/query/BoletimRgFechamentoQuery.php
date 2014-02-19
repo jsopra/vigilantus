@@ -10,18 +10,13 @@ class BoletimRgFechamentoQuery extends ActiveQuery
         return $this;
     }
     
-    public function daCondicaoDeImovel($id) {
-        $this->andWhere('condicao_imovel_id = :condicao', [':condicao' => $id]);
-        return $this;
-    }
-    
     public function doTipoDeImovel($id) {
         $this->andWhere('imovel_tipo_id = :tipo', [':tipo' => $id]);
         return $this;
     }
     
-    public function doTipoDeFoco($foco) {
-        $this->andWhere('area_de_foco = :foco', [':foco' => $foco]);
+    public function doTipoLira($foco) {
+        $this->andWhere('imovel_lira = :lira', [':lira' => $foco]);
         return $this;
     }
 }

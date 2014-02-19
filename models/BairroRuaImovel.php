@@ -12,6 +12,7 @@ use app\components\ActiveRecord;
  * @property string $numero
  * @property string $sequencia
  * @property string $complemento
+ * @property boolean $imovel_lira
  *
  * @property BoletimRgImoveis[] $boletimRgImoveis
  * @property Municipios $municipio
@@ -34,6 +35,7 @@ class BairroRuaImovel extends ActiveRecord
 	{
 		return [
 			[['municipio_id', 'bairro_rua_id'], 'required'],
+            ['imovel_lira', 'boolean'],
 			[['municipio_id', 'bairro_rua_id'], 'integer'],
 			[['numero', 'sequencia', 'complemento'], 'string']
 		];
@@ -51,6 +53,7 @@ class BairroRuaImovel extends ActiveRecord
 			'numero' => 'Nímero',
 			'sequencia' => 'Sequência',
 			'complemento' => 'Complemento',
+            'imovel_lira' => 'Imóvel Lira',
 		];
 	}
 
