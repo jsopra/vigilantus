@@ -229,7 +229,7 @@ class ActiveRecord extends YiiActiveRecord
     /**
 	 * @inheritdoc
 	 */
-	public static function createQuery()
+	public static function createQuery($config = Array())
 	{
         $className = get_called_class();
         $queryClassName = str_replace('\\models\\', '\\models\\query\\', $className) . 'Query';
