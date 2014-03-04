@@ -15,7 +15,7 @@ echo "<?php\n";
 ?>
 
 use yii\helpers\Html;
-use <?= $generator->indexWidgetType === 'grid' ? "yii\\grid\\GridView" : "yii\\widgets\\ListView" ?>;
+use <?= $generator->indexWidgetType === 'grid' ? "app\\widgets\\GridView" : "yii\\widgets\\ListView" ?>;
 
 /**
  * @var yii\web\View $this
@@ -32,14 +32,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<?= "<?php" . ($generator->indexWidgetType === 'grid' ? "// " : "") ?>echo $this->render('_search', ['model' => $searchModel]); ?>
 
-	<p>
-		<?= "<?= " ?>Html::a('Create <?= Inflector::camel2words(StringHelper::basename($generator->modelClass)) ?>', ['create'], ['class' => 'btn btn-success', 'data-role' => 'create']) ?>
-	</p>
-
 <?php if ($generator->indexWidgetType === 'grid'): ?>
 	<?= "<?php " ?>echo GridView::widget([
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
+        'buttons' => [
+            'create' => function() {
+                return Html::a(
+                    'Cadastrar <?= Inflector::camel2words(StringHelper::basename($generator->modelClass)) ?>',
+                    Yii::$app->urlManager->createUrl('<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/create'),
+                    [
+                        'class' => 'btn btn-flat success',
+                        'data-role' => 'create',
+                    ]
+                );
+            }
+        ],
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
 

@@ -251,10 +251,6 @@ class GridView extends YiiGridView
 
                     $strippedValue = strip_tags(($value === null) ? '' : Yii::$app->getFormatter()->format($value, $column->format));
 
-                    // if (property_exists($column, 'exportAsString') && $column->exportAsString && is_numeric($strippedValue)) {
-                    //     $strippedValue = "'" . $strippedValue;
-                    // }
-
                     $row[] = $strippedValue;
                 }
 
