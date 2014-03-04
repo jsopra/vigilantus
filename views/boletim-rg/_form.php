@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'categoria_id')->dropDownList(BairroCategoria::listData('nome')) ?>
         </div>
         <div class="col-xs-2 bairro-hide">
-            <?= $form->field($model, 'bairro_quarteirao_id')->textInput() ?>
+            <?= $form->field($model, 'bairro_quarteirao_numero')->textInput() ?>
         </div>
         <div class="col-xs-1 bairro-hide">
             <?= $form->field($model, 'seq')->textInput() ?>
@@ -138,7 +138,10 @@ if(!$model->isNewRecord) {
 $script .= '
 
         jQuery("input#selecaoNumero").numeric();
-        jQuery("input#boletimrg-bairro_quarteirao_id").numeric();
+        jQuery("input#selecaoSeq").numeric();        
+
+        jQuery("input#boletimrg-bairro_quarteirao_numero").numeric();
+        jQuery("input#boletimrg-seq").numeric();
         jQuery("input#boletimrg-folha").numeric();
         jQuery("input#boletimrg-mes").numeric();
         jQuery("input#boletimrg-ano").numeric();
@@ -146,7 +149,7 @@ $script .= '
         if(bairroID) {
             jQuery("#selecaoRua").typeahead([{
                 name: "BoletimRg[imoveis][exemplo][rua]",
-                remote: "' . Html::url(['ficha-rg/bairroRuas']) . '?onlyName=true&bairro_id=" + bairroID + "&q=%QUERY"
+                remote: "' . Html::url(['boletim-rg/bairroRuas']) . '?onlyName=true&bairro_id=" + bairroID + "&q=%QUERY"
             }]);
         }
         
@@ -162,7 +165,7 @@ $script .= '
 
                 jQuery(this).attr("disabled","disabled");
 
-                jQuery.getJSON("' . Html::url(['ficha-rg/bairroCategoria', 'bairro_id' => '']) . '" + bairroID, function(data) {
+                jQuery.getJSON("' . Html::url(['boletim-rg/bairroCategoria', 'bairro_id' => '']) . '" + bairroID, function(data) {
 
                     $("#boletimrg-categoria_id").val(data.id);
                     $("#boletimrg-categoria_id").attr("disabled","disabled");
@@ -174,7 +177,7 @@ $script .= '
             
             jQuery("#selecaoRua").typeahead([{
                 name: "BoletimRg[imoveis][exemplo][rua]",
-                remote: "' . Html::url(['ficha-rg/bairroRuas', 'onlyName' => 'true', 'bairro_id' => '']) . '&bairro_id=" + bairroID + "&q=%QUERY"
+                remote: "' . Html::url(['boletim-rg/bairroRuas', 'onlyName' => 'true', 'bairro_id' => '']) . '&bairro_id=" + bairroID + "&q=%QUERY"
             }]);
             
             jQuery("form").submit(function(){

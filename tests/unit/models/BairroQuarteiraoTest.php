@@ -24,6 +24,8 @@ class BairroQuarteiraoTest extends TestCase
         
         $this->assertTrue($bairro->save());
 
+        $this->assertEquals('123', $bairro->getDsQuarteirao());
+        
         unset($bairro);
 
         $bairro = new BairroQuarteirao;
@@ -51,8 +53,11 @@ class BairroQuarteiraoTest extends TestCase
         $bairro->inserido_por = 1;
         $bairro->numero_quarteirao = 1234;
         $bairro->numero_quarteirao_2 = 1234;
+        $bairro->seq = 1;
 
         $this->assertTrue($bairro->save());
+        
+        $this->assertEquals('1234-1', $bairro->getDsQuarteirao());
     }
 
     public function testUpdate()

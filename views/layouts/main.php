@@ -106,7 +106,7 @@ AppAsset::register($this);
                     'label' => 'Fichas',
                     'icon' => 'folder-open-alt',
                     'items' => [
-                        ['label' => 'Boletim de RG', 'url' => ['/ficha-rg']],
+                        ['label' => 'Boletim de RG', 'url' => ['/boletim-rg']],
                     ]
                 ],
                 [

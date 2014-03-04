@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\components\ActiveRecord;
+use kop\y2cv\ConditionalValidator;
 
 /**
  * This is the model class for table "boletins_rg".
@@ -11,7 +12,6 @@ use app\components\ActiveRecord;
  * @property integer $folha
  * @property integer $bairro_id
  * @property integer $bairro_quarteirao_id
- * @property string $seq
  * @property string $data_cadastro
  * @property integer $inserido_por
  * @property integer $municipio_id
@@ -25,8 +25,10 @@ use app\components\ActiveRecord;
  */
 class BoletimRg extends ActiveRecord
 {
+    public $seq;
     public $categoria_id;
     public $imoveis;
+    public $bairro_quarteirao_numero;
     
 	/**
 	 * @inheritdoc
@@ -46,8 +48,17 @@ class BoletimRg extends ActiveRecord
             [['categoria_id'], 'safe'],
             ['folha', 'unique', 'compositeWith' => ['data', 'municipio_id']],
             ['data', 'date'],
-			[['folha', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id'], 'integer'],
-			[['seq', 'data_cadastro'], 'string'],
+			[['folha', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id', 'seq', 'bairro_quarteirao_numero'], 'integer'],
+			[['data_cadastro'], 'string'],
+                
+            [['bairro_quarteirao_id'], ConditionalValidator::className(),
+                'if' => [
+                    [['bairro_quarteirao_id'], 'compare', 'compareValue' => '']
+                ],
+                'then' => [
+                    [['bairro_quarteirao_numero'], 'required']
+                ]
+            ]
 		];
 	}
 
@@ -67,33 +78,36 @@ class BoletimRg extends ActiveRecord
             'municipio_id' => 'Município',
             'categoria_id' => 'Categoria',
             'data' => 'Data da Coleta',
+            'bairro_quarteirao_numero' => 'Quarteirão'
 		];
 	}
-
-    public function afterValidate() {
-        
-        unset($this->imoveis['exemplo']);
-        
-        return parent::afterValidate();
-    }
     
-    public function save($runValidation = true, $attributes = NULL) {
+    public function save($runValidation = true, $attributes = null) {
 
         $transaction = $this->getDb()->beginTransaction();
         try {
             
-            $bairroQuarteirao = BairroQuarteirao::find()->doBairro($this->bairro_id)->doNumero($this->bairro_quarteirao_id)->one();
-            if(!$bairroQuarteirao instanceof BairroQuarteirao) {
+            if($this->bairro_quarteirao_numero) {
+                
+                $bairroQuarteiraoFind = BairroQuarteirao::find()->doBairro($this->bairro_id)->doNumero($this->bairro_quarteirao_numero);
 
-                $bairroQuarteirao = new BairroQuarteirao;
-                $bairroQuarteirao->municipio_id = $this->municipio_id;
-                $bairroQuarteirao->bairro_id = $this->bairro_id;
-                $bairroQuarteirao->numero_quarteirao = $this->bairro_quarteirao_id;
-                $bairroQuarteirao->inserido_por = $this->inserido_por;
+                if($this->seq)
+                    $bairroQuarteiraoFind->daSequencia($this->seq);
 
-                if(!$bairroQuarteirao->save()) {
-                    $this->addError('bairro_quarteirao', 'Quarteirão não localizado');
-                    return false;
+                $bairroQuarteirao = $bairroQuarteiraoFind->one();
+                if(!$bairroQuarteirao instanceof BairroQuarteirao) {
+
+                    $bairroQuarteirao = new BairroQuarteirao;
+                    $bairroQuarteirao->municipio_id = $this->municipio_id;
+                    $bairroQuarteirao->bairro_id = $this->bairro_id;
+                    $bairroQuarteirao->numero_quarteirao = $this->bairro_quarteirao_numero;
+                    $bairroQuarteirao->seq = !empty($this->seq) ? $this->seq : null;
+                    $bairroQuarteirao->inserido_por = $this->inserido_por;
+
+                    if(!$bairroQuarteirao->save()) {
+                        $this->addError('bairro_quarteirao_numero','Erro ao cadastrar quarteirão');
+                        return false;
+                    }
                 }
             }
 

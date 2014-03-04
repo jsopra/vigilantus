@@ -38,20 +38,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => 'bairro_quarteirao_id',
+                'attribute' => 'bairro_quarteirao_numero',
                 'value' => function ($model, $index, $widget) {
-                    return $model->quarteirao ? $model->quarteirao->numero_quarteirao : null;
+                    return $model->quarteirao ? $model->quarteirao->getDsQuarteirao() : null;
                 },
                 'options' => [
                     'width' => '20%',
                 ]
             ],
-            [
-                'attribute' => 'seq',
-                'options' => [
-                    'width' => '10%',
-                ]
-            ], 
             [
                 'attribute' => 'data',
                 'options' => [
@@ -72,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'iconClass' => 'icon-search opacity50',
                 'modalId' => 'fechamento-detalhes',
                 'modalAjaxContent' => function ($model, $index, $widget) {
-                    return Html::url(array('ficha-rg/fechamento', 'id' => $model->id));
+                    return Html::url(array('boletim-rg/ver-fechamento', 'id' => $model->id));
                 },
                 'requestType' => 'GET',
                 'header' => 'Qtde. Imóveis',
