@@ -2,8 +2,8 @@
 
 use app\models\BairroCategoria;
 use app\models\Municipio;
+use app\widgets\GridView;
 use yii\helpers\Html;
-use yii\grid\GridView;
 
 /**
  * @var yii\web\View $this
@@ -17,16 +17,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
-
-    <p>
-        <?= Html::a('Cadastrar Bairro', ['create'], ['class' => 'btn btn-flat success', 'data-role' => 'create']) ?>
-    </p>
-
     <?php
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'buttons' => [
+            'create' => function() {
+                return Html::a(
+                    'Cadastrar Bairro',
+                    Yii::$app->urlManager->createUrl('bairro/create'),
+                    [
+                        'class' => 'btn btn-flat success',
+                        'data-role' => 'create',
+                    ]
+                );
+            }
+        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             //'id',
