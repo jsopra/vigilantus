@@ -4,8 +4,8 @@ use app\models\Municipio;
 use app\models\Bairro;
 use app\models\BairroQuarteirao;
 use app\models\Usuario;
+use app\widgets\GridView;
 use yii\helpers\Html;
-use yii\grid\GridView;
 
 /**
  * @var yii\web\View $this
@@ -16,18 +16,25 @@ use yii\grid\GridView;
 $this->title = 'Boletim de Reconhecimento Geográfico';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="bairro-tipo-index">
+<div class="bairro-tipo-index" data-role="modal-grid">
 
 	<h1><?= Html::encode($this->title) ?></h1>
-
-	<p>
-		<?= Html::a('Preencher novo Boletim', ['create'], ['class' => 'btn btn-flat success']) ?>
-    </p>
 
     <?php
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'buttons' => [
+            'create' => function() {
+                return Html::a(
+                    'Preencher novo Boletim',
+                    Yii::$app->urlManager->createUrl('ficha-rg/create'),
+                    [
+                        'class' => 'btn btn-flat success',
+                    ]
+                );
+            }
+        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [

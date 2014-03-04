@@ -131,15 +131,21 @@ a.desc:after {
     font-size: 0.9em;
 }
 
-.vigilantus-form {
+.form-actions {
     border-top: 1px dashed #ccc;
     margin-top: 0.5em;
     padding-top: 1em;
     clear: both;
 }
 
-.vigilantus-form a {
+.form-actions a {
     margin-left: 10px;
+}
+
+.modal-footer .form-actions {
+    border: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .vigilantus-grid-buttons-ud {
@@ -283,4 +289,9 @@ span.domain {
 
 p.titulo {
 	font-size: 2em;
+}
+
+.modal-dialog {
+  max-width: 900px;
+  width: auto;
 }

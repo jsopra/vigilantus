@@ -91,7 +91,7 @@ use yii\widgets\ActiveForm;
        <?= Html::error($model, 'imoveis') ?>
     </div>
 
-    <div class="form-group vigilantus-form">
+    <div class="form-group form-actions">
         <?php
         echo Html::submitButton(
             $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
@@ -101,7 +101,7 @@ use yii\widgets\ActiveForm;
         echo Html::a(
             'Cancelar',
             array('index'),
-            array('class'=>'link','rel'=>'tooltip','data-title'=>'Ir à lista de boletins cadastrados')
+            array('class'=>'link','rel'=>'tooltip', 'data-role' => 'cancel','data-title'=>'Ir à lista de boletins cadastrados')
         );
 
         ?>

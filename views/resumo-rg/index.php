@@ -12,7 +12,7 @@ use yii\grid\GridView;
 $this->title = 'Boletim de Resumo do Reconhecimento Geográfico';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="resumo-rg-index">
+<div class="resumo-rg-index" data-role="modal-grid">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

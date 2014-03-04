@@ -33,7 +33,7 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
     <?php endforeach; ?>
-    <div class="form-group vigilantus-form">
+    <div class="form-group form-actions">
 			<?= "<?php \n"; ?>
             Html::submitButton(
                 $model->isNewRecord ? 'Cadastrar' : 'Atualizar', 
@@ -43,7 +43,7 @@ use yii\widgets\ActiveForm;
             Html::a(
                 'Cancelar',
                 array('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/index'),
-                array('class'=>'link','rel'=>'tooltip','data-title'=>'Ir à lista de <?= Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>')
+                array('class'=>'link','rel'=>'tooltip','data-role'=>'cancel','data-title'=>'Ir à lista de <?= Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>')
             );
             <?= "?>\n"; ?>
         </div>

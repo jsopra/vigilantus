@@ -176,4 +176,16 @@ class CRUDController extends Controller
         $class = $this->getModelClassName();
         return new $class;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function render($view, $params = [])
+    {
+        if (Yii::$app->request->isAjax) {
+            return parent::renderPartial($view, $params);
+        } else {
+            return parent::render($view, $params);
+        }
+    }
 }
