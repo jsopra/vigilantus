@@ -3,6 +3,25 @@
 $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
 
+$logTargets = [
+    [
+        'class' => 'yii\log\FileTarget',
+        'levels' => ['error', 'warning'],
+    ]
+];
+
+if (YII_ENV_PROD) {
+    $logTargets[] = [
+        'class' => 'yii\log\EmailTarget',
+        'mail' => 'mail',
+        'levels' => ['error', 'warning'],
+        'message' => [
+            'to' => ['dev@vigilantus.com.br'],
+            'subject' => 'Application Log',
+        ],
+    ];
+}
+
 $config = [
     'id' => 'vigilantus',
     'name' => 'Vigilantus',
@@ -31,12 +50,7 @@ $config = [
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
+            'targets' => $logTargets,
         ],
         'mail' => [
             'class' => 'yii\swiftmailer\Mailer',
