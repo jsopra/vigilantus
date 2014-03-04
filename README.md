@@ -18,10 +18,10 @@ porém a partir do mesmo diretório.
 CONFIGURANDO O AMBIENTE DE DESENVOLVIMENTO E PRODUÇÃO
 -----------------------------------------------------
 
-– 1. Instale o [Composer](http://getcomposer.org/) e rode `composer install` na
+Instale o [Composer](http://getcomposer.org/) e rode `composer install` na
    raiz do projeto.
 
-– 2. Configure o Apache com as variáveis de ambiente necessárias:
+Configure o Apache com as variáveis de ambiente necessárias:
 
 ```apache
 NameVirtualHost 127.0.0.1
@@ -35,7 +35,7 @@ NameVirtualHost 127.0.0.1
 </VirtualHost>
 ```
 
-– 3. Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente necessárias:
+Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente necessárias:
 
 ```bash
 export VIGILANTUS_DB_DSN='pgsql:host=localhost;dbname=vigilantus_development'
@@ -43,15 +43,15 @@ export VIGILANTUS_DB_USERNAME='postgres'
 export VIGILANTUS_DB_PASSWORD='qwerty'
 ```
 
-– 4. Configure o seu arquivo `hosts`:
+Configure o seu arquivo `hosts`:
 
 ```
 127.0.0.1   vigilantus
 ```
 
-– 5. IMPORTANTE: Reinicie o Apache.
+IMPORTANTE: Reinicie o Apache.
 
-– 6. Rode as migrations com `php yii migrate`
+Rode as migrations com `php yii migrate`
 
 CONFIGURANDO O AMBIENTE DE TESTES
 ---------------------------------
