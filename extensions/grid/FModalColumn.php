@@ -51,7 +51,7 @@ class FModalColumn extends Column
 	 * datetime, boolean, number, email, image, url. For more details, please refer to {@link CFormatter}.
 	 * Defaults to 'text' which means the attribute value will be HTML-encoded.
 	 */
-	public $type='raw';
+	public $format='raw';
 	
 	public $textBeforeLink;
 	public $textAfterLink;
