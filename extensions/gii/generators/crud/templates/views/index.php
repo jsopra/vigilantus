@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<h1><?= "<?= " ?>Html::encode($this->title) ?></h1>
 
-	<?= "<?php" . ($generator->indexWidgetType === 'grid' ? "// " : "") ?>echo $this->render('_search', ['model' => $searchModel]); ?>
+	<?= "<?php " . ($generator->indexWidgetType === 'grid' ? "//" : "") ?>echo $this->render('_search', ['model' => $searchModel]); ?>
 
 	<p>
 		<?= "<?= " ?>Html::a('Create <?= Inflector::camel2words(StringHelper::basename($generator->modelClass)) ?>', ['create'], ['class' => 'btn btn-success', 'data-role' => 'create']) ?>

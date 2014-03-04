@@ -17,7 +17,7 @@ if (empty($safeAttributes)) {
 
 echo "<?php\n";
 ?>
-use app\models\<?= $generator->modelClass ?>;
+use <?= $generator->modelClass ?>;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
@@ -35,12 +35,12 @@ use yii\widgets\ActiveForm;
     <?php endforeach; ?>
     <div class="form-group form-actions">
 			<?= "<?php \n"; ?>
-            Html::submitButton(
+            echo Html::submitButton(
                 $model->isNewRecord ? 'Cadastrar' : 'Atualizar', 
                 ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
             );
 		
-            Html::a(
+            echo Html::a(
                 'Cancelar',
                 array('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/index'),
                 array('class'=>'link','rel'=>'tooltip','data-role'=>'cancel','data-title'=>'Ir à lista de <?= Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>')

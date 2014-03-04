@@ -1,6 +1,6 @@
 <?= "<?php\n"; ?>
 
-namespace <?= $generator->ns ?>\query;
+namespace <?= $generator->ns ?>\models\query;
 
 use app\components\ActiveQuery;
 
