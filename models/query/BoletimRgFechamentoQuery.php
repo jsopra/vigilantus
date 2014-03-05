@@ -19,9 +19,4 @@ class BoletimRgFechamentoQuery extends ActiveQuery
         $this->andWhere('imovel_tipo_id = :tipo', [':tipo' => $id]);
         return $this;
     }
-    
-    public function doTipoDeFoco($foco) {
-        $this->andWhere('area_de_foco = :foco', [':foco' => $foco]);
-        return $this;
-    }
 }

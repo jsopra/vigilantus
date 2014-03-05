@@ -40,9 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <th rowspan="2" class="number">Seq.</th>
             <th colspan="<?= count($tiposImoveis) ?>">TIPO DO IMÓVEL</th>
             <th rowspan="2" class="total">Total de Imóveis</th>
-            <th rowspan="2" class="date">Área de Foco</th>
-            <th colspan="<?= count($tiposImoveis) ?>">TIPO DO IMÓVEL – ÁREA DE FOCO</th>
-            <th rowspan="2" class="total">Total de Imóveis</th>
         </tr>
         <tr>
             <?php foreach ($tiposImoveis as $tipoImovel) : ?>
