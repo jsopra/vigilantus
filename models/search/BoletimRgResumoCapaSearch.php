@@ -18,12 +18,10 @@ class BoletimRgResumoCapaSearch extends Object
         $dados = [
             'quarteiroes' => [
                 'geral' => BoletimRg::find()->count(),
-                'areasDeFoco' => BoletimRg::find()->comAreasDeFoco()->count(),
             ],
             'tipos_imoveis' => [],
             'total' => [
                 'geral' => 0,
-                'areasDeFoco' => 0
             ]
         ];
 
@@ -31,7 +29,6 @@ class BoletimRgResumoCapaSearch extends Object
         foreach (ImovelTipo::find()->ativo()->orderBy('nome')->all() as $tipoImovel) {
             $dados['tipos_imoveis'][$tipoImovel->nome] = [
                 'geral' => 0,
-                'areasDeFoco' => 0
             ];
         }
 
@@ -45,10 +42,6 @@ class BoletimRgResumoCapaSearch extends Object
                 continue;
             }
 
-            if ($boletim->area_de_foco) {
-                $dados['tipos_imoveis'][$boletim->imovelTipo->nome]['areasDeFoco']++;
-                $dados['total']['areasDeFoco']++;
-            }
             $dados['tipos_imoveis'][$boletim->imovelTipo->nome]['geral']++;
             $dados['total']['geral']++;
         }

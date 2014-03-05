@@ -5,14 +5,12 @@
                 <tr>
                     <th>&nbsp;</th>
                     <th class="number">Geral</th>
-                    <th class="number">Área de Foco</th>
                 </tr>
             </thead>
             <tbody>
                 <tr class="totalizador">
                     <td>Quarteirões</td>
                     <td><?= $resumoTiposImoveis['quarteiroes']['geral'] ?></td>
-                    <td><?= $resumoTiposImoveis['quarteiroes']['areasDeFoco'] ?></td>
                 </tr>
             </tbody>
         </table>
@@ -21,7 +19,6 @@
                 <tr>
                     <th>Imóveis</th>
                     <th class="number">Geral</th>
-                    <th class="number">Área de Foco</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,7 +26,6 @@
                 <tr>
                     <td><?= $label ?></td>
                     <td><?= $values['geral'] ?></td>
-                    <td><?= $values['areasDeFoco'] ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -37,7 +33,6 @@
                 <tr class="totalizador">
                     <td>Total</td>
                     <td><?= $resumoTiposImoveis['total']['geral'] ?></td>
-                    <td><?= $resumoTiposImoveis['total']['areasDeFoco'] ?></td>
                 </tr>
             </tfoot>
         </table>
