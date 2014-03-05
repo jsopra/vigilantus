@@ -14,4 +14,9 @@ class BairroQuarteiraoQuery extends ActiveQuery
         $this->andWhere('numero_quarteirao = :numero', [':numero' => $numero]);
         return $this;
     }
+    
+    public function daSequencia($numero) {
+        $this->andWhere('seq = :numero', [':numero' => $numero]);
+        return $this;
+    }
 }

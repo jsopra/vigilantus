@@ -14,15 +14,9 @@ echo GridView::widget([
             }
         ],
         [
-            'attribute' => 'condicao_imovel_id',
+            'attribute' => 'imovel_lira',
             'value' => function ($model, $index, $widget) {
-                return $model->condicaoImovel ? $model->condicaoImovel->nome : null;
-            }
-        ],
-        [
-            'attribute' => 'area_de_foco',
-            'value' => function ($model, $index, $widget) {
-                return $model->area_de_foco ? 'Sim' : 'Não';
+                return $model->imovel_lira ? 'Sim' : 'Não';
             }
         ],
         'quantidade',

@@ -7,6 +7,7 @@ use app\components\ActiveQuery;
 use app\components\StringHelper;
 use yii\db\ActiveRecord as YiiActiveRecord;
 use yii\db\Expression;
+use yii\behaviors\TimestampBehavior;
 use yii\validators\Validator;
 use app\models\Municipio;
 use app\models\UsuarioRole;
@@ -33,18 +34,18 @@ class ActiveRecord extends YiiActiveRecord
 
         if ($this->hasAttribute('data_cadastro') || $this->hasAttribute('data_atualizacao')) {
 
-            $behaviors['AutoTimestamp'] = [
-                'class' => 'yii\behaviors\AutoTimestamp',
-                'timestamp' => new Expression('NOW()'),
+            $behaviors['timestamp'] = [
+                'class' => TimestampBehavior::className(),
+                'value' => new Expression('NOW()'),
                 'attributes' => [],
             ];
 
             if ($this->hasAttribute('data_cadastro')) {
-                $behaviors['AutoTimestamp']['attributes'][ActiveRecord::EVENT_BEFORE_INSERT] = 'data_cadastro';
+                $behaviors['timestamp']['attributes'][ActiveRecord::EVENT_BEFORE_INSERT] = 'data_cadastro';
             }
 
             if ($this->hasAttribute('data_atualizacao')) {
-                $behaviors['AutoTimestamp']['attributes'][ActiveRecord::EVENT_BEFORE_UPDATE] = 'data_atualizacao';
+                $behaviors['timestamp']['attributes'][ActiveRecord::EVENT_BEFORE_UPDATE] = 'data_atualizacao';
             }
         }
         
@@ -228,10 +229,11 @@ class ActiveRecord extends YiiActiveRecord
     /**
 	 * @inheritdoc
 	 */
-	public static function createQuery()
+	public static function createQuery($config = Array())
 	{
         $className = get_called_class();
         $queryClassName = str_replace('\\models\\', '\\models\\query\\', $className) . 'Query';
+        $tableName = $className::tableName();
 
         if (class_exists($queryClassName)) {
             $query = new $queryClassName(['modelClass' => $className]);
@@ -243,7 +245,7 @@ class ActiveRecord extends YiiActiveRecord
         if (self::temFiltroMunicipio()) {
             $idMunicipio = Municipio::find()->one()->id;//intval(\Yii::$app->session->get('user.municipio')->id);
             $query->andWhere(
-                '[[municipio_id]] IS NULL OR [[municipio_id]] = ' . $idMunicipio
+                '[[' . $tableName . '.municipio_id]] IS NULL OR [[' . $tableName . '.municipio_id]] = ' . $idMunicipio
             );
         }
         

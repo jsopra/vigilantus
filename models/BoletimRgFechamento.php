@@ -9,11 +9,10 @@ use app\components\ActiveRecord;
  *
  * @property integer $id
  * @property integer $boletim_rg_id
- * @property integer $condicao_imovel_id
  * @property integer $quantidade
  * @property integer $municipio_id
  * @property integer $imovel_tipo_id
- * @property boolean $area_de_foco
+ * @property boolean $imovel_lira
  * 
  *
  * @property BoletinsRg $boletimRg
@@ -35,9 +34,9 @@ class BoletimRgFechamento extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['boletim_rg_id', 'condicao_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'required'],
-			[['boletim_rg_id', 'condicao_imovel_id', 'quantidade', 'municipio_id', 'imovel_tipo_id'], 'integer'],
-            [['area_de_foco'], 'boolean'],
+			[['boletim_rg_id', 'municipio_id', 'imovel_tipo_id'], 'required'],
+			[['boletim_rg_id', 'quantidade', 'municipio_id', 'imovel_tipo_id'], 'integer'],
+            [['imovel_lira'], 'boolean'],
 		];
 	}
 
@@ -49,11 +48,10 @@ class BoletimRgFechamento extends ActiveRecord
 		return [
 			'id' => 'ID',
 			'boletim_rg_id' => 'Boletim RG',
-			'condicao_imovel_id' => 'Condição Imóvel',
 			'quantidade' => 'Quantidade',
             'municipio_id' => 'Município',
             'imovel_tipo_id' => 'Tipo do Imóvel',
-            'area_de_foco' => 'Área de Foco?'
+            'imovel_lira' => 'Lira?'
 		];
 	}
 
@@ -63,14 +61,6 @@ class BoletimRgFechamento extends ActiveRecord
 	public function getBoletimRg()
 	{
 		return $this->hasOne(BoletimRg::className(), ['id' => 'boletim_rg_id']);
-	}
-
-	/**
-	 * @return \yii\db\ActiveRelation
-	 */
-	public function getCondicaoImovel()
-	{
-		return $this->hasOne(ImovelCondicao::className(), ['id' => 'condicao_imovel_id']);
 	}
     
     /**
@@ -93,29 +83,26 @@ class BoletimRgFechamento extends ActiveRecord
      * Incrementa contage de imóveis em fechamento de boletim
      * 
      * @param BoletimRg $oBoletim
-     * @param integer $condicaoImovelId
      * @param integer $imovelTipoId
-     * @param boolean $areaDeFoco
+     * @param boolean $lira
      * @return boolean
      */
-    public static function incrementaContagemImovel(BoletimRg $oBoletim, $condicaoImovelId, $imovelTipoId, $areaDeFoco) {
+    public static function incrementaContagemImovel(BoletimRg $oBoletim, $imovelTipoId, $lira) {
         
         $boletimExistente = self::find()
             ->doBoletim($oBoletim->id)
-            ->daCondicaoDeImovel($condicaoImovelId)
             ->doTipoDeImovel($imovelTipoId)
-            ->doTipoDeFoco($areaDeFoco)
+            ->doTipoLira($lira)
             ->one();
             
         if(!$boletimExistente instanceof self) {
             
             $boletimExistente = new self;
             $boletimExistente->boletim_rg_id = $oBoletim->id;
-            $boletimExistente->condicao_imovel_id = $condicaoImovelId;
             $boletimExistente->quantidade = 0;
             $boletimExistente->municipio_id = $oBoletim->municipio_id;
             $boletimExistente->imovel_tipo_id = $imovelTipoId;
-            $boletimExistente->area_de_foco = $areaDeFoco;
+            $boletimExistente->imovel_lira = $lira;
             
             if(!$boletimExistente->save())
                 return false;

@@ -18,6 +18,11 @@ class CRUDController extends Controller
     protected $updateFlashMessage = 'O registro foi atualizado com sucesso.';
     
     /**
+     * @var string
+     */
+    protected $deleteFlashMessage = 'O registro foi excluído com sucesso.';
+    
+    /**
      * @return array
      */
     public function behaviors()
@@ -59,8 +64,8 @@ class CRUDController extends Controller
     {
         $model = $this->buildNewModel();
         //$model->scenario = 'insert';
-        
-        if (!$this->loadAndSaveModel($model, $_POST)) {
+
+        if (!$this->loadAndSaveModel($model, $_POST)) { 
             return $this->render('create', ['model' => $model]);
         }
     }
@@ -72,10 +77,10 @@ class CRUDController extends Controller
 
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = is_object($id) ? $id : $this->findModel($id);
         //$model->scenario = 'update';
 
-        if (!$this->loadAndSaveModel($model, $_POST)) {
+        if (!$this->loadAndSaveModel($model, $_POST)) { 
             return $this->render('update', ['model' => $model]);
         }
     }
@@ -107,6 +112,9 @@ class CRUDController extends Controller
             $model->delete();
         }
         
+        if (!Yii::$app->request->isAjax) 
+            Yii::$app->session->setFlash('success', $this->deleteFlashMessage);
+        
         $this->redirect(['index']);
     }
     
@@ -136,7 +144,7 @@ class CRUDController extends Controller
      */
     protected function loadAndSaveModel(ActiveRecord $model, $data = null)
     {
-        if ($model->load($_POST)) {
+        if (!empty($data) && $model->load($data)) { 
 
             $isNewRecord = $model->isNewRecord;
             
@@ -150,12 +158,14 @@ class CRUDController extends Controller
             if ($model->save()) {
                 
                 $message = $isNewRecord ? $this->createFlashMessage : $this->updateFlashMessage;
-                
+
                 Yii::$app->session->setFlash('success', $message);
                 
                 return $this->redirect(['index']);
             }
         }
+        
+        return false;
     }
     
     /**

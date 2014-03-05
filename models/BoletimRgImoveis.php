@@ -10,14 +10,11 @@ use app\components\ActiveRecord;
  * @property integer $id
  * @property integer $boletim_rg_id
  * @property integer $bairro_rua_imovel_id
- * @property integer $condicao_imovel_id
  * @property integer $municipio_id
  * @property integer $imovel_tipo_id
- * @property boolean $area_de_foco
  * 
  * @property BoletinsRg $boletimRg
  * @property BairroRuaImoveis $bairroRuaImovel
- * @property ImovelCondicoes $condicaoImovel
  */
 class BoletimRgImoveis extends ActiveRecord
 {
@@ -35,9 +32,8 @@ class BoletimRgImoveis extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'condicao_imovel_id', 'imovel_tipo_id'], 'required'],
-            [['area_de_foco'], 'boolean'],
-			[['boletim_rg_id', 'bairro_rua_imovel_id', 'condicao_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'integer']
+			[['boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'required'],
+			[['boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'integer']
 		];
 	}
 
@@ -49,10 +45,8 @@ class BoletimRgImoveis extends ActiveRecord
 		return [
 			'boletim_rg_id' => 'Boletim RG',
 			'bairro_rua_imovel_id' => 'Bairro Rua Imóvel',
-			'condicao_imovel_id' => 'Condição do Imóvel',
             'municipio_id' => 'Município',    
             'imovel_tipo_id' => 'Tipo do Imóvel',
-            'area_de_foco' => 'Área de foco?',
 		];
 	}
 
@@ -79,14 +73,6 @@ class BoletimRgImoveis extends ActiveRecord
 	{
 		return $this->hasOne(ImovelTipo::className(), ['id' => 'imovel_tipo_id']);
 	}
-
-	/**
-	 * @return \yii\db\ActiveRelation
-	 */
-	public function getCondicaoImovel()
-	{
-		return $this->hasOne(ImovelCondicao::className(), ['id' => 'condicao_imovel_id']);
-	}
     
     /**
      * @return Municipio
@@ -110,9 +96,8 @@ class BoletimRgImoveis extends ActiveRecord
                 
                 $boletimFechamento = BoletimRgFechamento::incrementaContagemImovel(
                     $this->boletimRg,
-                    $this->condicao_imovel_id,
                     $this->imovel_tipo_id,
-                    $this->area_de_foco
+                    $this->bairroRuaImovel->imovel_lira
                 );
 
                 if($boletimFechamento instanceof BoletimRgFechamento) {
