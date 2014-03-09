@@ -41,6 +41,15 @@ class CaraDaWeb extends WebGuy
     }
 
     /**
+     * Ve uma tag HTML de título (h1-h6) com esse título
+     * @param string $titulo
+     */
+    public function vejoUmTitulo($titulo)
+    {
+        $this->see($titulo, 'h1,h2,h3,h4,h5,h6');
+    }
+
+    /**
      * @inheritdoc
      */
     public function envioFormulario($selector, $params)

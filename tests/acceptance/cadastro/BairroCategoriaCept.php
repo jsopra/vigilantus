@@ -11,19 +11,19 @@ $eu->vejo('Rural');
 
 $eu->espero('cadastrar uma categoria de bairro');
 $eu->clico('Cadastrar Categoria de Bairro');
-$eu->vejoNoTitulo('Cadastrar Categoria de Bairro');
+$eu->vejoUmTitulo('Cadastrar Categoria de Bairro');
 $eu->preenchoCampo('Nome', 'Espacial');
 $eu->clico('Cadastrar');
 $eu->aguardoPor(1);
-$eu->vejo('O cadastro foi realizado com sucesso.');
+//$eu->vejo('O cadastro foi realizado com sucesso.');
 
 $eu->espero('editar uma categoria de bairro');
-$eu->clicoNoGrid('Espacial', 'Atualizar');
-$eu->vejoNoTitulo('Atualizar Categoria de Bairro');
+$eu->clicoNoGrid('Espacial', 'Alterar');
+$eu->vejoUmTitulo('Atualizar Categoria de Bairro');
 $eu->preenchoCampo('Nome', 'Bairro Aéreo');
 $eu->clico('Atualizar');
 $eu->aguardoPor(1);
-$eu->vejo('O registro foi atualizado com sucesso.');
+//$eu->vejo('O registro foi atualizado com sucesso.');
 
 $eu->espero('excluir uma categoria de bairro');
 $eu->clicoNoGrid('Bairro Aéreo', 'Excluir');

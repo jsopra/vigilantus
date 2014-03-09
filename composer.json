@@ -17,14 +17,15 @@
 		"php": ">=5.4.0",
 		"yiisoft/yii2": "*",
 		"yiisoft/yii2-bootstrap": "*",
-		"yiisoft/yii2-swiftmailer": "*"
+		"yiisoft/yii2-swiftmailer": "*",
+		"kop/yii2-conditional-validator": "dev-master"
 	},
 	"require-dev": {
 		"yiisoft/yii2-codeception": "*",
 		"yiisoft/yii2-debug": "*",
 		"yiisoft/yii2-gii": "*",
-		"codeception/codeception": "*",
-		"codeception/specify": "*"
+		"codeception/codeception": "1.8.*",
+		"codeception/specify": "0.3.*"
 	},
 	"scripts": {
 		"post-create-project-cmd": [
