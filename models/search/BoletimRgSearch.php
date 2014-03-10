@@ -31,7 +31,7 @@ class BoletimRgSearch extends SearchModel
         $this->addCondition($query, 'id');
         $this->addCondition($query, 'municipio_id');
         $this->addCondition($query, 'folha');
-        //$this->addCondition($query, 'bairro_id');
+        $this->addCondition($query, 'bairro_id');
         $this->addCondition($query, 'bairro_quarteirao_id');
         $this->addCondition($query, 'data_cadastro', true);
         $this->addCondition($query, 'inserido_por');

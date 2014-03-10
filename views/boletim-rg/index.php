@@ -24,13 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'exportable' => false,
         'buttons' => [
             'create' => function() {
                 return Html::a(
                     'Preencher novo Boletim',
-                    Yii::$app->urlManager->createUrl('ficha-rg/create'),
+                    Yii::$app->urlManager->createUrl('boletim-rg/create'),
                     [
                         'class' => 'btn btn-flat success',
+                        'data-role' => 'create',
                     ]
                 );
             }
@@ -69,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ],
             [   
-                'class' => 'app\extensions\grid\FModalColumn',
+                'class' => 'app\extensions\grid\ModalColumn',
                 'iconClass' => 'icon-search opacity50',
                 'modalId' => 'fechamento-detalhes',
                 'modalAjaxContent' => function ($model, $index, $widget) {
