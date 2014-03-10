@@ -34,18 +34,18 @@ class ActiveRecord extends YiiActiveRecord
 
         if ($this->hasAttribute('data_cadastro') || $this->hasAttribute('data_atualizacao')) {
 
-            $behaviors['timestamp'] = [
-                'class' => TimestampBehavior::className(),
+            $behaviors['TimestampBehavior'] = [
+                'class' => 'yii\behaviors\TimestampBehavior',
                 'value' => new Expression('NOW()'),
                 'attributes' => [],
             ];
 
             if ($this->hasAttribute('data_cadastro')) {
-                $behaviors['timestamp']['attributes'][ActiveRecord::EVENT_BEFORE_INSERT] = 'data_cadastro';
+                $behaviors['TimestampBehavior']['attributes'][ActiveRecord::EVENT_BEFORE_INSERT] = 'data_cadastro';
             }
 
             if ($this->hasAttribute('data_atualizacao')) {
-                $behaviors['timestamp']['attributes'][ActiveRecord::EVENT_BEFORE_UPDATE] = 'data_atualizacao';
+                $behaviors['TimestampBehavior']['attributes'][ActiveRecord::EVENT_BEFORE_UPDATE] = 'data_atualizacao';
             }
         }
         
@@ -229,17 +229,17 @@ class ActiveRecord extends YiiActiveRecord
     /**
 	 * @inheritdoc
 	 */
-	public static function createQuery($config = Array())
+	public static function createQuery($config = [])
 	{
         $className = get_called_class();
         $queryClassName = str_replace('\\models\\', '\\models\\query\\', $className) . 'Query';
         $tableName = $className::tableName();
 
         if (class_exists($queryClassName)) {
-            $query = new $queryClassName(['modelClass' => $className]);
+            $query = new $queryClassName(['modelClass' => $className] + $config);
         }
         else {
-            $query = new ActiveQuery(['modelClass' => $className]);
+            $query = new ActiveQuery(['modelClass' => $className] + $config);
         }
         
         if (self::temFiltroMunicipio()) {
