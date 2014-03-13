@@ -10,7 +10,7 @@
             <tbody>
                 <tr class="totalizador">
                     <td>Quarteirões</td>
-                    <td><?= $resumoTiposImoveis['quarteiroes']['geral'] ?></td>
+                    <td style="text-align: center;"><?= $resumoTiposImoveis['quarteiroes']['geral'] ?></td>
                 </tr>
             </tbody>
         </table>
@@ -25,14 +25,14 @@
                 <?php foreach ($resumoTiposImoveis['tipos_imoveis'] as $label => $values) : ?>
                 <tr>
                     <td><?= $label ?></td>
-                    <td><?= $values['geral'] ?></td>
+                    <td style="text-align: center;"><?= $values['geral'] ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
             <tfoot>
                 <tr class="totalizador">
                     <td>Total</td>
-                    <td><?= $resumoTiposImoveis['total']['geral'] ?></td>
+                    <td style="text-align: center;"><?= $resumoTiposImoveis['total']['geral'] ?></td>
                 </tr>
             </tfoot>
         </table>
@@ -49,7 +49,7 @@
                 <?php foreach ($resumoBairros as $bairro => $imoveis) : ?>
                 <tr>
                     <td><?= $bairro ?></td>
-                    <td><?= $imoveis ?></td>
+                    <td style="text-align: center;"><?= $imoveis ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
