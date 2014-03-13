@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <table id="resumo-rg-bairro" class="table table-striped table-condensed table-bordered">
     <?php
     $dadosTotaisImoveis = $dadosTotaisFoco = [];
-    $totalAreasFoco = 0;
 
     foreach ($tiposImoveis as $tipoImovel) {
         $dadosTotaisImoveis[$tipoImovel->id] = $dadosTotaisFoco[$tipoImovel->id] =  0;
@@ -40,8 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <th rowspan="2" class="number">Seq.</th>
             <th colspan="<?= count($tiposImoveis) ?>">TIPO DO IMÓVEL</th>
             <th rowspan="2" class="total">Total de Imóveis</th>
-            <th rowspan="2" class="date">Área de Foco</th>
-            <th colspan="<?= count($tiposImoveis) ?>">TIPO DO IMÓVEL – ÁREA DE FOCO</th>
+            <th colspan="<?= count($tiposImoveis) ?>">LIRA</th>
             <th rowspan="2" class="total">Total de Imóveis</th>
         </tr>
         <tr>
@@ -58,33 +56,32 @@ $this->params['breadcrumbs'][] = $this->title;
         foreach ($dataProvider->models as $row) :
 
             $dadosImoveis = [];
-            $dadosFoco = [];
+            $dadosLira = [];
+            $dadosTotaisLira = [];
 
-            $areaFoco = '';
             $cssClass = 'success';
 
             foreach ($tiposImoveis as $tipoImovel) {
-                $dadosImoveis[$tipoImovel->id] = $dadosFoco[$tipoImovel->id] =  0;
+                $dadosImoveis[$tipoImovel->id] = $dadosLira[$tipoImovel->id] = $dadosTotaisLira[$tipoImovel->id] = 0;
             }
 
-            $dadosImoveis['total'] = $dadosFoco['total'] = 0;
+            $dadosImoveis['total'] = $dadosLira['total'] = $dadosTotaisLira['total'] = 0;
 
             foreach ($row->boletinsFechamento as $boletimFechamento) {
 
                 $quantidade = $boletimFechamento->quantidade;
 
-                if ($boletimFechamento->area_de_foco) {
+                if ($boletimFechamento->imovel_lira) {
 
-                    $areaFoco = $row->formatted_data;
                     $cssClass = 'danger';
-                    $totalAreasFoco++;
 
-                    $dadosFoco[$boletimFechamento->imovel_tipo_id] += $quantidade;
-                    $dadosFoco['total'] += $quantidade;
+                    $dadosLira[$boletimFechamento->imovel_tipo_id] += $quantidade;
+                    $dadosLira['total'] += $quantidade;
 
-                    $dadosTotaisFoco[$boletimFechamento->imovel_tipo_id] += $quantidade;
-                    $dadosTotaisFoco['total'] += $quantidade;
+                    $dadosTotaisLira[$boletimFechamento->imovel_tipo_id] += $quantidade;
+                    $dadosTotaisLira['total'] += $quantidade;
                 }
+                
                 $dadosImoveis[$boletimFechamento->imovel_tipo_id] += $quantidade;
                 $dadosImoveis['total'] += $quantidade;
 
@@ -99,8 +96,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php foreach ($dadosImoveis as $key => $info) : ?>
             <td style="text-align: center;"><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
             <?php endforeach; ?>
-            <td style="text-align: center;"><?= $areaFoco ?></td>
-            <?php foreach ($dadosFoco as $key => $info) : ?>
+
+            <?php foreach ($dadosLira as $key => $info) : ?>
             <td style="text-align: center;"><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
             <?php endforeach; ?>
         </tr>
@@ -112,8 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php foreach ($dadosTotaisImoveis as $key => $info) : ?>
             <td style="text-align: center;"><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
             <?php endforeach; ?>
-            <td style="text-align: center;"><?= $totalAreasFoco ?></td>
-            <?php foreach ($dadosTotaisFoco as $key => $info) : ?>
+            <?php foreach ($dadosTotaisLira as $key => $info) : ?>
             <td style="text-align: center;"><?= $key == 'total' ? Html::tag('strong', $info) : $info ?></td>
             <?php endforeach; ?>
         </tr>

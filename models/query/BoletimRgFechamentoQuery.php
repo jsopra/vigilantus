@@ -14,9 +14,10 @@ class BoletimRgFechamentoQuery extends ActiveQuery
         $this->andWhere('imovel_tipo_id = :tipo', [':tipo' => $id]);
         return $this;
     }
-    
+
     public function doTipoLira($foco) {
         $this->andWhere('imovel_lira = :lira', [':lira' => $foco]);
         return $this;
     }
+
 }
