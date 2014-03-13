@@ -1,7 +1,7 @@
 <?php
 use app\models\ImovelCondicao;
 use app\models\ImovelTipo;
-use yii\grid\GridView;
+use app\widgets\GridView;
 
 echo GridView::widget([
     'dataProvider' => $dataProvider,
@@ -15,8 +15,8 @@ echo GridView::widget([
         ],
         [
             'attribute' => 'imovel_lira',
-            'value' => function ($model, $index, $widget) {
-                return $model->imovel_lira ? 'Sim' : 'Não';
+            'value' => function ($model, $index, $widget) { 
+               return $model->imovel_lira ? 'Sim' : 'Não';
             }
         ],
         'quantidade',

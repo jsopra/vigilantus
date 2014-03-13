@@ -20,7 +20,7 @@ use yii\bootstrap\Modal;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class FModalColumn extends Column
+class ModalColumn extends Column
 {	
 	public $filter;
 	public $fieldType;
