@@ -19,4 +19,5 @@ class BoletimRgFechamentoQuery extends ActiveQuery
         $this->andWhere('imovel_lira = :lira', [':lira' => $foco]);
         return $this;
     }
+
 }
