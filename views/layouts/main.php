@@ -99,6 +99,7 @@ AppAsset::register($this);
                         ['label' => 'Quarteirões de Bairros', 'url' => ['/bairro-quarteirao/']],
                         ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria/']],
                         ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
+                        ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/']],
                     ]
                 ],
                 [
