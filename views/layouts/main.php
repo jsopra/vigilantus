@@ -100,6 +100,7 @@ AppAsset::register($this);
                         ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria/']],
                         ['label' => 'Condições de Imóveis', 'url' => ['/imovel-condicao/']],
                         ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
+                        ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/']],
                     ]
                 ],
                 [
