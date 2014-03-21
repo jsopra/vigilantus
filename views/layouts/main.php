@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use app\components\themes\DetailwrapNav;
 use app\components\themes\DetailwrapNavBar;
 use app\components\themes\DetailwrapSideBar;
@@ -37,7 +38,7 @@ AppAsset::register($this);
         
         <?php 
         $view = Yii::$app->getView();
-        $view->registerJs('var feedbackUrl = "' .Html::url(['site/feedback']) . '";', View::POS_HEAD);
+        $view->registerJs('var feedbackUrl = "' .Url::toRoute(['site/feedback']) . '";', View::POS_HEAD);
         ?>
         
         <?php $this->beginBody() ?>

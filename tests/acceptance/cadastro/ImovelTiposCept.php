@@ -15,16 +15,18 @@ $eu->vejo('Outros');
 
 $eu->espero('cadastrar um tipo de imóvel');
 $eu->clico('Cadastrar Tipo de Imóvel');
-$eu->vejoNoTitulo('Cadastrar Tipo de Imóvel');
+$eu->aguardoPor(1);
+$eu->vejoUmTitulo('Cadastrar Tipo de Imóvel');
 $eu->preenchoCampo('Nome', 'Duna');
 $eu->preenchoCampo('Sigla', 'DN');
-$eu->clico('Cadastrar');
+$eu->clico('Cadastrar', '.modal');
 $eu->aguardoPor(1);
 $eu->vejo('O cadastro foi realizado com sucesso.');
 
 $eu->espero('editar um tipo de imóvel');
-$eu->clicoNoGrid('Duna', 'Atualizar');
-$eu->vejoNoTitulo('Atualizar Tipo de Imóvel');
+$eu->clicoNoGrid('Duna', 'Alterar');
+$eu->aguardoPor(1);
+$eu->vejoUmTitulo('Atualizar Tipo de Imóvel');
 $eu->preenchoCampo('Nome', 'Rochedo');
 $eu->preenchoCampo('Sigla', '');
 $eu->clico('Atualizar');

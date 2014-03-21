@@ -5,6 +5,7 @@ use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Widget;
 
 class DetailwrapSideBar extends Widget
@@ -105,7 +106,7 @@ class DetailwrapSideBar extends Widget
         
         $options = ArrayHelper::getValue($item, 'options', []);
 		$items = ArrayHelper::getValue($item, 'items');
-		$url = Html::url(ArrayHelper::getValue($item, 'url', '#'));
+		$url = Url::toRoute(ArrayHelper::getValue($item, 'url', '#'));
 		$linkOptions = ArrayHelper::getValue($item, 'linkOptions', []);
 
         $activeHtml = '';

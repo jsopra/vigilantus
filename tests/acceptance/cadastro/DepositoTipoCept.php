@@ -1,5 +1,7 @@
 <?php
 
+$scenario->incomplete('falta escrever os testes');
+
 $eu = new CaraDaWeb($scenario);
 $eu->quero('verificar que o CRUD Deposito Tipos funciona');
 $eu->facoLoginComo('administrador', 'administrador');
@@ -8,7 +10,8 @@ $eu->clico('Tipos de Depósitos');
 
 $eu->espero('cadastrar um tipo de depósito');
 $eu->clico('Cadastrar Tipo de Depósito');
-$eu->vejoNoTitulo('Cadastrar Tipo de Depósito');
+$eu->aguardoPor(1);
+$eu->vejoUmTitulo('Cadastrar Tipo de Depósito');
 
 //@TODO preencher form
 
@@ -17,7 +20,8 @@ $eu->aguardoPor(1);
 $eu->vejo('O cadastro foi realizado com sucesso.');
 
 $eu->espero('editar um Deposito Tipos');
-$eu->clicoNoGrid('XXX Registro', 'Atualizar'); //@todo
+$eu->clicoNoGrid('XXX Registro', 'Alterar'); //@todo
+$eu->aguardoPor(1);
 $eu->vejoNoTitulo('Atualizar XXX Titulo'); //@todo
 //@TODO preencher form
 $eu->clico('Atualizar');

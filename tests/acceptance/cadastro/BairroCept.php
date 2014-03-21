@@ -8,16 +8,18 @@ $eu->clico('Bairros');
 
 $eu->espero('cadastrar um bairro');
 $eu->clico('Cadastrar Bairro');
-$eu->vejoNoTitulo('Cadastrar Bairro');
+$eu->aguardoPor(1);
+$eu->vejoUmTitulo('Cadastrar Bairro');
 $eu->selecionoOpcao('Categoria de Bairro', 'Rural');
 $eu->preenchoCampo('Nome', 'Passo de los Fuertes');
-$eu->clico('Cadastrar');
+$eu->clico('Cadastrar', '.modal');
 $eu->aguardoPor(1);
 $eu->vejo('O cadastro foi realizado com sucesso.');
 
 $eu->espero('editar um bairro');
-$eu->clicoNoGrid('Passo de los Fuertes', 'Atualizar');
-$eu->vejoNoTitulo('Atualizar Bairro');
+$eu->clicoNoGrid('Passo de los Fuertes', 'Alterar');
+$eu->aguardoPor(1);
+$eu->vejoUmTitulo('Atualizar Bairro');
 $eu->selecionoOpcao('Categoria de Bairro', 'Urbano');
 $eu->preenchoCampo('Nome', 'Passo dos Fortes');
 $eu->clico('Atualizar');

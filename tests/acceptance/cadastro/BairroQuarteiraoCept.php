@@ -8,17 +8,19 @@ $eu->clico('Quarteirões de Bairros');
 
 $eu->espero('cadastrar um quarteirão');
 $eu->clico('Cadastrar Quarteirão de Bairro');
-$eu->vejoNoTitulo('Cadastrar Quarteirão de Bairro');
+$eu->aguardoPor(1);
+$eu->vejoUmTitulo('Cadastrar Quarteirão de Bairro');
 $eu->selecionoOpcao('Bairro', 'Seminário');
 $eu->preenchoCampo('Número principal', '156');
 $eu->preenchoCampo('Número alternativo', '418');
-$eu->clico('Cadastrar');
+$eu->clico('Cadastrar', '.modal');
 $eu->aguardoPor(1);
 $eu->vejo('O cadastro foi realizado com sucesso.');
 
 $eu->espero('editar um quarteirão');
-$eu->clicoNoGrid('418', 'Atualizar');
-$eu->vejoNoTitulo('Atualizar Quarteirão de Bairro');
+$eu->clicoNoGrid('418', 'Alterar');
+$eu->aguardoPor(1);
+$eu->vejoUmTitulo('Atualizar Quarteirão de Bairro');
 $eu->preenchoCampo('Número principal', '777');
 $eu->preenchoCampo('Número alternativo', '');
 $eu->clico('Atualizar');

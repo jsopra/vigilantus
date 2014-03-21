@@ -5,6 +5,7 @@ use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Widget;
 
 class DetailwrapNav extends Widget
@@ -116,7 +117,7 @@ class DetailwrapNav extends Widget
 		
         $options = ArrayHelper::getValue($item, 'options', []);
 		$items = ArrayHelper::getValue($item, 'items');
-		$url = Html::url(ArrayHelper::getValue($item, 'url', '#'));
+		$url = Url::toRoute(ArrayHelper::getValue($item, 'url', '#'));
 		$linkOptions = ArrayHelper::getValue($item, 'linkOptions', []);
 
 		$active = isset($item['active']) ? ArrayHelper::remove($item, 'active', false) : $this->isItemActive($item);

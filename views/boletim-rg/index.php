@@ -6,6 +6,7 @@ use app\models\BairroQuarteirao;
 use app\models\Usuario;
 use app\widgets\GridView;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /**
  * @var yii\web\View $this
@@ -75,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'iconClass' => 'icon-search opacity50',
                 'modalId' => 'fechamento-detalhes',
                 'modalAjaxContent' => function ($model, $index, $widget) {
-                    return Html::url(array('boletim-rg/ver-fechamento', 'id' => $model->id));
+                    return Url::toRoute(array('boletim-rg/ver-fechamento', 'id' => $model->id));
                 },
                 'requestType' => 'GET',
                 'header' => 'Qtde. Imóveis',

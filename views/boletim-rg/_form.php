@@ -6,6 +6,7 @@ use app\models\BairroCategoria;
 use app\models\ImovelTipo;
 use app\models\ImovelCondicao;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /**
@@ -149,7 +150,7 @@ $script .= '
         if(bairroID) {
             jQuery("#selecaoRua").typeahead([{
                 name: "BoletimRg[imoveis][exemplo][rua]",
-                remote: "' . Html::url(['boletim-rg/bairroRuas']) . '?onlyName=true&bairro_id=" + bairroID + "&q=%QUERY"
+                remote: "' . Url::toRoute(['boletim-rg/bairroRuas']) . '?onlyName=true&bairro_id=" + bairroID + "&q=%QUERY"
             }]);
         }
         
@@ -165,7 +166,7 @@ $script .= '
 
                 jQuery(this).attr("disabled","disabled");
 
-                jQuery.getJSON("' . Html::url(['boletim-rg/bairroCategoria', 'bairro_id' => '']) . '" + bairroID, function(data) {
+                jQuery.getJSON("' . Url::toRoute(['boletim-rg/bairroCategoria', 'bairro_id' => '']) . '" + bairroID, function(data) {
 
                     $("#boletimrg-categoria_id").val(data.id);
                     $("#boletimrg-categoria_id").attr("disabled","disabled");
@@ -177,7 +178,7 @@ $script .= '
             
             jQuery("#selecaoRua").typeahead([{
                 name: "BoletimRg[imoveis][exemplo][rua]",
-                remote: "' . Html::url(['boletim-rg/bairroRuas', 'onlyName' => 'true', 'bairro_id' => '']) . '&bairro_id=" + bairroID + "&q=%QUERY"
+                remote: "' . Url::toRoute(['boletim-rg/bairroRuas', 'onlyName' => 'true', 'bairro_id' => '']) . '&bairro_id=" + bairroID + "&q=%QUERY"
             }]);
             
             jQuery("form").submit(function(){
