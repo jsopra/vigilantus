@@ -68,6 +68,7 @@ $config = [
             'showScriptName' => false,
         ],
         'user' => [
+            'class' => 'yii\web\User',
             'identityClass' => 'app\models\Usuario',
             'enableAutoLogin' => true,
         ],
