@@ -4,6 +4,7 @@ namespace tests\unit\models;
 
 use app\models\Usuario;
 use app\models\UsuarioRole;
+use Phactory;
 use yii\codeception\TestCase;
 
 class UsuarioRoleTest extends TestCase
@@ -20,8 +21,8 @@ class UsuarioRoleTest extends TestCase
     
     public function testScopes()
     {
-        $usuarioRoot = Usuario::find(1);
-        $usuarioAdministrador = Usuario::find(2);
+        $usuarioRoot = Phactory::usuario('root');
+        $usuarioAdministrador = Phactory::usuario('administrador');
         
         $this->assertEquals(4, UsuarioRole::find()->doNivelDoUsuario($usuarioRoot)->count());
         $this->assertEquals(3, UsuarioRole::find()->doNivelDoUsuario($usuarioAdministrador)->count());

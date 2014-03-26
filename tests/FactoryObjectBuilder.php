@@ -3,6 +3,7 @@
 namespace tests;
 
 use Phactory\Builder;
+use Phactory\HasOneRelationship;
 use yii\db\ActiveRecordInterface;
 
 class FactoryObjectBuilder extends Builder
@@ -22,6 +23,11 @@ class FactoryObjectBuilder extends Builder
         $object = new $className;
 
         foreach ($values as $key => $value) {
+
+            if ($value instanceof ActiveRecordInterface) {
+                $value = $value->id;
+            }
+
             $object->$key = $value;
         }
 
