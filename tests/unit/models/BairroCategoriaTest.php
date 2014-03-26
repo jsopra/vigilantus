@@ -3,70 +3,35 @@
 namespace tests\unit\models;
 
 use app\models\BairroCategoria;
+use Phactory;
 use yii\codeception\TestCase;
 
 class BairroCategoriaTest extends TestCase
 {
-    public function testInsert()
+    public function testNaoSalvaDuplicado()
     {
-        $bairro = new BairroCategoria;
+        // Trava no mesmo município
+        Phactory::bairroCategoria(['nome' => 'Espacial', 'municipio_id' => 1]);
+        $categoriaDuplicada = Phactory::bairroCategoria(['municipio_id' => 1]);
+        $categoriaDuplicada->nome = 'Espacial';
+        $this->assertFalse($categoriaDuplicada->save());
 
-        $this->assertFalse($bairro->save());
-
-        $bairro->municipio_id = 1;
-        $bairro->nome = 'Rural';
-        $bairro->inserido_por = 1;
-
-        $this->assertFalse($bairro->save());
-
-        $bairro->nome = 'teste';
-
-        $this->assertTrue($bairro->save());
-
-        unset($bairro);
-
-        $bairro = new BairroCategoria;
-
-        $this->assertFalse($bairro->save());
-
-        $bairro->municipio_id = 2;
-        $bairro->nome = 'teste';
-        $bairro->inserido_por = 1;
-
-        $this->assertTrue($bairro->save());
+        // Permite com municípios diferentes
+        $categoriaDuplicada->municipio_id = Phactory::municipio()->id;
+        $this->assertTrue($categoriaDuplicada->save());
     }
 
-    public function testUpdate()
+    public function testNaoExcluiCategoriaComBairros()
     {
-        $bairro = BairroCategoria::find(1);
-        $bairro->scenario = 'update';
+        $categoriaSemBairros = Phactory::bairroCategoria();
+        $this->assertEquals(1, $categoriaSemBairros->delete());
+        $this->assertNull(BairroCategoria::find($categoriaSemBairros->id));
 
-        $this->assertInstanceOf('app\models\BairroCategoria', $bairro);
-        $this->assertFalse($bairro->save());
-
-        $bairro->atualizado_por = 1;
-        $this->assertTrue($bairro->save());
-
-        $bairro->nome = null;
-        $this->assertFalse($bairro->save());
-
-        $bairro->nome = 'Urbano';
-        $this->assertTrue($bairro->save());
-    }
-
-    public function testDelete()
-    {
-        $categoriaBairro = new BairroCategoria;
-        $categoriaBairro->municipio_id = 1;
-        $categoriaBairro->nome = 'Dummy ' . uniqid();
-        $categoriaBairro->inserido_por = 1;
-        $this->assertTrue($categoriaBairro->save());
-        $this->assertEquals(1, $categoriaBairro->delete());
-        $this->assertNull(BairroCategoria::find($categoriaBairro->id));
-
-        $bairro = BairroCategoria::find(2);
-        $this->assertInstanceOf('app\models\BairroCategoria', $bairro);
+        $categoriaComBairros = Phactory::bairroCategoria();
+        Phactory::bairro(['bairro_tipo_id' => $categoriaComBairros->id]);
+        Phactory::bairro(['bairro_tipo_id' => $categoriaComBairros->id]);
+        Phactory::bairro(['bairro_tipo_id' => $categoriaComBairros->id]);
         $this->setExpectedException('\Exception');
-        $bairro->delete();
+        $categoriaComBairros->delete();
     }
 }

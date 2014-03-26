@@ -271,7 +271,7 @@ class ActiveRecord extends YiiActiveRecord
     {
         return (
             php_sapi_name() != 'cli'
-            && \Yii::$app->hasComponent('session')
+            && \Yii::$app->has('session')
             //&& \Yii::$app->session->get('user.municipio') instanceof Municipio
             && isset(static::getTableSchema()->columns['municipio_id'])
         );
