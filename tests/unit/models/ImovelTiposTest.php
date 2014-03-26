@@ -3,6 +3,7 @@
 namespace tests\unit\models;
 
 use app\models\ImovelTipo;
+use Phactory;
 use yii\codeception\TestCase;
 
 class ImovelTipoTest extends TestCase
@@ -57,8 +58,8 @@ class ImovelTipoTest extends TestCase
         $tipoImovel = new ImovelTipo;
         
         $this->assertFalse($tipoImovel->save());
-        
-        $tipoImovel->municipio_id = 2;
+
+        $tipoImovel->municipio_id = Phactory::municipio()->id;
         $tipoImovel->nome = 'Residencial';
         $tipoImovel->inserido_por = 1;
         
