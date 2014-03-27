@@ -17,7 +17,7 @@ use yii\helpers\Url;
 $this->title = 'Boletim de Reconhecimento Geográfico';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="bairro-tipo-index" data-role="modal-grid">
+<div class="bairro-tipo-index" data-role="">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
