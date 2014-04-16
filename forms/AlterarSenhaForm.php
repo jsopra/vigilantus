@@ -8,7 +8,7 @@ use yii\base\Model;
 class AlterarSenhaForm extends Model
 {
     public $senha;
-    public $senha2;
+    public $confirmacao_senha;
     
     /**
      * @return array the validation rules.
@@ -16,8 +16,8 @@ class AlterarSenhaForm extends Model
     public function rules()
     {
         return [
-            [['senha', 'senha2'], 'required'],
-            ['senha', 'compare', 'compareAttribute' => 'senha2'],
+            [['senha', 'confirmacao_senha'], 'required'],
+            ['senha', 'compare', 'compareAttribute' => 'confirmacao_senha'],
             ['senha', 'string', 'min' => 8],
         ];
     }
@@ -29,7 +29,7 @@ class AlterarSenhaForm extends Model
     {
         return [
             'senha' => 'Senha',
-            'senha2' => 'Repita a senha',
+            'confirmacao_senha' => 'Repita a senha',
         ];
     }
     
@@ -41,7 +41,7 @@ class AlterarSenhaForm extends Model
         if ($this->validate()) {
             
             Yii::$app->user->identity->senha = $this->senha;
-            Yii::$app->user->identity->senha2 = $this->senha2;
+            Yii::$app->user->identity->confirmacao_senha = $this->confirmacao_senha;
             
             return (bool) Yii::$app->user->identity->save();
         }

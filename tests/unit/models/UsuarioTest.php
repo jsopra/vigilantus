@@ -33,9 +33,9 @@ class UsuarioTest extends TestCase
 
     public function testSave()
     {
-        $sal = '123123asd';
-        $password = 'testeteste';
-        $senhaEncriptada = Usuario::encryptPassword($sal, $password);
+        $sal = 'sal';
+        $senha = 'senha8caracteres';
+        $senhaCriptografada = Usuario::encryptPassword($sal, $senha);
 
         $usuario = new Usuario;
 
@@ -44,8 +44,8 @@ class UsuarioTest extends TestCase
         $usuario->id = 5;
         $usuario->nome = 'teste';
         $usuario->login = 'teste';
-        $usuario->senha = $password;
-        $usuario->senha2 = $password;
+        $usuario->senha = $senha;
+        $usuario->confirmacao_senha = $senha;
         $usuario->sal = $sal;
         $usuario->email = 'teste@teste.com.br';
         $usuario->usuario_role_id = UsuarioRole::ADMINISTRADOR;
@@ -56,6 +56,7 @@ class UsuarioTest extends TestCase
 
         $this->assertTrue($usuario->save());
 
-        $this->assertEquals($senhaEncriptada, $usuario->senha);
+        $this->assertEquals($senha, $usuario->senha);
+        $this->assertEquals($senhaCriptografada, $usuario->senha_criptografada);
     }
 }

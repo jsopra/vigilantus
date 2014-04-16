@@ -54,25 +54,11 @@ class UsuarioController extends CRUDController
     }
     
     /**
-	 * @inheritdoc
-	 */
-    protected function findModel($id)
-    {
-        $model = parent::findModel($id);
-        
-        // Remove a senha da edição
-        $model->senha = null;
-        
-        return $model;
-    }
-    
-    /**
-     * @return \app\components\ActiveRecord
+     * @inheritdoc
      */
     protected function buildNewModel()
     {
-        $class = $this->getModelClassName();
-        $model = new $class;
+        $model = parent::buildNewModel();
         $model->municipio_id = Yii::$app->user->identity->municipio_id;
         return $model;
     }

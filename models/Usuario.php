@@ -16,6 +16,8 @@ use yii\web\IdentityInterface;
  * @property string $nome
  * @property string $login
  * @property string $senha
+ * @property string $confirmacao_senha
+ * @property string $senha_criptografada
  * @property string $sal
  * @property integer $municipio_id
  * @property integer $usuario_role_id
@@ -27,6 +29,12 @@ use yii\web\IdentityInterface;
  */
 class Usuario extends ActiveRecord implements IdentityInterface
 {
+    /**
+     * Atributos temporários utilizados para definir a senha_criptografada
+     */
+    public $senha;
+    public $confirmacao_senha;
+
     /* Métodos pra interface IdentityInterface */
     
     /**
@@ -71,8 +79,6 @@ class Usuario extends ActiveRecord implements IdentityInterface
     }
     
     /* Métodos ActiveRecord */
-    
-    public $senha2;
 
     /**
      * @return string nome da tabela do banco de dados
@@ -87,37 +93,43 @@ class Usuario extends ActiveRecord implements IdentityInterface
      */
     public function rules()
     {
-        $requiredAttributes = ['nome', 'login', '!sal', 'usuario_role_id', 'email'];
-        
-        if ($this->isNewRecord) {
-            $requiredAttributes[] = 'senha';
-            $requiredAttributes[] = 'senha2';
-        }
+        $temSenha = function($model) {
+            return ($model->isNewRecord || $model->senha != null);
+        };
+
+        $temSenhaJavaScript = 'function (attribute, value) {
+            return jQuery("input[name=\'Usuario[senha]\']").val() != "";
+        }';
         
         return array(
-            array($requiredAttributes, 'required'),
-            array(['municipio_id', 'usuario_role_id'], 'integer'),
-            array('login', 'unique'),
-            array('email', 'unique'),
-            array('email', 'email'),
-            array('senha', 'verificarSenha'),
-            array(['senha', 'senha2'], 'safe'),
+            [['senha', 'confirmacao_senha'], 'required',                    'when' => $temSenha, 'whenClient' => $temSenhaJavaScript],
+            [['senha', 'confirmacao_senha'], 'string', 'min' => 8,          'when' => $temSenha, 'whenClient' => $temSenhaJavaScript],
+            ['senha', 'compare', 'compareAttribute' => 'confirmacao_senha', 'when' => $temSenha, 'whenClient' => $temSenhaJavaScript],
+
+            ['municipio_id', 'required', 'when' => function($model) {
+                return $model->usuario_role_id != UsuarioRole::ROOT;
+            }],
+
+            [['nome', 'login', '!sal', '!senha_criptografada', 'usuario_role_id', 'email'], 'required'],
+            [['municipio_id', 'usuario_role_id'], 'integer'],
+            ['login', 'unique'],
+            ['email', 'unique'],
+            ['email', 'email'],
+            [['senha', 'confirmacao_senha'], 'safe'],
         );
     }
-    
-    public function verificarSenha($attribute)
+
+    public function beforeValidate()
     {
-        if ($this->isNewRecord || $this->senha != null) {
-            
-            $requiredValidator = Validator::createValidator('required', $this, ['senha', 'senha2']);
-            $requiredValidator->validateAttributes($this, ['senha', 'senha2']);
-            
-            $lengthValidator = Validator::createValidator('string', $this, 'senha', ['min' => 8]);
-            $lengthValidator->validateAttribute($this, 'senha');
-            
-            $compareValidator = Validator::createValidator('compare', $this, 'senha', ['compareAttribute' => 'senha2']);
-            $compareValidator->validateAttribute($this, 'senha');
+        if (!$this->sal) {
+            $this->sal = uniqid();
         }
+
+        if ($this->senha) {
+            $this->senha_criptografada = self::encryptPassword($this->sal, $this->senha);
+        }
+
+        return parent::beforeValidate();
     }
 
     /**
@@ -136,43 +148,6 @@ class Usuario extends ActiveRecord implements IdentityInterface
         return $this->hasOne(UsuarioRole::className(), ['id' => 'usuario_role_id']);
     }
 
-    public function beforeValidate()
-    {
-        if (!$this->sal) {
-            $this->sal = uniqid();
-        }
-
-        return parent::beforeValidate();
-    }
-
-    public function afterValidate()
-    {
-        $return = parent::afterValidate();
-
-        if ($this->errors) {
-            return $return;
-        }
-
-        if ($this->usuario_role_id != UsuarioRole::ROOT && !$this->municipio_id) {
-            $this->addError('municipio_id', 'Município não está definido');
-        }
-
-        return $return;
-    }
-
-    public function beforeSave($insert)
-    {
-        $return = parent::beforeSave($insert);
-        
-        if ($insert) {
-            $this->senha = $this->senha ? $this->getEncryptedPassword() : null;
-        } else {
-            $this->senha = $this->senha ? $this->getEncryptedPassword() : $this->getOldAttribute('senha');
-        }
-
-        return $return;
-    }
-
     /**
      * @return array descrição dos atributos (name=>label)
      */
@@ -182,8 +157,9 @@ class Usuario extends ActiveRecord implements IdentityInterface
             'id' => 'ID',
             'nome' => 'Nome',
             'login' => 'Login',
+            'senha_criptografada' => 'Senha',
             'senha' => 'Senha',
-            'senha2' => 'Repita a senha',
+            'confirmacao_senha' => 'Repita a senha',
             'sal' => 'Sal',
             'municipio_id' => 'Município',
             'usuario_role_id' => 'Nível do Usuário',
@@ -208,18 +184,6 @@ class Usuario extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Busca senha criptografada
-     * @param string $senha Default get user password
-     * @return string Senha criptografada considerando o sal do usuario
-     */
-    public function getEncryptedPassword($senha = null)
-    {
-        $senha = $senha ? $senha : $this->senha;
-
-        return self::encryptPassword($this->sal, $senha);
-    }
-
-    /**
      * Autentica usuário
      * @param string $login
      * @param string $senha
@@ -229,7 +193,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
     {
         $senhaCriptografada = $this->encryptPassword($this->sal, $senha);
 
-        return ($senhaCriptografada == $this->senha);
+        return ($senhaCriptografada == $this->senha_criptografada);
     }
 
     /**
@@ -255,7 +219,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
             return $this->addError('senha', 'A confirmação de senha não confere');
         }
 
-        $this->senha = $password;
+        $this->senha_criptografada = $password;
     }
 
     /**

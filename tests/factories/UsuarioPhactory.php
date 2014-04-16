@@ -11,7 +11,6 @@ class UsuarioPhactory
             'login' => 'login#{sn}',
             'sal' => 'salgado',
             'senha' => '12345678',
-            'senha2' => '12345678',
             'usuario_role_id' => UsuarioRole::USUARIO,
             'email' => 'email#{sn}@vigilantus.com.br',
             'municipio_id' => Phactory::hasOne('municipio'),

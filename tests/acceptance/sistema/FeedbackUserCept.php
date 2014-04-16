@@ -4,15 +4,7 @@ use \Phactory;
 use tests\_pages\IndexPage;
 
 if ($this->scenario->running()) {
-    
-    Phactory::usuario(
-        'root',
-        [
-            'login' => 'administrador',
-            'senha' => 'administrador',
-            'senha2' => 'administrador', // necessário por causa de falha de design
-        ]
-    );
+    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
 }
 
 $eu = new CaraDaWeb($scenario);
