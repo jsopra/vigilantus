@@ -13,10 +13,10 @@ class UsuarioRoleTest extends TestCase
     {
         $this->assertEquals(4, UsuarioRole::find()->count());
         
-        $this->assertEquals('Root', UsuarioRole::find(UsuarioRole::ROOT)->nome);
-        $this->assertEquals('Administrador', UsuarioRole::find(UsuarioRole::ADMINISTRADOR)->nome);
-        $this->assertEquals('Gerente', UsuarioRole::find(UsuarioRole::GERENTE)->nome);
-        $this->assertEquals('Usuário', UsuarioRole::find(UsuarioRole::USUARIO)->nome);
+        $this->assertEquals('Root', UsuarioRole::findOne(UsuarioRole::ROOT)->nome);
+        $this->assertEquals('Administrador', UsuarioRole::findOne(UsuarioRole::ADMINISTRADOR)->nome);
+        $this->assertEquals('Gerente', UsuarioRole::findOne(UsuarioRole::GERENTE)->nome);
+        $this->assertEquals('Usuário', UsuarioRole::findOne(UsuarioRole::USUARIO)->nome);
     }
     
     public function testScopes()

@@ -68,7 +68,7 @@ class ImovelTipoTest extends TestCase
     
     public function testUpdate()
     {
-        $tipoImovel = ImovelTipo::find(1);
+        $tipoImovel = ImovelTipo::findOne(1);
         $tipoImovel->scenario = 'update';
         
         $this->assertInstanceOf('app\models\ImovelTipo', $tipoImovel);

@@ -24,8 +24,8 @@ class UsuarioTest extends TestCase
         $this->assertEquals(1, Usuario::find()->where(['email' => 'dengue@perspectiva.in'])->count());
         $this->assertEquals(0, Usuario::find()->where(['email' => 'dengueKKKK@perspectiva.in'])->count());
 
-        $usuarioRoot = Usuario::find(1);
-        $usuarioAdministrador = Usuario::find(2);
+        $usuarioRoot = Usuario::findOne(1);
+        $usuarioAdministrador = Usuario::findOne(2);
 
         $this->assertEquals(4, Usuario::find()->doNivelDoUsuario($usuarioRoot)->count());
         $this->assertEquals(1, Usuario::find()->doNivelDoUsuario($usuarioAdministrador)->count());
