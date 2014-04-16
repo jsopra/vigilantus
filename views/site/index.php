@@ -12,8 +12,6 @@ $this->title = Yii::$app->name;
 		<h1><?= Html::encode($this->title); ?></h1>
 
 		<p class="lead">Apoio e gestão de prevenção de Zoonoses</p>
-
-		<p><a class="btn btn-lg btn-glow success" href="/site/about">Saiba mais</a></p>
 	</div>
 
 	<div class="body-content">
@@ -98,7 +96,11 @@ $this->title = Yii::$app->name;
 			</div>
             
         </div>
-	
+        
+        <div class="row text-center btn-saiba-mais">
+            <p><a class="btn btn-lg btn-glow success" href="/site/about">Saiba mais</a></p>
+        </div>
+        
     </div>
 
 </div>
