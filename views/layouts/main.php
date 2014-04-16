@@ -151,9 +151,53 @@ AppAsset::register($this);
 
         </div>
         
-        <footer class="footer">
-            <div class="container">
-                <p class="text-center perspectiva">&copy; <a href="http://perspectiva.in" target="_blank">perspectiva<span class="domain">.in</span></a> <?= date('Y') ?></p>
+        <footer class="footer container">
+            <div class="row">
+
+                <div class="col-md-6 col-md-offset-1">
+
+                    <h2 class="text-left row" style="padding-bottom: 10px;">Parceiros</h2>
+
+                    <div class="row">
+
+                        <div class="partner text-center">
+                            <a href="http://www.fapesc.sc.gov.br/" target="_blank">
+                                <img src="<?= Url::toRoute(['/']); ?>img/partners/fapesc.png" alt="FAPESC" />
+                            </a>
+                        </div>
+
+                        <div class="partner text-center">
+                            <a href="http://www.sebrae.com.br/uf/santa-catarina" target="_blank">
+                                <img src="<?= Url::toRoute(['/']); ?>img/partners/sebrae.png" alt="SEBRAE" />
+                            </a>
+                        </div>
+
+                        <div class="partner text-center">
+                            <a href="http://www.sinapsedainovacao.com.br/" target="_blank">
+                                <img src="<?= Url::toRoute(['/']); ?>img/partners/sinapse.png" alt="Sinapse da Inovação" />
+                            </a>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                
+                
+                
+                <div class="col-md-3 col-md-offset-2" style="padding-top: 10px;">
+
+                    <p class="text-center perspectiva">
+                        <a href="http://perspectiva.in" target="_blank">
+                            perspectiva<span class="domain">.in</span>
+                        </a>
+                    </p>
+
+                    <p class="text-center">
+                        Perspectiva Negócios Digitais &copy; <?= date('Y') ?> 
+                    </p>
+
+
+                </div>
             </div>
         </footer>
         
