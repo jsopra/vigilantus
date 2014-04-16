@@ -4,11 +4,11 @@ namespace app\models;
 use app\components\ActiveRecord;
 
 /**
- * This is the model class for table "bairro_rua_imoveis".
+ * This is the model class for table "imoveis".
  *
  * @property integer $id
  * @property integer $municipio_id
- * @property integer $bairro_rua_id
+ * @property integer $bairro_quarteirao_id
  * @property string $numero
  * @property string $sequencia
  * @property string $complemento
@@ -25,7 +25,7 @@ class BairroRuaImovel extends ActiveRecord
 	 */
 	public static function tableName()
 	{
-		return 'bairro_rua_imoveis';
+		return 'imoveis';
 	}
 
 	/**
@@ -34,9 +34,9 @@ class BairroRuaImovel extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['municipio_id', 'bairro_rua_id'], 'required'],
+			[['municipio_id', 'bairro_quarteirao_id'], 'required'],
             ['imovel_lira', 'boolean'],
-			[['municipio_id', 'bairro_rua_id'], 'integer'],
+			[['municipio_id', 'bairro_quarteirao_id'], 'integer'],
 			[['numero', 'sequencia', 'complemento'], 'string']
 		];
 	}
@@ -49,11 +49,11 @@ class BairroRuaImovel extends ActiveRecord
 		return [
 			'id' => 'ID',
 			'municipio_id' => 'Município',
-			'bairro_rua_id' => 'Bairro Rua',
 			'numero' => 'Nímero',
 			'sequencia' => 'Sequência',
 			'complemento' => 'Complemento',
             'imovel_lira' => 'Imóvel Lira',
+            'bairro_quarteirao_id' => 'Quarteirão'
 		];
 	}
 
@@ -62,7 +62,7 @@ class BairroRuaImovel extends ActiveRecord
 	 */
 	public function getBoletimRgImoveis()
 	{
-		return $this->hasMany(BoletimRgImovel::className(), ['bairro_rua_imovel_id' => 'id']);
+		return $this->hasMany(BoletimRgImovel::className(), ['rua_id' => 'id']);
 	}
 
 	/**
@@ -72,12 +72,12 @@ class BairroRuaImovel extends ActiveRecord
 	{
 		return $this->hasOne(Municipios::className(), ['id' => 'municipio_id']);
 	}
-
-	/**
+    
+    /**
 	 * @return \yii\db\ActiveRelation
 	 */
-	public function getBairroRua()
+	public function getBairroQuarteirao()
 	{
-		return $this->hasOne(BairroRua::className(), ['id' => 'bairro_rua_id']);
+		return $this->hasOne(BairroRua::className(), ['id' => 'bairro_quarteirao_id']);
     }
 }

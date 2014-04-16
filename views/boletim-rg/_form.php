@@ -4,10 +4,10 @@ use app\models\Bairro;
 use app\models\BairroQuarteirao;
 use app\models\BairroCategoria;
 use app\models\ImovelTipo;
-use app\models\ImovelCondicao;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 /**
  * @var yii\web\View $this
@@ -22,19 +22,19 @@ use yii\widgets\ActiveForm;
 
 	<div class="row" id="dadosPrincipais">
         <div class="col-xs-2">
-            <?= $form->field($model, 'bairro_id')->dropDownList(Bairro::listData('nome'), ['prompt' => 'Selecione..']) ?>
+            <?php
+            $bairros = Bairro::find()->comQuarteiroes()->orderBy('nome')->all();
+            echo $form->field($model, 'bairro_id')->dropDownList(ArrayHelper::map($bairros, 'id', 'nome'), ['prompt' => 'Selecione..']);
+            ?>
         </div>
         <div class="col-xs-2 bairro-hide">
             <?= $form->field($model, 'categoria_id')->dropDownList(BairroCategoria::listData('nome')) ?>
         </div>
         <div class="col-xs-2 bairro-hide">
-            <?= $form->field($model, 'bairro_quarteirao_numero')->textInput() ?>
-        </div>
-        <div class="col-xs-1 bairro-hide">
-            <?= $form->field($model, 'seq')->textInput() ?>
+            <?= $form->field($model, 'bairro_quarteirao_numero')->dropDownList(array()) ?>
         </div>
         
-        <div class="col-xs-2 col-lg-offset-1 bairro-hide">
+        <div class="col-xs-2 col-lg-offset-2 bairro-hide">
             <?= $form->field($model, 'folha')->textInput() ?>
         </div>
         
@@ -138,69 +138,90 @@ if(!$model->isNewRecord) {
 
 $script .= '
 
-        jQuery("input#selecaoNumero").numeric();
-        jQuery("input#selecaoSeq").numeric();        
+    jQuery("input#selecaoNumero").numeric();
+    jQuery("input#selecaoSeq").numeric();        
 
-        jQuery("input#boletimrg-bairro_quarteirao_numero").numeric();
-        jQuery("input#boletimrg-seq").numeric();
-        jQuery("input#boletimrg-folha").numeric();
-        jQuery("input#boletimrg-mes").numeric();
-        jQuery("input#boletimrg-ano").numeric();
-        
-        if(bairroID) {
-            jQuery("#selecaoRua").typeahead([{
-                name: "BoletimRg[imoveis][exemplo][rua]",
-                remote: "' . Url::toRoute(['boletim-rg/bairroRuas']) . '?onlyName=true&bairro_id=" + bairroID + "&q=%QUERY"
-            }]);
+    jQuery("input#boletimrg-bairro_quarteirao_numero").numeric();
+    jQuery("input#boletimrg-folha").numeric();
+    jQuery("input#boletimrg-mes").numeric();
+    jQuery("input#boletimrg-ano").numeric();
+
+    if(bairroID) {
+        jQuery("#selecaoRua").typeahead([{
+            name: "BoletimRg[imoveis][exemplo][rua]",
+            remote: "' . Url::toRoute(['boletim-rg/bairroRuas']) . '?onlyName=true&bairro_id=" + bairroID + "&q=%QUERY"
+        }]);
+    }
+
+    jQuery("#boletimrg-bairro_id").change(function() {
+
+        if(jQuery(this).val() == "") {
+            jQuery(".bairro-hide").hide();
+            bairroID = null;
+        }
+        else {
+
+            bairroID = jQuery(this).val();
+
+            jQuery(this).attr("disabled","disabled");
+
+            jQuery.getJSON("' . Url::toRoute(['boletim-rg/bairroCategoria', 'bairro_id' => '']) . '" + bairroID, function(data) {
+
+                $("#boletimrg-categoria_id").val(data.id);
+                $("#boletimrg-categoria_id").attr("disabled","disabled");
+
+                jQuery.getJSON("' . Url::toRoute(['boletim-rg/bairroQuarteiroes', 'bairro_id' => '']) . '" + bairroID, function(data) {
+
+                    options = $("#boletimrg-bairro_quarteirao_numero");
+                    options.append($("<option />").val("").text("Selecione..."));
+                    $.each(data, function(key, desc) {
+                        options.append($("<option />").val(key).text(desc));
+                    });
+                    
+                    jQuery("#boletimrg-categoria_id").parent().parent().show();
+                    jQuery("#boletimrg-bairro_quarteirao_numero").parent().parent().show();
+                });
+                
+            });
+
         }
         
-        jQuery("#boletimrg-bairro_id").change(function() {
-        
-            if(jQuery(this).val() == "") {
-                jQuery(".bairro-hide").hide();
-                bairroID = null;
+        jQuery("#boletimrg-bairro_quarteirao_numero").change(function(){
+            if($(this).val() != "") {
+                jQuery(".bairro-hide").show();
             }
             else {
-            
-                bairroID = jQuery(this).val();
+                jQuery(".bairro-hide").hide();
+                jQuery("#boletimrg-categoria_id").parent().parent().show();
+                jQuery("#boletimrg-bairro_quarteirao_numero").parent().parent().show();
+            }
+        });
 
-                jQuery(this).attr("disabled","disabled");
+        jQuery("#selecaoRua").typeahead([{
+            name: "BoletimRg[imoveis][exemplo][rua]",
+            remote: "' . Url::toRoute(['boletim-rg/ruas', 'onlyName' => 'true']) . '&q=%QUERY"
+        }]);
 
-                jQuery.getJSON("' . Url::toRoute(['boletim-rg/bairroCategoria', 'bairro_id' => '']) . '" + bairroID, function(data) {
-
-                    $("#boletimrg-categoria_id").val(data.id);
-                    $("#boletimrg-categoria_id").attr("disabled","disabled");
-                    
-                    jQuery(".bairro-hide").show();
-                });
- 
-             }
-            
-            jQuery("#selecaoRua").typeahead([{
-                name: "BoletimRg[imoveis][exemplo][rua]",
-                remote: "' . Url::toRoute(['boletim-rg/bairroRuas', 'onlyName' => 'true', 'bairro_id' => '']) . '&bairro_id=" + bairroID + "&q=%QUERY"
-            }]);
-            
-            jQuery("form").submit(function(){
+        jQuery("form").submit(function(){
 ';
   
 
 if($model->isNewRecord) {
     $script .= '
-                jQuery("#boletimrg-bairro_id").removeAttr("disabled");
-                jQuery("#boletimrg-categoria_id").removeAttr("disabled");
-                
-                jQuery("#boletimrg-bairro_id").attr("readonly","readonly");
-                jQuery("#boletimrg-categoria_id").attr("readonly","readonly");
+        jQuery("#boletimrg-bairro_id").removeAttr("disabled");
+        jQuery("#boletimrg-categoria_id").removeAttr("disabled");
+
+        jQuery("#boletimrg-bairro_id").attr("readonly","readonly");
+        jQuery("#boletimrg-categoria_id").attr("readonly","readonly");
     ';
 }
 else {
     $script .= '
-                jQuery("#dadosPrincipais").find("input").removeAttr("disabled");
-                jQuery("#dadosPrincipais").find("select").removeAttr("disabled");
-                
-                jQuery("#dadosPrincipais").find("input").attr("readonly","readonly");
-                jQuery("#dadosPrincipais").find("select").attr("readonly","readonly");
+        jQuery("#dadosPrincipais").find("input").removeAttr("disabled");
+        jQuery("#dadosPrincipais").find("select").removeAttr("disabled");
+
+        jQuery("#dadosPrincipais").find("input").attr("readonly","readonly");
+        jQuery("#dadosPrincipais").find("select").attr("readonly","readonly");
     ';
 }
 

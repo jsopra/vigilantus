@@ -1,5 +1,4 @@
 <?php
-use app\models\ImovelCondicao;
 use app\models\ImovelTipo;
 use app\widgets\GridView;
 

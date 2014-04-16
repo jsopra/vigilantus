@@ -38,10 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id',
             'nome',
             [
-                'attribute' => 'bairro_tipo_id',
+                'attribute' => 'bairro_categoria_id',
                 'filter' => BairroCategoria::listData('nome'),
                 'value' => function ($model, $index, $widget) {
-                    return $model->tipo ? $model->tipo->nome : null;
+                    return $model->categoria ? $model->categoria->nome : null;
                 }
             ],
             [

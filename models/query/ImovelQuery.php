@@ -3,13 +3,8 @@ namespace app\models\query;
 
 use app\components\ActiveQuery;
 
-class BairroRuaImovelQuery extends ActiveQuery
+class ImovelQuery extends ActiveQuery
 {  
-    public function daRua($id) {
-        $this->andWhere('bairro_rua_id = :rua', [':rua' => $id]);
-        return $this;
-    }
-    
     public function doNumero($numero) {
         $this->andWhere('numero = :numero', [':numero' => $numero]);
         return $this;

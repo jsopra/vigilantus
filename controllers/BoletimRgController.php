@@ -19,7 +19,7 @@ class BoletimRgController extends CRUDController
         return [
             'bairroCategoria' => ['class' => 'app\components\actions\BairroCategoria'],
             'bairroQuarteiroes' => ['class' => 'app\components\actions\BairroQuarteiroes'],
-            'bairroRuas' => ['class' => 'app\components\actions\BairroRuas'],
+            'bairroRuas' => ['class' => 'app\components\actions\Ruas'],
         ];
     }
     

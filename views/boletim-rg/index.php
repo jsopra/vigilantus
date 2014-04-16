@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'bairro_quarteirao_numero',
                 'value' => function ($model, $index, $widget) {
-                    return $model->quarteirao ? $model->quarteirao->getDsQuarteirao() : null;
+                    return $model->quarteirao ? $model->quarteirao->getDsNumero() : null;
                 },
                 'options' => [
                     'width' => '20%',

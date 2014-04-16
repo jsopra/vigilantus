@@ -9,7 +9,7 @@ use app\components\ActiveRecord;
  *
  * @property integer $id
  * @property integer $boletim_rg_id
- * @property integer $bairro_rua_imovel_id
+ * @property integer $imovel_id
  * @property integer $municipio_id
  * @property integer $imovel_tipo_id
  * 
@@ -32,8 +32,8 @@ class BoletimRgImoveis extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'required'],
-			[['boletim_rg_id', 'bairro_rua_imovel_id', 'municipio_id', 'imovel_tipo_id'], 'integer']
+			[['boletim_rg_id', 'imovel_id', 'municipio_id', 'imovel_tipo_id'], 'required'],
+			[['boletim_rg_id', 'imovel_id', 'municipio_id', 'imovel_tipo_id'], 'integer']
 		];
 	}
 
@@ -44,7 +44,7 @@ class BoletimRgImoveis extends ActiveRecord
 	{
 		return [
 			'boletim_rg_id' => 'Boletim RG',
-			'bairro_rua_imovel_id' => 'Bairro Rua Imóvel',
+			'imovel_id' => 'Bairro Rua Imóvel',
             'municipio_id' => 'Município',    
             'imovel_tipo_id' => 'Tipo do Imóvel',
 		];
@@ -61,9 +61,9 @@ class BoletimRgImoveis extends ActiveRecord
 	/**
 	 * @return \yii\db\ActiveRelation
 	 */
-	public function getBairroRuaImovel()
+	public function getImovel()
 	{
-		return $this->hasOne(BairroRuaImovel::className(), ['id' => 'bairro_rua_imovel_id']);
+		return $this->hasOne(BairroRuaImovel::className(), ['id' => 'imovel_id']);
 	}
     
     /**

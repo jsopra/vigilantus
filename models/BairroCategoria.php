@@ -6,9 +6,9 @@ use app\components\ActiveRecord;
 use yii\db\Expression;
 
 /**
- * Este é a classe de modelo da tabela "bairro_tipos".
+ * Este é a classe de modelo da tabela "bairro_categorias".
  *
- * Estas são as colunas disponíveis na tabela 'bairro_tipos':
+ * Estas são as colunas disponíveis na tabela 'bairro_categorias':
  * @property integer $id
  * @property integer $municipio_id
  * @property string $nome
@@ -55,7 +55,7 @@ class BairroCategoria extends ActiveRecord
      */
     public function getBairros()
     {
-        return $this->hasMany(Bairro::className(), ['bairro_tipo_id' => 'id']);
+        return $this->hasMany(Bairro::className(), ['bairro_categoria_id' => 'id']);
     }
     
     /**

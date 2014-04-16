@@ -150,7 +150,7 @@
 //         $boletim->bairro_quarteirao_id = 180;
 //         $boletim->data = date('d/m/Y');
 //         $boletim->inserido_por = 1;
-//         $boletim->categoria_id = $bairro->bairro_tipo_id;
+//         $boletim->categoria_id = $bairro->bairro_categoria_id;
 
 //         $this->assertFalse($boletim->save());
         
@@ -258,7 +258,7 @@
 //         $boletim->bairro_quarteirao_id = 180;
 //         $boletim->data = date('d/m/Y');
 //         $boletim->inserido_por = 1;
-//         $boletim->categoria_id = $bairro->bairro_tipo_id;
+//         $boletim->categoria_id = $bairro->bairro_categoria_id;
 
 //         $this->assertFalse($boletim->save());
         

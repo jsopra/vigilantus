@@ -15,7 +15,7 @@ class BairroTest extends TestCase
 
         $bairro->municipio_id = 1;
         $bairro->nome = 'teste';
-        $bairro->bairro_tipo_id = 2;
+        $bairro->bairro_categoria_id = 2;
 
         $this->assertFalse($bairro->save());
 
@@ -31,7 +31,7 @@ class BairroTest extends TestCase
 
         $bairro->municipio_id = 2;
         $bairro->nome = 'teste';
-        $bairro->bairro_tipo_id = 1;
+        $bairro->bairro_categoria_id = 1;
 
         $this->assertTrue($bairro->save());
     }
@@ -58,7 +58,7 @@ class BairroTest extends TestCase
         $this->assertFalse($bairro->save());
 
         $bairro->municipio_id = 1;
-        $bairro->bairro_tipo_id = 2;
+        $bairro->bairro_categoria_id = 2;
         $bairro->nome = 'teste ' . uniqid();
 
         $this->assertTrue($bairro->save());
