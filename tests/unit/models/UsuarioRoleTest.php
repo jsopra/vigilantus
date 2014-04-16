@@ -30,7 +30,7 @@ class UsuarioRoleTest extends TestCase
     
     public function testDelete()
     {
-        $role = UsuarioRole::find(UsuarioRole::ROOT);
+        $role = UsuarioRole::findOne(UsuarioRole::ROOT);
         $this->setExpectedException('Exception');
         $role->delete();
     }

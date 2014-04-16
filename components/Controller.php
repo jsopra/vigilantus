@@ -55,7 +55,7 @@ class Controller extends YiiController
     protected function findModel($id)
     {
         $modelClassName = $this->getModelClassName();
-        if (($model = $modelClassName::find(intval($id))) !== null) {
+        if (($model = $modelClassName::findOne(intval($id))) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

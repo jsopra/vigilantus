@@ -10,7 +10,7 @@ class MunicipioTest extends TestCase
 {
     public function testDelete()
     {
-        $municipio = Municipio::find(1);
+        $municipio = Municipio::findOne(1);
         $this->setExpectedException('Exception');
         $municipio->delete();
     }

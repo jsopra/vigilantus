@@ -62,12 +62,13 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
+
             $logado = Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
             
-            if($logado) {
+            if ($logado) {
                 $municipios = Municipio::getMunicipios($this->getUser()->municipio_id);
                 $municipio = count($municipios) > 0 ? $municipios[0] : null;
-                Yii::$app->session->set('user.municipio',$municipio);
+                Yii::$app->session->set('user.municipio', $municipio);
             }
             
             return $logado;
@@ -85,8 +86,14 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = Usuario::find(['login' => $this->username, 'excluido' => 0]);
+
+            $this->_user = Usuario::find()
+                ->ativo()
+                ->where(['login' => $this->username])
+                ->one()
+            ;
         }
+        
         return $this->_user;
     }
 }

@@ -164,7 +164,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
     {
         $return = parent::beforeSave($insert);
         
-        if ($this->isNewRecord) {
+        if ($insert) {
             $this->senha = $this->senha ? $this->getEncryptedPassword() : null;
         } else {
             $this->senha = $this->senha ? $this->getEncryptedPassword() : $this->getOldAttribute('senha');
@@ -229,11 +229,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
     {
         $senhaCriptografada = $this->encryptPassword($this->sal, $senha);
 
-        if ($senhaCriptografada !== $this->senha) {
-            return false;
-        }
-
-        return true;
+        return ($senhaCriptografada == $this->senha);
     }
 
     /**

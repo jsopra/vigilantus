@@ -81,17 +81,21 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest)
+        if (!Yii::$app->user->isGuest) {
             $this->redirect(['home']);
+        }
 
-        $model = new LoginForm();
+        $model = new LoginForm;
+
         if ($model->load($_POST) && $model->login()) {
             
             $model->user->ultimo_login = new Expression('NOW()');
             $model->user->update(false, ['ultimo_login']);
             
             return $this->goBack();
+
         } else {
+            
             return $this->render('login', [
                     'model' => $model,
             ]);
@@ -108,7 +112,7 @@ class SiteController extends Controller
     {
         $model = new ContatoForm;
         
-        if(!Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest) {
             $model->name = Yii::$app->user->identity->nome;
             $model->email = Yii::$app->user->identity->email;
         }
@@ -148,7 +152,7 @@ class SiteController extends Controller
     
     public function actionSession($id) {
         
-        Yii::$app->session->set('user.municipio',Municipio::find($id));
+        Yii::$app->session->set('user.municipio', Municipio::findOne($id));
         
         Yii::$app->session->setFlash('success', 'Município alterado com sucesso');
 

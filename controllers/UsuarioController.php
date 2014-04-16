@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\components\CRUDController;
 use app\forms\AlterarSenhaForm;
 use Yii;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 class UsuarioController extends CRUDController
@@ -16,7 +17,7 @@ class UsuarioController extends CRUDController
     {
         return [
             'access' => [
-                'class' => '\yii\web\AccessControl',
+                'class' => AccessControl::className(),
                 'only' => ['change-password','create', 'delete', 'index', 'update'],
                 'rules' => [
                     [
