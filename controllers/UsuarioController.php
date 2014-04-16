@@ -5,7 +5,7 @@ namespace app\controllers;
 use app\components\CRUDController;
 use app\forms\AlterarSenhaForm;
 use Yii;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 class UsuarioController extends CRUDController
 {

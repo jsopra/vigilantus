@@ -44,7 +44,7 @@ use yii\widgets\ActiveForm;
         </div>	
     
         <?php
-        if (Yii::$app->user->checkAccess('Root')) : ?>
+        if (Yii::$app->user->can('Root')) : ?>
             <div class="row">
                 <div class="col-xs-3">
                     <?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome'), ['prompt' => "Selecione..."]) ?>

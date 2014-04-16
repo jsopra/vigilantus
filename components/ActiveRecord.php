@@ -227,19 +227,19 @@ class ActiveRecord extends YiiActiveRecord
     }
     
     /**
-	 * @inheritdoc
-	 */
-	public static function createQuery($config = [])
-	{
+     * @inheritdoc
+     */
+    public static function find()
+    {
         $className = get_called_class();
         $queryClassName = str_replace('\\models\\', '\\models\\query\\', $className) . 'Query';
         $tableName = $className::tableName();
 
         if (class_exists($queryClassName)) {
-            $query = new $queryClassName(['modelClass' => $className] + $config);
+            $query = new $queryClassName($className);
         }
         else {
-            $query = new ActiveQuery(['modelClass' => $className] + $config);
+            $query = new ActiveQuery($className);
         }
         
         if (self::temFiltroMunicipio()) {
@@ -250,7 +250,7 @@ class ActiveRecord extends YiiActiveRecord
         }
         
         return $query;
-	}
+    }
     
     /**
      * @inheritdoc

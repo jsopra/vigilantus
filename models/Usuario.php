@@ -58,7 +58,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return static::find($id);
+        return static::findOne($id);
     }
 
     /**

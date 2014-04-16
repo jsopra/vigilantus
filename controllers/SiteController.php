@@ -4,8 +4,8 @@ namespace app\controllers;
 
 use Yii;
 use yii\db\Expression;
-use yii\web\AccessControl;
-use yii\web\VerbFilter;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\helpers\Json;
 use app\forms\LoginForm;

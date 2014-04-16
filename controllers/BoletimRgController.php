@@ -4,9 +4,9 @@ namespace app\controllers;
 
 use Yii;
 use yii\db\Expression;
-use yii\web\AccessControl;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use app\components\CRUDController;
-use yii\web\VerbFilter;
 use app\models\search\BoletimRgSearch;
 use app\models\search\BoletimRgFechamentoSearch;
 use app\models\BoletimRg;
@@ -27,7 +27,7 @@ class BoletimRgController extends CRUDController
     {
         return [
             'access' => [
-                'class' => '\yii\web\AccessControl',
+                'class' => AccessControl::className(),
                 'only' => ['create', 'delete', 'index', 'update', 'verFechamento', 'bairroCategoria', 'bairroQuarteiroes', 'bairroRuas'],
                 'rules' => [
                     [

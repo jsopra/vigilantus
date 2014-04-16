@@ -113,7 +113,7 @@ AppAsset::register($this);
                 [
                     'label' => 'Relatórios',
                     'icon' => 'bar-chart',
-                    'visible' => Yii::$app->user->checkAccess('Administrador'),
+                    'visible' => Yii::$app->user->can('Administrador'),
                     'items' => [
                         ['label' => 'Boletim de RG', 'url' => ['/resumo-rg']],
                     ],
@@ -122,7 +122,7 @@ AppAsset::register($this);
                     'label' => 'Sistema',
                     'icon' => 'cog',
                     'items' => [
-                        ['label' => 'Usuários', 'url' => ['/usuario/'], 'visible' => Yii::$app->user->checkAccess('Administrador'),],
+                        ['label' => 'Usuários', 'url' => ['/usuario/'], 'visible' => Yii::$app->user->can('Administrador'),],
                         ['label' => 'Alterar minha senha', 'url' => ['/usuario/change-password']],
                     ]
                 ],
