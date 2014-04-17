@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'senha')->passwordInput() ?>
                 </div>
                 <div class="col-xs-3">
-                    <?= $form->field($model, 'senha2')->passwordInput() ?>
+                    <?= $form->field($model, 'confirmacao_senha')->passwordInput() ?>
                 </div>
             </div>
 

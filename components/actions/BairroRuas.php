@@ -17,7 +17,7 @@ class BairroRuas extends Action
         if(!is_numeric($bairroID))
             exit;
         
-		$oBairro = Bairro::find(intval($bairroID));
+		$oBairro = Bairro::findOne(intval($bairroID));
         if(!$oBairro instanceof Bairro)
             exit;
 

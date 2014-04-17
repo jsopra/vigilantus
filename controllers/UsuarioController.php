@@ -5,7 +5,8 @@ namespace app\controllers;
 use app\components\CRUDController;
 use app\forms\AlterarSenhaForm;
 use Yii;
-use yii\web\VerbFilter;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 class UsuarioController extends CRUDController
 {
@@ -16,7 +17,7 @@ class UsuarioController extends CRUDController
     {
         return [
             'access' => [
-                'class' => '\yii\web\AccessControl',
+                'class' => AccessControl::className(),
                 'only' => ['change-password','create', 'delete', 'index', 'update'],
                 'rules' => [
                     [
@@ -53,25 +54,11 @@ class UsuarioController extends CRUDController
     }
     
     /**
-	 * @inheritdoc
-	 */
-    protected function findModel($id)
-    {
-        $model = parent::findModel($id);
-        
-        // Remove a senha da edição
-        $model->senha = null;
-        
-        return $model;
-    }
-    
-    /**
-     * @return \app\components\ActiveRecord
+     * @inheritdoc
      */
     protected function buildNewModel()
     {
-        $class = $this->getModelClassName();
-        $model = new $class;
+        $model = parent::buildNewModel();
         $model->municipio_id = Yii::$app->user->identity->municipio_id;
         return $model;
     }

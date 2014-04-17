@@ -1,5 +1,7 @@
 <?php
 
+use yii\console\controllers\MigrateController;
+
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
 
 $params = require(__DIR__ . '/params.php');
@@ -10,10 +12,15 @@ $config = [
     'name' => 'Vigilantus Console',
     'language' => 'pt-BR',
     'basePath' => dirname(__DIR__),
-    'preload' => ['log'],
-    'controllerPath' => dirname(__DIR__) . '/commands',
+    'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
     'extensions' => require(__DIR__ . '/../vendor/yiisoft/extensions.php'),
+    'controllerMap' => [
+        'migrate' => [
+            'class' => MigrateController::className(),
+            'migrationTable' => 'tbl_migration',
+        ]
+    ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',

@@ -1,6 +1,11 @@
 <?php
 
+use \Phactory;
 use tests\_pages\LoginPage;
+
+if ($this->scenario->running()) {
+    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+}
 
 $eu = new CaraDaWeb($scenario);
 $eu->quero('verificar se o login funciona');

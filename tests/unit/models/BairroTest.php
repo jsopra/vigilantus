@@ -3,65 +3,21 @@
 namespace tests\unit\models;
 
 use app\models\Bairro;
+use Phactory;
 use yii\codeception\TestCase;
 
 class BairroTest extends TestCase
 {
-    public function testInsert()
+    public function testNaoSalvaDuplicado()
     {
-        $bairro = new Bairro;
+        // Trava no mesmo município
+        Phactory::bairro(['nome' => 'Tijuca', 'municipio_id' => 1]);
+        $bairroDuplicado = Phactory::bairro(['municipio_id' => 1]);
+        $bairroDuplicado->nome = 'Tijuca';
+        $this->assertFalse($bairroDuplicado->save());
 
-        $this->assertFalse($bairro->save());
-
-        $bairro->municipio_id = 1;
-        $bairro->nome = 'teste';
-        $bairro->bairro_tipo_id = 2;
-
-        $this->assertFalse($bairro->save());
-
-        $bairro->nome = 'teste1';
-        
-        $this->assertTrue($bairro->save());
-
-        unset($bairro);
-
-        $bairro = new Bairro;
-        
-        $this->assertFalse($bairro->save());
-
-        $bairro->municipio_id = 2;
-        $bairro->nome = 'teste';
-        $bairro->bairro_tipo_id = 1;
-
-        $this->assertTrue($bairro->save());
-    }
-
-    public function testUpdate()
-    {
-        $bairro = Bairro::find(1);
-
-        $this->assertInstanceOf('app\models\Bairro', $bairro);
-
-        $this->assertTrue($bairro->save());
-
-        $bairro->nome = null;
-        $this->assertFalse($bairro->save());
-
-        $bairro->nome = 'teste';
-        $this->assertTrue($bairro->save());
-    }
-
-    public function testDelete()
-    {
-        $bairro = new Bairro;
-
-        $this->assertFalse($bairro->save());
-
-        $bairro->municipio_id = 1;
-        $bairro->bairro_tipo_id = 2;
-        $bairro->nome = 'teste ' . uniqid();
-
-        $this->assertTrue($bairro->save());
-        $this->assertTrue((bool) $bairro->delete());
+        // Permite com municípios diferentes
+        $bairroDuplicado->municipio_id = Phactory::municipio()->id;
+        $this->assertTrue($bairroDuplicado->save());
     }
 }
