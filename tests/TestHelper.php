@@ -93,6 +93,10 @@ class TestHelper
         $fixturesDir = Yii::getAlias(__DIR__ . '/fixtures/');
         $fixtureFiles = [];
 
+        if (!is_file($fixturesDir)) {
+            return true;
+        }
+
         foreach (scandir($fixturesDir) as $file) {
             if (substr($file, strlen($file) - 4) == '.php') {
                 $fixtureFiles[] = substr($file, 0, strlen($file) - 4);

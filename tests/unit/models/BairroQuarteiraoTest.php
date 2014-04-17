@@ -3,111 +3,45 @@
 namespace tests\unit\models;
 
 use app\models\BairroQuarteirao;
+use Phactory;
 use yii\codeception\TestCase;
 
 class BairroQuarteiraoTest extends TestCase
 {
-    public function testInsert()
+    public function testDescricaoFormatada()
     {
-        $bairro = new BairroQuarteirao;
+        $quarteirao = Phactory::bairroQuarteirao(
+            [
+                'numero_quarteirao' => 1234,
+                'numero_quarteirao_2' => 5678,
+                'seq' => 7,
+            ]
+        );
 
-        $this->assertFalse($bairro->save());
-
-        $bairro->municipio_id = 1;
-        $bairro->bairro_id = 1;
-        $bairro->inserido_por = 1;
-
-        $this->assertFalse($bairro->save());
-
-        $bairro->numero_quarteirao = 123;
-        $bairro->numero_quarteirao_2 = 123;
-        
-        $this->assertTrue($bairro->save());
-
-        $this->assertEquals('123', $bairro->getDsNumero());
-        
-        unset($bairro);
-
-        $bairro = new BairroQuarteirao;
-        
-        $this->assertFalse($bairro->save());
-
-        $bairro->municipio_id = 1;
-        $bairro->bairro_id = 1;
-        $bairro->inserido_por = 1;
-        $bairro->numero_quarteirao = 123;
-        $bairro->numero_quarteirao_2 = 1234;
-        
-        $this->assertFalse($bairro->save());
-
-        $bairro->municipio_id = 1;
-        $bairro->bairro_id = 1;
-        $bairro->inserido_por = 1;
-        $bairro->numero_quarteirao = 1234;
-        $bairro->numero_quarteirao_2 = 123;
-        
-        $this->assertFalse($bairro->save());
-
-        $bairro->municipio_id = 1;
-        $bairro->bairro_id = 1;
-        $bairro->inserido_por = 1;
-        $bairro->numero_quarteirao = 1234;
-        $bairro->numero_quarteirao_2 = 1234;
-        $bairro->seq = 1;
-
-        $this->assertTrue($bairro->save());
-        
-        $this->assertEquals('1234-1', $bairro->getDsNumero());
+        $this->assertEquals('1234-7', $quarteirao->getDsQuarteirao());
     }
 
-    public function testUpdate()
+    public function testNaoSalvaDuplicado()
     {
-        $bairro = new BairroQuarteirao;
+        // Trava no mesmo município/bairro
+        $bairro = Phactory::bairro();
 
-        $this->assertFalse($bairro->save());
+        Phactory::bairroQuarteirao([
+            'numero_quarteirao' => 1234,
+            'bairro_id' => $bairro->id,
+            'municipio_id' => $bairro->municipio_id,
+        ]);
+        $quarteiraoDuplicado = Phactory::bairroQuarteirao([
+            'bairro_id' => $bairro->id,
+            'municipio_id' => $bairro->municipio_id,
+        ]);
+        $quarteiraoDuplicado->numero_quarteirao = 1234;
+        $this->assertFalse($quarteiraoDuplicado->save());
 
-        $bairro->municipio_id = 1;
-        $bairro->bairro_id = 1;
-        $bairro->inserido_por = 1;
-        $bairro->numero_quarteirao = 12344;
-        $bairro->numero_quarteirao_2 = 12344;
-
-        $this->assertTrue($bairro->save());
-
-        $bairro->refresh();
-        
-        $bairro->scenario = 'update'; 
-
-        $this->assertFalse($bairro->save());
-        
-        $bairro->atualizado_por = 1;
-        $this->assertTrue($bairro->save());
-
-        $bairro->numero_quarteirao = null;
-        $this->assertFalse($bairro->save());
-        
-        $bairro->numero_quarteirao = 1234;
-        $this->assertFalse($bairro->save());
-
-        $bairro->refresh();
-        
-        $bairro->numero_quarteirao = 12;
-        $this->assertTrue($bairro->save());
-    }
-
-    public function testDelete()
-    {
-        $bairro = new BairroQuarteirao;
-
-        $this->assertFalse($bairro->save());
-
-        $bairro->municipio_id = 1;
-        $bairro->bairro_id = 1;
-        $bairro->inserido_por = 1;
-        $bairro->numero_quarteirao = 12344;
-        $bairro->numero_quarteirao_2 = 12344;
-
-        $this->assertTrue($bairro->save());
-        $this->assertTrue((bool) $bairro->delete());
+        // Permite com bairros ou municípios diferentes
+        $outroBairro = Phactory::bairro();
+        $quarteiraoDuplicado->bairro_id = $outroBairro->id;
+        $quarteiraoDuplicado->municipio_id = $outroBairro->municipio_id;
+        $this->assertTrue($quarteiraoDuplicado->save());
     }
 }

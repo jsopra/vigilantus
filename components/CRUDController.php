@@ -3,7 +3,8 @@ namespace app\components;
 
 use Yii;
 use yii\db\Expression;
-use yii\web\VerbFilter;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 class CRUDController extends Controller
 {
@@ -29,7 +30,7 @@ class CRUDController extends Controller
     {
         return [
             'access' => [
-                'class' => '\yii\web\AccessControl',
+                'class' => AccessControl::className(),
                 'only' => ['create', 'delete', 'index', 'update'],
                 'rules' => [
                     [

@@ -33,15 +33,12 @@ class Municipio extends ActiveRecord
      */
     public function rules()
     {
-        // AVISO: só defina regras dos atributos que receberão dados do usuário
-        return array(
-            array('nome, sigla_estado, nome_contato, telefone_contato, departamento', 'required'),
-            array('sigla_estado', 'length', 'max' => 2),
-            array('email_contato, cargo', 'safe'),
-            // Esta regra é usada pelo método search().
-            // Remova os atributos que não deveriam ser pesquisáveis.
-            array('id, nome, sigla_estado, nome_contato, email_contato, telefone_contato, departamento, cargo', 'safe', 'on' => 'search'),
-        );
+        return [
+            [['nome', 'sigla_estado', 'nome_contato', 'telefone_contato', 'departamento'], 'required'],
+            ['sigla_estado', 'string', 'max' => 2],
+            [['email_contato', 'cargo'], 'safe'],
+            ['nome', 'unique', 'compositeWith' => 'sigla_estado'],
+        ];
     }
 
     /**
@@ -61,14 +58,14 @@ class Municipio extends ActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => Yii::t('Municipio', 'ID'),
-            'nome' => Yii::t('Municipio', 'Nome'),
-            'sigla_estado' => Yii::t('Municipio', 'Estado Sigla'),
-            'nome_contato' => Yii::t('Municipio', 'Nome do contato'),
-            'email_contato' => Yii::t('Municipio', 'Email do contato'),
-            'telefone_contato' => Yii::t('Municipio', 'Telefone do contato'),
-            'departamento' => Yii::t('Municipio', 'Departamento do contato'),
-            'cargo' => Yii::t('Municipio', 'Cargo do contato'),
+            'id' => 'ID',
+            'nome' => 'Nome',
+            'sigla_estado' => 'Estado Sigla',
+            'nome_contato' => 'Nome do contato',
+            'email_contato' => 'Email do contato',
+            'telefone_contato' => 'Telefone do contato',
+            'departamento' => 'Departamento do contato',
+            'cargo' => 'Cargo do contato',
         );
     }
 

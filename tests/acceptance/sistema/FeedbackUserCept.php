@@ -1,5 +1,11 @@
 <?php
+
+use \Phactory;
 use tests\_pages\IndexPage;
+
+if ($this->scenario->running()) {
+    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+}
 
 $eu = new CaraDaWeb($scenario);
 $eu->quero('enviar um feedback');

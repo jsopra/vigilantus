@@ -5,7 +5,7 @@ h1 {
 .footer {
 	border-top: 1px solid #ddd;
 	margin-top: 30px;
-	padding-top: 15px;
+	padding-top: 30px;
 	padding-bottom: 30px;
 }
 
@@ -14,7 +14,11 @@ h1 {
 	background-color: transparent;
 }
 
-.jumbotron .btn {
+.btn-saiba-mais {
+    margin-top: 30px;
+}
+
+.btn-saiba-mais .btn {
 	font-size: 21px;
 	padding: 14px 24px;
 }
@@ -250,7 +254,9 @@ table th {
 
 
 .perspectiva {
+    font-size: 1.5em;
     font-weight: bold;
+    margin: 5px 0;
 }
 
 .perspectiva a {
@@ -281,6 +287,7 @@ span.domain {
     margin-top: 0;
     padding-top: 0;
     margin-bottom: 0;
+    padding-bottom: 30px;
 }
 
 .jumbotron h1 {
@@ -294,4 +301,17 @@ p.titulo {
 .modal-dialog {
   max-width: 900px;
   width: auto;
+}
+
+@media (min-width: 768px) {
+    .partner {
+        float: left;
+        margin: 0 10px;
+    }
+}
+
+footer h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #000;
 }

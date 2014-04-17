@@ -26,6 +26,18 @@ if (isset($_SERVER['argv']) && isset($_SERVER['argv'][1]) && $_SERVER['argv'][1]
 }
 
 use tests\TestHelper;
+use tests\FactoryObjectBuilder;
+use tests\FactoryObjectTrigger;
+
+Phactory::builder(new FactoryObjectBuilder);
+Phactory::triggers(new FactoryObjectTrigger);
+
+foreach (scandir(__DIR__ . '/factories') as $file) {
+
+    if (strlen($file) > 4 && substr($file, strlen($file) - 4) == '.php') {
+        require_once __DIR__ . '/factories/' . $file;
+    }
+}
 
 TestHelper::recreateDataBase();
 

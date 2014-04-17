@@ -2,9 +2,10 @@
 
 namespace tests\unit\models;
 
+use app\models\Usuario;
+use Phactory;
 use Yii;
 use yii\codeception\TestCase;
-use app\models\Usuario;
 
 class LoginFormTest extends TestCase
 {
@@ -40,10 +41,12 @@ class LoginFormTest extends TestCase
 
 	public function testLoginCorrect()
 	{
-		$model = $this->mockUser(Usuario::find(2));
+		$admin = Phactory::usuario('administrador');
 
-		$model->username = 'administrador';
-		$model->password = 'administrador';
+		$model = $this->mockUser($admin);
+
+		$model->username = $admin->login;
+		$model->password = '12345678';
 
 		$this->specify('user should be able to login with correct credentials', function() use ($model) {
 			$this->assertTrue($model->login());

@@ -39,12 +39,12 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'senha')->passwordInput() ?>
             </div>
             <div class="col-xs-3">
-                <?= $form->field($model, 'senha2')->passwordInput() ?>
+                <?= $form->field($model, 'confirmacao_senha')->passwordInput() ?>
             </div>
         </div>	
     
         <?php
-        if (Yii::$app->user->checkAccess('Root')) : ?>
+        if (Yii::$app->user->can('Root')) : ?>
             <div class="row">
                 <div class="col-xs-3">
                     <?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome'), ['prompt' => "Selecione..."]) ?>

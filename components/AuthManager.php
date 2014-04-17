@@ -12,9 +12,16 @@ class AuthManager extends PhpManager
 
         if (!Yii::$app->user->isGuest) {
             $this->assign(
-                Yii::$app->user->identity->id,
-                Yii::$app->user->identity->getRBACRole()
+                $this->getItem(Yii::$app->user->identity->getRBACRole()),
+                Yii::$app->user->identity->id
             );
         }
+    }
+
+    /**
+     * Evita que salve em um arquivo
+     */
+    public function save()
+    {
     }
 }

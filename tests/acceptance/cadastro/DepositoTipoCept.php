@@ -1,5 +1,11 @@
 <?php
 
+use \Phactory;
+
+if ($this->scenario->running()) {
+    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+}
+
 $scenario->incomplete('falta escrever os testes');
 
 $eu = new CaraDaWeb($scenario);

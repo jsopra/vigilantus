@@ -25,7 +25,8 @@
 		"yiisoft/yii2-debug": "*",
 		"yiisoft/yii2-gii": "*",
 		"codeception/codeception": "1.8.*",
-		"codeception/specify": "0.3.*"
+		"codeception/specify": "0.3.*",
+		"alanwillms/phactory": "1.2.*"
 	},
 	"scripts": {
 		"post-create-project-cmd": [

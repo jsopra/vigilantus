@@ -43,7 +43,6 @@ class BairroQuarteirao extends ActiveRecord
             ['numero_quarteirao', 'unique', 'compositeWith' => ['bairro_id', 'municipio_id']],
             ['numero_quarteirao_2', 'unique', 'compositeWith' => ['bairro_id', 'municipio_id']],
 			[['municipio_id', 'bairro_id', 'numero_quarteirao', 'numero_quarteirao_2', 'inserido_por', 'atualizado_por', 'seq'], 'integer'],
-			[['data_cadastro', 'data_atualizacao'], 'string'],
             ['inserido_por', 'required', 'on' => 'insert'],
             ['atualizado_por', 'required', 'on' => 'update'],
 		];

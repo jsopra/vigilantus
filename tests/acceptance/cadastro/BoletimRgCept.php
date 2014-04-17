@@ -1,5 +1,12 @@
 <?php
 
+use \Phactory;
+
+if ($this->scenario->running()) {
+    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+    Phactory::bairro(['nome' => 'Seminário', 'municipio_id' => 1]);
+}
+
 $eu = new CaraDaWeb($scenario);
 $eu->quero('verificar que a ficha de RG funciona');
 $eu->facoLoginComo('administrador', 'administrador');
