@@ -303,9 +303,11 @@ p.titulo {
   width: auto;
 }
 
-.partner {
-    float: left;
-    margin: 0 10px;
+@media (min-width: 768px) {
+    .partner {
+        float: left;
+        margin: 0 10px;
+    }
 }
 
 footer h2 {
