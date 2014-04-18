@@ -14,7 +14,7 @@ Para clonar o projeto:
 7. Execute o comando `git remote add upstream https://SeuUsuario@bitbucket.org/perspectivain/vigilantus.git`
 6. Siga as instruções do arquivo [README.md](README.md) para configurar o seu ambiente de desenvolvimento e testes
 
-Para programar e enviar seu código:
+Para programar:
 
 1. Sempre, antes de começar algo novo, certifique-se de estar no branch `master`
 2. Rode `git fetch upstream` para atualizar o seu `master` com as últimas alterações do repositório quente
@@ -24,10 +24,19 @@ Para programar e enviar seu código:
 6. Certifique-se de que todos os testes rodam (não só os seus!)
 7. Commite suas mudanças com uma mensagem breve que descreva de maneira clara o que foi alterado.
 8. Novamente veja se está tudo atualizado com o repositório quente com `git pull upstream master`
-9. Envie o seu branco pro seu repositório forkado `git push -u origin nome-do-seu-branch`
-10. Abra uma `Pull Request` no BitBucket para nos enviar o seu branch.
-11. Alguém vai rever o seu código e pedir para corrigir ou mesclar com o master.
-12. Caso tudo esteja certo e ele seja mesclado no master, rode os seguintes comandos para limpar o seu ambiente:
+9. Envie o seu branch pro seu repositório forkado `git push -u origin nome-do-seu-branch`
+
+Para enviar o seu código:
+
+1. Vá para o seu fork do projeto no BitBucket
+2. Clique em `Branches`
+3. Clique em `nome-do-seu-branch`
+4. Clique em `Create pull request`
+5. No painel da direita, seleciona `perspectivain/NomeDoRepositorio` ao invés de `SeuUsuario/NomeDoRepositorio`.
+6. Escreva uma boa e breve descrição
+7. Clique em `Create pull request`.
+8. Alguém vai rever o seu código e vai pedir para você corrigir ou vai mesclar com o master.
+9. Caso tudo esteja certo e ele seja mesclado no master, rode os seguintes comandos para limpar o seu ambiente de desenvolvimento:
 
 ```
 git checkout upstream/master
