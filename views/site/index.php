@@ -11,7 +11,7 @@ $this->title = Yii::$app->name;
 	<div class="jumbotron">
 		<h1><?= Html::encode($this->title); ?></h1>
 
-		<p class="lead">Apoio e gestão de prevenção de Zoonoses</p>
+		<p class="lead">Apoio e gestão de prevenção da Dengue</p>
 	</div>
 
 	<div class="body-content">
