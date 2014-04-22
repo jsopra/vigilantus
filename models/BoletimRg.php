@@ -3,7 +3,6 @@
 namespace app\models;
 
 use app\components\ActiveRecord;
-use kop\y2cv\ConditionalValidator;
 
 /**
  * This is the model class for table "boletins_rg".
@@ -50,16 +49,8 @@ class BoletimRg extends ActiveRecord
             ['data', 'date'],
 			[['folha', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id', 'seq', 'bairro_quarteirao_numero'], 'integer'],
 			[['data_cadastro'], 'string'],
-                
-            [['bairro_quarteirao_id'], ConditionalValidator::className(),
-                'if' => [
-                    [['bairro_quarteirao_id'], 'compare', 'compareValue' => '']
-                ],
-                'then' => [
-                    [['bairro_quarteirao_numero'], 'required']
-                ]
-            ]
-		];
+            ['bairro_quarteirao_numero', 'required', 'enableClientValidation' => true, 'when' => function($model) { return $model->bairro_quarteirao_id != ''; }],	
+	];
 	}
 
 	/**

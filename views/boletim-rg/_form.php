@@ -149,7 +149,7 @@ $script .= '
     if(bairroID) {
         jQuery("#selecaoRua").typeahead([{
             name: "BoletimRg[imoveis][exemplo][rua]",
-            remote: "' . Url::toRoute(['boletim-rg/bairroRuas']) . '?onlyName=true&bairro_id=" + bairroID + "&q=%QUERY"
+            remote: "' . Url::toRoute(['boletim-rg/ruas']) . '?onlyName=true&q=%QUERY"
         }]);
     }
 

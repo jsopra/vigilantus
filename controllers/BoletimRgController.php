@@ -19,7 +19,7 @@ class BoletimRgController extends CRUDController
         return [
             'bairroCategoria' => ['class' => 'app\components\actions\BairroCategoria'],
             'bairroQuarteiroes' => ['class' => 'app\components\actions\BairroQuarteiroes'],
-            'bairroRuas' => ['class' => 'app\components\actions\Ruas'],
+            'ruas' => ['class' => 'app\components\actions\Ruas'],
         ];
     }
     
@@ -28,11 +28,11 @@ class BoletimRgController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'delete', 'index', 'update', 'verFechamento', 'bairroCategoria', 'bairroQuarteiroes', 'bairroRuas'],
+                'only' => ['create', 'delete', 'index', 'update', 'verFechamento', 'bairroCategoria', 'bairroQuarteiroes', 'ruas'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'update', 'delete', 'index', 'verFechamento', 'bairroCategoria', 'bairroQuarteiroes', 'bairroRuas'],
+                        'actions' => ['create', 'update', 'delete', 'index', 'verFechamento', 'bairroCategoria', 'bairroQuarteiroes', 'ruas'],
                         'roles' => ['@'],
                     ],
                 ],

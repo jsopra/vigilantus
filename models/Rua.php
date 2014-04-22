@@ -21,7 +21,7 @@ class Rua extends ActiveRecord
 	 */
 	public static function tableName()
 	{
-		return 'bairro_ruas';
+		return 'ruas';
 	}
 
 	/**
