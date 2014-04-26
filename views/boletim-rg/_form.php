@@ -31,7 +31,7 @@ use yii\helpers\ArrayHelper;
             <?= $form->field($model, 'categoria_id')->dropDownList(BairroCategoria::listData('nome')) ?>
         </div>
         <div class="col-xs-2 bairro-hide">
-            <?= $form->field($model, 'bairro_quarteirao_numero')->dropDownList(array()) ?>
+            <?= $form->field($model, 'bairro_quarteirao_id')->dropDownList(array()) ?>
         </div>
         
         <div class="col-xs-2 col-lg-offset-2 bairro-hide">
@@ -71,7 +71,7 @@ use yii\helpers\ArrayHelper;
                         <td><?= Html::textInput('BoletimRg[imoveis][' . $qtdeImoveis . '][complemento]', $imovel['complemento'], ['class' => 'form-control']) ?></td>
                         <td><?= Html::dropDownList('BoletimRg[imoveis][' . $qtdeImoveis . '][imovel_tipo]', $imovel['imovel_tipo'], (['' => 'Selecione...'] + ImovelTipo::find()->ativo()->listData('nome')), ['class' => 'form-control']) ?></td>
                         <td style="text-align: center;"><?= Html::checkbox('BoletimRg[imoveis][' . $qtdeImoveis . '][imovel_lira]', (isset($imovel['imovel_lira']) ? $imovel['imovel_lira'] : false)) ?></td>
-                        <td style="text-align: center;" class="add-row-button"><a href="javascript:void(0);" onclick="javascript:removeImovel('linha-<?= $qtdeImoveis; ?>');"><i class="icon-trash"></i></a></td>
+                        <td style="text-align: center;" class="add-row-button"><a href="javascript:void(0);" onclick="javascript:removeImovel('linha-<?= $qtdeImoveis; ?>');" title="Remover <?= $qtdeImoveis; ?>"><i class="icon-trash"></i></a></td>
                     </tr>
                 <?php 
                         $qtdeImoveis++;
@@ -85,7 +85,7 @@ use yii\helpers\ArrayHelper;
                     <td><?= Html::textInput('BoletimRg[imoveis][exemplo][complemento]', null, ['class' => 'form-control', 'id' => 'selecaoComplemento']) ?></td>
                     <td><?= Html::dropDownList('BoletimRg[imoveis][exemplo][imovel_tipo]', null, (['' => 'Selecione...'] + ImovelTipo::find()->ativo()->listData('nome')), ['class' => 'form-control', 'id' => 'selecaoTipoImovel']) ?></td>
                     <td style="text-align: center;"><?= Html::checkbox('BoletimRg[imoveis][exemplo][imovel_lira]', false, ['id' => 'selecaoImovelLira']) ?></td>
-                    <td style="text-align: center;" class="add-row-button"><a href="javascript:void(0);" onclick="javascript:adicionaImovel();"><i class="icon-plus-sign"></i></a></td>
+                    <td style="text-align: center;" class="add-row-button"><a href="javascript:void(0);" onclick="javascript:adicionaImovel();" title="Adicionar"><i class="icon-plus-sign"></i></a></td>
                 </tr>
             </tbody>
         </table>
@@ -118,6 +118,7 @@ $script = '
     jQuery(document).ready(function(){
 
     var bairroID = null;
+    var quarteiraoID = null;
     
     $(".input-datepicker").datepicker().on("changeDate", function (ev) {
         $(this).datepicker("hide");
@@ -128,6 +129,9 @@ if(!$model->bairro_id)
     $script .= 'jQuery(".bairro-hide").hide();';
 else
     $script .= 'bairroID = ' . $model->bairro_id . ';';
+
+if($model->bairro_quarteirao_id)
+    $script .= 'quarteiraoID = ' . $model->bairro_quarteirao_id . ';';
 
 if(!$model->isNewRecord) {
     $script .= '
@@ -141,7 +145,6 @@ $script .= '
     jQuery("input#selecaoNumero").numeric();
     jQuery("input#selecaoSeq").numeric();        
 
-    jQuery("input#boletimrg-bairro_quarteirao_numero").numeric();
     jQuery("input#boletimrg-folha").numeric();
     jQuery("input#boletimrg-mes").numeric();
     jQuery("input#boletimrg-ano").numeric();
@@ -151,6 +154,21 @@ $script .= '
             name: "BoletimRg[imoveis][exemplo][rua]",
             remote: "' . Url::toRoute(['boletim-rg/ruas']) . '?onlyName=true&q=%QUERY"
         }]);
+        
+        jQuery.getJSON("' . Url::toRoute(['boletim-rg/bairroQuarteiroes', 'bairro_id' => '']) . '" + bairroID, function(data) {
+
+            options = $("#boletimrg-bairro_quarteirao_id");
+            options.append($("<option />").val("").text("Selecione..."));
+            $.each(data, function(key, desc) {
+                options.append($("<option />").val(key).text(desc));
+            });
+
+            jQuery("#boletimrg-categoria_id").parent().parent().show();
+            jQuery("#boletimrg-bairro_quarteirao_id").parent().parent().show();
+            
+            if(quarteiraoID) 
+                jQuery("#boletimrg-bairro_quarteirao_id").val(quarteiraoID);
+        });
     }
 
     jQuery("#boletimrg-bairro_id").change(function() {
@@ -172,28 +190,28 @@ $script .= '
 
                 jQuery.getJSON("' . Url::toRoute(['boletim-rg/bairroQuarteiroes', 'bairro_id' => '']) . '" + bairroID, function(data) {
 
-                    options = $("#boletimrg-bairro_quarteirao_numero");
+                    options = $("#boletimrg-bairro_quarteirao_id");
                     options.append($("<option />").val("").text("Selecione..."));
                     $.each(data, function(key, desc) {
                         options.append($("<option />").val(key).text(desc));
                     });
                     
                     jQuery("#boletimrg-categoria_id").parent().parent().show();
-                    jQuery("#boletimrg-bairro_quarteirao_numero").parent().parent().show();
+                    jQuery("#boletimrg-bairro_quarteirao_id").parent().parent().show();
                 });
                 
             });
 
         }
         
-        jQuery("#boletimrg-bairro_quarteirao_numero").change(function(){
+        jQuery("#boletimrg-bairro_quarteirao_id").change(function(){
             if($(this).val() != "") {
                 jQuery(".bairro-hide").show();
             }
             else {
                 jQuery(".bairro-hide").hide();
                 jQuery("#boletimrg-categoria_id").parent().parent().show();
-                jQuery("#boletimrg-bairro_quarteirao_numero").parent().parent().show();
+                jQuery("#boletimrg-bairro_quarteirao_id").parent().parent().show();
             }
         });
 

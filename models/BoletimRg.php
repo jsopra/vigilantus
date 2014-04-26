@@ -10,14 +10,14 @@ use app\components\ActiveRecord;
  * @property integer $id
  * @property integer $folha
  * @property integer $bairro_id
- * @property integer $bairro_quarteirao_id
+ * @property integer $fee
  * @property string $data_cadastro 
 * @property integer $inserido_por
  * @property integer $municipio_id
  * @property integer $categoria_id
  * @property string $data
  *
- * @property BoletimRgImoveis[] $boletimRgImoveis
+ * @property BoletimRgImovel[] $boletimRgImovel
  * @property BoletimRgFechamento[] $boletimRgFechamentos
  * @property Bairros $bairro
  * @property Usuarios $inseridoPor
@@ -27,7 +27,6 @@ class BoletimRg extends ActiveRecord
     public $seq;
     public $categoria_id;
     public $imoveis;
-    public $bairro_quarteirao_numero;
     
 	/**
 	 * @inheritdoc
@@ -47,9 +46,8 @@ class BoletimRg extends ActiveRecord
             [['categoria_id'], 'safe'],
             ['folha', 'unique', 'compositeWith' => ['data', 'municipio_id']],
             ['data', 'date'],
-			[['folha', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id', 'seq', 'bairro_quarteirao_numero'], 'integer'],
+			[['folha', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id', 'seq'], 'integer'],
 			[['data_cadastro'], 'string'],
-            ['bairro_quarteirao_numero', 'required', 'enableClientValidation' => true, 'when' => function($model) { return $model->bairro_quarteirao_id != ''; }],	
 	];
 	}
 
@@ -69,7 +67,6 @@ class BoletimRg extends ActiveRecord
             'municipio_id' => 'Município',
             'categoria_id' => 'Categoria',
             'data' => 'Data da Coleta',
-            'bairro_quarteirao_numero' => 'Quarteirão'
 		];
 	}
     
@@ -78,93 +75,71 @@ class BoletimRg extends ActiveRecord
         $transaction = $this->getDb()->beginTransaction();
         try {
             
-            if($this->bairro_quarteirao_numero) {
-                
-                $bairroQuarteiraoFind = BairroQuarteirao::find()->doBairro($this->bairro_id)->doNumero($this->bairro_quarteirao_numero);
-
-                if($this->seq)
-                    $bairroQuarteiraoFind->daSequencia($this->seq);
-
-                $bairroQuarteirao = $bairroQuarteiraoFind->one();
-                if(!$bairroQuarteirao instanceof BairroQuarteirao) {
-
-                    $bairroQuarteirao = new BairroQuarteirao;
-                    $bairroQuarteirao->municipio_id = $this->municipio_id;
-                    $bairroQuarteirao->bairro_id = $this->bairro_id;
-                    $bairroQuarteirao->numero_quarteirao = $this->bairro_quarteirao_numero;
-                    $bairroQuarteirao->seq = !empty($this->seq) ? $this->seq : null;
-                    $bairroQuarteirao->inserido_por = $this->inserido_por;
-
-                    if(!$bairroQuarteirao->save()) {
-                        $this->addError('bairro_quarteirao_numero','Erro ao cadastrar quarteirão');
-                        return false;
-                    }
-                }
-            }
-
-            $this->bairro_quarteirao_id = $bairroQuarteirao->id;
-            
             $result = parent::save($runValidation, $attributes);
             
             if ($result) {
                 
-                if(!$this->isNewRecord) {
-                    
-                    $imoveis = $this->boletimImoveis;
-                    foreach($imoveis as $imovel)
-                        $imovel->delete();
-                    
-                    $fechamentos = $this->boletimFechamento;
-                    foreach($fechamentos as $fechamento)
-                        $fechamento->delete();
-                }
+                if(!$this->isNewRecord)
+                    $this->_clearRelationships();
                 
                 $imoveisSalvos = 0;
                 $imoveis = $this->imoveis;
-                foreach($imoveis as $imovel) {
-                 
-                    $ruaBairro = BairroRua::find()
-                        ->doBairro($this->bairro_id)
-                        ->daRua($imovel['rua'])
-                        ->one();
-                    
-                    if(!$ruaBairro instanceof BairroRua) {
-                        $ruaBairro = new BairroRua;
-                        $ruaBairro->bairro_id = $this->bairro_id;
-                        $ruaBairro->municipio_id = $this->municipio_id;
-                        $ruaBairro->nome = $imovel['rua'];
+                foreach($imoveis as $imovelPreenchido) {
+                    $rua = Rua::find()->daRua($imovelPreenchido['rua'])->one();
+                    if(!$rua instanceof Rua) {
+                        $rua = new Rua;
+                        $rua->municipio_id = $this->municipio_id;
+                        $rua->nome = $imovelPreenchido['rua'];
                         
-                        if(!$ruaBairro->save())
-                            continue 2;
+                        if(!$rua->save())
+                            continue;
                     }
                     
-                    $ruaBairroImovel = BairroRuaImovel::find()
-                        ->daRua($ruaBairro->id)
-                        ->doNumero($imovel['numero'])
-                        ->daSeq($imovel['seq'])
-                        ->doComplemento($imovel['complemento'])
-                        ->doTipoLira((isset($imovel['imovel_lira']) && $imovel['imovel_lira'] == '1'))
+                    $imovel = Imovel::find()
+                        ->doQuarteirao($this->bairro_quarteirao_id)
+                        ->doNumero($imovelPreenchido['numero'])
+                        ->daSeq($imovelPreenchido['seq'])
+                        ->doComplemento($imovelPreenchido['complemento'])
                         ->one();
-                    
-                    if(!$ruaBairroImovel instanceof BairroRuaImovel) {
-                        $ruaBairroImovel = new BairroRuaImovel;
-                        $ruaBairroImovel->municipio_id = $this->municipio_id;
-                        $ruaBairroImovel->bairro_rua_id = $ruaBairro->id;
-                        $ruaBairroImovel->numero = $imovel['numero'];
-                        $ruaBairroImovel->sequencia = $imovel['seq'];
-                        $ruaBairroImovel->complemento = $imovel['complemento'];
-                        $ruaBairroImovel->imovel_lira = isset($imovel['imovel_lira']) && $imovel['imovel_lira'] == '1';
+                
+                    if(!$imovel instanceof Imovel) {
+                        $imovel = new Imovel;
+                        $imovel->municipio_id = $this->municipio_id;
+                        $imovel->bairro_quarteirao_id = $this->bairro_quarteirao_id;
+                        $imovel->imovel_tipo_id = isset($imovelPreenchido['imovel_tipo']) ? $imovelPreenchido['imovel_tipo'] : null;
+                        $imovel->rua_id = $rua->id;
+                        $imovel->numero = isset($imovelPreenchido['numero']) ? $imovelPreenchido['numero'] : null;
+                        $imovel->sequencia = isset($imovelPreenchido['seq']) ? $imovelPreenchido['seq'] : null;
+                        $imovel->complemento = isset($imovelPreenchido['complemento']) ? $imovelPreenchido['complemento'] : null;
+                        $imovel->imovel_lira = isset($imovelPreenchido['imovel_lira']) && $imovelPreenchido['imovel_lira'] == '1';
                         
-                        if(!$ruaBairroImovel->save())
-                            continue 2;
+                        if(!$imovel->save())
+                            continue;
+                    }
+                    else {
+                        
+                        $rgIsLira = isset($imovelPreenchido['imovel_lira']) && $imovelPreenchido['imovel_lira'] == '1';
+                        $modelIsLira = $imovel->imovel_lira;
+                        if($rgIsLira != $modelIsLira) {
+                            
+                            $imovel->imovel_lira = $rgIsLira;
+                            if(!$imovel->save())
+                                continue;
+                        }
                     }
                     
-                    $boletimImovel = new BoletimRgImoveis;
+                    $boletimImovel = new BoletimRgImovel;
                     $boletimImovel->municipio_id = $this->municipio_id;
-                    $boletimImovel->imovel_tipo_id = $imovel['imovel_tipo'];
+                    $boletimImovel->imovel_tipo_id = isset($imovelPreenchido['imovel_tipo']) ? $imovelPreenchido['imovel_tipo'] : null;
                     $boletimImovel->boletim_rg_id = $this->id;
-                    $boletimImovel->bairro_rua_imovel_id = $ruaBairroImovel->id;
-                    
+                    $boletimImovel->rua_id = $rua->id;
+                    $boletimImovel->rua_nome = $imovelPreenchido['rua'];
+                    $boletimImovel->imovel_numero = isset($imovelPreenchido['numero']) ? $imovelPreenchido['numero'] : null;
+                    $boletimImovel->imovel_seq = isset($imovelPreenchido['seq']) ? $imovelPreenchido['seq'] : null;
+                    $boletimImovel->imovel_complemento = isset($imovelPreenchido['complemento']) ? $imovelPreenchido['complemento'] : null;
+                    $boletimImovel->imovel_lira = isset($imovelPreenchido['imovel_lira']) && $imovelPreenchido['imovel_lira'] == '1';
+                    $boletimImovel->imovel_id = $imovel->id;
+
                     if ($boletimImovel->save())
                         $imoveisSalvos++;
                 }
@@ -194,7 +169,7 @@ class BoletimRg extends ActiveRecord
 	 */
 	public function getBoletimImoveis()
 	{
-		return $this->hasMany(BoletimRgImoveis::className(), ['boletim_rg_id' => 'id']);
+		return $this->hasMany(BoletimRgImovel::className(), ['boletim_rg_id' => 'id']);
 	}
 
 	/**
@@ -250,20 +225,14 @@ class BoletimRg extends ActiveRecord
      */
     public function getQuantidadeImoveis() 
     {
-        return BoletimRgImoveis::find()->where(['boletim_rg_id' => $this->id])->count();
+        return BoletimRgImovel::find()->where(['boletim_rg_id' => $this->id])->count();
     }
 
     public function beforeDelete() {
         
         $parent = parent::beforeDelete();
         
-        $boletimImoveis = $this->boletimImoveis;
-        foreach($boletimImoveis as $imovel)
-            $imovel->delete();
-        
-        $boletimFechamento = $this->boletimFechamento;
-        foreach($boletimFechamento as $fechamento)
-            $fechamento->delete();
+        $this->_clearRelationships();
         
         return $parent;
     }
@@ -278,13 +247,30 @@ class BoletimRg extends ActiveRecord
         
         foreach($imoveis as $imovel)
             $this->imoveis[] = [
-                'rua' => $imovel->bairroRuaImovel->bairroRua->nome,
-                'numero' => $imovel->bairroRuaImovel->numero,
-                'seq' => $imovel->bairroRuaImovel->sequencia,
-                'complemento' => $imovel->bairroRuaImovel->complemento,
+                'rua' => $imovel->rua_nome ? $imovel->rua_nome : $imovel->imovel->rua->nome,
+                'numero' => $imovel->imovel_numero ? $imovel->imovel_numero : $imovel->imovel->numero,
+                'seq' => $imovel->imovel_seq ? $imovel->imovel_seq : $imovel->imovel->sequencia,
+                'complemento' => $imovel->imovel_complemento ? $imovel->imovel_complemento : $imovel->imovel->complemento,
                 'imovel_tipo' => $imovel->imovel_tipo_id,
-                'imovel_lira' => $imovel->bairroRuaImovel->imovel_lira,
+                'imovel_lira' => $imovel->imovel_lira ? $imovel->imovel_lira : $imovel->imovel->imovel_lira,
             ];
+        
+        return;
+    }
+    
+    /**
+     * Apaga relações do boletim com imóveis e fechamento de RG 
+     * @return void
+     */
+    private function _clearRelationships() {
+        
+        $imoveis = $this->boletimImoveis;
+        foreach($imoveis as $imovel)
+            $imovel->delete();
+
+        $fechamentos = $this->boletimFechamento;
+        foreach($fechamentos as $fechamento)
+            $fechamento->delete();
         
         return;
     }

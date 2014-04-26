@@ -39,6 +39,7 @@ class ModalColumn extends Column
 	public $modalFunctionToProcessContent;
 	public $requestType = 'GET';
 	public $requestIsJSON = false;
+    public $linkTitle = '';
 
 	/**
 	 * @var boolean Se o campo será exportado ou não no CSV gerado
@@ -158,7 +159,7 @@ class ModalColumn extends Column
 			$finalHtml .= call_user_func($this->textBeforeLink, $model, $key, $index, $this);
 		
 		if(!$hideLinkExpression)
-			$finalHtml .= '<a href="javascript:void(0)" data-modal-title="' . ($this->modalTitle ? call_user_func($this->modalTitle, $model, $key, $index, $this) : '') . '" ajax_url="' . ($modalAjaxContent ? $modalAjaxContent : null) . '" class="FModalColumn_' . $this->modalId . '" ' . ($this->tooltipText ? 'rel="tooltip" title="' . $this->tooltipText . '"' : '') . ($onClick ? 'onClick="' . $onClick . '"' : '') . '>' . $columnContent . '</a>';
+			$finalHtml .= '<a href="javascript:void(0)" title="' . $this->linkTitle . '" data-modal-title="' . ($this->modalTitle ? call_user_func($this->modalTitle, $model, $key, $index, $this) : '') . '" ajax_url="' . ($modalAjaxContent ? $modalAjaxContent : null) . '" class="FModalColumn_' . $this->modalId . '" ' . ($this->tooltipText ? 'rel="tooltip" title="' . $this->tooltipText . '"' : '') . ($onClick ? 'onClick="' . $onClick . '"' : '') . '>' . $columnContent . '</a>';
 		else
 			$finalHtml .= $columnContent;
 		

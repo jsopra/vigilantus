@@ -18,7 +18,7 @@ class BairroQuarteiraoTest extends TestCase
             ]
         );
 
-        $this->assertEquals('1234-7', $quarteirao->getDsQuarteirao());
+        $this->assertEquals('1234-7', $quarteirao->getDsNumero());
     }
 
     public function testNaoSalvaDuplicado()

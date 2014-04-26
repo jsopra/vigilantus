@@ -12,11 +12,17 @@ use app\components\ActiveRecord;
  * @property integer $imovel_id
  * @property integer $municipio_id
  * @property integer $imovel_tipo_id
+ * @property string $rua_nome
+ * @property integer $rua_id
+ * @property integer $imovel_numero
+ * @property integer $imovel_seq
+ * @property integer $imovel_complemento
+ * @property boolean $imovel_lira
  * 
  * @property BoletinsRg $boletimRg
  * @property BairroRuaImoveis $bairroRuaImovel
  */
-class BoletimRgImoveis extends ActiveRecord
+class BoletimRgImovel extends ActiveRecord
 {
 	/**
 	 * @inheritdoc
@@ -32,8 +38,10 @@ class BoletimRgImoveis extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['boletim_rg_id', 'imovel_id', 'municipio_id', 'imovel_tipo_id'], 'required'],
-			[['boletim_rg_id', 'imovel_id', 'municipio_id', 'imovel_tipo_id'], 'integer']
+			[['boletim_rg_id', 'imovel_id', 'municipio_id', 'imovel_tipo_id', 'rua_nome', 'rua_id'], 'required'],
+            ['imovel_lira', 'boolean'],
+			[['boletim_rg_id', 'imovel_id', 'municipio_id', 'imovel_tipo_id', 'rua_id'], 'integer'],
+            [['imovel_numero', 'imovel_seq', 'imovel_complemento'], 'string']
 		];
 	}
 
@@ -47,7 +55,12 @@ class BoletimRgImoveis extends ActiveRecord
 			'imovel_id' => 'Bairro Rua Imóvel',
             'municipio_id' => 'Município',    
             'imovel_tipo_id' => 'Tipo do Imóvel',
-		];
+            'imovel_numero' => 'Nímero',
+			'imovel_seq' => 'Sequência',
+			'imovel_complemento' => 'Complemento',
+            'imovel_lira' => 'Imóvel Lira',
+            'rua_id' => 'Rua',		
+        ];
 	}
 
 	/**
@@ -63,7 +76,7 @@ class BoletimRgImoveis extends ActiveRecord
 	 */
 	public function getImovel()
 	{
-		return $this->hasOne(BairroRuaImovel::className(), ['id' => 'imovel_id']);
+		return $this->hasOne(Imovel::className(), ['id' => 'imovel_id']);
 	}
     
     /**
@@ -82,6 +95,13 @@ class BoletimRgImoveis extends ActiveRecord
         return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
     }
     
+    /**
+     * @return Municipio
+     */
+    public function getRua()
+    {
+        return $this->hasOne(Rua::className(), ['id' => 'rua_id']);
+    }
     
     public function save($runValidation = true, $attributes = NULL) {
 
@@ -97,29 +117,29 @@ class BoletimRgImoveis extends ActiveRecord
                 $boletimFechamento = BoletimRgFechamento::incrementaContagemImovel(
                     $this->boletimRg,
                     $this->imovel_tipo_id,
-                    $this->bairroRuaImovel->imovel_lira
+                    $this->imovel->imovel_lira
                 );
 
                 if($boletimFechamento instanceof BoletimRgFechamento) {
                     if($newTransaction)
-                        $transaction->commit();
+                        $newTransaction->commit();
                 }
                 else {
 
                     if($newTransaction)
-                        $transaction->rollback();
+                        $newTransaction->rollback();
                     
                     $result = false;                    
                 }
             } 
             else {
                 if($newTransaction)
-                    $transaction->rollback();
+                    $newTransaction->rollback();
             }
         } 
         catch (\Exception $e) {
             if($newTransaction)
-                $transaction->rollback();
+                $newTransaction->rollback();
             throw $e;
         }
 

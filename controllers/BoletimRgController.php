@@ -76,7 +76,6 @@ class BoletimRgController extends CRUDController
             
         }
         else {
-            $model->bairro_quarteirao_numero = $model->quarteirao->numero_quarteirao;
             $model->populaImoveis();
         }
         

@@ -5,6 +5,16 @@ use app\components\ActiveQuery;
 
 class ImovelQuery extends ActiveQuery
 {  
+    public function daRua($rua) {
+        $this->andWhere('rua_id = :rua', [':rua' => $rua]);
+        return $this;
+    }
+    
+    public function doQuarteirao($quarteirao) {
+        $this->andWhere('bairro_quarteirao_id = :quarteirao', [':quarteirao' => $quarteirao]);
+        return $this;
+    }
+    
     public function doNumero($numero) {
         $this->andWhere('numero = :numero', [':numero' => $numero]);
         return $this;

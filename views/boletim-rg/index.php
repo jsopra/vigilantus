@@ -80,6 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'requestType' => 'GET',
                 'header' => 'Qtde. Imóveis',
+                'linkTitle' => 'Ver Fechamento',
                 'value' => function ($model, $index, $widget) {
                     return $model->quantidadeImoveis . ' (Ver fechamento)';
                 },
