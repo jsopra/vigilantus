@@ -3,7 +3,7 @@ Manual de contribuição
 
 ## Manual do Programador
 
-Para clonar o projeto:
+###Para clonar o projeto:
 
 1. Acesse a URL do projeto no BitBucket
 2. Clique no botão `Fork` e confirme.
@@ -14,7 +14,7 @@ Para clonar o projeto:
 7. Execute o comando `git remote add upstream https://SeuUsuario@bitbucket.org/perspectivain/vigilantus.git`
 6. Siga as instruções do arquivo [README.md](README.md) para configurar o seu ambiente de desenvolvimento e testes
 
-Para programar:
+###Para programar:
 
 1. Sempre, antes de começar algo novo, certifique-se de estar no branch `master`
 2. Rode `git fetch upstream` para atualizar o seu `master` com as últimas alterações do repositório quente
@@ -26,7 +26,7 @@ Para programar:
 8. Novamente veja se está tudo atualizado com o repositório quente com `git pull upstream master`
 9. Envie o seu branch pro seu repositório forkado `git push -u origin nome-do-seu-branch`
 
-Para enviar o seu código:
+###Para enviar o seu código:
 
 1. Vá para o seu fork do projeto no BitBucket
 2. Clique em `Branches`
@@ -47,14 +47,14 @@ git push origin --delete nome-do-seu-branch
 
 ## Manual do Supervisor
 
-Para adicionar um novo membro de projeto:
+###Para adicionar um novo membro de projeto:
 
 1. Vá para a página da equipe `Perspectiva`
 2. Clique em `Manage team`
 3. Clique em `Grupos`
 4. Adicione o novo membro ao grupo `NomeDoProjeto Developers`.
 
-Para adicionar um novo projeto:
+###Para adicionar um novo projeto:
 
 1. Vá para a página da equipe `Perspectiva`
 2. Clique em `Manage team`
@@ -65,6 +65,14 @@ Para adicionar um novo projeto:
 7. Na página do projeto, clique no ícone da roda dentada
 8. Clique em `Gerenciamento de Acesso`.
 9. Em `Grupos`, adicione o grupo que você criou, com permissão somente `read` (ler).
+
+### Para testar um Pull Request
+
+1. Vá até o Pull Request e veja qual é o programador/repositório/branch com as alterações dele.
+2. Rode `git fetch https://bitbucket.org/NomeProgramador/Repositorio BranchDoPullRequest`, para obter as alterações do Pull Request.
+3. Essas alterações estão "soltas" no seu git. Use `git checkout FETCH_HEAD` para testá-las.
+4. Para voltar, rode `git checkout master`.
+5. Mais informações: https://confluence.atlassian.com/display/BITBUCKET/Work+with+pull+requests#Workwithpullrequests-Resolvingapullrequestwithconflicts
 
 ## Migrando do GitHub para o BitBucket
 
