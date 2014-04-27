@@ -19,6 +19,7 @@ $config = [
         'migrate' => [
             'class' => MigrateController::className(),
             'migrationTable' => 'tbl_migration',
+            'templateFile' => '@app/data/migrationsTemplate.php',
         ]
     ],
     'components' => [

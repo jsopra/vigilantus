@@ -25,9 +25,9 @@ class BairroQuarteiroes extends Action
         $quarteiroes = BairroQuarteirao::find()->doBairro($oBairro->id)->orderBy('numero_quarteirao ASC')->all();
         foreach($quarteiroes as $quarteirao)
             if(!$onlyName)
-                $array[$quarteirao->id] = $quarteirao->dsNumero;
+                $array[$quarteirao->id] = $quarteirao->numero_sequencia;
             else
-                $array[] = (string) $quarteirao->dsNumero;
+                $array[] = (string) $quarteirao->numero_sequencia;
 
 		echo Json::encode($array);
     }

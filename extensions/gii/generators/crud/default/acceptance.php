@@ -1,5 +1,11 @@
 <?= '<?php'; ?>
 
+use \Phactory;
+
+if ($this->scenario->running()) {
+    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+}
+
 <?php 
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
@@ -15,17 +21,17 @@ $eu->clico('XXX Item de menu do CRUD'); //@todo
 
 $eu->espero('cadastrar um <?= $acceptanceClass; ?>');
 $eu->clico('Cadastrar XXX Item do CRUD'); //@todo
-$eu->vejoNoTitulo('Cadastrar XXX Titulo'); //@todo
+$eu->aguardoPor(1);
 //@TODO preencher form
-$eu->clico('Cadastrar');
+$eu->clico('Cadastrar', '.modal');
 $eu->aguardoPor(1);
 $eu->vejo('O cadastro foi realizado com sucesso.');
 
 $eu->espero('editar um <?= $acceptanceClass; ?>');
-$eu->clicoNoGrid('XXX Registro', 'Atualizar'); //@todo
-$eu->vejoNoTitulo('Atualizar XXX Titulo'); //@todo
+$eu->clicoNoGrid('XXX Registro', 'Alterar'); //@todo
+$eu->aguardoPor(1);
 //@TODO preencher form
-$eu->clico('Atualizar');
+$eu->clico('Atualizar', '.modal');
 $eu->aguardoPor(1);
 $eu->vejo('O registro foi atualizado com sucesso.');
 
