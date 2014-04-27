@@ -68,6 +68,11 @@ a.desc:after {
     white-space: nowrap;
 }
 
+.foco-transmissor-index .grid-view th {
+    white-space: normal;
+  word-break: break-word;
+}
+
 .hint-block {
 	display: block;
 	margin-top: 5px;

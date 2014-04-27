@@ -219,11 +219,13 @@ class ActiveRecord extends YiiActiveRecord
     /**
      * @param string $descriptionAttribute
      * @param string $idAttribute 'id' by default
+     * @param string $groupingRelation Se quiser agrupar por uma relation (ex: bairros agrupados por cidade no <select>)
+     * @param string $groupingRelationAttribute Nome do atributo da relation usado para o <optgroup>
      * @return array
      */
-    public static function listData($descriptionAttribute, $idAttribute = 'id')
+    public static function listData($descriptionAttribute, $idAttribute = 'id', $groupingRelation = null, $groupingRelationAttribute = 'id')
     {
-        return static::find()->listData($descriptionAttribute, $idAttribute);
+        return static::find()->listData($descriptionAttribute, $idAttribute, $groupingRelation, $groupingRelationAttribute);
     }
     
     /**
