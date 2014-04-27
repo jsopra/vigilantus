@@ -7,7 +7,7 @@ class BairroPhactory
             'id' => '#{sn}',
             'nome' => 'Bairro #{sn}',
             'municipio_id' => Phactory::hasOne('municipio'),
-            'bairro_tipo_id' => Phactory::hasOne('bairroCategoria'),
+            'bairro_categoria_id' => Phactory::hasOne('bairroCategoria'),
         ];
     }
 }

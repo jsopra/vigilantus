@@ -18,6 +18,6 @@ class BairroCategoria extends Action
         if(!$oBairro instanceof Bairro)
             exit;
 
-		echo Json::encode(['id' => $oBairro->tipo->id , 'descricao' => $oBairro->tipo->nome]);
+		echo Json::encode(['id' => $oBairro->categoria->id , 'descricao' => $oBairro->categoria->nome]);
     }
 }

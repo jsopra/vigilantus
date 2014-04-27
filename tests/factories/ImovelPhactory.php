@@ -1,13 +1,12 @@
 <?php
-class BairroRuaPhactory
+class ImovelPhactory
 {
     public function blueprint()
     {
         return [
             'id' => '#{sn}',
-            'nome' => 'Rua #{sn}',
             'municipio_id' => Phactory::hasOne('municipio'),
-            'bairro_id' => Phactory::hasOne('bairro'),
+            'bairro_rua_id' => Phactory::hasOne('bairroRua'),
         ];
     }
 }

@@ -99,7 +99,7 @@ class BairroQuarteirao extends ActiveRecord
 		return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
 	}
     
-    public function getDsQuarteirao() {  
+    public function getDsNumero() {  
         return $this->numero_quarteirao . ($this->seq ? '-' . $this->seq : '');     
     }
 }

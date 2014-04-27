@@ -4,6 +4,7 @@ namespace app\components\actions;
 use yii\base\Action;
 use app\models\Bairro;
 use yii\helpers\Json;
+use app\models\BairroQuarteirao;
 
 class BairroQuarteiroes extends Action
 {
@@ -21,13 +22,12 @@ class BairroQuarteiroes extends Action
 
         $array = [];
         
-        $quarteiroes = $oBairro->quarteiroes;
-      
+        $quarteiroes = BairroQuarteirao::find()->doBairro($oBairro->id)->orderBy('numero_quarteirao ASC')->all();
         foreach($quarteiroes as $quarteirao)
             if(!$onlyName)
-                $array[$quarteirao->id] = $quarteirao->numero_quarteirao;
+                $array[$quarteirao->id] = $quarteirao->dsNumero;
             else
-                $array[] = (string) $quarteirao->numero_quarteirao;
+                $array[] = (string) $quarteirao->dsNumero;
 
 		echo Json::encode($array);
     }

@@ -16,7 +16,6 @@ use app\components\ActiveRecord;
  * 
  *
  * @property BoletinsRg $boletimRg
- * @property ImovelCondicoes $condicaoImovel
  */
 class BoletimRgFechamento extends ActiveRecord
 {

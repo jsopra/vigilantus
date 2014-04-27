@@ -11,7 +11,7 @@ use app\components\ActiveRecord;
  * @property integer $id
  * @property integer $municipio_id
  * @property string $nome
- * @property integer $bairro_tipo_id
+ * @property integer $bairro_categoria_id
  * @property integer $ultimo_mes_rg
  * @property integer $ultimo_ano_rg
  */
@@ -34,7 +34,7 @@ class Bairro extends ActiveRecord
             [['municipio_id', 'nome'], 'required'],
             [['ultimo_mes_rg', 'ultimo_ano_rg'], 'required', 'on' => 'setAtualizacaoRG'],
             ['nome', 'unique', 'compositeWith' => 'municipio_id'],
-            [['municipio_id', 'bairro_tipo_id', 'ultimo_mes_rg', 'ultimo_ano_rg'], 'integer'],
+            [['municipio_id', 'bairro_categoria_id', 'ultimo_mes_rg', 'ultimo_ano_rg'], 'integer'],
         );
     }
 
@@ -49,9 +49,9 @@ class Bairro extends ActiveRecord
     /**
      * @return BairroCategoria
      */
-    public function getTipo()
+    public function getCategoria()
     {
-        return $this->hasOne(BairroCategoria::className(), ['id' => 'bairro_tipo_id']);
+        return $this->hasOne(BairroCategoria::className(), ['id' => 'bairro_categoria_id']);
     }
     
     /**
@@ -79,7 +79,7 @@ class Bairro extends ActiveRecord
             'id' => 'ID',
             'municipio_id' => 'Município',
             'nome' => 'Nome',
-            'bairro_tipo_id' => 'Categoria de Bairro',
+            'bairro_categoria_id' => 'Categoria de Bairro',
             'ultimo_mes_rg' => 'Último Mês com informações de RG',
             'ultimo_mes_rg' => 'Último Ano com informações de RG'
         );

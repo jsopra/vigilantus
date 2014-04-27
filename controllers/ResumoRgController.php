@@ -13,7 +13,7 @@ class ResumoRgController extends Controller
     {
         return [
             'access' => [
-                'class' => '\yii\web\AccessControl',
+                'class' => '\yii\filters\AccessControl',
                 'only' => ['index'],
                 'rules' => [
                     [

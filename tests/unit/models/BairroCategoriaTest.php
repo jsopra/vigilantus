@@ -28,9 +28,9 @@ class BairroCategoriaTest extends TestCase
         $this->assertNull(BairroCategoria::findOne($categoriaSemBairros->id));
 
         $categoriaComBairros = Phactory::bairroCategoria();
-        Phactory::bairro(['bairro_tipo_id' => $categoriaComBairros->id]);
-        Phactory::bairro(['bairro_tipo_id' => $categoriaComBairros->id]);
-        Phactory::bairro(['bairro_tipo_id' => $categoriaComBairros->id]);
+        Phactory::bairro(['bairro_categoria_id' => $categoriaComBairros->id]);
+        Phactory::bairro(['bairro_categoria_id' => $categoriaComBairros->id]);
+        Phactory::bairro(['bairro_categoria_id' => $categoriaComBairros->id]);
         $this->setExpectedException('\Exception');
         $categoriaComBairros->delete();
     }
