@@ -1,10 +1,12 @@
 <?php
 namespace app\components;
 
+use app\widgets\Alert;
 use Yii;
 use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 class CRUDController extends Controller
 {
@@ -55,7 +57,7 @@ class CRUDController extends Controller
         $searchModel = new $searchModelClass;
         $dataProvider = $searchModel->search($_GET);
         
-        return $this->render(
+        return $this->renderAjaxOrLayout(
             'index',
             ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
         );
@@ -64,25 +66,23 @@ class CRUDController extends Controller
     public function actionCreate()
     {
         $model = $this->buildNewModel();
-        //$model->scenario = 'insert';
 
         if (!$this->loadAndSaveModel($model, $_POST)) { 
-            return $this->render('create', ['model' => $model]);
+            return $this->renderAjaxOrLayout('create', ['model' => $model]);
         }
     }
 
     public function actionView($id)
     {
-        return $this->render('view', ['model' => $this->findModel($id)]);
+        return $this->renderAjaxOrLayout('view', ['model' => $this->findModel($id)]);
     }
 
     public function actionUpdate($id)
     {
         $model = is_object($id) ? $id : $this->findModel($id);
-        //$model->scenario = 'update';
 
         if (!$this->loadAndSaveModel($model, $_POST)) { 
-            return $this->render('update', ['model' => $model]);
+            return $this->renderAjaxOrLayout('update', ['model' => $model]);
         }
     }
     
@@ -181,10 +181,10 @@ class CRUDController extends Controller
     /**
      * @inheritdoc
      */
-    public function render($view, $params = [])
+    public function renderAjaxOrLayout($view, $params = [])
     {
         if (Yii::$app->request->isAjax) {
-            return parent::renderPartial($view, $params);
+            return Alert::widget() . parent::renderPartial($view, $params);
         } else {
             return parent::render($view, $params);
         }
