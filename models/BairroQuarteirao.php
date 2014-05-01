@@ -17,6 +17,7 @@ use app\components\ActiveRecord;
  * @property integer $inserido_por
  * @property integer $atualizado_por
  * @property integer $seq;
+ * @property string $coordenadas_area
  *
  * @property Municipios $municipio
  * @property Bairros $bairro
@@ -45,6 +46,7 @@ class BairroQuarteirao extends ActiveRecord
 			[['municipio_id', 'bairro_id', 'numero_quarteirao', 'numero_quarteirao_2', 'inserido_por', 'atualizado_por', 'seq'], 'integer'],
             ['inserido_por', 'required', 'on' => 'insert'],
             ['atualizado_por', 'required', 'on' => 'update'],
+            [['coordenadas_area'], 'string']
 		];
 	}
 
@@ -64,6 +66,7 @@ class BairroQuarteirao extends ActiveRecord
 			'inserido_por' => 'Inserido Por',
 			'atualizado_por' => 'Atualizado Por',
             'seq' => 'Sequência',
+            'coordenadas_area' => 'Coordenadas',
 		];
 	}
 

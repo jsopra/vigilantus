@@ -35,7 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            //'id',
             'nome',
             [
                 'attribute' => 'bairro_categoria_id',
@@ -43,6 +42,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model, $index, $widget) {
                     return $model->categoria ? $model->categoria->nome : null;
                 }
+            ],
+            [
+                'header' => 'Quarteirões',
+                'format' => 'raw',
+                'value' => function ($model, $index, $widget) {
+                
+                    $img = Html::tag('i', '', ['class' => 'glyphicon glyphicon-link']);
+                
+                    $link = Html::a(
+                        'Gerenciar' . '&nbsp;' . $img,
+                        Yii::$app->urlManager->createUrl(['bairro-quarteirao/index', 'id' => $model->id])
+                    );
+                
+                    return Html::tag('p', $link, ['class' => 'text-center no-margin']); 
+                },
             ],
             [
                 'class' => 'app\components\ActionColumn',
