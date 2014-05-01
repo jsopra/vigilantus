@@ -42,7 +42,7 @@ class ActiveQuery extends YiiActiveQuery
             $key = $object->$idAttribute;
             $value = $object->$descriptionAttribute;
 
-            if ($groupingRelation) {
+            if ($groupingRelation && is_object($object->$groupingRelation)) {
 
                 $group = $object->$groupingRelation->$groupingRelationAttribute;
 
