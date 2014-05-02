@@ -135,6 +135,7 @@ class BoletimRgImovel extends ActiveRecord
     public function prepararImovel()
     {
         $imovel = Imovel::find()
+            ->daRua($this->rua_id)
             ->doQuarteirao($this->boletimRg->bairro_quarteirao_id)
             ->doNumero($this->imovel_numero)
             ->daSeq($this->imovel_seq)

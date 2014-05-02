@@ -1,23 +1,30 @@
 <?php
+
 namespace app\models\query;
 
 use app\components\ActiveQuery;
 
 class BoletimRgFechamentoQuery extends ActiveQuery
-{  
-    public function doBoletim($id) {
+{
+    public function doBoletim($id)
+    {
         $this->andWhere('boletim_rg_id = :id', [':id' => $id]);
         return $this;
     }
-    
-    public function doTipoDeImovel($id) {
+
+    public function doTipoDeImovel($id)
+    {
         $this->andWhere('imovel_tipo_id = :tipo', [':tipo' => $id]);
         return $this;
     }
 
-    public function doTipoLira($foco) {
-        $this->andWhere('imovel_lira = :lira', [':lira' => $foco]);
+    public function doTipoLira($foco)
+    {
+        if ($foco) {
+            $this->andWhere('imovel_lira = TRUE');
+        } else {
+            $this->andWhere('imovel_lira = FALSE or imovel_lira IS NULL');
+        }
         return $this;
     }
-
 }
