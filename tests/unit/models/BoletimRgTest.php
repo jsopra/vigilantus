@@ -13,6 +13,26 @@ class BoletimRgTest extends TestCase
 {
     public $primeiroBoletimID;
 
+    public function testAdicionarImovel()
+    {
+        $boletimRg = Phactory::boletimRg();
+
+        $boletimRg->adicionarImovel('Rio de Janeiro', '176', null, 'AP 703', 1, false);
+
+        $arrayEsperado = [
+            [
+                'rua' => 'Rio de Janeiro',
+                'numero' => '176',
+                'seq' => null,
+                'complemento' => 'AP 703',
+                'imovel_tipo' => 1,
+                'imovel_lira' => false,
+            ]
+        ];
+
+        $this->assertEquals($arrayEsperado, $boletimRg->imoveis);
+    }
+
     public function testCRUD()
     {
         /*

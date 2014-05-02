@@ -47,7 +47,6 @@ class BoletimRg extends ActiveRecord
             ['folha', 'unique', 'compositeWith' => ['data', 'municipio_id']],
             ['data', 'date'],
 			[['folha', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id', 'seq'], 'integer'],
-			[['data_cadastro'], 'string'],
 	];
 	}
 
@@ -182,17 +181,42 @@ class BoletimRg extends ActiveRecord
         $imoveis = $this->boletimImoveis;
 
         foreach ($imoveis as $imovel) {
-            $this->imoveis[] = [
-                'rua' => $imovel->rua_nome ? $imovel->rua_nome : $imovel->imovel->rua->nome,
-                'numero' => $imovel->imovel_numero ? $imovel->imovel_numero : $imovel->imovel->numero,
-                'seq' => $imovel->imovel_seq ? $imovel->imovel_seq : $imovel->imovel->sequencia,
-                'complemento' => $imovel->imovel_complemento ? $imovel->imovel_complemento : $imovel->imovel->complemento,
-                'imovel_tipo' => $imovel->imovel_tipo_id,
-                'imovel_lira' => $imovel->imovel_lira ? $imovel->imovel_lira : $imovel->imovel->imovel_lira,
-            ];
+
+            $this->adicionarImovel(
+                $imovel->rua_nome ? $imovel->rua_nome : $imovel->imovel->rua->nome,
+                $imovel->imovel_numero ? $imovel->imovel_numero : $imovel->imovel->numero,
+                $imovel->imovel_seq ? $imovel->imovel_seq : $imovel->imovel->sequencia,
+                $imovel->imovel_complemento ? $imovel->imovel_complemento : $imovel->imovel->complemento,
+                $imovel->imovel_tipo_id,
+                $imovel->imovel_lira ? $imovel->imovel_lira : $imovel->imovel->imovel_lira
+            );
         }
 
         return;
+    }
+
+    /**
+     * @param string $rua
+     * @param intgeer $numero
+     * @param intgeer $sequencia
+     * @param string $complemento
+     * @param intgeer $tipo
+     * @param boolean $lira
+     */
+    public function adicionarImovel($rua, $numero, $sequencia, $complemento, $tipo, $lira)
+    {
+        if (!is_array($this->imoveis)) {
+            $this->imoveis = [];
+        }
+
+        $this->imoveis[] = [
+            'rua' => $rua,
+            'numero' => $numero,
+            'seq' => $sequencia,
+            'complemento' => $complemento,
+            'imovel_tipo' => $tipo,
+            'imovel_lira' => $lira,
+        ];
     }
 
     /**
