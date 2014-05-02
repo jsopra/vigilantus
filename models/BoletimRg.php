@@ -201,6 +201,10 @@ class BoletimRg extends ActiveRecord
      */
     protected function insereImoveis()
     {
+        if (!$this->imoveis) {
+            return 0;
+        }
+
         $imoveisSalvos = 0;
 
         foreach ($this->imoveis as $data) {

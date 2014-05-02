@@ -5,126 +5,68 @@ namespace tests\unit\models;
 use Phactory;
 use app\models\BoletimRg;
 use app\models\BoletimRgFechamento;
-use app\models\BoletimRgImovel;
-use app\models\Bairro;
 use app\models\Imovel;
 use app\models\Rua;
 use yii\codeception\TestCase;
 
-class BoletimRgTest extends TestCase {
-
+class BoletimRgTest extends TestCase
+{
     public $primeiroBoletimID;
-    
-    public function testCRUD() {
 
+    public function testCRUD()
+    {
         /*
          * boletim 1
          */
         $bairro = Phactory::bairro();
-        $this->assertInstanceOf('app\models\Bairro', $bairro);
-
-        $bairroQuarteirao = Phactory::bairroQuarteirao();
-        $this->assertInstanceOf('app\models\BairroQuarteirao', $bairroQuarteirao);
+        $quarteirao = Phactory::bairroQuarteirao();
 
         $boletim = new BoletimRg;
 
         $this->assertFalse($boletim->validate());
 
-        $this->assertEquals(6, count($boletim->errors));
-
         $this->assertArrayHasKey('folha', $boletim->errors);
         $this->assertArrayHasKey('bairro_id', $boletim->errors);
         $this->assertArrayHasKey('municipio_id', $boletim->errors);
         $this->assertArrayHasKey('bairro_quarteirao_id', $boletim->errors);
-        $this->assertArrayHasKey('imoveis', $boletim->errors);
         $this->assertArrayHasKey('data', $boletim->errors);
 
         $boletim->folha = '001';
         $boletim->municipio_id = 1;
         $boletim->inserido_por = 1;
         $boletim->bairro_id = $bairro->id;
-        $boletim->bairro_quarteirao_id = $bairroQuarteirao->id;
+        $boletim->bairro_quarteirao_id = $quarteirao->id;
         $boletim->data = date('d/m/Y');
         $boletim->inserido_por = 1;
         $boletim->categoria_id = $bairro->bairro_categoria_id;
-
-        $this->assertFalse($boletim->save());
-
-        $this->assertArrayHasKey('imoveis', $boletim->errors);
-
         $boletim->imoveis = array(
-            array(
-                'rua' => 'Rio de Janeiro',
-                'numero' => '176',
-                'seq' => null,
-                'complemento' => 'AP 705',
-                'imovel_lira' => false,
-                'imovel_tipo' => 1,
-            ),
-            array(
-                'rua' => 'Rio de Janeiro',
-                'numero' => '176',
-                'seq' => null,
-                'complemento' => 'AP 704',
-                'imovel_lira' => false,
-                'imovel_tipo' => 1,
-            ),
-            array(
-                'rua' => 'Rio de Janeiro',
-                'numero' => '176',
-                'seq' => null,
-                'complemento' => 'AP 703',
-                'imovel_lira' => false,
-                'imovel_tipo' => 1,
-            ),
-            array(
-                'rua' => 'Rio de Janeiro',
-                'numero' => '173',
-                'seq' => null,
-                'complemento' => null,
-                'imovel_lira' => true,
-                'imovel_tipo' => 2,
-            ),
+            $this->criarArrayImovel('Rio de Janeiro', '176', null, 'AP 705', false, 1),
+            $this->criarArrayImovel('Rio de Janeiro', '176', null, 'AP 704', false, 1),
+            $this->criarArrayImovel('Rio de Janeiro', '176', null, 'AP 703', false, 1),
+            $this->criarArrayImovel('Rio de Janeiro', '173', null, null, true, 2),
         );
 
-        $this->assertTrue($boletim->save());
+        $this->assertTrue($boletim->salvarComImoveis());
         $this->assertEquals(4, $boletim->quantidadeImoveis);
 
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(1)->doTipoLira(false)->count();
-        $this->assertEquals(1, $qtdeImoveisFechamento);
-
-        $imovelFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(1)->doTipoLira(false)->one();
-        $this->assertEquals(3, $imovelFechamento->quantidade);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(1)->doTipoLira(true)->count();
-        $this->assertEquals(0, $qtdeImoveisFechamento);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(2)->doTipoLira(true)->count();
-        $this->assertEquals(1, $qtdeImoveisFechamento);
-
-        $imovelFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(2)->doTipoLira(true)->one();
-        $this->assertEquals(1, $imovelFechamento->quantidade);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(2)->doTipoLira(false)->count();
-        $this->assertEquals(0, $qtdeImoveisFechamento);
+        $this->verificarFechamentos([
+            // Boletim, tipo imóvel, LIRA?, registros no banco, quantidade
+            [$boletim->id, 1, false, 1, 3],
+            [$boletim->id, 1, true, 0, null],
+            [$boletim->id, 2, false, 0, null],
+            [$boletim->id, 2, true, 1, 1],
+        ]);
 
         $rua = Rua::find()->daRua('Rio de Janeiro')->one();
-        $this->assertInstanceOf('app\models\Rua', $rua);
+        $this->assertInstanceOf(Rua::className(), $rua);
 
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 705')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 704')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 703')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(173)->doTipoLira(false)->one();
-        $this->assertNull($imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(173)->doTipoLira(true)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
+        $this->verificarImoveis([
+            // $rua, $numero, $complemento, $tipoLira
+            [$rua->id, 176, 'AP 705', false],
+            [$rua->id, 176, 'AP 704', false],
+            [$rua->id, 176, 'AP 703', false],
+            [$rua->id, 173, null, true],
+        ]);
 
         $this->primeiroBoletimID = $boletim->id;
 
@@ -132,169 +74,70 @@ class BoletimRgTest extends TestCase {
          * boletim 2
          */
         $bairro = Phactory::bairro();
-        $this->assertInstanceOf('app\models\Bairro', $bairro);
-
-        $bairroQuarteirao = Phactory::bairroQuarteirao();
-        $this->assertInstanceOf('app\models\BairroQuarteirao', $bairroQuarteirao);
+        $quarteirao = Phactory::bairroQuarteirao();
 
         $boletim = new BoletimRg;
 
         $this->assertFalse($boletim->validate());
 
-        $this->assertEquals(6, count($boletim->errors));
-
         $this->assertArrayHasKey('folha', $boletim->errors);
         $this->assertArrayHasKey('bairro_id', $boletim->errors);
         $this->assertArrayHasKey('municipio_id', $boletim->errors);
         $this->assertArrayHasKey('bairro_quarteirao_id', $boletim->errors);
-        $this->assertArrayHasKey('imoveis', $boletim->errors);
         $this->assertArrayHasKey('data', $boletim->errors);
 
         $boletim->folha = '001';
         $boletim->municipio_id = 1;
         $boletim->inserido_por = 1;
         $boletim->bairro_id = $bairro->id;
-        $boletim->bairro_quarteirao_id = $bairroQuarteirao->id;
+        $boletim->bairro_quarteirao_id = $quarteirao->id;
         $boletim->data = date('d/m/Y');
         $boletim->inserido_por = 1;
         $boletim->categoria_id = $bairro->bairro_categoria_id;
 
-        $this->assertFalse($boletim->save());
-
-        $this->assertArrayHasKey('imoveis', $boletim->errors);
-
         $boletim->imoveis = array(
-            array(
-                'rua' => 'Vitorio Cella',
-                'numero' => '176',
-                'seq' => null,
-                'complemento' => 'AP 401',
-                'imovel_lira' => false,
-                'imovel_tipo' => 1,
-            ),
-            array(
-                'rua' => 'Vitorio Cella',
-                'numero' => '176',
-                'seq' => null,
-                'complemento' => 'AP 402',
-                'imovel_lira' => false,
-                'imovel_tipo' => 1,
-            ),
-            array(
-                'rua' => 'Vitorio Cella',
-                'numero' => '176',
-                'seq' => null,
-                'complemento' => 'AP 403',
-                'imovel_lira' => false,
-                'imovel_tipo' => 1,
-            ),
-            array(
-                'rua' => 'Vitorio Cella',
-                'numero' => '176',
-                'seq' => null,
-                'complemento' => 'AP 404',
-                'imovel_lira' => false,
-                'imovel_tipo' => 1,
-            ),
-            array(
-                'rua' => 'Vitorio Cella',
-                'numero' => '176',
-                'seq' => null,
-                'complemento' => 'AP 405',
-                'imovel_lira' => false,
-                'imovel_tipo' => 1,
-            ),
-            array(
-                'rua' => 'Vitorio Cella',
-                'numero' => '178',
-                'seq' => null,
-                'complemento' => null,
-                'imovel_lira' => true,
-                'imovel_tipo' => 3,
-            ),
-            array(
-                'rua' => 'Vitorio Cella',
-                'numero' => '180',
-                'seq' => null,
-                'complemento' => null,
-                'imovel_lira' => true,
-                'imovel_tipo' => 2,
-            ),
-            array(
-                'rua' => 'Vitorio Cella',
-                'numero' => '182',
-                'seq' => null,
-                'complemento' => null,
-                'imovel_lira' => true,
-                'imovel_tipo' => 2,
-            ),
+            $this->criarArrayImovel('Vitorio Cella', '176', null, 'AP 401', false, 1),
+            $this->criarArrayImovel('Vitorio Cella', '176', null, 'AP 402', false, 1),
+            $this->criarArrayImovel('Vitorio Cella', '176', null, 'AP 403', false, 1),
+            $this->criarArrayImovel('Vitorio Cella', '176', null, 'AP 404', false, 1),
+            $this->criarArrayImovel('Vitorio Cella', '176', null, 'AP 405', false, 1),
+            $this->criarArrayImovel('Vitorio Cella', '178', null, null, true, 3),
+            $this->criarArrayImovel('Vitorio Cella', '180', null, null, true, 2),
+            $this->criarArrayImovel('Vitorio Cella', '182', null, null, true, 2),
         );
 
-        $this->assertFalse($boletim->save());
+        $this->assertFalse($boletim->salvarComImoveis());
 
         $this->assertArrayHasKey('folha', $boletim->errors);
 
         $boletim->folha = '002';
 
-        $this->assertTrue($boletim->save());
+        $this->assertTrue($boletim->salvarComImoveis());
         $this->assertEquals(8, $boletim->quantidadeImoveis);
 
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(1)->doTipoLira(false)->count();
-        $this->assertEquals(1, $qtdeImoveisFechamento);
-
-        $imovelFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(1)->doTipoLira(false)->one();
-        $this->assertEquals(5, $imovelFechamento->quantidade);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(1)->doTipoLira(true)->count();
-        $this->assertEquals(0, $qtdeImoveisFechamento);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(2)->doTipoLira(true)->count();
-        $this->assertEquals(1, $qtdeImoveisFechamento);
-
-        $imovelFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(2)->doTipoLira(true)->one();
-        $this->assertEquals(2, $imovelFechamento->quantidade);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(2)->doTipoLira(false)->count();
-        $this->assertEquals(0, $qtdeImoveisFechamento);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(3)->doTipoLira(true)->count();
-        $this->assertEquals(1, $qtdeImoveisFechamento);
-
-        $imovelFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(3)->doTipoLira(true)->one();
-        $this->assertEquals(1, $imovelFechamento->quantidade);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletim->id)->doTipoDeImovel(3)->doTipoLira(false)->count();
-        $this->assertEquals(0, $qtdeImoveisFechamento);
+        $this->verificarFechamentos([
+            // Boletim, tipo imóvel, LIRA?, registros no banco, quantidade
+            [$boletim->id, 1, false, 1, 5],
+            [$boletim->id, 1, true, 0, null],
+            [$boletim->id, 2, false, 0, null],
+            [$boletim->id, 2, true, 1, 2],
+            [$boletim->id, 3, false, 0, null],
+            [$boletim->id, 3, true, 1, 1],
+        ]);
 
         $rua = Rua::find()->daRua('Vitorio Cella')->one();
-        $this->assertInstanceOf('app\models\Rua', $rua);
 
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 401')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 402')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 403')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 404')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 405')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(178)->doTipoLira(false)->one();
-        $this->assertNull($imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(178)->doTipoLira(true)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(180)->doTipoLira(true)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(182)->doTipoLira(true)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
+        $this->verificarImoveis([
+            // $rua, $numero, $complemento, $tipoLira
+            [$rua->id, 176, 'AP 401', false],
+            [$rua->id, 176, 'AP 402', false],
+            [$rua->id, 176, 'AP 403', false],
+            [$rua->id, 176, 'AP 404', false],
+            [$rua->id, 176, 'AP 405', false],
+            [$rua->id, 178, null, true],
+            [$rua->id, 180, null, true],
+            [$rua->id, 182, null, true],
+        ]);
 
         /*
          * Update model 2
@@ -306,90 +149,38 @@ class BoletimRgTest extends TestCase {
 
         $this->assertFalse($boletimUpdate->save());
 
-        $this->assertArrayHasKey('imoveis', $boletimUpdate->errors);
-
         $this->assertArrayHasKey('folha', $boletimUpdate->errors);
 
         $boletimUpdate->folha = '002';
-        
+
         $rua = Rua::find()->daRua('Vitorio Cella')->one();
         $this->assertInstanceOf('app\models\Rua', $rua);
-        
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 401')->all();
-        $this->assertEquals(1, count($imovel));
-        $this->assertInstanceOf('app\models\Imovel', $imovel[0]);
-        $this->assertFalse($imovel[0]->imovel_lira);
+
+        $this->verificarImoveis([
+            // $rua, $numero, $complemento, $tipoLira
+            [$rua->id, 176, 'AP 401', false],
+        ]);
 
         $boletimUpdate->imoveis = array(
-            array(
-                'rua' => 'Vitorio Cella',
-                'numero' => '176',
-                'seq' => null,
-                'complemento' => 'AP 401',
-                'imovel_lira' => true,
-                'imovel_tipo' => 1,
-            ),
-            array(
-                'rua' => 'Vitorio Cella',
-                'numero' => '178',
-                'seq' => null,
-                'complemento' => null,
-                'imovel_lira' => true,
-                'imovel_tipo' => 3,
-            ),
-            array(
-                'rua' => 'Vitorio Cella',
-                'numero' => '180',
-                'seq' => null,
-                'complemento' => null,
-                'imovel_lira' => true,
-                'imovel_tipo' => 2,
-            ),
-            array(
-                'rua' => 'Vitorio Cella',
-                'numero' => '182',
-                'seq' => null,
-                'complemento' => null,
-                'imovel_lira' => true,
-                'imovel_tipo' => 2,
-            ),
+            $this->criarArrayImovel('Vitorio Cella', '176', null, 'AP 401', true, 1),
+            $this->criarArrayImovel('Vitorio Cella', '178', null, null, true, 3),
+            $this->criarArrayImovel('Vitorio Cella', '180', null, null, true, 2),
+            $this->criarArrayImovel('Vitorio Cella', '182', null, null, true, 2),
         );
-        
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 401')->all();
-        $this->assertEquals(1, count($imovel));
-        $this->assertInstanceOf('app\models\Imovel', $imovel[0]);
-        $this->assertFalse($imovel[0]->imovel_lira);
 
-        $this->assertTrue($boletimUpdate->save());
+        $this->assertTrue($boletimUpdate->salvarComImoveis());
 
         $this->assertEquals(4, $boletimUpdate->quantidadeImoveis);
 
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletimUpdate->id)->doTipoDeImovel(1)->doTipoLira(false)->count();
-        $this->assertEquals(0, $qtdeImoveisFechamento);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletimUpdate->id)->doTipoDeImovel(1)->doTipoLira(true)->count();
-        $this->assertEquals(1, $qtdeImoveisFechamento);
-        
-        $imovelFechamento = BoletimRgFechamento::find()->doBoletim($boletimUpdate->id)->doTipoDeImovel(1)->doTipoLira(true)->one();
-        $this->assertEquals(1, $imovelFechamento->quantidade);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletimUpdate->id)->doTipoDeImovel(2)->doTipoLira(true)->count();
-        $this->assertEquals(1, $qtdeImoveisFechamento);
-
-        $imovelFechamento = BoletimRgFechamento::find()->doBoletim($boletimUpdate->id)->doTipoDeImovel(2)->doTipoLira(true)->one();
-        $this->assertEquals(2, $imovelFechamento->quantidade);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletimUpdate->id)->doTipoDeImovel(2)->doTipoLira(false)->count();
-        $this->assertEquals(0, $qtdeImoveisFechamento);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletimUpdate->id)->doTipoDeImovel(3)->doTipoLira(true)->count();
-        $this->assertEquals(1, $qtdeImoveisFechamento);
-
-        $imovelFechamento = BoletimRgFechamento::find()->doBoletim($boletimUpdate->id)->doTipoDeImovel(3)->doTipoLira(true)->one();
-        $this->assertEquals(1, $imovelFechamento->quantidade);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletimUpdate->id)->doTipoDeImovel(3)->doTipoLira(false)->count();
-        $this->assertEquals(0, $qtdeImoveisFechamento);
+        $this->verificarFechamentos([
+            // Boletim, tipo imóvel, LIRA?, registros no banco, quantidade
+            [$boletimUpdate->id, 1, false, 0, null],
+            [$boletimUpdate->id, 1, true, 1, 1],
+            [$boletimUpdate->id, 2, false, 0, null],
+            [$boletimUpdate->id, 2, true, 1, 2],
+            [$boletimUpdate->id, 3, false, 0, null],
+            [$boletimUpdate->id, 3, true, 1, 1],
+        ]);
 
         /*
          * Test delete
@@ -399,39 +190,23 @@ class BoletimRgTest extends TestCase {
         $this->assertInstanceOf('app\models\BoletimRg', $boletimDelete);
 
         $this->assertEquals(1, $boletimDelete->delete());
-
         $this->assertEquals(0, BoletimRgFechamento::find()->doBoletim($boletim->id)->count());
 
         //mantem todas ruas e imoveis
         $rua = Rua::find()->daRua('Vitorio Cella')->one();
-        $this->assertInstanceOf('app\models\Rua', $rua);
+        $this->assertInstanceOf(Rua::className(), $rua);
 
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 401')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 402')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 403')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 404')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 405')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(178)->doTipoLira(false)->one();
-        $this->assertNull($imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(178)->doTipoLira(true)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(180)->doTipoLira(true)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(182)->doTipoLira(true)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
+        $this->verificarImoveis([
+            // $rua, $numero, $complemento, $tipoLira
+            [$rua->id, 176, 'AP 401', true],
+            [$rua->id, 176, 'AP 402', false],
+            [$rua->id, 176, 'AP 403', false],
+            [$rua->id, 176, 'AP 404', false],
+            [$rua->id, 176, 'AP 405', false],
+            [$rua->id, 178, null, true],
+            [$rua->id, 180, null, true],
+            [$rua->id, 182, null, true],
+        ]);
 
         //mantem tudo do primeiro boletim
         unset($boletim);
@@ -440,41 +215,117 @@ class BoletimRgTest extends TestCase {
 
         $this->assertEquals(4, $boletimPrimeiro->quantidadeImoveis);
 
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletimPrimeiro->id)->doTipoDeImovel(1)->doTipoLira(false)->count();
-        $this->assertEquals(1, $qtdeImoveisFechamento);
-
-        $imovelFechamento = BoletimRgFechamento::find()->doBoletim($boletimPrimeiro->id)->doTipoDeImovel(1)->doTipoLira(false)->one();
-        $this->assertEquals(3, $imovelFechamento->quantidade);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletimPrimeiro->id)->doTipoDeImovel(1)->doTipoLira(true)->count();
-        $this->assertEquals(0, $qtdeImoveisFechamento);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletimPrimeiro->id)->doTipoDeImovel(2)->doTipoLira(true)->count();
-        $this->assertEquals(1, $qtdeImoveisFechamento);
-
-        $imovelFechamento = BoletimRgFechamento::find()->doBoletim($boletimPrimeiro->id)->doTipoDeImovel(2)->doTipoLira(true)->one();
-        $this->assertEquals(1, $imovelFechamento->quantidade);
-
-        $qtdeImoveisFechamento = BoletimRgFechamento::find()->doBoletim($boletimPrimeiro->id)->doTipoDeImovel(2)->doTipoLira(false)->count();
-        $this->assertEquals(0, $qtdeImoveisFechamento);
+        $this->verificarFechamentos([
+            // Boletim, tipo imóvel, LIRA?, registros no banco, quantidade
+            [$boletimPrimeiro->id, 1, false, 1, 3],
+            [$boletimPrimeiro->id, 1, true, 0, null],
+            [$boletimPrimeiro->id, 2, false, 0, null],
+            [$boletimPrimeiro->id, 2, true, 1, 1],
+        ]);
 
         $rua = Rua::find()->daRua('Rio de Janeiro')->one();
         $this->assertInstanceOf('app\models\Rua', $rua);
 
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 705')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 704')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(176)->doComplemento('AP 703')->doTipoLira(false)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(173)->doTipoLira(false)->one();
-        $this->assertNull($imovel);
-
-        $imovel = Imovel::find()->daRua($rua->id)->doNumero(173)->doTipoLira(true)->one();
-        $this->assertInstanceOf('app\models\Imovel', $imovel);
+        $this->verificarImoveis([
+            // $rua, $numero, $complemento, $tipoLira
+            [$rua->id, 176, 'AP 705', false],
+            [$rua->id, 176, 'AP 704', false],
+            [$rua->id, 176, 'AP 703', false],
+            [$rua->id, 173, null, true],
+        ]);
     }
 
+    /**
+     * Cria um array que simula os dados enviados via $_POST no formulário
+     * @param string $rua
+     * @param string $numero
+     * @param string $sequencia
+     * @param string $complemento
+     * @param boolean $lira
+     * @param integer $tipo
+     * @return array
+     */
+    protected function criarArrayImovel($rua, $numero, $sequencia, $complemento, $lira, $tipo)
+    {
+        return [
+            'rua' => $rua,
+            'numero' => $numero,
+            'seq' => $sequencia,
+            'complemento' => $complemento,
+            'imovel_lira' => $lira,
+            'imovel_tipo' => $tipo,
+        ];
+    }
+
+    /**
+     *
+     * @param integer $boletim
+     * @param integer $tipoImovel
+     * @param boolean $tipoLira
+     * @return ActiveQuery
+     */
+    protected function getBoletimRgFechamentoQuery($boletim, $tipoImovel, $tipoLira)
+    {
+        return BoletimRgFechamento::find()
+                ->doBoletim($boletim)
+                ->doTipoDeImovel($tipoImovel)
+                ->doTipoLira($tipoLira)
+        ;
+    }
+
+    /**
+     * @param array $fechamentos
+     */
+    protected function verificarFechamentos(array $fechamentos)
+    {
+        foreach ($fechamentos as $data) {
+
+            list($boletim, $tipoImovel, $tipoLira, $registros, $quantidade) = $data;
+
+            $query = $this->getBoletimRgFechamentoQuery($boletim, $tipoImovel, $tipoLira);
+
+            $this->assertEquals($registros, $query->count());
+
+            if ($registros) {
+                $this->assertEquals($quantidade, $query->one()->quantidade);
+            }
+        }
+    }
+
+    /**
+     * @param array $imoveis
+     */
+    protected function verificarImoveis(array $imoveis)
+    {
+        foreach ($imoveis as $data) {
+
+            list($rua, $numero, $complemento, $tipoLira) = $data;
+
+            $imovel = $this->getImovel($rua, $numero, $complemento, $tipoLira);
+
+            $this->assertInstanceOf(Imovel::className(), $imovel);
+        }
+    }
+
+    /**
+     * @param string $rua
+     * @param integer $numero
+     * @param string $complemento
+     * @param boolean $tipoLira
+     * @return Imovel
+     */
+    protected function getImovel($rua, $numero, $complemento, $tipoLira)
+    {
+        $query = Imovel::find()
+            ->daRua($rua)
+            ->doNumero($numero)
+            ->doTipoLira($tipoLira)
+        ;
+
+        if ($complemento) {
+            $query->doComplemento($complemento);
+        }
+
+        return $query->one();
+    }
 }
