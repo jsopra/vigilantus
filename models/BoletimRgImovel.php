@@ -102,7 +102,81 @@ class BoletimRgImovel extends ActiveRecord
     {
         return $this->hasOne(Rua::className(), ['id' => 'rua_id']);
     }
-    
+
+    /**
+     * Busca ou cria um objeto Rua, e seta o $this->rua_id
+     * @param string $nomeRua
+     * @return boolean
+     */
+    public function prepararRua($nomeRua)
+    {
+        $rua = Rua::find()->daRua($nomeRua)->one();
+
+        if (!$rua) {
+
+            $rua = new Rua;
+            $rua->municipio_id = $this->municipio_id;
+            $rua->nome = $nomeRua;
+
+            if (!$rua->save()) {
+                return false;
+            }
+        }
+
+        $this->rua_id = $rua->id;
+
+        return true;
+    }
+
+    /**
+     * Busca ou cria um objeto Imovel, e seta o $this->imovel_id
+     * @return boolean
+     */
+    public function prepararImovel()
+    {
+        $imovel = Imovel::find()
+            ->doQuarteirao($this->boletimRg->bairro_quarteirao_id)
+            ->doNumero($this->imovel_numero)
+            ->daSeq($this->imovel_seq)
+            ->doComplemento($this->imovel_complemento)
+            ->one()
+        ;
+
+        if ($imovel) {
+
+            if ($this->imovel_lira != $imovel->imovel_lira) {
+
+                $imovel->imovel_lira = $this->imovel_lira;
+
+                if (!$imovel->save()) {
+                    return false;
+                }
+            }
+        } else {
+
+            $imovel = new Imovel;
+            $imovel->municipio_id = $this->municipio_id;
+            $imovel->bairro_quarteirao_id = $this->boletimRg->bairro_quarteirao_id;
+            $imovel->imovel_tipo_id = $this->imovel_tipo_id;
+            $imovel->rua_id = $this->rua_id;
+            $imovel->numero = $this->imovel_numero;
+            $imovel->sequencia = $this->imovel_seq;
+            $imovel->complemento = $this->imovel_complemento;
+            $imovel->imovel_lira = $this->imovel_lira;
+
+            if (!$imovel->save()) {
+                return false;
+            }
+        }
+
+        $this->imovel_id = $imovel->id;
+
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function save($runValidation = true, $attributes = NULL) {
 
         $currentTransaction = $this->getDb()->getTransaction();		

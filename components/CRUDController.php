@@ -155,13 +155,15 @@ class CRUDController extends Controller
             elseif ($model->hasAttribute('atualizado_por')) {
                 $model->atualizado_por = Yii::$app->user->identity->id;
             }
-            
-            if ($model->save()) {
-                
+
+            $saveMethodName = $this->getModelSaveMethodName();
+
+            if ($model->$saveMethodName()) {
+
                 $message = $isNewRecord ? $this->createFlashMessage : $this->updateFlashMessage;
 
                 Yii::$app->session->setFlash('success', $message);
-                
+
                 return $this->redirect(['index']);
             }
         }
@@ -176,6 +178,15 @@ class CRUDController extends Controller
     {
         $class = $this->getModelClassName();
         return new $class;
+    }
+
+    /**
+     * Nome do método chamado no modelo para salvá-lo/enviá-lo/escrevê-lo/etc.
+     * @return string
+     */
+    protected function getModelSaveMethodName()
+    {
+        return 'save';
     }
 
     /**

@@ -2,15 +2,8 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\db\Expression;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use app\components\CRUDController;
-use app\models\search\BoletimRgSearch;
 use app\models\search\BoletimRgFechamentoSearch;
-use app\models\BoletimRg;
-use app\models\search\BoletimRgFechamento;
 
 class BoletimRgController extends CRUDController
 {
@@ -22,77 +15,66 @@ class BoletimRgController extends CRUDController
             'ruas' => ['class' => 'app\components\actions\Ruas'],
         ];
     }
-    
+
     public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['create', 'delete', 'index', 'update', 'verFechamento', 'bairroCategoria', 'bairroQuarteiroes', 'ruas'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['create', 'update', 'delete', 'index', 'verFechamento', 'bairroCategoria', 'bairroQuarteiroes', 'ruas'],
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-    
-    public function actionCreate()
-    {
-        if(isset($_POST['BoletimRg']['imoveis']['exemplo']))
-            unset($_POST['BoletimRg']['imoveis']['exemplo']);
-        
-        $model = $this->buildNewModel();
-        //$model->scenario = 'insert';
+        $behaviors = parent::behaviors();
 
-        if (!$this->loadAndSaveModel($model, $_POST)) { 
-            return $this->render('create', ['model' => $model]);
+        $actions = ['verFechamento', 'bairroCategoria', 'bairroQuarteiroes', 'ruas'];
+
+        foreach ($actions as $action) {
+            $behaviors['access']['only'][] = $action;
+            $behaviors['access']['rules'][0]['actions'][] = $action;
+        }
+
+        return $behaviors;
+    }
+
+    public function init()
+    {
+        parent::init();
+
+        if (!empty($_POST['BoletimRg']['imoveis']['exemplo'])) {
+            unset($_POST['BoletimRg']['imoveis']['exemplo']);
         }
     }
 
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        
-        if(!empty($_POST)) {
-            if(isset($_POST['BoletimRg']['imoveis']['exemplo'])) 
-                unset($_POST['BoletimRg']['imoveis']['exemplo']);
+
+        if (!empty($_POST)) {
 
             $model = is_object($id) ? $id : $this->findModel($id);
-            //$model->scenario = 'update';
 
-            if (!$this->loadAndSaveModel($model, $_POST)) { 
+            if (!$this->loadAndSaveModel($model, $_POST)) {
                 return $this->render('update', ['model' => $model]);
             }
-            
+
+        } else {
+            $model->popularImoveis();
         }
-        else {
-            $model->populaImoveis();
-        }
-        
+
         return $this->render('update', ['model' => $model]);
     }
-    
-    public function actionVerFechamento($id) {
-        
-        $this->layout = false;
-     
+
+    public function actionVerFechamento($id)
+    {
         $searchModel = new BoletimRgFechamentoSearch;
 
         $dataProvider = $searchModel->search(['boletim_rg_id' => $id]);
-        
-        return $this->render(
+
+        return $this->renderPartial(
             '_fechamento',
             ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getModelSaveMethodName()
+    {
+        return 'salvarComImoveis';
     }
 }
