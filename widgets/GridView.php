@@ -290,6 +290,7 @@ class GridView extends YiiGridView
             }
 
             if (!isset($this->buttons['export'])) {
+                
                 $this->buttons['export'] = function() {
 
                     $url = $_SERVER['REQUEST_URI'];
@@ -319,7 +320,10 @@ class GridView extends YiiGridView
         $html = '<div class="grid-buttons btn-group">';
 
         foreach ($this->buttons as $key => $button) {
-            $html .= $button();
+            if (is_callable($button)) {
+                $button = $button();
+            }
+            $html .= $button;
         }
 
         return $html . '</div>';
