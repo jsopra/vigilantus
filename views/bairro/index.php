@@ -55,7 +55,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 
                     $link = Html::a(
                         'Gerenciar' . '&nbsp;' . $img,
-                        Yii::$app->urlManager->createUrl(['bairro-quarteirao/index', 'parentID' => $model->id])
+                        Yii::$app->urlManager->createUrl(['bairro-quarteirao/index', 'parentID' => $model->id]),
+                        ['title' => 'Gerenciar Quarteirões do Bairro ' . $model->nome]
                     );
                 
                     return Html::tag('p', $link, ['class' => 'text-center no-margin']); 

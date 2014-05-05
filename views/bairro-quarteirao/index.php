@@ -29,16 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
         'buttons' => [
-            'create' => function() {
-                return Html::a(
-                    'Cadastrar Quarteirão de Bairro',
-                    Yii::$app->urlManager->createUrl(['bairro-quarteirao/create', 'parentID' => 2 /*$bairro->id*/]),
-                    [
-                        'class' => 'btn btn-flat success',
-                        'data-role' => 'create',
-                    ]
-                );
-            },
+            'create' => Html::a(
+                'Cadastrar Quarteirão de Bairro',
+                Yii::$app->urlManager->createUrl(['bairro-quarteirao/create', 'parentID' => $bairro->id]),
+                [
+                    'class' => 'btn btn-flat success',
+                    'data-role' => 'create',
+                ]
+            ),
         ],
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],

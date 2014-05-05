@@ -111,7 +111,7 @@ class DependentCRUDController extends CRUDController
         $model->$parentField = $this->parentObject->id;
         //$model->scenario = 'insert';
         if (!$this->loadAndSaveModel($model, $_POST, ['index', 'parentID' => $this->dependentID])) { 
-            return $this->render('create', ['model' => $model, 'parentObject' => $this->parentObject]);
+            return $this->renderAjaxOrLayout('create', ['model' => $model, 'parentObject' => $this->parentObject]);
         }
     }
 
@@ -123,7 +123,7 @@ class DependentCRUDController extends CRUDController
         //$model->scenario = 'update';
 
         if (!$this->loadAndSaveModel($model, $_POST, ['index', 'parentID' => $this->dependentID])) { 
-            return $this->render('update', ['model' => $model, 'parentObject' => $this->parentObject]);
+            return $this->renderAjaxOrLayout('update', ['model' => $model, 'parentObject' => $this->parentObject]);
         }
     }
 }

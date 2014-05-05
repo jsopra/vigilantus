@@ -9,7 +9,7 @@ use app\helpers\GoogleMapsAPIHelper;
  * @var app\models\BairroQuarteirao $model
  */
 
-$this->title = 'Atualizar Quarteirão de Bairro: "' . $parentObject->nome . '"';
+$this->title = 'Atualizar Quarteirão do Bairro: "' . $parentObject->nome . '"';
 $this->params['breadcrumbs'][] = ['label' => 'Quarteirão de Bairro ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Atualizar';
