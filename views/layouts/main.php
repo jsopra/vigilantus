@@ -5,17 +5,15 @@ use yii\helpers\Url;
 use app\components\themes\DetailwrapNav;
 use app\components\themes\DetailwrapNavBar;
 use app\components\themes\DetailwrapSideBar;
+use app\helpers\VigilantusLayoutHelper;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\widgets\Alert;
 use yii\web\View;
 
-/**
- * @var \yii\web\View $this
- * @var string $content
- */
 AppAsset::register($this);
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -43,7 +41,6 @@ AppAsset::register($this);
         
         <?php $this->beginBody() ?>
         <?php
-        
         DetailwrapNavBar::begin([
             'brandLabel' => 'Vigilantus',
             'brandUrl' => Yii::$app->homeUrl,
@@ -51,91 +48,23 @@ AppAsset::register($this);
             'municipioLogado' => $this->context->municipioLogado,
         ]);
         
-        echo DetailwrapNav::widget([
-            'options' => ['class' => 'nav navbar-nav pull-right hidden-xs'],
-            'items' => [
-                ['label' => '', 'url' => ['/site/contato'], 'icon' => 'envelope'],
-                [
-                    'visible' => !Yii::$app->user->isGuest,
-                    'icon' => 'cog',
-                    'options' => [
-                        'class' => 'dropdown'
-                    ],
-                    'items' => [
-                        [
-                            'label' => 'Alterar senha', 
-                            'url' => ['/usuario/change-password'],
-                        ],
-                    ]
-                ],
-                [
-                    'visible' => Yii::$app->user->isGuest,
-                    'url' => ['/site/login'], 
-                    'label' => ' Login' ,
-                    'icon' => 'off',
-                ],
-                [
-                    'visible' => !Yii::$app->user->isGuest,
-                    'url' => ['/site/logout'], 
-                    'label' => ' Logout (' . (Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->login) . ')' ,
-                    'icon' => 'off',
-                    'linkOptions' => ['data-method' => 'post']
-                ],
-            ],
-        ]);
+            echo DetailwrapNav::widget([
+                'options' => ['class' => 'nav navbar-nav pull-right hidden-xs'],
+                'items' => VigilantusLayoutHelper::getMenuComum(Yii::$app->user), 
+            ]);
+            
         DetailwrapNavBar::end();
         ?>
 
 
         <!-- sidebar -->
-        <?php if(!Yii::$app->user->isGuest) : ?>
-        <?php echo DetailwrapSideBar::widget([
-            'options' => ['id' => 'dashboard-menu'],
-            'items' => [
-                 [
-                    'label' => 'Cadastro',
-                    'icon' => 'edit',
-                    'items' => [
-                        ['label' => 'Bairros', 'url' => ['/bairro/']],
-                        ['label' => 'Quarteirões de Bairros', 'url' => ['/bairro-quarteirao/']],
-                        ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria/']],
-                        ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
-                        ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/']],
-                    ]
-                ],
-                [
-                    'label' => 'Fichas',
-                    'icon' => 'folder-open-alt',
-                    'items' => [
-                        ['label' => 'Boletim de RG', 'url' => ['/boletim-rg']],
-                    ]
-                ],
-                [
-                    'label' => 'Relatórios',
-                    'icon' => 'bar-chart',
-                    'visible' => Yii::$app->user->can('Administrador'),
-                    'items' => [
-                        ['label' => 'Boletim de RG', 'url' => ['/resumo-rg']],
-                    ],
-                ],
-                [
-                    'label' => 'Sistema',
-                    'icon' => 'cog',
-                    'items' => [
-                        ['label' => 'Usuários', 'url' => ['/usuario/'], 'visible' => Yii::$app->user->can('Administrador'),],
-                        ['label' => 'Alterar minha senha', 'url' => ['/usuario/change-password']],
-                    ]
-                ],
-                ['label' => 'Contato', 'url' => ['/site/contato'], 'icon' => 'envelope-alt'],     
-                [
-                    'label' => 'Sair',
-                    'url' => ['/site/logout'], 
-                    'linkOptions' => ['data-method' => 'post'],
-                    'icon' => 'off'
-                ],
-            ]
-        ]); ?>
-        <?php endif; ?>
+        <?php 
+        if(!Yii::$app->user->isGuest)
+            echo DetailwrapSideBar::widget([
+                'options' => ['id' => 'dashboard-menu'],
+                'items' => VigilantusLayoutHelper::getMenuUsuarioLogado(Yii::$app->user),
+            ]);
+        ?>
 
         <div class="content <?= Yii::$app->user->isGuest ? 'wide-content' : ''; ?>">
             
@@ -149,57 +78,49 @@ AppAsset::register($this);
                 <?= $content ?>
             </div>
 
-        </div>
         
-        <footer class="footer container">
-            <div class="row">
+            <footer class="footer container">
+                <div class="row">
 
-                <div class="col-sm-6 col-sm-offset-1">
+                    <div class="col-sm-6 col-sm-offset-1">
 
-                    <h2 class="text-left row" style="padding-bottom: 10px;">Parceiros</h2>
+                        <h2 class="text-left row" style="padding-bottom: 30px;">Parceiros</h2>
 
-                    <div class="row">
+                        <div class="row">
 
-                        <div class="partner text-center">
-                            <a href="http://www.fapesc.sc.gov.br/" target="_blank">
-                                <img src="<?= Url::toRoute(['/']); ?>img/partners/fapesc.png" alt="FAPESC" />
-                            </a>
+                            <?php 
+                            $partners = VigilantusLayoutHelper::getPartners(); 
+                            foreach($partners as $partner) :
+                            ?>
+                                <div class="partner text-center">
+                                    <a href="<?= $partner['url']; ?>" target="_blank">
+                                        <img src="<?= Url::toRoute(['/']); ?>img/partners/<?= $partner['logo']; ?>" alt="<?= $partner['description']; ?>" />
+                                    </a>
+                                </div>
+                            <?php
+                            endforeach;
+                            ?>
+
+                            <div class="clearfix"></div>
                         </div>
-
-                        <div class="partner text-center">
-                            <a href="http://www.sebrae.com.br/uf/santa-catarina" target="_blank">
-                                <img src="<?= Url::toRoute(['/']); ?>img/partners/sebrae.png" alt="SEBRAE" />
-                            </a>
-                        </div>
-
-                        <div class="partner text-center">
-                            <a href="http://www.sinapsedainovacao.com.br/" target="_blank">
-                                <img src="<?= Url::toRoute(['/']); ?>img/partners/sinapse.png" alt="Sinapse da Inovação" />
-                            </a>
-                        </div>
-
-                        <div class="clearfix"></div>
                     </div>
+                    
+                    <div class="col-sm-3 col-sm-offset-2" style="padding-top: 35px;">
+
+                        <p class="text-center perspectiva">
+                            <a href="http://perspectiva.in" target="_blank">
+                                perspectiva<span class="domain">.in</span>
+                            </a>
+                        </p>
+
+                        <p class="text-center">
+                            Perspectiva Negócios Digitais &copy; <?= date('Y') ?> 
+                        </p>
+                    </div>
+                    
                 </div>
-                
-                
-                
-                <div class="col-sm-3 col-sm-offset-2" style="padding-top: 10px;">
-
-                    <p class="text-center perspectiva">
-                        <a href="http://perspectiva.in" target="_blank">
-                            perspectiva<span class="domain">.in</span>
-                        </a>
-                    </p>
-
-                    <p class="text-center">
-                        Perspectiva Negócios Digitais &copy; <?= date('Y') ?> 
-                    </p>
-
-
-                </div>
-            </div>
-        </footer>
+            </footer>
+        </div>
         
         <?php 
         if (!Yii::$app->user->isGuest) 
@@ -208,16 +129,7 @@ AppAsset::register($this);
         
         <?php $this->endBody() ?>
         
-        <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-47695976-1', 'vigilantus.com.br');
-        ga('send', 'pageview');
-
-        </script>
+        <?= VigilantusLayoutHelper::getAnalyticsCode(); ?>
     </body>
 </html>
 <?php

@@ -10,8 +10,10 @@ if ($this->scenario->running()) {
 $eu = new CaraDaWeb($scenario);
 $eu->quero('verificar que o CRUD de quarteirões funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clico('Cadastro');
-$eu->clico('Quarteirões de Bairros');
+$eu->clico('Localização');
+$eu->clico('Bairros e Quarteirões');
+/*
+$eu->clico('Bairros e Quarteirões');
 
 $eu->espero('cadastrar um quarteirão');
 $eu->clico('Cadastrar Quarteirão de Bairro');
@@ -40,3 +42,4 @@ $eu->vejoNaPopUp('Tem certeza de que deseja excluir este item?');
 $eu->aceitoPopUp();
 $eu->aguardoPor(1);
 $eu->naoVejo('777');
+*/

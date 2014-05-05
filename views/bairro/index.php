@@ -13,6 +13,9 @@ use yii\helpers\Html;
 $this->title = 'Bairros';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
+
 <div class="bairro-index" data-role="modal-grid">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -31,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'data-role' => 'create',
                     ]
                 );
-            }
+            },
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
@@ -52,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 
                     $link = Html::a(
                         'Gerenciar' . '&nbsp;' . $img,
-                        Yii::$app->urlManager->createUrl(['bairro-quarteirao/index', 'id' => $model->id])
+                        Yii::$app->urlManager->createUrl(['bairro-quarteirao/index', 'parentID' => $model->id])
                     );
                 
                     return Html::tag('p', $link, ['class' => 'text-center no-margin']); 

@@ -1,8 +1,7 @@
 <?php
 
 namespace app\models;
-
-use app\components\ActiveRecord;
+use app\components\PostgisActiveRecord;
 
 /**
  * This is the model class for table "bairro_quarteiroes".
@@ -24,8 +23,22 @@ use app\components\ActiveRecord;
  * @property Usuarios $inseridoPor
  * @property Usuarios $atualizadoPor
  */
-class BairroQuarteirao extends ActiveRecord
+class BairroQuarteirao extends PostgisActiveRecord
 {
+    /**
+     * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco
+     * é um array de arrays, sendo que cada "sub-array" é um array com latitude e longitude
+     * ex: [[-1,-2], [2, 3], [5, 5], [4, 6]]
+     * @var array
+     */
+    public $coordenadas;
+    
+    /**
+     * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco
+     * @var array
+     */
+    public $coordenadasJson;
+    
 	/**
 	 * @inheritdoc
 	 */
@@ -46,9 +59,17 @@ class BairroQuarteirao extends ActiveRecord
 			[['municipio_id', 'bairro_id', 'numero_quarteirao', 'numero_quarteirao_2', 'inserido_por', 'atualizado_por', 'seq'], 'integer'],
             ['inserido_por', 'required', 'on' => 'insert'],
             ['atualizado_por', 'required', 'on' => 'update'],
-            [['coordenadas_area'], 'string']
+            ['coordenadas', 'required', 'on' => ['insert','update']],
+            [['coordenadasJson'], 'string'],
 		];
 	}
+    
+    public function beforeValidate() {
+        
+        $this->_validateAndLoadPostgisField();
+        
+        return parent::beforeValidate();
+    }
 
 	/**
 	 * @inheritdoc
@@ -66,7 +87,9 @@ class BairroQuarteirao extends ActiveRecord
 			'inserido_por' => 'Inserido Por',
 			'atualizado_por' => 'Atualizado Por',
             'seq' => 'Sequência',
-            'coordenadas_area' => 'Coordenadas',
+            'coordenadas_area' => 'Área',
+            'coordenadas' => 'Área',
+            'coordenadasJson' => 'Área',
 		];
 	}
 
@@ -104,5 +127,34 @@ class BairroQuarteirao extends ActiveRecord
     
     public function getDsNumero() {  
         return $this->numero_quarteirao . ($this->seq ? '-' . $this->seq : '');     
+    }
+    
+    /**
+     * Define coordenadas para modelo
+     * @return boolean (false em caso de não popular e true em caso de popular)
+     */
+    public function loadCoordenadas() {
+        
+        if($this->coordenadas)
+            return true;
+        
+        $this->coordenadas = $this->postgisToArray('Polygon', 'coordenadas_area');        
+        
+        return is_array($this->coordenadas);
+    } 
+    
+    /**
+     * Valida e carrega json de coordenadas em campo postgis
+     * @return boolean 
+     */
+    private function _validateAndLoadPostgisField() {
+        
+        if(!$this->coordenadasJson) {
+            $this->addError('coordenadasJson', 'Coordenadas do quarteirão não foram definidas');
+            return false;
+        }
+        
+        $this->coordenadas_area = $this->jsonToPostgis('Polygon', $this->coordenadasJson);
+        return true;
     }
 }

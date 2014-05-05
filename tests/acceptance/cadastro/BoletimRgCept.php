@@ -10,7 +10,7 @@ if ($this->scenario->running()) {
 $eu = new CaraDaWeb($scenario);
 $eu->quero('verificar que a ficha de RG funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clico('Fichas');
+$eu->clico('Localização');
 $eu->clico('Boletim de RG');
 
 $eu->espero('cadastrar uma ficha');

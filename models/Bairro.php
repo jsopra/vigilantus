@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\components\ActiveRecord;
+use app\components\PostgisActiveRecord;
 
 /**
  * Este é a classe de modelo da tabela "bairros".
@@ -16,8 +16,22 @@ use app\components\ActiveRecord;
  * @property integer $ultimo_ano_rg
  * @property string $coordenadas_area
  */
-class Bairro extends ActiveRecord
+class Bairro extends PostgisActiveRecord
 {
+    /**
+     * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco
+     * é um array de arrays, sendo que cada "sub-array" é um array com latitude e longitude
+     * ex: [[-1,-2], [2, 3], [5, 5], [4, 6]]
+     * @var array
+     */
+    public $coordenadas;
+    
+    /**
+     * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco
+     * @var array
+     */
+    public $coordenadasJson;
+    
     /**
      * @return string
      */
@@ -36,8 +50,16 @@ class Bairro extends ActiveRecord
             [['ultimo_mes_rg', 'ultimo_ano_rg'], 'required', 'on' => 'setAtualizacaoRG'],
             ['nome', 'unique', 'compositeWith' => 'municipio_id'],
             [['municipio_id', 'bairro_categoria_id', 'ultimo_mes_rg', 'ultimo_ano_rg'], 'integer'],
-            [['coordenadas_area'], 'string']
+            ['coordenadas', 'required', 'on' => ['insert','update']],
+            [['coordenadasJson'], 'string'],
         );
+    }
+    
+    public function beforeValidate() {
+        
+        $this->_validateAndLoadPostgisField();
+        
+        return parent::beforeValidate();
     }
 
     /**
@@ -84,7 +106,61 @@ class Bairro extends ActiveRecord
             'bairro_categoria_id' => 'Categoria',
             'ultimo_mes_rg' => 'Último Mês com informações de RG',
             'ultimo_ano_rg' => 'Último Ano com informações de RG',
-            'coordenadas_area' => 'Coordenadas',
+            'coordenadas_area' => 'Área',
+            'coordenadas' => 'Área',
+            'coordenadasJson' => 'Área',
         );
+    }
+    
+    /**
+     * Define latitude e longitude para o modelo, caso exista ponto válido cadastrado
+     * @return boolean (false em caso de não popular e true em caso de popular)
+     */
+    public function loadCoordenadas() {
+
+        if($this->coordenadas)
+            return true;
+        
+        $this->coordenadas = $this->postgisToArray('Polygon', 'coordenadas_area');        
+        
+        return is_array($this->coordenadas);
+    } 
+    
+    /**
+     * Busca coordenadas de quarteirões do bairro
+     * @param array $except
+     * @return array 
+     */
+    public function getCoordenadasQuarteiroes(array $except) {
+        
+        $return = [];
+        
+        $quarteiroes = BairroQuarteirao::find()->doBairro($this->id)->comCoordenadas()->all();
+        
+        foreach($quarteiroes as $quarteirao) {
+            
+            if(in_array($quarteirao->id,$except)) 
+                continue;
+            
+            $quarteirao->loadCoordenadas();
+            $return[] = $quarteirao->coordenadas;
+        }
+        
+        return $return;
+    }
+    
+    /**
+     * Valida e carrega json de coordenadas em campo postgis
+     * @return boolean 
+     */
+    private function _validateAndLoadPostgisField() {
+        
+        if(!$this->coordenadasJson) {
+            $this->addError('coordenadasJson', 'Coordenadas do quarteirão não foram definidas');
+            return false;
+        }
+        
+        $this->coordenadas_area = $this->jsonToPostgis('Polygon', $this->coordenadasJson);
+        return true;
     }
 }

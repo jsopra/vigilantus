@@ -5,21 +5,26 @@ use app\models\Bairro;
 use app\widgets\GridView;
 use yii\helpers\Html;
 
-/**
- * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\models\search\BairroQuarteiraoSearch $searchModel
- */
+$bairro = $parentObject;
 
-$this->title = 'Quarteirões de Bairros';
+$this->title = 'Quarteirões do Bairro "' . $bairro->nome . '"';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
+
 <div class="bairro-quarteirao-index" data-role="modal-grid">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
-	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <?= Html::a(
+        '<i class="glyphicon glyphicon-circle-arrow-left"></i> Voltar ao cadastro de Bairros',
+        Yii::$app->urlManager->createUrl('bairro/index'),
+        [
+            'class' => 'btn btn-link',
+        ]
+    );
+    ?>
 	<?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
@@ -27,29 +32,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'create' => function() {
                 return Html::a(
                     'Cadastrar Quarteirão de Bairro',
-                    Yii::$app->urlManager->createUrl('bairro-quarteirao/create'),
+                    Yii::$app->urlManager->createUrl(['bairro-quarteirao/create', 'parentID' => 2 /*$bairro->id*/]),
                     [
                         'class' => 'btn btn-flat success',
                         'data-role' => 'create',
                     ]
                 );
-            }
+            },
         ],
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
-            //'id',
-			[
-                'attribute' => 'bairro_id',
-                'filter' => Bairro::listData('nome'),
-                'value' => function ($model, $index, $widget) {
-                    return $model->bairro ? $model->bairro->nome : null;
-                }
-            ],
 			'numero_quarteirao',
 			'numero_quarteirao_2',
 			[
-                'class' => 'app\components\ActionColumn',
+                'class' => 'app\components\DependentCRUDActionColumn',
                 'template' => '{update} {delete}',
+                'parentID' => $bairro->id,
                 'options' => ['class' => 'vigilantus-grid-buttons-ud'],
             ],
 		],

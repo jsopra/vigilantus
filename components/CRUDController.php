@@ -143,7 +143,7 @@ class CRUDController extends Controller
     /**
      * @inheritdoc
      */
-    protected function loadAndSaveModel(ActiveRecord $model, $data = null)
+    protected function loadAndSaveModel(ActiveRecord $model, $data = null, $redirect = ['index'])
     {
         if (!empty($data) && $model->load($data)) { 
 
@@ -161,8 +161,8 @@ class CRUDController extends Controller
                 $message = $isNewRecord ? $this->createFlashMessage : $this->updateFlashMessage;
 
                 Yii::$app->session->setFlash('success', $message);
-                
-                return $this->redirect(['index']);
+
+                $this->redirect($redirect);
             }
         }
         
