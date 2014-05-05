@@ -19,6 +19,8 @@ class VigilantusLayoutHelper {
                     ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria/']],
                     ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
                     ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/']],
+                    ['label' => 'Focos de Transmissores', 'url' => ['/foco-transmissor/']],
+                    ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/']],
                 ]
             ],
             [
@@ -34,7 +36,7 @@ class VigilantusLayoutHelper {
                 'icon' => 'bar-chart',
                 'visible' => $user->can('Administrador'),
                 'items' => [
-                    ['label' => 'Boletim de RG', 'url' => ['/resumo-rg']],
+                    ['label' => 'Boletim de RG', 'url' => ['/relatorio/resumo-rg-bairro']],
                 ],
             ],
             [

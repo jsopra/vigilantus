@@ -1,13 +1,14 @@
 <?php
-class BairroRuaPhactory
+class DepositoTipoPhactory
 {
     public function blueprint()
     {
         return [
             'id' => '#{sn}',
-            'nome' => 'Rua #{sn}',
+            'descricao' => 'Tipo_Depósito_#{sn}',
+            'sigla' => 'TD#{sn}',
             'municipio_id' => Phactory::hasOne('municipio'),
-            'bairro_id' => Phactory::hasOne('bairro'),
+            'inserido_por' => Phactory::hasOne('usuario'),
         ];
     }
 }

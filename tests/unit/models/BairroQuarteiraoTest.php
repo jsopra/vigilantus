@@ -8,7 +8,7 @@ use yii\codeception\TestCase;
 
 class BairroQuarteiraoTest extends TestCase
 {
-    public function testDescricaoFormatada()
+    public function testObtemNumeroComSequencia()
     {
         $quarteirao = Phactory::bairroQuarteirao(
             [
@@ -18,7 +18,7 @@ class BairroQuarteiraoTest extends TestCase
             ]
         );
 
-        $this->assertEquals('1234-7', $quarteirao->getDsNumero());
+        $this->assertEquals('1234-7', $quarteirao->getNumero_sequencia());
     }
 
     public function testNaoSalvaDuplicado()

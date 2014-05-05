@@ -17,19 +17,44 @@ class ActiveQuery extends YiiActiveQuery
     /**
      * @param string $descriptionAttribute
      * @param string $idAttribute 'id' by default
+     * @param string $groupingRelation Se quiser agrupar por uma relation (ex: bairros agrupados por cidade no <select>)
+     * @param string $groupingRelationAttribute Nome do atributo da relation usado para o <optgroup>
      * @return array
      */
-    public function listData($descriptionAttribute, $idAttribute = 'id')
+    public function listData($descriptionAttribute, $idAttribute = 'id', $groupingRelation = null, $groupingRelationAttribute = 'id')
     {
-        $this->select($idAttribute . ',' . $descriptionAttribute);
-        $this->orderBy($descriptionAttribute);
+        $modelClass = $this->modelClass;
+        $model = new $modelClass;
+
+        if ($model->hasAttribute($descriptionAttribute)) {
+            $this->select($idAttribute . ',' . $descriptionAttribute);
+            $this->orderBy($descriptionAttribute);
+        }
+
+        if ($groupingRelation) {
+            $this->with($groupingRelation);
+        }
         
         $data = [];
         
         foreach ($this->all() as $object) {
-            $data[$object->$idAttribute] = $object->$descriptionAttribute;
+
+            $key = $object->$idAttribute;
+            $value = $object->$descriptionAttribute;
+
+            if ($groupingRelation && is_object($object->$groupingRelation)) {
+
+                $group = $object->$groupingRelation->$groupingRelationAttribute;
+
+                if (!isset($data[$group])) {
+                    $data[$group] = [];
+                }
+                $data[$group][$key] = $value;
+            } else {
+                $data[$key] = $value;
+            }
         }
-        
+
         return $data;
     }
 }

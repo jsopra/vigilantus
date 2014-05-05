@@ -125,7 +125,8 @@ class BairroQuarteirao extends PostgisActiveRecord
 		return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
 	}
     
-    public function getDsNumero() {  
+    public function getNumero_sequencia()
+    {  
         return $this->numero_quarteirao . ($this->seq ? '-' . $this->seq : '');     
     }
     

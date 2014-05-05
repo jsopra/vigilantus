@@ -164,7 +164,7 @@ class Generator extends YiiModelGenerator
             
             if($this->generateUnit) {
                 $files[] = new CodeFile(
-                    Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/tests/unit/models/' . $className . '.php',
+                    Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/tests/unit/models/' . $className . 'Test.php',
                     $this->render('unit.php', $params)
                 );
             }

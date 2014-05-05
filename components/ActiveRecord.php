@@ -14,6 +14,9 @@ use app\models\UsuarioRole;
 
 class ActiveRecord extends YiiActiveRecord
 {
+    const SAVE_OBJECT = 1;
+    const DONT_SAVE_OBJECT = 0;
+
     protected $dateDbTypes = [
         'date', 'datetime', 'timestamp', 'timestamp without time zone',
         'timestamptz'
@@ -219,11 +222,13 @@ class ActiveRecord extends YiiActiveRecord
     /**
      * @param string $descriptionAttribute
      * @param string $idAttribute 'id' by default
+     * @param string $groupingRelation Se quiser agrupar por uma relation (ex: bairros agrupados por cidade no <select>)
+     * @param string $groupingRelationAttribute Nome do atributo da relation usado para o <optgroup>
      * @return array
      */
-    public static function listData($descriptionAttribute, $idAttribute = 'id')
+    public static function listData($descriptionAttribute, $idAttribute = 'id', $groupingRelation = null, $groupingRelationAttribute = 'id')
     {
-        return static::find()->listData($descriptionAttribute, $idAttribute);
+        return static::find()->listData($descriptionAttribute, $idAttribute, $groupingRelation, $groupingRelationAttribute);
     }
     
     /**
@@ -275,5 +280,27 @@ class ActiveRecord extends YiiActiveRecord
             //&& \Yii::$app->session->get('user.municipio') instanceof Municipio
             && isset(static::getTableSchema()->columns['municipio_id'])
         );
+    }
+
+    /**
+     * Procura pelos atributos. Se não encontrar, cria um novo
+     * @param array $attributes atributo => valor
+     * @param boolean $save Se deve salvar o objeto antes de retornar ou só construí-lo
+     * @return ActiveRecord
+     */
+    public static function findOrCreate($attributes, $save = true)
+    {
+        $object = static::find()->where($attributes)->one();
+
+        if (!$object) {
+            
+            $object = new static($attributes);
+
+            if ($save && false == $object->save()) {
+                throw new \Exception('Falhou ao salvar objeto! Erros: ' . print_r($object->errors, true));
+            }
+        }
+
+        return $object;
     }
 }

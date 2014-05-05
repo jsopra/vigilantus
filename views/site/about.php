@@ -12,7 +12,7 @@ $this->title = Yii::$app->name;
     <div class="row-fluid" id="hotsite-header">
         
 		<div class="col-lg-12">
-            <h1 class="hotsite-title">Apoio e gestão de<br />prevenção de Zoonoses</h1>
+            <h1 class="hotsite-title">Apoio e gestão de<br />prevenção da Dengue</h1>
 		</div>
         
         <div class="clearfix"></div>
@@ -151,9 +151,11 @@ $this->title = Yii::$app->name;
     </section>	
 		
     <footer class="q4 ">
-        <div class="jumbotron">
+        
+        <div class="row text-center btn-saiba-mais">
             <p><a class="btn btn-lg btn-glow success" href="/site/contato">Solicite uma demonstração!</a></p>
         </div>
+
     </footer>
         
 </div>

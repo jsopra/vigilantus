@@ -4,7 +4,7 @@ namespace app\models\search;
 use app\models\Bairro;
 use app\models\BoletimRg;
 use app\models\BoletimRgFechamento;
-use app\models\BoletimRgImoveis;
+use app\models\BoletimRgImovel;
 use app\models\ImovelTipo;
 use yii\base\Object;
 
@@ -26,21 +26,20 @@ class BoletimRgResumoCapaSearch extends Object
         ];
 
         // Tipos de imóveis
-        foreach (ImovelTipo::find()->ativo()->orderBy('nome')->all() as $tipoImovel) {
+        foreach (ImovelTipo::find()->ativo()->orderBy('nome')->all() as $tipoImovel)
             $dados['tipos_imoveis'][$tipoImovel->nome] = [
                 'geral' => 0,
             ];
-        }
 
         // Valores dos tipos de imóveis
-        $query = BoletimRgImoveis::find()->with(['imovelTipo' => function($query) {
+        $query = BoletimRgImovel::find()->with(['imovelTipo' => function($query) {
             $query->andWhere('excluido = FALSE');
         }]);
+        
         foreach ($query->all() as $boletim) {
 
-            if (!$boletim->imovelTipo) {
+            if (!$boletim->imovelTipo)
                 continue;
-            }
 
             $dados['tipos_imoveis'][$boletim->imovelTipo->nome]['geral']++;
             $dados['total']['geral']++;
@@ -57,16 +56,13 @@ class BoletimRgResumoCapaSearch extends Object
         $dados = [];
 
         // Adiciona todos os bairros vazios
-        foreach (Bairro::find()->orderBy('nome')->all() as $bairro) {
+        foreach (Bairro::find()->orderBy('nome')->all() as $bairro)
             $dados[$bairro->nome] = 0;
-        }
 
         // Bairros com informações
         $query = BoletimRgFechamento::find()->with('boletimRg.bairro');
-
-        foreach ($query->all() as $row) {
+        foreach ($query->all() as $row)
             $dados[$row->boletimRg->bairro->nome] += $row->quantidade;
-        }
 
         return $dados;
     }

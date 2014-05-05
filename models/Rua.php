@@ -32,6 +32,7 @@ class Rua extends ActiveRecord
 		return [
 			[['municipio_id', 'nome'], 'required'],
 			[['municipio_id'], 'integer'],
+            ['nome', 'unique', 'compositeWith' => 'municipio_id'],
 			[['nome'], 'string']
 		];
 	}
