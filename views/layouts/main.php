@@ -117,7 +117,7 @@ AppAsset::register($this);
                     'icon' => 'bar-chart',
                     'visible' => Yii::$app->user->can('Administrador'),
                     'items' => [
-                        ['label' => 'Boletim de RG', 'url' => ['/resumo-rg']],
+                        ['label' => 'Boletim de RG', 'url' => ['/relatorio/resumo-rg-bairro']],
                     ],
                 ],
                 [
