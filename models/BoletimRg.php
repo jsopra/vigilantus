@@ -11,7 +11,7 @@ use app\components\ActiveRecord;
  * @property integer $folha
  * @property integer $bairro_id
  * @property integer $fee
- * @property string $data_cadastro 
+ * @property string $data_cadastro
 * @property integer $inserido_por
  * @property integer $municipio_id
  * @property integer $categoria_id
@@ -27,10 +27,10 @@ class BoletimRg extends ActiveRecord
     public $seq;
     public $categoria_id;
     public $imoveis;
-    
-	/**
-	 * @inheritdoc
-	 */
+
+    /**
+     * @inheritdoc
+     */
 	public static function tableName()
 	{
 		return 'boletins_rg';
@@ -42,12 +42,11 @@ class BoletimRg extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['folha', 'bairro_id', 'municipio_id', 'bairro_quarteirao_id', 'imoveis', 'data'], 'required'],
-            [['categoria_id'], 'safe'],
+			[['folha', 'bairro_id', 'municipio_id', 'bairro_quarteirao_id', 'data'], 'required'],
+            [['categoria_id', 'imoveis'], 'safe'],
             ['folha', 'unique', 'compositeWith' => ['data', 'municipio_id']],
             ['data', 'date'],
 			[['folha', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id', 'seq'], 'integer'],
-			[['data_cadastro'], 'string'],
 	];
 	}
 
@@ -69,104 +68,40 @@ class BoletimRg extends ActiveRecord
             'data' => 'Data da Coleta',
 		];
 	}
-    
-    public function save($runValidation = true, $attributes = null) {
 
+    public function salvarComImoveis()
+    {
         $transaction = $this->getDb()->beginTransaction();
-        try {
-            
-            $result = parent::save($runValidation, $attributes);
-            
-            if ($result) {
-                
-                if(!$this->isNewRecord)
-                    $this->_clearRelationships();
-                
-                $imoveisSalvos = 0;
-                $imoveis = $this->imoveis;
-                foreach($imoveis as $imovelPreenchido) {
-                    $rua = Rua::find()->daRua($imovelPreenchido['rua'])->one();
-                    if(!$rua instanceof Rua) {
-                        $rua = new Rua;
-                        $rua->municipio_id = $this->municipio_id;
-                        $rua->nome = $imovelPreenchido['rua'];
-                        
-                        if(!$rua->save())
-                            continue;
-                    }
-                    
-                    $imovel = Imovel::find()
-                        ->doQuarteirao($this->bairro_quarteirao_id)
-                        ->doNumero($imovelPreenchido['numero'])
-                        ->daSeq($imovelPreenchido['seq'])
-                        ->doComplemento($imovelPreenchido['complemento'])
-                        ->one();
-                
-                    if(!$imovel instanceof Imovel) {
-                        $imovel = new Imovel;
-                        $imovel->municipio_id = $this->municipio_id;
-                        $imovel->bairro_quarteirao_id = $this->bairro_quarteirao_id;
-                        $imovel->imovel_tipo_id = isset($imovelPreenchido['imovel_tipo']) ? $imovelPreenchido['imovel_tipo'] : null;
-                        $imovel->rua_id = $rua->id;
-                        $imovel->numero = isset($imovelPreenchido['numero']) ? $imovelPreenchido['numero'] : null;
-                        $imovel->sequencia = isset($imovelPreenchido['seq']) ? $imovelPreenchido['seq'] : null;
-                        $imovel->complemento = isset($imovelPreenchido['complemento']) ? $imovelPreenchido['complemento'] : null;
-                        $imovel->imovel_lira = isset($imovelPreenchido['imovel_lira']) && $imovelPreenchido['imovel_lira'] == '1';
-                        
-                        if(!$imovel->save())
-                            continue;
-                    }
-                    else {
-                        
-                        $rgIsLira = isset($imovelPreenchido['imovel_lira']) && $imovelPreenchido['imovel_lira'] == '1';
-                        $modelIsLira = $imovel->imovel_lira;
-                        if($rgIsLira != $modelIsLira) {
-                            
-                            $imovel->imovel_lira = $rgIsLira;
-                            if(!$imovel->save())
-                                continue;
-                        }
-                    }
-                    
-                    $boletimImovel = new BoletimRgImovel;
-                    $boletimImovel->municipio_id = $this->municipio_id;
-                    $boletimImovel->imovel_tipo_id = isset($imovelPreenchido['imovel_tipo']) ? $imovelPreenchido['imovel_tipo'] : null;
-                    $boletimImovel->boletim_rg_id = $this->id;
-                    $boletimImovel->rua_id = $rua->id;
-                    $boletimImovel->rua_nome = $imovelPreenchido['rua'];
-                    $boletimImovel->imovel_numero = isset($imovelPreenchido['numero']) ? $imovelPreenchido['numero'] : null;
-                    $boletimImovel->imovel_seq = isset($imovelPreenchido['seq']) ? $imovelPreenchido['seq'] : null;
-                    $boletimImovel->imovel_complemento = isset($imovelPreenchido['complemento']) ? $imovelPreenchido['complemento'] : null;
-                    $boletimImovel->imovel_lira = isset($imovelPreenchido['imovel_lira']) && $imovelPreenchido['imovel_lira'] == '1';
-                    $boletimImovel->imovel_id = $imovel->id;
 
-                    if ($boletimImovel->save())
-                        $imoveisSalvos++;
+        try {
+
+            if ($result = $this->save()) {
+
+                if (!$this->isNewRecord) {
+                    $this->clearRelationships();
                 }
-                
-                if ($imoveisSalvos == 0) {
+
+                if (($imoveisSalvos = $this->insereImoveis()) == 0) {
                     $transaction->rollback();
                     $this->addError('imoveis', 'Nenhum imóvel salvo');
                     return false;
                 }
-                
+
                 $transaction->commit();
-            } 
-            else {
+            } else {
                 $transaction->rollback();
             }
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $transaction->rollback();
             throw $e;
         }
-        
+
         return $result;
     }
-    
-	/**
-	 * @return \yii\db\ActiveRelation
-	 */
+
+    /**
+     * @return \yii\db\ActiveRelation
+     */
 	public function getBoletimImoveis()
 	{
 		return $this->hasMany(BoletimRgImovel::className(), ['boletim_rg_id' => 'id']);
@@ -195,7 +130,7 @@ class BoletimRg extends ActiveRecord
 	{
 		return $this->hasOne(Bairro::className(), ['id' => 'bairro_id']);
 	}
-    
+
     /**
 	 * @return \yii\db\ActiveRelation
 	 */
@@ -211,7 +146,7 @@ class BoletimRg extends ActiveRecord
 	{
 		return $this->hasOne(Usuarios::className(), ['id' => 'inserido_por']);
 	}
-        
+
     /**
      * @return Municipio
      */
@@ -219,59 +154,115 @@ class BoletimRg extends ActiveRecord
     {
         return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
     }
-    
+
     /**
      * @return int
      */
-    public function getQuantidadeImoveis() 
+    public function getQuantidadeImoveis()
     {
         return BoletimRgImovel::find()->where(['boletim_rg_id' => $this->id])->count();
     }
 
-    public function beforeDelete() {
-        
+    public function beforeDelete()
+    {
         $parent = parent::beforeDelete();
-        
-        $this->_clearRelationships();
-        
+
+        $this->clearRelationships();
+
         return $parent;
     }
-    
+
     /**
      * Popula imóveis cadastrados em $this->imoveis
      * @return void
      */
-    public function populaImoveis() {
-        
+    public function popularImoveis()
+    {
         $imoveis = $this->boletimImoveis;
-        
-        foreach($imoveis as $imovel)
-            $this->imoveis[] = [
-                'rua' => $imovel->rua_nome ? $imovel->rua_nome : $imovel->imovel->rua->nome,
-                'numero' => $imovel->imovel_numero ? $imovel->imovel_numero : $imovel->imovel->numero,
-                'seq' => $imovel->imovel_seq ? $imovel->imovel_seq : $imovel->imovel->sequencia,
-                'complemento' => $imovel->imovel_complemento ? $imovel->imovel_complemento : $imovel->imovel->complemento,
-                'imovel_tipo' => $imovel->imovel_tipo_id,
-                'imovel_lira' => $imovel->imovel_lira ? $imovel->imovel_lira : $imovel->imovel->imovel_lira,
-            ];
-        
+
+        foreach ($imoveis as $imovel) {
+
+            $this->adicionarImovel(
+                $imovel->rua_nome ? $imovel->rua_nome : $imovel->imovel->rua->nome,
+                $imovel->imovel_numero ? $imovel->imovel_numero : $imovel->imovel->numero,
+                $imovel->imovel_seq ? $imovel->imovel_seq : $imovel->imovel->sequencia,
+                $imovel->imovel_complemento ? $imovel->imovel_complemento : $imovel->imovel->complemento,
+                $imovel->imovel_tipo_id,
+                $imovel->imovel_lira ? $imovel->imovel_lira : $imovel->imovel->imovel_lira
+            );
+        }
+
         return;
     }
-    
+
     /**
-     * Apaga relações do boletim com imóveis e fechamento de RG 
+     * @param string $rua
+     * @param intgeer $numero
+     * @param intgeer $sequencia
+     * @param string $complemento
+     * @param intgeer $tipo
+     * @param boolean $lira
+     */
+    public function adicionarImovel($rua, $numero, $sequencia, $complemento, $tipo, $lira)
+    {
+        if (!is_array($this->imoveis)) {
+            $this->imoveis = [];
+        }
+
+        $this->imoveis[] = [
+            'rua' => $rua,
+            'numero' => $numero,
+            'seq' => $sequencia,
+            'complemento' => $complemento,
+            'imovel_tipo' => $tipo,
+            'imovel_lira' => $lira,
+        ];
+    }
+
+    /**
+     * Insere os imóveis associados com o objeto
+     * @return int
+     */
+    protected function insereImoveis()
+    {
+        if (!$this->imoveis) {
+            return 0;
+        }
+
+        $imoveisSalvos = 0;
+
+        foreach ($this->imoveis as $data) {
+
+            $boletimImovel = new BoletimRgImovel;
+            $boletimImovel->municipio_id = $this->municipio_id;
+            $boletimImovel->imovel_tipo_id = isset($data['imovel_tipo']) ? $data['imovel_tipo'] : null;
+            $boletimImovel->boletim_rg_id = $this->id;
+            $boletimImovel->rua_nome = $data['rua'];
+            $boletimImovel->imovel_numero = isset($data['numero']) ? $data['numero'] : null;
+            $boletimImovel->imovel_seq = isset($data['seq']) ? $data['seq'] : null;
+            $boletimImovel->imovel_complemento = isset($data['complemento']) ? $data['complemento'] : null;
+            $boletimImovel->imovel_lira = isset($data['imovel_lira']) && $data['imovel_lira'] == '1';
+
+            $boletimImovel->populateRelation('boletimRg', $this);
+
+            $ruaPreparada = $boletimImovel->prepararRua($data['rua']);
+            $imovelPreparado = $boletimImovel->prepararImovel();
+
+            if ($ruaPreparada && $imovelPreparado && $boletimImovel->save()) {
+                $imoveisSalvos++;
+            }
+        }
+
+        return $imoveisSalvos;
+    }
+
+    /**
+     * Apaga relações do boletim com imóveis e fechamento de RG
      * @return void
      */
-    private function _clearRelationships() {
-        
-        $imoveis = $this->boletimImoveis;
-        foreach($imoveis as $imovel)
-            $imovel->delete();
-
-        $fechamentos = $this->boletimFechamento;
-        foreach($fechamentos as $fechamento)
-            $fechamento->delete();
-        
-        return;
+    private function clearRelationships()
+    {
+        BoletimRgImovel::deleteAll('boletim_rg_id = :boletim', [':boletim' => $this->id]);
+        BoletimRgFechamento::deleteAll('boletim_rg_id = :boletim', [':boletim' => $this->id]);
     }
 }

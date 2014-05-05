@@ -30,7 +30,7 @@ $eu->preenchoCampo('Data da Coleta', date('d/m/Y'));
 
 $eu->clico('Cadastrar');
 $eu->aguardoPor(1);
-$eu->vejo('“Imoveis” não pode ficar em branco.');
+$eu->vejo('Nenhum imóvel salvo');
 
 $eu->preenchoCampo("//input[@name='BoletimRg[imoveis][exemplo][rua]']", 'Rua Rio de Janeiro');
 $eu->preenchoCampo("//input[@name='BoletimRg[imoveis][exemplo][numero]']", '176');
@@ -59,7 +59,7 @@ $eu->clico("//a[@title='Adicionar']");
 
 $eu->aguardoPor(1);
 
-$eu->clico('Cadastrar');
+$eu->clico('Atualizar');
 $eu->aguardoPor(1);
 
 $eu->vejoUmTitulo('Boletim de Reconhecimento Geográfico');
