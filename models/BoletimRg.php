@@ -200,7 +200,7 @@ class BoletimRg extends ActiveRecord
      * @param intgeer $numero
      * @param intgeer $sequencia
      * @param string $complemento
-     * @param intgeer $tipo
+     * @param integer $tipo
      * @param boolean $lira
      */
     public function adicionarImovel($rua, $numero, $sequencia, $complemento, $tipo, $lira)

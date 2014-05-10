@@ -11,9 +11,8 @@ class BairroQuarteiraoController extends DependentCRUDController
     protected $dependentModel = 'Bairro';
     protected $parentField = 'bairro_id';
     
-    public function actionIndex($parentID)
+    public function actionIndex()
     {
-        
         $municipio = $this->parentObject->municipio;
         if(!$municipio->loadCoordenadas()) {
             Yii::$app->session->setFlash('error', 'Município não tem coordenadas geográficas definidas');
