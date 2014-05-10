@@ -27,11 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <div class="col-xs-2">
-                <?= $form->field($model, 'lira')->dropDownList([0 => 'Não', 1 => 'Sim']) ?>
+                <?= $form->field($model, 'lira')->dropDownList([0 => 'Não', 1 => 'Sim'], ['prompt' => 'Selecione…']) ?>
             </div>
             
             <div class="col-xs-2" style="padding-top: 20px;">
-                <?= Html::submitButton('Gerar Planilha', ['class' => 'btn btn-primary']) ?>
+                <?= Html::submitButton('Gerar', ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
 

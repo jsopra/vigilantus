@@ -66,10 +66,14 @@ $data = array('1' => '1', '2' => '2222');
                 );
                 ?>
             </div>
-            <div class="col-xs-3">
+        </div>
+    
+        <div class="row">
+            <div class="col-xs-6">
                 <?= $form->field($model, 'endereco')->textInput(['maxlength' => 2048]) ?>
             </div>
         </div>
+    
         <div class="row">
             <div class="col-xs-3">
                 <?= $form->field($model, 'data_entrada')->input('date') ?>
