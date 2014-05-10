@@ -39,14 +39,11 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
-
-			//'id',
-			//'inserido_por',
-			//'atualizado_por',
             [
                 'header' => 'Bairro',
                 'attribute' => 'quarteirao.bairro.nome',
             ],
+                /*
             [
                 'attribute' => 'quarteirao_id',
                 'filter' => BairroQuarteirao::listData('numero_sequencia', 'id', 'bairro', 'nome'),
@@ -54,6 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->quarteirao->numero_sequencia;
                 }
             ],
+                 * 
+                 */
             [
                 'attribute' => 'tipo_imovel_id',
                 'filter' => ImovelTipo::find()->ativo()->listData('nome'),
@@ -92,7 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'date',
                 'filter' => false,
             ],
-			'endereco',
+			'imovel_id',
 			'quantidade_forma_aquatica',
 			'quantidade_forma_adulta',
 			'quantidade_ovos',

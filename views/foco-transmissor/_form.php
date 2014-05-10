@@ -7,13 +7,20 @@ use app\models\ImovelTipo;
 use kartik\widgets\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
-$data = array('1' => '1', '2' => '2222');
 ?>
 
 <div class="foco-transmissor-form">
 
 	<?php $form = ActiveForm::begin(); ?>
+    
+        <div class="row">
+            <div class="col-xs-3">
+                <?= $form->field($model, 'laboratorio')->textInput(['maxlength' => 256]) ?>
+            </div>
+            <div class="col-xs-3">
+                <?= $form->field($model, 'tecnico')->textInput(['maxlength' => 256]) ?>
+            </div>
+        </div>
     
         <div class="row">
             <div class="col-xs-3">
@@ -41,33 +48,10 @@ $data = array('1' => '1', '2' => '2222');
                 ?>
             </div>
         </div>
+    
         <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'quarteirao_id')->widget(
-                    Select2::classname(),
-                    [
-                        'data' => ['' => ''] + BairroQuarteirao::listData('numero_sequencia', 'id', 'bairro', 'nome'),
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]
-                );
-                ?>
-            </div>
-            <div class="col-xs-3">
-                <?= $form->field($model, 'tipo_imovel_id')->widget(
-                    Select2::classname(),
-                    [
-                        'data' => ['' => ''] + ImovelTipo::find()->ativo()->listData('nome'),
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]
-                );
-                ?>
-            </div>
-            <div class="col-xs-3">
-                <?= $form->field($model, 'endereco')->textInput(['maxlength' => 2048]) ?>
+            <div class="col-xs-9">
+                <?= 'asd'; /*$form->field($model, 'endereco')->textInput(['maxlength' => 2048])*/ ?>
             </div>
         </div>
         <div class="row">
