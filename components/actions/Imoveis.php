@@ -20,7 +20,7 @@ class Imoveis extends Action
             ['INNER JOIN', 'bairros bairro', 'quarteirao.bairro_id = bairro.id']
         ];
  
-        $strImovelRuaBairro = "rua.nome || ', ' || imoveis.numero || (CASE WHEN imoveis.sequencia IS NOT NULL AND imoveis.sequencia != '' THEN '-' || imoveis.sequencia ELSE '' END) || (CASE WHEN imoveis.sequencia IS NOT NULL AND imoveis.sequencia != '' THEN '-' || imoveis.sequencia ELSE '' END) || (CASE WHEN imoveis.sequencia IS NOT NULL AND imoveis.sequencia != '' THEN '-' || imoveis.sequencia ELSE '' END) || (CASE WHEN imoveis.complemento IS NOT NULL AND imoveis.complemento != '' THEN ', ' || imoveis.complemento ELSE '' END) || (CASE WHEN bairro.nome IS NOT NULL AND imoveis.complemento != '' THEN ', Bairro ' || bairro.nome ELSE '' END)";
+        $strImovelRuaBairro = "rua.nome || ', ' || (CASE WHEN imoveis.numero IS NOT NULL AND imoveis.sequencia != '' THEN '-' || imoveis.numero ELSE 'S/N' END) || (CASE WHEN imoveis.sequencia IS NOT NULL AND imoveis.sequencia != '' THEN '-' || imoveis.sequencia ELSE '' END) || (CASE WHEN imoveis.sequencia IS NOT NULL AND imoveis.sequencia != '' THEN '-' || imoveis.sequencia ELSE '' END) || (CASE WHEN imoveis.sequencia IS NOT NULL AND imoveis.sequencia != '' THEN '-' || imoveis.sequencia ELSE '' END) || (CASE WHEN imoveis.complemento IS NOT NULL AND imoveis.complemento != '' THEN ', ' || imoveis.complemento ELSE '' END) || (CASE WHEN bairro.nome IS NOT NULL AND imoveis.complemento != '' THEN ', Bairro ' || bairro.nome ELSE '' END)";
   
         if($queryString)
             $query->andWhere($strImovelRuaBairro . ' ILIKE \'' . $queryString . '%\'');
@@ -28,7 +28,7 @@ class Imoveis extends Action
         $imoveis = $query->all();
 
         foreach($imoveis as $imovel)
-            $array[$imovel->id] = $imovel->getEnderecoCompleto();
+            $array[] = array('id' => $imovel->id, 'name' => $imovel->getEnderecoCompleto());
 
 		echo Json::encode($array);
     }

@@ -1,26 +1,17 @@
 <?php
 
 use yii\helpers\Html;
-use app\models\BairroQuarteirao;
 use app\models\DepositoTipo;
 use app\models\EspecieTransmissor;
 use app\models\ImovelTipo;
 use app\widgets\GridView;
 
-/**
- * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\models\search\FocoTransmissorSearch $searchModel
- */
-
 $this->title = 'Focos de Transmissores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="foco-transmissor-index" data-role="modal-grid">
+<div class="foco-transmissor-index"">
 
 	<h1><?= Html::encode($this->title) ?></h1>
-
-	<?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
 	<?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
@@ -41,24 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
             [
                 'header' => 'Bairro',
-                'attribute' => 'quarteirao.bairro.nome',
+                'attribute' => 'imovel.bairroQuarteirao.bairro.nome',
             ],
-                /*
             [
-                'attribute' => 'quarteirao_id',
-                'filter' => BairroQuarteirao::listData('numero_sequencia', 'id', 'bairro', 'nome'),
-                'value' => function ($model, $index, $widget) {
-                    return $model->quarteirao->numero_sequencia;
-                }
-            ],
-                 * 
-                 */
-            [
-                'attribute' => 'tipo_imovel_id',
-                'filter' => ImovelTipo::find()->ativo()->listData('nome'),
-                'value' => function ($model, $index, $widget) {
-                    return $model->tipoImovel->sigla ? $model->tipoImovel->sigla : $model->tipoImovel->nome;
-                }
+                'header' => 'Tipo de Imóvel',
+                'attribute' => 'imovel.imovelTipo.nome',
             ],
             [
                 'attribute' => 'tipo_deposito_id',
@@ -74,8 +52,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->especieTransmissor->nome;
                 }
             ],
-			//'data_cadastro',
-			//'data_atualizacao',
             [
                 'attribute' => 'data_entrada',
                 'format' => 'date',
@@ -95,7 +71,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			'quantidade_forma_aquatica',
 			'quantidade_forma_adulta',
 			'quantidade_ovos',
-
 			[
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',

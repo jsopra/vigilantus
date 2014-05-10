@@ -630,4 +630,49 @@ class CaraDaWeb extends WebGuy
     public function naoVejoNoTitulo($title) {
         return parent::dontSeeInTitle($title);
     }
+    
+    public function markSelect2Option($fieldLabel, $fieldValue)
+    {
+        $this->executeJs('
+        var select2combo = $("label:contains(\''  . $fieldLabel . '\')").parent().find("select");
+        window.fieldValue;
+        select2combo.find("option").each(function(index, element){
+            if ($(element).text().replace(/\W/g, "") == "' . $fieldValue . '".replace(/\W/g, "")) {
+                window.fieldValue = $(element).val();
+            }
+        });
+        $("#" + select2combo.attr("id")).select2("val", window.fieldValue);
+        ');
+    }
+
+    public function removeSelect2Option($fieldLabel, $fieldValue)
+    {
+        $this->executeJs('
+        var select2combo = $("label:contains(\''  . $fieldLabel . '\')").parent().find("select");
+        var currentValues = $("#" + select2combo.attr("id")).select2("val");
+        window.fieldValue;
+
+        select2combo.find("option").each(function(index, element){
+            if ($(element).text().replace(/\W/g, "") == "' . $fieldValue . '".replace(/\W/g, "")) {
+                window.fieldValue = $(element).val();
+            }
+        });
+
+        for (i in currentValues) {
+            if (currentValues[i] == window.fieldValue) {
+                currentValues.splice(i, 1);
+            }
+        }
+
+        $("#" + select2combo.attr("id")).select2("val", currentValues);
+        ');
+    }
+
+    public function clearSelect2($fieldLabel)
+    {
+        $this->executeJs('
+        var select2combo = $("label:contains(\''  . $fieldLabel . '\')").parent().find("select");
+        $("#" + select2combo.attr("id")).select2("val", []);
+        ');
+    }
 }

@@ -10,8 +10,6 @@ use app\components\ActiveRecord;
  * @property integer $id
  * @property integer $inserido_por
  * @property integer $atualizado_por
- * @property integer $quarteirao_id
- * @property integer $tipo_imovel_id
  * @property integer $tipo_deposito_id
  * @property integer $especie_transmissor_id
  * @property string $data_cadastro
@@ -28,8 +26,6 @@ use app\components\ActiveRecord;
  *
  * @property Usuario $inseridoPor
  * @property Usuario $atualizadoPor
- * @property BairroQuarteirao $quarteirao
- * @property ImovelTipo $tipoImovel
  * @property DepositoTipo $tipoDeposito
  * @property EspecieTransmissor $especieTransmissor
  */
@@ -49,11 +45,9 @@ class FocoTransmissor extends ActiveRecord
     public function rules()
     {
         return [
-            [['inserido_por', 'quarteirao_id', 'tipo_imovel_id', 'tipo_deposito_id', 'especie_transmissor_id', 'imovel_id'], 'required'],
+            [['inserido_por', 'tipo_deposito_id', 'especie_transmissor_id', 'imovel_id'], 'required'],
             [['quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'], 'integer', 'min' => 0],
             [['!inserido_por', '!atualizado_por'], 'exist', 'targetClass' => Usuario::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
-            ['quarteirao_id', 'exist', 'targetClass' => BairroQuarteirao::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
-            ['tipo_imovel_id', 'exist', 'targetClass' => ImovelTipo::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['tipo_deposito_id', 'exist', 'targetClass' => DepositoTipo::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['especie_transmissor_id', 'exist', 'targetClass' => EspecieTransmissor::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['imovel_id', 'exist', 'targetClass' => Imovel::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
@@ -71,8 +65,6 @@ class FocoTransmissor extends ActiveRecord
             'id' => 'ID',
             'inserido_por' => 'Inserido por',
             'atualizado_por' => 'Atualizado por',
-            'quarteirao_id' => 'Quarteirão',
-            'tipo_imovel_id' => 'Tipo de Imóvel',
             'tipo_deposito_id' => 'Tipo de Depósito',
             'especie_transmissor_id' => 'Espécie de Transmissor',
             'data_cadastro' => 'Data de Cadastro',
@@ -103,22 +95,6 @@ class FocoTransmissor extends ActiveRecord
     public function getAtualizadoPor()
     {
         return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
-    }
-
-    /**
-     * @return \yii\db\ActiveRelation
-     */
-    public function getQuarteirao()
-    {
-        return $this->hasOne(BairroQuarteirao::className(), ['id' => 'quarteirao_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveRelation
-     */
-    public function getTipoImovel()
-    {
-        return $this->hasOne(ImovelTipo::className(), ['id' => 'tipo_imovel_id']);
     }
 
     /**

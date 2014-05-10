@@ -12,8 +12,6 @@ class FocoTransmissorSearch extends SearchModel
 	public $id;
 	public $inserido_por;
 	public $atualizado_por;
-	public $quarteirao_id;
-	public $tipo_imovel_id;
 	public $tipo_deposito_id;
 	public $especie_transmissor_id;
 	public $data_cadastro;
@@ -31,7 +29,7 @@ class FocoTransmissorSearch extends SearchModel
 	public function rules()
 	{
 		return [
-			[['id', 'inserido_por', 'atualizado_por', 'quarteirao_id', 'tipo_imovel_id', 'tipo_deposito_id', 'especie_transmissor_id', 'quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos', 'imovel_id'], 'integer'],
+			[['id', 'inserido_por', 'atualizado_por', 'tipo_deposito_id', 'especie_transmissor_id', 'quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos', 'imovel_id'], 'integer'],
 			[['data_cadastro', 'data_atualizacao', 'data_entrada', 'data_exame', 'data_coleta'], 'date'],
             [['laboratorio', 'tecnico'], 'safe'],
 		];
@@ -43,8 +41,6 @@ class FocoTransmissorSearch extends SearchModel
             'id' => $this->id,
             'inserido_por' => $this->inserido_por,
             'atualizado_por' => $this->atualizado_por,
-            'quarteirao_id' => $this->quarteirao_id,
-            'tipo_imovel_id' => $this->tipo_imovel_id,
             'tipo_deposito_id' => $this->tipo_deposito_id,
             'especie_transmissor_id' => $this->especie_transmissor_id,
             'data_entrada' => $this->data_entrada,

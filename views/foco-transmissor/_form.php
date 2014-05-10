@@ -62,18 +62,14 @@ use yii\web\JsExpression;
                             'url' => Url::toRoute(['foco-transmissor/imoveis']),
                             'dataType' => 'json',
                             'data' => new JsExpression('function(term,page) { return {q:term}; }'),
-                            'results' => new JsExpression('function(data,page) { return {results:data}; }'),
+                            'results' => new JsExpression('function(data,page) { return {results : $.map(data, function (item) { return { text:item.name, slug:item.name,   id:item.id } } ) }; }'),
                         ],
-                        'initSelection' => new JsExpression('
-                            function (element, callback) {
-                                var id=$(element).val();
-                                if (id !== "") {
-                                    $.ajax("{$url}?id=" + id, {
-                                        dataType: "json"
-                                    }).done(function(data) { callback(data.results);});
-                                }
-                            }
-                        ')
+                        'initSelection' => new JsExpression('function (item, callback) {
+                            var id = ' . (!$model->getIsNewRecord() ? $model->imovel_id : 'null') . ';
+                            var text = "' . (!$model->getIsNewRecord() && $model->imovel ? $model->imovel->getEnderecoCompleto() : 'null') . '";
+                            var data = { id: id, text: text, slug: text };
+                            callback(data);
+                        }'),
                     ],
                 ]);
                 ?>

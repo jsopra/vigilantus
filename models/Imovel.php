@@ -109,9 +109,8 @@ class Imovel extends ActiveRecord
     public function getEnderecoCompleto() 
     {
         $str = '';
-        
         $str .= $this->rua->nome . ', ';
-        $str .= $this->numero;
+        $str .= $this->numero ? $this->numero : 'S/N';
         
         if($this->sequencia)
             $str .= '-' . $this->sequencia;
