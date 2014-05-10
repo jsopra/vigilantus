@@ -13,11 +13,10 @@ use app\forms\ContatoForm;
 use app\forms\FeedbackForm;
 use app\components\Controller;
 use app\models\Municipio;
-use app\models\search\BoletimRgResumoCapaSearch;
+use app\models\report\ResumoRgCapaReport;
 
 class SiteController extends Controller
 {
-    
     public function behaviors()
     {
         return [
@@ -60,17 +59,14 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionHome() 
+    public function actionHome()
     {
         return $this->render(
             'home',
-            [
-                'resumoBairros' => BoletimRgResumoCapaSearch::porBairros(),
-                'resumoTiposImoveis' => BoletimRgResumoCapaSearch::porTiposDeImoveis(),
-            ]
+            ['model' => new ResumoRgCapaReport]
         );
     }
-    
+
     public function actionIndex()
     {
         if (!Yii::$app->user->isGuest)
