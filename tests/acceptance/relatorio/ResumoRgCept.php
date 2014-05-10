@@ -3,7 +3,46 @@
 use \Phactory;
 
 if ($this->scenario->running()) {
-    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+
+    $usuario = Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+
+    $bairro = Phactory::bairro(['nome' => 'Seminário', 'municipio_id' => 1]);
+
+    $quarteirao = Phactory::bairroQuarteirao(
+        [
+            'numero_quarteirao' => 156,
+            'bairro_id' => $bairro->id,
+            'municipio_id' => $bairro->municipio_id,
+        ]
+    );
+    $boletim = Phactory::boletimRg(
+        [
+            'data' => '07/03/1989',
+            'bairro_id' => $bairro->id,
+            'bairro_quarteirao_id' => $quarteirao->id,
+            'municipio_id' => $bairro->municipio_id,
+        ]
+    );
+    $boletim->adicionarImovel('Rua Rio de Janeiro', '176', null, 'Casa 1', 1, false);
+    $boletim->adicionarImovel('Rua Rio de Janeiro', '176', null, 'Casa 2', 1, false);
+    $boletim->salvarComImoveis();
+
+    $quarteirao2 = Phactory::bairroQuarteirao(
+        [
+            'numero_quarteirao' => 418,
+            'bairro_id' => $bairro->id,
+            'municipio_id' => $bairro->municipio_id,
+        ]
+    );
+    $attributes = $boletim->attributes;
+    $attributes['folha'] = '2';
+    $attributes['bairro_quarteirao_id'] = $quarteirao2->id;
+    unset($attributes['id']);
+    $boletim2 = Phactory::boletimRg($attributes);
+    $boletim2->adicionarImovel('Rua Rio de Janeiro', '176', null, 'Casa 1', 2, false);
+    $boletim2->adicionarImovel('Rua Rio de Janeiro', '176', null, 'Casa 2', 2, false);
+    $boletim2->adicionarImovel('Rua Rio de Janeiro', '176', null, 'Casa 3', 2, false);
+    $boletim2->salvarComImoveis();
 }
 
 $eu = new CaraDaWeb($scenario);
@@ -14,26 +53,9 @@ $eu->clico('Boletim de RG', 'li.active');
 $eu->selecionoOpcao('Bairro', 'Seminário');
 $eu->naoVejo('Exportar planilha');
 $eu->clico('Gerar Planilha');
-$scenario->incomplete('as tabelas mudaram totalmente... implementar quando for feito o novo relatorio');
+$eu->aguardoPor(1);
 
-// $eu->espero('ver o cabeçalho da planilha');
-// $seletorCabecalho = '#boletim-resumo-rg thead';
-// $eu->vejo('Número Principal', $seletorCabecalho);
-// $eu->vejo('Número Alternativo', $seletorCabecalho);
-// $eu->vejo('Quarteirão', $seletorCabecalho);
-// $eu->vejo('Tipo do Imóvel', $seletorCabecalho);
-// $eu->vejo('Seq.', $seletorCabecalho);
-// $eu->vejo('Res.', $seletorCabecalho);
-// $eu->vejo('Comercial', $seletorCabecalho);
-// $eu->vejo('TB', $seletorCabecalho);
-// $eu->vejo('PE', $seletorCabecalho);
-// $eu->vejo('Outros', $seletorCabecalho);
-// $eu->vejo('Total de Imóveis', $seletorCabecalho);
-// $eu->vejo('Área de Foco', $seletorCabecalho);
-
-// $eu->espero('ver opção de exportar planilha do Excel');
-// $eu->vejo('Exportar planilha');
-
-// $eu->espero('ver os dados na planilha');
-// $eu->vejo(implode(' ', ['14', '973', '3', '5', '1', '0', '0', '9', '27/06/2013']));
-// $eu->vejo(implode(' ', ['171', '2629', '1', '170', '2', '2', '0', '0', '174', '02/04/2013']));
+$eu->espero('ver os dados na planilha');
+$eu->vejo(implode(' ', ['156', '2', '0', '0', '0', '0', '2']));
+$eu->vejo(implode(' ', ['418', '0', '3', '0', '0', '0', '3']));
+$eu->vejo(implode(' ', ['Total:', '2', '3', '0', '0', '0', '5']));

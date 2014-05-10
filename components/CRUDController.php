@@ -90,33 +90,12 @@ class CRUDController extends Controller
     {
         $model = $this->findModel($id);
         
-        if ($model->hasAttribute('excluido')) {
-            
-            $model->excluido = true;
-            $updatedAttributes = ['excluido'];
-            
-            if ($model->hasAttribute('excluido_por')) {
-                $model->excluido_por = Yii::$app->user->id;
-                $updatedAttributes[] = 'excluido_por';
-            }
-            
-            if ($model->hasAttribute('data_exclusao')) {
-                $model->data_exclusao = new Expression('NOW()');
-                $updatedAttributes[] = 'data_exclusao';
-            }
-            
-            $runValidations = false;
-            
-            $model->update($runValidations, $updatedAttributes);
-            
-        } else {
-            $model->delete();
-        }
+        $this->disableOrDelete($model);
         
         if (!Yii::$app->request->isAjax) 
             Yii::$app->session->setFlash('success', $this->deleteFlashMessage);
         
-        $this->redirect(['index']);
+        return $this->redirect(['index']);
     }
     
     /**
@@ -139,11 +118,42 @@ class CRUDController extends Controller
     {
         return $this->getModelClassName();
     }
+
+    /**
+     * Se o modelo tiver um atributo 'excluido', desativa ao invés de excluir
+     * @param ActiveRecord $model
+     * @return integer Linhas excluídas ou atualizadas
+     */
+    protected function disableOrDelete($model)
+    {
+        if ($model->hasAttribute('excluido')) {
+
+            $model->excluido = true;
+            $updatedAttributes = ['excluido'];
+
+            if ($model->hasAttribute('excluido_por')) {
+                $model->excluido_por = Yii::$app->user->id;
+                $updatedAttributes[] = 'excluido_por';
+            }
+
+            if ($model->hasAttribute('data_exclusao')) {
+                $model->data_exclusao = new Expression('NOW()');
+                $updatedAttributes[] = 'data_exclusao';
+            }
+
+            $runValidations = false;
+
+            return $model->update($runValidations, $updatedAttributes);
+
+        } else {
+            return $model->delete();
+        }
+    }
     
     /**
      * @inheritdoc
      */
-    protected function loadAndSaveModel(ActiveRecord $model, $data = null)
+    protected function loadAndSaveModel(ActiveRecord $model, $data = null, $redirect = ['index'])
     {
         if (!empty($data) && $model->load($data)) { 
 
@@ -155,14 +165,16 @@ class CRUDController extends Controller
             elseif ($model->hasAttribute('atualizado_por')) {
                 $model->atualizado_por = Yii::$app->user->identity->id;
             }
-            
-            if ($model->save()) {
-                
+
+            $saveMethodName = $this->getModelSaveMethodName();
+
+            if ($model->$saveMethodName()) {
+
                 $message = $isNewRecord ? $this->createFlashMessage : $this->updateFlashMessage;
 
                 Yii::$app->session->setFlash('success', $message);
-                
-                return $this->redirect(['index']);
+
+                return $this->redirect($redirect);
             }
         }
         
@@ -176,6 +188,15 @@ class CRUDController extends Controller
     {
         $class = $this->getModelClassName();
         return new $class;
+    }
+
+    /**
+     * Nome do método chamado no modelo para salvá-lo/enviá-lo/escrevê-lo/etc.
+     * @return string
+     */
+    protected function getModelSaveMethodName()
+    {
+        return 'save';
     }
 
     /**

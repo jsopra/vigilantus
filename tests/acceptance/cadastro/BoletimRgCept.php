@@ -15,7 +15,7 @@ if ($this->scenario->running()) {
 $eu = new CaraDaWeb($scenario);
 $eu->quero('verificar que a ficha de RG funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clico('Fichas');
+$eu->clico('Localização');
 $eu->clico('Boletim de RG');
 
 $eu->espero('cadastrar uma ficha');
@@ -30,7 +30,7 @@ $eu->preenchoCampo('Data da Coleta', date('d/m/Y'));
 
 $eu->clico('Cadastrar');
 $eu->aguardoPor(1);
-$eu->vejo('“Imoveis” não pode ficar em branco.');
+$eu->vejo('Nenhum imóvel salvo');
 
 $eu->preenchoCampo("//input[@name='BoletimRg[imoveis][exemplo][rua]']", 'Rua Rio de Janeiro');
 $eu->preenchoCampo("//input[@name='BoletimRg[imoveis][exemplo][numero]']", '176');
@@ -59,7 +59,7 @@ $eu->clico("//a[@title='Adicionar']");
 
 $eu->aguardoPor(1);
 
-$eu->clico('Cadastrar');
+$eu->clico('Atualizar');
 $eu->aguardoPor(1);
 
 $eu->vejoUmTitulo('Boletim de Reconhecimento Geográfico');
@@ -75,9 +75,6 @@ $eu->clico('Fechar');
 $eu->aguardoPor(1);
 
 $eu->espero('atualizar uma ficha');
-
-$eu->clico('Fichas');
-$eu->clico('Boletim de RG');
 
 $eu->clicoNoGrid('123', 'Alterar');
 $eu->aguardoPor(1);
@@ -98,9 +95,6 @@ $eu->naoVejo('Comercial');
 
 $eu->clico('Fechar');
 $eu->aguardoPor(1);
-
-$eu->clico('Fichas');
-$eu->clico('Boletim de RG');
 
 $eu->espero('excluir um boletim');
 $eu->clicoNoGrid('Seminário', 'Excluir');
