@@ -6,14 +6,23 @@ use app\models\FocoTransmissor;
 use app\models\ImovelTipo;
 use kartik\widgets\Select2;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-
-$data = array('1' => '1', '2' => '2222');
+use yii\web\JsExpression;
 ?>
 
 <div class="foco-transmissor-form">
 
 	<?php $form = ActiveForm::begin(); ?>
+    
+        <div class="row">
+            <div class="col-xs-3">
+                <?= $form->field($model, 'laboratorio')->textInput(['maxlength' => 256]) ?>
+            </div>
+            <div class="col-xs-3">
+                <?= $form->field($model, 'tecnico')->textInput(['maxlength' => 256]) ?>
+            </div>
+        </div>
     
         <div class="row">
             <div class="col-xs-3">
@@ -41,33 +50,29 @@ $data = array('1' => '1', '2' => '2222');
                 ?>
             </div>
         </div>
+    
         <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'quarteirao_id')->widget(
-                    Select2::classname(),
-                    [
-                        'data' => ['' => ''] + BairroQuarteirao::listData('numero_sequencia', 'id', 'bairro', 'nome'),
-                        'pluginOptions' => [
-                            'allowClear' => true
+            <div class="col-xs-9">
+                <?php
+                echo $form->field($model, 'imovel_id')->widget(Select2::classname(), [
+                    'options' => ['placeholder' => 'Buscar por um imóvel...'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'ajax' => [
+                            'url' => Url::toRoute(['foco-transmissor/imoveis']),
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(term,page) { return {q:term}; }'),
+                            'results' => new JsExpression('function(data,page) { return {results : $.map(data, function (item) { return { text:item.name, slug:item.name,   id:item.id } } ) }; }'),
                         ],
-                    ]
-                );
+                        'initSelection' => new JsExpression('function (item, callback) {
+                            var id = ' . (!$model->getIsNewRecord() ? $model->imovel_id : 'null') . ';
+                            var text = "' . (!$model->getIsNewRecord() && $model->imovel ? $model->imovel->getEnderecoCompleto() : 'null') . '";
+                            var data = { id: id, text: text, slug: text };
+                            callback(data);
+                        }'),
+                    ],
+                ]);
                 ?>
-            </div>
-            <div class="col-xs-3">
-                <?= $form->field($model, 'tipo_imovel_id')->widget(
-                    Select2::classname(),
-                    [
-                        'data' => ['' => ''] + ImovelTipo::find()->ativo()->listData('nome'),
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]
-                );
-                ?>
-            </div>
-            <div class="col-xs-3">
-                <?= $form->field($model, 'endereco')->textInput(['maxlength' => 2048]) ?>
             </div>
         </div>
         <div class="row">
