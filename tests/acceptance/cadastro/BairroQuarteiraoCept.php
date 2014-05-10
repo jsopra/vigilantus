@@ -32,7 +32,7 @@ $eu->vejo('O cadastro foi realizado com sucesso.');
 $eu->espero('editar um quarteirão');
 $eu->clicoNoGrid('418', 'Alterar');
 $eu->aguardoPor(1);
-$eu->vejoUmTitulo('Atualizar Quarteirão do Bairro "Seminário"');
+$eu->vejoUmTitulo('Atualizar Quarteirão do Bairro: "Seminário"');
 $eu->preenchoCampo('Número principal', '777');
 $eu->preenchoCampo('Número alternativo', '');
 $eu->clico('Atualizar');

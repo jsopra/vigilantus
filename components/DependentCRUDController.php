@@ -126,4 +126,21 @@ class DependentCRUDController extends CRUDController
             return $this->renderAjaxOrLayout('update', ['model' => $model, 'parentObject' => $this->parentObject]);
         }
     }
+
+    public function actionDelete($id)
+    {
+        $model = $this->findModel($id);
+
+        $this->disableOrDelete($model);
+
+        if (!Yii::$app->request->isAjax)
+            Yii::$app->session->setFlash('success', $this->deleteFlashMessage);
+
+        $parentField = $this->parentField;
+
+        return $this->redirect([
+            'index',
+            'parentID' => $model->$parentField
+        ]);
+    }
 }
