@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($model->getTiposDeImoveis() as $tipo => $imoveis) : ?>
+                <?php foreach ($model->getImoveisPorTipo() as $tipo => $imoveis) : ?>
                 <tr>
                     <td><?= $tipo ?></td>
                     <td class="text-center"><?= $imoveis ?></td>
@@ -46,7 +46,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($model->getBairros() as $bairro => $imoveis) : ?>
+                <?php foreach ($model->getImoveisPorBairro() as $bairro => $imoveis) : ?>
                 <tr>
                     <td><?= $bairro ?></td>
                     <td style="text-align: center;"><?= $imoveis ?></td>

@@ -29,7 +29,7 @@ class ResumoRgCapaReport
     /**
      * @return array
      */
-    public function getTiposDeImoveis()
+    public function getImoveisPorTipo()
     {
         $dados = [];
 
@@ -58,7 +58,7 @@ class ResumoRgCapaReport
     /**
      * @return array
      */
-    public function getBairros()
+    public function getImoveisPorBairro()
     {
         $dados = [];
 
