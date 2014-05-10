@@ -6,7 +6,9 @@ use app\models\FocoTransmissor;
 use app\models\ImovelTipo;
 use kartik\widgets\Select2;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use yii\web\JsExpression;
 ?>
 
 <div class="foco-transmissor-form">
@@ -51,7 +53,30 @@ use yii\widgets\ActiveForm;
     
         <div class="row">
             <div class="col-xs-9">
-                <?= 'asd'; /*$form->field($model, 'endereco')->textInput(['maxlength' => 2048])*/ ?>
+                <?php
+                echo $form->field($model, 'imovel_id')->widget(Select2::classname(), [
+                    'options' => ['placeholder' => 'Buscar por um imóvel...'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'ajax' => [
+                            'url' => Url::toRoute(['foco-transmissor/imoveis']),
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(term,page) { return {q:term}; }'),
+                            'results' => new JsExpression('function(data,page) { return {results:data}; }'),
+                        ],
+                        'initSelection' => new JsExpression('
+                            function (element, callback) {
+                                var id=$(element).val();
+                                if (id !== "") {
+                                    $.ajax("{$url}?id=" + id, {
+                                        dataType: "json"
+                                    }).done(function(data) { callback(data.results);});
+                                }
+                            }
+                        ')
+                    ],
+                ]);
+                ?>
             </div>
         </div>
         <div class="row">
