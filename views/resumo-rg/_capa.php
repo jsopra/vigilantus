@@ -10,7 +10,7 @@
             <tbody>
                 <tr class="totalizador">
                     <td>Quarteirões</td>
-                    <td style="text-align: center;"><?= $resumoTiposImoveis['quarteiroes']['geral'] ?></td>
+                    <td class="text-center"><?= $model->getTotalQuarteiroes() ?></td>
                 </tr>
             </tbody>
         </table>
@@ -22,17 +22,17 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($resumoTiposImoveis['tipos_imoveis'] as $label => $values) : ?>
+                <?php foreach ($model->getTiposDeImoveis() as $tipo => $imoveis) : ?>
                 <tr>
-                    <td><?= $label ?></td>
-                    <td style="text-align: center;"><?= $values['geral'] ?></td>
+                    <td><?= $tipo ?></td>
+                    <td class="text-center"><?= $imoveis ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
             <tfoot>
                 <tr class="totalizador">
                     <td>Total</td>
-                    <td style="text-align: center;"><?= $resumoTiposImoveis['total']['geral'] ?></td>
+                    <td class="text-center"><?= $model->getTotalImoveis() ?></td>
                 </tr>
             </tfoot>
         </table>
@@ -46,7 +46,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($resumoBairros as $bairro => $imoveis) : ?>
+                <?php foreach ($model->getBairros() as $bairro => $imoveis) : ?>
                 <tr>
                     <td><?= $bairro ?></td>
                     <td style="text-align: center;"><?= $imoveis ?></td>
