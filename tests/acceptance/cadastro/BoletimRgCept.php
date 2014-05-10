@@ -15,7 +15,7 @@ if ($this->scenario->running()) {
 $eu = new CaraDaWeb($scenario);
 $eu->quero('verificar que a ficha de RG funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clico('Fichas');
+$eu->clico('Localização');
 $eu->clico('Boletim de RG');
 
 $eu->espero('cadastrar uma ficha');
@@ -76,9 +76,6 @@ $eu->aguardoPor(1);
 
 $eu->espero('atualizar uma ficha');
 
-$eu->clico('Fichas');
-$eu->clico('Boletim de RG');
-
 $eu->clicoNoGrid('123', 'Alterar');
 $eu->aguardoPor(1);
 
@@ -98,9 +95,6 @@ $eu->naoVejo('Comercial');
 
 $eu->clico('Fechar');
 $eu->aguardoPor(1);
-
-$eu->clico('Fichas');
-$eu->clico('Boletim de RG');
 
 $eu->espero('excluir um boletim');
 $eu->clicoNoGrid('Seminário', 'Excluir');

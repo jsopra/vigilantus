@@ -19,4 +19,9 @@ class BairroQuarteiraoQuery extends ActiveQuery
         $this->andWhere('seq = :numero', [':numero' => $numero]);
         return $this;
     }
+    
+    public function comCoordenadas() {
+        $this->andWhere('coordenadas_area IS NOT NULL');
+        return $this;
+    }
 }
