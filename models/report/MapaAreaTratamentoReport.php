@@ -8,12 +8,14 @@ use yii\base\Model;
 class MapaAreaTratamentoReport extends Model
 {
     public $bairro_id;
+    public $lira;
     public $quarteiroesComCasosAtivos;
 
     public function rules()
     {
         return [
             ['bairro_id', 'exist', 'targetClass' => Bairro::className(), 'targetAttribute' => 'id'],
+            ['lira', 'boolean'],
         ];
     }
 
@@ -21,6 +23,7 @@ class MapaAreaTratamentoReport extends Model
     {
         return [
             'bairro_id' => 'Bairro',
+            'lira' => 'LIRA',
         ];
     }
 
@@ -28,7 +31,11 @@ class MapaAreaTratamentoReport extends Model
     {
         parent::load($data, $formName);
         
-        $quarteiroes = BairroQuarteirao::find()->comFocosAtivos();
+        $lira = null;
+        if($this->lira !== '')
+            $lira = $this->lira ? true : false;
+        
+        $quarteiroes = BairroQuarteirao::find()->comFocosAtivos($lira);
         
         if(is_numeric($this->bairro_id))
             $quarteiroes->doBairro($this->bairro_id);

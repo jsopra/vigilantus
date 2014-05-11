@@ -12,8 +12,6 @@ class FocoTransmissorSearch extends SearchModel
 	public $id;
 	public $inserido_por;
 	public $atualizado_por;
-	public $quarteirao_id;
-	public $tipo_imovel_id;
 	public $tipo_deposito_id;
 	public $especie_transmissor_id;
 	public $data_cadastro;
@@ -21,17 +19,19 @@ class FocoTransmissorSearch extends SearchModel
 	public $data_entrada;
 	public $data_exame;
 	public $data_coleta;
-	public $endereco;
 	public $quantidade_forma_aquatica;
 	public $quantidade_forma_adulta;
 	public $quantidade_ovos;
+    public $imovel_id;
+    public $laboratorio;
+    public $tecnico;
 
 	public function rules()
 	{
 		return [
-			[['id', 'inserido_por', 'atualizado_por', 'quarteirao_id', 'tipo_imovel_id', 'tipo_deposito_id', 'especie_transmissor_id', 'quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'], 'integer'],
+			[['id', 'inserido_por', 'atualizado_por', 'tipo_deposito_id', 'especie_transmissor_id', 'quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos', 'imovel_id'], 'integer'],
 			[['data_cadastro', 'data_atualizacao', 'data_entrada', 'data_exame', 'data_coleta'], 'date'],
-            ['endereco', 'safe'],
+            [['laboratorio', 'tecnico'], 'safe'],
 		];
 	}
 
@@ -41,8 +41,6 @@ class FocoTransmissorSearch extends SearchModel
             'id' => $this->id,
             'inserido_por' => $this->inserido_por,
             'atualizado_por' => $this->atualizado_por,
-            'quarteirao_id' => $this->quarteirao_id,
-            'tipo_imovel_id' => $this->tipo_imovel_id,
             'tipo_deposito_id' => $this->tipo_deposito_id,
             'especie_transmissor_id' => $this->especie_transmissor_id,
             'data_entrada' => $this->data_entrada,
@@ -53,9 +51,10 @@ class FocoTransmissorSearch extends SearchModel
             'quantidade_forma_aquatica' => $this->quantidade_forma_aquatica,
             'quantidade_forma_adulta' => $this->quantidade_forma_adulta,
             'quantidade_ovos' => $this->quantidade_ovos,
+            'imovel_id' => $this->imovel_id,
         ]);
 
-		$query->andFilterWhere(['like', 'endereco', $this->endereco]);
-        
+		$query->andFilterWhere(['like', 'laboratorio', $this->laboratorio]);
+        $query->andFilterWhere(['like', 'tecnico', $this->tecnico]);
 	}
 }

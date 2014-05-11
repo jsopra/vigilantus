@@ -154,14 +154,9 @@ class BairroQuarteirao extends PostgisActiveRecord
         
         $return = [];
         
-        //$quarteiroes = BairroQuarteirao::find()->doBairro($this->id)->comCoordenadas()->all();
         $quarteiroes = $quarteiroes->all();
         
         foreach($quarteiroes as $quarteirao) {
-        /*    
-            if(in_array($quarteirao->id,$except)) 
-                continue;
-          */  
             $quarteirao->loadCoordenadas();
             
             if($quarteirao->coordenadas)
