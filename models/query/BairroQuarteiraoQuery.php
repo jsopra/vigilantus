@@ -44,7 +44,7 @@ class BairroQuarteiraoQuery extends ActiveQuery
             JOIN imoveis ON focos_transmissores.imovel_id = imoveis.id
             WHERE 
                 " . ($whereLira ? $whereLira . ' AND ' : '') . "
-                data_entrada BETWEEN NOW() - INTERVAL '" . Yii::$app->params['quantidadeDiasFocoAtivo'] . " DAYS' AND NOW() AND
+                data_coleta BETWEEN NOW() - INTERVAL '" . Yii::$app->params['quantidadeDiasFocoAtivo'] . " DAYS' AND NOW() AND
                 (quantidade_forma_aquatica > 0 OR quantidade_forma_adulta > 0 OR quantidade_ovos > 0)
         )";
         

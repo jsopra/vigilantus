@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
  * @var app\models\search\BoletimRgFechamentoSearch $searchModel
  */
 
-$this->title = 'Boletim de Resumo do Reconhecimento Geográfico';
+$this->title = 'Resumo do Reconhecimento Geográfico';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="resumo-rg-index" data-role="modal-grid">
