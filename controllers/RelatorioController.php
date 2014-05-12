@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\components\Controller;
 use app\models\report\ResumoRgBairroReport;
+use app\models\report\MapaAreaTratamentoReport;
 use Yii;
 use yii\filters\AccessControl;
 
@@ -17,7 +18,7 @@ class RelatorioController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['resumo-rg-bairro'],
+                'only' => ['resumo-rg-bairro', 'mapa-area-tratamento'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -41,5 +42,14 @@ class RelatorioController extends Controller
         }
 
         return $this->render('resumo-rg-bairro', $params);
+    }
+    
+    public function actionMapaAreaTratamento()
+    {
+        $model = new MapaAreaTratamentoReport;
+        
+        $model->load($_GET);
+
+        return $this->render('mapa-area-tratamento', ['model' => $model]);
     }
 }

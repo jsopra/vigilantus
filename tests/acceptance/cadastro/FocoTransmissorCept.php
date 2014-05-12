@@ -18,7 +18,7 @@ if ($this->scenario->running()) {
 $eu = new CaraDaWeb($scenario);
 $eu->quero('verificar que o CRUD de focos de transmissores funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clico('Cadastro');
+$eu->clico('Formulários');
 $eu->clico('Focos de Transmissores');
 
 $eu->espero('cadastrar um foco de transmissor');

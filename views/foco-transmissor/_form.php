@@ -75,6 +75,7 @@ use yii\web\JsExpression;
                 ?>
             </div>
         </div>
+    
         <div class="row">
             <div class="col-xs-3">
                 <?= $form->field($model, 'data_entrada')->input('date') ?>

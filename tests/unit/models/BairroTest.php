@@ -62,17 +62,4 @@ class BairroTest extends TestCase
         
         $this->assertEquals($arrayCoordenadas, $bairro->coordenadas);
     }
-    
-    public function testGetCoordenadasQuarteiroes() {
-        
-        $bairro = Phactory::bairro();
-        
-        $quarteirao = Phactory::bairroQuarteirao();
-        $quarteirao->bairro_id = $bairro->id;
-        $this->assertTrue($quarteirao->save());
-        
-        $this->assertEquals(1, count($bairro->getCoordenadasQuarteiroes([])));
-        $this->assertEquals(1, count($bairro->getCoordenadasQuarteiroes([2,3,4,5])));
-        $this->assertEquals(0, count($bairro->getCoordenadasQuarteiroes([1])));
-    }
 }

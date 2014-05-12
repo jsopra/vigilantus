@@ -99,10 +99,10 @@ class ResumoRgBairroReport extends Model
                 $valores['imoveis'][$idTipo] = 0;
             }
 
-            $queryFechamentos = $boletimRg
-                ->getBoletinsFechamento()
-                ->where('imovel_lira = ' . ($this->lira ? 'TRUE' : 'FALSE'))
-            ;
+            $queryFechamentos = $boletimRg->getBoletinsFechamento();
+            
+            if($this->lira !== '')
+                $queryFechamentos->where('imovel_lira = ' . ($this->lira ? 'TRUE' : 'FALSE'));
 
             foreach ($queryFechamentos->all() as $fechamento) {
                 $valores['imoveis'][$fechamento->imovel_tipo_id] += $fechamento->quantidade;

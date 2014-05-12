@@ -2,6 +2,7 @@
 
 namespace app\models;
 use app\components\PostgisActiveRecord;
+use app\models\Query\BairroQuarteiraoQuery as BairroQuarteiraoQuery;
 
 /**
  * This is the model class for table "bairro_quarteiroes".
@@ -143,6 +144,27 @@ class BairroQuarteirao extends PostgisActiveRecord
         
         return is_array($this->coordenadas);
     } 
+    
+    /**
+     * Busca coordenadas de quarteirões do bairro
+     * @param array $except
+     * @return array 
+     */
+    public static function getCoordenadas(BairroQuarteiraoQuery $quarteiroes) {
+        
+        $return = [];
+        
+        $quarteiroes = $quarteiroes->all();
+        
+        foreach($quarteiroes as $quarteirao) {
+            $quarteirao->loadCoordenadas();
+            
+            if($quarteirao->coordenadas)
+                $return[] = $quarteirao->coordenadas;
+        }
+
+        return $return;
+    }
     
     /**
      * Valida e carrega json de coordenadas em campo postgis

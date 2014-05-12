@@ -25,6 +25,10 @@ class FocoTransmissorSearch extends SearchModel
     public $imovel_id;
     public $laboratorio;
     public $tecnico;
+    
+    public $bairro_id;
+    public $foco_ativo;
+    public $imovel_lira;
 
 	public function rules()
 	{
@@ -56,5 +60,7 @@ class FocoTransmissorSearch extends SearchModel
 
 		$query->andFilterWhere(['like', 'laboratorio', $this->laboratorio]);
         $query->andFilterWhere(['like', 'tecnico', $this->tecnico]);
+        
+        $query->orderBy('data_cadastro desc');
 	}
 }

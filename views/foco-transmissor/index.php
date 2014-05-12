@@ -31,12 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
             [
-                'header' => 'Bairro',
-                'attribute' => 'imovel.bairroQuarteirao.bairro.nome',
-            ],
-            [
-                'header' => 'Tipo de Imóvel',
-                'attribute' => 'imovel.imovelTipo.nome',
+                'attribute' => 'imovel_id',
+                'filter' => false,
+                'value' => function ($model, $index, $widget) {
+                    return $model->imovel->getEnderecoCompleto();
+                },
+                'options' => ['style' => 'width: 30%']
             ],
             [
                 'attribute' => 'tipo_deposito_id',
@@ -53,24 +53,41 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => 'data_entrada',
-                'format' => 'date',
-                'filter' => false,
+                'format' => 'raw',
+                'header' => 'Examinador',
+                'value' => function ($model, $index, $widget) {
+                    $str = '';
+                    foreach(['laboratorio', 'tecnico'] as $item)
+                        $str .= Html::tag('p', '<strong>' . $model->getAttributeLabel($item) . ':</strong> ' . $model->$item);
+                
+                    return $str;
+                },
+                'options' => ['style' => 'width: 15%']
             ],
             [
-                'attribute' => 'data_exame',
-                'format' => 'date',
-                'filter' => false,
+                'format' => 'raw',
+                'header' => 'Datas',
+                'value' => function ($model, $index, $widget) {
+                    $str = '';
+                    foreach(['data_entrada', 'data_exame', 'data_coleta'] as $item)
+                        $str .= Html::tag('p', '<strong>' . $model->getAttributeLabel($item) . ':</strong> ' . $model->getFormattedAttribute($item));
+                
+                    return $str;
+                },
+                'options' => ['style' => 'width: 15%']
             ],
             [
-                'attribute' => 'data_coleta',
-                'format' => 'date',
-                'filter' => false,
+                'format' => 'raw',
+                'header' => 'Quantidades',
+                'value' => function ($model, $index, $widget) {
+                    $str = '';
+                    foreach(['quantidade_forma_adulta', 'quantidade_forma_adulta', 'quantidade_ovos'] as $item)
+                        $str .= Html::tag('p', '<strong>' . $model->getAttributeLabel($item) . ':</strong> ' . $model->$item);
+                
+                    return $str;
+                },
+                'options' => ['style' => 'width: 15%;']
             ],
-			'imovel_id',
-			'quantidade_forma_aquatica',
-			'quantidade_forma_adulta',
-			'quantidade_ovos',
 			[
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',

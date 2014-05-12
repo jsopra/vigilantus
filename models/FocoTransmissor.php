@@ -1,6 +1,8 @@
 <?php
 
 namespace app\models;
+
+use Yii;
 use app\components\ActiveRecord;
 
 /**
@@ -31,6 +33,10 @@ use app\components\ActiveRecord;
  */
 class FocoTransmissor extends ActiveRecord 
 {
+    public $bairro_id;
+    public $foco_ativo;
+    public $imovel_lira;
+    
     /**
      * @inheritdoc
      */
@@ -78,6 +84,9 @@ class FocoTransmissor extends ActiveRecord
             'laboratorio' => 'Laboratório',
             'tecnico' => 'Técnico',
             'imovel_id' => 'Endereço do Imóvel',
+            'bairro_id' => 'Bairro',
+            'foco_ativo' => 'Foco Ativo',
+            'imovel_lira' => 'Imóvel LIRA',
         ];
     }
 
@@ -119,5 +128,21 @@ class FocoTransmissor extends ActiveRecord
     public function getImovel() 
     {
         return $this->hasOne(Imovel::className(), ['id' => 'imovel_id']);
+    }
+    
+    /**
+     * Verifica se um foco ainda é ativo conforme configuração de dias do projeto
+     * @return boolean 
+     */
+    public function isAtivo() {
+        
+        list($anoColeta, $mesColeta, $diaColeta) = explode('-', $this->data_coleta);
+        $dataColeta = new \DateTime();
+        $dataColeta->setDate($anoColeta, $mesColeta, $diaColeta);
+        
+        $dataValidade = new \DateTime();
+        $dataValidade->modify('-' . Yii::$app->params['quantidadeDiasFocoAtivo'] . ' days');
+        
+        return $dataColeta >= $dataValidade;
     }
 }

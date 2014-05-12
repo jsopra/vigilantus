@@ -52,7 +52,7 @@ $eu->clico('Relatórios');
 $eu->clico('Boletim de RG', 'li.active');
 $eu->selecionoOpcao('Bairro', 'Seminário');
 $eu->naoVejo('Exportar planilha');
-$eu->clico('Gerar Planilha');
+$eu->clico('Gerar');
 $eu->aguardoPor(1);
 
 $eu->espero('ver os dados na planilha');

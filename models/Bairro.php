@@ -127,29 +127,6 @@ class Bairro extends PostgisActiveRecord
     } 
     
     /**
-     * Busca coordenadas de quarteirões do bairro
-     * @param array $except
-     * @return array 
-     */
-    public function getCoordenadasQuarteiroes(array $except) {
-        
-        $return = [];
-        
-        $quarteiroes = BairroQuarteirao::find()->doBairro($this->id)->comCoordenadas()->all();
-        
-        foreach($quarteiroes as $quarteirao) {
-            
-            if(in_array($quarteirao->id,$except)) 
-                continue;
-            
-            $quarteirao->loadCoordenadas();
-            $return[] = $quarteirao->coordenadas;
-        }
-        
-        return $return;
-    }
-    
-    /**
      * Valida e carrega json de coordenadas em campo postgis
      * @return boolean 
      */

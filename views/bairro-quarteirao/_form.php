@@ -2,6 +2,7 @@
 
 use app\models\Municipio;
 use app\models\Bairro;
+use \app\models\BairroQuarteirao;
 use app\helpers\GoogleMapsAPIHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -89,7 +90,8 @@ $municipio->loadCoordenadas();
 $bairro = $bairro;
 $bairro->loadCoordenadas();
 
-$coordenadasQuarteiroes = $bairro->getCoordenadasQuarteiroes(array($model->id));
+$quarteiroes = BairroQuarteirao::find()->queNao($model->id)->doBairro($bairro->id)->comCoordenadas();
+$coordenadasQuarteiroes = BairroQuarteirao::getCoordenadas($quarteiroes);
 ?>
 
 <?php if($municipio->latitude && $municipio->longitude) : ?>

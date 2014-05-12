@@ -80,4 +80,39 @@ class BairroQuarteiraoTest extends TestCase
         
         $this->assertEquals($arrayCoordenadas, $quarteirao->coordenadas);
     }
+    
+    public function testGetCoordenadas() {
+        
+        $bairro = Phactory::bairro();
+        
+        $quarteirao = Phactory::bairroQuarteirao();
+        $quarteirao->bairro_id = $bairro->id;
+        $this->assertTrue($quarteirao->save());
+        
+        $quarteiroes = BairroQuarteirao::find()->doBairro($bairro->id)->comCoordenadas();
+        
+        $this->assertEquals(1, count(BairroQuarteirao::getCoordenadas($quarteiroes)));
+
+        $quarteiroes = BairroQuarteirao::find()->queNao($quarteirao->id)->doBairro($bairro->id)->comCoordenadas();
+        
+        $this->assertEquals(0, count(BairroQuarteirao::getCoordenadas($quarteiroes)));
+    }
+    
+    public function testValidateFocosAtivos() {
+        
+        $imovel = Phactory::imovel(['imovel_lira' => true]);
+        
+        Phactory::focoTransmissor([
+            'imovel_id' => $imovel->id
+        ]);
+        
+        $quarteiroes = BairroQuarteirao::find()->comFocosAtivos()->all();
+        $this->assertEquals(1, count($quarteiroes));
+        
+        $quarteiroes = BairroQuarteirao::find()->comFocosAtivos(true)->all();
+        $this->assertEquals(1, count($quarteiroes));
+        
+        $quarteiroes = BairroQuarteirao::find()->comFocosAtivos(false)->all();
+        $this->assertEquals(0, count($quarteiroes));
+    }
 }
