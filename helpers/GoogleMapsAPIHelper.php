@@ -1,8 +1,9 @@
 <?php
 namespace app\helpers;
 
+use Yii;
 use yii\helpers\StringHelper as YiiStringHelper;
-use \yii\helpers\Json;
+use yii\helpers\Json;
 
 class GoogleMapsAPIHelper extends YiiStringHelper
 {
@@ -66,5 +67,23 @@ class GoogleMapsAPIHelper extends YiiStringHelper
             ];
         
         return Json::encode($newArray);
+    }
+    
+    /**
+     * Busca URL da API do Maps
+     * @param boolean $sensor
+     * @param string $libraries
+     * @return string 
+     */
+    public static function getAPIUrl($sensor = false, $libraries = '') {
+        
+        $url = 'https://maps.googleapis.com/maps/api/js';
+        $url .= '?sensor=' . ($sensor == false ? 'false' : 'true');
+        $url .= '&libraries=' . $libraries;
+        
+        if(YII_ENV_PROD == true && Yii::$app->params['googleMapsAPIKey'])
+            $url .= '&key=' . Yii::$app->params['googleMapsAPIKey'];
+        
+        return $url;
     }
 }

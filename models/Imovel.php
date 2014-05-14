@@ -100,33 +100,4 @@ class Imovel extends ActiveRecord
 	{
 		return $this->hasOne(ImovelTipo::className(), ['id' => 'imovel_tipo_id']);
 	}
-    
-    /**
-     * Retorna endereço no formato
-     * Rua Nome, Imovel Numero-Imovel Sequencia, Imovel Complemento, Imovel-Quarteirao Bairro 
-     * @return string 
-     */
-    public function getEnderecoCompleto() 
-    {
-        $str = '';
-        $str .= $this->rua->nome . ', ';
-        $str .= $this->numero ? $this->numero : 'S/N';
-        
-        if($this->sequencia)
-            $str .= '-' . $this->sequencia;
-        
-        if($this->complemento)
-            $str .= ', ' . $this->complemento;
-        
-        $quarteirao = $this->bairroQuarteirao;
-        if($quarteirao) {
-            
-            $bairro = $quarteirao->bairro;
-            
-            if($bairro)
-                $str .= ', Bairro ' . $bairro->nome;
-        }
-          
-        return $str;
-    }
 }

@@ -4,9 +4,13 @@ namespace app\controllers;
 
 use app\components\Controller;
 use app\models\report\ResumoRgBairroReport;
-use app\models\report\MapaAreaTratamentoReport;
+use app\models\report\AreaTratamentoReport;
+use app\models\search\FocoTransmissorSearch;
+use app\models\BairroQuarteirao;
+use app\models\FocoTransmissor;
 use Yii;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 
 class RelatorioController extends Controller
 {
@@ -44,12 +48,24 @@ class RelatorioController extends Controller
         return $this->render('resumo-rg-bairro', $params);
     }
     
-    public function actionMapaAreaTratamento()
+    public function actionAreaTratamento()
     {
-        $model = new MapaAreaTratamentoReport;
+        $model = new AreaTratamentoReport;
         
         $model->load($_GET);
 
-        return $this->render('mapa-area-tratamento', ['model' => $model]);
+        return $this->render('area-tratamento', ['model' => $model]);
+    }
+    
+    public function actionAreaTratamentoFocos($idQuarteirao) {
+            
+        $quarteirao = BairroQuarteirao::findOne($idQuarteirao);
+        
+        $dataProvider = FocoTransmissor::find()->daAreaDeTratamento($quarteirao);
+
+        return $this->renderPartial(
+            '_detalhamento-areas-tratamento',
+            ['dataProvider' => new ActiveDataProvider(['query' => $dataProvider])]
+        );
     }
 }

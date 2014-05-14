@@ -4,6 +4,7 @@ use app\models\Municipio;
 use app\models\Bairro;
 use app\widgets\GridView;
 use yii\helpers\Html;
+use app\helpers\GoogleMapsAPIHelper;
 
 $bairro = $parentObject;
 
@@ -11,7 +12,7 @@ $this->title = 'Quarteirões do Bairro "' . $bairro->nome . '"';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
+<script src="<?= GoogleMapsAPIHelper::getAPIUrl(false, 'drawing'); ?>"></script>
 
 <div class="bairro-quarteirao-index" data-role="modal-grid">
 

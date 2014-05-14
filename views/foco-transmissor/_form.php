@@ -4,6 +4,7 @@ use app\models\DepositoTipo;
 use app\models\EspecieTransmissor;
 use app\models\FocoTransmissor;
 use app\models\ImovelTipo;
+use app\helpers\models\ImovelHelper;
 use kartik\widgets\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -66,7 +67,7 @@ use yii\web\JsExpression;
                         ],
                         'initSelection' => new JsExpression('function (item, callback) {
                             var id = ' . (!$model->getIsNewRecord() ? $model->imovel_id : 'null') . ';
-                            var text = "' . (!$model->getIsNewRecord() && $model->imovel ? $model->imovel->getEnderecoCompleto() : 'null') . '";
+                            var text = "' . (!$model->getIsNewRecord() && $model->imovel ? ImovelHelper::getEnderecoCompleto($model->imovel) : 'null') . '";
                             var data = { id: id, text: text, slug: text };
                             callback(data);
                         }'),

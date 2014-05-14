@@ -4,6 +4,7 @@ use app\models\BairroCategoria;
 use app\models\Municipio;
 use app\widgets\GridView;
 use yii\helpers\Html;
+use app\helpers\GoogleMapsAPIHelper;
 
 /**
  * @var yii\web\View $this
@@ -14,7 +15,7 @@ $this->title = 'Bairros';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
+<script src="<?= GoogleMapsAPIHelper::getAPIUrl(false, 'drawing'); ?>"></script>
 
 <div class="bairro-index" data-role="modal-grid">
 

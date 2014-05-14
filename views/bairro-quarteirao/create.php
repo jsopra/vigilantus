@@ -2,12 +2,7 @@
 
 use yii\helpers\Html;
 
-/**
- * @var yii\web\View $this
- * @var app\models\BairroQuarteirao $model
- */
-
-$this->title = 'Cadastrar Quarteirão do Bairro "' . $parentObject->nome . '"';
+$this->title = 'Cadastrar Quarteirão do Bairro "' . $bairro->nome . '"';
 $this->params['breadcrumbs'][] = ['label' => 'Quarteirões de Bairros', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -17,7 +12,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<?php echo $this->render('_form', [
 		'model' => $model,
-        'bairro' => $parentObject
+        'bairro' => $bairro,
+        'municipio' => $municipio,
+        'quarteiroes' => $quarteiroes,
+        'coordenadasQuarteiroes' => $coordenadasQuarteiroes
 	]); ?>
 
 </div>

@@ -5,6 +5,7 @@ use app\models\DepositoTipo;
 use app\models\EspecieTransmissor;
 use app\models\ImovelTipo;
 use app\widgets\GridView;
+use app\helpers\models\ImovelHelper;
 
 $this->title = 'Focos de Transmissores';
 $this->params['breadcrumbs'][] = $this->title;
@@ -34,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'imovel_id',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return $model->imovel->getEnderecoCompleto();
+                    return ImovelHelper::getEnderecoCompleto($model->imovel);
                 },
                 'options' => ['style' => 'width: 30%']
             ],
