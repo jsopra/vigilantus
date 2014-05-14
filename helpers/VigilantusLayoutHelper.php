@@ -43,7 +43,7 @@ class VigilantusLayoutHelper {
                 'visible' => $user->can('Administrador'),
                 'items' => [
                     ['label' => 'Boletim de RG', 'url' => ['/relatorio/resumo-rg-bairro']],
-                    ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/mapa-area-tratamento']],
+                    ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento']],
                 ],
             ],
             [

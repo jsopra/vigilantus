@@ -4,6 +4,7 @@ namespace app\components\actions;
 use yii\base\Action;
 use app\models\Imovel;
 use yii\helpers\Json;
+use app\helpers\models\ImovelHelper;
 
 class Imoveis extends Action
 {
@@ -28,7 +29,7 @@ class Imoveis extends Action
         $imoveis = $query->all();
 
         foreach($imoveis as $imovel)
-            $array[] = array('id' => $imovel->id, 'name' => $imovel->getEnderecoCompleto());
+            $array[] = ['id' => $imovel->id, 'name' => ImovelHelper::getEnderecoCompleto($imovel)];
 
 		echo Json::encode($array);
     }

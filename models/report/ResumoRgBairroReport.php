@@ -69,14 +69,16 @@ class ResumoRgBairroReport extends Model
         $query->orderBy('bairro_quarteirao_id');
 
         // Somente do tipo LIRA correto
-        $query->andWhere('
-            boletins_rg.id IN (
-                SELECT boletim_rg_id
-                FROM boletim_rg_fechamento
-                WHERE imovel_lira = ' . ($this->lira ? 'TRUE' : 'FALSE') . '
-            )'
-        );
-
+        if($this->lira !== '') {
+            $query->andWhere('
+                boletins_rg.id IN (
+                    SELECT boletim_rg_id
+                    FROM boletim_rg_fechamento
+                    WHERE imovel_lira = ' . ($this->lira ? 'TRUE' : 'FALSE') . '
+                )'
+            );
+        }
+        
         // Se tiver dois boletins pro mesmo quarteirão, pega o mais recente
         $query->andWhere('
             data = (

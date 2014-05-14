@@ -1,42 +1,12 @@
 <?php
-
-use app\models\Municipio;
 use app\models\Bairro;
+use app\models\Municipio;
 use app\helpers\GoogleMapsAPIHelper;
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-
-$this->title = 'Áreas de Tratamento';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="mapa-area-tratamento-index" data-role="modal-grid">
+<br />
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?php $form = ActiveForm::begin([
-        'method' => 'get',
-    ]); ?>
-
-        <div class="row" id="dadosPrincipais">
-            <div class="col-xs-4">
-                <?= $form->field($model, 'bairro_id')->dropDownList(Bairro::listData('nome'), ['prompt' => 'Selecione…']) ?>
-            </div>
-            
-            <div class="col-xs-2">
-                <?= $form->field($model, 'lira')->dropDownList([0 => 'Não', 1 => 'Sim'], ['prompt' => 'Selecione…']) ?>
-            </div>
-            
-            <div class="col-xs-2" style="padding-top: 20px;">
-                <?= Html::submitButton('Gerar', ['class' => 'btn btn-primary']) ?>
-            </div>
-        </div>
-
-    <?php ActiveForm::end(); ?>
-
-</div>
-
-<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="<?= GoogleMapsAPIHelper::getAPIUrl(); ?>"></script>
 
 <div id="map"  style="height: 500px; width: 100%;"></div>
         
@@ -131,7 +101,7 @@ if(is_object($bairro) && !$bairro->coordenadasJson && $bairro->coordenadas)
                     fillOpacity: 0.35,
                     map: map,
                     center: quarteiraoBoundsObj<?= $i; ?>.getCenter(),
-                    radius: 300
+                    radius: <?= Yii::$app->params['quantidadeMetrosFocoParaAreaDeTratamento']; ?>
                 };
 
                 var circle<?= $i; ?> = new google.maps.Circle(options<?= $i; ?>);

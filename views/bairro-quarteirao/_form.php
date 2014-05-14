@@ -83,16 +83,6 @@ use yii\bootstrap\ButtonGroup;
 	<?php ActiveForm::end(); ?>
 
 </div>
-<?php
-$municipio = $bairro->municipio;
-$municipio->loadCoordenadas();
-
-$bairro = $bairro;
-$bairro->loadCoordenadas();
-
-$quarteiroes = BairroQuarteirao::find()->queNao($model->id)->doBairro($bairro->id)->comCoordenadas();
-$coordenadasQuarteiroes = BairroQuarteirao::getCoordenadas($quarteiroes);
-?>
 
 <?php if($municipio->latitude && $municipio->longitude) : ?>
 <script>
