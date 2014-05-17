@@ -6,7 +6,7 @@ class m140501_033929_criando_colunas_geolocalizacao_bairro_quarteirao extends \y
 {
     public function up()
     {
-        $this->execute("CREATE EXTENSION postgis");
+        $this->execute("CREATE EXTENSION IF NOT EXISTS postgis");
         $this->addColumn('bairros', 'coordenadas_area', 'geometry');
         $this->addColumn('bairro_quarteiroes', 'coordenadas_area', 'geometry');
     }
