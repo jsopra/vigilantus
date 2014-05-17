@@ -72,7 +72,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token)
+    public static function findIdentityByAccessToken($token, $type = null)
     {
         // @TODO Obter usuário pelo token para uso em APIs
         return false;
