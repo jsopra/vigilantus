@@ -3,7 +3,6 @@
 ## Versão 0.3
 
 * MVP de Reconhecimento geográfico e de focos, contendo:
-*
 * Revisão de modelagem de tabelas de geolocalização
 * Revisão do boletim RG
 * Revisão de cadastro de quarteirões e bairros
