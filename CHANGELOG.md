@@ -1,5 +1,16 @@
 # Changelog
 
+## Versão 0.3
+
+* MVP de Reconhecimento geográfico e de focos, contendo:
+* Revisão de modelagem de tabelas de geolocalização
+* Revisão do boletim RG
+* Revisão de cadastro de quarteirões e bairros
+* Geolocalização em quarteirões e bairros
+* Revisão nos relatórios de RG
+* Relatório de focos
+* Migração para servidores getup
+
 ## Versão 0.2.2
 
 * Adiciona testes de aceitação
