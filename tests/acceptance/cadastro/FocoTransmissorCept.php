@@ -28,7 +28,31 @@ $eu->preenchoCampo('Laboratório', 'lab1');
 $eu->preenchoCampo('Técnico', 'tecn1');
 $eu->markSelect2Option('Tipo de Depósito', 'OVI');
 $eu->markSelect2Option('Espécie de Transmissor', 'mosquito');
-$eu->executeJs('$("#focotransmissor-imovel_id").val(1);');
+$eu->executeJs('$("#focotransmissor-imovel_id").select2("open");');
+$eu->aguardoPor(1);
+
+$eu->executeJs('
+        var select2combo = $("#focotransmissor-imovel_id");
+
+        var currentValues = $("#" + select2combo.attr("id")).select2("val");
+        window.fieldValue;
+
+        select2combo.find("option").each(function(index, element){
+            if ($(element).text().replace(/\W/g, "") == "RuaA".replace(/\W/g, "")) {
+                window.fieldValue = $(element).val();
+            }
+        });
+
+        for (i in currentValues) {
+            if (currentValues[i] == window.fieldValue) {
+                currentValues.splice(i, 1);
+            }
+        }
+
+        $("#" + select2combo.attr("id")).select2("val", currentValues);
+');
+
+//$eu->markSelect2Option('Endereço do Imóvel', 'RuaA');
 $eu->preenchoCampo('Data da Entrada', '07/03/2014');
 $eu->preenchoCampo('Data do Exame', '21/03/2014');
 $eu->preenchoCampo('Data da Coleta', '08/04/2014');

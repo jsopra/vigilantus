@@ -117,3 +117,44 @@ use yii\web\JsExpression;
 	<?php ActiveForm::end(); ?>
 
 </div>
+
+<?php $view = Yii::$app->getView(); ?>
+
+
+    <?php
+    $script = '
+    $(document).ready(function(){
+        $("#focotransmissor-imovel_id").select2("open");
+        
+        setTimeout(function(){ callback(); }, 2000);
+    });
+    ';
+    ?>
+
+<script>
+    function callback() {
+        
+    
+        var select2combo = $("#focotransmissor-imovel_id");
+        var currentValues = $("#" + select2combo.attr("id")).select2("val");
+        window.fieldValue;
+$(".select2-result-label").each(function(index, element){
+  
+            if ($(element).text() == "Rio de Janeiro, 176, SL 03, Bairro Centro") {
+                window.fieldValue = $(element).val();
+                console.log($(element).attr('id'));
+            }
+        });
+
+        for (i in currentValues) {
+            if (currentValues[i] == window.fieldValue) {
+                currentValues.splice(i, 1);
+            }
+        }
+
+        $("#" + select2combo.attr("id")).select2("val", currentValues);
+    }
+
+    </script>
+    
+    <?php  $view->registerJs($script); ?>
