@@ -79,13 +79,13 @@ use yii\web\JsExpression;
     
         <div class="row">
             <div class="col-xs-3">
-                <?= $form->field($model, 'data_entrada')->input('date') ?>
+                <?= $form->field($model, 'data_entrada')->textInput(['class' => 'form-control input-datepicker']) ?>
             </div>
             <div class="col-xs-3">
-                <?= $form->field($model, 'data_exame')->input('date') ?>
+                <?= $form->field($model, 'data_exame')->textInput(['class' => 'form-control input-datepicker']) ?>
             </div>
             <div class="col-xs-3">
-                <?= $form->field($model, 'data_coleta')->input('date') ?>
+                <?= $form->field($model, 'data_coleta')->textInput(['class' => 'form-control input-datepicker']) ?>
             </div>
         </div>
         <div class="row">
@@ -117,3 +117,15 @@ use yii\web\JsExpression;
 	<?php ActiveForm::end(); ?>
 
 </div>
+
+<?php
+$view = Yii::$app->getView();
+$script = '
+    jQuery(document).ready(function(){
+        $(".input-datepicker").datepicker().on("changeDate", function (ev) {
+            $(this).datepicker("hide");
+        });
+    });
+';
+$view->registerJs($script);
+?>
