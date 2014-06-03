@@ -79,13 +79,13 @@ use yii\web\JsExpression;
     
         <div class="row">
             <div class="col-xs-3">
-                <?= $form->field($model, 'data_entrada')->input('date') ?>
+                <?= $form->field($model, 'data_entrada')->textInput(['class' => 'form-control input-datepicker']) ?>
             </div>
             <div class="col-xs-3">
-                <?= $form->field($model, 'data_exame')->input('date') ?>
+                <?= $form->field($model, 'data_exame')->textInput(['class' => 'form-control input-datepicker']) ?>
             </div>
             <div class="col-xs-3">
-                <?= $form->field($model, 'data_coleta')->input('date') ?>
+                <?= $form->field($model, 'data_coleta')->textInput(['class' => 'form-control input-datepicker']) ?>
             </div>
         </div>
         <div class="row">
@@ -118,43 +118,14 @@ use yii\web\JsExpression;
 
 </div>
 
-<?php $view = Yii::$app->getView(); ?>
-
-
-    <?php
-    $script = '
-    $(document).ready(function(){
-        $("#focotransmissor-imovel_id").select2("open");
-        
-        setTimeout(function(){ callback(); }, 2000);
-    });
-    ';
-    ?>
-
-<script>
-    function callback() {
-        
-    
-        var select2combo = $("#focotransmissor-imovel_id");
-        var currentValues = $("#" + select2combo.attr("id")).select2("val");
-        window.fieldValue;
-$(".select2-result-label").each(function(index, element){
-  
-            if ($(element).text() == "Rio de Janeiro, 176, SL 03, Bairro Centro") {
-                window.fieldValue = $(element).val();
-                console.log($(element).attr('id'));
-            }
+<?php
+$view = Yii::$app->getView();
+$script = '
+    jQuery(document).ready(function(){
+        $(".input-datepicker").datepicker().on("changeDate", function (ev) {
+            $(this).datepicker("hide");
         });
-
-        for (i in currentValues) {
-            if (currentValues[i] == window.fieldValue) {
-                currentValues.splice(i, 1);
-            }
-        }
-
-        $("#" + select2combo.attr("id")).select2("val", currentValues);
-    }
-
-    </script>
-    
-    <?php  $view->registerJs($script); ?>
+    });
+';
+$view->registerJs($script);
+?>
