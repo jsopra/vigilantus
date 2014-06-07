@@ -7,7 +7,7 @@ use yii\helpers\Html;
  * @var app\models\DepositoTipo $model
  */
 
-$this->title = 'Atualizar Deposito Tipo: ' . $model->id;
+$this->title = 'Atualizar Tipo de Depósito: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Deposito Tipos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Atualizar';
 ?>

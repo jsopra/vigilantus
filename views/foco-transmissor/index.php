@@ -10,7 +10,7 @@ use app\helpers\models\ImovelHelper;
 $this->title = 'Focos de Transmissores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="foco-transmissor-index"">
+<div class="foco-transmissor-index">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 

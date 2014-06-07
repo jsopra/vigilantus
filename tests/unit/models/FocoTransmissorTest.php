@@ -15,12 +15,12 @@ class FocoTransmissorTest extends TestCase
         $this->assertTrue($foco->isAtivo());
         
         $foco = Phactory::focoTransmissor([
-            'data_coleta' => date("Y-m-d", strtotime("-" . Yii::$app->params['quantidadeDiasFocoAtivo'] . " days"))
+            'data_coleta' => date("Y-m-d", strtotime("-360 days"))
         ]);
         $this->assertTrue($foco->isAtivo());
         
         $foco = Phactory::focoTransmissor([
-            'data_coleta' => date("Y-m-d", strtotime("-" . (Yii::$app->params['quantidadeDiasFocoAtivo'] + 1) . " days"))
+            'data_coleta' => date("Y-m-d", strtotime("-361 days"))
         ]);
         $this->assertFalse($foco->isAtivo());
     }

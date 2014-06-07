@@ -109,6 +109,14 @@ class BairroQuarteirao extends PostgisActiveRecord
 	{
 		return $this->hasOne(Bairro::className(), ['id' => 'bairro_id']);
 	}
+    
+    /**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getFocos()
+	{
+		return $this->hasMany(FocoTransmissor::className(), ['id' => 'bairro_id']);
+	}
 
 	/**
 	 * @return \yii\db\ActiveRelation

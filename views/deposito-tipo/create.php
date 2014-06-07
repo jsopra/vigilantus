@@ -7,7 +7,7 @@ use yii\helpers\Html;
  * @var app\models\DepositoTipo $model
  */
 
-$this->title = 'Cadastrar Deposito Tipo';
+$this->title = 'Cadastrar Tipo de Depósito';
 $this->params['breadcrumbs'][] = ['label' => 'Deposito Tipos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

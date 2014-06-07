@@ -1,5 +1,6 @@
 <?php
 use app\models\Bairro;
+use app\models\EspecieTransmissor;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -19,12 +20,16 @@ $this->params['breadcrumbs'][] = $this->title;
         ]); ?>
 
             <div class="row" id="dadosPrincipais">
-                <div class="col-xs-4">
+                <div class="col-xs-3">
                     <?= $form->field($model, 'bairro_id')->dropDownList(Bairro::listData('nome'), ['prompt' => 'Selecione…']) ?>
                 </div>
 
                 <div class="col-xs-2">
                     <?= $form->field($model, 'lira')->dropDownList([0 => 'Não', 1 => 'Sim'], ['prompt' => 'Selecione…']) ?>
+                </div>
+                
+                <div class="col-xs-3">
+                    <?= $form->field($model, 'especie_transmissor_id')->dropDownList(EspecieTransmissor::listData('nome'), ['prompt' => 'Selecione…']) ?>
                 </div>
 
                 <div class="col-xs-2" style="padding-top: 20px;">
