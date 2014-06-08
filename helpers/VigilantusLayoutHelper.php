@@ -55,7 +55,7 @@ class VigilantusLayoutHelper {
                 ]
             ],
             [
-                'label' => 'Blog',
+                'label' => 'Blog Posts',
                 'icon' => 'pencil',
                 'url' => ['/blog-post/'], 
                 'visible' => $user->can('Root'),

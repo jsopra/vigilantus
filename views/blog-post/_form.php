@@ -10,19 +10,19 @@ use dosamigos\ckeditor\CKEditor;
 	<?php $form = ActiveForm::begin(); ?>
 
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-8">
                 <?= $form->field($model, 'titulo')->textInput() ?>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-8">
                 <?= $form->field($model, 'descricao')->textInput() ?>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-12">
                 <?= $form->field($model, 'texto')->widget(CKEditor::className(), [
-                    'options' => ['rows' => 6],
+                    'options' => ['rows' => 10],
                     'preset' => 'basic'
                 ]) ?>
             </div>

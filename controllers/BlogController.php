@@ -14,6 +14,7 @@ class BlogController extends Controller
         $query = BlogPost::find();
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $pages->pageSize = 5;
         $models = $query
             ->orderBy('data DESC')
             ->offset($pages->offset)

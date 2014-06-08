@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use yii\db\Expression;
 use app\components\ActiveRecord;
 
 /**
@@ -23,6 +24,26 @@ class BlogPost extends ActiveRecord
 		return 'blog_post';
 	}
 
+    /**
+     * @param array $config
+     */
+    public function __construct($config = [])
+    {
+        $behaviors = [];
+
+        $behaviors['TimestampBehavior'] = [
+            'class' => 'yii\behaviors\TimestampBehavior',
+            'value' => new Expression('NOW()'),
+            'attributes' => [],
+        ];
+
+        $behaviors['TimestampBehavior']['attributes'][ActiveRecord::EVENT_BEFORE_INSERT] = 'data';
+
+        $this->attachBehaviors($behaviors);
+
+        parent::__construct($config);
+    }
+    
 	/**
 	 * @inheritdoc
 	 */
