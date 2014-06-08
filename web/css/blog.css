@@ -1,7 +1,7 @@
 article h1 {
     font-size: 2em;
     font-weight: bold;
-    padding: 0;
+    padding: 0.3em 0 0 0;
     margin: 0;
     color: #191e23;
 }
@@ -17,12 +17,17 @@ article h2 {
 
 p.data-post {
     color: #797979;
-    padding: 0;
+    padding: 0.3em 1em;
     margin: 0;
     font-size: 1.1em;
+    background-color: #323232;
+    color: #fff;
+    width: 7.5em;
+    font-weight: bold;
+    font-size: 1em;
 }
 
-div.panel-body p {
+div.post-body p {
     text-indent: 2em;
     font-size: 1.2em;
     line-height: 1.3em;
