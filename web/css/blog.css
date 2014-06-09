@@ -4,25 +4,26 @@ article h1 {
     padding: 0.3em 0 0 0;
     margin: 0;
     color: #191e23;
+    text-shadow: 0.03em 0.03em #ccc;
 }
 
 article h2 {
     font-size: 1.5em;
     font-weight: normal;
-    padding-bottom: 0.5em;
     margin: 0;
     color: #323232;
-    text-indent: 1.5em;
+    font-style: italic;
 }
 
 p.data-post {
+    border-radius: 4px;
     color: #797979;
     padding: 0.3em 1em;
     margin: 0;
     font-size: 1.1em;
-    background-color: #323232;
-    color: #fff;
-    width: 7.5em;
+    background-color: #f5f5f5;
+    color: #191e23;
+    width: 9em;
     font-weight: bold;
     font-size: 1em;
 }
@@ -45,4 +46,15 @@ div.post-body p {
 .panel-share ul li {
     float: left;
     padding: 0 0.2em;
+}
+
+.bs-callout {
+    margin: 20px 0;
+    padding: 20px;
+    border-left: 3px solid #eee;
+}
+
+.bs-callout-danger {
+    background-color: #fdf7f7;
+    border-color: #d9534f;
 }

@@ -8,22 +8,21 @@ use yii\helpers\HtmlPurifier;
         <div class="page-header">
             <p class="data-post">
                 <time pubdate="pubdate">
-                    <?= \Yii::t('app', '{0, date, dd/MM/YYYY}', strtotime($model->data)); ?>
+                    <i class="icon-calendar"></i>&nbsp;<?= \Yii::t('app', '{0, date, dd/MM/YYYY}', strtotime($model->data)); ?>
                 </time>
             </p>
             <h1><?= $model->titulo; ?></h1>
-        </div>
-    
-        <div class="post-body">
             
             <?php if($model->descricao) : ?>
                 <h2><?= HtmlPurifier::process($model->descricao); ?></h2>
             <?php endif; ?>
-                    
+        </div>
+    
+        <div class="post-body">
             <?= $model->texto; ?>
         </div>
         
-        <div class="panel-share panel-heading">
+        <div class="panel-share bs-callout bs-callout-danger">
             <?php 
             $url = Yii::$app->urlManager->createAbsoluteUrl(['/blog/index']);
             ?>
