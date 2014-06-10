@@ -277,9 +277,6 @@ use yii\bootstrap\ButtonGroup;
         <?php else : ?>
             $('.remover-marcacao').hide();
         <?php endif; ?>
-       
-        $("input#bairroquarteirao-numero_quarteirao").numeric();
-        $("input#bairroquarteirao-numero_quarteirao_2").numeric(); 
         
         $('button[type="submit"]').click(function(){
             if(selectedShape)
