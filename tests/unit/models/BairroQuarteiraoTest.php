@@ -12,8 +12,8 @@ class BairroQuarteiraoTest extends TestCase
     {
         $quarteirao = Phactory::bairroQuarteirao(
             [
-                'numero_quarteirao' => 1234,
-                'numero_quarteirao_2' => 5678,
+                'numero_quarteirao' => '1234',
+                'numero_quarteirao_2' => '5678',
                 'seq' => 7,
             ]
         );
@@ -27,7 +27,7 @@ class BairroQuarteiraoTest extends TestCase
         $bairro = Phactory::bairro();
 
         Phactory::bairroQuarteirao([
-            'numero_quarteirao' => 1234,
+            'numero_quarteirao' => '1234',
             'bairro_id' => $bairro->id,
             'municipio_id' => $bairro->municipio_id,
         ]);
@@ -36,7 +36,7 @@ class BairroQuarteiraoTest extends TestCase
             'municipio_id' => $bairro->municipio_id,
         ]);
         
-        $quarteiraoDuplicado->numero_quarteirao = 1234;
+        $quarteiraoDuplicado->numero_quarteirao = '1234';
         $this->assertFalse($quarteiraoDuplicado->save());
 
         // Permite com bairros ou municípios diferentes
