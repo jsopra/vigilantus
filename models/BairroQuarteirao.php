@@ -10,8 +10,8 @@ use app\models\Query\BairroQuarteiraoQuery as BairroQuarteiraoQuery;
  * @property integer $id
  * @property integer $municipio_id
  * @property integer $bairro_id
- * @property integer $numero_quarteirao
- * @property integer $numero_quarteirao_2
+ * @property string $numero_quarteirao
+ * @property string $numero_quarteirao_2
  * @property string $data_cadastro
  * @property string $data_atualizacao
  * @property integer $inserido_por
@@ -57,11 +57,11 @@ class BairroQuarteirao extends PostgisActiveRecord
 			[['municipio_id', 'bairro_id', 'numero_quarteirao'], 'required'],
             ['numero_quarteirao', 'unique', 'compositeWith' => ['bairro_id', 'municipio_id']],
             ['numero_quarteirao_2', 'unique', 'compositeWith' => ['bairro_id', 'municipio_id']],
-			[['municipio_id', 'bairro_id', 'numero_quarteirao', 'numero_quarteirao_2', 'inserido_por', 'atualizado_por', 'seq'], 'integer'],
+			[['municipio_id', 'bairro_id', 'inserido_por', 'atualizado_por', 'seq'], 'integer'],
             ['inserido_por', 'required', 'on' => 'insert'],
             ['atualizado_por', 'required', 'on' => 'update'],
             ['coordenadas', 'required', 'on' => ['insert','update']],
-            [['coordenadasJson'], 'string'],
+            [['coordenadasJson', 'numero_quarteirao', 'numero_quarteirao_2'], 'string'],
 		];
 	}
     
