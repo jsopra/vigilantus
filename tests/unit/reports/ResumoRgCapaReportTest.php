@@ -85,7 +85,7 @@ class ResumoRgCapaReportTest extends TestCase
             foreach ($quarteiroes as $numero => $imoveisPorTipo) {
 
                 $quarteirao = Phactory::bairroQuarteirao([
-                    'numero_quarteirao' => $numero,
+                    'numero_quarteirao' => (string) $numero,
                     'municipio_id' => $municipio->id,
                     'bairro_id' => $bairro->id,
                 ]);
