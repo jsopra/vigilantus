@@ -19,8 +19,8 @@ class BairroQuarteiraoSearch extends SearchModel
 	public function rules()
 	{
 		return [
-			[['id', 'municipio_id', 'bairro_id', 'numero_quarteirao', 'numero_quarteirao_2', 'inserido_por', 'atualizado_por'], 'integer'],
-			[['data_cadastro', 'data_atualizacao'], 'safe'],
+			[['id', 'municipio_id', 'bairro_id', 'inserido_por', 'atualizado_por'], 'integer'],
+			[['data_cadastro', 'data_atualizacao', 'numero_quarteirao', 'numero_quarteirao_2'], 'safe'],
 		];
 	}
 
