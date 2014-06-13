@@ -22,6 +22,7 @@ class AppAsset extends AssetBundle
         'css/resumo-rg-bairro.css',
         'css/index.css',
         'css/common.css',    
+        'css/blog.css',
 	];
 	public $js = [
         'js/feedback.js',
