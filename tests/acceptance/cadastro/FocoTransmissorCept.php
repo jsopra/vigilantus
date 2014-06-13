@@ -28,7 +28,24 @@ $eu->preenchoCampo('Laboratório', 'lab1');
 $eu->preenchoCampo('Técnico', 'tecn1');
 $eu->markSelect2Option('Tipo de Depósito', 'OVI');
 $eu->markSelect2Option('Espécie de Transmissor', 'mosquito');
-$eu->executeJs('$("#focotransmissor-imovel_id").val(1);');
+$eu->executeJs('$("#focotransmissor-imovel_id").select2("open");');
+$eu->aguardoPor(1);
+
+$eu->executeJs('
+    $("#focotransmissor-imovel_id").select2("open");
+
+    setTimeout(function(){ callback(); }, 2000);
+
+    var select2combo = $("#focotransmissor-imovel_id");
+
+    $("div.select2-result-label").each(function(index, element){
+        if ($(element).text() == "Rua 0001, S/N, Bairro Passo dos Fortes") {
+            select2combo.select2("data", {id: "1", text: $(element).text(), slug: $(element).text()});
+        }
+    });
+');
+
+//$eu->markSelect2Option('Endereço do Imóvel', 'RuaA');
 $eu->preenchoCampo('Data da Entrada', '07/03/2014');
 $eu->preenchoCampo('Data do Exame', '21/03/2014');
 $eu->preenchoCampo('Data da Coleta', '08/04/2014');
