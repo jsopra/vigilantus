@@ -4,6 +4,7 @@ namespace app\models\report;
 use app\models\Bairro;
 use app\models\BairroQuarteirao;
 use app\models\FocoTransmissor;
+use app\models\EspecieTransmissor;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -14,17 +15,18 @@ class AreaTratamentoReport extends Model
      */
     public $bairro_id;
     public $lira;
+    public $especie_transmissor_id;
     
     /*
      * resultados
      */
-    public $quarteiroesComCasosAtivos;
     public $dataProviderAreasFoco;
     public $dataProviderAreasTratamento;
 
     public function rules()
     {
         return [
+            ['especie_transmissor_id', 'exist', 'targetClass' => EspecieTransmissor::className(), 'targetAttribute' => 'id'],
             ['bairro_id', 'exist', 'targetClass' => Bairro::className(), 'targetAttribute' => 'id'],
             ['lira', 'boolean'],
         ];
@@ -35,6 +37,7 @@ class AreaTratamentoReport extends Model
         return [
             'bairro_id' => 'Bairro',
             'lira' => 'LIRA',
+            'especie_transmissor_id' => 'Espécie de Transmissor'
         ];
     }
 
@@ -42,31 +45,10 @@ class AreaTratamentoReport extends Model
     {
         parent::load($data, $formName);
         
-        $this->_loadMapa();
         $this->_loadAreasDeFoco();
         $this->_loadAreasDeTratamento();
     }
     
-    /**
-     * Carrega dados do mapa (primeira aba) 
-     */
-    private function _loadMapa() {
-        
-        $lira = null;
-        if($this->lira != '' && $this->lira != null)
-            $lira = $this->lira ? true : false;
-        
-        $quarteiroes = BairroQuarteirao::find()->comFocosAtivos($lira);
-        
-        if(is_numeric($this->bairro_id))
-            $quarteiroes->doBairro($this->bairro_id);
-        
-        $this->quarteiroesComCasosAtivos = BairroQuarteirao::getCoordenadas($quarteiroes);
-    }
-    
-    /**
-     * Carrega dados de foco (terceira aba) 
-     */
     private function _loadAreasDeFoco() {
         
         $focos = FocoTransmissor::find();
@@ -77,19 +59,23 @@ class AreaTratamentoReport extends Model
         if($this->lira != '' && $this->lira != null)
             $focos->doImovelLira(($this->lira ? true : false));
         
+        if(is_numeric($this->especie_transmissor_id))
+            $focos->daEspecieDeTransmissor($this->especie_transmissor_id);
+        
+        $focos->ativo();
+        
         $this->dataProviderAreasFoco = new ActiveDataProvider(['query' => $focos]);
     }
     
-    /**
-     * Carrega dados de área de tratamento (segunda aba) 
-     */
     private function _loadAreasDeTratamento() {
        
         $lira = null;
         if($this->lira != '' && $this->lira != null)
             $lira = $this->lira ? true : false;
         
-        $quarteiroes = BairroQuarteirao::find()->emAreaDeTratamento($lira);
+        $especieTransmissor = is_numeric($this->especie_transmissor_id) ? $this->especie_transmissor_id : null;
+        
+        $quarteiroes = BairroQuarteirao::find()->emAreaDeTratamento($lira, $especieTransmissor);
         
         if(is_numeric($this->bairro_id))
             $quarteiroes->doBairro($this->bairro_id);

@@ -40,7 +40,10 @@ class DepositoTipo extends ActiveRecord
 		return [
 			[['municipio_id', 'descricao', 'sigla'], 'required'],
 			[['municipio_id', 'deposito_tipo_pai', 'inserido_por', 'atualizado_por'], 'integer'],
-			[['descricao', 'sigla', 'data_cadastro', 'data_atualizacao'], 'string'],
+			[['descricao', 'sigla', 'data_cadastro', 'data_atualizacao'], 'safe'],
+            ['municipio_id', 'exist', 'targetClass' => Municipio::className(), 'targetAttribute' => 'id'],
+            ['deposito_tipo_pai', 'exist', 'targetClass' => self::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
+            ['sigla', 'unique', 'compositeWith' => 'municipio_id'],
             ['inserido_por', 'required', 'on' => 'insert'],
             ['atualizado_por', 'required', 'on' => 'update'],
 		];
@@ -53,9 +56,9 @@ class DepositoTipo extends ActiveRecord
 	{
 		return [
 			'id' => 'ID',
-			'municipio_id' => 'Municipio ID',
-			'deposito_tipo_pai' => 'Deposito Tipo Pai',
-			'descricao' => 'Descricao',
+			'municipio_id' => 'Município',
+			'deposito_tipo_pai' => 'Tipo de Depósito Pai',
+			'descricao' => 'Descrição',
 			'sigla' => 'Sigla',
             'data_cadastro' => 'Data de Cadastro',
             'data_atualizacao' => 'Data de Atualização',

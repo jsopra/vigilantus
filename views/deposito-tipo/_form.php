@@ -33,7 +33,7 @@ use yii\widgets\ActiveForm;
             echo Html::a(
                 'Cancelar',
                 array('/deposito-tipo/index'),
-                array('class'=>'link','rel'=>'tooltip','data-role'=>'cancel','data-title'=>'Ir à lista de Deposito Tipos')
+                array('class'=>'link','rel'=>'tooltip','data-role'=>'cancel','data-title'=>'Ir à lista de Tipos de Depósito')
             );
             ?>
         </div>

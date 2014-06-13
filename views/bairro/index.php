@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $img = Html::tag('i', '', ['class' => 'glyphicon glyphicon-link']);
                 
                     $link = Html::a(
-                        'Gerenciar' . '&nbsp;' . $img,
+                        'Gerenciar (' . $model->quantidadeQuarteiroes . ') &nbsp;' . $img,
                         Yii::$app->urlManager->createUrl(['bairro-quarteirao/index', 'parentID' => $model->id]),
                         ['title' => 'Gerenciar Quarteirões do Bairro ' . $model->nome]
                     );

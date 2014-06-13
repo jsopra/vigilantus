@@ -14,7 +14,7 @@ use yii\helpers\Url;
 $this->title = 'Espécies de Transmissores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="bairro-tipo-index" data-role="modal-grid">
+<div class="bairro-tipo-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -36,8 +36,16 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            //'id',
             'nome',
+            'qtde_metros_area_foco',
+            'qtde_dias_permanencia_foco',
+            [
+                'format' => 'raw',
+                'attribute' => 'cor_foco_no_mapa',
+                'value' => function ($model, $index, $widget) {
+                    return Html::tag('div', '&nbsp;', ['style' => 'width: 20px; margin: 0 auto; background-color: ' . $model->cor. ';']);
+                },
+            ],
             [
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',

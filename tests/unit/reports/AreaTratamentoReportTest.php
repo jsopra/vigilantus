@@ -15,7 +15,6 @@ class AreaTratamentoReportTest extends TestCase
         $report = new AreaTratamentoReport;
         $report->load([],null);
         
-        $this->assertEquals(1, count($report->quarteiroesComCasosAtivos));
         $this->assertEquals(1, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(4, $report->dataProviderAreasTratamento->getTotalCount());
     }
@@ -29,7 +28,6 @@ class AreaTratamentoReportTest extends TestCase
         $report->bairro_id = $idBairro + 1;
         $report->load([],null);
         
-        $this->assertEquals(0, count($report->quarteiroesComCasosAtivos));
         $this->assertEquals(0, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(0, $report->dataProviderAreasTratamento->getTotalCount());
 
@@ -38,7 +36,6 @@ class AreaTratamentoReportTest extends TestCase
         $report->bairro_id = $idBairro;
         $report->load([],null);
         
-        $this->assertEquals(1, count($report->quarteiroesComCasosAtivos));
         $this->assertEquals(1, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(4, $report->dataProviderAreasTratamento->getTotalCount());
         
@@ -47,7 +44,6 @@ class AreaTratamentoReportTest extends TestCase
         $report->lira = true;
         $report->load([],null);
         
-        $this->assertEquals(0, count($report->quarteiroesComCasosAtivos));
         $this->assertEquals(0, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(0, $report->dataProviderAreasTratamento->getTotalCount());
         
@@ -56,7 +52,6 @@ class AreaTratamentoReportTest extends TestCase
         $report->lira = false;
         $report->load([],null);
         
-        $this->assertEquals(1, count($report->quarteiroesComCasosAtivos));
         $this->assertEquals(1, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(4, $report->dataProviderAreasTratamento->getTotalCount());
         
@@ -66,12 +61,53 @@ class AreaTratamentoReportTest extends TestCase
         $report->lira = false;
         $report->load([],null);
         
-        $this->assertEquals(1, count($report->quarteiroesComCasosAtivos));
         $this->assertEquals(1, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(4, $report->dataProviderAreasTratamento->getTotalCount());
     }
     
-    private function _createScenario() {
+    public function testGetDataComMetrosAlterados() {
+        
+        $idBairro = $this->_createScenario(10, null);
+        
+        //bairro novo
+        $report = new AreaTratamentoReport;
+        $report->bairro_id = $idBairro + 1;
+        $report->load([],null);
+        
+        $this->assertEquals(0, $report->dataProviderAreasFoco->getTotalCount());
+        $this->assertEquals(0, $report->dataProviderAreasTratamento->getTotalCount());
+
+        //bairro atual
+        $report = new AreaTratamentoReport;
+        $report->bairro_id = $idBairro;
+        $report->load([],null);
+        
+        $this->assertEquals(1, $report->dataProviderAreasFoco->getTotalCount());
+        $this->assertEquals(1, $report->dataProviderAreasTratamento->getTotalCount());
+    }
+    
+    public function testGetDataComDataAlteradas() {
+        
+        $idBairro = $this->_createScenario(null, 50);
+        
+        //bairro novo
+        $report = new AreaTratamentoReport;
+        $report->bairro_id = $idBairro + 1;
+        $report->load([],null);
+        
+        $this->assertEquals(0, $report->dataProviderAreasFoco->getTotalCount());
+        $this->assertEquals(0, $report->dataProviderAreasTratamento->getTotalCount());
+
+        //bairro atual
+        $report = new AreaTratamentoReport;
+        $report->bairro_id = $idBairro;
+        $report->load([],null);
+        
+        $this->assertEquals(0, $report->dataProviderAreasFoco->getTotalCount());
+        $this->assertEquals(0, $report->dataProviderAreasTratamento->getTotalCount());
+    }
+    
+    private function _createScenario($quantidadeDeMetros = null, $quantidadeDiasValidadeFoco = null) {
         
         $bairro = Phactory::bairro([]);
         
@@ -108,9 +144,22 @@ class AreaTratamentoReportTest extends TestCase
             'bairro_quarteirao_id' => $quarteiraoC->id
         ]);
         
-        $foco = Phactory::focoTransmissor([
-            'imovel_id' => $imovel->id
-        ]);
+        $opcoesEspecie = ['municipio_id' => 1];
+        $opcoesFoco = ['imovel_id' => $imovel->id,];
+        
+        if($quantidadeDeMetros)
+            $opcoesEspecie['qtde_metros_area_foco'] = $quantidadeDeMetros;
+        
+        if($quantidadeDiasValidadeFoco) {
+            $opcoesEspecie['qtde_dias_permanencia_foco'] = $quantidadeDiasValidadeFoco;
+        
+            $opcoesFoco['data_entrada'] = $opcoesFoco['data_exame'] = $opcoesFoco['data_coleta'] = date('Y-m-d', strtotime( '-' . ($quantidadeDiasValidadeFoco + 1) . 'day',strtotime(date('Y-m-d'))));
+        }
+        
+        $especie = Phactory::especieTransmissor($opcoesEspecie);
+        
+        $opcoesFoco['especie_transmissor_id'] = $especie->id;
+        $foco = Phactory::focoTransmissor($opcoesFoco);
         
         return $bairro->id;
     }
