@@ -9,6 +9,7 @@ class DepositoTipoPhactory
             'sigla' => 'TD#{sn}',
             'municipio_id' => Phactory::hasOne('municipio'),
             'inserido_por' => Phactory::hasOne('usuario'),
+            'atualizado_por' => Phactory::hasOne('usuario'),
         ];
     }
 }

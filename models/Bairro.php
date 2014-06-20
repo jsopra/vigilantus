@@ -93,6 +93,14 @@ class Bairro extends PostgisActiveRecord
     {
         return $this->hasMany(BairroRua::className(), ['bairro_id' => 'id']);
     }
+    
+    /**
+     * @return int
+     */
+    public function getQuantidadeQuarteiroes()
+    {
+        return BairroQuarteirao::find()->where(['bairro_id' => $this->id])->count();
+    }
 
     /**
      * @return array descrição dos atributos (name=>label)

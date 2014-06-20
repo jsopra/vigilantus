@@ -4,14 +4,14 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var app\models\DepositoTipo $model
+ * @var app\models\BlogPost $model
  */
 
-$this->title = 'Atualizar Tipo de Depósito: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Deposito Tipos', 'url' => ['index']];
+$this->title = 'Atualizar Post do Blog: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Posts do Blog', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Atualizar';
 ?>
-<div class="deposito-tipo-update">
+<div class="blog-post-update">
 	<h1><?= Html::encode($this->title) ?></h1>
 	<?php echo $this->render('_form', ['model' => $model]); ?>
 </div>

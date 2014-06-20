@@ -1,26 +1,30 @@
 <?php
-use app\models\DepositoTipo;
+use app\models\BlogPost;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use dosamigos\ckeditor\CKEditor;
 ?>
 
-<div class="deposito-tipo-form">
+<div class="blog-post-form">
 
 	<?php $form = ActiveForm::begin(); ?>
 
         <div class="row">
-            <div class="col-xs-3">
+            <div class="col-xs-8">
+                <?= $form->field($model, 'titulo')->textInput() ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8">
                 <?= $form->field($model, 'descricao')->textInput() ?>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'sigla')->textInput() ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'deposito_tipo_pai')->dropDownList(['' => 'Selecione...'] + DepositoTipo::listData('descricao')) ?>
+            <div class="col-xs-12">
+                <?= $form->field($model, 'texto')->widget(CKEditor::className(), [
+                    'options' => ['rows' => 10],
+                    'preset' => 'basic'
+                ]) ?>
             </div>
         </div>
         <div class="form-group form-actions">
@@ -32,8 +36,8 @@ use yii\widgets\ActiveForm;
 		
             echo Html::a(
                 'Cancelar',
-                array('/deposito-tipo/index'),
-                array('class'=>'link','rel'=>'tooltip','data-role'=>'cancel','data-title'=>'Ir à lista de Tipos de Depósito')
+                array('/blog-post/index'),
+                array('class'=>'link','rel'=>'tooltip','data-role'=>'cancel','data-title'=>'Ir à lista de Blog Posts')
             );
             ?>
         </div>

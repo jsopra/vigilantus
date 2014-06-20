@@ -54,6 +54,12 @@ class VigilantusLayoutHelper {
                     ['label' => 'Alterar minha senha', 'url' => ['/usuario/change-password']],
                 ]
             ],
+            [
+                'label' => 'Blog Posts',
+                'icon' => 'pencil',
+                'url' => ['/blog-post/'], 
+                'visible' => $user->can('Root'),
+            ],
             ['label' => 'Contato', 'url' => ['/site/contato'], 'icon' => 'envelope-alt'],     
             [
                 'label' => 'Sair',
@@ -72,6 +78,7 @@ class VigilantusLayoutHelper {
     public static function getMenuComum(User $user) {
         
         return [
+            ['label' => 'Blog', 'url' => ['/blog']],
             ['label' => '', 'url' => ['/site/contato'], 'icon' => 'envelope'],
             [
                 'visible' => !$user->isGuest,

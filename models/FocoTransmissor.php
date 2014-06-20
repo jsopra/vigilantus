@@ -141,8 +141,13 @@ class FocoTransmissor extends ActiveRecord
         $dataColeta->setDate($anoColeta, $mesColeta, $diaColeta);
         
         $dataValidade = new \DateTime();
-        $dataValidade->modify('-' . Yii::$app->params['quantidadeDiasFocoAtivo'] . ' days');
+        $dataValidade->modify('-' . $this->especieTransmissor->qtde_dias_permanencia_foco . ' days');
         
-        return $dataColeta >= $dataValidade;
+        $validacaoData = $dataColeta >= $dataValidade;
+        
+        if(!$validacaoData)
+            return false;
+        
+        return $this->quantidade_forma_adulta > 0 || $this->quantidade_forma_aquatica > 0 || $this->quantidade_ovos > 0;
     }
 }
