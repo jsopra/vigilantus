@@ -1,5 +1,5 @@
 #!/bin/bash
- 
+exec &>$OPENSHIFT_DATA_DIR/cron.log 
 
 BACKUP_DIR="${OPENSHIFT_DATA_DIR}backup/"
 
@@ -49,7 +49,7 @@ postgresql() {
 	fi
  
 	echo -e "\nBacking up PostgreSQL databases..." 
-	if ! pg_dumpall -c -h "$DB_HOST" -U "$DB_USER" -p "$DB_PORT" | gzip > "${FINAL_BACKUP_DIR}${BACKUP_NAME}".sql.gz.in_progress; then
+	if ! /usr/bin/scl enable postgresql92 "pg_dumpall -c -h '$DB_HOST' -U '$DB_USER' -p '$DB_PORT'" | gzip > "${FINAL_BACKUP_DIR}${BACKUP_NAME}".sql.gz.in_progress; then
 		echo "[!!ERROR!!] Failed to produce postgresql backup database $DB_NAME"
 	else
 		mv "${FINAL_BACKUP_DIR}${BACKUP_NAME}".sql.gz.in_progress "${FINAL_BACKUP_DIR}${BACKUP_NAME}".sql.gz
