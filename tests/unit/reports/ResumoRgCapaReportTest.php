@@ -5,7 +5,7 @@ namespace tests\unit\reports;
 use app\models\ImovelTipo;
 use app\models\report\ResumoRgCapaReport;
 use Phactory;
-use yii\codeception\TestCase;
+use tests\TestCase;
 
 class ResumoRgCapaReportTest extends TestCase
 {

@@ -1,5 +1,5 @@
 <?php
-use yii\helpers\HtmlPurifier;
+use yii\helpers\Html;
 ?>
 <a name="n-<?= $model->id; ?>"></a>
 <article>  
@@ -8,13 +8,13 @@ use yii\helpers\HtmlPurifier;
         <div class="page-header">
             <p class="data-post">
                 <time pubdate="pubdate">
-                    <i class="icon-calendar"></i>&nbsp;<?= \Yii::t('app', '{0, date, dd/MM/YYYY}', strtotime($model->data)); ?>
+                    <i class="icon-calendar"></i>
+                    <?= Yii::$app->formatter->asDate($model->data); ?>
                 </time>
             </p>
             <h1><?= $model->titulo; ?></h1>
-            
-            <?php if($model->descricao) : ?>
-                <h2><?= HtmlPurifier::process($model->descricao); ?></h2>
+            <?php if ($model->descricao) : ?>
+                <h2><?= Html::encode($model->descricao); ?></h2>
             <?php endif; ?>
         </div>
     

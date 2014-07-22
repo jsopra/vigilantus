@@ -17,6 +17,7 @@ class IndexPage extends BasePage
 		foreach ($feedbackData as $name => $value) {
 			$data["FeedbackForm[$name]"] = $value;
 		}
-		$this->guy->envioFormulario('#feedback-form', $data);
+		$this->guy->preenchoFormulario('#feedback-form', $data);
+		$this->guy->clico('Enviar', '#feedback-form');
 	}
 }

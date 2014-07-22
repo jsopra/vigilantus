@@ -16,5 +16,8 @@ return [
             'showScriptName' => true,
             'enablePrettyUrl' => false,
         ],
+        'request' => [
+            'cookieValidationKey' => 'secret_key',
+        ],
     ],
 ];

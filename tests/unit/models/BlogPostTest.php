@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use app\models\BlogPost;
 use Phactory;
-use yii\codeception\TestCase;
+use tests\TestCase;
 use yii\db\Expression;
 
 class BlogPostTest extends TestCase

@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use Yii;
 use Phactory;
-use yii\codeception\TestCase;
+use tests\TestCase;
 use app\models\FocoTransmissor;
 
 class FocoTransmissorTest extends TestCase

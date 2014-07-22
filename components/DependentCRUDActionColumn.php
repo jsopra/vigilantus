@@ -53,7 +53,7 @@ class DependentCRUDActionColumn extends YiiActionColumn
                 
 				return Html::a('<i class="table-delete"></i>', $url, [
 					'title' => Yii::t('yii', 'Delete'),
-					'data-confirm' => Yii::t('yii', 'Are you sure to delete this item?'),
+					'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
 					'data-method' => 'post',
 				]);
 			};

@@ -5,7 +5,7 @@ namespace tests\unit\models;
 use Phactory;
 use app\models\DepositoTipo;
 use app\models\Municipio;
-use yii\codeception\TestCase;
+use tests\TestCase;
 use yii\db\Expression;
 
 class DepositoTipoTest extends TestCase

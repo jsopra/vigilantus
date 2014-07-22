@@ -3,7 +3,7 @@
 namespace tests\unit\models;
 
 use Phactory;
-use yii\codeception\TestCase;
+use tests\TestCase;
 use app\models\EspecieTransmissor;
 
 class EspecieTransmissorTest extends TestCase

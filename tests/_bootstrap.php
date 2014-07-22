@@ -41,4 +41,4 @@ foreach (scandir(__DIR__ . '/factories') as $file) {
 
 TestHelper::recreateDataBase();
 
-require_once 'CaraDaWeb.php';
+require_once 'TesterDeAceitacao.php';

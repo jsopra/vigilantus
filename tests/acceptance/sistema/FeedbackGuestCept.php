@@ -1,7 +1,7 @@
 <?php
 use tests\_pages\IndexPage;
 
-$eu = new CaraDaWeb($scenario);
+$eu = new TesterDeAceitacao($scenario);
 
 $eu->quero('garantir que o feedback não aparece para usuário offline');
 

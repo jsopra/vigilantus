@@ -1,13 +1,13 @@
 paths:
     tests: tests
-    log: tests/_log
+    log: tests/_output
     data: tests/_data
-    helpers: tests/_helpers
+    helpers: tests/_support
 settings:
     bootstrap: _bootstrap.php
     suite_class: \PHPUnit_Framework_TestSuite
     memory_limit: 1024M
-    log: false
+    log: true
     colors: true
 modules:
     config:
@@ -17,7 +17,7 @@ modules:
             password: ''
             dump: tests/_data/dump.sql
 coverage:
-    enabled: true
+    enabled: false
     include:
         - controllers/*
         - forms/*

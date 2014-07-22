@@ -31,6 +31,8 @@ AppAsset::register($this);
         <![endif]-->
         
         <?php $this->head() ?>
+
+        <?= Html::csrfMetaTags() ?>
     </head>
     <body>
         
@@ -76,50 +78,49 @@ AppAsset::register($this);
                 ?>
                 <?= Alert::widget() ?>
                 <?= $content ?>
-            </div>
+                <footer class="footer">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-1">
 
-        
-            <footer class="footer container">
-                <div class="row">
+                            <h2 class="text-left partners-title">
+                                Parceiros
+                            </h2>
 
-                    <div class="col-sm-6 col-sm-offset-1">
+                            <div class="row">
 
-                        <h2 class="text-left row" style="padding-bottom: 30px;">Parceiros</h2>
+                                <?php 
+                                $partners = VigilantusLayoutHelper::getPartners(); 
+                                foreach($partners as $partner) :
+                                ?>
+                                    <div class="partner text-center">
+                                        <a href="<?= $partner['url']; ?>" target="_blank">
+                                            <img src="<?= Url::base(); ?>/img/partners/<?= $partner['logo']; ?>" alt="<?= $partner['description']; ?>" />
+                                        </a>
+                                    </div>
+                                <?php
+                                endforeach;
+                                ?>
 
-                        <div class="row">
-
-                            <?php 
-                            $partners = VigilantusLayoutHelper::getPartners(); 
-                            foreach($partners as $partner) :
-                            ?>
-                                <div class="partner text-center">
-                                    <a href="<?= $partner['url']; ?>" target="_blank">
-                                        <img src="<?= Url::toRoute(['/']); ?>img/partners/<?= $partner['logo']; ?>" alt="<?= $partner['description']; ?>" />
-                                    </a>
-                                </div>
-                            <?php
-                            endforeach;
-                            ?>
-
-                            <div class="clearfix"></div>
+                                <div class="clearfix"></div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="col-sm-3 col-sm-offset-2" style="padding-top: 35px;">
+                        
+                        <div class="col-sm-3 col-sm-offset-2" style="padding-top: 35px;">
 
-                        <p class="text-center perspectiva">
-                            <a href="http://perspectiva.in" target="_blank">
-                                perspectiva<span class="domain">.in</span>
-                            </a>
-                        </p>
+                            <p class="text-center perspectiva">
+                                <a href="http://perspectiva.in" target="_blank">
+                                    perspectiva<span class="domain">.in</span>
+                                </a>
+                            </p>
 
-                        <p class="text-center">
-                            Perspectiva Negócios Digitais &copy; <?= date('Y') ?> 
-                        </p>
+                            <p class="text-center">
+                                Perspectiva Negócios Digitais &copy; <?= date('Y') ?> 
+                            </p>
+                        </div>
+                        
                     </div>
-                    
-                </div>
-            </footer>
+                </footer>
+            </div>
         </div>
         
         <?php 
@@ -129,7 +130,11 @@ AppAsset::register($this);
         
         <?php $this->endBody() ?>
         
-        <?= VigilantusLayoutHelper::getAnalyticsCode(); ?>
+        <?php
+        if (YII_ENV_PROD) {
+            echo VigilantusLayoutHelper::getAnalyticsCode();
+        }
+        ?>
     </body>
 </html>
 <?php

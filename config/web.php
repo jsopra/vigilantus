@@ -10,6 +10,12 @@ $logTargets = [
     ]
 ];
 
+$cookieValidationKey = getenv('VIGILANTUS_DB_DSN');
+
+if (getenv('VIGILANTUS_COOKIES_KEY')) {
+    $cookieValidationKey = getenv('VIGILANTUS_COOKIES_KEY');
+}
+
 if (YII_ENV_PROD) {
     $logTargets[] = [
         'class' => 'yii\log\EmailTarget',
@@ -31,7 +37,7 @@ $config = [
     'components' => [
         'authManager' => [
             'class' => 'app\components\AuthManager',
-            'authFile' => __DIR__ . '/../data/rbac.php',
+            //'authFile' => __DIR__ . '/../data/rbac.php',
             'defaultRoles' => ['Anonimo'],
         ],
         'cache' => [
@@ -62,6 +68,9 @@ $config = [
                 'port' => '587',
                 'encryption' => 'tls',
             ],
+        ],
+        'request' => [
+            'cookieValidationKey' => $cookieValidationKey,
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

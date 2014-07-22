@@ -32,8 +32,6 @@ class TestHelper
 
         self::runMigrations();
 
-        self::loadFixtures();
-        
         self::exportSchema();
     }
 
@@ -52,6 +50,8 @@ class TestHelper
             }
         }
 
+        echo "Running migrations...";
+
         ksort($migrationsFiles);
 
         foreach ($migrationsFiles as $fileName => $filePath) {
@@ -66,8 +66,6 @@ class TestHelper
 
                 $migration = new $className;
 
-                echo $className, "...\n";
-
                 $status = false;
 
                 ob_start();
@@ -81,47 +79,8 @@ class TestHelper
                 }
             }
         }
-    }
 
-    /**
-     * Carrega as fixtures
-     */
-    protected static function loadFixtures()
-    {
-        $transaction = self::getDb()->beginTransaction();
-
-        $fixturesDir = Yii::getAlias(__DIR__ . '/fixtures/');
-        $fixtureFiles = [];
-
-        if (!is_file($fixturesDir)) {
-            return true;
-        }
-
-        foreach (scandir($fixturesDir) as $file) {
-            if (substr($file, strlen($file) - 4) == '.php') {
-                $fixtureFiles[] = substr($file, 0, strlen($file) - 4);
-            }
-        }
-
-        foreach ($fixtureFiles as $tableName) {
-
-            $tableSchema = self::getDb()->getSchema()->getTableSchema($tableName);
-
-            $rows = require($fixturesDir . $tableName . '.php');
-
-            foreach ($rows as $row) {
-
-                $command = self::getDb()->createCommand();
-                $command->insert($tableName, $row);
-                $command->execute();
-            }
-
-            self::getDb()->createCommand(
-                "SELECT SETVAL('" . $tableSchema->sequenceName . "', (SELECT MAX(id)+1 FROM " . $tableName . "))"
-            )->execute();
-        }
-
-        $transaction->commit();
+        echo " Ok\n";
     }
 
     /**
@@ -188,7 +147,6 @@ class TestHelper
      */
     protected static function getDbParams()
     {
-        //pgsql:host=localhost;dbname=vigilantus_test
         $dsn = explode(':', self::getDb()->dsn);
 
         if ($dsn[0] != 'pgsql') {

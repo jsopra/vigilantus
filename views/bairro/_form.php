@@ -13,6 +13,7 @@ use yii\bootstrap\ButtonGroup;
  * @var app\models\Bairro $model
  * @var yii\widgets\ActiveForm $form
  */
+$this->registerJsFile(GoogleMapsAPIHelper::getAPIUrl(false, 'drawing'), ['yii\web\JqueryAsset']);
 ?>
 <div class="bairro-form">
 
@@ -78,8 +79,10 @@ $municipio->loadCoordenadas();
 $coordenadasBairros = $municipio->getCoordenadasBairros(array($model->id));
 ?>
 
-<?php if($municipio->latitude && $municipio->longitude) : ?>
-<script>
+<?php
+if ($municipio->latitude && $municipio->longitude) :
+
+    $javascript = "
     var map;
     var drawingManager;
     var selectedShape;
@@ -88,15 +91,17 @@ $coordenadasBairros = $municipio->getCoordenadasBairros(array($model->id));
     var bairroColor = '#FF0000';
     
     var defaultZoom = 12;
-    var defaultLat = <?= $municipio->latitude; ?>;
-    var defaultLong = <?= $municipio->longitude; ?>;
     
     var bairroBoundsObj = new google.maps.LatLngBounds();
     var bairroBounds;
+    var mapCenter = new google.maps.LatLng(" . $municipio->latitude . ", " . $municipio->longitude . ");
+    ";
         
-    <?php if ($model->coordenadasJson) : ?>
+    if ($model->coordenadasJson) {
+
+        $javascript .= "
         
-        bairroBounds = [<?= GoogleMapsAPIHelper::jsonToBounds($model->coordenadasJson); ?>];
+        bairroBounds = [" . GoogleMapsAPIHelper::jsonToBounds($model->coordenadasJson) ."];
         
         selectedShape = new google.maps.Polygon({
             paths: bairroBounds,
@@ -109,16 +114,15 @@ $coordenadasBairros = $municipio->getCoordenadasBairros(array($model->id));
         for (i = 0; i < bairroBounds.length; i++)
             bairroBoundsObj.extend(bairroBounds[i]);
 
-        var BairroCenter = bairroBoundsObj.getCenter();
-
-        defaultLat = BairroCenter.k;
-        defaultLong = BairroCenter.A;
+        mapCenter = bairroBoundsObj.getCenter();
         defaultZoom = 14;
-    <?php endif; ?>
+        ";
+    }
+    $javascript .= "
 
     var options = {
         zoom: defaultZoom,
-        center: new google.maps.LatLng(defaultLat, defaultLong),
+        center: mapCenter,
         mapTypeId: google.maps.MapTypeId.HYBRID,
         disableDefaultUI: true,
         zoomControl: true
@@ -139,33 +143,40 @@ $coordenadasBairros = $municipio->getCoordenadasBairros(array($model->id));
     };
 
     map = new google.maps.Map(document.getElementById('map'), options);  
-        
-    <?php 
+    ";   
+     
     $qtdeBairrosComCoordenada = count($coordenadasBairros);
-    if ($qtdeBairrosComCoordenada > 0) : ?>
-        
-        <?php 
+
+    if ($qtdeBairrosComCoordenada > 0) : 
+
         $i = 0;
-        foreach($coordenadasBairros as $bairroCoordenada) : ?>
+        foreach($coordenadasBairros as $bairroCoordenada) : 
+
+            $javascript .= "
         
-            var bairroPolygon<?= $i; ?> = new google.maps.Polygon({
-                paths: [<?= GoogleMapsAPIHelper::arrayToBounds($bairroCoordenada); ?>],
+            var bairroPolygon" . $i . " = new google.maps.Polygon({
+                paths: [" . GoogleMapsAPIHelper::arrayToBounds($bairroCoordenada) . "],
                 strokeWeight: 0,
                 fillColor: bairroColor,
                 fillOpacity: 0.85,
                 map: map
             });
+    
+            ";
             
-        <?php endforeach; ?>
-        
-    <?php endif; ?>
-        
-    <?php if ($model->coordenadasJson) : ?>
+        endforeach;
+    endif;
+
+    if ($model->coordenadasJson) :
+        $javascript .= "
         setSelection(selectedShape);
         selectedShape.setMap(map);
         overlayClickListener(selectedShape);
         overlayExitListener(selectedShape);
-    <?php endif; ?>
+        ";
+    endif;
+
+    $javascript .= "
     
     drawingManager = new google.maps.drawing.DrawingManager(drawingOptions);
     
@@ -195,7 +206,7 @@ $coordenadasBairros = $municipio->getCoordenadasBairros(array($model->id));
     }
     
     function overlayClickListener(overlay) {
-        google.maps.event.addListener(overlay, "mouseup", function(event){
+        google.maps.event.addListener(overlay, 'mouseup', function(event){
             coordinatesToInput(overlay.getPath().getArray());
         });
     }
@@ -230,21 +241,27 @@ $coordenadasBairros = $municipio->getCoordenadasBairros(array($model->id));
             $('.marcar-area').show();
             
             return;
-       });
+        });
+        ";
        
-        <?php if ($model->coordenadasJson) : ?>
+        if ($model->coordenadasJson) :
+            $javascript .= "
             $('.remover-marcacao').show();
             $('.marcar-area').hide();
-        <?php else : ?>
+            ";
+        else :
+            $javascript .= "
             $('.remover-marcacao').hide();
-        <?php endif; ?>
+            ";
+        endif;
+
+        $javascript .= "
         
-        $('button[type="submit"]').click(function(){
+        $('button[type=\"submit\"]').click(function(){
             if(selectedShape)
                 coordinatesToInput(selectedShape.getPath().getArray());
         });
     });
-    
 
     function clearSelection() {
         
@@ -279,5 +296,6 @@ $coordenadasBairros = $municipio->getCoordenadasBairros(array($model->id));
     function coordinatesToInput(coordinates) {
         $('#bairro-coordenadasjson').val(JSON.stringify(coordinates));
     }
-</script>
-<?php endif; ?>
+";
+$this->registerJs($javascript);
+endif;

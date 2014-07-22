@@ -101,6 +101,8 @@ use yii\bootstrap\ButtonGroup;
     var defaultZoom = 13;
     var defaultLat = <?= $municipio->latitude; ?>;
     var defaultLong = <?= $municipio->longitude; ?>;
+
+    var mapCenter = new google.maps.LatLng(defaultLat, defaultLong)
     
     var quarteiraoBoundsObj = new google.maps.LatLngBounds();
     var quarteiraoBounds;
@@ -120,10 +122,7 @@ use yii\bootstrap\ButtonGroup;
         for (i = 0; i < bairroBounds.length; i++)
             bairroBoundsObj.extend(bairroBounds[i]);
 
-        var BairroCenter = bairroBoundsObj.getCenter();
-
-        defaultLat = BairroCenter.k;
-        defaultLong = BairroCenter.A;
+        mapCenter = bairroBoundsObj.getCenter();
         defaultZoom = 15;
     
     <?php endif; ?>
@@ -143,16 +142,13 @@ use yii\bootstrap\ButtonGroup;
         for (i = 0; i < quarteiraoBounds.length; i++)
             quarteiraoBoundsObj.extend(quarteiraoBounds[i]);
 
-        var QuarteiraoCenter = quarteiraoBoundsObj.getCenter();
-
-        defaultLat = QuarteiraoCenter.k;
-        defaultLong = QuarteiraoCenter.A;
+        mapCenter = quarteiraoBoundsObj.getCenter();
         defaultZoom = 16;
     <?php endif; ?>
 
     var options = {
         zoom: defaultZoom,
-        center: new google.maps.LatLng(defaultLat, defaultLong),
+        center: mapCenter,
         mapTypeId: google.maps.MapTypeId.HYBRID,
         disableDefaultUI: true,
         zoomControl: true

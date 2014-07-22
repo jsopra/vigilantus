@@ -3,7 +3,7 @@
 namespace tests\unit\models;
 
 use Yii;
-use yii\codeception\TestCase;
+use tests\TestCase;
 
 class ContatoFormTest extends TestCase
 {

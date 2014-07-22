@@ -3,20 +3,18 @@
 use \Phactory;
 use tests\_pages\LoginPage;
 
-if ($this->scenario->running()) {
-    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-}
+$eu = new TesterDeAceitacao($scenario);
 
-$eu = new CaraDaWeb($scenario);
+Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+
 $eu->quero('verificar que consigo alterar minha senha');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clico('Sistema');
-$eu->clico('Alterar minha senha');
+$eu->clicoNoMenu(['Sistema', 'Alterar minha senha']);
 
 $eu->espero('verificar que requer uma nova senha');
 $eu->clico('Alterar Senha');
 $eu->aguardoPor(1);
-$eu->vejo('“Senha” não pode ficar em branco.');
+$eu->vejo('"Senha" não pode ficar em branco.');
 
 $eu->espero('alterar minha senha');
 $eu->preenchoCampo('Senha', 'jasepassaramdelaraia');

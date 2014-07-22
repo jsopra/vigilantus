@@ -1,14 +1,29 @@
 <?php
 
-require_once 'acceptance/WebGuy.php';
+require_once 'acceptance/AcceptanceTester.php';
 
 use tests\_pages\LoginPage;
+use tests\TestHelper;
 
 /**
  * Traduz métodos da WebGuy para o português
  */
-class CaraDaWeb extends WebGuy
+class TesterDeAceitacao extends AcceptanceTester
 {
+    public function __construct(\Codeception\Scenario $scenario)
+    {
+        $this->scenario = $scenario;
+
+        // Maximiza a janela para evitar testes falhos por estar fora da tela
+        $this->maximizeWindow();
+
+        // Recria o banco
+        TestHelper::recreateSchema();
+
+        // Vai pra home
+        $this->amOnPage('/');
+    }
+
     /**
      * Autentica-se com um nome de usuário
      * @param string $login Login do usuário
@@ -35,9 +50,39 @@ class CaraDaWeb extends WebGuy
      * @param string|integer $id Um label em uma coluna ou o ID do registro
      * @param string $botao Seletor do botão ou link
      */
-    public function clicoNoGrid($id, $botao)
+    public function clicoNoGrid($id, $botao, $contexto = null)
     {
-        $this->clico("//tr//td[text()='$id']//parent::tr//td//a[@title='$botao' or text()='$botao']");
+        $this->clickXpath(
+            "//tr//td[text()='$id']//parent::tr//td//a[@title='$botao' or text()='$botao']",
+            $contexto ? $contexto : '#pad-wrapper div.grid-view table'
+        );
+    }
+
+    /**
+     * Clica nas opções do menu, abrindo
+     * @param string|integer $id Um label em uma coluna ou o ID do registro
+     * @param string $botao Seletor do botão ou link
+     */
+    public function clicoNoMenu($botoes, $contexto = '#dashboard-menu')
+    {
+        if (!is_array($botoes)) {
+            $botoes = [$botoes];
+        }
+
+        $prefixo = '';
+
+        foreach ($botoes as $k => $botao) {
+
+            if ($k > 0 && !$prefixo) {
+                $prefixo = "//ul[contains(@style, 'display: block;')]";
+            }
+
+            $this->clickXpath(
+                $prefixo . "//a[@title='$botao' or text()='$botao' or ./span[text()='$botao']]",
+                $contexto
+            );
+            $this->aguardoPor(1);
+        }
     }
 
     /**
@@ -52,11 +97,19 @@ class CaraDaWeb extends WebGuy
     /**
      * @inheritdoc
      */
-    public function envioFormulario($selector, $params)
+    public function preenchoFormulario($selector, $params)
     {
         foreach ($params as $field => $value) {
             $this->preenchoCampo($field, $value);
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function envioFormulario($selector, $params)
+    {
+        $this->preenchoFormulario($selector, $params);
 
         $this->clico('//button[@type=\'submit\']', $selector);
         $this->aguardoPor(1);
@@ -642,6 +695,28 @@ class CaraDaWeb extends WebGuy
             }
         });
         $("#" + select2combo.attr("id")).select2("val", window.fieldValue);
+        ');
+    }
+    
+    public function markAjaxSelect2Option($fieldLabel, $fieldValue)
+    {
+        $this->executeJs('
+        var select2id = $("label:contains(\''  . $fieldLabel . '\')").attr("for");
+        window.select2combo = $("#" + select2id);
+        window.select2combo.select2("open");
+        ');
+
+        $this->aguardoPor(2);
+
+        $this->executeJs('
+        window.fieldValue = null;
+        $("div.select2-result-label").each(function(index, element){
+            if ($(element).text().replace(/\W/g, "") == "' . $fieldValue . '".replace(/\W/g, "")) {
+                window.fieldValue = $(element).parent().data("select2-data");
+            }
+        });
+        window.select2combo.select2("close");
+        window.select2combo.select2("data", window.fieldValue);
         ');
     }
 
