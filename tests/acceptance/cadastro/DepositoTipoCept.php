@@ -2,15 +2,13 @@
 
 use \Phactory;
 
-if ($this->scenario->running()) {
-    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-}
+$eu = new TesterDeAceitacao($scenario);
 
-$eu = new CaraDaWeb($scenario);
+Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+
 $eu->quero('verificar que o CRUD Deposito Tipos funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clico('Cadastro');
-$eu->clico('Tipos de Depósitos');
+$eu->clicoNoMenu(['Cadastros', 'Tipos de Depósitos']);
 
 $eu->espero('cadastrar um tipo de depósito');
 $eu->clico('Cadastrar Tipo de Depósito');
@@ -20,7 +18,7 @@ $eu->vejoUmTitulo('Cadastrar Tipo de Depósito');
 $eu->preenchoCampo('Descrição', 'Tipo UM');
 $eu->preenchoCampo('Sigla', 'TU');
 
-$eu->clico('Cadastrar', '.modal');
+$eu->clico('Cadastrar', '#modal-window');
 $eu->aguardoPor(1);
 $eu->vejo('O cadastro foi realizado com sucesso.');
 
@@ -43,13 +41,13 @@ $eu->preenchoCampo('Descrição', 'Tipo FILHO');
 $eu->preenchoCampo('Sigla', 'TF');
 $eu->selecionoOpcao('Tipo de Depósito Pai', 'TipoDOIS');
 
-$eu->clico('Cadastrar', '.modal');
+$eu->clico('Cadastrar', '#modal-window');
 $eu->aguardoPor(1);
 $eu->vejo('O cadastro foi realizado com sucesso.');
 
 $eu->espero('excluir um Deposito Tipos');
 $eu->clicoNoGrid('Tipo FILHO', 'Excluir');
-$eu->vejoNaPopUp('Tem certeza de que deseja excluir este item?');
+$eu->vejoNaPopUp('Confirma a exclusão deste item?');
 $eu->aceitoPopUp();
 $eu->aguardoPor(1);
 $eu->naoVejo('Tipo FILHO Registro');

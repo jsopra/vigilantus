@@ -2,12 +2,10 @@
 
 use \Phactory;
 use tests\_pages\IndexPage;
+$eu = new TesterDeAceitacao($scenario);
 
-if ($this->scenario->running()) {
-    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-}
+Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
 
-$eu = new CaraDaWeb($scenario);
 $eu->quero('enviar um feedback');
 $eu->facoLoginComo('administrador', 'administrador');
 
@@ -25,7 +23,7 @@ $pagina->submitFeedback(['body' => '']);
 
 $eu->espero('ver erros de validação');
 
-$eu->vejo('Você deve escrever alguma coisa');
+$eu->vejo('Erro ao enviar mensagem');
 
 $eu->vou('enviar o form com um motivo');
 

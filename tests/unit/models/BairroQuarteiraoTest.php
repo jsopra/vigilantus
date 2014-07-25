@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use app\models\BairroQuarteirao;
 use Phactory;
-use yii\codeception\TestCase;
+use tests\TestCase;
 
 class BairroQuarteiraoTest extends TestCase
 {

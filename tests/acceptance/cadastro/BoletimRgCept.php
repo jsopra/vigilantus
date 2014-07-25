@@ -2,21 +2,19 @@
 
 use \Phactory;
 
-if ($this->scenario->running()) {
-    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-    Phactory::bairro(['nome' => 'Seminário', 'municipio_id' => 1, 'bairro_categoria_id' => 1]);
-    Phactory::bairroQuarteirao([
-        'numero_quarteirao' => '123',
-        'municipio_id' => 1,
-        'bairro_id' => 1,
-    ]);
-}
+$eu = new TesterDeAceitacao($scenario);
 
-$eu = new CaraDaWeb($scenario);
+Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+Phactory::bairro(['nome' => 'Seminário', 'municipio_id' => 1, 'bairro_categoria_id' => 1]);
+Phactory::bairroQuarteirao([
+    'numero_quarteirao' => '123',
+    'municipio_id' => 1,
+    'bairro_id' => 1,
+]);
+
 $eu->quero('verificar que a ficha de RG funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clico('Localização');
-$eu->clico('Boletim de RG');
+$eu->clicoNoMenu(['Localização', 'Boletim de RG']);
 
 $eu->espero('cadastrar uma ficha');
 $eu->clico('Preencher novo Boletim');
@@ -98,7 +96,7 @@ $eu->aguardoPor(1);
 
 $eu->espero('excluir um boletim');
 $eu->clicoNoGrid('Seminário', 'Excluir');
-$eu->vejoNaPopUp('Tem certeza de que deseja excluir este item?');
+$eu->vejoNaPopUp('Confirma a exclusão deste item?');
 $eu->aceitoPopUp();
 $eu->aguardoPor(1);
 $eu->vejo('Nenhum resultado foi encontrado.');

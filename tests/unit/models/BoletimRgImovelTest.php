@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use Phactory;
 use app\models\BoletimRgFechamento;
-use yii\codeception\TestCase;
+use tests\TestCase;
 
 class BoletimRgImovelTest extends TestCase
 {

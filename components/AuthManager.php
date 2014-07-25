@@ -3,6 +3,7 @@ namespace app\components;
 
 use Yii;
 use yii\rbac\PhpManager;
+use yii\rbac\Item;
 
 class AuthManager extends PhpManager
 {
@@ -10,18 +11,20 @@ class AuthManager extends PhpManager
     {
         parent::init();
 
-        if (!Yii::$app->user->isGuest) {
-            $this->assign(
-                $this->getItem(Yii::$app->user->identity->getRBACRole()),
-                Yii::$app->user->identity->id
-            );
+        if (Yii::$app->user->isGuest) {
+            $this->assign($this->getItem('Anonimo'), Yii::$app->user->id);
+            return;
         }
+
+        $role = Yii::$app->user->identity->getRBACRole();
+        $this->assign($this->getItem($role), Yii::$app->user->identity->id);
     }
 
     /**
-     * Evita que salve em um arquivo
+     * Does NOT save
      */
-    public function save()
+    protected function saveToFile($data, $file)
     {
+        return null;
     }
 }

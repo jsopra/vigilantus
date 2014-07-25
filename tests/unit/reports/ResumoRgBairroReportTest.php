@@ -4,7 +4,7 @@ namespace tests\unit\reports;
 
 use app\models\report\ResumoRgBairroReport;
 use Phactory;
-use yii\codeception\TestCase;
+use tests\TestCase;
 
 class ResumoRgBairroReportTest extends TestCase
 {

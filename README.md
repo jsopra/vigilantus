@@ -32,6 +32,7 @@ NameVirtualHost 127.0.0.1
     SetEnv VIGILANTUS_DB_DSN "pgsql:host=localhost;dbname=vigilantus_development"
     SetEnv VIGILANTUS_DB_USERNAME postgres
     SetEnv VIGILANTUS_DB_PASSWORD postgres
+    SetEnv VIGILANTUS_COOKIES_KEY umastringsecreta
 </VirtualHost>
 ```
 

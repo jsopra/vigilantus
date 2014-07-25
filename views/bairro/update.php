@@ -14,8 +14,10 @@ $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' 
 $this->params['breadcrumbs'][] = 'Atualizar';
 
 $model->loadCoordenadas();
-if(!$model->getIsNewRecord() && !$model->coordenadasJson && $model->coordenadas) 
+
+if (!$model->getIsNewRecord() && !$model->coordenadasJson && $model->coordenadas) {
     $model->coordenadasJson = GoogleMapsAPIHelper::arrayToCoordinatesJson($model->coordenadas);
+}
 ?>
 <div class="bairro-update">
 	<h1><?= Html::encode($this->title) ?></h1>

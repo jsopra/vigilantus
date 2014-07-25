@@ -7,7 +7,7 @@ use app\models\BoletimRg;
 use app\models\BoletimRgFechamento;
 use app\models\Imovel;
 use app\models\Rua;
-use yii\codeception\TestCase;
+use tests\TestCase;
 
 class BoletimRgTest extends TestCase
 {

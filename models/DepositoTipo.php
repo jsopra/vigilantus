@@ -84,65 +84,6 @@ class DepositoTipo extends ActiveRecord
 	}
     
     /**
-     * Salva atributos do objeto
-     * @return boolean
-     * @throws CException se o registro for novo
-     */
-    public function save($runValidation = true, $attributes = null) {
-
-        $transaction = $this->getTransaction();
-        
-        try {
-            
-            $result = parent::save($runValidation, $attributes);
-            
-            if ($result) {
-                $transaction->commit();
-            } 
-            else {
-                $transaction->rollback();
-            }
-        } 
-        catch (\Exception $e) {
-            $transaction->rollback();
-                
-            throw $e;
-        }
-
-        return $result;
-    }
-    
-    /**
-     * Exclui a linha da tabela correspondente a este active record.
-     * @return boolean se a exclusão foi feita com sucesso ou não.
-     * @throws CException se o registro for novo
-     */
-    public function delete()
-    {
-        $transaction = $this->getTransaction();
-        
-        try {
-            
-            $return = parent::delete();
-            
-            if ($result) {
-                $transaction->commit();
-            } 
-            else {
-                $transaction->rollback();
-            }
-        } 
-        catch (\Exception $e) {
-
-            $transaction->rollback();
-                
-            throw $e;
-        }
-
-        return $result;
-    }
-
-    /**
      * @return \yii\db\ActiveRelation
      */
     public function getInseridoPor()
@@ -157,14 +98,4 @@ class DepositoTipo extends ActiveRecord
     {
         return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
     }
-
-    /**
-     * Retorna uma conexão
-     */
-    private function getTransaction()
-    {
-        $currentTransaction = $this->getDb()->getTransaction();     
-        return $currentTransaction ? $currentTransaction : $this->getDb()->beginTransaction();
-    }
-
 }

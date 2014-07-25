@@ -1,10 +1,10 @@
 <?php
+use \Phactory;
 
-if ($this->scenario->running()) {
-    Phactory::blogPost();
-}
+$eu = new TesterDeAceitacao($scenario);
 
-$eu = new CaraDaWeb($scenario);
+Phactory::blogPost();
+
 $eu->quero('verificar que o blog funciona');
 $eu->estouNaPagina(Yii::$app->homeUrl);
 $eu->vejo('Vigilantus');

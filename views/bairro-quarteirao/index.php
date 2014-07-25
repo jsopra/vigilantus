@@ -10,10 +10,9 @@ $bairro = $parentObject;
 
 $this->title = 'Quarteirões do Bairro "' . $bairro->nome . '"';
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerJsFile(GoogleMapsAPIHelper::getAPIUrl(false, 'drawing'), ['yii\web\JqueryAsset']);
 ?>
-
-<script src="<?= GoogleMapsAPIHelper::getAPIUrl(false, 'drawing'); ?>"></script>
-
 <div class="bairro-quarteirao-index" data-role="modal-grid">
 
 	<h1><?= Html::encode($this->title) ?></h1>

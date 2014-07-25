@@ -1,15 +1,13 @@
 <?php
 use \Phactory;
 
-if ($this->scenario->running()) {
-    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-}
+$eu = new TesterDeAceitacao($scenario);
 
+Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
 
-$eu = new CaraDaWeb($scenario);
 $eu->quero('verificar que o CRUD Blog Posts funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clico('Blog Posts');
+$eu->clicoNoMenu('Blog Posts');
 
 $eu->espero('cadastrar um Blog Posts');
 $eu->clico('Cadastrar Post');
@@ -31,7 +29,7 @@ $eu->vejo('O registro foi atualizado com sucesso.');
 
 $eu->espero('excluir um Blog Posts');
 $eu->clicoNoGrid('Dengue no Rio Grande do Sul', 'Excluir');
-$eu->vejoNaPopUp('Tem certeza de que deseja excluir este item?');
+$eu->vejoNaPopUp('Confirma a exclusão deste item?');
 $eu->aceitoPopUp();
 $eu->aguardoPor(1);
 $eu->naoVejo('Dengue no Rio Grande do Sul');

@@ -5,7 +5,7 @@ namespace tests\unit\models;
 use app\models\Usuario;
 use app\models\UsuarioRole;
 use Phactory;
-use yii\codeception\TestCase;
+use tests\TestCase;
 
 class UsuarioRoleTest extends TestCase
 {

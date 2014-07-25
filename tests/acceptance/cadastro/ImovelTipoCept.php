@@ -2,15 +2,13 @@
 
 use \Phactory;
 
-if ($this->scenario->running()) {
-    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-}
+$eu = new TesterDeAceitacao($scenario);
 
-$eu = new CaraDaWeb($scenario);
+Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+
 $eu->quero('verificar que o CRUD de tipos de imóveis funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clico('Cadastro');
-$eu->clico('Tipos de Imóvel');
+$eu->clicoNoMenu(['Cadastros', 'Tipos de Imóvel']);
 
 $eu->espero('que a listagem inclua os pré-cadastrados');
 $eu->vejo('Residencial');
@@ -25,7 +23,7 @@ $eu->aguardoPor(1);
 $eu->vejoUmTitulo('Cadastrar Tipo de Imóvel');
 $eu->preenchoCampo('Nome', 'Duna');
 $eu->preenchoCampo('Sigla', 'DN');
-$eu->clico('Cadastrar', '.modal');
+$eu->clico('Cadastrar', '#modal-window');
 $eu->aguardoPor(1);
 $eu->vejo('O cadastro foi realizado com sucesso.');
 
@@ -41,7 +39,7 @@ $eu->vejo('O registro foi atualizado com sucesso.');
 
 $eu->espero('excluir um tipo de imóvel');
 $eu->clicoNoGrid('Rochedo', 'Excluir');
-$eu->vejoNaPopUp('Tem certeza de que deseja excluir este item?');
+$eu->vejoNaPopUp('Confirma a exclusão deste item?');
 $eu->aceitoPopUp();
 $eu->aguardoPor(1);
 $eu->naoVejo('Rochedo');

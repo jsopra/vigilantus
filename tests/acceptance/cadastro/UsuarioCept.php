@@ -2,15 +2,13 @@
 
 use \Phactory;
 
-if ($this->scenario->running()) {
-    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-}
+$eu = new TesterDeAceitacao($scenario);
 
-$eu = new CaraDaWeb($scenario);
+Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+
 $eu->quero('verificar que o CRUD de usuários funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clico('Sistema');
-$eu->clico('Usuários');
+$eu->clicoNoMenu(['Sistema', 'Usuários']);
 $eu->espero('que a listagem inclua os pré-cadastrados');
 $eu->vejo('perspectiva', '.grid-view');
 
@@ -26,7 +24,7 @@ $eu->preenchoCampo('Login', 'mctester');
 $eu->preenchoCampo('E-mail', 'mctester@perspectiva.in');
 $eu->preenchoCampo('Senha', 'senhadificil');
 $eu->preenchoCampo('Repita a senha', 'senhadificil');
-$eu->clico('Cadastrar', '.modal');
+$eu->clico('Cadastrar', '#modal-window');
 $eu->aguardoPor(1);
 $eu->vejo('O cadastro foi realizado com sucesso.');
 
@@ -52,7 +50,7 @@ $eu->vejo('O registro foi atualizado com sucesso.');
 // $eu->vejoUmTitulo('Cadastrar Bairro');
 // $eu->selecionoOpcao('Categoria de Bairro', 'Rural');
 // $eu->preenchoCampo('Nome', 'Creeeim');
-// $eu->clico('Cadastrar', '.modal');
+// $eu->clico('Cadastrar', '#modal-window');
 // $eu->aguardoPor(1);
 // $eu->vejo('O cadastro foi realizado com sucesso.');
 
@@ -81,7 +79,7 @@ $eu->vejo('O registro foi atualizado com sucesso.');
 // $eu->aguardoPor(1);
 // $eu->vejoUmTitulo('Cadastrar Categoria de Bairro');
 // $eu->preenchoCampo('Nome', 'Locuratudolocura');
-// $eu->clico('Cadastrar', '.modal');
+// $eu->clico('Cadastrar', '#modal-window');
 // $eu->aguardoPor(1);
 // $eu->vejo('O cadastro foi realizado com sucesso.');
 // $eu->aguardoPor(1);
@@ -93,7 +91,7 @@ $eu->vejo('O registro foi atualizado com sucesso.');
 // $eu->aguardoPor(1);
 // $eu->preenchoCampo('Nome', 'Chaves loco');
 // $eu->selecionoOpcao('Categoria de Bairro', 'Locuratudolocura');
-// $eu->clico('Cadastrar', '.modal');
+// $eu->clico('Cadastrar', '#modal-window');
 // $eu->aguardoPor(1);
 // $eu->vejo('O cadastro foi realizado com sucesso.');
 // $eu->vejo('Chaves loco');
@@ -111,7 +109,7 @@ $eu->vejo('O registro foi atualizado com sucesso.');
 // $eu->clico('Sistema');
 // $eu->clico('Usuários');
 // $eu->clicoNoGrid('adminx', 'Excluir');
-// $eu->vejoNaPopUp('Tem certeza de que deseja excluir este item?');
+// $eu->vejoNaPopUp('Confirma a exclusão deste item?');
 // $eu->aceitoPopUp();
 // $eu->aguardoPor(1);
 // $eu->naoVejo('adminx');

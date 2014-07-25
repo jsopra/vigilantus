@@ -5,7 +5,7 @@ namespace tests\unit\models;
 use app\models\Usuario;
 use Phactory;
 use Yii;
-use yii\codeception\TestCase;
+use tests\TestCase;
 
 class LoginFormTest extends TestCase
 {

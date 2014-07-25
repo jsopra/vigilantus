@@ -14,10 +14,7 @@ use app\helpers\GoogleMapsAPIHelper;
 $this->title = 'Bairros';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
-<script src="<?= GoogleMapsAPIHelper::getAPIUrl(false, 'drawing'); ?>"></script>
-
-<div class="bairro-index" data-role="modal-grid">
+<div class="bairro-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

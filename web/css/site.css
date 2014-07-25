@@ -9,6 +9,16 @@ h1 {
 	padding-bottom: 30px;
 }
 
+.footer .partners-title {
+  padding-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .footer .partners-title {
+    text-align: center;
+  }
+}
+
 .jumbotron {
 	text-align: center;
 	background-color: transparent;
