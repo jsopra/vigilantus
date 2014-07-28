@@ -15,7 +15,16 @@ class ResumoRgCapaReport
      */
     public function getTotalQuarteiroes()
     {
-        return BoletimRg::find()->count();
+        $query = BoletimRg::find();
+        $query->andWhere('
+            data = (
+                SELECT MAX(data)
+                FROM boletins_rg brg
+                WHERE brg.bairro_quarteirao_id = boletins_rg.bairro_quarteirao_id
+            )
+        ');
+        
+        return $query->count();
     }
 
     /**
@@ -23,7 +32,23 @@ class ResumoRgCapaReport
      */
     public function getTotalImoveis()
     {
-        return BoletimRgImovel::find()->count();
+        $totalImoveis = 0;
+        
+        $query = BoletimRgFechamento::find();
+        $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
+        $query->andWhere('
+            boletins_rg.data = (
+                SELECT MAX(data)
+                FROM boletins_rg brg
+                WHERE brg.bairro_quarteirao_id = boletins_rg.bairro_quarteirao_id
+            )
+        ');
+        
+        $dados = $query->all();
+        foreach ($dados as $imovelFechamento)
+            $totalImoveis += $imovelFechamento->quantidade;
+        
+        return $totalImoveis;
     }
 
     /**
@@ -34,22 +59,30 @@ class ResumoRgCapaReport
         $dados = [];
 
         // Tipos de imóveis
-        foreach (ImovelTipo::find()->ativo()->orderBy('nome')->all() as $tipoImovel) {
+        foreach (ImovelTipo::find()->ativo()->orderBy('nome')->all() as $tipoImovel)
             $dados[$tipoImovel->nome] = 0;
-        }
 
         // Valores dos tipos de imóveis
-        $query = BoletimRgImovel::find()->with(['imovelTipo' => function ($query) {
+        $query = BoletimRgFechamento::find();
+        $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
+        $query->with(['imovelTipo' => function ($query) {
             $query->andWhere('excluido = FALSE');
         }]);
+        $query->andWhere('
+            boletins_rg.data = (
+                SELECT MAX(data)
+                FROM boletins_rg brg
+                WHERE brg.bairro_quarteirao_id = boletins_rg.bairro_quarteirao_id
+            )
+        ');
+        
+        $queryResults = $query->all();
+        foreach ($queryResults as $boletim) {
 
-        foreach ($query->all() as $boletim) {
-
-            if (!$boletim->imovelTipo) {
+            if (!$boletim->imovelTipo)
                 continue;
-            }
 
-            $dados[$boletim->imovelTipo->nome]++;
+            $dados[$boletim->imovelTipo->nome] += $boletim->quantidade;
         }
 
         return $dados;
@@ -63,16 +96,24 @@ class ResumoRgCapaReport
         $dados = [];
 
         // Adiciona todos os bairros vazios
-        foreach (Bairro::find()->orderBy('nome')->all() as $bairro) {
+        foreach (Bairro::find()->orderBy('nome')->all() as $bairro)
             $dados[$bairro->nome] = 0;
-        }
 
         // Bairros com informações
         $query = BoletimRgFechamento::find()->with('boletimRg.bairro');
-        foreach ($query->all() as $row) {
+        $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
+        $query->andWhere('
+            boletins_rg.data = (
+                SELECT MAX(data)
+                FROM boletins_rg brg
+                WHERE brg.bairro_quarteirao_id = boletins_rg.bairro_quarteirao_id
+            )
+        ');
+        
+        $queryResults = $query->all();
+        foreach ($queryResults as $row)
             $dados[$row->boletimRg->bairro->nome] += $row->quantidade;
-        }
-
+        
         return $dados;
     }
 }
