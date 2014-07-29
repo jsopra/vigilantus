@@ -7,6 +7,8 @@ use app\models\search\BoletimRgFechamentoSearch;
 
 class BoletimRgController extends CRUDController
 {
+    private $_modelSaveName;
+    
     public function actions()
     {
         return [
@@ -20,7 +22,7 @@ class BoletimRgController extends CRUDController
     {
         $behaviors = parent::behaviors();
 
-        $actions = ['verFechamento', 'bairroCategoria', 'bairroQuarteiroes', 'ruas'];
+        $actions = ['verFechamento', 'bairroCategoria', 'bairroQuarteiroes', 'ruas', 'createFechamento', 'updateFechamento'];
 
         foreach ($actions as $action) {
             $behaviors['access']['only'][] = $action;
@@ -38,9 +40,22 @@ class BoletimRgController extends CRUDController
             unset($_POST['BoletimRg']['imoveis']['exemplo']);
         }
     }
+    
+    public function actionCreate()
+    {
+        $this->_modelSaveName = 'salvarComImoveis';
+        
+        $model = $this->buildNewModel();
+
+        if (!$this->loadAndSaveModel($model, $_POST)) { 
+            return $this->renderAjaxOrLayout('create', ['model' => $model]);
+        }
+    }
 
     public function actionUpdate($id)
     {
+        $this->_modelSaveName = 'salvarComImoveis';
+        
         $model = $this->findModel($id);
 
         if (!empty($_POST)) {
@@ -69,12 +84,44 @@ class BoletimRgController extends CRUDController
             ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
         );
     }
+    
+    public function actionCreateFechamento()
+    {
+        $this->_modelSaveName = 'salvarComFechamento';
+        
+        $model = $this->buildNewModel();
+
+        if (!$this->loadAndSaveModel($model, $_POST)) { 
+            return $this->renderAjaxOrLayout('create-fechamento', ['model' => $model]);
+        }
+    }
+    
+    public function actionUpdateFechamento($id)
+    {
+        $this->_modelSaveName = 'salvarComFechamento';
+        
+        $model = $this->findModel($id);
+
+        if (!empty($_POST)) {
+
+            $model = is_object($id) ? $id : $this->findModel($id);
+
+            if (!$this->loadAndSaveModel($model, $_POST)) {
+                return $this->render('update', ['model' => $model]);
+            }
+
+        } else {
+            $model->popularFechamento();
+        }
+
+        return $this->render('update-fechamento', ['model' => $model]);
+    }
 
     /**
      * @inheritdoc
      */
     protected function getModelSaveMethodName()
     {
-        return 'salvarComImoveis';
+        return $this->_modelSaveName;
     }
 }

@@ -29,8 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'buttons' => [
             'create' => function() {
                 return Html::a(
-                    'Preencher novo Boletim',
+                    'Novo Boletim/Imóvel',
                     Yii::$app->urlManager->createUrl('boletim-rg/create'),
+                    [
+                        'class' => 'btn btn-flat success',
+                        'data-role' => 'create',
+                    ]
+                );
+            },
+            'createFechamento' => function() {
+                return Html::a(
+                    'Novo Boletim/Fechamento',
+                    Yii::$app->urlManager->createUrl('boletim-rg/create-fechamento'),
                     [
                         'class' => 'btn btn-flat success',
                         'data-role' => 'create',
@@ -71,6 +81,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     'width' => '10%',
                 ]
             ],
+            [
+                'header' => 'Detalhado?',
+                'value' => function ($model, $index, $widget) {
+                    return $model->quantidadeImoveis > 0 ? 'Sim' : 'Não';
+                },
+                'options' => [
+                    'width' => '10%',
+                ]
+            ],
             [   
                 'class' => 'app\extensions\grid\ModalColumn',
                 'iconClass' => 'icon-search opacity50',
@@ -82,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Qtde. Imóveis',
                 'linkTitle' => 'Ver Fechamento',
                 'value' => function ($model, $index, $widget) {
-                    return $model->quantidadeImoveis . ' (Ver fechamento)';
+                    return $model->quantidadeImoveisFechamento . ' (Ver fechamento)';
                 },
                 'options' => [
                     'width' => '15%',
@@ -91,6 +110,12 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
+                'buttons' => [
+                    'update' => function ($url, $model) {
+                        $url = $model->quantidadeImoveis == 0 ? Url::toRoute(array('boletim-rg/update-fechamento', 'id' => $model->id)) : Url::toRoute(array('boletim-rg/update', 'id' => $model->id));   
+                        return  Html::a('<i class="table-edit"></i>', $url, array('title' => 'Alterar'));
+                    },
+                ],
             ],
         ],
     ]);

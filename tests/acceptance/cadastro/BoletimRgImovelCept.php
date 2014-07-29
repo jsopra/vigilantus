@@ -17,7 +17,7 @@ $eu->facoLoginComo('administrador', 'administrador');
 $eu->clicoNoMenu(['Localização', 'Boletim de RG']);
 
 $eu->espero('cadastrar uma ficha');
-$eu->clico('Preencher novo Boletim');
+$eu->clico('Novo Boletim/Imóvel');
 $eu->vejoUmTitulo('Preencher Boletim de RG');
 $eu->selecionoOpcao('Bairro', 'Seminário');
 $eu->aguardoPor(1);

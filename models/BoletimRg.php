@@ -27,6 +27,7 @@ class BoletimRg extends ActiveRecord
     public $seq;
     public $categoria_id;
     public $imoveis;
+    public $fechamentos;
 
     /**
      * @inheritdoc
@@ -43,7 +44,7 @@ class BoletimRg extends ActiveRecord
 	{
 		return [
 			[['folha', 'bairro_id', 'municipio_id', 'bairro_quarteirao_id', 'data'], 'required'],
-            [['categoria_id', 'imoveis'], 'safe'],
+            [['categoria_id', 'imoveis', 'fechamentos'], 'safe'],
             ['folha', 'unique', 'compositeWith' => ['data', 'municipio_id']],
             ['data', 'date'],
 			[['folha', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id', 'seq'], 'integer'],
@@ -84,6 +85,36 @@ class BoletimRg extends ActiveRecord
                 if (($imoveisSalvos = $this->insereImoveis()) == 0) {
                     $transaction->rollback();
                     $this->addError('imoveis', 'Nenhum imóvel salvo');
+                    return false;
+                }
+
+                $transaction->commit();
+            } else {
+                $transaction->rollback();
+            }
+        } catch (\Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+
+        return $result;
+    }
+    
+    public function salvarComFechamento()
+    { 
+        $transaction = $this->getDb()->beginTransaction();
+
+        try {
+
+            if ($result = $this->save()) {
+
+                if (!$this->isNewRecord) {
+                    $this->clearRelationships();
+                }
+
+                if (($fechamentosSalvos = $this->insereFechamentos()) == 0) {
+                    $transaction->rollback();
+                    $this->addError('fechamentos', 'Nenhum fechamento salvo');
                     return false;
                 }
 
@@ -161,6 +192,20 @@ class BoletimRg extends ActiveRecord
     public function getQuantidadeImoveis()
     {
         return BoletimRgImovel::find()->where(['boletim_rg_id' => $this->id])->count();
+    }
+    
+    /**
+     * @return int
+     */
+    public function getQuantidadeImoveisFechamento() 
+    {
+        $qtde = 0;
+        
+        $queryFechamentos = $this->boletinsFechamento;
+        foreach ($queryFechamentos as $fechamento)
+            $qtde += $fechamento->quantidade;
+
+        return $qtde;
     }
 
     public function beforeDelete()
@@ -254,6 +299,91 @@ class BoletimRg extends ActiveRecord
         }
 
         return $imoveisSalvos;
+    }
+    
+    /**
+     * Insere os imóveis associados com o objeto
+     * @return int
+     */
+    protected function insereFechamentos()
+    {
+        if (!$this->fechamentos)
+            return 0;
+
+        $imoveisSalvos = 0;
+
+        foreach ($this->fechamentos as $id => $data) {
+
+            if(isset($data['lira']) && $data['lira'] > 0) {
+                
+                $boletimFechamento = new BoletimRgFechamento;
+                $boletimFechamento->municipio_id = $this->municipio_id;
+                $boletimFechamento->boletim_rg_id = $this->id;
+                $boletimFechamento->imovel_lira = false;
+                $boletimFechamento->imovel_tipo_id = $id;
+                $boletimFechamento->quantidade = $data['lira'];
+
+                if ($boletimFechamento->save())
+                    $imoveisSalvos++;
+            }
+            
+            if(isset($data['nao_lira']) && $data['nao_lira'] > 0) {
+                
+                $boletimFechamento = new BoletimRgFechamento;
+                $boletimFechamento->municipio_id = $this->municipio_id;
+                $boletimFechamento->boletim_rg_id = $this->id;
+                $boletimFechamento->imovel_lira = true;
+                $boletimFechamento->imovel_tipo_id = $id;
+                $boletimFechamento->quantidade = $data['nao_lira'];
+
+                if ($boletimFechamento->save())
+                    $imoveisSalvos++;
+            }
+            
+        }
+
+        return $imoveisSalvos;
+    }
+    
+    /**
+     * Popula imóveis cadastrados em $this->imoveis
+     * @return void
+     */
+    public function popularFechamento()
+    {
+        $fechamentos = $this->boletimFechamento;
+
+        foreach ($fechamentos as $fechamento) {
+
+            $this->adicionarFechamento(
+                $fechamento->imovel_tipo_id,
+                $fechamento->imovel_lira,
+                $fechamento->quantidade
+            );
+        }
+
+        return;
+    }
+    
+    /**
+     * @param integer $tipo
+     * @param boolean $lira
+     * @param integer $quantidade
+     */
+    public function adicionarFechamento($tipo, $lira, $quantidade)
+    {
+        if (!is_array($this->fechamentos))
+            $this->fechamentos = [];
+        
+        if (!isset($this->fechamentos[$tipo]))
+            $this->fechamentos[$tipo] = [];
+
+        $stringLira = $lira ? 'lira' : 'nao_lira';
+        
+        if(isset($this->fechamentos[$tipo][$stringLira]))
+            continue;
+
+        $this->fechamentos[$tipo][$stringLira] = $quantidade;
     }
 
     /**
