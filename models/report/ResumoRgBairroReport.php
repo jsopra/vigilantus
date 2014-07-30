@@ -4,6 +4,7 @@ namespace app\models\report;
 use app\models\Bairro;
 use app\models\BoletimRg;
 use yii\base\Model;
+use app\models\ImovelTipo;
 
 class ResumoRgBairroReport extends Model
 {
@@ -36,10 +37,10 @@ class ResumoRgBairroReport extends Model
         if (null === $this->_tiposImoveis) {
 
             $this->_tiposImoveis = [];
-
-            foreach (\app\models\ImovelTipo::find()->ativo()->all() as $imovelTipo) {
+            $dados = ImovelTipo::find()->ativo()->all();
+            foreach ($dados as $imovelTipo) 
                 $this->_tiposImoveis[$imovelTipo->id] = $imovelTipo->sigla ? $imovelTipo->sigla : $imovelTipo->nome;
-            }
+            
         }
 
         return $this->_tiposImoveis;
@@ -97,18 +98,17 @@ class ResumoRgBairroReport extends Model
                 'imoveis' => [],
             ];
 
-            foreach ($this->tiposImoveis as $idTipo => $tipoImovel) {
+            foreach ($this->tiposImoveis as $idTipo => $tipoImovel)
                 $valores['imoveis'][$idTipo] = 0;
-            }
 
             $queryFechamentos = $boletimRg->getBoletinsFechamento();
             
             if($this->lira !== '')
                 $queryFechamentos->where('imovel_lira = ' . ($this->lira ? 'TRUE' : 'FALSE'));
 
-            foreach ($queryFechamentos->all() as $fechamento) {
+            foreach ($queryFechamentos->all() as $fechamento)
                 $valores['imoveis'][$fechamento->imovel_tipo_id] += $fechamento->quantidade;
-            }
+            
 
             $data[$boletimRg->bairro_quarteirao_id] = $valores;
         }
