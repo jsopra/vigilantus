@@ -10,7 +10,7 @@ class FocoTransmissorQuery extends ActiveQuery
 {  
     public function doBairro($id) {
         
-        $this->joinWith(['imovel', 'imovel.bairroQuarteirao']);
+        $this->joinWith(['bairroQuarteirao']);
         $this->andWhere('bairro_id = :id', [':id' => $id]);
         return $this;
     }
@@ -35,8 +35,7 @@ class FocoTransmissorQuery extends ActiveQuery
             SELECT ft.id
             FROM focos_transmissores ft
             JOIN especies_transmissores et ON ft.especie_transmissor_id = et.id
-            JOIN imoveis i on ft.imovel_id = i.id
-            JOIN bairro_quarteiroes bf on i.bairro_quarteirao_id = bf.id
+            JOIN bairro_quarteiroes bf on ft.bairro_quarteirao_id = bf.id
             LEFT JOIN bairro_quarteiroes br	ON ST_DWithin(br.coordenadas_area, ST_Centroid(bf.coordenadas_area), et.qtde_metros_area_foco, true)
             WHERE 
                 br.id = " . $quarteirao->id . " AND

@@ -46,13 +46,8 @@ class FocoTransmissorTest extends TestCase
             'coordenadas_area' => '0103000020E61000000100000005000000EE06131536153BC0DDFFFF618F4E4AC03ECDF2727D153BC02A00003E864E4AC01B9DA0EB6B153BC0EBFFFF915F4E4AC02AADB58D24153BC02A0000B6684E4AC0EE06131536153BC0DDFFFF618F4E4AC0',
         ]);
         
-        $imovel = Phactory::imovel([
-            'municipio_id' => 1,
-            'bairro_quarteirao_id' => $quarteiraoA->id
-        ]);
-        
         $foco = Phactory::focoTransmissor([
-            'imovel_id' => $imovel->id
+            'bairro_quarteirao_id' => $quarteiraoA->id
         ]);
         
         //testes

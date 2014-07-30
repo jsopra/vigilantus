@@ -13,6 +13,9 @@ class FocoTransmissorController extends CRUDController
     public function actions()
     {
         return [
+            'bairroCategoria' => ['class' => 'app\components\actions\BairroCategoria'],
+            'bairroQuarteiroes' => ['class' => 'app\components\actions\BairroQuarteiroes'],
+            'ruas' => ['class' => 'app\components\actions\Ruas'],
             'imoveis' => ['class' => 'app\components\actions\Imoveis'],
         ];
     }
@@ -26,7 +29,7 @@ class FocoTransmissorController extends CRUDController
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'update', 'delete', 'index', 'imoveis'],
+                        'actions' => ['create', 'update', 'delete', 'index', 'imoveis', 'bairroCategoria', 'bairroQuarteiroes', 'ruas'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -38,5 +41,24 @@ class FocoTransmissorController extends CRUDController
                 ],
             ],
         ];
+    }
+    
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if (!empty($_POST)) {
+
+            $model = is_object($id) ? $id : $this->findModel($id);
+
+            if (!$this->loadAndSaveModel($model, $_POST)) {
+                return $this->render('update', ['model' => $model]);
+            }
+
+        } else {
+            $model->popularBairro();
+        }
+
+        return $this->render('update', ['model' => $model]);
     }
 }

@@ -12,6 +12,8 @@ class Imoveis extends Action
     {
         $queryString = isset($_REQUEST['q']) ? $_REQUEST['q'] : null;
         
+        $bairroID = isset($_REQUEST['bairro_id']) ? $_REQUEST['bairro_id'] : null;
+        
         $array = [];
 
         $query = Imovel::find();
@@ -25,6 +27,9 @@ class Imoveis extends Action
   
         if($queryString)
             $query->andWhere($strImovelRuaBairro . ' ILIKE \'' . $queryString . '%\'');
+        
+        if($bairroID)
+            $query->andWhere('bairro.id = ' . $bairroID);
         
         $imoveis = $query->all();
 

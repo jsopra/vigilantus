@@ -10,9 +10,9 @@ class m140729_141216_quarteirao_id_no_foco extends Migration
         
         $this->execute("
             UPDATE focos_transmissores SET bairro_quarteirao_id = (
-                SELECT id 
-                FROM bairro_quarteirao
-                WHERE 
+                SELECT bairro_quarteirao_id 
+                FROM imoveis
+                WHERE id = focos_transmissores.imovel_id
             )
         ");
     }

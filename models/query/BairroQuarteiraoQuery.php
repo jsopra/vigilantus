@@ -43,10 +43,10 @@ class BairroQuarteiraoQuery extends ActiveQuery
         
         $query = "
         id IN (
-            SELECT bairro_quarteirao_id
+            SELECT focos_transmissores.bairro_quarteirao_id
             FROM focos_transmissores
             JOIN especies_transmissores et ON focos_transmissores.especie_transmissor_id = et.id
-            JOIN imoveis ON focos_transmissores.imovel_id = imoveis.id
+            LEFT JOIN imoveis ON focos_transmissores.imovel_id = imoveis.id
             WHERE 
                 " . ($whereLira ? $whereLira . ' AND ' : '') . "
                 data_coleta BETWEEN NOW() - INTERVAL '1 DAY' * et.qtde_dias_permanencia_foco AND NOW() AND
@@ -74,8 +74,8 @@ class BairroQuarteiraoQuery extends ActiveQuery
             SELECT br.id
             FROM focos_transmissores ft
             JOIN especies_transmissores et ON ft.especie_transmissor_id = et.id
-            JOIN imoveis i on ft.imovel_id = i.id
-            JOIN bairro_quarteiroes bf on i.bairro_quarteirao_id = bf.id
+            JOIN bairro_quarteiroes bf on ft.bairro_quarteirao_id = bf.id
+            LEFT JOIN imoveis i on ft.imovel_id = i.id
             LEFT JOIN bairro_quarteiroes br	ON ST_DWithin(br.coordenadas_area, ST_Centroid(bf.coordenadas_area), et.qtde_metros_area_foco, true)
             WHERE 
                 " . ($whereLira ? $whereLira . ' AND ' : '') . "

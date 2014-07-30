@@ -45,7 +45,7 @@ $municipio->loadCoordenadas();
             foreach($modelFocos as $foco) : ?>
 
                 <?php
-                $quarteirao = $foco->imovel->bairroQuarteirao; 
+                $quarteirao = $foco->bairroQuarteirao; 
                 $quarteirao->loadCoordenadas();
                 if(!$quarteirao->coordenadas)
                     continue;

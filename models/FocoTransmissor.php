@@ -25,6 +25,7 @@ use app\components\ActiveRecord;
  * @property string $laboratorio
  * @property string $tecnico
  * @property integer $imovel_id
+ * @property integer $bairro_quarteirao_id
  *
  * @property Usuario $inseridoPor
  * @property Usuario $atualizadoPor
@@ -33,6 +34,7 @@ use app\components\ActiveRecord;
  */
 class FocoTransmissor extends ActiveRecord 
 {
+    public $categoria_id;
     public $bairro_id;
     public $foco_ativo;
     public $imovel_lira;
@@ -51,12 +53,13 @@ class FocoTransmissor extends ActiveRecord
     public function rules()
     {
         return [
-            [['inserido_por', 'tipo_deposito_id', 'especie_transmissor_id', 'imovel_id'], 'required'],
+            [['inserido_por', 'tipo_deposito_id', 'especie_transmissor_id', 'bairro_quarteirao_id'], 'required'],
             [['quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'], 'integer', 'min' => 0],
             [['!inserido_por', '!atualizado_por'], 'exist', 'targetClass' => Usuario::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['tipo_deposito_id', 'exist', 'targetClass' => DepositoTipo::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['especie_transmissor_id', 'exist', 'targetClass' => EspecieTransmissor::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['imovel_id', 'exist', 'targetClass' => Imovel::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
+            ['bairro_quarteirao_id', 'exist', 'targetClass' => BairroQuarteirao::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             [['!data_cadastro', '!data_atualizacao', 'data_entrada', 'data_exame', 'data_coleta'], 'date'],
             [['laboratorio', 'tecnico'], 'string', 'max' => 256]
         ];
@@ -85,8 +88,10 @@ class FocoTransmissor extends ActiveRecord
             'tecnico' => 'Técnico',
             'imovel_id' => 'Endereço do Imóvel',
             'bairro_id' => 'Bairro',
+            'categoria_id' => 'Categoria de Bairro',
             'foco_ativo' => 'Foco Ativo',
             'imovel_lira' => 'Imóvel LIRA',
+            'bairro_quarteirao_id' => 'Quarteirão',
         ];
     }
 
@@ -131,6 +136,14 @@ class FocoTransmissor extends ActiveRecord
     }
     
     /**
+     * @return \yii\db\ActiveRelation
+     */
+    public function getBairroQuarteirao() 
+    {
+        return $this->hasOne(BairroQuarteirao::className(), ['id' => 'bairro_quarteirao_id']);
+    }
+    
+    /**
      * Verifica se um foco ainda é ativo conforme configuração de dias do projeto
      * @return boolean 
      */
@@ -149,5 +162,13 @@ class FocoTransmissor extends ActiveRecord
             return false;
         
         return $this->quantidade_forma_adulta > 0 || $this->quantidade_forma_aquatica > 0 || $this->quantidade_ovos > 0;
+    }
+    
+    /*
+     * Popula ID do bairro pelo quarteirão cadastrado
+     */
+    public function popularBairro() {
+        
+        $this->bairro_id = $this->bairroQuarteirao->bairro_id;
     }
 }
