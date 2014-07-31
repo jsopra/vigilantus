@@ -39,7 +39,7 @@ use yii\helpers\ArrayHelper;
         </div>
         
         <div class="col-xs-2 bairro-hide">
-            <?= $form->field($model, 'data')->textInput(['class' => 'form-control input-datepicker'])->input('date') ?>
+            <?= $form->field($model, 'data')->input('date', ['class' => 'form-control input-datepicker']) ?>
         </div>
     </div>
     <br />

@@ -15,8 +15,11 @@ $(document).ready(function(){
     });
 
     if (!Modernizr.inputtypes.date) {
-        $(".input-datepicker").datepicker().on("changeDate", function (ev) {
-            $(this).datepicker("hide");
+        $('body').on('focusin', '.input-datepicker', function(e) {
+
+            $(this).datepicker().on("changeDate", function (ev) {
+                $(this).datepicker("hide");
+            });
         });
     }
 });
