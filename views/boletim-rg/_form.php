@@ -39,7 +39,7 @@ use yii\helpers\ArrayHelper;
         </div>
         
         <div class="col-xs-2 bairro-hide">
-            <?= $form->field($model, 'data')->textInput(['class' => 'form-control input-datepicker']) ?>
+            <?= $form->field($model, 'data')->textInput(['class' => 'form-control input-datepicker'])->input('date') ?>
         </div>
     </div>
     <br />
@@ -119,10 +119,6 @@ $script = '
 
     var bairroID = null;
     var quarteiraoID = null;
-    
-    $(".input-datepicker").datepicker().on("changeDate", function (ev) {
-        $(this).datepicker("hide");
-    });
 ';
 
 if(!$model->bairro_id)
