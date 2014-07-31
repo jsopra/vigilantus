@@ -29,7 +29,8 @@ class AppAsset extends AssetBundle
         'js/site.js',
         'js/grid.js',
         'js/typeahead.min.js',
-        'js/jquery.numeric.min.js'
+        'js/jquery.numeric.min.js',
+        'js/modernizr.vigilantus.min.js'
 	];
 	public $depends = [
 		'yii\web\YiiAsset',

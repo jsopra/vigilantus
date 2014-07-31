@@ -14,21 +14,14 @@ $(document).ready(function(){
        window.location.href =  $(this).val();
     });
 
-    // $('.bairro-index a.success').add('.bairro-index a:has(.table-edit)').each(function(index, element){
-    //     var anchor = $(element);
-    //     anchor.click(function(event){
-    //         event.preventDefault();
-    //         createModalElement();
-    //         $('#modal-window').modal();
-    //         $.ajax({
-    //             url: anchor.attr('href'),
-    //             success: function(data) {
-    //                 fillModalElement(data);
-    //             }
-    //         });
-    //         return false;
-    //     });
-    // });
+    if (!Modernizr.inputtypes.date) {
+        $('body').on('focusin', '.input-datepicker', function(e) {
+
+            $(this).datepicker().on("changeDate", function (ev) {
+                $(this).datepicker("hide");
+            });
+        });
+    }
 });
 
 function fillModalElement(html)

@@ -39,7 +39,7 @@ use yii\helpers\ArrayHelper;
         </div>
         
         <div class="col-xs-2 bairro-hide">
-            <?= $form->field($model, 'data')->textInput(['class' => 'form-control input-datepicker']) ?>
+            <?= $form->field($model, 'data')->input('date', ['class' => 'form-control input-datepicker']) ?>
         </div>
     </div>
     <br />
@@ -62,8 +62,8 @@ use yii\helpers\ArrayHelper;
                 ?>
                     <tr id="linha-<?= $tipo->id; ?>">
                         <td><?= $tipo->nome; ?></td>
-                        <td><?= Html::textInput('BoletimRg[fechamentos][' . $tipo->id . '][lira]', (isset($model->fechamentos[$tipo->id]['lira']) ? $model->fechamentos[$tipo->id]['lira'] : 0), ['class' => 'form-control']) ?></td>
-                        <td><?= Html::textInput('BoletimRg[fechamentos][' . $tipo->id . '][nao_lira]', (isset($model->fechamentos[$tipo->id]['nao_lira']) ? $model->fechamentos[$tipo->id]['nao_lira'] : 0), ['class' => 'form-control']) ?></td>
+                        <td><?= Html::input('number', 'BoletimRg[fechamentos][' . $tipo->id . '][lira]', (isset($model->fechamentos[$tipo->id]['lira']) ? $model->fechamentos[$tipo->id]['lira'] : 0), ['class' => 'form-control']) ?></td>
+                        <td><?= Html::input('number', 'BoletimRg[fechamentos][' . $tipo->id . '][nao_lira]', (isset($model->fechamentos[$tipo->id]['nao_lira']) ? $model->fechamentos[$tipo->id]['nao_lira'] : 0), ['class' => 'form-control']) ?></td>
                     </tr>
                 <?php 
                     endforeach;
@@ -101,10 +101,6 @@ $script = '
 
     var bairroID = null;
     var quarteiraoID = null;
-    
-    $(".input-datepicker").datepicker().on("changeDate", function (ev) {
-        $(this).datepicker("hide");
-    });
 ';
 
 if(!$model->bairro_id)
