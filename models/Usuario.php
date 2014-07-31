@@ -141,6 +141,14 @@ class Usuario extends ActiveRecord implements IdentityInterface
     }
     
     /**
+     * @return Municipio
+     */
+    public function getMunicipioLogado() 
+    {
+        return Municipio::find()->one();//\Yii::$app->session->get('user.municipio');
+    }
+    
+    /**
      * @return UsuarioRole
      */
     public function getRole()
