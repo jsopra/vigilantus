@@ -59,7 +59,7 @@ class DetailwrapNavBar extends Widget
         
         $qtdeMunicipios = count($this->municipios);
         if($qtdeMunicipios > 0) {
-            
+
             echo Html::beginTag('div', ['class' => 'navbar-municipio']);
 
             $listMunicipios = [];

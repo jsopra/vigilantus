@@ -160,8 +160,8 @@ class SiteController extends Controller
     }
     
     public function actionSession($id) {
-        
-        Yii::$app->session->set('user.municipio', Municipio::findOne($id));
+
+        Yii::$app->session->set('user.cliente', Municipio::findOne($id)->cliente);
         
         Yii::$app->session->setFlash('success', 'Município alterado com sucesso');
 

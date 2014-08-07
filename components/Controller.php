@@ -35,14 +35,19 @@ class Controller extends YiiController
 
         if(!\Yii::$app->user->isGuest) {
             
-            if(!\Yii::$app->session->get('user.municipio') && method_exists($this, 'getUser')) {
-                $municipios = Municipio::getMunicipios($this->getUser()->municipio_id);
-                $municipio = count($municipios) > 0 ? $municipios[0] : null;
-                Yii::$app->session->set('user.municipio',$municipio);
+            if(!\Yii::$app->session->get('user.cliente') && method_exists($this, 'getUser')) {
+                $clientes = Cliente::getClientes($this->getUser()->cliente ? $this->getUser()->cliente->id : null);
+                $cliente = count($clientes) > 0 ? $clientes[0] : null;
+                Yii::$app->session->set('user.cliente',$cliente);
             }
+
+            $idMunicipio = \Yii::$app->user->identity->cliente ? \Yii::$app->user->identity->cliente->municipio->id : null;
+           
+            $this->municipiosDisponiveis = Municipio::getMunicipios($idMunicipio); 
             
-            $this->municipiosDisponiveis = Municipio::getMunicipios(\Yii::$app->user->identity->municipio_id); 
-            $this->municipioLogado = \Yii::$app->session->get('user.municipio');
+            if(\Yii::$app->session->get('user.cliente')) {
+                $this->municipioLogado = \Yii::$app->session->get('user.cliente')->municipio;
+            }
         }
 
         Yii::$app->setTimeZone('America/Sao_Paulo');

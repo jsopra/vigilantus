@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 
 /**
  * Este é a classe de modelo da tabela "focos_transmissores".
@@ -28,13 +28,14 @@ use app\components\ActiveRecord;
  * @property integer $bairro_quarteirao_id
  * @property string $planilha_endereco
  * @property integer $planilha_imovel_tipo_id
+ * @property integer $cliente_id
  *
  * @property Usuario $inseridoPor
  * @property Usuario $atualizadoPor
  * @property DepositoTipo $tipoDeposito
  * @property EspecieTransmissor $especieTransmissor
  */
-class FocoTransmissor extends ActiveRecord 
+class FocoTransmissor extends ClienteActiveRecord 
 {
     public $categoria_id;
     public $bairro_id;
@@ -58,11 +59,12 @@ class FocoTransmissor extends ActiveRecord
     public function rules()
     {
         return [
-            [['inserido_por', 'tipo_deposito_id', 'especie_transmissor_id', 'bairro_quarteirao_id', 'data_entrada', 'data_exame', 'data_coleta', 'quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'], 'required'],
+            [['cliente_id', 'inserido_por', 'tipo_deposito_id', 'especie_transmissor_id', 'bairro_quarteirao_id', 'data_entrada', 'data_exame', 'data_coleta', 'quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'], 'required'],
             [['quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'], 'integer', 'min' => 0],
             [['!inserido_por', '!atualizado_por'], 'exist', 'targetClass' => Usuario::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['tipo_deposito_id', 'exist', 'targetClass' => DepositoTipo::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['especie_transmissor_id', 'exist', 'targetClass' => EspecieTransmissor::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
+            ['cliente_id', 'exist', 'targetClass' => Cliente::className(), 'targetAttribute' => 'id'],
             ['imovel_id', 'exist', 'targetClass' => Imovel::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['bairro_quarteirao_id', 'exist', 'targetClass' => BairroQuarteirao::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['planilha_imovel_tipo_id', 'exist', 'targetClass' => ImovelTipo::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
@@ -99,9 +101,9 @@ class FocoTransmissor extends ActiveRecord
             'foco_ativo' => 'Foco Ativo',
             'imovel_lira' => 'Imóvel LIRA',
             'bairro_quarteirao_id' => 'Quarteirão',
-                
             'planilha_endereco' => 'Endereço',
             'planilha_imovel_tipo_id' => 'Tipo do Imóvel',
+            'cliente_id' => 'Município Cliente',
         ];
     }
 

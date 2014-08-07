@@ -85,13 +85,23 @@ class Municipio extends PostgisActiveRecord
     }
     
     /**
+     * @return Cliente
+     */
+    public function getCliente()
+    {
+        return $this->hasOne(Cliente::className(), ['municipio_id' => 'id']);
+    }
+    
+    /**
      * Busca municípios
      * @param int $id Default is null
-     * @return Municipio[] 
+     * @return Cliente[] 
      */
     public static function getMunicipios($id = null) {
         
         $query = self::find();
+        
+        $query->joinWith('cliente');
 
         if($id)
             $query->andWhere(['"id"' => $id]);

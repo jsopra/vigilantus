@@ -6,6 +6,7 @@ use app\models\Usuario;
 use Yii;
 use yii\base\Model;
 use app\models\Municipio;
+use app\models\Cliente;
 
 /**
  * LoginForm is the model behind the login form.
@@ -66,9 +67,10 @@ class LoginForm extends Model
             $logado = Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
             
             if ($logado) {
-                $municipios = Municipio::getMunicipios($this->getUser()->municipio_id);
-                $municipio = count($municipios) > 0 ? $municipios[0] : null;
-                Yii::$app->session->set('user.municipio', $municipio);
+                $clientes = Cliente::getClientes($this->getUser()->cliente_id);
+                $cliente = count($clientes) > 0 ? $clientes[0] : null;
+
+                Yii::$app->session->set('user.cliente', $cliente);
             }
             
             return $logado;

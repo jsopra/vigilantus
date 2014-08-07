@@ -7,7 +7,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 
-class BlogPostController extends CRUDController
+class ModuloController extends CRUDController
 {
     public function behaviors()
     {

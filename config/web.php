@@ -89,6 +89,11 @@ $config = [
             'enableAutoLogin' => true,
         ],
     ],
+    'modules' => [
+        'denuncias' => [
+            'class' => 'app\modules\denuncias\Module',
+        ],
+    ],
     'params' => $params,
 ];
 
