@@ -3,7 +3,7 @@
 use \Phactory;
 $eu = new TesterDeAceitacao($scenario);
 
-$bairro = Phactory::bairro(['nome' => 'Passo dos Fortes', 'municipio_id' => 1]);
+$bairro = Phactory::bairro(['nome' => 'Passo dos Fortes', 'municipio_id' => 1, 'bairro_categoria_id' => 1]);
 
 Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
 Phactory::depositoTipo(['descricao' => 'OVI', 'sigla' => 'OVI', 'municipio_id' => $bairro->municipio_id]);
@@ -31,6 +31,12 @@ $eu->preenchoCampo('Laboratório', 'lab1');
 $eu->preenchoCampo('Técnico', 'tecn1');
 $eu->markSelect2Option('Tipo de Depósito', 'OVI');
 $eu->markSelect2Option('Espécie de Transmissor', 'mosquito');
+
+$eu->selecionoOpcao('Bairro', 'Passo dos Fortes');
+$eu->aguardoPor(1);
+$eu->vejo('Urbano');
+$eu->selecionoOpcao('Quarteirão', '418');
+
 $eu->markAjaxSelect2Option('Endereço do Imóvel', 'Rua 0001, S/N, Bairro Passo dos Fortes');
 $eu->preenchoCampo('Data da Entrada', '07/03/2014');
 $eu->preenchoCampo('Data do Exame', '21/03/2014');
@@ -48,7 +54,7 @@ $eu->aguardoPor(1);
 $eu->preenchoCampo('Data da Coleta', '10/04/2014');
 $eu->clico('Atualizar');
 $eu->aguardoPor(1);
-$eu->vejo('O registro foi atualizado com sucesso.');
+
 $eu->vejo('10/04/2014');
 $eu->naoVejo('08/04/2014');
 

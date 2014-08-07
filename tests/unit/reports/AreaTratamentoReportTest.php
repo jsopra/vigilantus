@@ -145,14 +145,16 @@ class AreaTratamentoReportTest extends TestCase
         ]);
         
         $opcoesEspecie = ['municipio_id' => 1];
-        $opcoesFoco = ['imovel_id' => $imovel->id,];
+        $opcoesFoco = ['bairro_quarteirao_id' => $quarteiraoC->id];
         
-        if($quantidadeDeMetros)
+        if($quantidadeDeMetros) {
+            
             $opcoesEspecie['qtde_metros_area_foco'] = $quantidadeDeMetros;
+        }
         
         if($quantidadeDiasValidadeFoco) {
+            
             $opcoesEspecie['qtde_dias_permanencia_foco'] = $quantidadeDiasValidadeFoco;
-        
             $opcoesFoco['data_entrada'] = $opcoesFoco['data_exame'] = $opcoesFoco['data_coleta'] = date('Y-m-d', strtotime( '-' . ($quantidadeDiasValidadeFoco + 1) . 'day',strtotime(date('Y-m-d'))));
         }
         

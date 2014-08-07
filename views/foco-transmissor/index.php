@@ -32,12 +32,28 @@ $this->params['breadcrumbs'][] = $this->title;
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
             [
+                'attribute' => 'bairro_quarteirao_id',
+                'filter' => false,
+                'value' => function ($model, $index, $widget) {
+                    return $model->bairroQuarteirao->numero_sequencia;
+                },
+                'options' => ['style' => 'width: 10%']
+            ],
+            [
+                'header' => 'Bairro',
+                'filter' => false,
+                'value' => function ($model, $index, $widget) {
+                    return $model->bairroQuarteirao->bairro->nome;
+                },
+                'options' => ['style' => 'width: 10%']
+            ],
+            [
                 'attribute' => 'imovel_id',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return ImovelHelper::getEnderecoCompleto($model->imovel);
+                    return $model->imovel ? ImovelHelper::getEnderecoCompleto($model->imovel) : 'Vinculado à Quarteirão';
                 },
-                'options' => ['style' => 'width: 30%']
+                'options' => ['style' => 'width: 15%']
             ],
             [
                 'attribute' => 'tipo_deposito_id',
@@ -58,9 +74,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Examinador',
                 'value' => function ($model, $index, $widget) {
                     $str = '';
-                    foreach(['laboratorio', 'tecnico'] as $item)
+                    foreach(['laboratorio', 'tecnico'] as $item) {
                         $str .= Html::tag('p', '<strong>' . $model->getAttributeLabel($item) . ':</strong> ' . $model->$item);
-                
+                    }
                     return $str;
                 },
                 'options' => ['style' => 'width: 15%']
@@ -70,9 +86,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Datas',
                 'value' => function ($model, $index, $widget) {
                     $str = '';
-                    foreach(['data_entrada', 'data_exame', 'data_coleta'] as $item)
+                    foreach(['data_entrada', 'data_exame', 'data_coleta'] as $item) {
                         $str .= Html::tag('p', '<strong>' . $model->getAttributeLabel($item) . ':</strong> ' . $model->getFormattedAttribute($item));
-                
+                    }
                     return $str;
                 },
                 'options' => ['style' => 'width: 15%']
@@ -82,9 +98,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Quantidades',
                 'value' => function ($model, $index, $widget) {
                     $str = '';
-                    foreach(['quantidade_forma_adulta', 'quantidade_forma_adulta', 'quantidade_ovos'] as $item)
+                    foreach(['quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'] as $item) {
                         $str .= Html::tag('p', '<strong>' . $model->getAttributeLabel($item) . ':</strong> ' . $model->$item);
-                
+                    }
                     return $str;
                 },
                 'options' => ['style' => 'width: 15%;']

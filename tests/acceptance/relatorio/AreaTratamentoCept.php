@@ -58,6 +58,7 @@ $imovel = Phactory::imovel([
 
 $foco = Phactory::focoTransmissor([
     'imovel_id' => $imovel->id,
+    'bairro_quarteirao_id' => $quarteiraoC->id,
     'tipo_deposito_id' => $tipoDeposito->id,
     'especie_transmissor_id' => $especieTransmissor->id,
 ]);
