@@ -32,6 +32,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         'data-role' => 'create',
                     ]
                 );
+            },
+            'batch' => function() {
+                return Html::a(
+                    'Importar de um Arquivo',
+                    Url::to(['batch']),
+                    [
+                        'class' => 'btn btn-flat default',
+                    ]
+                );
             }
         ],
         'columns' => [
