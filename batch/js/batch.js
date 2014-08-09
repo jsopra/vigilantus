@@ -1,3 +1,5 @@
+var columnLabels;
+
 var carregarHint = function(element)
 {
     element = jQuery(element);

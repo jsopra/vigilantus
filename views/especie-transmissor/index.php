@@ -33,15 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]
                 );
             },
-            'batch' => function() {
-                return Html::a(
-                    'Importar de um Arquivo',
-                    Url::to(['batch']),
-                    [
-                        'class' => 'btn btn-flat default',
-                    ]
-                );
-            }
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],

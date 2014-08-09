@@ -262,19 +262,12 @@ abstract class Model extends YiiModel
                 $rowData = $row->data;
                 $errors = $row->getErrors();
                 foreach ($errors as $key => $error) {
-                    $encoding = mb_detect_encoding($error, 'UTF-8, ISO-8859-1', true);
-                    if ($encoding != 'ISO-8859-1') {
-                        $errors[$key] = mb_convert_encoding($error, 'ISO-8859-1', $encoding);
-                    }
+                    $errors[$key] = $error;
                 }
+                
                 $rowData[] = implode(' - ', $errors);
-
                 foreach ($rowData as $key => $value) {
-
-                    $encoding = mb_detect_encoding($value, 'UTF-8, ISO-8859-1', true);
-                    if ($encoding != 'ISO-8859-1') {
-                        $rowData[$key] = mb_convert_encoding($value, 'ISO-8859-1', $encoding);
-                    }
+                    $rowData[$key] = $value;
                 }
 
                 fputcsv($errorsCsv, $rowData, $file->delimiter);

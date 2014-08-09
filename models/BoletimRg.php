@@ -10,7 +10,7 @@ use app\components\ActiveRecord;
  * @property integer $id
  * @property integer $folha
  * @property integer $bairro_id
- * @property integer $fee
+ * @property integer $bairro_quarteirao_id
  * @property string $data_cadastro
 * @property integer $inserido_por
  * @property integer $municipio_id
