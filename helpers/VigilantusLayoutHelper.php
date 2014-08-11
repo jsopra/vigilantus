@@ -152,6 +152,11 @@ class VigilantusLayoutHelper {
                 'logo' => 'sinapse.png',
                 'description' => 'Sinapse da Inovação',
             ],
+            [
+                'url' => 'http://www.projetovisaodesucesso.com.br/',
+                'logo' => 'visaodesucesso.png',
+                'description' => 'Projeto Visão de Sucesso - Empreendedorismo de alto impacto na base da pirâmede',
+            ],
         ];
     }
 }
