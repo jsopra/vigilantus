@@ -80,7 +80,7 @@ AppAsset::register($this);
                 <?= $content ?>
                 <footer class="footer">
                     <div class="row">
-                        <div class="col-sm-6 col-sm-offset-1">
+                        <div class="col-sm-7 col-sm-offset-1">
 
                             <h2 class="text-left partners-title">
                                 Parceiros
@@ -105,7 +105,7 @@ AppAsset::register($this);
                             </div>
                         </div>
                         
-                        <div class="col-sm-3 col-sm-offset-2" style="padding-top: 35px;">
+                        <div class="col-sm-2 col-sm-offset-2" style="padding-top: 35px;">
 
                             <p class="text-center perspectiva">
                                 <a href="http://perspectiva.in" target="_blank">
