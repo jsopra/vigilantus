@@ -180,9 +180,15 @@ class Action extends ViewAction
     {
         $exampleFile = $this->getBatchObject()->getExampleFile();
 
+        header('Content-Description: File Transfer'); 
         header('Content-Type: text/csv;charset=' . Yii::$app->charset);
         header('Content-Disposition: attachment; filename="example.csv"');
-
+        header('Content-Transfer-Encoding: binary'); 
+        header('Expires: 0'); 
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0'); 
+        header('Pragma: public'); 
+        
+        echo "\xEF\xBB\xBF"; // UTF-8 BOM
         die($exampleFile);
     }
 
