@@ -138,9 +138,20 @@ class Action extends ViewAction
                     $message .= $model->failingRows . ' possuem erros. ';
                     $type = 'error';
 
-                    $url = Yii::$app->assetManager->publish($model->errorsCsvPath);
+                    // @FIXME Tem um bug no assetManager, atualizar o Yii 2
+                    // $url = Yii::$app->assetManager->publish($model->errorsCsvPath);
 
-                    unlink($model->errorsCsvPath);
+                    rename(
+                        $model->errorsCsvPath,
+                        Yii::getAlias(Yii::$app->assetManager->basePath) . DIRECTORY_SEPARATOR . basename($model->errorsCsvPath)
+                    );
+
+                    $url = Yii::getAlias(Yii::$app->assetManager->baseUrl) . '/' . basename($model->errorsCsvPath);
+
+                    //////// Fim do bloco que pode ser removido ao corrigir
+
+                    // @FIXME descomentar quando corrigir o Yii 2
+                    // unlink($model->errorsCsvPath);
 
                     $message .= Html::a(
                         'Baixar planilha com as linhas que falharam e o motivo do erro',
