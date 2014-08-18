@@ -35,6 +35,7 @@ class BoletimRgFechamento extends ActiveRecord
 		return [
 			[['boletim_rg_id', 'municipio_id', 'imovel_tipo_id'], 'required'],
 			[['boletim_rg_id', 'quantidade', 'municipio_id', 'imovel_tipo_id'], 'integer'],
+            ['boletim_rg_id', 'unique', 'compositeWith' => ['imovel_tipo_id', 'imovel_lira', 'municipio_id']],
             [['imovel_lira'], 'boolean'],
 		];
 	}

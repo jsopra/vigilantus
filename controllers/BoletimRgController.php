@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\CRUDController;
+use app\batch\controller\Batchable;
 use app\models\search\BoletimRgFechamentoSearch;
 
 class BoletimRgController extends CRUDController
@@ -15,6 +16,10 @@ class BoletimRgController extends CRUDController
             'bairroCategoria' => ['class' => 'app\components\actions\BairroCategoria'],
             'bairroQuarteiroes' => ['class' => 'app\components\actions\BairroQuarteiroes'],
             'ruas' => ['class' => 'app\components\actions\Ruas'],
+            'batch' => [
+                'class' => 'app\\batch\\Action',
+                'modelClass' => 'app\\models\\batch\\BoletimRg',
+            ]
         ];
     }
 
@@ -22,7 +27,7 @@ class BoletimRgController extends CRUDController
     {
         $behaviors = parent::behaviors();
 
-        $actions = ['verFechamento', 'bairroCategoria', 'bairroQuarteiroes', 'ruas', 'createFechamento', 'updateFechamento'];
+        $actions = ['verFechamento', 'bairroCategoria', 'bairroQuarteiroes', 'ruas', 'createFechamento', 'updateFechamento', 'batch'];
 
         foreach ($actions as $action) {
             $behaviors['access']['only'][] = $action;
@@ -31,6 +36,8 @@ class BoletimRgController extends CRUDController
 
         return $behaviors;
     }
+    
+    
 
     public function init()
     {

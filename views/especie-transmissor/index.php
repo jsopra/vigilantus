@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'data-role' => 'create',
                     ]
                 );
-            }
+            },
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],

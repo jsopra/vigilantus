@@ -5,6 +5,11 @@ use app\components\ActiveQuery;
 
 class BairroQuery extends ActiveQuery
 {  
+    public function doNome($nome) {
+        $this->andWhere('nome = :nome', [':nome' => $nome]);
+        return $this;
+    }
+    
     public function comQuarteiroes() {
         
         $this->andWhere('id IN (SELECT DISTINCT bairro_id FROM bairro_quarteiroes)');
