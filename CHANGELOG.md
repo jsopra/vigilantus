@@ -1,5 +1,17 @@
 # Changelog
 
+## Versão 0.5
+* Vinculação de relatórios de RG à fechamento
+* Formulário de fechamento de RG
+* Componente de cargas
+* Carga de fechamento de RG
+* Melhoria dados e envio de feedback
+* Atualização de Yii e Codeception
+* Relacionamento de área de foco e tempo de permanência com transmissor
+* Blog
+* Testes unitários e de aceitação compatíveis com Codeception
+* Correção cadastro Quarteirão
+
 ## Versão 0.3
 
 * MVP de Reconhecimento geográfico e de focos, contendo:
