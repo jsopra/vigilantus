@@ -126,10 +126,6 @@ $script = '
 
     var bairroID = null;
     var quarteiraoID = null;
-    
-    $(".input-datepicker").datepicker().on("changeDate", function (ev) {
-        $(this).datepicker("hide");
-    });
 ';
 
 if(!$model->bairro_id) {
