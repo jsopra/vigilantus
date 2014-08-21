@@ -31,4 +31,14 @@ class EspecieTransmissorTest extends TestCase
         
         $this->assertEquals('#c0c0c0', $especieTransmissor->cor);
     }
+    
+    public function testScopeEspecieNome()
+    {
+        Phactory::especieTransmissor(['nome' => 'Aedes Aegypti', 'municipio_id' => 1]);
+        Phactory::especieTransmissor(['nome' => 'Aedes Robervalus', 'municipio_id' => 1]);
+        
+        $this->assertInstanceOf("app\models\EspecieTransmissor", EspecieTransmissor::find()->doNome('Aedes Aegypti')->one());
+        $this->assertNull(EspecieTransmissor::find()->doNome('Finn')->one());
+        $this->assertInstanceOf("app\models\EspecieTransmissor", EspecieTransmissor::find()->doNome('Aedes Robervalus')->one());
+    }
 }
