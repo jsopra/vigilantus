@@ -8,6 +8,12 @@ use app\components\ActiveQuery;
 
 class FocoTransmissorQuery extends ActiveQuery
 {  
+    public function dataEntradaEntre($inicio, $fim) {
+        
+        $this->andWhere('data_entrada BETWEEN :inicio AND :fim', [':inicio' => $inicio, ':fim' => $fim]);
+        return $this;
+    }
+    
     public function doBairro($id) {
         
         $this->joinWith(['bairroQuarteirao']);
