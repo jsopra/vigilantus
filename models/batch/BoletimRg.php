@@ -22,7 +22,7 @@ class BoletimRg extends Model
             'data' => 'Data da Coleta',
         ];
         
-        $tipoImovel = ImovelTipo::find()->All();
+        $tipoImovel = ImovelTipo::find()->all();
         
         foreach($tipoImovel as $tipo) {
             $labels['imovelTipo_' . $tipo->id] = $tipo->nome;
@@ -49,7 +49,7 @@ class BoletimRg extends Model
     /**
      * @inheritdoc
      */
-    public function insert($row)
+    public function insert($row, $userId = null, $municipioId = null)
     {
         $bairro = Bairro::find()->doNome($row->getValue('bairro'))->one();
         if(!$bairro) {
@@ -78,7 +78,11 @@ class BoletimRg extends Model
             $boletimRg->bairro_quarteirao_id = $bairroQuarteirao->id;
             $boletimRg->folha = $row->getValue('folha');
             $boletimRg->data = $row->getValue('data');
-            $boletimRg->inserido_por = \Yii::$app->user->identity->id;
+            $boletimRg->inserido_por = $userId ? $userId : \Yii::$app->user->identity->id;
+            
+            if($municipioId) {
+                $boletimRg->municipio_id = $municipioId;
+            }
             
             if(!$boletimRg->save()) {
                 $row->addErrorsFromObject($boletimRg);
@@ -87,10 +91,11 @@ class BoletimRg extends Model
             }
         }
 
-        $tipoImovel = ImovelTipo::find()->All();
+        $tipoImovel = ImovelTipo::find()->all();
         foreach($tipoImovel as $tipo) {
             
             $valor = $row->getValue('imovelTipo_' . $tipo->id);
+
             $fechamento = $this->_addFechamento($boletimRg, $tipo->id, $valor, false);
             if(!$fechamento->save()) {
                 $row->addErrorsFromObject($fechamento);
@@ -122,7 +127,7 @@ class BoletimRg extends Model
      * @return BoletimRgFechamento 
      */
     private function _addFechamento(\app\models\BoletimRg $boletim, $imovelTipo, $quantidade, $lira) {
-        
+
         $boletimFechamento = new BoletimRgFechamento;
         
         $boletimFechamento->municipio_id = $boletim->municipio_id;

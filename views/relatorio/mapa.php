@@ -5,6 +5,10 @@ use app\models\EspecieTransmissor;
 use app\helpers\GoogleMapsAPIHelper;
 ?>
 
+<?php echo $this->render('_filtroRelatorioAreaTratamento', ['model' => $model]); ?>
+
+<?php echo $this->render('_menuRelatorioAreaTratamento', []); ?>
+
 <br />
 
 <script src="<?= GoogleMapsAPIHelper::getAPIUrl(); ?>"></script>

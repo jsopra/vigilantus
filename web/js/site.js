@@ -15,7 +15,7 @@ $(document).ready(function(){
     });
 
     if (!Modernizr.inputtypes.date) {
-        $('body').on('focusin', '.input-datepicker', function(e) {
+        $('body').on('focusin', 'input[type="date"]', function(e) {
 
             $(this).datepicker().on("changeDate", function (ev) {
                 $(this).datepicker("hide");

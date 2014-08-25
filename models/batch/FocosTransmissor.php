@@ -7,6 +7,7 @@ use app\models\BairroQuarteirao;
 use app\models\Bairro;
 use app\models\EspecieTransmissor;
 use app\models\DepositoTipo;
+use app\models\FocoTransmissor;
 
 class FocosTransmissor extends Model
 {
@@ -42,7 +43,7 @@ class FocosTransmissor extends Model
     /**
      * @inheritdoc
      */
-    public function insert($row)
+    public function insert($row, $userId = null)
     {
         $bairro = Bairro::find()->doNome($row->getValue('bairro'))->one();
         if(!$bairro) {
@@ -68,8 +69,8 @@ class FocosTransmissor extends Model
             return false;
         }
         
-        $foco = new \app\models\FocoTransmissor;
-        $foco->inserido_por = \Yii::$app->user->identity->id;
+        $foco = new FocoTransmissor;
+        $foco->inserido_por = $userId ? $userId : \Yii::$app->user->identity->id;
         $foco->tipo_deposito_id = $tipoDeposito->id;
         $foco->especie_transmissor_id = $especieTransmissor->id;
         $foco->bairro_quarteirao_id = $bairroQuarteirao->id;
@@ -81,7 +82,7 @@ class FocosTransmissor extends Model
         $foco->quantidade_forma_aquatica = $row->getValue('qtde_aquatica');
         $foco->laboratorio = $row->getValue('laboratorio');
         $foco->tecnico = $row->getValue('tecnico');
-        
+
         return $foco->save();
     }
 }

@@ -7,6 +7,10 @@ use app\widgets\GridView;
 use app\helpers\models\ImovelHelper;
 ?>
 
+<?php echo $this->render('_filtroRelatorioAreaTratamento', ['model' => $model]); ?>
+
+<?php echo $this->render('_menuRelatorioAreaTratamento', []); ?>
+
 <br />
 
 <?php
