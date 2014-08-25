@@ -111,8 +111,8 @@ class FocosExcelReport extends Model
         //linha header tabela
         $headers = ['Bairro', 'Endereço', 'Quarteirão'];
         
-        if($modelEspecie) {
-            array_push($headers,'Especie');
+        if(!$modelEspecie) {
+            array_push($headers,'Espécie');
         }
         
         array_push($headers, 'Tipo Imóvel', 'Tipo Depósito', 'Data Entrada', 'Data Exame', 'Data Coleta', 'Nº F. Aquática', 'Nº F. Adulta', 'Nº F. Ovos');
@@ -162,7 +162,7 @@ class FocosExcelReport extends Model
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->imovel_id ? ImovelHelper::getEnderecoCompleto($row->imovel) : '');
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->bairroQuarteirao->numero_quarteirao);
             
-            if($modelEspecie) {
+            if(!$modelEspecie) {
                 $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->especieTransmissor->nome);
             }
             
