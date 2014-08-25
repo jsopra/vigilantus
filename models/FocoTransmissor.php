@@ -53,7 +53,7 @@ class FocoTransmissor extends ActiveRecord
     public function rules()
     {
         return [
-            [['inserido_por', 'tipo_deposito_id', 'especie_transmissor_id', 'bairro_quarteirao_id'], 'required'],
+            [['inserido_por', 'tipo_deposito_id', 'especie_transmissor_id', 'bairro_quarteirao_id', 'data_entrada', 'data_exame', 'data_coleta', 'quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'], 'required'],
             [['quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'], 'integer', 'min' => 0],
             [['!inserido_por', '!atualizado_por'], 'exist', 'targetClass' => Usuario::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['tipo_deposito_id', 'exist', 'targetClass' => DepositoTipo::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],

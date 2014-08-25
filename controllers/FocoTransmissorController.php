@@ -7,6 +7,7 @@ use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\components\CRUDController;
+use app\batch\controller\Batchable;
 
 class FocoTransmissorController extends CRUDController
 {
@@ -17,6 +18,10 @@ class FocoTransmissorController extends CRUDController
             'bairroQuarteiroes' => ['class' => 'app\components\actions\BairroQuarteiroes'],
             'ruas' => ['class' => 'app\components\actions\Ruas'],
             'imoveis' => ['class' => 'app\components\actions\Imoveis'],
+            'batch' => [
+                'class' => 'app\\batch\\Action',
+                'modelClass' => 'app\\models\\batch\\FocosTransmissor',
+            ]
         ];
     }
     
@@ -25,11 +30,11 @@ class FocoTransmissorController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'delete', 'index', 'update', 'imoveis'],
+                'only' => ['create', 'delete', 'index', 'update', 'imoveis', 'batch'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'update', 'delete', 'index', 'imoveis', 'bairroCategoria', 'bairroQuarteiroes', 'ruas'],
+                        'actions' => ['create', 'update', 'delete', 'index', 'imoveis', 'bairroCategoria', 'bairroQuarteiroes', 'ruas', 'batch'],
                         'roles' => ['@'],
                     ],
                 ],

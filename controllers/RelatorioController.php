@@ -23,7 +23,7 @@ class RelatorioController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['resumo-rg-bairro', 'mapa-area-tratamento', 'focos-export'],
+                'only' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'focos-export'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -60,11 +60,35 @@ class RelatorioController extends Controller
         $model = new AreaTratamentoReport;
         
         $model->load($_GET);
+        
+        $model->loadAreasDeTratamento();
 
         return $this->render('area-tratamento', ['model' => $model]);
     }
     
-    public function actionAreaTratamentoFocos($idQuarteirao) {
+    public function actionAreaTratamentoFocos()
+    {
+        $model = new AreaTratamentoReport;
+        
+        $model->load($_GET);
+
+        $model->loadAreasDeFoco();
+
+        return $this->render('focos', ['model' => $model]);
+    }
+    
+    public function actionAreaTratamentoMapa()
+    {
+        $model = new AreaTratamentoReport;
+        
+        $model->load($_GET);
+
+        $model->loadAreasDeFoco();
+
+        return $this->render('mapa', ['model' => $model]);
+    }
+    
+    public function actionFocosAreaTratamento($idQuarteirao) {
             
         $quarteirao = BairroQuarteirao::findOne($idQuarteirao);
         

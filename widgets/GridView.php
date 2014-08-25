@@ -220,13 +220,15 @@ class GridView extends YiiGridView
         $pagination = $this->dataProvider->getPagination();
         $pagination->pageSize = $this->recordsLoadingStep;
         
-        $steps = $pagination->getPageCount();
+        $this->dataProvider->prepare();
         
+        $steps = $pagination->getPageCount();      
+
         for ($currentStep = 0; $currentStep < $steps; $currentStep++) {
             
             // Muda bloco atual
             $pagination->setPage($currentStep);
-            
+             $this->dataProvider->prepare(true);
             // Obtém dados
             $rows = $this->dataProvider->getModels();
         
