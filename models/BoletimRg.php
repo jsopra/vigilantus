@@ -43,7 +43,7 @@ class BoletimRg extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['folha', 'bairro_id', 'municipio_id', 'bairro_quarteirao_id', 'data'], 'required'],
+			[['bairro_id', 'municipio_id', 'bairro_quarteirao_id', 'data'], 'required'],
             [['categoria_id', 'imoveis', 'fechamentos'], 'safe'],
             ['folha', 'unique', 'compositeWith' => ['data', 'municipio_id']],
             ['data', 'date'],

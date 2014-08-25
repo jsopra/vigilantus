@@ -18,7 +18,6 @@ class BoletimRg extends Model
         $labels = [
             'bairro' => 'Nome do Bairro',
             'quarteirao' => 'Número do Quarteirão',
-            'folha' => 'Folha nº',
             'data' => 'Data da Coleta',
         ];
         
@@ -40,10 +39,7 @@ class BoletimRg extends Model
      */
     public function columnHints()
     {
-        return [
-            'bairro' => 'Nome completo do bairro',
-            'data' => 'dd/mm/aaaa',
-        ];
+        return [];
     }
 
     /**
@@ -68,7 +64,6 @@ class BoletimRg extends Model
         $boletimRg = \app\models\BoletimRg::find()
             ->doBairro($bairro->id)
             ->doBairroQuarteirao($bairroQuarteirao->id)
-            ->daFolha($row->getValue('folha'))
             ->daData($row->getValue('data'))
             ->one();
         
@@ -76,7 +71,6 @@ class BoletimRg extends Model
             $boletimRg = new \app\models\BoletimRg;
             $boletimRg->bairro_id = $bairro->id;
             $boletimRg->bairro_quarteirao_id = $bairroQuarteirao->id;
-            $boletimRg->folha = $row->getValue('folha');
             $boletimRg->data = $row->getValue('data');
             $boletimRg->inserido_por = $userId ? $userId : \Yii::$app->user->identity->id;
             
