@@ -23,7 +23,6 @@ class BoletimRgTest extends TestCase
             'columns' => [
                 'bairro',
                 'quarteirao', 
-                'folha', 
                 'data',
             ],
         ];
@@ -43,7 +42,7 @@ class BoletimRgTest extends TestCase
     {
         $this->_createScenario();
         
-        $data = ['teste B', '10', '100', date('d/m/Y')];
+        $data = ['teste B', '10', date('d/m/Y')];
         
         $tipoImovel = ImovelTipo::find()->all();
         foreach($tipoImovel as $tipo) {
@@ -69,7 +68,7 @@ class BoletimRgTest extends TestCase
     {
         $this->_createScenario();
         
-        $data = ['teste A', '11', '100', date('d/m/Y')];
+        $data = ['teste A', '11', date('d/m/Y')];
     
         $tipoImovel = ImovelTipo::find()->all();
         foreach($tipoImovel as $tipo) {
@@ -95,7 +94,7 @@ class BoletimRgTest extends TestCase
     {
         $this->_createScenario();
         
-        $data = ['teste A', '10', '100', date('d/m/Y')];
+        $data = ['teste A', '10', date('d/m/Y')];
 
         $tipoImovel = ImovelTipo::find()->all();
         foreach($tipoImovel as $tipo) {
