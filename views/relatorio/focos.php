@@ -5,6 +5,9 @@ use app\models\EspecieTransmissor;
 use app\models\ImovelTipo;
 use app\widgets\GridView;
 use app\helpers\models\ImovelHelper;
+
+$this->title = 'Áreas de Tratamento';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php echo $this->render('_filtroRelatorioAreaTratamento', ['model' => $model]); ?>
