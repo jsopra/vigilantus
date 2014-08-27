@@ -33,4 +33,14 @@ class DepositoTipoTest extends TestCase
         $tipoDepositoFilho->deposito_tipo_pai = $tipoDeposito->id;
         $this->assertTrue($tipoDepositoFilho->save()); 
     }
+    
+    public function testScopeDepositoSigla()
+    {
+        Phactory::depositoTipo(['sigla' => 'AE', 'municipio_id' => 1]);
+        Phactory::depositoTipo(['sigla' => 'AG', 'municipio_id' => 1]);
+        
+        $this->assertInstanceOf("app\models\DepositoTipo", DepositoTipo::find()->daSigla('AE')->one());
+        $this->assertNull(DepositoTipo::find()->daSigla('AF')->one());
+        $this->assertInstanceOf("app\models\DepositoTipo", DepositoTipo::find()->daSigla('AG')->one());
+    }
 }   

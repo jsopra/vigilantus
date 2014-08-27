@@ -6,6 +6,7 @@ use app\models\EspecieTransmissor;
 use app\models\ImovelTipo;
 use app\widgets\GridView;
 use app\helpers\models\ImovelHelper;
+use yii\helpers\Url;
 
 $this->title = 'Focos de Transmissores';
 $this->params['breadcrumbs'][] = $this->title;
@@ -25,6 +26,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'class' => 'btn btn-flat success',
                         'data-role' => 'create',
+                    ]
+                );
+            },
+            'batch' => function() {
+                return Html::a(
+                    'Importar Arquivo de Focos',
+                    Url::to(['batch']),
+                    [
+                        'class' => 'btn btn-flat default',
                     ]
                 );
             }

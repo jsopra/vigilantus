@@ -1,63 +1,47 @@
 <?php
+use app\models\Municipio;
 use app\models\Bairro;
-use app\models\EspecieTransmissor;
+use app\widgets\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
-use yii\bootstrap\Tabs;
-
-$this->title = 'Áreas de Tratamento';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="mapa-area-tratamento-index" data-role="modal-grid">
+<?php echo $this->render('_filtroRelatorioAreaTratamento', ['model' => $model]); ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<?php echo $this->render('_menuRelatorioAreaTratamento', []); ?>
 
-    <div class="form well">
-        <?php $form = ActiveForm::begin([
-            'method' => 'get',
-        ]); ?>
-
-            <div class="row" id="dadosPrincipais">
-                <div class="col-xs-3">
-                    <?= $form->field($model, 'bairro_id')->dropDownList(Bairro::listData('nome'), ['prompt' => 'Selecione…']) ?>
-                </div>
-
-                <div class="col-xs-2">
-                    <?= $form->field($model, 'lira')->dropDownList([0 => 'Não', 1 => 'Sim'], ['prompt' => 'Selecione…']) ?>
-                </div>
-                
-                <div class="col-xs-3">
-                    <?= $form->field($model, 'especie_transmissor_id')->dropDownList(EspecieTransmissor::listData('nome'), ['prompt' => 'Selecione…']) ?>
-                </div>
-
-                <div class="col-xs-2" style="padding-top: 20px;">
-                    <?= Html::submitButton('Gerar', ['class' => 'btn btn-primary']) ?>
-                </div>
-            </div>
-
-        <?php ActiveForm::end(); ?>
-    </div>
-
-</div>
+<br />
 
 <?php
-echo Tabs::widget([
-    'items' => [
+echo GridView::widget([
+    'dataProvider' => $model->dataProviderAreasTratamento,
+    'filterModel' => false,
+    'columns' => [
+        ['class' => 'yii\grid\SerialColumn'],
         [
-            'label' => 'Mapa',
-            'content' => $this->render('_area-tratamento-mapa', ['model' => $model], true),
-            'active' => true
+            'header' => 'Bairro',
+            'value' => function ($model, $index, $widget) {
+                return $model->bairro->nome;
+            },
         ],
-        [
-            'label' => 'Áreas de Tratamento',
-            'content' => $this->render('_area-tratamento', ['model' => $model], true),
-        ],
-        [
-            'label' => 'Focos',
-            'content' => $this->render('_area-tratamento-foco', ['model' => $model], true),
-        ],
+        'numero_quarteirao',
+        'numero_quarteirao_2',
+        [   
+            'class' => 'app\extensions\grid\ModalColumn',
+            'iconClass' => 'icon-search opacity50',
+            'modalId' => 'focos-detalhes',
+            'modalAjaxContent' => function ($model, $index, $widget) {
+                return Url::toRoute(array('relatorio/focos-area-tratamento', 'idQuarteirao' => $model->id));
+            },
+            'requestType' => 'GET',
+            'header' => 'Focos relacionados ao Quarteirão',
+            'linkTitle' => 'Ver Focos',
+            'value' => function ($model, $index, $widget) {
+                return 'Ver Focos';
+            },
+            'options' => [
+                'width' => '15%',
+            ]
+        ],  
     ],
 ]);
-?>

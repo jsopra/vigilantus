@@ -71,14 +71,13 @@ $eu->aguardoPor(1);
 
 //sem filtro
 $eu->espero('ver os dados de area de tratamento sem filtro');
-$eu->clico('a[href="#w3-tab1"]');
 $eu->vejo(implode(' ', ['Seminário', '1', '(não definido)']));
 $eu->vejo(implode(' ', ['Seminário', '2', '(não definido)']));
 $eu->vejo(implode(' ', ['Seminário', '3', '(não definido)']));
 $eu->vejo(implode(' ', ['Seminário', '4', '(não definido)']));
 
 $eu->espero('ver os dados de focos sem filtro');
-$eu->clico('a[href="#w3-tab2"]');
+$eu->clico('li[id="area-focos"] a');
 $eu->vejo(implode(' ', ['Seminário', '3', 'Rua 0001, S/N', 'TD0001', 'Aedes_0001']));
 $eu->naoVejo(implode(' ', ['Seminário', '4', 'Rua 0001, S/N', 'TD0001', 'Aedes_0001']));
 
@@ -88,112 +87,115 @@ $eu->espero('fazer teste de relatório com aplicação de filtro de bairro');
 $eu->clico('Relatórios');
 $eu->clico('Áreas de Tratamento', 'li.active');
 
+
+$eu->espero('ver os dados de area de tratamento com filtro de bairro');
+$eu->clico('li[id="area"] a');
 $eu->aguardoPor(1);
 $eu->selecionoOpcao('Bairro', 'Seminário');
 $eu->clico('Gerar');
 $eu->aguardoPor(1);
-
-$eu->espero('ver os dados de area de tratamento com filtro de bairro');
-$eu->clico('a[href="#w3-tab1"]');
 $eu->vejo(implode(' ', ['Seminário', '1', '(não definido)']));
 $eu->vejo(implode(' ', ['Seminário', '2', '(não definido)']));
 $eu->vejo(implode(' ', ['Seminário', '3', '(não definido)']));
 $eu->vejo(implode(' ', ['Seminário', '4', '(não definido)']));
 
 $eu->espero('ver os dados de focos com filtro de bairro');
-$eu->clico('a[href="#w3-tab2"]');
+$eu->clico('li[id="area-focos"] a');
+$eu->aguardoPor(1);
+$eu->selecionoOpcao('Bairro', 'Seminário');
+$eu->clico('Gerar');
+$eu->aguardoPor(1);
 $eu->vejo(implode(' ', ['Seminário', '3', 'Rua 0001, S/N', 'TD0001', 'Aedes_0001']));
 $eu->naoVejo(implode(' ', ['Seminário', '4', 'Rua 0001, S/N', 'TD0001', 'Aedes_0001']));
 
 
 //filtor lira nao
-$eu->espero('fazer teste de relatório com aplicação de filtro de lira não');
-$eu->clico('Relatórios');
-$eu->clico('Áreas de Tratamento', 'li.active');
-
+$eu->espero('ver os dados de area de tratamento com filtro de lira não');
+$eu->clico('li[id="area"] a');
 $eu->aguardoPor(1);
 $eu->selecionoOpcao('LIRA', 'Não');
 $eu->clico('Gerar');
 $eu->aguardoPor(1);
-
-$eu->espero('ver os dados de area de tratamento com filtro de lira não');
-$eu->clico('a[href="#w3-tab1"]');
 $eu->vejo(implode(' ', ['Seminário', '1', '(não definido)']));
 $eu->vejo(implode(' ', ['Seminário', '2', '(não definido)']));
 $eu->vejo(implode(' ', ['Seminário', '3', '(não definido)']));
 $eu->vejo(implode(' ', ['Seminário', '4', '(não definido)']));
 
 $eu->espero('ver os dados de focos com filtro de lira não');
-$eu->clico('a[href="#w3-tab2"]');
+$eu->clico('li[id="area-focos"] a');
+$eu->aguardoPor(1);
+$eu->selecionoOpcao('LIRA', 'Não');
+$eu->clico('Gerar');
+$eu->aguardoPor(1);
 $eu->vejo(implode(' ', ['Seminário', '3', 'Rua 0001, S/N', 'TD0001', 'Aedes_0001']));
 $eu->naoVejo(implode(' ', ['Seminário', '4', 'Rua 0001, S/N', 'TD0001', 'Aedes_0001']));
 
 
 //filtro lira sim
 $eu->espero('ver os dados de area de tratamento com filtro de lira sim');
-$eu->clico('Relatórios');
-$eu->clico('Áreas de Tratamento', 'li.active');
+$eu->clico('li[id="area"] a');
 $eu->aguardoPor(1);
 $eu->selecionoOpcao('LIRA', 'Sim');
 $eu->clico('Gerar');
 $eu->aguardoPor(1);
-$eu->clico('a[href="#w3-tab1"]');
 $eu->naoVejo(implode(' ', ['Seminário', '1', '(não definido)']));
 $eu->naoVejo(implode(' ', ['Seminário', '2', '(não definido)']));
 $eu->naoVejo(implode(' ', ['Seminário', '3', '(não definido)']));
 $eu->naoVejo(implode(' ', ['Seminário', '4', '(não definido)']));
 
 $eu->espero('ver os dados de focos com filtro de lira sim');
-$eu->clico('a[href="#w3-tab2"]');
+$eu->clico('li[id="area-focos"] a');
+$eu->aguardoPor(1);
+$eu->selecionoOpcao('LIRA', 'Sim');
+$eu->clico('Gerar');
+$eu->aguardoPor(1);
 $eu->naoVejo(implode(' ', ['Seminário', '3', 'Rua 0001, S/N', 'TD0001', 'Aedes_0001']));
 
 
 //filtro Aedes_0002
 $eu->espero('ver os dados de area de tratamento com filtro de aedes_0001');
-$eu->clico('Relatórios');
-$eu->clico('Áreas de Tratamento', 'li.active');
+$eu->clico('li[id="area-focos"] a');
 $eu->aguardoPor(1);
 $eu->selecionoOpcao('Espécie de Transmissor', 'Aedes_0001');
 $eu->clico('Gerar');
 $eu->aguardoPor(1);
-$eu->clico('a[href="#w3-tab2"]');
 $eu->vejo(implode(' ', ['Seminário', '3', 'Rua 0001, S/N', 'TD0001', 'Aedes_0001']));
 
 //filtro Aedes_0002
 $eu->espero('ver os dados de area de tratamento com filtro de aedes_0002');
-$eu->clico('Relatórios');
-$eu->clico('Áreas de Tratamento', 'li.active');
+$eu->clico('li[id="area-focos"] a');
 $eu->aguardoPor(1);
 $eu->selecionoOpcao('Espécie de Transmissor', 'Aedes_0002');
 $eu->clico('Gerar');
 $eu->aguardoPor(1);
-$eu->clico('a[href="#w3-tab2"]');
 $eu->naoVejo(implode(' ', ['Seminário', '3', 'Rua 0001, S/N', 'TD0001', 'Aedes_0001']));
 
 //detalhamento de foco da area de tratamento
 $eu->espero('fazer teste de relatório com aplicação de filtro de bairro + lira não');
-$eu->clico('Relatórios');
-$eu->clico('Áreas de Tratamento', 'li.active');
-
+$eu->espero('ver os dados de area de tratamento com filtro de lira nao');
+$eu->clico('li[id="area"] a');
 $eu->aguardoPor(1);
 $eu->selecionoOpcao('Bairro', 'Seminário');
 $eu->selecionoOpcao('LIRA', 'Não');
 $eu->clico('Gerar');
 $eu->aguardoPor(1);
-
-$eu->espero('ver os dados de area de tratamento com filtro de lira nao');
-$eu->clico('a[href="#w3-tab1"]');
 $eu->vejo(implode(' ', ['Seminário', '1', '(não definido)']));
 $eu->vejo(implode(' ', ['Seminário', '2', '(não definido)']));
 $eu->vejo(implode(' ', ['Seminário', '3', '(não definido)']));
 $eu->vejo(implode(' ', ['Seminário', '4', '(não definido)']));
 
 $eu->espero('ver os dados de focos com filtro de lira não');
-$eu->clico('a[href="#w3-tab2"]');
+$eu->clico('li[id="area-focos"] a');
+$eu->aguardoPor(1);
+$eu->selecionoOpcao('Bairro', 'Seminário');
+$eu->selecionoOpcao('LIRA', 'Não');
+$eu->clico('Gerar');
+$eu->aguardoPor(1);
 $eu->vejo(implode(' ', ['Seminário', '3', 'Rua 0001, S/N', 'TD0001', 'Aedes_0001']));
 
 $eu->espero('detalhar focos de uma área de tratamento');
-$eu->clico('a[href="#w3-tab1"]');
+$eu->clico('li[id="area"] a');
+$eu->aguardoPor(1);
 $eu->clicoNoGrid('1', 'Ver Focos');
 $eu->aguardoPor(1);
 $eu->vejo(implode(' ', ['Seminário', '3', 'Rua 0001, S/N', 'TD0001', 'Aedes_0001']));

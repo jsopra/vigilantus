@@ -44,12 +44,9 @@ class AreaTratamentoReport extends Model
     public function load($data, $formName = null)
     {
         parent::load($data, $formName);
-        
-        $this->_loadAreasDeFoco();
-        $this->_loadAreasDeTratamento();
     }
     
-    private function _loadAreasDeFoco() {
+    public function loadAreasDeFoco() {
         
         $focos = FocoTransmissor::find();
         
@@ -67,7 +64,7 @@ class AreaTratamentoReport extends Model
         $this->dataProviderAreasFoco = new ActiveDataProvider(['query' => $focos]);
     }
     
-    private function _loadAreasDeTratamento() {
+    public function loadAreasDeTratamento() {
        
         $lira = null;
         if($this->lira != '' && $this->lira != null)
