@@ -45,13 +45,11 @@ class BoletimRgTest extends TestCase
 
         $this->assertFalse($boletim->validate());
 
-        $this->assertArrayHasKey('folha', $boletim->errors);
         $this->assertArrayHasKey('bairro_id', $boletim->errors);
         $this->assertArrayHasKey('municipio_id', $boletim->errors);
         $this->assertArrayHasKey('bairro_quarteirao_id', $boletim->errors);
         $this->assertArrayHasKey('data', $boletim->errors);
 
-        $boletim->folha = '001';
         $boletim->municipio_id = 1;
         $boletim->inserido_por = 1;
         $boletim->bairro_id = $bairro->id;
@@ -100,13 +98,11 @@ class BoletimRgTest extends TestCase
 
         $this->assertFalse($boletim->validate());
 
-        $this->assertArrayHasKey('folha', $boletim->errors);
         $this->assertArrayHasKey('bairro_id', $boletim->errors);
         $this->assertArrayHasKey('municipio_id', $boletim->errors);
         $this->assertArrayHasKey('bairro_quarteirao_id', $boletim->errors);
         $this->assertArrayHasKey('data', $boletim->errors);
 
-        $boletim->folha = '001';
         $boletim->municipio_id = 1;
         $boletim->inserido_por = 1;
         $boletim->bairro_id = $bairro->id;
@@ -125,12 +121,6 @@ class BoletimRgTest extends TestCase
             $this->criarArrayImovel('Vitorio Cella', '180', null, null, true, 2),
             $this->criarArrayImovel('Vitorio Cella', '182', null, null, true, 2),
         );
-
-        $this->assertFalse($boletim->salvarComImoveis());
-
-        $this->assertArrayHasKey('folha', $boletim->errors);
-
-        $boletim->folha = '002';
 
         $this->assertTrue($boletim->salvarComImoveis());
         $this->assertEquals(8, $boletim->quantidadeImoveis);
@@ -164,14 +154,6 @@ class BoletimRgTest extends TestCase
          */
         $boletimUpdate = BoletimRg::findOne($boletim->id);
         $this->assertInstanceOf('app\models\BoletimRg', $boletimUpdate);
-
-        $boletimUpdate->folha = '001';
-
-        $this->assertFalse($boletimUpdate->save());
-
-        $this->assertArrayHasKey('folha', $boletimUpdate->errors);
-
-        $boletimUpdate->folha = '002';
 
         $rua = Rua::find()->daRua('Vitorio Cella')->one();
         $this->assertInstanceOf('app\models\Rua', $rua);
