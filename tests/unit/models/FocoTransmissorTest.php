@@ -55,4 +55,22 @@ class FocoTransmissorTest extends TestCase
         $this->assertEquals(1, FocoTransmissor::find()->daAreaDeTratamento($quarteiraoA)->count()); //quarteirão do foco é área de tratamento dele mesmo!
         $this->assertEquals(1, FocoTransmissor::find()->daAreaDeTratamento($quarteiraoB)->count());
     }
+    
+    public function testDaEntrada()
+    {
+        $foco = Phactory::focoTransmissor([]);
+        
+        $foco = Phactory::focoTransmissor([
+            'data_entrada' => date("Y-m-d", strtotime("-10 days"))
+        ]);
+        
+        $foco = Phactory::focoTransmissor([
+            'data_entrada' => date("Y-m-d", strtotime("-15 days"))
+        ]);
+        
+        $this->assertEquals(3, FocoTransmissor::find()->count());
+        $this->assertEquals(3, FocoTransmissor::find()->dataEntradaEntre(date("Y-m-d", strtotime("-15 days")), date("Y-m-d"))->count());
+        $this->assertEquals(2, FocoTransmissor::find()->dataEntradaEntre(date("Y-m-d", strtotime("-10 days")), date("Y-m-d"))->count());
+        $this->assertEquals(1, FocoTransmissor::find()->dataEntradaEntre(date("Y-m-d", strtotime("-5 days")), date("Y-m-d"))->count());
+    }
 }

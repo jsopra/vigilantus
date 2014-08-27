@@ -3,6 +3,9 @@ use app\models\Bairro;
 use app\models\Municipio;
 use app\models\EspecieTransmissor;
 use app\helpers\GoogleMapsAPIHelper;
+
+$this->title = 'Áreas de Tratamento';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php echo $this->render('_filtroRelatorioAreaTratamento', ['model' => $model]); ?>

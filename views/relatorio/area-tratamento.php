@@ -4,6 +4,9 @@ use app\models\Bairro;
 use app\widgets\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
+
+$this->title = 'Áreas de Tratamento';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php echo $this->render('_filtroRelatorioAreaTratamento', ['model' => $model]); ?>

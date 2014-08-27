@@ -40,10 +40,10 @@ class VigilantusLayoutHelper {
             [
                 'label' => 'Relatórios',
                 'icon' => 'bar-chart',
-                'visible' => $user->can('Administrador'),
                 'items' => [
-                    ['label' => 'Boletim de RG', 'url' => ['/relatorio/resumo-rg-bairro']],
-                    ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento']],
+                    ['label' => 'Boletim de RG', 'url' => ['/relatorio/resumo-rg-bairro'], 'visible' => $user->can('Administrador'),],
+                    ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Administrador'),],
+                    ['label' => 'Exportação de Focos', 'url' => ['/relatorio/focos-export']],
                 ],
             ],
             [

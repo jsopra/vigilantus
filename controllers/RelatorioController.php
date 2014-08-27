@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\components\Controller;
 use app\models\report\ResumoRgBairroReport;
 use app\models\report\AreaTratamentoReport;
+use app\models\report\FocosExcelReport;
 use app\models\search\FocoTransmissorSearch;
 use app\models\BairroQuarteirao;
 use app\models\FocoTransmissor;
@@ -22,11 +23,17 @@ class RelatorioController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa'],
+                'only' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'focos-export'],
                 'rules' => [
                     [
                         'allow' => true,
+                        'actions' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'resumo-rg-bairro', 'mapa-area-tratamento'],
                         'roles' => ['Administrador'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['focos-export'],
+                        'roles' => ['Usuario'],
                     ],
                 ],
             ],
@@ -91,5 +98,16 @@ class RelatorioController extends Controller
             '_detalhamento-areas-tratamento',
             ['dataProvider' => new ActiveDataProvider(['query' => $dataProvider])]
         );
+    }
+    
+    public function actionFocosExport()
+    {
+        $model = new FocosExcelReport;
+        
+        if ($model->load($_GET) && $model->validate()) {
+            $model->export();
+        }
+
+        return $this->render('focos-export', ['model' => $model]);
     }
 }
