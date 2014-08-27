@@ -8,7 +8,7 @@ use tests\TestCase;
 use app\batch\Row;
 use app\models\ImovelTipo;
 
-class BoletimRgTest extends TestCase
+class BoletimRgBatchTest extends TestCase
 {
     private $_bairro;
     private $_quarteirao;
