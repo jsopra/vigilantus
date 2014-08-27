@@ -41,8 +41,8 @@ class VigilantusLayoutHelper {
                 'label' => 'Relatórios',
                 'icon' => 'bar-chart',
                 'items' => [
-                    ['label' => 'Boletim de RG', 'url' => ['/relatorio/resumo-rg-bairro'], 'visible' => $user->can('Administrador'),],
-                    ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Administrador'),],
+                    ['label' => 'Boletim de RG', 'url' => ['/relatorio/resumo-rg-bairro'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente'),],
                     ['label' => 'Exportação de Focos', 'url' => ['/relatorio/focos-export']],
                 ],
             ],

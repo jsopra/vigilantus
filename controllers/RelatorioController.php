@@ -28,7 +28,7 @@ class RelatorioController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'resumo-rg-bairro', 'mapa-area-tratamento'],
-                        'roles' => ['Administrador'],
+                        'roles' => ['Gerente'],
                     ],
                     [
                         'allow' => true,

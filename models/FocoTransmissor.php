@@ -26,6 +26,8 @@ use app\components\ActiveRecord;
  * @property string $tecnico
  * @property integer $imovel_id
  * @property integer $bairro_quarteirao_id
+ * @property string $planilha_endereco
+ * @property integer $planilha_imovel_tipo_id
  *
  * @property Usuario $inseridoPor
  * @property Usuario $atualizadoPor
@@ -60,8 +62,10 @@ class FocoTransmissor extends ActiveRecord
             ['especie_transmissor_id', 'exist', 'targetClass' => EspecieTransmissor::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['imovel_id', 'exist', 'targetClass' => Imovel::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['bairro_quarteirao_id', 'exist', 'targetClass' => BairroQuarteirao::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
+            ['planilha_imovel_tipo_id', 'exist', 'targetClass' => ImovelTipo::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             [['!data_cadastro', '!data_atualizacao', 'data_entrada', 'data_exame', 'data_coleta'], 'date'],
-            [['laboratorio', 'tecnico'], 'string', 'max' => 256]
+            [['laboratorio', 'tecnico'], 'string', 'max' => 256],
+            [['planilha_imovel_tipo_id', 'planilha_endereco'], 'safe'],
         ];
     }
 
@@ -92,6 +96,9 @@ class FocoTransmissor extends ActiveRecord
             'foco_ativo' => 'Foco Ativo',
             'imovel_lira' => 'Imóvel LIRA',
             'bairro_quarteirao_id' => 'Quarteirão',
+                
+            'planilha_endereco' => 'Endereço',
+            'planilha_imovel_tipo_id' => 'Tipo do Imóvel',
         ];
     }
 
@@ -142,6 +149,14 @@ class FocoTransmissor extends ActiveRecord
     {
         return $this->hasOne(BairroQuarteirao::className(), ['id' => 'bairro_quarteirao_id']);
     }
+    
+    /**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getImovelTipo()
+	{
+		return $this->hasOne(ImovelTipo::className(), ['id' => 'planilha_imovel_tipo_id']);
+	}
     
     /**
      * Verifica se um foco ainda é ativo conforme configuração de dias do projeto

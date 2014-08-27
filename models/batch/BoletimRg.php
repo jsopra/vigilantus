@@ -21,7 +21,7 @@ class BoletimRg extends Model
             'data' => 'Data da Coleta',
         ];
         
-        $tipoImovel = ImovelTipo::find()->all();
+        $tipoImovel = ImovelTipo::find()->orderBy('id')->all();
         
         foreach($tipoImovel as $tipo) {
             $labels['imovelTipo_' . $tipo->id] = $tipo->nome;
@@ -54,6 +54,7 @@ class BoletimRg extends Model
         }
         
         $bairroQuarteirao = BairroQuarteirao::find()->doBairro($bairro->id)->doNumero($row->getValue('quarteirao'))->one();
+        
         if(!$bairroQuarteirao) {
             $row->addError('Quarteirão não localizado');
             return false;
@@ -67,28 +68,30 @@ class BoletimRg extends Model
             ->daData($row->getValue('data'))
             ->one();
         
-        if(!$boletimRg) {
-            $boletimRg = new \app\models\BoletimRg;
-            $boletimRg->bairro_id = $bairro->id;
-            $boletimRg->bairro_quarteirao_id = $bairroQuarteirao->id;
-            $boletimRg->data = $row->getValue('data');
-            $boletimRg->inserido_por = $userId ? $userId : \Yii::$app->user->identity->id;
-            
-            if($municipioId) {
-                $boletimRg->municipio_id = $municipioId;
-            }
-            
-            if(!$boletimRg->save()) {
-                $row->addErrorsFromObject($boletimRg);
-                $transaction->rollback();
-                return false;
-            }
+        if($boletimRg) {
+            $boletimRg->delete();
+        }
+        
+        $boletimRg = new \app\models\BoletimRg;
+        $boletimRg->bairro_id = $bairro->id;
+        $boletimRg->bairro_quarteirao_id = $bairroQuarteirao->id;
+        $boletimRg->data = $row->getValue('data');
+        $boletimRg->inserido_por = $userId ? $userId : \Yii::$app->user->identity->id;
+
+        if($municipioId) {
+            $boletimRg->municipio_id = $municipioId;
         }
 
-        $tipoImovel = ImovelTipo::find()->all();
+        if(!$boletimRg->save()) {
+            $row->addErrorsFromObject($boletimRg);
+            $transaction->rollback();
+            return false;
+        }
+
+        $tipoImovel = ImovelTipo::find()->orderBy('id')->all();
         foreach($tipoImovel as $tipo) {
             
-            $valor = $row->getValue('imovelTipo_' . $tipo->id);
+            $valor = $row->getValue('imovelTipo_' . $tipo->id) ? $row->getValue('imovelTipo_' . $tipo->id) : 0;
 
             $fechamento = $this->_addFechamento($boletimRg, $tipo->id, $valor, false);
             if(!$fechamento->save()) {
@@ -97,16 +100,15 @@ class BoletimRg extends Model
                 return false;
             }
             
-            $valor = $row->getValue('imovelTipo_' . $tipo->id . '_lira');
+            $valor = $row->getValue('imovelTipo_' . $tipo->id . '_lira') ? $row->getValue('imovelTipo_' . $tipo->id . '_lira') : 0;
             $fechamento = $this->_addFechamento($boletimRg, $tipo->id, $valor, true);  
             if(!$fechamento->save()) {
                 $row->addErrorsFromObject($fechamento);
                 $transaction->rollback();
                 return false;
             }
-            
         }
-        
+
         $transaction->commit();
         
         return true;
