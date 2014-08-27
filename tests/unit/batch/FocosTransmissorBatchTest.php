@@ -8,7 +8,7 @@ use tests\TestCase;
 use app\models\FocoTransmissor;
 use app\batch\Row;
 
-class FocosTransmissorTest extends TestCase
+class FocosTransmissorBatchTest extends TestCase
 {
     private $_bairro;
     private $_quarteirao;

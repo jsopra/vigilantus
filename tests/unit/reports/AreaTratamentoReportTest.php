@@ -15,6 +15,9 @@ class AreaTratamentoReportTest extends TestCase
         $report = new AreaTratamentoReport;
         $report->load([],null);
         
+        $report->loadAreasDeFoco();
+        $report->loadAreasDeTratamento();
+        
         $this->assertEquals(1, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(4, $report->dataProviderAreasTratamento->getTotalCount());
     }
@@ -28,6 +31,9 @@ class AreaTratamentoReportTest extends TestCase
         $report->bairro_id = $idBairro + 1;
         $report->load([],null);
         
+        $report->loadAreasDeFoco();
+        $report->loadAreasDeTratamento();
+        
         $this->assertEquals(0, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(0, $report->dataProviderAreasTratamento->getTotalCount());
 
@@ -35,6 +41,9 @@ class AreaTratamentoReportTest extends TestCase
         $report = new AreaTratamentoReport;
         $report->bairro_id = $idBairro;
         $report->load([],null);
+        
+        $report->loadAreasDeFoco();
+        $report->loadAreasDeTratamento();
         
         $this->assertEquals(1, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(4, $report->dataProviderAreasTratamento->getTotalCount());
@@ -44,6 +53,9 @@ class AreaTratamentoReportTest extends TestCase
         $report->lira = true;
         $report->load([],null);
         
+        $report->loadAreasDeFoco();
+        $report->loadAreasDeTratamento();
+        
         $this->assertEquals(0, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(0, $report->dataProviderAreasTratamento->getTotalCount());
         
@@ -51,6 +63,9 @@ class AreaTratamentoReportTest extends TestCase
         $report = new AreaTratamentoReport;
         $report->lira = false;
         $report->load([],null);
+        
+        $report->loadAreasDeFoco();
+        $report->loadAreasDeTratamento();
         
         $this->assertEquals(1, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(4, $report->dataProviderAreasTratamento->getTotalCount());
@@ -60,6 +75,9 @@ class AreaTratamentoReportTest extends TestCase
         $report->bairro_id = $idBairro;
         $report->lira = false;
         $report->load([],null);
+        
+        $report->loadAreasDeFoco();
+        $report->loadAreasDeTratamento();
         
         $this->assertEquals(1, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(4, $report->dataProviderAreasTratamento->getTotalCount());
@@ -74,6 +92,9 @@ class AreaTratamentoReportTest extends TestCase
         $report->bairro_id = $idBairro + 1;
         $report->load([],null);
         
+        $report->loadAreasDeFoco();
+        $report->loadAreasDeTratamento();
+        
         $this->assertEquals(0, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(0, $report->dataProviderAreasTratamento->getTotalCount());
 
@@ -81,6 +102,9 @@ class AreaTratamentoReportTest extends TestCase
         $report = new AreaTratamentoReport;
         $report->bairro_id = $idBairro;
         $report->load([],null);
+        
+        $report->loadAreasDeFoco();
+        $report->loadAreasDeTratamento();
         
         $this->assertEquals(1, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(1, $report->dataProviderAreasTratamento->getTotalCount());
@@ -95,6 +119,9 @@ class AreaTratamentoReportTest extends TestCase
         $report->bairro_id = $idBairro + 1;
         $report->load([],null);
         
+        $report->loadAreasDeFoco();
+        $report->loadAreasDeTratamento();
+        
         $this->assertEquals(0, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(0, $report->dataProviderAreasTratamento->getTotalCount());
 
@@ -102,6 +129,9 @@ class AreaTratamentoReportTest extends TestCase
         $report = new AreaTratamentoReport;
         $report->bairro_id = $idBairro;
         $report->load([],null);
+        
+        $report->loadAreasDeFoco();
+        $report->loadAreasDeTratamento();
         
         $this->assertEquals(0, $report->dataProviderAreasFoco->getTotalCount());
         $this->assertEquals(0, $report->dataProviderAreasTratamento->getTotalCount());

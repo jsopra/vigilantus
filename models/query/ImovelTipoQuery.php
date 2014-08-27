@@ -5,6 +5,12 @@ use app\components\ActiveQuery;
 
 class ImovelTipoQuery extends ActiveQuery
 {  
+    public function daSigla($sigla) {
+        
+        $this->andWhere('sigla = :sigla', [':sigla' => $sigla]);
+        return $this;
+    }
+    
     /**
      * @param ActiveQuery $query
      */

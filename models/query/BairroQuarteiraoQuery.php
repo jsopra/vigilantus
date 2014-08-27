@@ -12,12 +12,12 @@ class BairroQuarteiraoQuery extends ActiveQuery
     }
     
     public function doNumero($numero) {
-        $this->andWhere('numero_quarteirao = :numero', [':numero' => $numero]);
+        $this->andWhere('numero_quarteirao = :numero', [':numero' => ltrim($numero, '0')]);
         return $this;
     }
     
     public function daSequencia($numero) {
-        $this->andWhere('seq = :numero', [':numero' => $numero]);
+        $this->andWhere('seq = :sequencia', [':sequencia' => $numero]);
         return $this;
     }
     
@@ -27,7 +27,7 @@ class BairroQuarteiraoQuery extends ActiveQuery
     }
     
     public function queNao($id) {
-        $this->andWhere('id <> :numero', [':numero' => $id]);
+        $this->andWhere('id <> :quenao', [':quenao' => $id]);
         return $this;
     }
     
