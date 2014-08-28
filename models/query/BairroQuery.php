@@ -6,7 +6,7 @@ use app\components\ActiveQuery;
 class BairroQuery extends ActiveQuery
 {  
     public function doNome($nome) {
-        $this->andWhere('nome = :nome', [':nome' => $nome]);
+        $this->andWhere('nome = :nome', [':nome' => trim($nome)]);
         return $this;
     }
     
