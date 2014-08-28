@@ -61,7 +61,6 @@ class BairroQuarteiraoTest extends TestCase
         
         $quarteirao = Phactory::bairroQuarteirao();
         
-        
         $this->assertNotNull($quarteirao->coordenadas_area);
         
         $this->assertTrue($quarteirao->loadCoordenadas());
@@ -114,5 +113,27 @@ class BairroQuarteiraoTest extends TestCase
         
         $quarteiroes = BairroQuarteirao::find()->comFocosAtivos(false)->all();
         $this->assertEquals(0, count($quarteiroes));
+    }
+    
+    public function testNumeroQuarteirao() 
+    {
+        Phactory::bairroQuarteirao(['numero_quarteirao' => '123-AF', 'numero_quarteirao_2' => '120']);
+        
+        $quarteiroes = BairroQuarteirao::find()->doNumero('123-AF')->all();
+        $this->assertEquals(1, count($quarteiroes));
+        
+        $quarteiroes = BairroQuarteirao::find()->doNumero('120')->all();
+        $this->assertEquals(0, count($quarteiroes));
+    }
+    
+    public function testNumerosQuarteiroes() 
+    {
+        Phactory::bairroQuarteirao(['numero_quarteirao' => '123-AF', 'numero_quarteirao_2' => '120']);
+        
+        $quarteiroes = BairroQuarteirao::find()->doNumero('120')->all();
+        $this->assertEquals(0, count($quarteiroes));
+        
+        $quarteiroes = BairroQuarteirao::find()->dosNumeros('120')->all();
+        $this->assertEquals(1, count($quarteiroes));
     }
 }

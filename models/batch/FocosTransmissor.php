@@ -54,7 +54,7 @@ class FocosTransmissor extends Model
             return false;
         }
         
-        $bairroQuarteirao = BairroQuarteirao::find()->doBairro($bairro->id)->doNumero($row->getValue('quarteirao'))->one();
+        $bairroQuarteirao = BairroQuarteirao::find()->doBairro($bairro->id)->dosNumeros($row->getValue('quarteirao'))->one();
         if(!$bairroQuarteirao) {
             $row->addError('Quarteirão não localizado');
             return false;
