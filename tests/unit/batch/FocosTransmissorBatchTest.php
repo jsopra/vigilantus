@@ -19,7 +19,7 @@ class FocosTransmissorBatchTest extends TestCase
     private function _createScenario() 
     {
         $this->_bairro = Phactory::bairro(['nome' => 'teste A', 'municipio_id' => 1]);
-        $this->_quarteirao = Phactory::bairroQuarteirao(['numero_quarteirao' => '10', 'bairro_id' => $this->_bairro->id, 'municipio_id' => 1]);
+        $this->_quarteirao = Phactory::bairroQuarteirao(['numero_quarteirao' => '01', 'bairro_id' => $this->_bairro->id, 'municipio_id' => 1]);
         $this->_tipoDeposito = Phactory::depositoTipo(['sigla' => 'TT', 'municipio_id' => 1]);
         $this->_especieTransmissor = Phactory::especieTransmissor(['nome' => 'Transmissor Teste', 'municipio_id' => 1]);
         
@@ -45,7 +45,7 @@ class FocosTransmissorBatchTest extends TestCase
     {
         $this->_createScenario();
         
-        $data = ['teste lab', 'teste tecnico', 'TT', 'Transmissor Teste', 'teste B', '10', date('d/m/Y'), date('d/m/Y'), date('d/m/Y'), '1', '1', '1'];
+        $data = ['teste lab', 'teste tecnico', 'TT', 'Transmissor Teste', 'teste B', '1', date('d/m/Y'), date('d/m/Y'), date('d/m/Y'), '1', '1', '1'];
     
         $row = new Row;    
         $row->number = 1;
@@ -86,7 +86,7 @@ class FocosTransmissorBatchTest extends TestCase
     {
         $this->_createScenario();
         
-        $data = ['teste lab', 'teste tecnico', 'TX', 'Transmissor Teste', 'teste A', '10', date('d/m/Y'), date('d/m/Y'), date('d/m/Y'), '1', '1', '1'];
+        $data = ['teste lab', 'teste tecnico', 'TX', 'Transmissor Teste', 'teste A', '01', date('d/m/Y'), date('d/m/Y'), date('d/m/Y'), '1', '1', '1'];
     
         $row = new Row;    
         $row->number = 1;
@@ -106,7 +106,7 @@ class FocosTransmissorBatchTest extends TestCase
     {
         $this->_createScenario();
         
-        $data = ['teste lab', 'teste tecnico', 'TT', 'Transmissor Erro', 'teste A', '10', date('d/m/Y'), date('d/m/Y'), date('d/m/Y'), '1', '1', '1'];
+        $data = ['teste lab', 'teste tecnico', 'TT', 'Transmissor Erro', 'teste A', '1', date('d/m/Y'), date('d/m/Y'), date('d/m/Y'), '1', '1', '1'];
     
         $row = new Row;    
         $row->number = 1;
@@ -126,7 +126,7 @@ class FocosTransmissorBatchTest extends TestCase
     {
         $this->_createScenario();
         
-        $data = ['teste lab', 'teste tecnico', 'TT', 'Transmissor Teste', 'teste A', '10', date('d/m/Y'), date('d/m/Y'), date('d/m/Y'), '1', '1', '1'];
+        $data = ['teste lab', 'teste tecnico', 'TT', 'Transmissor Teste', 'teste A', '01', date('d/m/Y'), date('d/m/Y'), date('d/m/Y'), '1', '1', '1'];
 
         $row = new Row;    
         $row->number = 1;
