@@ -12,12 +12,12 @@ class BairroQuarteiraoQuery extends ActiveQuery
     }
     
     public function doNumero($numero) {
-        $this->andWhere('numero_quarteirao = :numero', [':numero' => ltrim($numero, '0')]);
+        $this->andWhere("trim(leading '0' FROM numero_quarteirao) = :numero", [':numero' => ltrim($numero, '0')]);
         return $this;
     }
     
     public function dosNumeros($numero) {
-        $this->andWhere('numero_quarteirao = :numero OR numero_quarteirao_2 = :numero', [':numero' => ltrim($numero, '0')]);
+        $this->andWhere("trim(leading '0' FROM numero_quarteirao) = :numero OR trim(leading '0' FROM numero_quarteirao_2) = :numero", [':numero' => ltrim($numero, '0')]);
         return $this;
     }
     
