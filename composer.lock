@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a16f549b6700f640656f96aa54e107e7",
+    "hash": "85b2409a4242142578799d553bf90c92",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -796,6 +796,49 @@
                 "yii2"
             ],
             "time": "2014-07-19 19:39:03"
+        },
+        {
+            "name": "yiisoft/yii2-redis",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-redis.git",
+                "reference": "cf373bd91e2b022a98392a76dec395b76ce24765"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-redis/zipball/cf373bd91e2b022a98392a76dec395b76ce24765",
+                "reference": "cf373bd91e2b022a98392a76dec395b76ce24765",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "yii\\redis\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Carsten Brandt",
+                    "email": "mail@cebe.cc"
+                }
+            ],
+            "description": "Redis Cache, Session and ActiveRecord for the Yii framework",
+            "keywords": [
+                "active-record",
+                "cache",
+                "redis",
+                "session",
+                "yii2"
+            ],
+            "time": "2014-08-12 21:21:34"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",

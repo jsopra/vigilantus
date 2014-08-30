@@ -3,6 +3,8 @@ namespace app\models\query;
 
 use Yii;
 use app\components\ActiveQuery;
+use app\models\BairroQuarteirao;
+use app\models\Municipio;
 
 class BairroQuarteiraoQuery extends ActiveQuery
 {  
@@ -66,32 +68,12 @@ class BairroQuarteiraoQuery extends ActiveQuery
     
     public function emAreaDeTratamento($lira = null, $especieTransmissor = null) {
         
-        $whereLira = null;
-        if($lira !== null)
-            $whereLira = $lira === true ? 'imovel_lira = TRUE' : 'imovel_lira = FALSE';
+        $idsAreaTratamento = BairroQuarteirao::getIDsAreaTratamento(Municipio::find()->one()->id, $especieTransmissor, $lira); //@fix municipio
         
-        $whereEspecie = '';
-        if($especieTransmissor !== null)
-            $whereEspecie = ' AND et.id = ' . $especieTransmissor;
-        
-        $query = "
-        id IN (
-            SELECT br.id
-            FROM focos_transmissores ft
-            JOIN especies_transmissores et ON ft.especie_transmissor_id = et.id
-            JOIN bairro_quarteiroes bf on ft.bairro_quarteirao_id = bf.id
-            LEFT JOIN imoveis i on ft.imovel_id = i.id
-            LEFT JOIN bairro_quarteiroes br	ON ST_DWithin(br.coordenadas_area, ST_Centroid(bf.coordenadas_area), et.qtde_metros_area_foco, true)
-            WHERE 
-                " . ($whereLira ? $whereLira . ' AND ' : '') . "
-                data_coleta BETWEEN NOW() - INTERVAL '1 DAY' * et.qtde_dias_permanencia_foco AND NOW() AND
-                (quantidade_forma_aquatica > 0 OR quantidade_forma_adulta > 0 OR quantidade_ovos > 0)
-                " . $whereEspecie . "
-        )";
+        $query = $idsAreaTratamento ? "id IN (" . implode(',', $idsAreaTratamento) . ")" : '1=2';
         
         $this->andWhere($query);
         
         return $this;
-        	
     }
 }

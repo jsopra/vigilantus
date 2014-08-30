@@ -2,6 +2,7 @@
 
 namespace tests\unit\reports;
 
+use Yii;
 use app\models\report\AreaTratamentoReport;
 use Phactory;
 use tests\TestCase;

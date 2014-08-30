@@ -1,6 +1,8 @@
 <?php
 
 namespace app\models;
+
+use Yii;
 use app\components\PostgisActiveRecord;
 use app\models\Query\BairroQuarteiraoQuery as BairroQuarteiraoQuery;
 
@@ -158,19 +160,94 @@ class BairroQuarteirao extends PostgisActiveRecord
      * @param array $except
      * @return array 
      */
-    public static function getCoordenadas(BairroQuarteiraoQuery $quarteiroes) {
-        
+    public static function getCoordenadas(BairroQuarteiraoQuery $quarteiroes) 
+    {
         $return = [];
         
         $quarteiroes = $quarteiroes->all();
         
         foreach($quarteiroes as $quarteirao) {
+            
+            $cacheKey = 'quarteirao_coordenadas_' . $quarteirao->id;
+            $data = Yii::$app->cache->get($cacheKey);
+
+            if($data !== false) {
+                $return[] = $data;
+                continue;
+            }
+            
             $quarteirao->loadCoordenadas();
             
-            if($quarteirao->coordenadas)
+            if($quarteirao->coordenadas) {
+
+                $dependency = new \app\components\caching\DbDependency; //fix quando atualizar yii
+                $dependency->sql = 'SELECT coalesce(data_atualizacao, data_cadastro) FROM bairro_quarteiroes WHERE id = ' . $quarteirao->id;
+
+                Yii::$app->cache->set($cacheKey, $quarteirao->coordenadas, null, $dependency);
+                
                 $return[] = $quarteirao->coordenadas;
+            }
         }
 
+        return $return;
+    }
+    
+    /**
+     * Busca todos ID's de quarteirões em áreas de tramento
+     * @uses Caching
+     * @param int $municipioId
+     * @return array 
+     */
+    public static function getIDsAreaTratamento($municipioId, $especieTransmissor = null, $lira = null)
+    {
+        $cacheKey = 'quarteiroes_area_tratamento_' . $municipioId;
+        
+        if($especieTransmissor !== null) {
+            $cacheKey .= '_especie_' . $especieTransmissor;
+        }
+        
+        if($lira !== null) {
+            $cacheKey .= '_lira_' . ($lira === true ? 'true' : 'false');
+        }
+ 
+        $data = Yii::$app->cache->get($cacheKey);
+            
+        if($data !== false && !YII_ENV_TEST)
+            return $data;
+
+        $return = [];
+        
+        $query = "
+            id IN (
+                SELECT DISTINCT br.id
+                FROM focos_transmissores ft
+                JOIN especies_transmissores et ON ft.especie_transmissor_id = et.id
+                JOIN bairro_quarteiroes bf on ft.bairro_quarteirao_id = bf.id
+                LEFT JOIN imoveis i on ft.imovel_id = i.id
+                LEFT JOIN bairro_quarteiroes br	ON ST_DWithin(br.coordenadas_area, ST_Centroid(bf.coordenadas_area), et.qtde_metros_area_foco, true)
+                WHERE 
+                    data_coleta BETWEEN NOW() - INTERVAL '1 DAY' * et.qtde_dias_permanencia_foco AND NOW() AND
+                    (quantidade_forma_aquatica > 0 OR quantidade_forma_adulta > 0 OR quantidade_ovos > 0)
+                    " . ($especieTransmissor !== null ? ' AND et.id = ' . $especieTransmissor : '') . "
+                    " . ($lira ? ($lira === true ? ' AND imovel_lira = TRUE' : ' AND imovel_lira = FALSE') : '') . "
+            )
+        ";
+        
+        $quarteiroes = self::find()->andWhere($query)->all();
+        
+        foreach($quarteiroes as $quarteirao) {
+            $return[] = $quarteirao->id;
+        }
+        
+        $dependency = new \app\components\caching\DbDependency; //fix quando atualizar yii
+        $dependency->sql = '
+            SELECT max(ft.id) 
+            FROM focos_transmissores ft
+            JOIN bairro_quarteiroes bq on ft.bairro_quarteirao_id = bq.id
+            WHERE bq.municipio_id = ' . $municipioId;   
+        
+        Yii::$app->cache->set($cacheKey, $return, null, $dependency);
+        
         return $return;
     }
     

@@ -7,7 +7,8 @@
 		"yiisoft/yii2-swiftmailer": "*",
         "kartik-v/yii2-widgets": "dev-master",
         "2amigos/yii2-ckeditor-widget" : "*",
-        "phpoffice/phpexcel": "dev-develop"
+        "phpoffice/phpexcel": "dev-develop",
+        "yiisoft/yii2-redis": "*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-codeception": "*",
