@@ -6,6 +6,23 @@ use yii\db\ActiveQuery as YiiActiveQuery;
 class ActiveQuery extends YiiActiveQuery
 {
     /**
+     * @param int $id
+     * @return \app\components\ActiveQuery 
+     */
+    public function doMunicipio($id)
+    {
+        $modelClass = $this->modelClass;
+        $model = new $modelClass;
+        
+        if(!isset($model->getTableSchema()->columns['municipio_id'])) {
+            return $this;
+        }
+        
+        $this->andWhere('municipio_id = :municipio_id', [':municipio_id' => $id]);
+        return $this;
+    }
+    
+    /**
      * @return ActiveQuery
      */
     public function randomOrdered()
