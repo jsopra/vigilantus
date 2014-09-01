@@ -1,12 +1,19 @@
 Vigilantus
 ==========
 
-Propõe uma instrumentalização do trabalho do agente de saúde, integração com sistema governamental, apoio à decisão e interação social, seguindo os critérios do PNCD.
-
-Estreita-se o elo entre o agente de saúde e o cidadão, proporcionando uma mudança de comportamento e hábito da população. 
-
-Além disso, tendo em mãos uma ferramenta analítica qualificada, proporcionamos ao gestor um maior controle e aderência das ações preventivas e educativas.
-
+Versão 0.5
+```Versão 0.5
+Vinculação de relatórios de RG à fechamento
+Formulário de fechamento de RG
+Componente de cargas
+Carga de fechamento de RG
+Melhoria dados e envio de feedback
+Atualização de Yii e Codeception
+Relacionamento de área de foco e tempo de permanência com transmissor
+Blog
+Testes unitários e de aceitação compatíveis com Codeception
+Correção cadastro Quarteirão
+```
 
 SOBRE OS AMBIENTES
 ------------------
