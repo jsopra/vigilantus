@@ -15,7 +15,7 @@ Desta forma, ao rodar os testes estaremos utilizando um banco de dados diferente
 porém a partir do mesmo diretório.
 
 
-CONFIGURANDO O AMBIENTE DE DESENVOLVIMENTO E PRODUÇÃO
+CONFIGURANDO O AMBIENTE DE DESENVOLVIMENTO
 -----------------------------------------------------
 
 Instale o [Composer](http://getcomposer.org/) e rode `composer install` na
@@ -63,7 +63,7 @@ Usando o [OpenShift RHC](https://www.openshift.com/developers/rhc-client-tools-i
 $ rhc set-env VIGILANTUS_REDIS_DB_PASSWORD="XXXXXXXX" -a vigilantus
 Setting environment variable(s) ... done
 
-```adicionar
+```listar
 $ rhc env list vigilantus
 VIGILANTUS_BD_DNS=pgsql:host=XXXX-vigilantus.getup.io;dbname=XXZZ
 VIGILANTUS_COOKIES_KEY=ASDF
