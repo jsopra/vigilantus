@@ -2,17 +2,12 @@ Vigilantus
 ==========
 
 Versão 0.5
-```Versão 0.5
-Vinculação de relatórios de RG à fechamento
-Formulário de fechamento de RG
+
+```v05
+Fechamento de RG
 Componente de cargas
-Carga de fechamento de RG
-Melhoria dados e envio de feedback
 Atualização de Yii e Codeception
-Relacionamento de área de foco e tempo de permanência com transmissor
-Blog
-Testes unitários e de aceitação compatíveis com Codeception
-Correção cadastro Quarteirão
+...
 ```
 
 SOBRE OS AMBIENTES
