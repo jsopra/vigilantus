@@ -64,11 +64,13 @@ CONFIGURANDO O AMBIENTE DE PRODUÇÃO
 
 Usando o [OpenShift RHC](https://www.openshift.com/developers/rhc-client-tools-install) faça:
 
-adicionar
+Adicionar variável de ambiente:
+```adicionar
 $ rhc set-env VIGILANTUS_REDIS_DB_PASSWORD="XXXXXXXX" -a vigilantus
 Setting environment variable(s) ... done
 
-listar
+Listar as variáveis existentes:
+```listar
 $ rhc env list vigilantus
 VIGILANTUS_BD_DNS=pgsql:host=XXXX-vigilantus.getup.io;dbname=XXZZ
 VIGILANTUS_COOKIES_KEY=ASDF
