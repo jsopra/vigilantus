@@ -68,6 +68,7 @@ Adicionar variável de ambiente:
 ```adicionar
 $ rhc set-env VIGILANTUS_REDIS_DB_PASSWORD="XXXXXXXX" -a vigilantus
 Setting environment variable(s) ... done
+```
 
 Listar as variáveis existentes:
 ```listar
@@ -81,7 +82,7 @@ VIGILANTUS_REDIS_DB_DATABASE=ASDF
 VIGILANTUS_REDIS_DB_PASSWORD=ASDF
 VIGILANTUS_REDIS_DB_PORT=QWER
 VIGILANTUS_REDIS_HOST=XyZ-vigilantus.getup.io
-
+```
 
 CONFIGURANDO O AMBIENTE DE TESTES
 ---------------------------------
