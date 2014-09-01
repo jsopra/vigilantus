@@ -5,6 +5,8 @@ use app\models\Bairro;
 use app\models\BairroQuarteirao;
 use app\models\FocoTransmissor;
 use app\models\EspecieTransmissor;
+use app\models\Municipio;
+use app\models\redis\FocoAtivo;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -78,5 +80,29 @@ class AreaTratamentoReport extends Model
             $quarteiroes->doBairro($this->bairro_id);
         
         $this->dataProviderAreasTratamento = new ActiveDataProvider(['query' => $quarteiroes]);
+    }
+    
+    /**
+     * Carrega áreas de foco para o mapa
+     * @return FocosAtivos[] 
+     */
+    public function loadAreasDeFocoMapa()
+    {
+        $focos = FocoAtivo::find();
+        
+        $municipio = Municipio::find()->one(); //fix
+        
+        $focos->doMunicipio($municipio->id);
+        
+        if(is_numeric($this->bairro_id))
+            $focos->doBairro($this->bairro_id);
+        
+        if($this->lira != '' && $this->lira != null)
+            $focos->doImovelLira(($this->lira ? true : false));
+        
+        if(is_numeric($this->especie_transmissor_id))
+            $focos->daEspecieDeTransmissor($this->especie_transmissor_id);
+        
+        return $focos->all();
     }
 }
