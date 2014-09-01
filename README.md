@@ -88,3 +88,15 @@ CONFIGURANDO O AMBIENTE DE TESTES
 ---------------------------------
 
 Consulte as instruções completas no [README.md](tests/README.md) do diretório `tests`.
+
+DEPLOY
+-----------------------------------------------------
+
+Veja uma [Introdução de deploy da getup](https://getupcloud.com/blog/deploy-e-rollback).
+
+Para fazer deploy manualmente, siga os seguintes passos:
+```deploy
+$ git clone ssh://536a900a99fc77c093000257@vigilantus-vigilantus.getup.io/~/git/vigilantus.git/ vigilantus-deploy
+$ git git remote add upstream git@git.perspectiva.in:perspectiva/vigilantus.git
+$ git pull upstream master
+$ git push
