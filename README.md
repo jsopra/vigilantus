@@ -28,10 +28,15 @@ NameVirtualHost 127.0.0.1
     ServerName vigilantus
     DocumentRoot /var/www/vigilantus/web
     SetEnv VIGILANTUS_ENV development
-    SetEnv VIGILANTUS_DB_DSN "pgsql:host=localhost;dbname=vigilantus_development"
+    SetEnv VIGILANTUS_DB_DSN_HOST "pgsql:host=localhost"
+    SetEnv VIGILANTUS_DB_DSN_DBNAME "dbname=vigilantus_development"
     SetEnv VIGILANTUS_DB_USERNAME postgres
     SetEnv VIGILANTUS_DB_PASSWORD postgres
     SetEnv VIGILANTUS_COOKIES_KEY umastringsecreta
+    SetEnv VIGILANTUS_REDIS_DB_DATABASE 'ASDF'
+    SetEnv VIGILANTUS_REDIS_DB_PASSWORD 'ASDF'
+    SetEnv VIGILANTUS_REDIS_DB_PORT 'QWER'
+    SetEnv VIGILANTUS_REDIS_HOST 'XyZ-vigilantus.getup.io'
 </VirtualHost>
 ```
 
@@ -41,6 +46,12 @@ Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente 
 export VIGILANTUS_DB_DSN='pgsql:host=localhost;dbname=vigilantus_development'
 export VIGILANTUS_DB_USERNAME='postgres'
 export VIGILANTUS_DB_PASSWORD='qwerty'
+export VIGILANTUS_DB_DSN_HOST="pgsql:host=localhost"
+export VIGILANTUS_DB_DSN_DBNAME="dbname=vigilantus_development"
+export VIGILANTUS_REDIS_DB_DATABASE='ASDF'
+export VIGILANTUS_REDIS_DB_PASSWORD='ASDF'
+export VIGILANTUS_REDIS_DB_PORT='QWER'
+export VIGILANTUS_REDIS_HOST='XyZ-vigilantus.getup.io'
 ```
 
 Configure o seu arquivo `hosts`:
@@ -67,7 +78,8 @@ Setting environment variable(s) ... done
 Listar as variáveis existentes:
 ```listar
 $ rhc env list vigilantus
-VIGILANTUS_BD_DNS=pgsql:host=XXXX-vigilantus.getup.io;dbname=XXZZ
+VIGILANTUS_DB_DSN_HOST="pgsql:host=123-vigilantus.getup.io"
+VIGILANTUS_DB_DSN_DBNAME="dbname=vigilantus"
 VIGILANTUS_COOKIES_KEY=ASDF
 VIGILANTUS_DB_PASSWORD=ASDF
 VIGILANTUS_DB_USERNAME=ASDF
