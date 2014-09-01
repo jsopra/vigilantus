@@ -1,14 +1,6 @@
 Vigilantus
 ==========
 
-Versão 0.5
-
-```v05
-Fechamento de RG
-Componente de cargas
-Atualização de Yii e Codeception
-...
-```
 
 SOBRE OS AMBIENTES
 ------------------
