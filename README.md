@@ -1,7 +1,12 @@
 Vigilantus
 ==========
 
-Descrição do software
+Propõe uma instrumentalização do trabalho do agente de saúde, integração com sistema governamental, apoio à decisão e interação social, seguindo os critérios do PNCD.
+
+Estreita-se o elo entre o agente de saúde e o cidadão, proporcionando uma mudança de comportamento e hábito da população. 
+
+Além disso, tendo em mãos uma ferramenta analítica qualificada, proporcionamos ao gestor um maior controle e aderência das ações preventivas e educativas.
+
 
 SOBRE OS AMBIENTES
 ------------------
@@ -59,11 +64,11 @@ CONFIGURANDO O AMBIENTE DE PRODUÇÃO
 
 Usando o [OpenShift RHC](https://www.openshift.com/developers/rhc-client-tools-install) faça:
 
-```adicionar
+adicionar
 $ rhc set-env VIGILANTUS_REDIS_DB_PASSWORD="XXXXXXXX" -a vigilantus
 Setting environment variable(s) ... done
 
-```listar
+listar
 $ rhc env list vigilantus
 VIGILANTUS_BD_DNS=pgsql:host=XXXX-vigilantus.getup.io;dbname=XXZZ
 VIGILANTUS_COOKIES_KEY=ASDF
