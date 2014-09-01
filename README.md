@@ -54,6 +54,28 @@ IMPORTANTE: Reinicie o Apache.
 
 Rode as migrations com `php yii migrate`
 
+CONFIGURANDO O AMBIENTE DE PRODUÇÃO
+-----------------------------------------------------
+
+Usando o [OpenShift RHC](https://www.openshift.com/developers/rhc-client-tools-install) faça:
+
+```adicionar
+$ rhc set-env VIGILANTUS_REDIS_DB_PASSWORD="XXXXXXXX" -a vigilantus
+Setting environment variable(s) ... done
+
+```adicionar
+$ rhc env list vigilantus
+VIGILANTUS_BD_DNS=pgsql:host=XXXX-vigilantus.getup.io;dbname=XXZZ
+VIGILANTUS_COOKIES_KEY=ASDF
+VIGILANTUS_DB_PASSWORD=ASDF
+VIGILANTUS_DB_USERNAME=ASDF
+VIGILANTUS_ENV=production
+VIGILANTUS_REDIS_DB_DATABASE=ASDF
+VIGILANTUS_REDIS_DB_PASSWORD=ASDF
+VIGILANTUS_REDIS_DB_PORT=QWER
+VIGILANTUS_REDIS_HOST=XyZ-vigilantus.getup.io
+
+
 CONFIGURANDO O AMBIENTE DE TESTES
 ---------------------------------
 
