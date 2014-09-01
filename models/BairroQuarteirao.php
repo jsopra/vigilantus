@@ -42,6 +42,8 @@ class BairroQuarteirao extends PostgisActiveRecord
      */
     public $coordenadasJson;
     
+    public $centro;
+    
 	/**
 	 * @inheritdoc
 	 */
@@ -190,6 +192,39 @@ class BairroQuarteirao extends PostgisActiveRecord
         }
 
         return $return;
+    }
+    
+    public function getCentro()
+    {
+        $cacheKey = 'quarteirao_centro_' . $this->id;
+        $data = Yii::$app->cache->get($cacheKey);
+
+        if($data !== false) {
+            return $data;
+        }
+
+        $object = self::find()
+            ->select('ST_asText(ST_Centroid(coordenadas_area)) as centro')
+            ->where(['id' => $this->id])
+            ->one();
+        
+        if(!$object instanceof self)
+            return false;
+        
+        if(strstr($object->centro, 'POINT') === false)
+            return false;
+        
+        $coordenadas = explode(" ", str_replace(['POINT(', ')'], '', $object->centro));
+       
+        if(count($coordenadas) == 0)
+            return false;
+               
+        $dependency = new \app\components\caching\DbDependency; //fix quando atualizar yii
+        $dependency->sql = 'SELECT coalesce(data_atualizacao, data_cadastro) FROM bairro_quarteiroes WHERE id = ' . $this->id;
+
+        Yii::$app->cache->set($cacheKey, $coordenadas, null, $dependency);
+
+        return $coordenadas;
     }
     
     /**

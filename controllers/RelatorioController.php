@@ -83,9 +83,10 @@ class RelatorioController extends Controller
         
         $model->load($_GET);
 
-        $model->loadAreasDeFoco();
-
-        return $this->render('mapa', ['model' => $model]);
+        return $this->render('mapa', [
+            'model' => $model,
+            'modelFocos' => $model->loadAreasDeFocoMapa()
+        ]);
     }
     
     public function actionFocosAreaTratamento($idQuarteirao) {
