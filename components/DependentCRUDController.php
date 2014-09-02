@@ -87,10 +87,9 @@ class DependentCRUDController extends CRUDController
     
     public function actionIndex()
     {
-        $_GET[$this->parentField] = $this->parentObject->id;
-        
         $searchModelClass = $this->getSearchModelClassName();
         $searchModel = new $searchModelClass;
+        $searchModel->{$this->parentField} = $this->parentObject->id;
         $dataProvider = $searchModel->search($_GET);
         
         return $this->render(
