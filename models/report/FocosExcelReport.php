@@ -28,7 +28,23 @@ class FocosExcelReport extends Model
             ['especie_transmissor_id', 'exist', 'targetClass' => EspecieTransmissor::className(), 'targetAttribute' => 'id'],
             ['bairro_id', 'exist', 'targetClass' => Bairro::className(), 'targetAttribute' => 'id'],
             [['inicio', 'fim'], 'date'],   
+            [['inicio', 'fim'], 'validaIntervalo'],
         ];
+    }
+    
+    public function validaIntervalo($attribute, $params)
+    {
+        if(!$this->inicio || !$this->fim) {
+            return;
+        }
+
+        $inicio = new \DateTime($this->inicio);
+        $fim = new \DateTime($this->fim);
+
+        if((abs($fim->getTimestamp() - $inicio->getTimestamp()) / 60 / 60 / 24) > 30) {
+            $this->addError('inicio', 'Selecione até 30 dias para gerar o relatório');
+            $this->addError('fim', 'Selecione até 30 dias para gerar o relatório');
+        }
     }
 
     public function attributeLabels()

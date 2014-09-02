@@ -5,7 +5,7 @@ use yii\console\Controller;
 use app\models\Municipio;
 use app\models\BairroQuarteirao;
 use app\models\EspecieTransmissor;
-use app\models\redis\FocoAtivo;
+use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use app\models\FocoTransmissor;
 
 class CacheVigilantusController extends Controller
@@ -57,12 +57,17 @@ class CacheVigilantusController extends Controller
     public function actionGenerateFocos()
     {
 
-        FocoAtivo::deleteAll();
+        FocoTransmissorRedis::deleteAll();
         
         $municipios = \app\models\Municipio::find()->all(); 
         foreach($municipios as $municipio) {
         
-            $focos = FocoTransmissor::find()->doMunicipio($municipio->id)->ativo()->all();
+            $focos = FocoTransmissor::find()
+                ->distinct()
+                ->select('especie_transmissor_id, imovel_id, bairro_quarteirao_id')
+                ->doMunicipio($municipio->id)
+                ->all();
+
             foreach($focos as $foco) {
 
                 $quarteirao = $foco->bairroQuarteirao;
@@ -72,19 +77,18 @@ class CacheVigilantusController extends Controller
                     continue;
                 }
 
-                $focoAtivo = new FocoAtivo;
+                $focoRedis = new FocoTransmissorRedis;
 
-                $focoAtivo->id =  $foco->id;
-                $focoAtivo->municipio_id = $municipio->id;
-                $focoAtivo->bairro_quarteirao_id =  $quarteirao->id;
-                $focoAtivo->bairro_id = $quarteirao->bairro_id;
-                $focoAtivo->imovel_lira = ($foco->imovel ? ($foco->imovel->imovel_lira) : null);
-                $focoAtivo->setQuarteiraoCoordenadas($quarteirao->coordenadas);
-                $focoAtivo->especie_transmissor_id =  $foco->especie_transmissor_id;
-                $focoAtivo->cor_foco =  $foco->especieTransmissor->cor;
-                $focoAtivo->setCentroQuarteirao($quarteirao->getCentro());
-                $focoAtivo->qtde_metros_area_foco = $foco->especieTransmissor->qtde_metros_area_foco;
-                $focoAtivo->save();
+                $focoRedis->municipio_id = $municipio->id;
+                $focoRedis->bairro_quarteirao_id =  $quarteirao->id;
+                $focoRedis->bairro_id = $quarteirao->bairro_id;
+                $focoRedis->imovel_lira = ($foco->imovel ? ($foco->imovel->imovel_lira) : null);
+                $focoRedis->setQuarteiraoCoordenadas($quarteirao->coordenadas);
+                $focoRedis->especie_transmissor_id =  $foco->especie_transmissor_id;
+                $focoRedis->cor_foco =  $foco->especieTransmissor->cor;
+                $focoRedis->setCentroQuarteirao($quarteirao->getCentro());
+                $focoRedis->qtde_metros_area_foco = $foco->especieTransmissor->qtde_metros_area_foco;
+                $focoRedis->save();
             }     
             
         }
