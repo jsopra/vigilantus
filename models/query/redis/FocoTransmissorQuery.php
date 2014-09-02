@@ -5,8 +5,8 @@ namespace app\models\query\redis;
 use Yii;
 use yii\redis\ActiveQuery;
 
-class FocoAtivoQuery extends ActiveQuery
-{  
+class FocoTransmissorQuery extends ActiveQuery
+{      
     public function doMunicipio($id)
     {
         $this->andWhere(['municipio_id' => $id]);

@@ -6,7 +6,7 @@ use app\models\BairroQuarteirao;
 use app\models\FocoTransmissor;
 use app\models\EspecieTransmissor;
 use app\models\Municipio;
-use app\models\redis\FocoAtivo;
+use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -88,7 +88,7 @@ class AreaTratamentoReport extends Model
      */
     public function loadAreasDeFocoMapa()
     {
-        $focos = FocoAtivo::find();
+        $focos = FocoTransmissorRedis::find();
         
         $municipio = Municipio::find()->one(); //fix
         
@@ -102,7 +102,7 @@ class AreaTratamentoReport extends Model
         
         if(is_numeric($this->especie_transmissor_id))
             $focos->daEspecieDeTransmissor($this->especie_transmissor_id);
-        
+
         return $focos->all();
     }
 }

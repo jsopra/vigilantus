@@ -5,7 +5,7 @@ use app\components\RedisActiveRecord;
 use app\models\EspecieTransmissor;
 use app\models\BairroQuarteirao;
 
-class FocoAtivo extends RedisActiveRecord
+class FocoTransmissor extends RedisActiveRecord
 {
     /**
      * @return array the list of attributes for this record
