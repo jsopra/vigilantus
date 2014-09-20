@@ -14,6 +14,7 @@ use app\forms\FeedbackForm;
 use app\components\Controller;
 use app\models\Municipio;
 use app\models\report\ResumoRgCapaReport;
+use app\models\report\ResumoFocosCapaReport;
 
 class SiteController extends Controller
 {
@@ -63,7 +64,10 @@ class SiteController extends Controller
     {
         return $this->render(
             'home',
-            ['model' => new ResumoRgCapaReport]
+            [
+                'modelRg' => new ResumoRgCapaReport,
+                'modelFoco' => new ResumoFocosCapaReport,
+            ]
         );
     }
 

@@ -1,3 +1,5 @@
+<br />
+
 <div id="capa-resumo-rg" class="row">
     <div class="col-md-6">
         <table class="table table-striped">

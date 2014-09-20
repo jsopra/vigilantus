@@ -43,7 +43,19 @@ class VigilantusLayoutHelper {
                 'items' => [
                     ['label' => 'Boletim de RG', 'url' => ['/relatorio/resumo-rg-bairro'], 'visible' => $user->can('Gerente'),],
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Focos', 'url' => ['/relatorio/focos'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Focos por Bairro', 'url' => ['/relatorio/focos-bairro'], 'visible' => $user->can('Gerente'),],
                     ['label' => 'Exportação de Focos', 'url' => ['/relatorio/focos-export']],
+                ],
+            ],
+            [
+                'label' => 'Indicadores',
+                'icon' => 'bar-chart',
+                'items' => [
+                    ['label' => 'Resumo de Focos por Ano', 'url' => ['/indicador/resumo-focos'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Evolução de Focos por Mês', 'url' => ['/indicador/evolucao-focos'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Focos por Bairros', 'url' => ['/indicador/focos-bairro'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Focos por Tipo de Depósito', 'url' => ['/indicador/focos-tipo-deposito'], 'visible' => $user->can('Gerente'),],
                 ],
             ],
             [
