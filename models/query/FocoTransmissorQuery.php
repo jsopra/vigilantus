@@ -14,6 +14,30 @@ class FocoTransmissorQuery extends ActiveQuery
         return $this;
     }
     
+    public function doMes($mes) {
+        
+        $this->andWhere('EXTRACT (MONTH FROM data_entrada) = :mes', [':mes' => $mes]);
+        return $this;
+    }
+
+    public function doAno($ano) {
+        
+        $this->andWhere('EXTRACT (YEAR FROM data_entrada) = :ano', [':ano' => $ano]);
+        return $this;
+    }
+
+    public function comQuantidadeEm($coluna)
+    {
+        $this->andWhere($coluna . ' > 0');
+        return $this;
+    }
+
+    public function doTipoDeposito($tipoDeposito) {
+        
+        $this->andWhere('tipo_deposito_id = :idTipoDeposito', [':idTipoDeposito' => $tipoDeposito]);
+        return $this;
+    }
+    
     public function doBairro($id) {
         
         $this->joinWith(['bairroQuarteirao']);

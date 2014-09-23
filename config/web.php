@@ -41,7 +41,14 @@ $config = [
             'defaultRoles' => ['Anonimo'],
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'yii\redis\Cache',
+        ],
+        'redis' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => getenv('VIGILANTUS_REDIS_HOST'),
+            'port' => getenv('VIGILANTUS_REDIS_DB_PORT'),
+            'database' => 0,
+            'password' => getenv('VIGILANTUS_REDIS_DB_PASSWORD'),
         ],
         'db' => $db,
         'errorHandler' => [

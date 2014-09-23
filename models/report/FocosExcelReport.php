@@ -28,7 +28,23 @@ class FocosExcelReport extends Model
             ['especie_transmissor_id', 'exist', 'targetClass' => EspecieTransmissor::className(), 'targetAttribute' => 'id'],
             ['bairro_id', 'exist', 'targetClass' => Bairro::className(), 'targetAttribute' => 'id'],
             [['inicio', 'fim'], 'date'],   
+            [['inicio', 'fim'], 'validaIntervalo'],
         ];
+    }
+    
+    public function validaIntervalo($attribute, $params)
+    {
+        if(!$this->inicio || !$this->fim) {
+            return;
+        }
+
+        $inicio = new \DateTime($this->inicio);
+        $fim = new \DateTime($this->fim);
+
+        if((abs($fim->getTimestamp() - $inicio->getTimestamp()) / 60 / 60 / 24) > 30) {
+            $this->addError('inicio', 'Selecione até 30 dias para gerar o relatório');
+            $this->addError('fim', 'Selecione até 30 dias para gerar o relatório');
+        }
     }
 
     public function attributeLabels()
@@ -159,14 +175,14 @@ class FocosExcelReport extends Model
             
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->bairroQuarteirao->bairro->nome);
             
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->imovel_id ? ImovelHelper::getEnderecoCompleto($row->imovel) : '');
+            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->imovel_id ? ImovelHelper::getEnderecoCompleto($row->imovel) : $row->planilha_endereco);
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->bairroQuarteirao->numero_quarteirao);
             
             if(!$modelEspecie) {
                 $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->especieTransmissor->nome);
             }
             
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->imovel_id ? $row->imovel->imovelTipo->sigla : '');
+            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->imovel_id ? $row->imovel->imovelTipo->sigla : ($row->imovelTipo ? $row->imovelTipo->sigla : null));
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->tipoDeposito->sigla);
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->data_entrada);
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->data_exame);

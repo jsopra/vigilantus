@@ -5,7 +5,9 @@ namespace app\controllers;
 use app\components\Controller;
 use app\models\report\ResumoRgBairroReport;
 use app\models\report\AreaTratamentoReport;
+use app\models\report\FocosReport;
 use app\models\report\FocosExcelReport;
+use app\models\report\FocosBairroReport;
 use app\models\search\FocoTransmissorSearch;
 use app\models\BairroQuarteirao;
 use app\models\FocoTransmissor;
@@ -23,12 +25,12 @@ class RelatorioController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'focos-export'],
+                'only' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'focos-export', 'focos', 'focos-bairro', 'focos-bairro-data'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'resumo-rg-bairro', 'mapa-area-tratamento'],
-                        'roles' => ['Administrador'],
+                        'actions' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'resumo-rg-bairro', 'mapa-area-tratamento', 'focos', 'focos-bairro', 'focos-bairro-data'],
+                        'roles' => ['Gerente'],
                     ],
                     [
                         'allow' => true,
@@ -83,9 +85,10 @@ class RelatorioController extends Controller
         
         $model->load($_GET);
 
-        $model->loadAreasDeFoco();
-
-        return $this->render('mapa', ['model' => $model]);
+        return $this->render('mapa', [
+            'model' => $model,
+            'modelFocos' => $model->loadAreasDeFocoMapa()
+        ]);
     }
     
     public function actionFocosAreaTratamento($idQuarteirao) {
@@ -109,5 +112,49 @@ class RelatorioController extends Controller
         }
 
         return $this->render('focos-export', ['model' => $model]);
+    }
+
+    public function actionFocos()
+    {
+        $model = new FocosReport;
+        
+        if(!isset($_GET['FocosReport'])) {
+            $model->ano = date('Y');
+        }
+
+        $model->load($_GET);
+        
+        return $this->render('relatorio-focos', ['model' => $model]);
+    }
+
+    public function actionFocosBairro()
+    {
+        $model = new FocosBairroReport;
+        
+        if(!isset($_GET['FocosBairroReport'])) {
+            $model->ano = date('Y');
+        }
+
+        $model->load($_GET);
+        
+        return $this->render('relatorio-focos-bairro', ['model' => $model]);
+    }
+
+    public function actionFocosBairroData($idBairro, $ano, $mes = null, $idEspecieTransmissor = null) 
+    {
+        $dataProvider = FocoTransmissor::find()->doBairro($idBairro)->doAno($ano);
+
+        if($idEspecieTransmissor) {
+            $dataProvider->daEspecieTransmissor($idEspecieTransmissor);
+        }
+
+        if($mes) {
+            $dataProvider->doMes($mes);
+        }
+
+        return $this->renderPartial(
+            '_detalhamento-focos-bairro-data',
+            ['dataProvider' => new ActiveDataProvider(['query' => $dataProvider, 'pagination' => false])]
+        );
     }
 }

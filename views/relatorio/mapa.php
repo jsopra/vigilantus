@@ -3,6 +3,7 @@ use app\models\Bairro;
 use app\models\Municipio;
 use app\models\EspecieTransmissor;
 use app\helpers\GoogleMapsAPIHelper;
+use app\models\redis\FocosAtivos;
 
 $this->title = 'Áreas de Tratamento';
 $this->params['breadcrumbs'][] = $this->title;
@@ -40,26 +41,20 @@ $municipio->loadCoordenadas();
         };
             
         map = new google.maps.Map(document.getElementById('map'), options);   
-            
-        <?php 
-        $modelFocos = $model->dataProviderAreasFoco->getModels();
 
+        <?php 
         $qtdeQuarteiroes = count($modelFocos);
         if ($qtdeQuarteiroes > 0) : ?>
                 var quarteiraoColor = '#000000';
             <?php 
             $i = 0;
-            foreach($modelFocos as $foco) : ?>
-
-                <?php
-                $quarteirao = $foco->bairroQuarteirao; 
-                $quarteirao->loadCoordenadas();
-                if(!$quarteirao->coordenadas)
-                    continue;
+            foreach($modelFocos as $foco) : 
+ 
+                $quarteiraoCoordenada = $foco->getQuarteiraoCoordenadas();
                 
-                $quarteiraoCoordenada = $quarteirao->coordenadas;
+                $corFoco = $foco->cor_foco;
                 
-                $corFoco = $foco->especieTransmissor->cor;
+                $centroQuarteirao = $foco->getCentroQuarteirao();
                 ?>
 
                 var quarteiraoPolygon<?= $i; ?> = new google.maps.Polygon({
@@ -70,12 +65,6 @@ $municipio->loadCoordenadas();
                     map: map
                 });
 
-                var quarteiraoBounds<?= $i; ?> = [<?= GoogleMapsAPIHelper::arrayToBounds($quarteiraoCoordenada); ?>];
-                var quarteiraoBoundsObj<?= $i; ?> = new google.maps.LatLngBounds();
-
-                for (i = 0; i < quarteiraoBounds<?= $i; ?>.length; i++)
-                    quarteiraoBoundsObj<?= $i; ?>.extend(quarteiraoBounds<?= $i; ?>[i]);
-
                 var options<?= $i; ?> = {
                     strokeColor: '<?= $corFoco; ?>',
                     strokeOpacity: 0.8,
@@ -83,8 +72,8 @@ $municipio->loadCoordenadas();
                     fillColor: '<?= $corFoco; ?>',
                     fillOpacity: 0.35,
                     map: map,
-                    center: quarteiraoBoundsObj<?= $i; ?>.getCenter(),
-                    radius: <?= $foco->especieTransmissor->qtde_metros_area_foco; ?>
+                    center: new google.maps.LatLng(<?= $centroQuarteirao[0]; ?>, <?= $centroQuarteirao[1]; ?>),
+                    radius: <?= $foco->qtde_metros_area_foco; ?>
                 };
 
                 var circle<?= $i; ?> = new google.maps.Circle(options<?= $i; ?>);
