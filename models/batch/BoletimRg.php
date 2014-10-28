@@ -18,6 +18,7 @@ class BoletimRg extends Model
         $labels = [
             'bairro' => 'Nome do Bairro',
             'quarteirao' => 'Número do Quarteirão',
+            'sequencia' => 'Sequêcia',
             'data' => 'Data da Coleta',
         ];
         
@@ -53,7 +54,8 @@ class BoletimRg extends Model
             return false;
         }
         
-        $bairroQuarteirao = BairroQuarteirao::find()->doBairro($bairro->id)->doNumero($row->getValue('quarteirao'))->one();
+        $numero = $row->getValue('quarteirao') . ($row->getValue('sequencia') ? ('-' . $row->getValue('sequencia')) : ''); 
+        $bairroQuarteirao = BairroQuarteirao::find()->doBairro($bairro->id)->doNumero($numero)->one();
         
         if(!$bairroQuarteirao) {
             $row->addError('Quarteirão não localizado');
