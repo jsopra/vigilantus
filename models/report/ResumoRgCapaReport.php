@@ -34,7 +34,7 @@ class ResumoRgCapaReport
     {
         $totalImoveis = 0;
         
-        $query = BoletimRgFechamento::find();
+        $query = BoletimRgFechamento::find()->doTipoLira(false);
         $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
         $query->andWhere('
             boletins_rg.data = (
@@ -63,7 +63,7 @@ class ResumoRgCapaReport
             $dados[$tipoImovel->nome] = 0;
 
         // Valores dos tipos de imóveis
-        $query = BoletimRgFechamento::find();
+        $query = BoletimRgFechamento::find()->doTipoLira(false);
         $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
         $query->with(['imovelTipo' => function ($query) {
             $query->andWhere('excluido = FALSE');
@@ -100,7 +100,7 @@ class ResumoRgCapaReport
             $dados[$bairro->nome] = 0;
 
         // Bairros com informações
-        $query = BoletimRgFechamento::find()->with('boletimRg.bairro');
+        $query = BoletimRgFechamento::find()->doTipoLira(false)->with('boletimRg.bairro');
         $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
         $query->andWhere('
             boletins_rg.data = (

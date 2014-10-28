@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <div class="col-xs-2">
-                <?= $form->field($model, 'lira')->dropDownList([0 => 'Não', 1 => 'Sim'], ['prompt' => 'Selecione…']) ?>
+                <?= $form->field($model, 'lira')->dropDownList([0 => 'Todos', 1 => 'Lira']) ?>
             </div>
             
             <div class="col-xs-2" style="padding-top: 20px;">
