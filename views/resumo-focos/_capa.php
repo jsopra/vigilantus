@@ -33,6 +33,7 @@
         </table>
     </div>
 </div>
+<br />
 <div id="capa-forma-focos" class="row">
     <div class="col-md-12">
         <h4>Por Forma de Foco</h4>

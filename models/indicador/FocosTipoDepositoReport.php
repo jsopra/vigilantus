@@ -35,7 +35,6 @@ class FocosTipoDepositoReport extends Model
     {
         $municipio = Municipio::find()->one(); //FIX
         
-
         $tiposDeposito = DepositoTipo::find()->all();
 
         $data = [];
@@ -55,11 +54,6 @@ class FocosTipoDepositoReport extends Model
         }
 
         foreach($data as $index => $row) {
-
-        	if($index == 0) {
-        		continue;
-        	}
-
         	$data[$index][1] = $total > 0 ? round((($data[$index][1] * 100) / $total),2) : 0;
         }
 

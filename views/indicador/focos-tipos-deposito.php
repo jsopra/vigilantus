@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Tipo de Depósito');
-        data.addColumn('number', 'Sigla');
+        data.addColumn('number', '%');
         data.addColumn({type:'string', role:'annotation'});
         data.addRows(<?= json_encode($data); ?>);
 

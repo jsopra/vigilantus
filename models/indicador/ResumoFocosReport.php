@@ -68,6 +68,9 @@ class ResumoFocosReport extends Model
 
         foreach($this->_anos as $ano) {
 
+            $positivados = Bairro::find()->comFoco($ano, $this->especie_transmissor_id)->count();
+
+            /*
             $positivados = 0;
 
             foreach($bairros as $bairro) {
@@ -84,6 +87,7 @@ class ResumoFocosReport extends Model
                     $positivados++;
                 }
             }    
+            */
 
             $percentual = $totalBairros > 0 ? round((($positivados * 100) / $totalBairros),2) : 0;
 
