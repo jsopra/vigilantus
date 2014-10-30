@@ -26,62 +26,30 @@ $municipio->loadCoordenadas();
 
 <?php if($municipio->latitude && $municipio->longitude) : ?>
     <script>
-        var map;
-        
-        var defaultZoom = 13;
-        var defaultLat = <?= $municipio->latitude; ?>;
-        var defaultLong = <?= $municipio->longitude; ?>;
+        function initialize() {
+            var map;
             
-        var options = {
-            zoom: defaultZoom,
-            center: new google.maps.LatLng(defaultLat, defaultLong),
-            mapTypeId: google.maps.MapTypeId.HYBRID,
-            disableDefaultUI: true,
-            zoomControl: true
-        };
-            
-        map = new google.maps.Map(document.getElementById('map'), options);   
-
-        <?php 
-        $qtdeQuarteiroes = count($modelFocos);
-        if ($qtdeQuarteiroes > 0) : ?>
-                var quarteiraoColor = '#000000';
-            <?php 
-            $i = 0;
-            foreach($modelFocos as $foco) : 
- 
-                $quarteiraoCoordenada = $foco->getQuarteiraoCoordenadas();
+            var defaultZoom = 13;
+            var defaultLat = <?= $municipio->latitude; ?>;
+            var defaultLong = <?= $municipio->longitude; ?>;
                 
-                $corFoco = $foco->cor_foco;
+            var options = {
+                zoom: defaultZoom,
+                center: new google.maps.LatLng(defaultLat, defaultLong),
+                mapTypeId: google.maps.MapTypeId.HYBRID,
+                disableDefaultUI: true,
+                zoomControl: true
+            };
                 
-                $centroQuarteirao = $foco->getCentroQuarteirao();
-                ?>
+            map = new google.maps.Map(document.getElementById('map'), options);   
 
-                var quarteiraoPolygon<?= $i; ?> = new google.maps.Polygon({
-                    paths: [<?= GoogleMapsAPIHelper::arrayToBounds($quarteiraoCoordenada); ?>],
-                    strokeWeight: 0,
-                    fillColor: quarteiraoColor,
-                    fillOpacity: 0.45,
-                    map: map
-                });
+            var ctaLayer = new google.maps.KmlLayer({
+                url: 'http://vigilantus/relatorio/focos-kml'
+            });
+            ctaLayer.setMap(map);
+        }
 
-                var options<?= $i; ?> = {
-                    strokeColor: '<?= $corFoco; ?>',
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillColor: '<?= $corFoco; ?>',
-                    fillOpacity: 0.35,
-                    map: map,
-                    center: new google.maps.LatLng(<?= $centroQuarteirao[0]; ?>, <?= $centroQuarteirao[1]; ?>),
-                    radius: <?= $foco->qtde_metros_area_foco; ?>
-                };
-
-                var circle<?= $i; ?> = new google.maps.Circle(options<?= $i; ?>);
-                
-                <?php $i++; ?>
-                    
-            <?php endforeach; ?>
-        <?php endif; ?>
+        google.maps.event.addDomListener(window, 'load', initialize);
     </script>
 <?php endif; ?>
    

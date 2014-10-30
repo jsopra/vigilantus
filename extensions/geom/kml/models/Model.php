@@ -1,5 +1,5 @@
 <?php
-namespace app\extensions\geom;
+namespace app\extensions\geom\kml\models;
 
 use Yii;
 use yii\base\Model as YiiModel;
@@ -45,7 +45,7 @@ abstract class Model extends YiiModel
     public function attributeLabels()
     {
         return [
-            'value' => 'Geo Object',
+            'value' => 'KML Object',
         ];
     }
  

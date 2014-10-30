@@ -1,5 +1,5 @@
 <?php
-namespace app\extensions\geom\geojson\models;
+namespace app\extensions\geom\kml\models;
 
 class Point extends Model
 {
@@ -50,6 +50,6 @@ class Point extends Model
             return null;
         }
 
-        return ['type' => $this->type, 'coordinates' => $this->value];
+        return [$this->type => ['coordinates' => $coordinates]];
     }
 }

@@ -1,7 +1,5 @@
 <?php
-namespace app\extensions\geom\models;
-
-use app\extensions\geom\Model;
+namespace app\extensions\geom\geojson\models;
 
 class MultiPolygon extends Model
 {

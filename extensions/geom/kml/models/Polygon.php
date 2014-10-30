@@ -1,12 +1,12 @@
 <?php
-namespace app\extensions\geom\geojson\models;
+namespace app\extensions\geom\kml\models;
 
 class Polygon extends Model
 {
     /**
      * @inheritdoc 
      */
-    protected $type = 'Polygon';
+    public $type = 'Polygon';
     
     /**
      * @inheritdoc 
@@ -54,11 +54,11 @@ class Polygon extends Model
             return null;
         }
         
-        $coordinates = [];
+        $coordinates = '';
         foreach($this->value as $point) {
-            $coordinates[] = [(float) $point->value[0], (float) $point->value[1]];
+            $coordinates .= (float) $point->value[0] . ',' . (float) $point->value[1] . ','  . 100 . ' ';
         }
 
-        return ['type' => $this->type, 'coordinates' => [$coordinates]];
+        return $coordinates;
     }
 }

@@ -1,12 +1,12 @@
 <?php
-namespace app\extensions\geom\geojson\models;
+namespace app\extensions\geom\kml\models;
 
-class Polygon extends Model
+class MultiPolygon extends Model
 {
     /**
      * @inheritdoc 
      */
-    protected $type = 'Polygon';
+    protected $type = 'MultiPolygon';
     
     /**
      * @inheritdoc 
@@ -27,6 +27,7 @@ class Polygon extends Model
         }
         
         foreach($this->value as $object) {
+            
             if(!$object->validate()) {
                 $this->addError('valor', 'Tipo de variável inválida');
                 break;
@@ -40,7 +41,7 @@ class Polygon extends Model
     public function attributeLabels()
     {
         return [
-            'value' => 'Polígono',
+            'value' => 'MultiPolígono',
         ];
     }
     
@@ -55,10 +56,10 @@ class Polygon extends Model
         }
         
         $coordinates = [];
-        foreach($this->value as $point) {
-            $coordinates[] = [(float) $point->value[0], (float) $point->value[1]];
+        foreach($this->value as $polygon) {
+            $coordinates[] = $polygon->value;
         }
 
-        return ['type' => $this->type, 'coordinates' => [$coordinates]];
+        return [$this->type => ['coordinates' => $coordinates]];
     }
 }
