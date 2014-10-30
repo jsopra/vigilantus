@@ -62,4 +62,48 @@ class BairroTest extends TestCase
         
         $this->assertEquals($arrayCoordenadas, $bairro->coordenadas);
     }
+
+    public function testScopeDoNome()
+    {
+        Phactory::bairro(['nome' => 'Nomedobairro']);
+
+        $this->assertEquals(Bairro::find()->doNome('Nomedobairro')->count(), 1);
+        $this->assertEquals(Bairro::find()->doNome('Nome do bairro')->count(), 0);
+    }
+
+    public function testScopeComQuarteiroes()
+    {
+        Phactory::bairro(['nome' => 'Nomedobairro']);
+        Phactory::bairroQuarteirao(['bairro_id' => Phactory::bairro()->id]);
+        Phactory::bairroQuarteirao(['bairro_id' => Phactory::bairro()->id]);
+
+        $this->assertEquals(Bairro::find()->comQuarteiroes()->count(), 2);
+    }
+
+    public function testScopeComCoordenadas()
+    {
+        Phactory::bairro();
+        Phactory::bairro();
+        
+        $this->assertEquals(Bairro::find()->comCoordenadas()->count(), 2);
+    }
+
+    public function testScopeComFoco()
+    {
+        Phactory::bairroQuarteirao(['bairro_id' => Phactory::bairro()->id]);
+        Phactory::bairroQuarteirao(['bairro_id' => Phactory::bairro()->id]);
+        $quarteirao = Phactory::bairroQuarteirao(['bairro_id' => Phactory::bairro()->id]);
+
+        $especie = Phactory::especieTransmissor(['municipio_id' => 1]);
+
+        Phactory::focoTransmissor([
+            'bairro_quarteirao_id' => $quarteirao->id, 
+            'especie_transmissor_id' => $especie->id,
+            'data_entrada' => date('01/04/Y'),
+        ]);
+
+        $this->assertEquals(Bairro::find()->comFoco(date('Y'))->count(), 1);
+
+        $this->assertEquals(Bairro::find()->comFoco(date('Y') - 1)->count(), 0);
+    }
 }

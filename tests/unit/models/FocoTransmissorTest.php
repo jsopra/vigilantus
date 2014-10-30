@@ -73,4 +73,28 @@ class FocoTransmissorTest extends TestCase
         $this->assertEquals(2, FocoTransmissor::find()->dataEntradaEntre(date("Y-m-d", strtotime("-10 days")), date("Y-m-d"))->count());
         $this->assertEquals(1, FocoTransmissor::find()->dataEntradaEntre(date("Y-m-d", strtotime("-5 days")), date("Y-m-d"))->count());
     }
+
+    public function testScopePorMes()
+    {
+        Phactory::focoTransmissor();
+        Phactory::focoTransmissor();
+        Phactory::focoTransmissor();
+        
+        $record = FocoTransmissor::find()->doAno(date('Y'))->porMes()->all();
+
+        $this->assertTrue(is_array($record));
+
+        $this->assertEquals(1, count($record));
+
+        $this->assertEquals(date('m'), $record[0]->mes);
+
+        $this->assertEquals(3, $record[0]->quantidade_registros);
+
+        if(date('m') == 12) {
+            $this->assertFalse(isset($record[date('m') - 1]));
+        }
+        else {
+            $this->assertFalse(isset($record[date('m') + 1]));
+        }
+    }
 }

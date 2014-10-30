@@ -56,15 +56,26 @@ class FocosBairroReport extends Model
 
             $subData[] = $bairro->nome;
 
+            $focos = FocoTransmissor::find();
+            if(is_numeric($this->especie_transmissor_id)) {
+                $focos->daEspecieDeTransmissor($this->especie_transmissor_id);
+            }
+            $focos->doAno($this->ano)->doBairro($bairro->id)->porMes();
+              
+            $records = $focos->all();
+
             for($i = 1; $i <= 12; $i++) {
 
-                $focos = FocoTransmissor::find();
-                if(is_numeric($this->especie_transmissor_id)) {
-                    $focos->daEspecieDeTransmissor($this->especie_transmissor_id);
+                foreach($records as $record) {
+                    if($record->mes == $i) {
+                        $total += $subData[$i] = $record->quantidade_registros;
+                        break;
+                    }
                 }
-                $focos->doAno($this->ano)->doMes($i)->doBairro($bairro->id);
 
-                $total += $subData[] = $focos->count();
+                if(!isset($subData[$i])) {
+                    $subData[$i] = 0;
+                }
             }
 
             $subData[] = $total;

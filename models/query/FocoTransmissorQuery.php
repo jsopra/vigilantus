@@ -8,6 +8,9 @@ use app\components\ActiveQuery;
 
 class FocoTransmissorQuery extends ActiveQuery
 {  
+    public $mes;
+    public $quantidade_registros;
+    
     public function dataEntradaEntre($inicio, $fim) {
         
         $this->andWhere('data_entrada BETWEEN :inicio AND :fim', [':inicio' => $inicio, ':fim' => $fim]);
@@ -86,6 +89,15 @@ class FocoTransmissorQuery extends ActiveQuery
             (quantidade_forma_aquatica > 0 OR quantidade_forma_adulta > 0 OR quantidade_ovos > 0)
         ");
         
+        return $this;
+    }
+
+    public function porMes()
+    {
+        $this->select('extract(MONTH from data_entrada) as mes, count(*) as quantidade_registros');
+
+        $this->groupBy(['extract(MONTH from data_entrada)']);
+
         return $this;
     }
 }
