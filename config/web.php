@@ -10,7 +10,7 @@ $logTargets = [
     ]
 ];
 
-$cookieValidationKey = getenv('VIGILANTUS_DB_DSN');
+$cookieValidationKey = getenv('VIGILANTUS_DB_DSN_HOST') . ';' . getenv('VIGILANTUS_DB_DSN_DBNAME');
 
 if (getenv('VIGILANTUS_COOKIES_KEY')) {
     $cookieValidationKey = getenv('VIGILANTUS_COOKIES_KEY');

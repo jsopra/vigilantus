@@ -41,6 +41,9 @@ class FocoTransmissor extends ActiveRecord
     public $foco_ativo;
     public $imovel_lira;
     
+    public $mes;
+    public $quantidade_registros;
+
     /**
      * @inheritdoc
      */
@@ -65,7 +68,7 @@ class FocoTransmissor extends ActiveRecord
             ['planilha_imovel_tipo_id', 'exist', 'targetClass' => ImovelTipo::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             [['!data_cadastro', '!data_atualizacao', 'data_entrada', 'data_exame', 'data_coleta'], 'date'],
             [['laboratorio', 'tecnico'], 'string', 'max' => 256],
-            [['planilha_imovel_tipo_id', 'planilha_endereco'], 'safe'],
+            [['planilha_imovel_tipo_id', 'planilha_endereco', 'mes', 'quantidade_registros'], 'safe'],
         ];
     }
 
