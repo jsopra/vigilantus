@@ -44,11 +44,7 @@ class ResumoRgCapaReport
             )
         ');
         
-        $dados = $query->all();
-        foreach ($dados as $imovelFechamento)
-            $totalImoveis += $imovelFechamento->quantidade;
-        
-        return $totalImoveis;
+        return $query->sum('quantidade');
     }
 
     /**
@@ -59,30 +55,30 @@ class ResumoRgCapaReport
         $dados = [];
 
         // Tipos de imóveis
-        foreach (ImovelTipo::find()->ativo()->orderBy('nome')->all() as $tipoImovel)
-            $dados[$tipoImovel->nome] = 0;
+        foreach (ImovelTipo::find()->ativo()->orderBy('nome')->all() as $tipoImovel) {
 
-        // Valores dos tipos de imóveis
-        $query = BoletimRgFechamento::find()->doTipoLira(false);
-        $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
-        $query->with(['imovelTipo' => function ($query) {
-            $query->andWhere('excluido = FALSE');
-        }]);
-        $query->andWhere('
-            boletins_rg.data = (
-                SELECT MAX(data)
-                FROM boletins_rg brg
-                WHERE brg.bairro_quarteirao_id = boletins_rg.bairro_quarteirao_id
-            )
-        ');
-        
-        $queryResults = $query->all();
-        foreach ($queryResults as $boletim) {
+            // Valores dos tipos de imóveis
+            $query = BoletimRgFechamento::find()->doTipoLira(false);
+            $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
 
-            if (!$boletim->imovelTipo)
-                continue;
+            $query->with(['imovelTipo' => function ($query) {
+                $query->andWhere('excluido = FALSE');
+            }]);
 
-            $dados[$boletim->imovelTipo->nome] += $boletim->quantidade;
+            $query->andWhere('imovel_tipo_id = ' . $tipoImovel->id);
+
+            $query->andWhere('
+                boletins_rg.data = (
+                    SELECT MAX(data)
+                    FROM boletins_rg brg
+                    WHERE brg.bairro_quarteirao_id = boletins_rg.bairro_quarteirao_id
+                )
+            ');
+            
+            $dados[$tipoImovel->nome] = $query->sum('quantidade');
+            if(!$dados[$tipoImovel->nome]) {
+                $dados[$tipoImovel->nome] = 0;
+            }
         }
 
         return $dados;
@@ -96,23 +92,26 @@ class ResumoRgCapaReport
         $dados = [];
 
         // Adiciona todos os bairros vazios
-        foreach (Bairro::find()->orderBy('nome')->all() as $bairro)
-            $dados[$bairro->nome] = 0;
+        foreach (Bairro::find()->orderBy('nome')->all() as $bairro) {
 
-        // Bairros com informações
-        $query = BoletimRgFechamento::find()->doTipoLira(false)->with('boletimRg.bairro');
-        $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
-        $query->andWhere('
-            boletins_rg.data = (
-                SELECT MAX(data)
-                FROM boletins_rg brg
-                WHERE brg.bairro_quarteirao_id = boletins_rg.bairro_quarteirao_id
-            )
-        ');
-        
-        $queryResults = $query->all();
-        foreach ($queryResults as $row)
-            $dados[$row->boletimRg->bairro->nome] += $row->quantidade;
+            // Bairros com informações
+            $query = BoletimRgFechamento::find()->doTipoLira(false)->with('boletimRg.bairro');
+            $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
+            $query->andWhere('
+                boletins_rg.data = (
+                    SELECT MAX(data)
+                    FROM boletins_rg brg
+                    WHERE brg.bairro_quarteirao_id = boletins_rg.bairro_quarteirao_id
+                )
+            ');
+
+            $query->andWhere('boletins_rg.bairro_id = ' . $bairro->id);
+            
+            $dados[$bairro->nome] = $query->sum('quantidade');
+            if(!$dados[$bairro->nome]) {
+                $dados[$bairro->nome] = 0;
+            }
+        }
         
         return $dados;
     }
