@@ -5,28 +5,18 @@ use app\models\Municipio;
 use app\models\EspecieTransmissor;
 use app\helpers\GoogleMapsAPIHelper;
 use app\models\redis\FocosAtivos;
-
-$this->title = 'Áreas de Tratamento';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<?php echo $this->render('_filtroRelatorioAreaTratamento', ['model' => $model]); ?>
-
-<?php echo $this->render('_menuRelatorioAreaTratamento', []); ?>
-
-<br />
-
-<?= Html::submitButton('Imprimir', ['class' => 'btn btn-default', 'onclick' => 'gmapPrint();']) ?>
-
-<br /><br />
+<?php $this->beginBody() ?>
 
 <script src="<?= GoogleMapsAPIHelper::getAPIUrl(); ?>"></script>
 
-<div id="map" style="height: 500px; width: 100%;"></div>
+<div id="map" style="height: 600px; width: 100%;"></div>
         
 <?php
 $municipio = Municipio::find()->one();
 $municipio->loadCoordenadas();
+
 ?>
 
 <?php if($municipio->latitude && $municipio->longitude) : ?>
@@ -46,6 +36,17 @@ $municipio->loadCoordenadas();
         };
             
         map = new google.maps.Map(document.getElementById('map'), options);   
+
+        var homeControlDiv = document.createElement('div');
+        var homeControl = new PrintControl(homeControlDiv, map);
+        homeControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+
+        google.maps.event.addListenerOnce(map, 'idle', function(){
+            google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+                setTimeout(function() { window.print(); }, 2000);
+            });
+        });
 
         <?php 
         $qtdeQuarteiroes = count($modelFocos);
@@ -87,30 +88,50 @@ $municipio->loadCoordenadas();
                     
             <?php endforeach; ?>
         <?php endif; ?>
+
+        function PrintControl(controlDiv, map) {
+
+            controlDiv.style.padding = '5px';
+
+            var controlUI = document.createElement('div');
+            controlUI.style.backgroundColor = 'white';
+            controlUI.style.borderStyle = 'solid';
+            controlUI.style.borderWidth = '1px';
+            controlUI.style.cursor = 'pointer';
+            controlUI.style.textAlign = 'center';
+            controlUI.title = 'Imprimir mapa';
+            controlUI.style.paddingTop = '3px';
+            controlUI.style.paddingBottom = '3px';
+            controlUI.className = 'no-print';
+            controlDiv.appendChild(controlUI);
+
+            var controlText = document.createElement('div');
+            controlText.style.fontFamily = 'Arial,sans-serif';
+            controlText.style.fontSize = '11px';
+            controlText.style.paddingLeft = '3px';
+            controlText.style.paddingRight = '3px';
+            controlText.innerHTML = '<b>Imprimir</b>';
+            controlUI.appendChild(controlText);
+
+            google.maps.event.addDomListener(controlUI, 'click', function() {
+                window.print();
+            });
+        }
     </script>
 <?php endif; ?>
-   
-<script>
- 
-function gmapPrint() {
-    var inseriuParametro = false;
-    var url = 'http://vigilantus/relatorio/download-mapa?';
 
-    if($('#areatratamentoreport-bairro_id').val()) {
-        inseriuParametro = true;
-        url += 'bairro_id=' + $('#areatratamentoreport-bairro_id').val();
+<style>
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
     }
-
-    if($('#areatratamentoreport-lira').val()) {
-        inseriuParametro = true;
-        url += (inseriuParametro ? '&' : '?') + 'lira=' + $('#areatratamentoreport-lira').val();
-    }
-
-    if($('#areatratamentoreport-especie_transmissor_id').val()) {
-        inseriuParametro = true;
-        url += (inseriuParametro ? '&' : '?') + 'especie_transmissor_id=' + $('#areatratamentoreport-especie_transmissor_id').val();
-    }
-
-    window.open(url,'_blank');
 }
-</script>
+</style>
+
+<?php
+if (YII_ENV_PROD) {
+    echo VigilantusLayoutHelper::getAnalyticsCode();
+}
+?>

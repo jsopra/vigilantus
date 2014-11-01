@@ -25,11 +25,11 @@ class RelatorioController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'focos-export', 'focos', 'focos-bairro', 'focos-bairro-data'],
+                'only' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'focos-export', 'focos', 'focos-bairro', 'focos-bairro-data', 'download-mapa'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'resumo-rg-bairro', 'mapa-area-tratamento', 'focos', 'focos-bairro', 'focos-bairro-data'],
+                        'actions' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'resumo-rg-bairro', 'mapa-area-tratamento', 'focos', 'focos-bairro', 'focos-bairro-data', 'download-mapa'],
                         'roles' => ['Gerente'],
                     ],
                     [
@@ -156,5 +156,19 @@ class RelatorioController extends Controller
             '_detalhamento-focos-bairro-data',
             ['dataProvider' => new ActiveDataProvider(['query' => $dataProvider, 'pagination' => false])]
         );
+    }
+
+    public function actionDownloadMapa($bairro_id = null, $lira = null, $especie_transmissor_id = null) {
+        
+        $model = new AreaTratamentoReport;
+        
+        $model->bairro_id = $bairro_id;
+        $model->lira = $lira;
+        $model->especie_transmissor_id = $especie_transmissor_id;
+
+        return $this->renderPartial('mapa_impressao', [
+            'model' => $model,
+            'modelFocos' => $model->loadAreasDeFocoMapa(),
+        ]);
     }
 }

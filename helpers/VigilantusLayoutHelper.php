@@ -13,35 +13,23 @@ class VigilantusLayoutHelper {
         
         return [
             [
-                'label' => 'Cadastros',
-                'icon' => 'edit',
-                'items' => [
-                    ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria/']],
-                    ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
-                    ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/']],
-                    ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/']],
-                ]
-            ],
-            [
-                'label' => 'Formulários',
-                'icon' => 'edit',
-                'items' => [
-                    ['label' => 'Focos de Transmissores', 'url' => ['/foco-transmissor/']],
-                ]
+                'label' => 'Focos',
+                'icon' => 'screenshot',
+                'url' => ['/foco-transmissor/'],
             ],
             [
                 'label' => 'Localização',
                 'icon' => 'globe',
                 'items' => [
                     ['label' => 'Bairros e Quarteirões', 'url' => ['/bairro/']],
-                    ['label' => 'Boletim de RG', 'url' => ['/boletim-rg']],
+                    ['label' => 'Reconhecimento Geográfico', 'url' => ['/boletim-rg']],
                 ]
             ],
             [
                 'label' => 'Relatórios',
                 'icon' => 'bar-chart',
                 'items' => [
-                    ['label' => 'Boletim de RG', 'url' => ['/relatorio/resumo-rg-bairro'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Resumo de RG por Bairro', 'url' => ['/relatorio/resumo-rg-bairro'], 'visible' => $user->can('Gerente'),],
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente'),],
                     ['label' => 'Focos', 'url' => ['/relatorio/focos'], 'visible' => $user->can('Gerente'),],
                     ['label' => 'Focos por Bairro', 'url' => ['/relatorio/focos-bairro'], 'visible' => $user->can('Gerente'),],
@@ -57,6 +45,16 @@ class VigilantusLayoutHelper {
                     ['label' => 'Focos por Bairros', 'url' => ['/indicador/focos-bairro'], 'visible' => $user->can('Gerente'),],
                     ['label' => 'Focos por Tipo de Depósito', 'url' => ['/indicador/focos-tipo-deposito'], 'visible' => $user->can('Gerente'),],
                 ],
+            ],
+            [
+                'label' => 'Cadastros',
+                'icon' => 'edit',
+                'items' => [
+                    ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria/']],
+                    ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
+                    ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/']],
+                    ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/']],
+                ]
             ],
             [
                 'label' => 'Sistema',
