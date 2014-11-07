@@ -1,7 +1,8 @@
 <?php
 namespace app\commands;
+
 use Yii;
-use yii\console\Controller;
+use app\components\Console;
 use app\models\Municipio;
 use app\models\BairroQuarteirao;
 use app\models\EspecieTransmissor;
@@ -9,8 +10,9 @@ use app\models\BoletimRgFechamento;
 use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use app\models\redis\FechamentoRg as FechamentoRgRedis;
 use app\models\FocoTransmissor;
+use yii\console\Controller;
 
-class CacheVigilantusController extends Controller
+class CacheVigilantusController extends Console
 {
 
     public function actionIndex()

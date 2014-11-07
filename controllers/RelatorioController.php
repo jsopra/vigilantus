@@ -102,7 +102,7 @@ class RelatorioController extends Controller
 
         return $this->render(
             '_detalhamento-areas-tratamento',
-            ['dataProvider' => new ActiveDataProvider(['query' => $dataProvider])]
+            ['dataProvider' => new ActiveDataProvider(['query' => $dataProvider, 'pagination' => false])]
         );
     }
     
@@ -159,7 +159,7 @@ class RelatorioController extends Controller
 
         return $this->render(
             '_detalhamento-focos-bairro-data',
-            ['dataProvider' => new ActiveDataProvider(['query' => $dataProvider])]
+            ['dataProvider' => new ActiveDataProvider(['query' => $dataProvider, 'pagination' => false])]
         );
     }
 
@@ -171,7 +171,9 @@ class RelatorioController extends Controller
         $model->lira = $lira;
         $model->especie_transmissor_id = $especie_transmissor_id;
 
-        return $this->renderPartial('mapa_impressao', [
+        $this->layout = 'ajax';
+
+        return $this->render('mapa_impressao', [
             'model' => $model,
             'modelFocos' => $model->loadAreasDeFocoMapa(),
         ]);

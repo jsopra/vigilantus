@@ -129,9 +129,3 @@ $municipio->loadCoordenadas();
     }
 }
 </style>
-
-<?php
-if (YII_ENV_PROD) {
-    echo VigilantusLayoutHelper::getAnalyticsCode();
-}
-?>
