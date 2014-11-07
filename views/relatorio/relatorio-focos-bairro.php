@@ -73,6 +73,7 @@ echo GridView::widget([
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[1] === 0;
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'options' => [
 	            'width' => '5%',
 	        ]
@@ -93,6 +94,7 @@ echo GridView::widget([
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[2] === 0;
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'options' => [
 	            'width' => '5%',
 	        ]
@@ -113,6 +115,7 @@ echo GridView::widget([
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[3] === 0;
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'options' => [
 	            'width' => '5%',
 	        ]
@@ -133,6 +136,7 @@ echo GridView::widget([
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[4] === 0;
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'options' => [
 	            'width' => '5%',
 	        ]
@@ -153,6 +157,7 @@ echo GridView::widget([
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[5] === 0;
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'options' => [
 	            'width' => '5%',
 	        ]
@@ -173,6 +178,7 @@ echo GridView::widget([
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[6] === 0;
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'options' => [
 	            'width' => '5%',
 	        ]
@@ -193,6 +199,7 @@ echo GridView::widget([
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[7] === 0;
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'options' => [
 	            'width' => '5%',
 	        ]
@@ -213,6 +220,7 @@ echo GridView::widget([
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[8] === 0;
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'options' => [
 	            'width' => '5%',
 	        ]
@@ -233,6 +241,7 @@ echo GridView::widget([
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[9] === 0;
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'options' => [
 	            'width' => '5%',
 	        ]
@@ -250,6 +259,7 @@ echo GridView::widget([
 	        'value' => function ($model, $index, $widget) {
 	            return $model[10];
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[10] === 0;
 	        },
@@ -273,6 +283,7 @@ echo GridView::widget([
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[11] === 0;
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'options' => [
 	            'width' => '5%',
 	        ]
@@ -293,6 +304,7 @@ echo GridView::widget([
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[12] === 0;
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'options' => [
 	            'width' => '5%',
 	        ]
@@ -313,6 +325,7 @@ echo GridView::widget([
 	        'hideLinkExpression' => function ($model, $index, $widget) {
 	            return $model[13] === 0;
 	        },
+	        'customScript' => '$(document).pjax("a", "#pjax-container");',
 	        'options' => [
 	            'width' => '5%',
 	        ]

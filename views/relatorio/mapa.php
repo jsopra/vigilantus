@@ -5,6 +5,7 @@ use app\models\Municipio;
 use app\models\EspecieTransmissor;
 use app\helpers\GoogleMapsAPIHelper;
 use app\models\redis\FocosAtivos;
+use yii\helpers\Url;
 
 $this->title = 'Áreas de Tratamento';
 $this->params['breadcrumbs'][] = $this->title;
@@ -94,7 +95,7 @@ $municipio->loadCoordenadas();
  
 function gmapPrint() {
     var inseriuParametro = false;
-    var url = 'http://vigilantus/relatorio/download-mapa?';
+    var url = '<?= Url::toRoute(array("relatorio/download-mapa")); ?>?';
 
     if($('#areatratamentoreport-bairro_id').val()) {
         inseriuParametro = true;

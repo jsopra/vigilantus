@@ -40,6 +40,7 @@ class ModalColumn extends Column
 	public $requestType = 'GET';
 	public $requestIsJSON = false;
     public $linkTitle = '';
+    public $customScript = null;
 
 	/**
 	 * @var boolean Se o campo será exportado ou não no CSV gerado
@@ -113,7 +114,10 @@ class ModalColumn extends Column
 			else {
 
 				$scriptResult = $jqueryCall . "(jQuery(this).attr('ajax_url'), function(data) {
+
 						jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-body').html(data);
+
+						" . $this->customScript . "
 					});
 				";
 			}
@@ -122,8 +126,9 @@ class ModalColumn extends Column
 			jQuery('.FModalColumn_" . $this->modalId . "').on(\"click\", function(e){
 				e.preventDefault();
 				
-				if(jQuery(this).attr('data-modal-title') != '')
+				if(jQuery(this).attr('data-modal-title') != '') {
 					jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-header').children('h4').html(jQuery(this).attr('data-modal-title'));
+				}
 				
 				jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-body').html('<span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Carregando...');
 
