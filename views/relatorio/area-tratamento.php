@@ -42,7 +42,6 @@ echo GridView::widget([
             'value' => function ($model, $index, $widget) {
                 return 'Ver Focos';
             },
-            'customScript' => '$(document).pjax("a", "#pjax-container");',
             'options' => [
                 'width' => '15%',
             ]

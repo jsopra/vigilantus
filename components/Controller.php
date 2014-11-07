@@ -2,6 +2,7 @@
 
 namespace app\components;
 
+use Yii;
 use app\components\ActiveRecord;
 use app\helpers\StringHelper;
 use yii\web\Controller as YiiController;
@@ -43,6 +44,8 @@ class Controller extends YiiController
             $this->municipiosDisponiveis = Municipio::getMunicipios(\Yii::$app->user->identity->municipio_id); 
             $this->municipioLogado = \Yii::$app->session->get('user.municipio');
         }
+
+        Yii::$app->setTimeZone('America/Sao_Paulo');
     }
     
     /**

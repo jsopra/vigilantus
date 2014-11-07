@@ -1,13 +1,13 @@
 <?php
 namespace app\commands;
 use Yii;
-use yii\console\Controller;
+use app\components\Console;
 use app\models\redis\Queue;
 use app\jobs;
+use yii\console\Controller;
 
-class QueueController extends Controller
+class QueueController extends Console
 {
-
     public function actionIndex()
     {
 
