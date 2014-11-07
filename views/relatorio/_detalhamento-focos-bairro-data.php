@@ -9,6 +9,9 @@ use app\helpers\models\ImovelHelper;
 
 <br />
 
+<?php \yii\widgets\Pjax::begin([
+    'options' => ['id' => 'pjax-modal-focos-bairro']
+]); ?>
 <?php
 echo GridView::widget([
     'dataProvider' => $dataProvider,
@@ -67,3 +70,5 @@ echo GridView::widget([
         ],
     ],
 ]); 
+?>
+<?php \yii\widgets\Pjax::end(); ?>

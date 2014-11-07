@@ -155,9 +155,11 @@ class RelatorioController extends Controller
             $dataProvider->doMes($mes);
         }
 
-        return $this->renderPartial(
+        $this->layout = 'ajax';
+
+        return $this->render(
             '_detalhamento-focos-bairro-data',
-            ['dataProvider' => new ActiveDataProvider(['query' => $dataProvider, 'pagination' => false])]
+            ['dataProvider' => new ActiveDataProvider(['query' => $dataProvider])]
         );
     }
 
