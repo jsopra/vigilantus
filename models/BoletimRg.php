@@ -112,9 +112,12 @@ class BoletimRg extends ActiveRecord
                     $this->clearRelationships();
                 }
 
-                if (($fechamentosSalvos = $this->insereFechamentos()) == 0) {
+                $totalImoveis = ImovelTipo::find()->ativo()->count();
+                $fechamentosSalvos = $this->insereFechamentos();
+
+                if ($fechamentosSalvos < ($totalImoveis * 2)) {
                     $transaction->rollback();
-                    $this->addError('fechamentos', 'Nenhum fechamento salvo');
+                    $this->addError('fechamentos', 'Erro ao salvar fechamento');
                     return false;
                 }
 
@@ -202,8 +205,28 @@ class BoletimRg extends ActiveRecord
         $qtde = 0;
         
         $queryFechamentos = $this->boletinsFechamento;
-        foreach ($queryFechamentos as $fechamento)
+        foreach ($queryFechamentos as $fechamento) {
             $qtde += $fechamento->quantidade;
+        }
+
+        return $qtde;
+    }
+
+    /**
+     * @return int
+     */
+    public function getQuantidadeImoveisNaoLiraFechamento()
+    {
+        $qtde = 0;
+        
+        $queryFechamentos = $this->boletinsFechamento;
+        foreach ($queryFechamentos as $fechamento) {
+            if($fechamento->imovel_lira) {
+                continue;
+            }
+
+            $qtde += $fechamento->quantidade;
+        }
 
         return $qtde;
     }
@@ -314,12 +337,12 @@ class BoletimRg extends ActiveRecord
 
         foreach ($this->fechamentos as $id => $data) {
 
-            if(isset($data['lira']) && $data['lira'] > 0) {
+            if(isset($data['lira'])) {
                 
                 $boletimFechamento = new BoletimRgFechamento;
                 $boletimFechamento->municipio_id = $this->municipio_id;
                 $boletimFechamento->boletim_rg_id = $this->id;
-                $boletimFechamento->imovel_lira = false;
+                $boletimFechamento->imovel_lira = true;
                 $boletimFechamento->imovel_tipo_id = $id;
                 $boletimFechamento->quantidade = $data['lira'];
 
@@ -327,12 +350,12 @@ class BoletimRg extends ActiveRecord
                     $imoveisSalvos++;
             }
             
-            if(isset($data['nao_lira']) && $data['nao_lira'] > 0) {
+            if(isset($data['nao_lira'])) {
                 
                 $boletimFechamento = new BoletimRgFechamento;
                 $boletimFechamento->municipio_id = $this->municipio_id;
                 $boletimFechamento->boletim_rg_id = $this->id;
-                $boletimFechamento->imovel_lira = true;
+                $boletimFechamento->imovel_lira = false;
                 $boletimFechamento->imovel_tipo_id = $id;
                 $boletimFechamento->quantidade = $data['nao_lira'];
 
@@ -392,7 +415,12 @@ class BoletimRg extends ActiveRecord
      */
     private function clearRelationships()
     {
-        BoletimRgImovel::deleteAll('boletim_rg_id = :boletim', [':boletim' => $this->id]);
-        BoletimRgFechamento::deleteAll('boletim_rg_id = :boletim', [':boletim' => $this->id]);
+        foreach (BoletimRgImovel::find()->where('boletim_rg_id = :boletim', [':boletim' => $this->id])->all() as $boletim) {
+            $boletim->delete();
+        }
+
+        foreach (BoletimRgFechamento::find()->where('boletim_rg_id = :boletim', [':boletim' => $this->id])->all() as $boletim) {
+            $boletim->delete();
+        }
     }
 }

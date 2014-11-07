@@ -14,6 +14,7 @@ use app\models\FocoTransmissor;
 use Yii;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
+use app\models\redis\Queue;
 
 class RelatorioController extends Controller
 {
@@ -25,16 +26,16 @@ class RelatorioController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'focos-export', 'focos', 'focos-bairro', 'focos-bairro-data', 'download-mapa'],
+                'only' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'focos-export', 'focos', 'focos-bairro', 'focos-bairro-data', 'download-mapa', 'update-rg'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'resumo-rg-bairro', 'mapa-area-tratamento', 'focos', 'focos-bairro', 'focos-bairro-data', 'download-mapa'],
+                        'actions' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'resumo-rg-bairro', 'mapa-area-tratamento', 'focos', 'focos-bairro', 'focos-bairro-data', 'download-mapa', 'update-rg'],
                         'roles' => ['Gerente'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['focos-export'],
+                        'actions' => ['focos-export', 'update-rg'],
                         'roles' => ['Usuario'],
                     ],
                 ],
@@ -97,7 +98,9 @@ class RelatorioController extends Controller
         
         $dataProvider = FocoTransmissor::find()->daAreaDeTratamento($quarteirao);
 
-        return $this->renderPartial(
+        $this->layout = 'ajax';
+
+        return $this->render(
             '_detalhamento-areas-tratamento',
             ['dataProvider' => new ActiveDataProvider(['query' => $dataProvider])]
         );
@@ -170,5 +173,14 @@ class RelatorioController extends Controller
             'model' => $model,
             'modelFocos' => $model->loadAreasDeFocoMapa(),
         ]);
+    }
+
+    public function actionUpdateRg()
+    {
+        Queue::push('RefreshFechamentoRgJob');
+
+        Yii::$app->session->setFlash('success', 'Em até 10 minutos o relatório estará atualizado.');
+
+        return $this->redirect(['site/home']);
     }
 }

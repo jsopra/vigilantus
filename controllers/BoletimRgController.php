@@ -114,7 +114,7 @@ class BoletimRgController extends CRUDController
             $model = is_object($id) ? $id : $this->findModel($id);
 
             if (!$this->loadAndSaveModel($model, $_POST)) {
-                return $this->render('update', ['model' => $model]);
+                return $this->render('update-fechamento', ['model' => $model]);
             }
 
         } else {

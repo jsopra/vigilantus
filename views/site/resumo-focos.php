@@ -9,4 +9,4 @@ $this->title = 'Resumo de Indicadores';
 
 <?= $this->render('_menuHome', []); ?>
 
-<?= $this->render('/resumo-rg/_capa', ['model' => $modelRg, 'ultimaAtualizacao' => Yii::$app->cache->get('ultima_atualizacao_cache_rg')], true); ?>
+<?= $this->render('/resumo-focos/_capa', ['model' => $modelFoco], true); ?>

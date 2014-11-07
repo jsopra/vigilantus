@@ -1,6 +1,8 @@
 <?php
 namespace app\components;
 
+use app\models\Municipio;
+
 class RedisActiveRecord extends \yii\redis\ActiveRecord
 {   
     /**
@@ -17,6 +19,9 @@ class RedisActiveRecord extends \yii\redis\ActiveRecord
         else {
             $query = new \yii\redis\ActiveQuery($className);
         }
+
+        $idMunicipio = Municipio::find()->one()->id;//intval(\Yii::$app->session->get('user.municipio')->id);
+        $query->andWhere(['municipio_id' => $idMunicipio]);
         
         return $query;
     }

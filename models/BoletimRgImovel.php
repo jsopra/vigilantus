@@ -3,7 +3,6 @@
 namespace app\models;
 
 use app\components\ActiveRecord;
-
 /**
  * This is the model class for table "boletim_rg_imoveis".
  *
@@ -188,6 +187,15 @@ class BoletimRgImovel extends ActiveRecord
             $result = parent::save($runValidation, $attributes);
             
             if ($result) {
+
+                $boletimFechamentoInverso = true;
+                if($this->imovel->imovel_lira) {
+                    $boletimFechamentoInverso = BoletimRgFechamento::incrementaContagemImovel(
+                        $this->boletimRg,
+                        $this->imovel_tipo_id,
+                        false
+                    );
+                }
                 
                 $boletimFechamento = BoletimRgFechamento::incrementaContagemImovel(
                     $this->boletimRg,
@@ -195,29 +203,55 @@ class BoletimRgImovel extends ActiveRecord
                     $this->imovel->imovel_lira
                 );
 
-                if($boletimFechamento instanceof BoletimRgFechamento) {
-                    if($newTransaction)
+                if($boletimFechamento && $boletimFechamentoInverso) {
+
+                    if($newTransaction) {
                         $newTransaction->commit();
+                    }
                 }
                 else {
-
-                    if($newTransaction)
+                    if($newTransaction) {
                         $newTransaction->rollback();
+                    }
                     
                     $result = false;                    
                 }
             } 
             else {
-                if($newTransaction)
+                if($newTransaction) {
                     $newTransaction->rollback();
+                }
             }
         } 
         catch (\Exception $e) {
-            if($newTransaction)
+            if($newTransaction) {
                 $newTransaction->rollback();
+            }
             throw $e;
         }
 
         return $result;
+    }
+
+    public function beforeDelete()
+    {
+        $parent = parent::beforeDelete();
+
+        if($this->imovel->imovel_lira == true) {
+
+            BoletimRgFechamento::decrementaContagemImovel(
+                $this->boletimRg,
+                $this->imovel_tipo_id,
+                false
+            );
+        }
+
+        BoletimRgFechamento::decrementaContagemImovel(
+            $this->boletimRg,
+            $this->imovel_tipo_id,
+            $this->imovel->imovel_lira
+        );
+
+        return $parent;
     }
 }

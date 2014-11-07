@@ -39,6 +39,8 @@ class ResumoRgCapaReportTest extends TestCase
         $this->criarDados($baseDados, $municipio);
 
         $this->report = new ResumoRgCapaReport;
+
+        \app\jobs\RefreshFechamentoRgJob::run();
     }
 
     public function testGetTotalQuarteiroes()

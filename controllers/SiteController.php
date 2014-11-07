@@ -23,10 +23,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['feedback', 'logout', 'home', 'session'],
+                'only' => ['feedback', 'logout', 'home', 'session', 'resumo-focos'],
                 'rules' => [
                     [
-                        'actions' => ['feedback', 'logout', 'home'],
+                        'actions' => ['feedback', 'logout', 'home', 'resumo-focos'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -66,6 +66,15 @@ class SiteController extends Controller
             'home',
             [
                 'modelRg' => new ResumoRgCapaReport,
+            ]
+        );
+    }
+
+    public function actionResumoFocos()
+    {
+        return $this->render(
+            'resumo-focos',
+            [
                 'modelFoco' => new ResumoFocosCapaReport,
             ]
         );
