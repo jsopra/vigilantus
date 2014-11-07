@@ -18,6 +18,12 @@ class FechamentoRgQuery extends ActiveQuery
         $this->andWhere(['bairro_id' => $id]);
         return $this;
     }
+
+    public function doBairroQuarteirao($id)
+    {
+        $this->andWhere(['bairro_quarteirao_id' => $id]);
+        return $this;
+    }
     
     public function doTipoLira($status)
     {
@@ -28,6 +34,12 @@ class FechamentoRgQuery extends ActiveQuery
     public function doTipoImovel($id)
     {
         $this->andWhere(['imovel_tipo_id' => $id]);
+        return $this;
+    }
+
+    public function daData($data)
+    {
+        $this->andWhere(['data' => $data]);
         return $this;
     }
 }

@@ -125,7 +125,7 @@ class ModalColumn extends Column
 				if(jQuery(this).attr('data-modal-title') != '')
 					jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-header').children('h4').html(jQuery(this).attr('data-modal-title'));
 				
-				jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-body').html('');
+				jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-body').html('<span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Carregando...');
 
 				" . $scriptResult . "
 

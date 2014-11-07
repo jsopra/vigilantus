@@ -68,6 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'bairro_quarteirao_numero',
+                'header' => 'Quarteirão',
                 'value' => function ($model, $index, $widget) {
                     return $model->quarteirao ? $model->quarteirao->numero_sequencia : null;
                 },
@@ -84,12 +85,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->getFormattedAttribute('data');
                 },
             ], 
-            [
-                'attribute' => 'folha',
-                'options' => [
-                    'width' => '10%',
-                ]
-            ],
             [
                 'header' => 'Detalhado?',
                 'value' => function ($model, $index, $widget) {
@@ -110,7 +105,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Qtde. Imóveis',
                 'linkTitle' => 'Ver Fechamento',
                 'value' => function ($model, $index, $widget) {
-                    return $model->quantidadeImoveisFechamento . ' (Ver fechamento)';
+                    return $model->quantidadeImoveisNaoLiraFechamento . ' (Ver fechamento)';
                 },
                 'options' => [
                     'width' => '15%',

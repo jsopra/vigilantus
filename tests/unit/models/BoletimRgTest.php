@@ -71,7 +71,7 @@ class BoletimRgTest extends TestCase
             // Boletim, tipo imóvel, LIRA?, registros no banco, quantidade
             [$boletim->id, 1, false, 1, 3],
             [$boletim->id, 1, true, 0, null],
-            [$boletim->id, 2, false, 0, null],
+            [$boletim->id, 2, false, 1, 1],
             [$boletim->id, 2, true, 1, 1],
         ]);
 
@@ -129,9 +129,9 @@ class BoletimRgTest extends TestCase
             // Boletim, tipo imóvel, LIRA?, registros no banco, quantidade
             [$boletim->id, 1, false, 1, 5],
             [$boletim->id, 1, true, 0, null],
-            [$boletim->id, 2, false, 0, null],
+            [$boletim->id, 2, false, 1, 2],
             [$boletim->id, 2, true, 1, 2],
-            [$boletim->id, 3, false, 0, null],
+            [$boletim->id, 3, false, 1, 1],
             [$boletim->id, 3, true, 1, 1],
         ]);
 
@@ -176,11 +176,11 @@ class BoletimRgTest extends TestCase
 
         $this->verificarFechamentos([
             // Boletim, tipo imóvel, LIRA?, registros no banco, quantidade
-            [$boletimUpdate->id, 1, false, 0, null],
+            [$boletimUpdate->id, 1, false, 1, 1],
             [$boletimUpdate->id, 1, true, 1, 1],
-            [$boletimUpdate->id, 2, false, 0, null],
+            [$boletimUpdate->id, 2, false, 1, 2],
             [$boletimUpdate->id, 2, true, 1, 2],
-            [$boletimUpdate->id, 3, false, 0, null],
+            [$boletimUpdate->id, 3, false, 1, 1],
             [$boletimUpdate->id, 3, true, 1, 1],
         ]);
 
@@ -221,7 +221,7 @@ class BoletimRgTest extends TestCase
             // Boletim, tipo imóvel, LIRA?, registros no banco, quantidade
             [$boletimPrimeiro->id, 1, false, 1, 3],
             [$boletimPrimeiro->id, 1, true, 0, null],
-            [$boletimPrimeiro->id, 2, false, 0, null],
+            [$boletimPrimeiro->id, 2, false, 1, 1],
             [$boletimPrimeiro->id, 2, true, 1, 1],
         ]);
 

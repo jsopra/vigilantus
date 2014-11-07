@@ -69,9 +69,9 @@ $config = [
             'class' => 'yii\swiftmailer\Mailer',
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtpi.vigilantus.com.br',
-                'username' => 'vigilantus@vigilantus.com.br',
-                'password' => 'f33dh1t5',
+                'host' => 'smtp.mandrillapp.com',
+                'username' => 'jsopra@gmail.com',
+                'password' => 'KzL9E8rMpAd6Ux0pv7Lmbg',
                 'port' => '587',
                 'encryption' => 'tls',
             ],

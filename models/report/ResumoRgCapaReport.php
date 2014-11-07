@@ -7,6 +7,7 @@ use app\models\BoletimRg;
 use app\models\BoletimRgFechamento;
 use app\models\BoletimRgImovel;
 use app\models\ImovelTipo;
+use app\models\BairroQuarteirao;
 use app\models\redis\FechamentoRg as FechamentoRgRedis;
 
 class ResumoRgCapaReport
@@ -16,7 +17,7 @@ class ResumoRgCapaReport
      */
     public function getTotalQuarteiroes()
     {
-        return FechamentoRgRedis::find()->count();
+        return BairroQuarteirao::find()->count();
     }
 
     /**
