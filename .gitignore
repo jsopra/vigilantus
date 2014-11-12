@@ -2,3 +2,5 @@
 /nbproject
 .DS_Store
 /tests/_output
+web/img/brasao/**
+tests/_log/**

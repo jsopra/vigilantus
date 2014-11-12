@@ -3,6 +3,9 @@
 namespace app\models;
 
 use app\components\PostgisActiveRecord;
+use app\helpers\models\MunicipioHelper;
+use yii\web\UploadedFile;
+use yii\imagine\Image;
 
 /**
  * Este é a classe de modelo da tabela "municipios".
@@ -11,17 +14,14 @@ use app\components\PostgisActiveRecord;
  * @property integer $id
  * @property string $nome
  * @property string $sigla_estado
- * @property string $nome_contato
- * @property string $email_contato
- * @property string $telefone_contato
- * @property string $departamento
- * @property string $cargo
  * @property string $coordenadas_area
+ * @property string $brasao
  */
 class Municipio extends PostgisActiveRecord
 {
     public $latitude;
     public $longitude;
+    public $file;
 
     /**
      * @return string
@@ -37,11 +37,11 @@ class Municipio extends PostgisActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'sigla_estado', 'nome_contato', 'telefone_contato', 'departamento'], 'required'],
+            [['nome', 'sigla_estado', 'coordenadas_area'], 'required'],
             ['sigla_estado', 'string', 'max' => 2],
-            [['email_contato', 'cargo'], 'safe'],
             ['nome', 'unique', 'compositeWith' => 'sigla_estado'],
-            [['coordenadas_area'], 'string']
+            [['coordenadas_area'], 'string'],
+            [['file'], 'file', 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png'],
         ];
     }
 
@@ -65,12 +65,9 @@ class Municipio extends PostgisActiveRecord
             'id' => 'ID',
             'nome' => 'Nome',
             'sigla_estado' => 'Estado Sigla',
-            'nome_contato' => 'Nome do contato',
-            'email_contato' => 'Email do contato',
-            'telefone_contato' => 'Telefone do contato',
-            'departamento' => 'Departamento do contato',
-            'cargo' => 'Cargo do contato',
             'coordenadas_area' => 'Coordenadas',
+            'brasao' => 'Brasão',
+            'file' => 'Brasão',
         );
     }
 
@@ -148,5 +145,90 @@ class Municipio extends PostgisActiveRecord
         }
         
         return $return;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function save($runValidation = true, $attributes = NULL) {
+
+        $currentTransaction = $this->getDb()->getTransaction();     
+        $newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
+        
+        try {
+            
+            $this->file = UploadedFile::getInstance($this, 'file');
+
+            $salvouImagem = true;
+
+            $result = false;
+
+            if($this->file) {
+
+                $path = MunicipioHelper::getBrasaoPath($this, true);
+
+                if(!is_dir($path)) {
+                    mkdir($path);
+                    mkdir($path . 'original/');
+                    mkdir($path . 'mini/');
+                    mkdir($path . 'small/');
+                    mkdir($path . 'normal/');
+                    mkdir($path . 'large/');
+                }
+
+                $imagemOriginal = $this->file->saveAs($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, false);
+
+                $image = Image::thumbnail($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, 50, 50);
+                $imagemMini = $image->save($path . 'mini/' . $this->file->baseName . '.' . $this->file->extension);
+
+                $image = Image::thumbnail($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, 75, 75);
+                $imagemSmall = $image->save($path . 'small/' . $this->file->baseName . '.' . $this->file->extension);
+
+                $image = Image::thumbnail($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, 150, 150);
+                $imagemNormal = $image->save($path . 'normal/' . $this->file->baseName . '.' . $this->file->extension);
+
+                $image = Image::thumbnail($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, 300, 300);
+                $imagemLarge = $image->save($path . 'large/' . $this->file->baseName . '.' . $this->file->extension);
+
+                $salvouImagem = $imagemMini && $imagemSmall && $imagemNormal && $imagemLarge && $imagemOriginal;
+
+                if($salvouImagem) { 
+                    $this->brasao = $this->file->baseName . '.' . $this->file->extension;
+                }
+
+            }
+            
+            if ($salvouImagem) {
+
+                $result = parent::save($runValidation, $attributes);
+                
+                if($result) {
+
+                    if($newTransaction) {
+                        $newTransaction->commit();
+                    }
+                }
+                else {
+                    if($newTransaction) {
+                        $newTransaction->rollback();
+                    }
+                    
+                    $result = false;                    
+                }
+            } 
+            else {
+                if($newTransaction) {
+                    $newTransaction->rollback();
+                }
+            }
+        } 
+        catch (\Exception $e) {
+            if($newTransaction) {
+                $newTransaction->rollback();
+            }
+            throw $e;
+        }
+
+        return $result;
     }
 }

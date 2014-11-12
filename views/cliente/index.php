@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use app\widgets\GridView;
 use app\models\Municipio;
+use app\helpers\models\ClienteHelper;
 
 /**
  * @var yii\web\View $this
@@ -38,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'municipio_id',
-                'filter' => Municipio::listData('nome'),
+                'filter' => false,
                 'value' => function ($model, $index, $widget) {
                     return $model->municipio ? $model->municipio->nome : null;
                 }
@@ -61,6 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 			[
                 'attribute' => 'data_cadastro',
+                'filter' => false,
                 'options' => [
                     'width' => '35%',
                 ],
@@ -68,6 +70,23 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->getFormattedAttribute('data_cadastro');
                 },
             ], 
+            [   
+                'class' => 'app\extensions\grid\ModalColumn',
+                'iconClass' => 'icon-search opacity50',
+                'modalId' => 'dados-contato-detalhes',
+                'modalContent' => function ($model, $index, $widget) {
+                    return ClienteHelper::getDadosContato($model);
+                },
+                'requestType' => 'GET',
+                'header' => 'Dados de contato',
+                'linkTitle' => 'Ver dados de contato',
+                'value' => function ($model, $index, $widget) {
+                    return 'Ver contato';
+                },
+                'options' => [
+                    'width' => '15%',
+                ]
+            ],  
 			[
                 'class' => 'app\components\ActionColumn',
                 'template' => '{delete}',

@@ -66,6 +66,7 @@ class SiteController extends Controller
             'home',
             [
                 'modelRg' => new ResumoRgCapaReport,
+                'municipio' => Municipio::find()->andWhere(['id' => 1])->one(),
             ]
         );
     }
@@ -76,14 +77,16 @@ class SiteController extends Controller
             'resumo-focos',
             [
                 'modelFoco' => new ResumoFocosCapaReport,
+                'municipio' => Municipio::find()->andWhere(['id' => 1])->one(),
             ]
         );
     }
 
     public function actionIndex()
     {
-        if (!Yii::$app->user->isGuest)
+        if (!Yii::$app->user->isGuest) {
             $this->redirect(['home']);
+        }
         
         return $this->render('index');
     }

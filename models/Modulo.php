@@ -15,6 +15,9 @@ use app\components\ActiveRecord;
  */
 class Modulo extends ActiveRecord 
 {
+	const MODULO_DENUNCIA = 1;
+	const MODULO_VISITACAO = 2;
+
 	/**
 	 * @inheritdoc
 	 */

@@ -10,6 +10,11 @@ use app\components\ActiveRecord;
  * @property integer $id
  * @property integer $municipio_id
  * @property string $data_cadastro
+ * @property string $nome_contato
+ * @property string $email_contato
+ * @property string $telefone_contato
+ * @property string $departamento
+ * @property string $cargo
  *
  * @property Municipios $municipio
  */
@@ -31,7 +36,8 @@ class Cliente extends ActiveRecord
 	public function rules()
 	{
         return [
-			[['municipio_id'], 'required'],
+			[['municipio_id', 'nome_contato', 'telefone_contato', 'departamento'], 'required'],          
+            [['email_contato', 'cargo'], 'safe'],
             [['municipio_id'], 'unique'],
             ['municipio_id', 'exist', 'targetClass' => Municipio::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             [['data_cadastro'], 'safe']
@@ -47,6 +53,11 @@ class Cliente extends ActiveRecord
 			'id' => 'ID',
 			'municipio_id' => 'Município',
 			'data_cadastro' => 'Data de Cadastro',
+            'nome_contato' => 'Nome do contato',
+            'email_contato' => 'Email do contato',
+            'telefone_contato' => 'Telefone do contato',
+            'departamento' => 'Departamento do contato',
+            'cargo' => 'Cargo do contato',
 		];
 	}
     
@@ -73,6 +84,14 @@ class Cliente extends ActiveRecord
 	{
 		return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
 	}
+
+    /**
+     * @return \yii\db\ActiveRelation
+     */
+    public function getModulos()
+    {
+        return $this->hasMany(ClienteModulo::className(), ['cliente_id' => 'id']);
+    }
     
     /**
      * @return int
@@ -80,6 +99,21 @@ class Cliente extends ActiveRecord
     public function getQuantidadeModulos()
     {
         return ClienteModulo::find()->where(['cliente_id' => $this->id])->count();
+    }
+
+    /**
+     * @param int $moduloId
+     * @return boolean
+     */
+    public function moduloIsHabilitado($moduloId)
+    {
+        foreach($this->modulos as $modulo) {
+            if($modulo->id == $moduloId) {
+                return true;
+            }
+        }
+
+        return false;
     }
     
     public function beforeDelete()
