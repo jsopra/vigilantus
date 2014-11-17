@@ -15,9 +15,23 @@ use app\components\Controller;
 use app\models\Municipio;
 use app\models\report\ResumoRgCapaReport;
 use app\models\report\ResumoFocosCapaReport;
+use yii\base\Exception;
+use yii\base\UserException;
 
 class SiteController extends Controller
 {
+    public function init()
+    {
+        $rota = Yii::$app->requestedRoute;
+
+        if($rota == '' || strstr($rota, 'site') !== null) {
+
+            return parent::init();
+        }
+
+        return parent::init();
+    }
+
     public function behaviors()
     {
         return [
@@ -50,9 +64,6 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
@@ -166,5 +177,57 @@ class SiteController extends Controller
         Yii::$app->session->setFlash('success', 'Município alterado com sucesso');
 
         return $this->redirect(['home']);
+    }
+
+    public function actionError()
+    {
+
+        $municipio = str_replace('/', '', Yii::$app->getRequest()->getUrl());
+
+        if($municipio) {
+
+            $objeto = Municipio::find()/*->doIdentificador()*/->one();
+
+            if($objeto) {
+
+                $this->redirect(['cidade/index', 'id' => $objeto->id]);
+            }            
+        }
+
+
+        if (($exception = Yii::$app->getErrorHandler()->exception) === null) {
+            return '';
+        }
+
+        if ($exception instanceof HttpException) {
+            $code = $exception->statusCode;
+        } else {
+            $code = $exception->getCode();
+        }
+        if ($exception instanceof Exception) {
+            $name = $exception->getName();
+        } else {
+            $name = $this->defaultName ?: Yii::t('yii', 'Error');
+        }
+        if ($code) {
+            $name .= " (#$code)";
+        }
+
+        if ($exception instanceof UserException) {
+            $message = $exception->getMessage();
+        } else {
+            $message = $this->defaultMessage ?: Yii::t('yii', 'An internal server error occurred.');
+        }
+
+        if (Yii::$app->getRequest()->getIsAjax()) {
+            return "$name: $message";
+        } 
+        else {
+            return $this->render('error', [
+                'name' => $name,
+                'message' => $message,
+                'exception' => $exception,
+            ]);
+        }
     }
 }

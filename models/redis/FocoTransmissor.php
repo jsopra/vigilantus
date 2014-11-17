@@ -23,6 +23,7 @@ class FocoTransmissor extends RedisActiveRecord
             'especie_transmissor_id', 
             'cor_foco', 
             'qtde_metros_area_foco',
+            'informacao_publica',
         ];
     }
     
