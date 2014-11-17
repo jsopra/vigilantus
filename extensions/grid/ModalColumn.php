@@ -102,7 +102,10 @@ class ModalColumn extends Column
         
 			$jqueryCall = $this->requestType == 'POST' ? 'jQuery.post' : ($this->requestIsJSON ? 'jQuery.getJSON' : 'jQuery.get');
 			
-			if($this->modalContent) {
+			if ($this->modalContent instanceof Closure) {
+	            $scriptResult = "jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-body').html(jQuery(this).attr('data_content'));";
+	        }
+			else if($this->modalContent) {
 				$scriptResult = "jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-body').html('" . $this->modalContent . "');";
 			}
 			else if($this->modalFunctionToProcessContent) {
@@ -157,6 +160,8 @@ class ModalColumn extends Column
 		$onClick = $this->onClick ? call_user_func($this->onClick, $model, $key, $index, $this) : null;
 
 		$modalAjaxContent = $this->modalAjaxContent ? call_user_func($this->modalAjaxContent, $model, $key, $index, $this) : null;
+
+		$modalData = $this->modalContent instanceof Closure ? call_user_func($this->modalContent, $model, $key, $index, $this) : $this->modalContent;
 		
         $finalHtml = '';
         
@@ -164,7 +169,7 @@ class ModalColumn extends Column
 			$finalHtml .= call_user_func($this->textBeforeLink, $model, $key, $index, $this);
 		
 		if(!$hideLinkExpression)
-			$finalHtml .= '<a href="javascript:void(0)" title="' . $this->linkTitle . '" data-modal-title="' . ($this->modalTitle ? call_user_func($this->modalTitle, $model, $key, $index, $this) : '') . '" ajax_url="' . ($modalAjaxContent ? $modalAjaxContent : null) . '" class="FModalColumn_' . $this->modalId . '" ' . ($this->tooltipText ? 'rel="tooltip" title="' . $this->tooltipText . '"' : '') . ($onClick ? 'onClick="' . $onClick . '"' : '') . '>' . $columnContent . '</a>';
+			$finalHtml .= '<a href="javascript:void(0)" title="' . $this->linkTitle . '" data-modal-title="' . ($this->modalTitle ? call_user_func($this->modalTitle, $model, $key, $index, $this) : '') . '" ajax_url="' . ($modalAjaxContent ? $modalAjaxContent : null) . '" data_content="' . ($modalData ? $modalData : null) . '" class="FModalColumn_' . $this->modalId . '" ' . ($this->tooltipText ? 'rel="tooltip" title="' . $this->tooltipText . '"' : '') . ($onClick ? 'onClick="' . $onClick . '"' : '') . '>' . $columnContent . '</a>';
 		else
 			$finalHtml .= $columnContent;
 		

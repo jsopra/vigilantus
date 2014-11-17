@@ -406,3 +406,9 @@ footer h2 {
 .bs-callout-info h4 {
     color: #5bc0de;
 }
+
+.denuncia {
+    background: url('../img/maodupla.png') no-repeat 20px 40px;
+    min-height: 150px;
+    padding-left: 120px;
+}
