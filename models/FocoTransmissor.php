@@ -45,6 +45,8 @@ class FocoTransmissor extends ClienteActiveRecord
     public $mes;
     public $quantidade_registros;
 
+    const QTDE_DIAS_INFORMACAO_PUBLICA = 60; //fix migrar para configuração
+
     /**
      * @inheritdoc
      */
@@ -190,5 +192,17 @@ class FocoTransmissor extends ClienteActiveRecord
     public function popularBairro() {
         
         $this->bairro_id = $this->bairroQuarteirao->bairro_id;
+    }
+
+
+
+    public function isInformacaoPublica()
+    {
+        $dataAtual = new \DateTime;
+        $dataAtual->modify('-' . self::QTDE_DIAS_INFORMACAO_PUBLICA . ' days');
+
+        $dataColeta = new \DateTime($this->data_coleta);
+
+        return $dataColeta->getTimestamp() >= $dataAtual->getTimestamp();
     }
 }

@@ -22,6 +22,7 @@ if (YII_ENV_PROD) {
         'mail' => 'mail',
         'levels' => ['error', 'warning'],
         'message' => [
+            'from' => ['tenha@perspectiva.in'],
             'to' => ['dev@vigilantus.com.br'],
             'subject' => 'Application Log',
         ],
@@ -67,6 +68,7 @@ $config = [
         ],
         'mail' => [
             'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.mandrillapp.com',
@@ -82,6 +84,9 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'rules' => [
+                
+            ],
         ],
         'user' => [
             'class' => 'yii\web\User',

@@ -13,6 +13,11 @@ class VigilantusLayoutHelper {
         
         return [
             [
+                'label' => 'Denúncias',
+                'icon' => 'bullhorn',
+                'url' => ['/denuncia/'],
+            ],
+            [
                 'label' => 'Focos',
                 'icon' => 'screenshot',
                 'url' => ['/foco-transmissor/'],
@@ -54,6 +59,7 @@ class VigilantusLayoutHelper {
                     ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
                     ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/']],
                     ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/']],
+                    ['label' => 'Tipo de Problema em Denúncia', 'url' => ['/denuncia-tipo-problema/'], 'visible' => $user->can('Gerente'),],
                 ]
             ],
             [

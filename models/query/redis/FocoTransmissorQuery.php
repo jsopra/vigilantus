@@ -30,4 +30,11 @@ class FocoTransmissorQuery extends ActiveQuery
         $this->andWhere(['especie_transmissor_id' => $id]);
         return $this;
     }
+
+    public function informacaoPublica()
+    {
+        $this->andWhere(['informacao_publica' => 1]);
+
+        return $this;
+    }
 }

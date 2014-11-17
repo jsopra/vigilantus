@@ -100,4 +100,14 @@ class FocoTransmissorQuery extends ActiveQuery
 
         return $this;
     }
+
+    public function ultimoFoco()
+    {
+
+        $this->groupBy('especie_transmissor_id, imovel_id, bairro_quarteirao_id')
+            ->orderBy('data_coleta desc')
+            ->limit(1);
+
+        return $this;
+    }
 }
