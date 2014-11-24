@@ -28,6 +28,12 @@ use yii\widgets\MaskedInput;
 
         <div class="row">
             <div class="col-xs-6">
+                <?= $form->field($model, 'rotulo')->textInput() ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
                 <?= $form->field($model, 'nome_contato')->textInput() ?>
             </div>
         </div>
@@ -41,7 +47,8 @@ use yii\widgets\MaskedInput;
                 <?= Html::activeLabel($model,'telefone_contato'); ?>
 
                 <?= MaskedInput::widget([
-                    'name' => 'telefone_contato',
+                    'model' => $model,
+                    'attribute' => 'telefone_contato',
                     'mask' => '(99) [9]9999-9999'
                 ]); ?>
             </div>
@@ -71,7 +78,7 @@ use yii\widgets\MaskedInput;
             );
             ?>
         </div>
-
+<?php var_dump($model->errors); ?>
 	<?php ActiveForm::end(); ?>
 
 </div>

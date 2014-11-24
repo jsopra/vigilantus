@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = 'Detalhes';
 
     <?= Html::a(
         '<i class="glyphicon glyphicon-circle-arrow-left"></i> Voltar às denúncias',
-        Yii::$app->urlManager->createUrl('denuncia/index'),
+        Yii::$app->urlManager->createUrl('denuncia/denuncia/index'),
         [
             'class' => 'btn btn-link',
         ]

@@ -1,7 +1,7 @@
 <?php
 
 namespace app\models;
-use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 use yii\web\UploadedFile;
 
 /**
@@ -10,7 +10,7 @@ use yii\web\UploadedFile;
  * Estas são as colunas disponíveis na tabela "denuncias":
  * @property integer $id
  * @property string $data_criacao
- * @property integer $municipio_id
+ * @property integer $cliente_id
  * @property string $nome
  * @property string $telefone
  * @property integer $bairro_id
@@ -28,11 +28,11 @@ use yii\web\UploadedFile;
  * @property integer $bairro_quarteirao_id
  *
  * @property DenunciaHistorico[] $denunciaHistoricos
- * @property Municipios $municipio
+ * @property Cliente $cliente
  * @property Bairros $bairro
  * @property Imoveis $imovel
  */
-class Denuncia extends ActiveRecord 
+class Denuncia extends ClienteActiveRecord 
 {
 	public $file;
 	public $usuario_id;
@@ -53,8 +53,8 @@ class Denuncia extends ActiveRecord
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
 			[['data_criacao'], 'safe'],
-			[['municipio_id', 'bairro_id', 'endereco', 'mensagem', 'tipo_imovel'], 'required'],
-			[['municipio_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'denuncia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
+			[['cliente_id', 'bairro_id', 'endereco', 'mensagem', 'tipo_imovel'], 'required'],
+			[['cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'denuncia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
 			[['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo'], 'string'],
 			['status', 'default', 'value' => DenunciaStatus::AVALIACAO],
 			['status', 'in', 'range' => DenunciaStatus::getIDs()],
@@ -75,7 +75,7 @@ class Denuncia extends ActiveRecord
 		return [
 			'id' => 'ID',
 			'data_criacao' => 'Data Criação',
-			'municipio_id' => 'Município',
+			'cliente_id' => 'Município Cliente',
 			'nome' => 'Nome',
 			'telefone' => 'Telefone',
 			'bairro_id' => 'Bairro',
@@ -106,9 +106,9 @@ class Denuncia extends ActiveRecord
 	/**
 	 * @return \yii\db\ActiveRelation
 	 */
-	public function getMunicipio()
+	public function getCliente()
 	{
-		return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+		return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
 	}
 
 	/**
@@ -166,7 +166,7 @@ class Denuncia extends ActiveRecord
             	if($isNewRecord) {
 
             		$historico = new DenunciaHistorico;
-            		$historico->municipio_id = $this->municipio_id;
+            		$historico->cliente_id = $this->cliente_id;
             		$historico->denuncia_id = $this->id;
             		$historico->tipo = DenunciaHistoricoTipo::INCLUSAO;
             		$historico->status_novo = DenunciaStatus::AVALIACAO;
@@ -178,7 +178,7 @@ class Denuncia extends ActiveRecord
             		if($oldStatus != $this->status) {
 
             			$historico = new DenunciaHistorico;
-	            		$historico->municipio_id = $this->municipio_id;
+	            		$historico->cliente_id = $this->cliente_id;
 	            		$historico->denuncia_id = $this->id;
 	            		$historico->tipo = DenunciaHistoricoTipo::REPROVACAO;
 	            		$historico->status_antigo = $oldStatus;

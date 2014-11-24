@@ -18,7 +18,7 @@ class ClienteActiveRecord extends ActiveRecord {
         $query = class_exists($queryClassName) ? new $queryClassName($className) : new ActiveQuery($className);
 
         if (self::temFiltroCliente()) {
-            
+           
             $idCliente = intval(\Yii::$app->session->get('user.cliente')->id);
             $query->andWhere(
                 '[[' . $tableName . '.cliente_id]] IS NULL OR [[' . $tableName . '.cliente_id]] = ' . $idCliente
@@ -35,6 +35,10 @@ class ClienteActiveRecord extends ActiveRecord {
 	{
         if (self::temFiltroCliente()) {
             $this->cliente_id = \Yii::$app->session->get('user.cliente')->id;
+
+            if(self::temFiltroMunicipio()) {
+                $this->municipio_id = \Yii::$app->session->get('user.cliente')->municipio->id;
+            }
         }
         
 		return parent::beforeValidate();
@@ -69,5 +73,13 @@ class ClienteActiveRecord extends ActiveRecord {
             && \Yii::$app->session->get('user.cliente') instanceof Cliente
             && isset(static::getTableSchema()->columns['cliente_id'])
         );
+    }
+
+    /**
+     * @return boolean
+     */
+    protected static function temFiltroMunicipio()
+    {
+        return isset(static::getTableSchema()->columns['municipio_id']);
     }
 }

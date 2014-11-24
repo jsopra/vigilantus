@@ -10,7 +10,7 @@ use app\components\SearchModel;
 class DenunciaTipoProblemaSearch extends SearchModel
 {
 	public $id;
-	public $municipio_id;
+	public $cliente_id;
 	public $nome;
 	public $ativo;
 	public $inserido_por;
@@ -21,7 +21,7 @@ class DenunciaTipoProblemaSearch extends SearchModel
 	public function rules()
 	{
 		return [
-			[['id', 'municipio_id', 'inserido_por', 'atualizado_por'], 'integer'],
+			[['id', 'cliente_id', 'inserido_por', 'atualizado_por'], 'integer'],
 			[['nome', 'data_cadastro', 'data_atualizacao'], 'safe'],
 			[['ativo'], 'boolean'],
 		];
@@ -31,7 +31,7 @@ class DenunciaTipoProblemaSearch extends SearchModel
 	{
 		$query->andFilterWhere([
             'id' => $this->id,
-            'municipio_id' => $this->municipio_id,
+            'cliente_id' => $this->cliente_id,
             'ativo' => $this->ativo,
             'inserido_por' => $this->inserido_por,
             'data_cadastro' => $this->data_cadastro,

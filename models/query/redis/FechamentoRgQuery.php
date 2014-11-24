@@ -3,16 +3,10 @@
 namespace app\models\query\redis;
 
 use Yii;
-use yii\redis\ActiveQuery;
+use app\components\RedisActiveQuery;
 
-class FechamentoRgQuery extends ActiveQuery
+class FechamentoRgQuery extends RedisActiveQuery
 {      
-    public function doMunicipio($id)
-    {
-        $this->andWhere(['municipio_id' => $id]);
-        return $this;
-    }
-    
     public function doBairro($id)
     {
         $this->andWhere(['bairro_id' => $id]);

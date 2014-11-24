@@ -2,8 +2,9 @@
 namespace app\jobs;
 
 use Yii;
-    use app\models\redis\FechamentoRg as FechamentoRgRedis;
+use app\models\redis\FechamentoRg as FechamentoRgRedis;
 use app\models\BoletimRgFechamento;
+use app\models\Cliente;
 
 class RefreshFechamentoRgJob implements AbstractJob
 {
@@ -13,10 +14,11 @@ class RefreshFechamentoRgJob implements AbstractJob
 
         Yii::$app->cache->set('ultima_atualizacao_cache_rg', null, (60*60*24*7*4));
 
-        $municipios = \app\models\Municipio::find()->all(); 
-        foreach($municipios as $municipio) {
-        
-            $query = BoletimRgFechamento::find()->doTipoLira(false);
+        $clientes = Cliente::find()->all(); 
+        foreach($clientes as $cliente) {
+
+            $query = BoletimRgFechamento::find()->doCliente($cliente->id)->doTipoLira(false);
+
             $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
             $query->andWhere('
                 boletins_rg.data = (
@@ -28,10 +30,8 @@ class RefreshFechamentoRgJob implements AbstractJob
 
             $fechamentos = $query->all();
             foreach($fechamentos as $boletimFechamento) {
-
                 $fechamento = new FechamentoRgRedis;
-
-                $fechamento->municipio_id = $municipio->id;
+                $fechamento->cliente_id = $cliente->id;
                 $fechamento->bairro_quarteirao_id =  $boletimFechamento->boletimRg->bairro_quarteirao_id;
                 $fechamento->bairro_id = $boletimFechamento->boletimRg->bairro_id;
                 $fechamento->lira = $boletimFechamento->imovel_lira == true ? '1' : '0';

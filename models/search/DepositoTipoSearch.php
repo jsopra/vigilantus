@@ -10,7 +10,7 @@ use app\components\SearchModel;
 class DepositoTipoSearch extends SearchModel
 {
 	public $id;
-	public $municipio_id;
+	public $cliente_id;
 	public $deposito_tipo_pai;
 	public $descricao;
 	public $sigla;
@@ -18,7 +18,7 @@ class DepositoTipoSearch extends SearchModel
 	public function rules()
 	{
 		return [
-			[['id', 'municipio_id', 'deposito_tipo_pai'], 'integer'],
+			[['id', 'cliente_id', 'deposito_tipo_pai'], 'integer'],
 			[['descricao', 'sigla'], 'safe'],
 		];
 	}
@@ -26,7 +26,7 @@ class DepositoTipoSearch extends SearchModel
 	public function searchConditions($query)
 	{
 		$this->addCondition($query, 'id');
-		$this->addCondition($query, 'municipio_id');
+		$this->addCondition($query, 'cliente_id');
 		$this->addCondition($query, 'deposito_tipo_pai');
 		$this->addCondition($query, 'descricao', true);
 		$this->addCondition($query, 'sigla', true);        

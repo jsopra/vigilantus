@@ -10,6 +10,7 @@ use yii\data\ActiveDataProvider;
 use app\helpers\models\ImovelHelper;
 use app\helpers\models\MunicipioHelper;
 use app\models\Municipio;
+use app\models\Cliente;
 use Yii;
 
 class FocosExcelReport extends Model
@@ -59,9 +60,9 @@ class FocosExcelReport extends Model
         ];
     }
     
-    public function export() 
+    public function export($cliente) 
     {
-        $municipio = Municipio::find()->andWhere(['id' => 1])->one(); //FIX
+        $municipio = $cliente->municipio;
         
         $model = FocoTransmissor::find();
         
@@ -201,7 +202,7 @@ class FocosExcelReport extends Model
             unset($letraColuna);
         }
 
-        //linha com Chapecó, data_extração
+        //linha com municipio, data_extração
         $linha++;
         $linha++;
         $letraColuna = \PHPExcel_Cell::stringFromColumnIndex($coluna);

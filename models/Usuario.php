@@ -7,6 +7,7 @@ use app\models\Cliente;
 use app\models\UsuarioRole;
 use yii\validators\Validator;
 use yii\web\IdentityInterface;
+use Yii;
 
 /**
  * Este é a classe de modelo da tabela "usuarios".
@@ -253,5 +254,30 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
             default:
                 return null;
         }
+    }
+
+    public function getCliente()
+    {
+        if(!\Yii::$app->session->get('user.cliente')) {
+
+            if(\Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
+                Yii::$app->session->set('user.cliente', Cliente::find()->one());
+            }
+            else {
+                Yii::$app->session->set('user.cliente',Cliente::find()->andWhere(['id' => \Yii::$app->user->identity->cliente_id])->one());
+            }
+        }
+
+        return \Yii::$app->session->get('user.cliente');
+    }
+
+    public function moduloIsHabilitado($moduloId)
+    {
+        $cliente = $this->getCliente();
+        if(!$cliente) {
+            return false;
+        }
+
+        return $cliente->moduloIsHabilitado($moduloId);
     }
 }

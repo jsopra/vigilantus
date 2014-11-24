@@ -13,7 +13,7 @@ class UsuarioPhactory
             'senha' => '12345678',
             'usuario_role_id' => UsuarioRole::USUARIO,
             'email' => 'email#{sn}@vigilantus.com.br',
-            'municipio_id' => Phactory::hasOne('municipio'),
+            'cliente_id' => Phactory::hasOne('cliente'),
         ];
     }
 
@@ -21,7 +21,7 @@ class UsuarioPhactory
     {
         return array(
             'usuario_role_id' => UsuarioRole::ROOT,
-            'municipio_id' => null,
+            'cliente_id' => null,
         );
     }
 

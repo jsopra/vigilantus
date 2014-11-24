@@ -1,5 +1,4 @@
 <?php
-use app\models\Municipio;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 

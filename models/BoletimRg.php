@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 
 /**
  * This is the model class for table "boletins_rg".
@@ -12,17 +12,17 @@ use app\components\ActiveRecord;
  * @property integer $bairro_id
  * @property integer $bairro_quarteirao_id
  * @property string $data_cadastro
-* @property integer $inserido_por
- * @property integer $municipio_id
+ * @property integer $inserido_por
  * @property integer $categoria_id
  * @property string $data
+ * @property integer $cliente_id
  *
  * @property BoletimRgImovel[] $boletimRgImovel
  * @property BoletimRgFechamento[] $boletimRgFechamentos
  * @property Bairros $bairro
  * @property Usuarios $inseridoPor
  */
-class BoletimRg extends ActiveRecord
+class BoletimRg extends ClienteActiveRecord
 {
     public $seq;
     public $categoria_id;
@@ -43,11 +43,11 @@ class BoletimRg extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['bairro_id', 'municipio_id', 'bairro_quarteirao_id', 'data'], 'required'],
+			[['bairro_id', 'cliente_id', 'bairro_quarteirao_id', 'data'], 'required'],
             [['categoria_id', 'imoveis', 'fechamentos'], 'safe'],
-            ['folha', 'unique', 'compositeWith' => ['data', 'municipio_id']],
+            ['folha', 'unique', 'compositeWith' => ['data', 'cliente_id']],
             ['data', 'date'],
-			[['folha', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'municipio_id', 'seq'], 'integer'],
+			[['folha', 'bairro_id', 'bairro_quarteirao_id', 'inserido_por', 'seq'], 'integer'],
 	];
 	}
 
@@ -64,9 +64,9 @@ class BoletimRg extends ActiveRecord
 			'seq' => 'Seq',
 			'data_cadastro' => 'Data de Cadastro',
 			'inserido_por' => 'Inserido Por',
-            'municipio_id' => 'Município',
             'categoria_id' => 'Categoria',
             'data' => 'Data da Coleta',
+            'cliente_id' => 'Cliente',
 		];
 	}
 
@@ -182,11 +182,11 @@ class BoletimRg extends ActiveRecord
 	}
 
     /**
-     * @return Municipio
+     * @return \yii\db\ActiveRelation
      */
-    public function getMunicipio()
+    public function getCliente()
     {
-        return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+        return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
 
     /**
@@ -302,7 +302,7 @@ class BoletimRg extends ActiveRecord
         foreach ($this->imoveis as $data) {
 
             $boletimImovel = new BoletimRgImovel;
-            $boletimImovel->municipio_id = $this->municipio_id;
+            $boletimImovel->cliente_id = $this->cliente_id;
             $boletimImovel->imovel_tipo_id = isset($data['imovel_tipo']) ? $data['imovel_tipo'] : null;
             $boletimImovel->boletim_rg_id = $this->id;
             $boletimImovel->rua_nome = $data['rua'];
@@ -340,7 +340,7 @@ class BoletimRg extends ActiveRecord
             if(isset($data['lira'])) {
                 
                 $boletimFechamento = new BoletimRgFechamento;
-                $boletimFechamento->municipio_id = $this->municipio_id;
+                $boletimFechamento->cliente_id = $this->cliente_id;
                 $boletimFechamento->boletim_rg_id = $this->id;
                 $boletimFechamento->imovel_lira = true;
                 $boletimFechamento->imovel_tipo_id = $id;
@@ -353,7 +353,7 @@ class BoletimRg extends ActiveRecord
             if(isset($data['nao_lira'])) {
                 
                 $boletimFechamento = new BoletimRgFechamento;
-                $boletimFechamento->municipio_id = $this->municipio_id;
+                $boletimFechamento->cliente_id = $this->cliente_id;
                 $boletimFechamento->boletim_rg_id = $this->id;
                 $boletimFechamento->imovel_lira = false;
                 $boletimFechamento->imovel_tipo_id = $id;

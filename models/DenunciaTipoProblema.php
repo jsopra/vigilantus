@@ -1,14 +1,14 @@
 <?php
 
 namespace app\models;
-use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 
 /**
  * Este é a classe de modelo da tabela "denuncia_tipos_problemas".
  *
  * Estas são as colunas disponíveis na tabela "denuncia_tipos_problemas":
  * @property integer $id
- * @property integer $municipio_id
+ * @property integer $cliente_id
  * @property string $nome
  * @property boolean $ativo
  * @property integer $inserido_por
@@ -17,11 +17,11 @@ use app\components\ActiveRecord;
  * @property string $data_atualizacao
  *
  * @property Denuncias[] $denuncias
- * @property Municipios $municipio
+ * @property Cliente $cliente
  * @property Usuarios $inseridoPor
  * @property Usuarios $atualizadoPor
  */
-class DenunciaTipoProblema extends ActiveRecord 
+class DenunciaTipoProblema extends ClienteActiveRecord 
 {
 
 	public function beforeDelete()
@@ -48,11 +48,11 @@ class DenunciaTipoProblema extends ActiveRecord
 	{
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
-			[['municipio_id', 'nome', 'inserido_por'], 'required'],
-			[['municipio_id', 'inserido_por', 'atualizado_por'], 'integer'],
+			[['cliente_id', 'nome', 'inserido_por'], 'required'],
+			[['cliente_id', 'inserido_por', 'atualizado_por'], 'integer'],
 			[['nome'], 'string'],
 			[['ativo'], 'boolean'],
-			['nome', 'unique', 'compositeWith' => ['municipio_id']],
+			['nome', 'unique', 'compositeWith' => ['cliente_id']],
 			[['data_cadastro', 'data_atualizacao'], 'safe']
 		];
 	}
@@ -64,7 +64,7 @@ class DenunciaTipoProblema extends ActiveRecord
 	{
 		return [
 			'id' => 'ID',
-			'municipio_id' => 'Município',
+			'cliente_id' => 'Município Cliente',
 			'nome' => 'Nome',
 			'ativo' => 'Ativo',
 			'inserido_por' => 'Inserido Por',
@@ -79,15 +79,15 @@ class DenunciaTipoProblema extends ActiveRecord
 	 */
 	public function getDenuncias()
 	{
-		return $this->hasMany(Denuncias::className(), ['denuncia_tipo_problema_id' => 'id']);
+		return $this->hasMany(Denuncia::className(), ['denuncia_tipo_problema_id' => 'id']);
 	}
 
 	/**
 	 * @return \yii\db\ActiveRelation
 	 */
-	public function getMunicipio()
+	public function getCliente()
 	{
-		return $this->hasOne(Municipios::className(), ['id' => 'municipio_id']);
+		return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
 	}
 
 	/**
@@ -95,7 +95,7 @@ class DenunciaTipoProblema extends ActiveRecord
 	 */
 	public function getInseridoPor()
 	{
-		return $this->hasOne(Usuarios::className(), ['id' => 'inserido_por']);
+		return $this->hasOne(Usuario::className(), ['id' => 'inserido_por']);
 	}
 
 	/**
@@ -103,6 +103,6 @@ class DenunciaTipoProblema extends ActiveRecord
 	 */
 	public function getAtualizadoPor()
 	{
-		return $this->hasOne(Usuarios::className(), ['id' => 'atualizado_por']);
+		return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
 	}
 }

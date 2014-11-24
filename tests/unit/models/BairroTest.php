@@ -10,9 +10,11 @@ class BairroTest extends TestCase
 {
     public function testNaoSalvaDuplicado()
     {
+        $cliente = Phactory::cliente();
+
         // Trava no mesmo município
-        Phactory::bairro(['nome' => 'Tijuca', 'municipio_id' => 1]);
-        $bairroDuplicado = Phactory::bairro(['municipio_id' => 1]);
+        Phactory::bairro(['nome' => 'Tijuca', 'municipio_id' => 1, 'cliente_id' => $cliente->id]);
+        $bairroDuplicado = Phactory::bairro(['municipio_id' => 1, 'cliente_id' => $cliente->id]);
         $bairroDuplicado->nome = 'Tijuca';
         
         $this->assertFalse($bairroDuplicado->save());
@@ -22,9 +24,11 @@ class BairroTest extends TestCase
         $this->assertTrue($bairroDuplicado->save());
     }
     
-    public function testSaveSemCoordenadas() {
-        
-        $bairro = Phactory::bairro();
+    public function testSaveSemCoordenadas() 
+    {
+        $cliente = Phactory::cliente();
+
+        $bairro = Phactory::bairro(['cliente_id' => $cliente->id]);
         $bairro->coordenadasJson = null;
         
         $this->assertFalse($bairro->save());
@@ -33,9 +37,11 @@ class BairroTest extends TestCase
         $this->assertTrue($bairro->save());
     }
     
-    public function testLoadCoordenadas() {
-        
-        $bairro = Phactory::bairro();
+    public function testLoadCoordenadas() 
+    {
+        $cliente = Phactory::cliente();
+
+        $bairro = Phactory::bairro(['cliente_id' => $cliente->id]);
         
         $this->assertNotNull($bairro->coordenadas_area);
         
@@ -65,7 +71,9 @@ class BairroTest extends TestCase
 
     public function testScopeDoNome()
     {
-        Phactory::bairro(['nome' => 'Nomedobairro']);
+        $cliente = Phactory::cliente();
+
+        Phactory::bairro(['nome' => 'Nomedobairro', 'cliente_id' => $cliente->id]);
 
         $this->assertEquals(Bairro::find()->doNome('Nomedobairro')->count(), 1);
         $this->assertEquals(Bairro::find()->doNome('Nome do bairro')->count(), 0);
@@ -73,7 +81,9 @@ class BairroTest extends TestCase
 
     public function testScopeComQuarteiroes()
     {
-        Phactory::bairro(['nome' => 'Nomedobairro']);
+        $cliente = Phactory::cliente();
+
+        Phactory::bairro(['nome' => 'Nomedobairro', 'cliente_id' => $cliente->id]);
         Phactory::bairroQuarteirao(['bairro_id' => Phactory::bairro()->id]);
         Phactory::bairroQuarteirao(['bairro_id' => Phactory::bairro()->id]);
 
@@ -82,21 +92,26 @@ class BairroTest extends TestCase
 
     public function testScopeComCoordenadas()
     {
-        Phactory::bairro();
-        Phactory::bairro();
+        $cliente = Phactory::cliente();
+
+        Phactory::bairro(['cliente_id' => $cliente->id]);
+        Phactory::bairro(['cliente_id' => $cliente->id]);
         
         $this->assertEquals(Bairro::find()->comCoordenadas()->count(), 2);
     }
 
     public function testScopeComFoco()
     {
-        Phactory::bairroQuarteirao(['bairro_id' => Phactory::bairro()->id]);
-        Phactory::bairroQuarteirao(['bairro_id' => Phactory::bairro()->id]);
+        $cliente = Phactory::cliente();
+
+        Phactory::bairroQuarteirao(['bairro_id' => Phactory::bairro()->id, 'cliente_id' => $cliente->id]);
+        Phactory::bairroQuarteirao(['bairro_id' => Phactory::bairro()->id, 'cliente_id' => $cliente->id]);
         $quarteirao = Phactory::bairroQuarteirao(['bairro_id' => Phactory::bairro()->id]);
 
-        $especie = Phactory::especieTransmissor(['municipio_id' => 1]);
+        $especie = Phactory::especieTransmissor(['cliente_id' => $cliente->id]);
 
         Phactory::focoTransmissor([
+            'cliente_id' => $cliente->id,
             'bairro_quarteirao_id' => $quarteirao->id, 
             'especie_transmissor_id' => $especie->id,
             'data_entrada' => date('01/04/Y'),

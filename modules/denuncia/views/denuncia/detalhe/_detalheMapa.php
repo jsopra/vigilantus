@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use app\models\Bairro;
 use app\models\Municipio;
+use app\models\Cliente;
 use app\models\EspecieTransmissor;
 use app\helpers\GoogleMapsAPIHelper;
 use yii\helpers\Url;
@@ -10,7 +11,7 @@ use yii\helpers\Url;
 <br />
         
 <?php
-$municipio = $model->municipio;
+$municipio = $model->cliente->municipio;
 $municipio->loadCoordenadas();
 ?>
 

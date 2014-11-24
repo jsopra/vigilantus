@@ -20,9 +20,10 @@ class RedisActiveRecord extends \yii\redis\ActiveRecord
             $query = new \yii\redis\ActiveQuery($className);
         }
 
-        $idMunicipio = Municipio::find()->one()->id;//intval(\Yii::$app->session->get('user.municipio')->id);
-        $query->andWhere(['municipio_id' => $idMunicipio]);
-        
+        if(php_sapi_name() != 'cli' && \Yii::$app->has('session')) {
+            $query->andWhere(['cliente_id' => intval(\Yii::$app->session->get('user.cliente')->id)]);
+        }
+
         return $query;
     }
 }

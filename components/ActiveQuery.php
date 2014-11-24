@@ -21,6 +21,23 @@ class ActiveQuery extends YiiActiveQuery
         $this->andWhere('municipio_id = :municipio_id', [':municipio_id' => $id]);
         return $this;
     }
+
+    /**
+     * @param int $id
+     * @return \app\components\ActiveQuery 
+     */
+    public function doCliente($id)
+    {
+        $modelClass = $this->modelClass;
+        $model = new $modelClass;
+
+        if(!isset($model->getTableSchema()->columns['cliente_id'])) {
+            return $this;
+        }
+        
+        $this->andWhere($model::tableName() . '.cliente_id = :cliente_id', [':cliente_id' => $id]);
+        return $this;
+    }
     
     /**
      * @return ActiveQuery

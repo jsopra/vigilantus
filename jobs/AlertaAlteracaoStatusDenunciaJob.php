@@ -14,7 +14,6 @@ class AlertaAlteracaoStatusDenunciaJob implements AbstractJob
         }
 
         $model = Denuncia::find()->andWhere(['id' => $params['id']])->one();
-
         if(!$model) {
             return;
         }

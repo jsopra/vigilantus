@@ -11,7 +11,7 @@ class DenunciaSearch extends SearchModel
 {
 	public $id;
 	public $data_criacao;
-	public $municipio_id;
+	public $cliente_id;
 	public $nome;
 	public $telefone;
 	public $bairro_id;
@@ -31,7 +31,7 @@ class DenunciaSearch extends SearchModel
 	public function rules()
 	{
 		return [
-			[['id', 'municipio_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'denuncia_tipo_problema_id', 'bairro_quarteirao_id'], 'integer'],
+			[['id', 'cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'denuncia_tipo_problema_id', 'bairro_quarteirao_id'], 'integer'],
 			[['data_criacao', 'nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo'], 'safe'],
 		];
 	}
@@ -41,7 +41,7 @@ class DenunciaSearch extends SearchModel
 		$query->andFilterWhere([
             'id' => $this->id,
             'data_criacao' => $this->data_criacao,
-            'municipio_id' => $this->municipio_id,
+            'cliente_id' => $this->cliente_id,
             'bairro_id' => $this->bairro_id,
             'imovel_id' => $this->imovel_id,
             'tipo_imovel' => $this->tipo_imovel,

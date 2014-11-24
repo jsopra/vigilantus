@@ -6,6 +6,7 @@ use app\components\PostgisActiveRecord;
 use app\helpers\models\MunicipioHelper;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
+use app\helpers\ImageHelper;
 
 /**
  * Este é a classe de modelo da tabela "municipios".
@@ -22,6 +23,14 @@ class Municipio extends PostgisActiveRecord
     public $latitude;
     public $longitude;
     public $file;
+
+    private $_brasaoSizes =[
+        /* folder, width, height */
+        ['mini', 50, 50],
+        ['small', 75, 75],
+        ['normal', 150, 150],
+        ['large', 300, 300]
+    ];
 
     /**
      * @return string
@@ -100,8 +109,9 @@ class Municipio extends PostgisActiveRecord
         
         $query->joinWith('cliente');
 
-        if($id)
-            $query->andWhere(['"id"' => $id]);
+        if($id) {
+            $query->andWhere(['"municipios"."id"' => $id]);
+        }
         
         return $query->all();
     }
@@ -170,27 +180,31 @@ class Municipio extends PostgisActiveRecord
                 if(!is_dir($path)) {
                     mkdir($path);
                     mkdir($path . 'original/');
-                    mkdir($path . 'mini/');
-                    mkdir($path . 'small/');
-                    mkdir($path . 'normal/');
-                    mkdir($path . 'large/');
+
+                    foreach($this->_brasaoSizes as $size) {
+                        mkdir($path . $size[0]);
+                    }
                 }
 
                 $imagemOriginal = $this->file->saveAs($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, false);
 
-                $image = Image::thumbnail($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, 50, 50);
-                $imagemMini = $image->save($path . 'mini/' . $this->file->baseName . '.' . $this->file->extension);
+                list($originalWidth, $originalHeight) = getimagesize($path . 'original/' . $this->file->baseName . '.' . $this->file->extension);
+                
+                foreach($this->_brasaoSizes as $size) {
 
-                $image = Image::thumbnail($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, 75, 75);
-                $imagemSmall = $image->save($path . 'small/' . $this->file->baseName . '.' . $this->file->extension);
+                    $folder = $size[0];
+                    $width = $size[1];
+                    $height = $size[2];
 
-                $image = Image::thumbnail($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, 150, 150);
-                $imagemNormal = $image->save($path . 'normal/' . $this->file->baseName . '.' . $this->file->extension);
-
-                $image = Image::thumbnail($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, 300, 300);
-                $imagemLarge = $image->save($path . 'large/' . $this->file->baseName . '.' . $this->file->extension);
-
-                $salvouImagem = $imagemMini && $imagemSmall && $imagemNormal && $imagemLarge && $imagemOriginal;
+                    $size = ImageHelper::calculateDimensions($originalWidth, $originalHeight, $width, $height);
+                    $image = Image::thumbnail($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, $size['width'], $size['height']);
+                    $thumb = $image->save($path . $folder . $this->file->baseName . '.' . $this->file->extension);
+                
+                    if(!$thumb) {
+                        $salvouImagem = false;
+                        break;           
+                    }
+                }
 
                 if($salvouImagem) { 
                     $this->brasao = $this->file->baseName . '.' . $this->file->extension;

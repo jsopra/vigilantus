@@ -9,6 +9,8 @@ use yii\web\Controller as YiiController;
 use yii\web\NotFoundHttpException;
 use app\forms\FeedbackForm;
 use app\models\Municipio;
+use app\models\Cliente;
+use app\models\UsuarioRole;
 
 class Controller extends YiiController
 {
@@ -33,22 +35,29 @@ class Controller extends YiiController
     {
         $this->feedbackModel = new FeedbackForm();
 
-        if(!\Yii::$app->user->isGuest) {
-            
-            if(!\Yii::$app->session->get('user.cliente') && method_exists($this, 'getUser')) {
-                $clientes = Cliente::getClientes($this->getUser()->cliente ? $this->getUser()->cliente->id : null);
-                $cliente = count($clientes) > 0 ? $clientes[0] : null;
-                Yii::$app->session->set('user.cliente',$cliente);
-            }
+        if(!\Yii::$app->user->isGuest && !\Yii::$app->session->get('user.cliente')) {
 
-            $idMunicipio = \Yii::$app->user->identity->cliente ? \Yii::$app->user->identity->cliente->municipio->id : null;
-           
-            $this->municipiosDisponiveis = Municipio::getMunicipios($idMunicipio); 
-            
-            if(\Yii::$app->session->get('user.cliente')) {
-                $this->municipioLogado = \Yii::$app->session->get('user.cliente')->municipio;
+            if(\Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
+
+                Yii::$app->session->set('user.municipios', Municipio::find()->innerJoinWith('cliente')->all());
+                Yii::$app->session->set('user.cliente', Cliente::find()->one());
+
+                unset($municipios);
+            }
+            else {
+
+                $municipios = null;
+                var_dump($municipios);
+
+                Yii::$app->session->set('municipios', $municipios);
+                Yii::$app->session->set('user.cliente',\Yii::$app->user->identity->cliente);
+
+                unset($municipios);
             }
         }
+
+        $this->municipiosDisponiveis = \Yii::$app->session->get('user.municipios') ? \Yii::$app->session->get('user.municipios') : null;
+        $this->municipioLogado = \Yii::$app->session->get('user.cliente') ? \Yii::$app->session->get('user.cliente')->municipio : null;
 
         Yii::$app->setTimeZone('America/Sao_Paulo');
     }

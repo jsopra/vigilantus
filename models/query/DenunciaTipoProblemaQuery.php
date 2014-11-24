@@ -6,7 +6,6 @@ use app\components\ActiveQuery;
 
 class DenunciaTipoProblemaQuery extends ActiveQuery
 {  
-
 	public function ativos()
 	{
 		$this->andWhere('ativo IS TRUE');

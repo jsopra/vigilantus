@@ -7,7 +7,7 @@ class DepositoTipoPhactory
             'id' => '#{sn}',
             'descricao' => 'Tipo_Depósito_#{sn}',
             'sigla' => 'TD#{sn}',
-            'municipio_id' => Phactory::hasOne('municipio'),
+            'cliente_id' => Phactory::hasOne('cliente'),
             'inserido_por' => Phactory::hasOne('usuario'),
             'atualizado_por' => Phactory::hasOne('usuario'),
         ];

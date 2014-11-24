@@ -8,13 +8,13 @@ echo Nav::widget([
     'items' => [
         [
             'label' => 'Focos',
-            'url' => ['cidade/index', 'id' => $municipio->id],
+            'url' => ['cidade/index', 'id' => $cliente->id],
             'options' => ['id' => 'focos']
         ],
         /*
         [
             'label' => 'Denúncias',
-             'url' => ['cidade/denuncias', 'id' => $municipio->id],
+             'url' => ['cidade/denuncias', 'id' => $cliente->id],
             'options' => ['id' => 'denuncias']
         ],
         */

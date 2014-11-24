@@ -1,7 +1,6 @@
 <?php
 
 use app\models\BairroCategoria;
-use app\models\Municipio;
 use app\widgets\GridView;
 use yii\helpers\Html;
 use app\helpers\GoogleMapsAPIHelper;

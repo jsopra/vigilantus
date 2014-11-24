@@ -15,6 +15,7 @@ use app\components\ActiveRecord;
  * @property string $telefone_contato
  * @property string $departamento
  * @property string $cargo
+ * @property string $rotulo
  *
  * @property Municipios $municipio
  */
@@ -39,6 +40,7 @@ class Cliente extends ActiveRecord
 			[['municipio_id', 'nome_contato', 'telefone_contato', 'departamento'], 'required'],          
             [['email_contato', 'cargo'], 'safe'],
             [['municipio_id'], 'unique'],
+            [['rotulo'], 'unique'],
             ['municipio_id', 'exist', 'targetClass' => Municipio::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             [['data_cadastro'], 'safe']
 		];
@@ -58,23 +60,8 @@ class Cliente extends ActiveRecord
             'telefone_contato' => 'Telefone do contato',
             'departamento' => 'Departamento do contato',
             'cargo' => 'Cargo do contato',
+            'rotulo' => 'Rótulo'
 		];
-	}
-    
-    
-    /**
-     * Busca clientes
-     * @param int $id Default is null
-     * @return Cliente[] 
-     */
-    public static function getClientes($id = null) {
-        
-        $query = self::find();
-
-        if($id)
-            $query->andWhere(['"id"' => $id]);
-        
-        return $query->all();
     }
 
 	/**
@@ -107,8 +94,10 @@ class Cliente extends ActiveRecord
      */
     public function moduloIsHabilitado($moduloId)
     {
+        $this->refresh();
+        
         foreach($this->modulos as $modulo) {
-            if($modulo->id == $moduloId) {
+            if($modulo->modulo_id == $moduloId) {
                 return true;
             }
         }

@@ -6,7 +6,8 @@ use app\components\ActiveQuery;
 
 class ClienteModuloQuery extends ActiveQuery
 {  
-    public function doCliente($id) {
+    public function doCliente($id) 
+    {
         $this->andWhere('cliente_id = :id', [':id' => $id]);
         return $this;
     }

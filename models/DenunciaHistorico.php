@@ -1,14 +1,14 @@
 <?php
 
 namespace app\models;
-use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 
 /**
  * Este é a classe de modelo da tabela "denuncia_historico".
  *
  * Estas são as colunas disponíveis na tabela "denuncia_historico":
  * @property integer $id
- * @property integer $municipio_id
+ * @property integer $cliente_id
  * @property integer $denuncia_id
  * @property string $data_hora
  * @property integer $tipo
@@ -17,10 +17,10 @@ use app\components\ActiveRecord;
  * @property integer $status_novo
  * @property integer $usuario_id
  *
- * @property Municipios $municipio
+ * @property Cliente $cliente
  * @property Denuncias $denuncia
  */
-class DenunciaHistorico extends ActiveRecord 
+class DenunciaHistorico extends ClienteActiveRecord 
 {
 	/**
 	 * @inheritdoc
@@ -37,8 +37,8 @@ class DenunciaHistorico extends ActiveRecord
 	{
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
-			[['municipio_id', 'denuncia_id', 'tipo'], 'required'],
-			[['municipio_id', 'denuncia_id', 'tipo', 'status_antigo', 'status_novo', 'usuario_id'], 'integer'],
+			[['cliente_id', 'denuncia_id', 'tipo'], 'required'],
+			[['cliente_id', 'denuncia_id', 'tipo', 'status_antigo', 'status_novo', 'usuario_id'], 'integer'],
 			[['data_hora'], 'safe'],
 			[['observacoes'], 'string'],
 			['tipo', 'in', 'range' => DenunciaHistoricoTipo::getIDs()],
@@ -54,7 +54,7 @@ class DenunciaHistorico extends ActiveRecord
 	{
 		return [
 			'id' => 'ID',
-			'municipio_id' => 'Município',
+			'cliente_id' => 'Município Cliente',
 			'denuncia_id' => 'Denúncia',
 			'data_hora' => 'Data Hora',
 			'tipo' => 'Tipo',
@@ -68,9 +68,9 @@ class DenunciaHistorico extends ActiveRecord
 	/**
 	 * @return \yii\db\ActiveRelation
 	 */
-	public function getMunicipio()
+	public function getCliente()
 	{
-		return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+		return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
 	}
 
 	/**

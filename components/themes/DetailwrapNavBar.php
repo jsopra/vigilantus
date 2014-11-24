@@ -70,7 +70,7 @@ class DetailwrapNavBar extends Widget
                 echo '<p class="unico-municipio">' . $this->municipios[0]->nome . '/' . $this->municipios[0]->sigla_estado . '</p>';
             }
             else if(is_object($this->municipioLogado)) {
-                echo Html::dropDownList('user_municipio', Url::toRoute(['site/session', 'id' => $this->municipioLogado->id]), $listMunicipios);
+                echo Html::dropDownList('user_municipio', Url::toRoute(['/site/session', 'id' => $this->municipioLogado->id]), $listMunicipios);
             }
             
             echo Html::endTag('div');

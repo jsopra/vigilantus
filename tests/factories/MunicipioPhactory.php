@@ -7,9 +7,8 @@ class MunicipioPhactory
             'id' => '#{sn}',
             'nome' => 'Município #{sn}',
             'sigla_estado' => 'SC',
-            'nome_contato' => 'Contato #{sn}',
-            'telefone_contato' => '(49) 0000-0000',
-            'departamento' => 'Departamento Federal',
+            'coordenadas_area' => '0101000020E6100000EFAEB321FF183BC086AB0320EE4E4AC0', 
+            'brasao' => null
         ];
     }
 }

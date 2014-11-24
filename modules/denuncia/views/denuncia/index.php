@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'create' => function() {
                 return Html::a(
                     'Cadastrar Denúncia',
-                    Yii::$app->urlManager->createUrl('denuncia/create'),
+                    Yii::$app->urlManager->createUrl('denuncia/denuncia/create'),
                     [
                         'class' => 'btn btn-flat success',
                         'data-role' => 'create',

@@ -5,7 +5,6 @@ use app\models\Bairro;
 use app\models\BairroQuarteirao;
 use app\models\FocoTransmissor;
 use app\models\EspecieTransmissor;
-use app\models\Municipio;
 use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;

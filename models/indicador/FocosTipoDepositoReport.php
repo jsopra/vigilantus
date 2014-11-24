@@ -3,7 +3,6 @@ namespace app\models\indicador;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Municipio;
 use app\models\EspecieTransmissor;
 use app\models\FocoTransmissor;
 use app\models\DepositoTipo;
@@ -33,8 +32,6 @@ class FocosTipoDepositoReport extends Model
     
     public function getData() 
     {
-        $municipio = Municipio::find()->one(); //FIX
-        
         $tiposDeposito = DepositoTipo::find()->all();
 
         $data = [];

@@ -1,6 +1,4 @@
 <?php
-
-use app\models\Municipio;
 use app\models\Usuario;
 use app\widgets\GridView;
 use yii\helpers\Html;

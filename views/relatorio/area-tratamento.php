@@ -1,5 +1,4 @@
 <?php
-use app\models\Municipio;
 use app\models\Bairro;
 use app\widgets\GridView;
 use yii\helpers\Html;

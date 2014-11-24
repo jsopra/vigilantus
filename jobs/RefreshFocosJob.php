@@ -2,8 +2,9 @@
 namespace app\jobs;
 
 use Yii;
-    use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
+use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use app\models\FocoTransmissor;
+use app\models\Cliente;
 
 class RefreshFocosJob implements AbstractJob
 {
@@ -11,12 +12,12 @@ class RefreshFocosJob implements AbstractJob
     { 
         FocoTransmissorRedis::deleteAll();
         
-        $municipios = \app\models\Municipio::find()->all(); 
-        foreach($municipios as $municipio) {
+        $clientes = Cliente::find()->all(); 
+        foreach($clientes as $cliente) {
 
             $focos = FocoTransmissor::find()
                 ->select(['distinct on (especie_transmissor_id, imovel_id, bairro_quarteirao_id) focos_transmissores.*'])
-                ->doMunicipio($municipio->id)
+                ->doCliente($cliente->id)
                 ->ativo()
                 ->all();
 
@@ -31,7 +32,7 @@ class RefreshFocosJob implements AbstractJob
 
                 $focoRedis = new FocoTransmissorRedis;
 
-                $focoRedis->municipio_id = $municipio->id;
+                $focoRedis->cliente_id = $cliente->id;
                 $focoRedis->bairro_quarteirao_id =  $quarteirao->id;
                 $focoRedis->bairro_id = $quarteirao->bairro_id;
                 $focoRedis->imovel_lira = ($foco->imovel ? ($foco->imovel->imovel_lira) : null);

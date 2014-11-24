@@ -32,10 +32,10 @@ use yii\helpers\Url;
 <div class="row">
 
   	<div class="col-md-6">
-		<?= $this->render($viewPartial, ['dados' => $dados, 'municipio' => $municipio]); ?>
+		<?= $this->render($viewPartial, ['dados' => $dados, 'municipio' => $municipio, 'cliente' => $cliente]); ?>
 	</div>
 
 	<div class="col-md-5 col-md-offset-1">
-		<?= $this->render('_denuncia', ['municipio' => $municipio, 'model' => $model]); ?>
+		<?= $this->render('_denuncia', ['municipio' => $municipio, 'model' => $model, 'cliente' => $cliente]); ?>
 	</div>
 </div>

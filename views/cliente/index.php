@@ -60,6 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::tag('p', $link, ['class' => 'text-center no-margin']); 
                 },
             ],
+            'rotulo',
 			[
                 'attribute' => 'data_cadastro',
                 'filter' => false,
@@ -89,7 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],  
 			[
                 'class' => 'app\components\ActionColumn',
-                'template' => '{delete}',
+                'template' => '{update} {delete}',
             ],
 		],
 	]); ?>

@@ -20,8 +20,10 @@ use app\models\Query\BairroQuarteiraoQuery as BairroQuarteiraoQuery;
  * @property integer $atualizado_por
  * @property integer $seq;
  * @property string $coordenadas_area
+ * @property integer $cliente_id
  *
- * @property Municipios $municipio
+ * @property Municipio $municipio
+ * @property Cliente $cliente
  * @property Bairros $bairro
  * @property Usuarios $inseridoPor
  * @property Usuarios $atualizadoPor
@@ -61,7 +63,7 @@ class BairroQuarteirao extends PostgisActiveRecord
 			[['municipio_id', 'bairro_id', 'numero_quarteirao'], 'required'],
             ['numero_quarteirao', 'unique', 'compositeWith' => ['bairro_id', 'municipio_id']],
             ['numero_quarteirao_2', 'unique', 'compositeWith' => ['bairro_id', 'municipio_id']],
-			[['municipio_id', 'bairro_id', 'inserido_por', 'atualizado_por', 'seq'], 'integer'],
+			[['municipio_id', 'bairro_id', 'inserido_por', 'atualizado_por', 'seq', 'cliente_id'], 'integer'],
             ['inserido_por', 'required', 'on' => 'insert'],
             ['atualizado_por', 'required', 'on' => 'update'],
             ['coordenadas', 'required', 'on' => ['insert','update']],
@@ -95,6 +97,7 @@ class BairroQuarteirao extends PostgisActiveRecord
             'coordenadas_area' => 'Área',
             'coordenadas' => 'Área',
             'coordenadasJson' => 'Área',
+            'cliente_id' => 'Cliente'
 		];
 	}
 
@@ -105,6 +108,14 @@ class BairroQuarteirao extends PostgisActiveRecord
 	{
 		return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
 	}
+
+    /**
+     * @return \yii\db\ActiveRelation
+     */
+    public function getCliente()
+    {
+        return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
+    }
 
 	/**
 	 * @return \yii\db\ActiveRelation
@@ -149,8 +160,9 @@ class BairroQuarteirao extends PostgisActiveRecord
      */
     public function loadCoordenadas() {
         
-        if($this->coordenadas)
+        if($this->coordenadas) {
             return true;
+        }
         
         $this->coordenadas = $this->postgisToArray('Polygon', 'coordenadas_area');        
         
@@ -230,12 +242,12 @@ class BairroQuarteirao extends PostgisActiveRecord
     /**
      * Busca todos ID's de quarteirões em áreas de tramento
      * @uses Caching
-     * @param int $municipioId
+     * @param int $clienteId
      * @return array 
      */
-    public static function getIDsAreaTratamento($municipioId, $especieTransmissor = null, $lira = null)
+    public static function getIDsAreaTratamento($clienteId, $especieTransmissor = null, $lira = null)
     {
-        $cacheKey = 'quarteiroes_area_tratamento_' . $municipioId;
+        $cacheKey = 'quarteiroes_area_tratamento_' . $clienteId;
         
         if($especieTransmissor !== null) {
             $cacheKey .= '_especie_' . $especieTransmissor;
@@ -279,7 +291,7 @@ class BairroQuarteirao extends PostgisActiveRecord
             SELECT max(ft.id) 
             FROM focos_transmissores ft
             JOIN bairro_quarteiroes bq on ft.bairro_quarteirao_id = bq.id
-            WHERE bq.municipio_id = ' . $municipioId;   
+            WHERE bq.cliente_id = ' . $clienteId;   
         
         Yii::$app->cache->set($cacheKey, $return, null, $dependency);
         

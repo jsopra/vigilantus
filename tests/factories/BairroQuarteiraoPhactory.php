@@ -6,6 +6,7 @@ class BairroQuarteiraoPhactory
         return [
             'id' => '#{sn}',
             'numero_quarteirao' => '#{sn}',
+            'cliente_id' => Phactory::hasOne('cliente'),
             'municipio_id' => Phactory::hasOne('municipio'),
             'bairro_id' => Phactory::hasOne('bairro'),
             'inserido_por' => Phactory::hasOne('usuario'),

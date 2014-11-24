@@ -1,6 +1,7 @@
 <?php
 namespace app\helpers;
 use \yii\web\User;
+use app\models\Modulo;
 
 class VigilantusLayoutHelper {
     
@@ -15,7 +16,8 @@ class VigilantusLayoutHelper {
             [
                 'label' => 'Denúncias',
                 'icon' => 'bullhorn',
-                'url' => ['/denuncia/'],
+                'url' => ['/denuncia/denuncia/index'],
+                'visible' =>  $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)
             ],
             [
                 'label' => 'Focos',
@@ -59,7 +61,7 @@ class VigilantusLayoutHelper {
                     ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
                     ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/']],
                     ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/']],
-                    ['label' => 'Tipo de Problema em Denúncia', 'url' => ['/denuncia-tipo-problema/'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Tipo de Problema em Denúncia', 'url' => ['/denuncia/denuncia-tipo-problema/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)],
                 ]
             ],
             [
