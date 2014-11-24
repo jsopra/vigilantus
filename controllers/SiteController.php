@@ -17,6 +17,7 @@ use app\models\report\ResumoRgCapaReport;
 use app\models\report\ResumoFocosCapaReport;
 use yii\base\Exception;
 use yii\base\UserException;
+use app\models\Cliente;
 
 class SiteController extends Controller
 {
@@ -77,7 +78,7 @@ class SiteController extends Controller
             'home',
             [
                 'modelRg' => new ResumoRgCapaReport,
-                'municipio' => Municipio::find()->andWhere(['id' => 1])->one(),
+                'cliente' => \Yii::$app->session->get('user.cliente'),
             ]
         );
     }
@@ -88,7 +89,7 @@ class SiteController extends Controller
             'resumo-focos',
             [
                 'modelFoco' => new ResumoFocosCapaReport,
-                'municipio' => Municipio::find()->andWhere(['id' => 1])->one(),
+                'cliente' => \Yii::$app->session->get('user.cliente'),
             ]
         );
     }
@@ -177,26 +178,22 @@ class SiteController extends Controller
 
         Yii::$app->session->set('user.cliente', Municipio::findOne($id)->cliente);
         
-        Yii::$app->session->setFlash('success', 'Município alterado com sucesso');
+        Yii::$app->session->setFlash('success', 'Cliente alterado com sucesso');
 
         return $this->redirect(['home']);
     }
 
     public function actionError()
     {
-
         $municipio = str_replace('/', '', Yii::$app->getRequest()->getUrl());
-
         if($municipio) {
 
-            $objeto = Municipio::find()/*->doIdentificador()*/->one();
-
+            $objeto = Cliente::find()->doRotulo($municipio)->one();
             if($objeto) {
 
                 $this->redirect(['cidade/index', 'id' => $objeto->id]);
             }            
         }
-
 
         if (($exception = Yii::$app->getErrorHandler()->exception) === null) {
             return '';
@@ -204,21 +201,26 @@ class SiteController extends Controller
 
         if ($exception instanceof HttpException) {
             $code = $exception->statusCode;
-        } else {
+        } 
+        else {
             $code = $exception->getCode();
         }
+
         if ($exception instanceof Exception) {
             $name = $exception->getName();
-        } else {
+        } 
+        else {
             $name = $this->defaultName ?: Yii::t('yii', 'Error');
         }
+
         if ($code) {
             $name .= " (#$code)";
         }
 
         if ($exception instanceof UserException) {
             $message = $exception->getMessage();
-        } else {
+        } 
+        else {
             $message = $this->defaultMessage ?: Yii::t('yii', 'An internal server error occurred.');
         }
 

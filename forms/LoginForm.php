@@ -7,7 +7,7 @@ use Yii;
 use yii\base\Model;
 use app\models\Municipio;
 use app\models\Cliente;
-
+use app\models\UsuarioRole;
 /**
  * LoginForm is the model behind the login form.
  */
@@ -63,21 +63,10 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-
-            $logado = Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
-            
-            if ($logado) {
-                $clientes = Cliente::getClientes($this->getUser()->cliente_id);
-                $cliente = count($clientes) > 0 ? $clientes[0] : null;
-
-                Yii::$app->session->set('user.cliente', $cliente);
-            }
-            
-            return $logado;
-            
-        } else {
-            return false;
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0); 
         }
+
+        return false;
     }
 
     /**

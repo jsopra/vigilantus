@@ -95,8 +95,8 @@ $config = [
         ],
     ],
     'modules' => [
-        'denuncias' => [
-            'class' => 'app\modules\denuncias\Module',
+        'denuncia' => [
+            'class' => 'app\modules\denuncia\Module',
         ],
     ],
     'params' => $params,

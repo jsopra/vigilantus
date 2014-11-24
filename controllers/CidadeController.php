@@ -3,7 +3,7 @@ namespace app\controllers;
 
 use Yii;
 use app\components\Controller;
-use app\models\Municipio;
+use app\models\Cliente;
 use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use app\models\Denuncia;
 use yii\web\UploadedFile;
@@ -13,10 +13,12 @@ class CidadeController extends Controller
 {
     public function actionIndex($id)
     {
-        $municipio = Municipio::find()->andWhere(['id' => $id])->one();
-        if(!$municipio) {
+        $cliente = Cliente::find()->andWhere(['id' => $id])->one();
+        if(!$cliente) {
             throw new \Exception('Município não localizado');
         }
+
+        Yii::$app->session->set('user.cliente', $cliente);
 
         $model = new Denuncia();
 
@@ -24,6 +26,7 @@ class CidadeController extends Controller
 
             $model->load(Yii::$app->request->post());
             $model->file = UploadedFile::getInstance($model, 'file');
+            $model->cliente_id = $cliente->id;
 
             if($model->validate()) {
 
@@ -51,8 +54,9 @@ class CidadeController extends Controller
         return $this->render(
             'index',
             [
-                'municipio' => $municipio,
-                'dados' => FocoTransmissorRedis::find()->doMunicipio($municipio->id)->informacaoPublica()->all(),
+                'cliente' => $cliente,
+                'municipio' => $cliente->municipio,
+                'dados' => FocoTransmissorRedis::find()->doCliente($cliente->id)->informacaoPublica()->all(),
                 'viewPartial' => '_focos',
                 'model' => $model,
             ]
