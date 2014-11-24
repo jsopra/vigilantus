@@ -151,7 +151,7 @@ class Municipio extends PostgisActiveRecord
                 continue;
             
             $bairro->loadCoordenadas();
-            $return[] = $bairro->coordenadas;
+            $return[] = ['nome' => $bairro->nome, 'coordenadas' => $bairro->coordenadas];
         }
         
         return $return;

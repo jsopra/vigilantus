@@ -182,7 +182,7 @@ class BairroQuarteirao extends PostgisActiveRecord
         
         foreach($quarteiroes as $quarteirao) {
             
-            $cacheKey = 'quarteirao_coordenadas_' . $quarteirao->id;
+            $cacheKey = 'quarteirao_coord_' . $quarteirao->id;
             $data = Yii::$app->cache->get($cacheKey);
 
             if($data !== false) {
@@ -197,9 +197,9 @@ class BairroQuarteirao extends PostgisActiveRecord
                 $dependency = new \app\components\caching\DbDependency; //fix quando atualizar yii
                 $dependency->sql = 'SELECT coalesce(data_atualizacao, data_cadastro) FROM bairro_quarteiroes WHERE id = ' . $quarteirao->id;
 
-                Yii::$app->cache->set($cacheKey, $quarteirao->coordenadas, null, $dependency);
+                Yii::$app->cache->set($cacheKey, ['numero' => $quarteirao->numero_quarteirao, 'coordenada' => $quarteirao->coordenadas], null, $dependency);
                 
-                $return[] = $quarteirao->coordenadas;
+                $return[] = ['numero' => $quarteirao->numero_quarteirao, 'coordenada' => $quarteirao->coordenadas];
             }
         }
 

@@ -181,16 +181,32 @@ use yii\bootstrap\ButtonGroup;
         
         <?php 
         $i = 0;
-        foreach($coordenadasQuarteiroes as $quarteiraoCoordenada) : ?>
+        foreach($coordenadasQuarteiroes as $dadosQuarteirao) : ?>
         
+            <?php $quarteiraoCoordenada = $dadosQuarteirao['coordenada']; ?>
+
+            var quarteiraoBounds<?= $i; ?> = [<?= GoogleMapsAPIHelper::arrayToBounds($quarteiraoCoordenada); ?>];
+            var quarteiraoObj<?= $i; ?> = new google.maps.LatLngBounds();
+
             var quarteiraoPolygon<?= $i; ?> = new google.maps.Polygon({
-                paths: [<?= GoogleMapsAPIHelper::arrayToBounds($quarteiraoCoordenada); ?>],
+                paths: quarteiraoBounds<?= $i; ?>,
                 strokeWeight: 0,
                 fillColor: quarteiraoColor,
                 fillOpacity: 0.85,
                 map: map
             });
             
+            for (i = 0; i < quarteiraoBounds<?= $i; ?>.length; i++)
+                quarteiraoObj<?= $i; ?>.extend(quarteiraoBounds<?= $i; ?>[i]);
+
+            var mapCenterQuarteirao<?= $i; ?> = quarteiraoObj<?= $i; ?>.getCenter();
+
+            var marker = new google.maps.Marker({
+                  position: mapCenterQuarteirao<?= $i; ?>,
+                  map: map,
+                  title: '<?= $dadosQuarteirao['numero']; ?>'
+            });
+
         <?php endforeach; ?>
         
     <?php endif; ?>

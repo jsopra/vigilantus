@@ -150,18 +150,34 @@ if ($municipio->latitude && $municipio->longitude) :
     if ($qtdeBairrosComCoordenada > 0) : 
 
         $i = 0;
-        foreach($coordenadasBairros as $bairroCoordenada) : 
+        foreach($coordenadasBairros as $bairroDados) : 
+
+            $bairroCoordenada = $bairroDados['coordenadas'];
 
             $javascript .= "
+
+            var bairroBoundsBairro" . $i . " = [" . GoogleMapsAPIHelper::arrayToBounds($bairroCoordenada) . "];
+            var bairroBoundsObjBairro" . $i . " = new google.maps.LatLngBounds();
+            
+            for (i = 0; i < bairroBoundsBairro" . $i . ".length; i++)
+                bairroBoundsObjBairro" . $i . ".extend(bairroBoundsBairro" . $i . "[i]);
+
+            var mapCenterBairro" . $i . " = bairroBoundsObjBairro" . $i . ".getCenter();
         
             var bairroPolygon" . $i . " = new google.maps.Polygon({
-                paths: [" . GoogleMapsAPIHelper::arrayToBounds($bairroCoordenada) . "],
+                paths: bairroBoundsBairro" . $i . ",
                 strokeWeight: 0,
                 fillColor: bairroColor,
                 fillOpacity: 0.85,
                 map: map
             });
-    
+
+            var marker = new google.maps.Marker({
+                  position: mapCenterBairro" . $i . ",
+                  map: map,
+                  title: '" . $bairroDados['nome'] . "'
+            });
+
             ";
             
         endforeach;
