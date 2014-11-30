@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model, $index, $widget) {
                     return $model->getFormattedAttribute('data');
                 },
-            ], 
+            ],
             [
                 'header' => 'Detalhado?',
                 'value' => function ($model, $index, $widget) {
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'width' => '10%',
                 ]
             ],
-            [   
+            [
                 'class' => 'app\extensions\grid\ModalColumn',
                 'iconClass' => 'icon-search opacity50',
                 'modalId' => 'fechamento-detalhes',
@@ -105,18 +105,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Qtde. Imóveis',
                 'linkTitle' => 'Ver Fechamento',
                 'value' => function ($model, $index, $widget) {
-                    return $model->quantidadeImoveisNaoLiraFechamento . ' (Ver fechamento)';
+                    return $model->quantidadeImoveisFechamento . ' (Ver fechamento)';
                 },
                 'options' => [
                     'width' => '15%',
                 ]
-            ],  
+            ],
             [
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
                 'buttons' => [
                     'update' => function ($url, $model) {
-                        $url = $model->quantidadeImoveis == 0 ? Url::toRoute(array('boletim-rg/update-fechamento', 'id' => $model->id)) : Url::toRoute(array('boletim-rg/update', 'id' => $model->id));   
+                        $url = $model->quantidadeImoveis == 0 ? Url::toRoute(array('boletim-rg/update-fechamento', 'id' => $model->id)) : Url::toRoute(array('boletim-rg/update', 'id' => $model->id));
                         return  Html::a('<i class="table-edit"></i>', $url, array('title' => 'Alterar'));
                     },
                 ],

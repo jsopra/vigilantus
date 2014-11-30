@@ -3,7 +3,6 @@ namespace app\models\indicador;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Municipio;
 use app\models\EspecieTransmissor;
 use app\models\FocoTransmissor;
 use Yii;
@@ -28,8 +27,6 @@ class EvolucaoFocosReport extends Model
     
     public function getData() 
     {
-        $municipio = Municipio::find()->one(); //FIX
-        
         $anos = [
             date('Y') - 3,
             date('Y') - 2,

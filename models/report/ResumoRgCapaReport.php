@@ -23,9 +23,9 @@ class ResumoRgCapaReport
     /**
      * @return integer
      */
-    public function getTotalImoveis()
+    public function getTotalImoveis($idCliente)
     {
-        return FechamentoRgRedis::find()->doTipoLira(false)->sum('quantidade');
+        return FechamentoRgRedis::find()->doTipoLira(false)->doCliente($idCliente)->sum('quantidade');
     }
 
     /**

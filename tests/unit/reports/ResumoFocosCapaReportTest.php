@@ -101,22 +101,24 @@ class ResumoFocosCapaReportTest extends TestCase
         $this->assertEquals($report->getPercentualFocosFormaFoco(date('Y'), $especie, 'quantidade_ovos'), 33.33);
     }
 
-    private function _createScenario() 
+    private function _createScenario()
     {
-        $quarteirao = Phactory::bairroQuarteirao([
-            'municipio_id' => 1,
-            'bairro_id' => Phactory::bairro(['municipio_id' => 1])->id,
-        ]);
-        
-        $especieA = Phactory::especieTransmissor(['municipio_id' => 1]);
-        $especieB = Phactory::especieTransmissor(['municipio_id' => 1]);
+        $cliente = Phactory::cliente();
 
-        $depositoA = Phactory::depositoTipo(['municipio_id' => 1]);
-        $depositoB = Phactory::depositoTipo(['municipio_id' => 1]);
+        $quarteirao = Phactory::bairroQuarteirao([
+            'cliente_id' => $cliente->id,
+            'bairro_id' => Phactory::bairro(['cliente_id' => $cliente->id])->id,
+        ]);
+
+        $especieA = Phactory::especieTransmissor(['cliente_id' => $cliente->id]);
+        $especieB = Phactory::especieTransmissor(['cliente_id' => $cliente->id]);
+
+        $depositoA = Phactory::depositoTipo(['cliente_id' => $cliente->id]);
+        $depositoB = Phactory::depositoTipo(['cliente_id' => $cliente->id]);
 
         Phactory::focoTransmissor([
             'tipo_deposito_id' => $depositoA->id,
-        	'bairro_quarteirao_id' => $quarteirao->id, 
+        	'bairro_quarteirao_id' => $quarteirao->id,
         	'especie_transmissor_id' => $especieA->id,
             'quantidade_ovos' => 0,
             'quantidade_forma_adulta' => 0,
@@ -125,7 +127,7 @@ class ResumoFocosCapaReportTest extends TestCase
 
         Phactory::focoTransmissor([
             'tipo_deposito_id' => $depositoA->id,
-            'bairro_quarteirao_id' => $quarteirao->id, 
+            'bairro_quarteirao_id' => $quarteirao->id,
             'especie_transmissor_id' => $especieA->id,
             'quantidade_ovos' => 0,
             'quantidade_forma_adulta' => 0,
@@ -134,7 +136,7 @@ class ResumoFocosCapaReportTest extends TestCase
 
         Phactory::focoTransmissor([
             'tipo_deposito_id' => $depositoB->id,
-            'bairro_quarteirao_id' => $quarteirao->id, 
+            'bairro_quarteirao_id' => $quarteirao->id,
             'especie_transmissor_id' => $especieB->id,
             'quantidade_ovos' => 0,
             'quantidade_forma_adulta' => 2,
@@ -143,7 +145,7 @@ class ResumoFocosCapaReportTest extends TestCase
 
         Phactory::focoTransmissor([
             'tipo_deposito_id' => $depositoB->id,
-            'bairro_quarteirao_id' => $quarteirao->id, 
+            'bairro_quarteirao_id' => $quarteirao->id,
             'especie_transmissor_id' => $especieA->id,
             'quantidade_ovos' => 2,
             'quantidade_forma_adulta' => 0,

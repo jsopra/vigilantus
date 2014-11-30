@@ -3,13 +3,14 @@
 namespace app\models;
 
 use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 
 /**
  * Este é a classe de modelo da tabela "deposito_tipos".
  *
  * Estas são as colunas disponíveis na tabela "deposito_tipos":
  * @property integer $id
- * @property integer $municipio_id
+ * @property integer $cliente_id
  * @property integer $deposito_tipo_pai
  * @property string $descricao
  * @property string $sigla
@@ -18,10 +19,9 @@ use app\components\ActiveRecord;
  * @property integer $inserido_por
  * @property integer $atualizado_por
  *
- * @property Municipios $municipio
  * @property DepositoTipos $depositoTipoPai
  */
-class DepositoTipo extends ActiveRecord 
+class DepositoTipo extends ClienteActiveRecord 
 {
 	/**
 	 * @inheritdoc
@@ -38,12 +38,12 @@ class DepositoTipo extends ActiveRecord
 	{
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
-			[['municipio_id', 'descricao', 'sigla'], 'required'],
-			[['municipio_id', 'deposito_tipo_pai', 'inserido_por', 'atualizado_por'], 'integer'],
+			[['cliente_id', 'descricao', 'sigla'], 'required'],
+			[['cliente_id', 'deposito_tipo_pai', 'inserido_por', 'atualizado_por'], 'integer'],
 			[['descricao', 'sigla', 'data_cadastro', 'data_atualizacao'], 'safe'],
-            ['municipio_id', 'exist', 'targetClass' => Municipio::className(), 'targetAttribute' => 'id'],
+            ['cliente_id', 'exist', 'targetClass' => Cliente::className(), 'targetAttribute' => 'id'],
             ['deposito_tipo_pai', 'exist', 'targetClass' => self::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
-            ['sigla', 'unique', 'compositeWith' => 'municipio_id'],
+            ['sigla', 'unique', 'compositeWith' => 'cliente_id'],
             ['inserido_por', 'required', 'on' => 'insert'],
             ['atualizado_por', 'required', 'on' => 'update'],
 		];
@@ -56,7 +56,7 @@ class DepositoTipo extends ActiveRecord
 	{
 		return [
 			'id' => 'ID',
-			'municipio_id' => 'Município',
+			'cliente_id' => 'Município Cliente',
 			'deposito_tipo_pai' => 'Tipo de Depósito Pai',
 			'descricao' => 'Descrição',
 			'sigla' => 'Sigla',
@@ -65,14 +65,6 @@ class DepositoTipo extends ActiveRecord
             'inserido_por' => 'Inserido Por',
             'atualizado_por' => 'Atualizado Por',
 		];
-	}
-
-	/**
-	 * @return \yii\db\ActiveRelation
-	 */
-	public function getMunicipio()
-	{
-		return $this->hasOne(Municipios::className(), ['id' => 'municipio_id']);
 	}
 
 	/**

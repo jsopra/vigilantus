@@ -59,7 +59,7 @@ class UsuarioController extends CRUDController
     protected function buildNewModel()
     {
         $model = parent::buildNewModel();
-        $model->municipio_id = Yii::$app->user->identity->municipio_id;
+        $model->cliente_id = Yii::$app->user->identity->cliente_id;
         return $model;
     }
 }

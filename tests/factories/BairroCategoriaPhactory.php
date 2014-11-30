@@ -6,7 +6,7 @@ class BairroCategoriaPhactory
         return [
             'id' => '#{sn}',
             'nome' => 'Categoria de bairro #{sn}',
-            'municipio_id' => Phactory::hasOne('municipio'),
+            'cliente_id' => Phactory::hasOne('cliente'),
             'inserido_por' => Phactory::hasOne('usuario'),
         ];
     }

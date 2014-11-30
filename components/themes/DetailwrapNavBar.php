@@ -59,17 +59,19 @@ class DetailwrapNavBar extends Widget
         
         $qtdeMunicipios = count($this->municipios);
         if($qtdeMunicipios > 0) {
-            
+
             echo Html::beginTag('div', ['class' => 'navbar-municipio']);
 
             $listMunicipios = [];
             foreach ($this->municipios as $object)
                 $listMunicipios[Url::toRoute(['site/session', 'id' => $object->id])] = $object->nome . '/' . $object->sigla_estado;
 
-            if($qtdeMunicipios == 1)
+            if($qtdeMunicipios == 1) {
                 echo '<p class="unico-municipio">' . $this->municipios[0]->nome . '/' . $this->municipios[0]->sigla_estado . '</p>';
-            else if(is_object($this->municipioLogado))
-                echo Html::dropDownList('user_municipio', Url::toRoute(['site/session', 'id' => $this->municipioLogado->id]), $listMunicipios);
+            }
+            else if(is_object($this->municipioLogado)) {
+                echo Html::dropDownList('user_municipio', Url::toRoute(['/site/session', 'id' => $this->municipioLogado->id]), $listMunicipios);
+            }
             
             echo Html::endTag('div');
         }

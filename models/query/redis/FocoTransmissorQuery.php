@@ -3,16 +3,10 @@
 namespace app\models\query\redis;
 
 use Yii;
-use yii\redis\ActiveQuery;
+use app\components\RedisActiveQuery;
 
-class FocoTransmissorQuery extends ActiveQuery
+class FocoTransmissorQuery extends RedisActiveQuery
 {      
-    public function doMunicipio($id)
-    {
-        $this->andWhere(['municipio_id' => $id]);
-        return $this;
-    }
-    
     public function doBairro($id)
     {
         $this->andWhere(['bairro_id' => $id]);
@@ -28,6 +22,13 @@ class FocoTransmissorQuery extends ActiveQuery
     public function daEspecieDeTransmissor($id)
     {
         $this->andWhere(['especie_transmissor_id' => $id]);
+        return $this;
+    }
+
+    public function informacaoPublica()
+    {
+        $this->andWhere(['informacao_publica' => 1]);
+
         return $this;
     }
 }

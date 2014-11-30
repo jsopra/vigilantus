@@ -7,7 +7,7 @@ use app\components\SearchModel;
 class ImovelTipoSearch extends SearchModel
 {
     public $id;
-    public $municipio_id;
+    public $cliente_id;
     public $nome;
     public $sigla;
     public $data_cadastro;
@@ -18,7 +18,7 @@ class ImovelTipoSearch extends SearchModel
     public function rules()
     {
         return [
-            [['id', 'municipio_id', 'inserido_por', 'atualizado_por'], 'integer'],
+            [['id', 'cliente_id', 'inserido_por', 'atualizado_por'], 'integer'],
             [['nome', 'sigla', 'data_cadastro', 'data_atualizacao'], 'safe'],
         ];
     }
@@ -33,7 +33,7 @@ class ImovelTipoSearch extends SearchModel
         $query->andWhere('excluido IS FALSE');
         
         $this->addCondition($query, 'id');
-        $this->addCondition($query, 'municipio_id');
+        $this->addCondition($query, 'cliente_id');
         $this->addCondition($query, 'nome', true);
         $this->addCondition($query, 'sigla', true);
         $this->addCondition($query, 'data_cadastro', true);

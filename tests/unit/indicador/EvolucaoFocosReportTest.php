@@ -9,10 +9,10 @@ use tests\TestCase;
 
 class EvolucaoFocosReportTest extends TestCase
 {
-    public function testGetData() 
-    { 
+    public function testGetData()
+    {
         $this->_createScenario();
-        
+
         $report = new EvolucaoFocosReport;
         $report->especie_transmissor_id = null;
         $data = $report->getData();
@@ -25,7 +25,7 @@ class EvolucaoFocosReportTest extends TestCase
     public function testGetDataEspecie()
     {
     	$especieB = $this->_createScenario();
-        
+
         $report = new EvolucaoFocosReport;
         $report->especie_transmissor_id = $especieB;
 
@@ -36,26 +36,28 @@ class EvolucaoFocosReportTest extends TestCase
         $this->assertEquals($data[12][1], 0);
     }
 
-    private function _createScenario() 
+    private function _createScenario()
     {
+        $cliente = Phactory::cliente();
+
         $quarteirao = Phactory::bairroQuarteirao([
-            'municipio_id' => 1,
-            'bairro_id' => Phactory::bairro(['municipio_id' => 1])->id,
+            'cliente_id' => $cliente->id,
+            'bairro_id' => Phactory::bairro(['cliente_id' => $cliente->id])->id,
         ]);
-        
-        $especieA = Phactory::especieTransmissor(['municipio_id' => 1]);
-        $especieB = Phactory::especieTransmissor(['municipio_id' => 1]);
+
+        $especieA = Phactory::especieTransmissor(['cliente_id' => $cliente->id]);
+        $especieB = Phactory::especieTransmissor(['cliente_id' => $cliente->id]);
 
         $data = date('01/04/Y');
 
         Phactory::focoTransmissor([
-        	'bairro_quarteirao_id' => $quarteirao->id, 
+        	'bairro_quarteirao_id' => $quarteirao->id,
         	'especie_transmissor_id' => $especieA->id,
         	'data_entrada' => $data,
     	]);
 
         Phactory::focoTransmissor([
-        	'bairro_quarteirao_id' => $quarteirao->id, 
+        	'bairro_quarteirao_id' => $quarteirao->id,
         	'especie_transmissor_id' => $especieB->id,
         	'data_entrada' => $data,
     	]);
@@ -64,17 +66,17 @@ class EvolucaoFocosReportTest extends TestCase
     	$data = '01/12/' . (date('Y') - 3);
 
         Phactory::focoTransmissor([
-        	'bairro_quarteirao_id' => $quarteirao->id, 
+        	'bairro_quarteirao_id' => $quarteirao->id,
         	'especie_transmissor_id' => $especieA->id,
         	'data_entrada' => $data,
     	]);
 
         Phactory::focoTransmissor([
-        	'bairro_quarteirao_id' => $quarteirao->id, 
+        	'bairro_quarteirao_id' => $quarteirao->id,
         	'especie_transmissor_id' => $especieA->id,
         	'data_entrada' => $data,
     	]);
-        
+
         return $especieB->id;
     }
 }

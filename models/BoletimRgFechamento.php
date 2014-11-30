@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 
 /**
  * This is the model class for table "boletim_rg_fechamento".
@@ -10,14 +10,13 @@ use app\components\ActiveRecord;
  * @property integer $id
  * @property integer $boletim_rg_id
  * @property integer $quantidade
- * @property integer $municipio_id
  * @property integer $imovel_tipo_id
  * @property boolean $imovel_lira
  * 
  *
  * @property BoletinsRg $boletimRg
  */
-class BoletimRgFechamento extends ActiveRecord
+class BoletimRgFechamento extends ClienteActiveRecord
 {
 	/**
 	 * @inheritdoc
@@ -33,9 +32,9 @@ class BoletimRgFechamento extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['boletim_rg_id', 'municipio_id', 'imovel_tipo_id'], 'required'],
-			[['boletim_rg_id', 'quantidade', 'municipio_id', 'imovel_tipo_id'], 'integer'],
-            ['boletim_rg_id', 'unique', 'compositeWith' => ['imovel_tipo_id', 'imovel_lira', 'municipio_id']],
+			[['boletim_rg_id', 'cliente_id', 'imovel_tipo_id'], 'required'],
+			[['boletim_rg_id', 'quantidade', 'imovel_tipo_id'], 'integer'],
+            ['boletim_rg_id', 'unique', 'compositeWith' => ['imovel_tipo_id', 'imovel_lira', 'cliente_id']],
             [['imovel_lira'], 'boolean'],
             [['boletim_rg_id', 'imovel_tipo_id', 'imovel_lira'], 'validateLira'],
 		];
@@ -76,7 +75,6 @@ class BoletimRgFechamento extends ActiveRecord
 			'id' => 'ID',
 			'boletim_rg_id' => 'Boletim RG',
 			'quantidade' => 'Quantidade',
-            'municipio_id' => 'Município',
             'imovel_tipo_id' => 'Tipo do Imóvel',
             'imovel_lira' => 'Lira?'
 		];
@@ -89,13 +87,13 @@ class BoletimRgFechamento extends ActiveRecord
 	{
 		return $this->hasOne(BoletimRg::className(), ['id' => 'boletim_rg_id']);
 	}
-    
+
     /**
-     * @return Municipio
+     * @return \yii\db\ActiveRelation
      */
-    public function getMunicipio()
+    public function getCliente()
     {
-        return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+        return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
     
     /**
@@ -127,7 +125,7 @@ class BoletimRgFechamento extends ActiveRecord
             $boletimExistente = new self;
             $boletimExistente->boletim_rg_id = $oBoletim->id;
             $boletimExistente->quantidade = 1;
-            $boletimExistente->municipio_id = $oBoletim->municipio_id;
+            $boletimExistente->cliente_id = $oBoletim->cliente_id;
             $boletimExistente->imovel_tipo_id = $imovelTipoId;
             $boletimExistente->imovel_lira = $lira;
             

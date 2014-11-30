@@ -10,7 +10,6 @@ class QueueController extends Console
 {
     public function actionIndex()
     {
-
         return Controller::EXIT_CODE_NORMAL;
     }
 

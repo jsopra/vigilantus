@@ -59,4 +59,35 @@ class UsuarioTest extends TestCase
         $this->assertEquals($senha, $usuario->senha);
         $this->assertEquals($senhaCriptografada, $usuario->senha_criptografada);
     }
+
+    public function testGetRole()
+    {
+        $usuario = Phactory::usuario('gerente');
+
+        $this->assertEquals('Gerente', $usuario->role->nome);
+    }
+
+    public function testGetRBACRole()
+    {
+        $usuario = Phactory::usuario('gerente');
+
+        $this->assertEquals('Gerente', $usuario->getRBACRole());
+    }
+
+    public function testModuloIsHabilitado()
+    {
+        $clienteA = Phactory::cliente();
+        $clienteB = Phactory::cliente();
+
+        $modulo = Phactory::modulo();
+
+        Phactory::clienteModulo(['cliente_id' => $clienteA->id, 'modulo_id' => $modulo->id]);
+
+        $usuarioA = Phactory::usuario('administrador', ['cliente_id' => $clienteA->id]);
+        $usuarioB = Phactory::usuario('administrador', ['cliente_id' => $clienteB->id]);
+
+        $this->assertTrue($usuarioA->moduloIsHabilitado($modulo->id, $clienteA));
+
+        $this->assertFalse($usuarioB->moduloIsHabilitado($modulo->id, $clienteB));
+    }
 }

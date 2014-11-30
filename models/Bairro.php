@@ -15,6 +15,7 @@ use app\components\PostgisActiveRecord;
  * @property integer $ultimo_mes_rg
  * @property integer $ultimo_ano_rg
  * @property string $coordenadas_area
+ * @property integer $cliente_id
  */
 class Bairro extends PostgisActiveRecord
 {
@@ -49,7 +50,7 @@ class Bairro extends PostgisActiveRecord
             [['municipio_id', 'nome'], 'required'],
             [['ultimo_mes_rg', 'ultimo_ano_rg'], 'required', 'on' => 'setAtualizacaoRG'],
             ['nome', 'unique', 'compositeWith' => 'municipio_id'],
-            [['municipio_id', 'bairro_categoria_id', 'ultimo_mes_rg', 'ultimo_ano_rg'], 'integer'],
+            [['municipio_id', 'bairro_categoria_id', 'ultimo_mes_rg', 'ultimo_ano_rg', 'cliente_id'], 'integer'],
             ['coordenadas', 'required', 'on' => ['insert','update']],
             [['coordenadasJson'], 'string'],
         );
@@ -68,6 +69,14 @@ class Bairro extends PostgisActiveRecord
     public function getMunicipio()
     {
         return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveRelation
+     */
+    public function getCliente()
+    {
+        return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
     
     /**
@@ -117,6 +126,7 @@ class Bairro extends PostgisActiveRecord
             'coordenadas_area' => 'Área',
             'coordenadas' => 'Área',
             'coordenadasJson' => 'Área',
+            'cliente_id' => 'Cliente',
         );
     }
     

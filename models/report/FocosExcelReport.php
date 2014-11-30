@@ -8,7 +8,9 @@ use app\models\FocoTransmissor;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\helpers\models\ImovelHelper;
+use app\helpers\models\MunicipioHelper;
 use app\models\Municipio;
+use app\models\Cliente;
 use Yii;
 
 class FocosExcelReport extends Model
@@ -58,9 +60,9 @@ class FocosExcelReport extends Model
         ];
     }
     
-    public function export() 
+    public function export($cliente) 
     {
-        $municipio = Municipio::find()->one(); //FIX
+        $municipio = $cliente->municipio;
         
         $model = FocoTransmissor::find();
         
@@ -87,16 +89,19 @@ class FocosExcelReport extends Model
         //cabeçalho: logo, texto prefeitura
         $linha = 1;
         
-        $objDrawing = new \PHPExcel_Worksheet_MemoryDrawing();
-        $objDrawing->setName('Brasão de ' . $municipio->nome);
-        $objDrawing->setImageResource(imagecreatefromjpeg(Yii::getAlias('@webroot') . '/img/brasao/SC/chapeco.jpg')); //@todo
-        $objDrawing->setRenderingFunction(\PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
-        $objDrawing->setMimeType(\PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
-        $objDrawing->setCoordinates('A2');
-        $objDrawing->setWorksheet($sheet);
-        $objDrawing->setResizeProportional(false);
-        $objDrawing->setWidth(60);
-        $objDrawing->setHeight(75);
+        if($municipio->brasao) {
+            $path = MunicipioHelper::getBrasaoPath($municipio, true);
+            $objDrawing = new \PHPExcel_Worksheet_MemoryDrawing();
+            $objDrawing->setName('Brasão de ' . $municipio->nome);
+            $objDrawing->setImageResource(imagecreatefromjpeg($path . '/mini/' . $municipio->brasao));
+            $objDrawing->setRenderingFunction(\PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+            $objDrawing->setMimeType(\PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+            $objDrawing->setCoordinates('A2');
+            $objDrawing->setWorksheet($sheet);
+            $objDrawing->setResizeProportional(false);
+            $objDrawing->setWidth(60);
+            $objDrawing->setHeight(75);
+        }
         
         $textoCabecalho = [
             'Prefeitura Municipal de ' . $municipio->nome,
@@ -197,7 +202,7 @@ class FocosExcelReport extends Model
             unset($letraColuna);
         }
 
-        //linha com Chapecó, data_extração
+        //linha com municipio, data_extração
         $linha++;
         $linha++;
         $letraColuna = \PHPExcel_Cell::stringFromColumnIndex($coluna);

@@ -1,6 +1,7 @@
 <?php
 namespace app\helpers;
 use \yii\web\User;
+use app\models\Modulo;
 
 class VigilantusLayoutHelper {
     
@@ -12,6 +13,12 @@ class VigilantusLayoutHelper {
     public static function getMenuUsuarioLogado(User $user) {
         
         return [
+            [
+                'label' => 'Denúncias',
+                'icon' => 'bullhorn',
+                'url' => ['/denuncia/denuncia/index'],
+                'visible' =>  $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)
+            ],
             [
                 'label' => 'Focos',
                 'icon' => 'screenshot',
@@ -54,12 +61,16 @@ class VigilantusLayoutHelper {
                     ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
                     ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/']],
                     ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/']],
+                    ['label' => 'Tipo de Problema em Denúncia', 'url' => ['/denuncia/denuncia-tipo-problema/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)],
                 ]
             ],
             [
                 'label' => 'Sistema',
                 'icon' => 'cog',
                 'items' => [
+                    ['label' => 'Clientes', 'url' => ['/cliente/'], 'visible' => $user->can('Root'),],
+                    ['label' => 'Municípios', 'url' => ['/municipio/'], 'visible' => $user->can('Root'),],
+                    ['label' => 'Módulos', 'url' => ['/modulo/'], 'visible' => $user->can('Root'),],
                     ['label' => 'Usuários', 'url' => ['/usuario/'], 'visible' => $user->can('Administrador'),],
                     ['label' => 'Alterar minha senha', 'url' => ['/usuario/change-password']],
                 ]

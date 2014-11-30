@@ -6,13 +6,13 @@ use app\models\UsuarioRole;
 use app\components\ActiveQuery;
 
 class UsuarioQuery extends ActiveQuery
-{  
-    
+{
+
     public function ativo() {
         $this->andWhere('excluido IS FALSE');
         return $this;
     }
-    
+
     /**
      * @param ActiveQuery $query
      */
@@ -26,15 +26,16 @@ class UsuarioQuery extends ActiveQuery
      * @param Usuario $usuario
      */
     public function doNivelDoUsuario(Usuario $usuario) {
-        
+
         if ($usuario->role->id != UsuarioRole::ROOT) {
-            
+
             $this->andWhere('usuario_role_id <> ' . UsuarioRole::ROOT);
-            
-            if ($usuario->municipio_id)
-                $this->andWhere(['municipio_id' => $usuario->municipio_id]);
+
+            if ($usuario->cliente_id) {
+                $this->andWhere(['cliente_id' => $usuario->cliente_id]);
+            }
         }
-        
+
         return $this;
     }
 }

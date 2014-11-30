@@ -12,7 +12,9 @@ class ImovelTipoTest extends TestCase
     {
         $tipoImovel = new ImovelTipo;
 
-        $tipoImovel->municipio_id = 1;
+        $cliente = Phactory::cliente();
+
+        $tipoImovel->cliente_id = $cliente->id;
         $tipoImovel->nome = uniqid();
         $tipoImovel->inserido_por = 1;
 
@@ -36,59 +38,78 @@ class ImovelTipoTest extends TestCase
         $this->assertEquals(1, ImovelTipo::find()->excluido()->count());
         $this->assertEquals(5, ImovelTipo::find()->ativo()->count());
     }
-    
+
     public function testInsert()
     {
         $tipoImovel = new ImovelTipo;
-        
+
         $this->assertFalse($tipoImovel->save());
 
-        $tipoImovel->municipio_id = 1;
+        $cliente = Phactory::cliente();
+
+        $tipoImovel->cliente_id = $cliente->id;
         $tipoImovel->nome = 'Residencial';
         $tipoImovel->inserido_por = 1;
-        
-        $this->assertFalse($tipoImovel->save());
-        
-        $tipoImovel->nome = 'Residencialo';
-        
+
         $this->assertTrue($tipoImovel->save());
-        
-        unset($tipoImovel);
-        
+
         $tipoImovel = new ImovelTipo;
-        
+
         $this->assertFalse($tipoImovel->save());
 
-        $tipoImovel->municipio_id = Phactory::municipio()->id;
+        $tipoImovel->cliente_id = $cliente->id;
         $tipoImovel->nome = 'Residencial';
         $tipoImovel->inserido_por = 1;
-        
+
+        $this->assertFalse($tipoImovel->save());
+
+        $tipoImovel->nome = 'Residencialo';
+
+        $this->assertTrue($tipoImovel->save());
+
+        unset($tipoImovel);
+
+        $tipoImovel = new ImovelTipo;
+
+        $this->assertFalse($tipoImovel->save());
+
+        $tipoImovel->cliente_id = Phactory::cliente()->id;
+        $tipoImovel->nome = 'Residencial';
+        $tipoImovel->inserido_por = 1;
+
         $this->assertTrue($tipoImovel->save());
     }
-    
+
     public function testUpdate()
     {
         $tipoImovel = ImovelTipo::findOne(1);
         $tipoImovel->scenario = 'update';
-        
+
         $this->assertInstanceOf('app\models\ImovelTipo', $tipoImovel);
 
         $this->assertFalse($tipoImovel->save());
-        
+
         $tipoImovel->atualizado_por = 1;
-        
+
         $tipoImovel->nome = 'Comercial';
-        
+
         $this->assertFalse($tipoImovel->save());
-        
+
         $tipoImovel->nome = 'Residencial';
-        
+
         $this->assertTrue($tipoImovel->save());
-        
+
         $tipoImovel->nome = null;
         $this->assertFalse($tipoImovel->save());
-        
+
         $tipoImovel->nome = 'Residencial';
         $this->assertTrue($tipoImovel->save());
+    }
+
+    public function testScopeDaSigla()
+    {
+        $this->assertEquals(1, ImovelTipo::find()->daSigla('PE')->count());
+
+        $this->assertEquals(1, ImovelTipo::find()->daSigla('TB')->count());
     }
 }

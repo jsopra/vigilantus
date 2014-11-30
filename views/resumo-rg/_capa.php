@@ -47,7 +47,7 @@ use yii\helpers\Html;
             <tfoot>
                 <tr class="totalizador">
                     <td>Total</td>
-                    <td class="text-center"><?= $model->getTotalImoveis() ?></td>
+                    <td class="text-center"><?= $model->getTotalImoveis(\Yii::$app->session->get('user.cliente')->id) ?></td>
                 </tr>
             </tfoot>
         </table>

@@ -15,9 +15,24 @@ use app\components\Controller;
 use app\models\Municipio;
 use app\models\report\ResumoRgCapaReport;
 use app\models\report\ResumoFocosCapaReport;
+use yii\base\Exception;
+use yii\base\UserException;
+use app\models\Cliente;
 
 class SiteController extends Controller
 {
+    public function init()
+    {
+        $rota = Yii::$app->requestedRoute;
+
+        if($rota == '' || strstr($rota, 'site') !== null) {
+
+            return parent::init();
+        }
+
+        return parent::init();
+    }
+
     public function behaviors()
     {
         return [
@@ -50,9 +65,6 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
@@ -66,6 +78,7 @@ class SiteController extends Controller
             'home',
             [
                 'modelRg' => new ResumoRgCapaReport,
+                'cliente' => \Yii::$app->session->get('user.cliente'),
             ]
         );
     }
@@ -76,15 +89,17 @@ class SiteController extends Controller
             'resumo-focos',
             [
                 'modelFoco' => new ResumoFocosCapaReport,
+                'cliente' => \Yii::$app->session->get('user.cliente'),
             ]
         );
     }
 
     public function actionIndex()
     {
-        if (!Yii::$app->user->isGuest)
+        if (!Yii::$app->user->isGuest) {
             $this->redirect(['home']);
-        
+        }
+
         return $this->render('index');
     }
 
@@ -97,14 +112,14 @@ class SiteController extends Controller
         $model = new LoginForm;
 
         if ($model->load($_POST) && $model->login()) {
-            
+
             $model->user->ultimo_login = new Expression('NOW()');
             $model->user->update(false, ['ultimo_login']);
-            
+
             return $this->goBack();
 
         } else {
-            
+
             return $this->render('login', [
                     'model' => $model,
             ]);
@@ -120,12 +135,12 @@ class SiteController extends Controller
     public function actionContato()
     {
         $model = new ContatoForm;
-        
+
         if (!Yii::$app->user->isGuest) {
             $model->name = Yii::$app->user->identity->nome;
             $model->email = Yii::$app->user->identity->email;
         }
-        
+
         if ($model->load($_POST) && $model->contact(Yii::$app->params['emailContato'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
             return $this->refresh();
@@ -135,22 +150,22 @@ class SiteController extends Controller
             ]);
         }
     }
-    
-    public function actionFeedback() 
+
+    public function actionFeedback()
     {
         $return = null;
-        
+
         $model = new FeedbackForm;
-        
+
         if ($model->load($_POST) && $model->validate())
             if ($model->sendFeedback(Yii::$app->user->identity, Yii::$app->params['emailFeedback']))
                 $return = ['status' => true, 'message' => 'Feedback enviado com sucesso'];
-        
+
         if($return === null)
             $return = ['status' => false, 'message' => 'Erro ao enviar mensagem'];
-        
+
         header('Content-type: application/json; charset=UTF-8');
-        
+
         echo Json::encode($return);
     }
 
@@ -158,13 +173,66 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
-    
+
     public function actionSession($id) {
-        
-        Yii::$app->session->set('user.municipio', Municipio::findOne($id));
-        
-        Yii::$app->session->setFlash('success', 'Município alterado com sucesso');
+
+        Yii::$app->session->set('user.cliente', Municipio::findOne($id)->cliente);
+
+        Yii::$app->session->setFlash('success', 'Cliente alterado com sucesso');
 
         return $this->redirect(['home']);
+    }
+
+    public function actionError()
+    {
+        $municipio = str_replace('/', '', Yii::$app->getRequest()->getUrl());
+        if($municipio) {
+
+            $objeto = Cliente::find()->doRotulo($municipio)->one();
+            if($objeto) {
+
+                $this->redirect(['cidade/index', 'id' => $objeto->id]);
+            }
+        }
+
+        if (($exception = Yii::$app->getErrorHandler()->exception) === null) {
+            return '';
+        }
+
+        if ($exception instanceof HttpException) {
+            $code = $exception->statusCode;
+        }
+        else {
+            $code = $exception->getCode();
+        }
+
+        if ($exception instanceof Exception) {
+            $name = $exception->getName();
+        }
+        else {
+            $name = $this->defaultName ?: Yii::t('yii', 'Error');
+        }
+
+        if ($code) {
+            $name .= " (#$code)";
+        }
+
+        if ($exception instanceof UserException) {
+            $message = $exception->getMessage();
+        }
+        else {
+            $message = $this->defaultMessage ?: Yii::t('yii', 'An internal server error occurred.');
+        }
+
+        if (Yii::$app->getRequest()->getIsAjax()) {
+            return "$name: $message";
+        }
+        else {
+            return $this->render('error', [
+                'name' => $name,
+                'message' => $message,
+                'exception' => $exception,
+            ]);
+        }
     }
 }

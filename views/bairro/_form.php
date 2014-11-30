@@ -73,7 +73,7 @@ $this->registerJsFile(GoogleMapsAPIHelper::getAPIUrl(false, 'drawing'), ['yii\we
 </div>
 
 <?php
-$municipio = Municipio::find()->one();
+$municipio = \Yii::$app->session->get('user.cliente')->municipio;
 $municipio->loadCoordenadas();
 
 $coordenadasBairros = $municipio->getCoordenadasBairros(array($model->id));

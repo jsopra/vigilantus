@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 use yii\db\Expression;
 
 /**
@@ -10,14 +10,14 @@ use yii\db\Expression;
  *
  * Estas são as colunas disponíveis na tabela 'bairro_categorias':
  * @property integer $id
- * @property integer $municipio_id
+ * @property integer $cliente_id
  * @property string $nome
  * @property string $data_cadastro
  * @property string $data_atualizacao
  * @property integer $inserido_por
  * @property integer $atualizado_por
  */
-class BairroCategoria extends ActiveRecord
+class BairroCategoria extends ClienteActiveRecord
 {
     /**
      * @return string nome da tabela do banco de dados
@@ -42,10 +42,10 @@ class BairroCategoria extends ActiveRecord
     public function rules()
     {
         return array(
-            array(['municipio_id', 'nome', 'inserido_por'], 'required'),
-            array(['municipio_id', 'inserido_por', 'atualizado_por'], 'integer'),
+            array(['cliente_id', 'nome', 'inserido_por'], 'required'),
+            array(['cliente_id', 'inserido_por', 'atualizado_por'], 'integer'),
             array('atualizado_por', 'required', 'on' => 'update'),
-            array('nome', 'unique', 'compositeWith' => 'municipio_id'),
+            array('nome', 'unique', 'compositeWith' => 'cliente_id'),
             array('data_atualizacao', 'safe'),
         );
     }
@@ -56,14 +56,6 @@ class BairroCategoria extends ActiveRecord
     public function getBairros()
     {
         return $this->hasMany(Bairro::className(), ['bairro_categoria_id' => 'id']);
-    }
-    
-    /**
-     * @return Municipio
-     */
-    public function getMunicipio()
-    {
-        return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
     }
     
     /**
@@ -89,7 +81,7 @@ class BairroCategoria extends ActiveRecord
     {
         return array(
             'id' => 'ID',
-            'municipio_id' => 'Município',
+            'cliente_id' => 'Município Cliente',
             'nome' => 'Nome',
             'data_cadastro' => 'Data Cadastro',
             'data_atualizacao' => 'Data Atualização',

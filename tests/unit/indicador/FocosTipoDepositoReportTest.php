@@ -9,12 +9,12 @@ use tests\TestCase;
 
 class FocosTipoDepositoReportTest extends TestCase
 {
-    public function testGetData() 
-    { 
+    public function testGetData()
+    {
         $this->_createScenario();
-        
+
         $report = new FocosTipoDepositoReport;
-        $report->ano = date('Y');   
+        $report->ano = date('Y');
         $data = $report->getData();
 
         $this->assertTrue(is_array($data));
@@ -27,7 +27,7 @@ class FocosTipoDepositoReportTest extends TestCase
     public function testGetDataEspecie()
     {
     	$especieB = $this->_createScenario();
-        
+
         $report = new FocosTipoDepositoReport;
         $report->ano = date('Y');
         $report->especie_transmissor_id = $especieB;
@@ -40,35 +40,37 @@ class FocosTipoDepositoReportTest extends TestCase
         $this->assertEquals($data[2][1], 100);
     }
 
-    private function _createScenario() 
+    private function _createScenario()
     {
-        $depositoA = Phactory::depositoTipo(['municipio_id' => 1]);
-        $depositoB = Phactory::depositoTipo(['municipio_id' => 1]);
-        $depositoC = Phactory::depositoTipo(['municipio_id' => 1]);
+        $cliente = Phactory::cliente();
 
-        $especieA = Phactory::especieTransmissor(['municipio_id' => 1]);
-        $especieB = Phactory::especieTransmissor(['municipio_id' => 1]);
+        $depositoA = Phactory::depositoTipo(['cliente_id' => $cliente->id]);
+        $depositoB = Phactory::depositoTipo(['cliente_id' => $cliente->id]);
+        $depositoC = Phactory::depositoTipo(['cliente_id' => $cliente->id]);
+
+        $especieA = Phactory::especieTransmissor(['cliente_id' => $cliente->id]);
+        $especieB = Phactory::especieTransmissor(['cliente_id' => $cliente->id]);
 
         $quarteirao = Phactory::bairroQuarteirao([
-            'municipio_id' => 1,
-            'bairro_id' => Phactory::bairro(['municipio_id' => 1])->id,
+            'cliente_id' => $cliente->id,
+            'bairro_id' => Phactory::bairro(['cliente_id' => $cliente->id])->id,
         ]);
 
         Phactory::focoTransmissor([
             'tipo_deposito_id' => $depositoA,
-        	'bairro_quarteirao_id' => $quarteirao->id, 
+        	'bairro_quarteirao_id' => $quarteirao->id,
         	'especie_transmissor_id' => $especieA->id,
     	]);
 
         Phactory::focoTransmissor([
             'tipo_deposito_id' => $depositoB,
-            'bairro_quarteirao_id' => $quarteirao->id, 
+            'bairro_quarteirao_id' => $quarteirao->id,
             'especie_transmissor_id' => $especieA->id,
         ]);
 
         Phactory::focoTransmissor([
             'tipo_deposito_id' => $depositoC,
-            'bairro_quarteirao_id' => $quarteirao->id, 
+            'bairro_quarteirao_id' => $quarteirao->id,
             'especie_transmissor_id' => $especieB->id,
         ]);
 

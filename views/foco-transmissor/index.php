@@ -81,18 +81,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'format' => 'raw',
-                'header' => 'Examinador',
-                'value' => function ($model, $index, $widget) {
-                    $str = '';
-                    foreach(['laboratorio', 'tecnico'] as $item) {
-                        $str .= Html::tag('p', '<strong>' . $model->getAttributeLabel($item) . ':</strong> ' . $model->$item);
-                    }
-                    return $str;
-                },
-                'options' => ['style' => 'width: 15%']
-            ],
-            [
-                'format' => 'raw',
                 'header' => 'Datas',
                 'value' => function ($model, $index, $widget) {
                     $str = '';

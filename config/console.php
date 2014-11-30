@@ -44,7 +44,19 @@ $config = [
         'fixture' => [
             'class' => 'yii\test\DbFixtureManager',
             'basePath' => '@tests/unit/fixtures',
-        ]
+        ],
+        'mail' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.mandrillapp.com',
+                'username' => 'jsopra@gmail.com',
+                'password' => 'KzL9E8rMpAd6Ux0pv7Lmbg',
+                'port' => '587',
+                'encryption' => 'tls',
+            ],
+        ],
     ],
     'params' => $params,
 ];

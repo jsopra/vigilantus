@@ -64,7 +64,7 @@ class RelatorioController extends Controller
         
         $model->load($_GET);
         
-        $model->loadAreasDeTratamento();
+        $model->loadAreasDeTratamento(\Yii::$app->session->get('user.cliente'));
 
         return $this->render('area-tratamento', ['model' => $model]);
     }
@@ -88,7 +88,7 @@ class RelatorioController extends Controller
 
         return $this->render('mapa', [
             'model' => $model,
-            'modelFocos' => $model->loadAreasDeFocoMapa()
+            'modelFocos' => $model->loadAreasDeFocoMapa(\Yii::$app->session->get('user.cliente'))
         ]);
     }
     
@@ -111,7 +111,7 @@ class RelatorioController extends Controller
         $model = new FocosExcelReport;
         
         if ($model->load($_GET) && $model->validate()) {
-            $model->export();
+            $model->export(\Yii::$app->session->get('user.cliente'));
         }
 
         return $this->render('focos-export', ['model' => $model]);
@@ -175,7 +175,7 @@ class RelatorioController extends Controller
 
         return $this->render('mapa_impressao', [
             'model' => $model,
-            'modelFocos' => $model->loadAreasDeFocoMapa(),
+            'modelFocos' => $model->loadAreasDeFocoMapa(\Yii::$app->session->get('user.cliente')),
         ]);
     }
 

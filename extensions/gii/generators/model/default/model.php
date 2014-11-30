@@ -15,7 +15,7 @@
 echo "<?php\n";
 ?>
 
-namespace <?= $generator->ns ?>;
+namespace <?= $generator->ns ?>\models;
 use app\components\ActiveRecord;
 
 /**

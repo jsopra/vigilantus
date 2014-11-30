@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use app\models\Bairro;
 use app\models\Municipio;
+use app\models\Cliente;
 use app\models\EspecieTransmissor;
 use app\helpers\GoogleMapsAPIHelper;
 use app\models\redis\FocosAtivos;
@@ -14,7 +15,7 @@ use app\models\redis\FocosAtivos;
 <div id="map" style="height: 600px; width: 100%;"></div>
         
 <?php
-$municipio = Municipio::find()->one();
+$municipio = \Yii::$app->session->get('user.cliente')->municipio;
 $municipio->loadCoordenadas();
 
 ?>

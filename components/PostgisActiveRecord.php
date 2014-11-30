@@ -5,10 +5,9 @@ namespace app\components;
 use Yii;
 use yii\helpers\Json;
 use \IntlDateFormatter;
-use app\components\ActiveRecord;
 use yii\db\Expression;
 
-class PostgisActiveRecord extends ActiveRecord
+class PostgisActiveRecord extends ClienteActiveRecord
 {
     const TYPE_POLYGON = 'Polygon';
     const TYPE_POINT = 'Point';

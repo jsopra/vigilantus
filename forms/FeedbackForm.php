@@ -34,7 +34,7 @@ class FeedbackForm extends Model
 
     public function sendFeedback(Usuario $user, $email)
     {
-        $municipio = $user->getMunicipioLogado();
+        $municipio = $user->getCliente()->municipio;
         
         $message = '<p>Usuário: ' . $user->nome . ' (' . $user->login . ')</p>';
         if($user->email) {
