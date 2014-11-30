@@ -1,36 +1,22 @@
 <?php
 use \Phactory;
+use app\models\Cliente;
 
-if ($this->scenario->running()) {
-    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-}
+$eu = new TesterDeAceitacao($scenario);
 
+Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
 
-$eu = new CaraDaWeb($scenario);
 $eu->quero('verificar que o CRUD Municipios funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clico('Cadastro');
-$eu->clico('XXX Item de menu do CRUD'); //@todo
+$eu->clico('Sistema');
+$eu->clico('Municípios');
 
-$eu->espero('cadastrar um Municipios');
-$eu->clico('Cadastrar XXX Item do CRUD'); //@todo
+$eu->espero('cadastrar um Município');
+$eu->clico('Cadastrar Municipio');
 $eu->aguardoPor(1);
-//@TODO preencher form
-$eu->clico('Cadastrar', '.modal');
+$eu->preenchoCampo('Nome', 'Robervalândia');
+$eu->preenchoCampo('Estado Sigla', 'SC');
+$eu->preenchoCampo('Coordenadas', '0101000020E6100000EFAEB321FF183BC086AB0320EE4E4AC0');
+$eu->clico('Cadastrar');
 $eu->aguardoPor(1);
 $eu->vejo('O cadastro foi realizado com sucesso.');
-
-$eu->espero('editar um Municipios');
-$eu->clicoNoGrid('XXX Registro', 'Alterar'); //@todo
-$eu->aguardoPor(1);
-//@TODO preencher form
-$eu->clico('Atualizar', '.modal');
-$eu->aguardoPor(1);
-$eu->vejo('O registro foi atualizado com sucesso.');
-
-$eu->espero('excluir um Municipios');
-$eu->clicoNoGrid('XXX Registro', 'Excluir'); //@todo
-$eu->vejoNaPopUp('Tem certeza de que deseja excluir este item?');
-$eu->aceitoPopUp();
-$eu->aguardoPor(1);
-$eu->naoVejo('XXX Registro'); //@todo

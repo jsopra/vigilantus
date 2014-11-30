@@ -37,7 +37,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
     public $confirmacao_senha;
 
     /* Métodos pra interface IdentityInterface */
-    
+
     /**
      * @inheritdoc
      */
@@ -45,7 +45,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
     {
         return $this->sal;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -53,7 +53,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
     {
         return $this->id;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -61,7 +61,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
     {
         return $this->getAuthKey() === $authKey;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -78,7 +78,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
         // @TODO Obter usuário pelo token para uso em APIs
         return false;
     }
-    
+
     /* Métodos ActiveRecord */
 
     /**
@@ -101,7 +101,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
         $temSenhaJavaScript = 'function (attribute, value) {
             return jQuery("input[name=\'Usuario[senha]\']").val() != "";
         }';
-        
+
         return array(
             [['senha', 'confirmacao_senha'], 'required',                    'when' => $temSenha, 'whenClient' => $temSenhaJavaScript],
             [['senha', 'confirmacao_senha'], 'string', 'min' => 8,          'when' => $temSenha, 'whenClient' => $temSenhaJavaScript],
@@ -132,15 +132,15 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
 
         return parent::beforeValidate();
     }
-    
+
     /**
      * @return Cliente
      */
-    public function getClienteLogado() 
+    public function getClienteLogado()
     {
         return \Yii::$app->session->get('user.cliente');
     }
-    
+
     /**
      * @return UsuarioRole
      */
@@ -174,10 +174,10 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
 
     /**
      * Codificação de senha
-     * 
+     *
      * @param string $sal
      * @param string $senha
-     * @return string 
+     * @return string
      */
     public static function encryptPassword($sal, $password)
     {
@@ -199,7 +199,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
 
     /**
      * Altera a senha
-     * @param type $password 
+     * @param type $password
      */
     public function changePassword($password, $confirmation)
     {
@@ -271,9 +271,9 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
         return \Yii::$app->session->get('user.cliente');
     }
 
-    public function moduloIsHabilitado($moduloId)
+    public function moduloIsHabilitado($moduloId, $cliente = null)
     {
-        $cliente = $this->getCliente();
+        $cliente = $cliente ? $cliente : $this->getCliente();
         if(!$cliente) {
             return false;
         }

@@ -25,9 +25,9 @@ class Controller extends YiiController
      * for more details on how to specify this property.
      */
     public $breadcrumbs = [];
-    
+
     public $feedbackModel;
-    
+
     public $municipiosDisponiveis;
     public $municipioLogado;
 
@@ -47,7 +47,6 @@ class Controller extends YiiController
             else {
 
                 $municipios = null;
-                var_dump($municipios);
 
                 Yii::$app->session->set('municipios', $municipios);
                 Yii::$app->session->set('user.cliente',\Yii::$app->user->identity->cliente);
@@ -61,7 +60,7 @@ class Controller extends YiiController
 
         Yii::$app->setTimeZone('America/Sao_Paulo');
     }
-    
+
     /**
 	 * Finds the model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
@@ -90,14 +89,14 @@ class Controller extends YiiController
         $words = StringHelper::camelToWords($className);
 
         $words = explode(' ', $words);
-        
+
         array_pop($words);
 
         $words = implode(' ', $words);
 
         return 'app\\models\\' . str_replace(' ', '', ucwords($words));
     }
-    
+
     /**
      * @param ActiveRecord $model
      * @param array|null $data Dados para atribuir. Por padrão pega o $_POST
@@ -106,7 +105,7 @@ class Controller extends YiiController
     protected function loadAndSaveModel(ActiveRecord $model, $data = null)
     {
         $data = empty($data) ? $_POST : $data;
-        
+
         if ($model->load($data) && $model->save()) {
             return $this->redirect(['index']);
         }

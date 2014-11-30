@@ -1,28 +1,32 @@
 <?php
 
 use \Phactory;
+use app\models\Cliente;
+
 $eu = new TesterDeAceitacao($scenario);
 
-$bairro = Phactory::bairro(['nome' => 'Passo dos Fortes', 'municipio_id' => 1, 'bairro_categoria_id' => 1]);
+$cliente = Cliente::find()->andWhere('id=1')->one();
+
+$bairro = Phactory::bairro(['nome' => 'Passo dos Fortes', 'cliente_id' => $cliente, 'bairro_categoria_id' => 1]);
 
 Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-Phactory::depositoTipo(['descricao' => 'OVI', 'sigla' => 'OVI', 'municipio_id' => $bairro->municipio_id]);
-Phactory::especieTransmissor(['nome' => 'mosquito', 'municipio_id' => $bairro->municipio_id]);
-$rua = Phactory::rua(['municipio_id' => $bairro->municipio_id]);
+Phactory::depositoTipo(['descricao' => 'OVI', 'sigla' => 'OVI', 'cliente_id' => $cliente,]);
+Phactory::especieTransmissor(['nome' => 'mosquito', 'cliente_id' => $cliente,]);
+$rua = Phactory::rua(['cliente_id' => $cliente]);
 $quarteirao = Phactory::bairroQuarteirao([
     'numero_quarteirao' => '418',
     'bairro_id' => $bairro->id,
-    'municipio_id' => $bairro->municipio_id
+    'cliente_id' => $cliente,
 ]);
 $imovel = Phactory::imovel([
     'rua_id' => $rua,
     'bairro_quarteirao_id' => $quarteirao->id,
-    'municipio_id' => $bairro->municipio_id
+    'cliente_id' => $cliente,
 ]);
 
 $eu->quero('verificar que o CRUD de focos de transmissores funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clicoNoMenu(['Formulários', 'Focos de Transmissores']);
+$eu->clicoNoMenu(['Focos']);
 
 $eu->espero('cadastrar um foco de transmissor');
 $eu->clico('Cadastrar Foco de Transmissor');

@@ -2,18 +2,16 @@
 
 use \Phactory;
 
-if ($this->scenario->running()) {
-    Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-}
-
-<?php 
+<?php
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 
 $acceptanceClass = Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)));
 ?>
 
-$eu = new CaraDaWeb($scenario);
+Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+
+$eu = new TesterDeAceitacao($scenario);
 $eu->quero('verificar que o CRUD <?= $acceptanceClass; ?> funciona');
 $eu->facoLoginComo('administrador', 'administrador');
 $eu->clico('Cadastro');
@@ -37,7 +35,7 @@ $eu->vejo('O registro foi atualizado com sucesso.');
 
 $eu->espero('excluir um <?= $acceptanceClass; ?>');
 $eu->clicoNoGrid('XXX Registro', 'Excluir'); //@todo
-$eu->vejoNaPopUp('Tem certeza de que deseja excluir este item?');
+$eu->vejoNaPopUp('Confirma a exclusão deste item?');
 $eu->aceitoPopUp();
 $eu->aguardoPor(1);
 $eu->naoVejo('XXX Registro'); //@todo

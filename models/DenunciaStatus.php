@@ -16,11 +16,11 @@ class DenunciaStatus
 	const AUTO_INTIMACAO = 11;
 	const ENCAMINHADO_PARA_SERVICO_URBANO = 12;
 	const REPROVADA = 13;
-	
+
 	public static function getDescricoes()
 	{
 		return [
-			self::AVALIACAO => 'Em Avaliação', 
+			self::AVALIACAO => 'Em Avaliação',
 			self::APROVADA => 'Aprovada',
 			self::NAO_PROCEDENTE => 'Não Procedente',
 			self::EXTREVIADA => 'Extraviada',
@@ -71,11 +71,7 @@ class DenunciaStatus
 
 		switch($idStatus)
 		{
-			case self::AVALIACAO : {
-				break;
-			}
-
-			case self::APROVADA : 
+			case self::APROVADA :
 			case self::ABERTO_TERMO_RESPONSABILIDADE :
 			case self::ENCAMINHADO_FISCALIZACAO_URBANA :
 			case self::ENCAMINHADO_FISCALIZACAO_SANITARIA :

@@ -12,35 +12,41 @@ class DepositoTipoTest extends TestCase
 {
 	public function testNaoSalvaDuplicado()
     {
+        $cliente = Phactory::cliente();
+
         // Trava no mesmo município
-        Phactory::depositoTipo(['sigla' => 'AE', 'municipio_id' => 1]);
-        $tipoDepositoDuplicado = Phactory::depositoTipo(['municipio_id' => 1]);
+        Phactory::depositoTipo(['sigla' => 'AE', 'cliente_id' => $cliente]);
+        $tipoDepositoDuplicado = Phactory::depositoTipo(['cliente_id' => $cliente]);
         $tipoDepositoDuplicado->sigla = 'AE';
-        $this->assertFalse($tipoDepositoDuplicado->save()); 
+        $this->assertFalse($tipoDepositoDuplicado->save());
 
         // Permite com municípios diferentes
-        $tipoDepositoDuplicado->municipio_id = Phactory::municipio()->id;
+        $tipoDepositoDuplicado->cliente_id = Phactory::cliente()->id;
         $saved = $tipoDepositoDuplicado->save();
         $this->assertTrue($saved);
     }
-    
+
     public function testSaveDepositoPai()
     {
-        $tipoDeposito = Phactory::depositoTipo(['sigla' => 'AE', 'municipio_id' => 1]);
-        
-        $tipoDepositoFilho = Phactory::depositoTipo(['municipio_id' => 1]);
+        $cliente = Phactory::cliente();
+
+        $tipoDeposito = Phactory::depositoTipo(['sigla' => 'AE', 'cliente_id' => $cliente]);
+
+        $tipoDepositoFilho = Phactory::depositoTipo(['cliente_id' => $cliente]);
         $tipoDepositoFilho->sigla = 'AF';
         $tipoDepositoFilho->deposito_tipo_pai = $tipoDeposito->id;
-        $this->assertTrue($tipoDepositoFilho->save()); 
+        $this->assertTrue($tipoDepositoFilho->save());
     }
-    
+
     public function testScopeDepositoSigla()
     {
-        Phactory::depositoTipo(['sigla' => 'AE', 'municipio_id' => 1]);
-        Phactory::depositoTipo(['sigla' => 'AG', 'municipio_id' => 1]);
-        
+        $cliente = Phactory::cliente();
+
+        Phactory::depositoTipo(['sigla' => 'AE', 'cliente_id' => $cliente]);
+        Phactory::depositoTipo(['sigla' => 'AG', 'cliente_id' => $cliente]);
+
         $this->assertInstanceOf("app\models\DepositoTipo", DepositoTipo::find()->daSigla('AE')->one());
         $this->assertNull(DepositoTipo::find()->daSigla('AF')->one());
         $this->assertInstanceOf("app\models\DepositoTipo", DepositoTipo::find()->daSigla('AG')->one());
     }
-}   
+}

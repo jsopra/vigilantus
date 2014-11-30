@@ -99,7 +99,7 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             $this->redirect(['home']);
         }
-        
+
         return $this->render('index');
     }
 
@@ -112,14 +112,14 @@ class SiteController extends Controller
         $model = new LoginForm;
 
         if ($model->load($_POST) && $model->login()) {
-            
+
             $model->user->ultimo_login = new Expression('NOW()');
             $model->user->update(false, ['ultimo_login']);
-            
+
             return $this->goBack();
 
         } else {
-            
+
             return $this->render('login', [
                     'model' => $model,
             ]);
@@ -135,12 +135,12 @@ class SiteController extends Controller
     public function actionContato()
     {
         $model = new ContatoForm;
-        
+
         if (!Yii::$app->user->isGuest) {
             $model->name = Yii::$app->user->identity->nome;
             $model->email = Yii::$app->user->identity->email;
         }
-        
+
         if ($model->load($_POST) && $model->contact(Yii::$app->params['emailContato'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
             return $this->refresh();
@@ -150,22 +150,22 @@ class SiteController extends Controller
             ]);
         }
     }
-    
-    public function actionFeedback() 
+
+    public function actionFeedback()
     {
         $return = null;
-        
+
         $model = new FeedbackForm;
-        
+
         if ($model->load($_POST) && $model->validate())
             if ($model->sendFeedback(Yii::$app->user->identity, Yii::$app->params['emailFeedback']))
                 $return = ['status' => true, 'message' => 'Feedback enviado com sucesso'];
-        
+
         if($return === null)
             $return = ['status' => false, 'message' => 'Erro ao enviar mensagem'];
-        
+
         header('Content-type: application/json; charset=UTF-8');
-        
+
         echo Json::encode($return);
     }
 
@@ -173,11 +173,11 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
-    
+
     public function actionSession($id) {
 
         Yii::$app->session->set('user.cliente', Municipio::findOne($id)->cliente);
-        
+
         Yii::$app->session->setFlash('success', 'Cliente alterado com sucesso');
 
         return $this->redirect(['home']);
@@ -192,7 +192,7 @@ class SiteController extends Controller
             if($objeto) {
 
                 $this->redirect(['cidade/index', 'id' => $objeto->id]);
-            }            
+            }
         }
 
         if (($exception = Yii::$app->getErrorHandler()->exception) === null) {
@@ -201,14 +201,14 @@ class SiteController extends Controller
 
         if ($exception instanceof HttpException) {
             $code = $exception->statusCode;
-        } 
+        }
         else {
             $code = $exception->getCode();
         }
 
         if ($exception instanceof Exception) {
             $name = $exception->getName();
-        } 
+        }
         else {
             $name = $this->defaultName ?: Yii::t('yii', 'Error');
         }
@@ -219,14 +219,14 @@ class SiteController extends Controller
 
         if ($exception instanceof UserException) {
             $message = $exception->getMessage();
-        } 
+        }
         else {
             $message = $this->defaultMessage ?: Yii::t('yii', 'An internal server error occurred.');
         }
 
         if (Yii::$app->getRequest()->getIsAjax()) {
             return "$name: $message";
-        } 
+        }
         else {
             return $this->render('error', [
                 'name' => $name,

@@ -32,7 +32,7 @@ use yii\web\UploadedFile;
  * @property Bairros $bairro
  * @property Imoveis $imovel
  */
-class Denuncia extends ClienteActiveRecord 
+class Denuncia extends ClienteActiveRecord
 {
 	public $file;
 	public $usuario_id;
@@ -59,7 +59,6 @@ class Denuncia extends ClienteActiveRecord
 			['status', 'default', 'value' => DenunciaStatus::AVALIACAO],
 			['status', 'in', 'range' => DenunciaStatus::getIDs()],
 			['localizacao', 'in', 'range' => DenunciaTipoImovel::getIDs()],
-			['tipo_imovel', 'in', 'range' => DenunciaTipoLocalizacao::getIDs()],
 			[['bairro_quarteirao_id', 'denuncia_tipo_problema_id'], 'required', 'on' => ['aprovacao']],
 			[['file'], 'file'],
 			[['email'], 'email'],
@@ -79,13 +78,13 @@ class Denuncia extends ClienteActiveRecord
 			'nome' => 'Nome',
 			'telefone' => 'Telefone',
 			'bairro_id' => 'Bairro',
-			'endereco' => 'Endereco',
+			'endereco' => 'Endereço',
 			'imovel_id' => 'Imóvel',
 			'email' => 'Email',
 			'pontos_referencia' => 'Pontos de Referência',
 			'mensagem' => 'Mensagem',
 			'anexo' => 'Anexo',
-			'tipo_imovel' => 'Tipo do Imovel',
+			'tipo_imovel' => 'Tipo do Imóvel',
 			'localizacao' => 'Localização',
 			'status' => 'Status',
 			'file' => 'Anexo',
@@ -148,19 +147,19 @@ class Denuncia extends ClienteActiveRecord
      */
     public function save($runValidation = true, $attributes = NULL) {
 
-        $currentTransaction = $this->getDb()->getTransaction();		
+        $currentTransaction = $this->getDb()->getTransaction();
 		$newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
-        
+
         try {
-            
+
         	$oldStatus = isset($this->oldAttributes['status']) ? $this->oldAttributes['status'] : null;
         	$isNewRecord = $this->isNewRecord;
 
             $result = parent::save($runValidation, $attributes);
-            
+
             if ($result) {
 
-               
+
             	$salvouHistorico = true;
 
             	if($isNewRecord) {
@@ -170,7 +169,7 @@ class Denuncia extends ClienteActiveRecord
             		$historico->denuncia_id = $this->id;
             		$historico->tipo = DenunciaHistoricoTipo::INCLUSAO;
             		$historico->status_novo = DenunciaStatus::AVALIACAO;
-            		
+
             		$salvouHistorico = $historico->save();
             	}
             	else {
@@ -184,11 +183,11 @@ class Denuncia extends ClienteActiveRecord
 	            		$historico->status_antigo = $oldStatus;
 	            		$historico->status_novo = $this->status;
 	            		$historico->usuario_id = $this->usuario_id;
-	            		
+
 	            		$salvouHistorico = $historico->save();
 
 	            		if($salvouHistorico && $this->email) {
-                			\app\models\redis\Queue::push('AlertaAlteracaoStatusDenunciaJob', ['id' => $this->id]); 
+                			\app\models\redis\Queue::push('AlertaAlteracaoStatusDenunciaJob', ['id' => $this->id]);
 	            		}
             		}
 
@@ -204,16 +203,16 @@ class Denuncia extends ClienteActiveRecord
                     if($newTransaction) {
                         $newTransaction->rollback();
                     }
-                    
-                    $result = false;                    
+
+                    $result = false;
                 }
-            } 
+            }
             else {
                 if($newTransaction) {
                     $newTransaction->rollback();
                 }
             }
-        } 
+        }
         catch (\Exception $e) {
             if($newTransaction) {
                 $newTransaction->rollback();

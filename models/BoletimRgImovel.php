@@ -1,7 +1,6 @@
 <?php
 
 namespace app\models;
-
 use app\components\ClienteActiveRecord;
 /**
  * This is the model class for table "boletim_rg_imoveis".
@@ -114,7 +113,8 @@ class BoletimRgImovel extends ClienteActiveRecord
         if (!$rua) {
 
             $rua = new Rua;
-            $rua->cliente_id= $this->cliente_id;
+            $rua->cliente_id = $this->cliente_id;
+            $rua->municipio_id  = $this->cliente ? $this->cliente->municipio_id : null;
             $rua->nome = $nomeRua;
 
             if (!$rua->save()) {
@@ -155,7 +155,7 @@ class BoletimRgImovel extends ClienteActiveRecord
         } else {
 
             $imovel = new Imovel;
-            $imovel->municipio_id = $this->cliente->municipio->id;
+            $imovel->municipio_id = $this->cliente ? $this->cliente->municipio->id : null;
             $imovel->cliente_id = $this->cliente->id;
             $imovel->bairro_quarteirao_id = $this->boletimRg->bairro_quarteirao_id;
             $imovel->imovel_tipo_id = $this->imovel_tipo_id;

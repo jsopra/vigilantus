@@ -65,12 +65,12 @@ use yii\widgets\MaskedInput;
 
 
         <div class="form-group form-actions">
-			<?php 
+			<?php
             echo Html::submitButton(
-                $model->isNewRecord ? 'Cadastrar' : 'Atualizar', 
+                $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
                 ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
             );
-		
+
             echo Html::a(
                 'Cancelar',
                 array('/cliente/index'),
@@ -78,7 +78,6 @@ use yii\widgets\MaskedInput;
             );
             ?>
         </div>
-<?php var_dump($model->errors); ?>
 	<?php ActiveForm::end(); ?>
 
 </div>

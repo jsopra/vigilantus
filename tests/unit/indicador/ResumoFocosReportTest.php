@@ -9,10 +9,10 @@ use tests\TestCase;
 
 class ResumoFocosReportTest extends TestCase
 {
-    public function testGetData() 
-    { 
+    public function testGetData()
+    {
         $this->_createScenario();
-        
+
         $report = new ResumoFocosReport;
         $report->especie_transmissor_id = null;
 
@@ -30,7 +30,7 @@ class ResumoFocosReportTest extends TestCase
     public function testGetDataEspecie()
     {
     	$especieB = $this->_createScenario();
-        
+
         $report = new ResumoFocosReport;
         $report->especie_transmissor_id = $especieB;
 
@@ -45,15 +45,15 @@ class ResumoFocosReportTest extends TestCase
         $this->assertEquals($data[3][1], 0);
     }
 
-    public function testGetDataPercentual() 
-    { 
+    public function testGetDataPercentual()
+    {
         $this->_createScenario();
-        
+
         $report = new ResumoFocosReport;
         $report->especie_transmissor_id = null;
 
         $report->load([]);
-        
+
         $data = $report->getDataPercentual();
 
         $this->assertTrue(is_array($data));
@@ -66,7 +66,7 @@ class ResumoFocosReportTest extends TestCase
     public function testGetDataEspeciePercentual()
     {
         $especieB = $this->_createScenario();
-        
+
         $report = new ResumoFocosReport;
         $report->especie_transmissor_id = $especieB;
 
@@ -81,29 +81,31 @@ class ResumoFocosReportTest extends TestCase
         $this->assertEquals($data[3][1], 0);
     }
 
-    private function _createScenario() 
+    private function _createScenario()
     {
-        Phactory::bairro(['municipio_id' => 1]);
-        $bairro = Phactory::bairro(['municipio_id' => 1]);
-        
+        $cliente = Phactory::cliente();
+
+        Phactory::bairro(['cliente_id' => $cliente->id]);
+        $bairro = Phactory::bairro(['cliente_id' => $cliente->id]);
+
         $quarteirao = Phactory::bairroQuarteirao([
-            'municipio_id' => 1,
+            'cliente_id' => $cliente->id,
             'bairro_id' => $bairro->id,
         ]);
-        
-        $especieA = Phactory::especieTransmissor(['municipio_id' => 1]);
-        $especieB = Phactory::especieTransmissor(['municipio_id' => 1]);
+
+        $especieA = Phactory::especieTransmissor(['cliente_id' => $cliente->id]);
+        $especieB = Phactory::especieTransmissor(['cliente_id' => $cliente->id]);
 
         $data = date('01/04/Y');
 
         Phactory::focoTransmissor([
-        	'bairro_quarteirao_id' => $quarteirao->id, 
+        	'bairro_quarteirao_id' => $quarteirao->id,
         	'especie_transmissor_id' => $especieA->id,
         	'data_entrada' => $data,
     	]);
 
         Phactory::focoTransmissor([
-        	'bairro_quarteirao_id' => $quarteirao->id, 
+        	'bairro_quarteirao_id' => $quarteirao->id,
         	'especie_transmissor_id' => $especieB->id,
         	'data_entrada' => $data,
     	]);
@@ -112,17 +114,17 @@ class ResumoFocosReportTest extends TestCase
     	$data = '01/12/' . (date('Y') - 3);
 
         Phactory::focoTransmissor([
-        	'bairro_quarteirao_id' => $quarteirao->id, 
+        	'bairro_quarteirao_id' => $quarteirao->id,
         	'especie_transmissor_id' => $especieA->id,
         	'data_entrada' => $data,
     	]);
 
         Phactory::focoTransmissor([
-        	'bairro_quarteirao_id' => $quarteirao->id, 
+        	'bairro_quarteirao_id' => $quarteirao->id,
         	'especie_transmissor_id' => $especieA->id,
         	'data_entrada' => $data,
     	]);
-        
+
         return $especieB->id;
     }
 }

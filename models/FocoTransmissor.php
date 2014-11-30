@@ -35,13 +35,13 @@ use app\components\ClienteActiveRecord;
  * @property DepositoTipo $tipoDeposito
  * @property EspecieTransmissor $especieTransmissor
  */
-class FocoTransmissor extends ClienteActiveRecord 
+class FocoTransmissor extends ClienteActiveRecord
 {
     public $categoria_id;
     public $bairro_id;
     public $foco_ativo;
     public $imovel_lira;
-    
+
     public $mes;
     public $quantidade_registros;
 
@@ -140,23 +140,23 @@ class FocoTransmissor extends ClienteActiveRecord
     {
         return $this->hasOne(EspecieTransmissor::className(), ['id' => 'especie_transmissor_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveRelation
      */
-    public function getImovel() 
+    public function getImovel()
     {
         return $this->hasOne(Imovel::className(), ['id' => 'imovel_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveRelation
      */
-    public function getBairroQuarteirao() 
+    public function getBairroQuarteirao()
     {
         return $this->hasOne(BairroQuarteirao::className(), ['id' => 'bairro_quarteirao_id']);
     }
-    
+
     /**
 	 * @return \yii\db\ActiveRelation
 	 */
@@ -164,37 +164,35 @@ class FocoTransmissor extends ClienteActiveRecord
 	{
 		return $this->hasOne(ImovelTipo::className(), ['id' => 'planilha_imovel_tipo_id']);
 	}
-    
+
     /**
      * Verifica se um foco ainda é ativo conforme configuração de dias do projeto
-     * @return boolean 
+     * @return boolean
      */
     public function isAtivo() {
-        
+
         list($anoColeta, $mesColeta, $diaColeta) = explode('-', $this->data_coleta);
         $dataColeta = new \DateTime();
         $dataColeta->setDate($anoColeta, $mesColeta, $diaColeta);
-        
+
         $dataValidade = new \DateTime();
         $dataValidade->modify('-' . $this->especieTransmissor->qtde_dias_permanencia_foco . ' days');
-        
+
         $validacaoData = $dataColeta >= $dataValidade;
-        
+
         if(!$validacaoData)
             return false;
-        
+
         return $this->quantidade_forma_adulta > 0 || $this->quantidade_forma_aquatica > 0 || $this->quantidade_ovos > 0;
     }
-    
+
     /*
      * Popula ID do bairro pelo quarteirão cadastrado
      */
     public function popularBairro() {
-        
+
         $this->bairro_id = $this->bairroQuarteirao->bairro_id;
     }
-
-
 
     public function isInformacaoPublica()
     {
@@ -203,6 +201,6 @@ class FocoTransmissor extends ClienteActiveRecord
 
         $dataColeta = new \DateTime($this->data_coleta);
 
-        return $dataColeta->getTimestamp() >= $dataAtual->getTimestamp();
+        return $dataColeta >= $dataAtual;
     }
 }

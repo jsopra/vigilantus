@@ -51,13 +51,13 @@ use yii\helpers\Url;
                                 'url' => "' . Url::toRoute(['denuncia/imoveis', 'bairro_id' => $model->bairro_id]) . '",
                                 'dataType' => 'json',
                                 'data' => new JsExpression('function(term,page) { return {q:term}; }'),
-                                'results' => new JsExpression('function (data, page) { 
+                                'results' => new JsExpression('function (data, page) {
                                     return {
-                                        results : $.map(data, function (item) { 
-                                            return { 
-                                                text:item.name, slug:item.name, id:item.id 
-                                            } 
-                                        }) 
+                                        results : $.map(data, function (item) {
+                                            return {
+                                                text:item.name, slug:item.name, id:item.id
+                                            }
+                                        })
                                     };
                                 }'),
                             ],
@@ -82,7 +82,7 @@ use yii\helpers\Url;
                 ?>
             </div>
         </div>
-       
+
         <div class="row">
             <div class="col-xs-8">
                 <?= $form->field($model, 'pontos_referencia') ?>
@@ -102,7 +102,7 @@ use yii\helpers\Url;
         </div>
 
         <hr />
-        
+
         <p style="color: #797979;"><strong>Dados do denunciante</strong></p>
 
         <div class="row">
@@ -127,14 +127,14 @@ use yii\helpers\Url;
                 ?>
             </div>
         </div>
-    
+
         <div class="form-group form-actions">
-			<?php 
+			<?php
             echo Html::submitButton(
-                'Cadastrar', 
+                'Cadastrar',
                 ['class' => 'btn btn-flat success']
             );
-		
+
             echo Html::a(
                 'Cancelar',
                 array('/denuncia/index'),
@@ -178,7 +178,7 @@ $script .= '
     jQuery("#denuncia-bairro_quarteirao_id").change(function(){
         if($(this).val() != "") {
             jQuery(".bairro-hide").show();
-            
+
             startSelect2();
         }
         else {
@@ -197,7 +197,7 @@ $script .= '
             });
 
             jQuery("#denuncia-bairro_quarteirao_id").parent().parent().show();
-            
+
             if(quarteiraoID) {
                 jQuery("#denuncia-bairro_quarteirao_id").val(quarteiraoID);
             }
@@ -218,12 +218,14 @@ $script .= '
 
             jQuery.getJSON("' . Url::toRoute(['denuncia/bairroQuarteiroes', 'bairro_id' => '']) . '" + bairroID, function(data) {
 
+                $("#denuncia-bairro_quarteirao_id").val("");
+
                 options = $("#denuncia-bairro_quarteirao_id");
                 options.append($("<option />").val("").text("Selecione..."));
                 $.each(data, function(key, desc) {
                     options.append($("<option />").val(key).text(desc));
                 });
-                
+
                 jQuery("#denuncia-bairro_quarteirao_id").parent().parent().show();
             });
 
@@ -232,7 +234,7 @@ $script .= '
 
     jQuery("form").submit(function(){
 ';
-  
+
 
 if($model->isNewRecord) {
     $script .= '
@@ -259,7 +261,7 @@ $script .= '
         $("#denuncia-imovel_id").select2({
             placeholder: "Buscar por um imóvel...",
             allowClear: true,
-            ajax: { 
+            ajax: {
                 url: "' . Url::toRoute(['denuncia/imoveis', 'bairro_id' => '']) . '" + bairroID,
                 dataType: "json",
                 data: function (term, page) {
@@ -267,19 +269,19 @@ $script .= '
                         q: term,
                     };
                 },
-                results: function (data, page) { 
+                results: function (data, page) {
                     return {
-                        results : $.map(data, function (item) { 
-                            return { 
-                                text:item.name, slug:item.name, id:item.id 
-                            } 
-                        }) 
+                        results : $.map(data, function (item) {
+                            return {
+                                text:item.name, slug:item.name, id:item.id
+                            }
+                        })
                     };
                 }
             },
         });
     }
-    
+
     jQuery("#denuncia-bairro_quarteirao_id").change();
 });
 ';

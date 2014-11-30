@@ -18,9 +18,9 @@ use yii\db\Expression;
  */
 class EspecieTransmissor extends ClienteActiveRecord
 {
-    
+
     const COR_FOCO_DEFAULT = '#000000';
-    
+
     /**
      * @return string nome da tabela do banco de dados
      */
@@ -58,12 +58,13 @@ class EspecieTransmissor extends ClienteActiveRecord
             'cor_foco_no_mapa' => 'Cor do foco no Mapa',
         );
     }
-    
+
     /**
      * Busca cor do foco no mapa, considerando o default em caso de null para a espécie
-     * @return string 
+     * @return string
      */
-    public function getCor() {
+    public function getCor()
+    {
         return $this->cor_foco_no_mapa ? $this->cor_foco_no_mapa : self::COR_FOCO_DEFAULT;
     }
 }

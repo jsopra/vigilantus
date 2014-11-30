@@ -2,17 +2,21 @@
 
 use \Phactory;
 
+use app\models\Cliente;
+
 $eu = new TesterDeAceitacao($scenario);
+
+$cliente = Cliente::find()->andWhere('id=1')->one();
 
 $usuario = Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
 
-$bairro = Phactory::bairro(['nome' => 'Seminário', 'municipio_id' => 1]);
+$bairro = Phactory::bairro(['nome' => 'Seminário', 'cliente_id' => $cliente]);
 
 $quarteirao = Phactory::bairroQuarteirao(
     [
         'numero_quarteirao' => '156',
         'bairro_id' => $bairro->id,
-        'municipio_id' => $bairro->municipio_id,
+        'cliente_id' => $cliente
     ]
 );
 $boletim = Phactory::boletimRg(
@@ -20,7 +24,7 @@ $boletim = Phactory::boletimRg(
         'data' => '07/03/1989',
         'bairro_id' => $bairro->id,
         'bairro_quarteirao_id' => $quarteirao->id,
-        'municipio_id' => $bairro->municipio_id,
+        'cliente_id' => $cliente
     ]
 );
 $boletim->adicionarImovel('Rua Rio de Janeiro', '176', null, 'Casa 1', 1, false);
@@ -31,7 +35,7 @@ $quarteirao2 = Phactory::bairroQuarteirao(
     [
         'numero_quarteirao' => '418',
         'bairro_id' => $bairro->id,
-        'municipio_id' => $bairro->municipio_id,
+        'cliente_id' => $cliente
     ]
 );
 $attributes = $boletim->attributes;
@@ -46,7 +50,7 @@ $boletim2->salvarComImoveis();
 
 $eu->quero('verificar que o relatório boletim resumo de reconhecimento geográfico funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clicoNoMenu(['Relatórios', 'Boletim de RG']);
+$eu->clicoNoMenu(['Relatórios', 'Resumo de RG por Bairro']);
 $eu->selecionoOpcao('Bairro', 'Seminário');
 $eu->naoVejo('Exportar planilha');
 $eu->clico('Gerar');

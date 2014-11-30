@@ -7,6 +7,7 @@ use app\helpers\GoogleMapsAPIHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\bootstrap\Button;
+use yii\helpers\HtmlPurifier;
 use yii\bootstrap\ButtonGroup;
 
 /**
@@ -98,7 +99,6 @@ use yii\bootstrap\ButtonGroup;
     var bairroBoundsObj = new google.maps.LatLngBounds();
     var bairroPolygon;
     
-    var defaultZoom = 13;
     var defaultLat = <?= $municipio->latitude; ?>;
     var defaultLong = <?= $municipio->longitude; ?>;
 
@@ -123,7 +123,6 @@ use yii\bootstrap\ButtonGroup;
             bairroBoundsObj.extend(bairroBounds[i]);
 
         mapCenter = bairroBoundsObj.getCenter();
-        defaultZoom = 15;
     
     <?php endif; ?>
         
@@ -143,11 +142,10 @@ use yii\bootstrap\ButtonGroup;
             quarteiraoBoundsObj.extend(quarteiraoBounds[i]);
 
         mapCenter = quarteiraoBoundsObj.getCenter();
-        defaultZoom = 16;
     <?php endif; ?>
 
     var options = {
-        zoom: defaultZoom,
+        zoom: 16,
         center: mapCenter,
         mapTypeId: google.maps.MapTypeId.HYBRID,
         disableDefaultUI: true,
@@ -196,16 +194,17 @@ use yii\bootstrap\ButtonGroup;
                 map: map
             });
             
-            for (i = 0; i < quarteiraoBounds<?= $i; ?>.length; i++)
+            for (i = 0; i < quarteiraoBounds<?= $i; ?>.length; i++) {
                 quarteiraoObj<?= $i; ?>.extend(quarteiraoBounds<?= $i; ?>[i]);
+            }
 
-            var mapCenterQuarteirao<?= $i; ?> = quarteiraoObj<?= $i; ?>.getCenter();
-
-            var marker = new google.maps.Marker({
-                  position: mapCenterQuarteirao<?= $i; ?>,
+            var marker<?= $i; ?> = new google.maps.Marker({
+                  position: quarteiraoObj<?= $i; ?>.getCenter(),
                   map: map,
                   title: '<?= $dadosQuarteirao['numero']; ?>'
             });
+
+            <?php $i++; ?>
 
         <?php endforeach; ?>
         

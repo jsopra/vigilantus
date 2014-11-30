@@ -34,7 +34,7 @@ class FocosTransmissor extends Model
             'qtde_ovos' => 'Qtde. Ovos',
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -46,32 +46,32 @@ class FocosTransmissor extends Model
     /**
      * @inheritdoc
      */
-    public function insert($row, $userId = null)
+    public function insert($row, $userId = null, $clienteId = null)
     {
         $bairro = Bairro::find()->doNome($row->getValue('bairro'))->one();
         if(!$bairro) {
             $row->addError('Bairro não localizado');
             return false;
         }
-        
+
         $bairroQuarteirao = BairroQuarteirao::find()->doBairro($bairro->id)->dosNumeros($row->getValue('quarteirao'))->one();
         if(!$bairroQuarteirao) {
             $row->addError('Quarteirão não localizado');
             return false;
         }
-        
+
         $tipoDeposito = DepositoTipo::find()->daSigla($row->getValue('tipo_deposito'))->one();
         if(!$tipoDeposito) {
             $row->addError('Tipo de depósito não localizado');
             return false;
         }
-        
+
         $especieTransmissor = EspecieTransmissor::find()->doNome($row->getValue('especie'))->one();
         if(!$especieTransmissor) {
             $row->addError('Espécie transmissor não localizado');
             return false;
         }
-        
+
         $tipoImovel = null;
         $tipoImovelColuna = $row->getValue('tipo_imovel');
         if($tipoImovelColuna) {
@@ -81,8 +81,13 @@ class FocosTransmissor extends Model
                 return false;
             }
         }
-        
+
         $foco = new FocoTransmissor;
+
+        if($clienteId) {
+            $foco->cliente_id = $clienteId;
+        }
+
         $foco->inserido_por = $userId ? $userId : \Yii::$app->user->identity->id;
         $foco->tipo_deposito_id = $tipoDeposito->id;
         $foco->especie_transmissor_id = $especieTransmissor->id;

@@ -5,7 +5,7 @@ use \Phactory;
 $eu = new TesterDeAceitacao($scenario);
 
 Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-Phactory::bairro(['nome' => 'Seminário', 'municipio_id' => 1]);
+Phactory::bairro(['nome' => 'Seminário', 'cliente_id' => 1]);
 
 $eu->quero('verificar que o CRUD de quarteirões funciona');
 $eu->facoLoginComo('administrador', 'administrador');

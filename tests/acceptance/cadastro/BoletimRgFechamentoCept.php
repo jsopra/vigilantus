@@ -1,20 +1,23 @@
 <?php
 
 use \Phactory;
+use app\models\Cliente;
 
 $eu = new TesterDeAceitacao($scenario);
 
+$cliente = Cliente::find()->andWhere('id=1')->one();
+
 Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-Phactory::bairro(['nome' => 'Seminário', 'municipio_id' => 1, 'bairro_categoria_id' => 1]);
+Phactory::bairro(['nome' => 'Seminário', 'cliente_id' => $cliente, 'bairro_categoria_id' => 1]);
 Phactory::bairroQuarteirao([
     'numero_quarteirao' => '123',
-    'municipio_id' => 1,
+    'cliente_id' => $cliente,
     'bairro_id' => 1,
 ]);
 
 $eu->quero('verificar que a ficha de RG funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clicoNoMenu(['Localização', 'Boletim de RG']);
+$eu->clicoNoMenu(['Localização', 'Reconhecimento Geográfico']);
 
 $eu->espero('cadastrar uma ficha');
 $eu->clico('Novo Boletim/Fechamento');
@@ -26,23 +29,20 @@ $eu->selecionoOpcao('Quarteirão', '123');
 $eu->preenchoCampo('Folha nº', '123');
 $eu->preenchoCampo('Data da Coleta', date('d/m/Y'));
 
+
+$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][1][lira]']", '0');
+$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][1][nao_lira]']", '1');
+
+$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][2][lira]']", '0');
+$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][2][nao_lira]']", '5');
+
+$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][3][lira]']", '1');
+$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][3][nao_lira]']", '10');
+
+$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][5][lira]']", '2');
+$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][5][nao_lira]']", '20');
+
 $eu->clico('Cadastrar');
-$eu->aguardoPor(1);
-$eu->vejo('Nenhum fechamento salvo');
-
-$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][1][lira]']", '1');
-$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][1][nao_lira]']", '0');
-
-$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][2][lira]']", '5');
-$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][2][nao_lira]']", '0');
-
-$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][3][lira]']", '10');
-$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][3][nao_lira]']", '1');
-
-$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][5][lira]']", '20');
-$eu->preenchoCampo("//div[@class='bairro-tipo-form']//input[@name='BoletimRg[fechamentos][5][nao_lira]']", '2');
-
-$eu->clico('Atualizar');
 $eu->aguardoPor(1);
 
 $eu->vejoUmTitulo('Boletim de Reconhecimento Geográfico');
@@ -54,7 +54,7 @@ $eu->aguardoPor(1);
 $eu->vejo('Residencial');
 $eu->vejo('Comercial');
 $eu->vejo('Terreno Baldio');
-$eu->naoVejo('Pontos Estratégicos');
+$eu->vejo('Pontos Estratégicos');
 $eu->vejo('Outros');
 
 $eu->clico('Fechar');
@@ -75,15 +75,6 @@ $eu->aguardoPor(1);
 
 $eu->espero('validar fechamento de uma ficha');
 $eu->clicoNoGrid('Seminário', 'Ver Fechamento');
-$eu->aguardoPor(1);
-
-$eu->vejo('Residencial');
-$eu->vejo('Comercial');
-$eu->vejo('Terreno Baldio');
-$eu->naoVejo('Pontos Estratégicos');
-$eu->naoVejo('Outros');
-
-$eu->clico('Fechar');
 $eu->aguardoPor(1);
 
 $eu->espero('excluir um boletim');

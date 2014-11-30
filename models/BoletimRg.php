@@ -200,22 +200,7 @@ class BoletimRg extends ClienteActiveRecord
     /**
      * @return int
      */
-    public function getQuantidadeImoveisFechamento() 
-    {
-        $qtde = 0;
-        
-        $queryFechamentos = $this->boletinsFechamento;
-        foreach ($queryFechamentos as $fechamento) {
-            $qtde += $fechamento->quantidade;
-        }
-
-        return $qtde;
-    }
-
-    /**
-     * @return int
-     */
-    public function getQuantidadeImoveisNaoLiraFechamento()
+    public function getQuantidadeImoveisFechamento()
     {
         $qtde = 0;
         
@@ -403,8 +388,9 @@ class BoletimRg extends ClienteActiveRecord
 
         $stringLira = $lira ? 'lira' : 'nao_lira';
         
-        if(isset($this->fechamentos[$tipo][$stringLira]))
+        if(isset($this->fechamentos[$tipo][$stringLira])) {
             continue;
+        }
 
         $this->fechamentos[$tipo][$stringLira] = $quantidade;
     }
