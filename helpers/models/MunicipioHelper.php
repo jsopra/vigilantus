@@ -14,9 +14,9 @@ class MunicipioHelper extends YiiStringHelper
      * Retorna brasão de município em tag html, se houver brasão
      * @param Municipio $municipio
      * @param string $tipo (mini, normal, large)
-     * @return string 
+     * @return string
      */
-    public static function getBrasaoAsImageTag(Municipio $municipio, $tipo = 'normal') 
+    public static function getBrasaoAsImageTag(Municipio $municipio, $tipo = 'normal')
     {
         if(!$municipio->brasao) {
             return '-';
@@ -29,11 +29,11 @@ class MunicipioHelper extends YiiStringHelper
      * Retorna path de brasão
      * @param Municipio $municipio
      * @param boolean $base Default is false
-     * @return string 
+     * @return string
      */
     public static function getBrasaoPath(Municipio $municipio, $internal = false)
     {
-        $path = $internal ? Yii::$app->basePath . '/web' : Url::base();
+        $path = $internal ? Yii::$app->basePath . '/' . Yii::$app->params['publicDir'] : Url::base();
 
         return $path . '/img/brasao/' . $municipio->sigla_estado . '/';
     }

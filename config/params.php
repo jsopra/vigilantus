@@ -7,7 +7,7 @@ return [
         'julianobaggiodisopra+eytiwy7qw9cpdnten2an@boards.trello.com',
         'tenha@perspectiva.in',
     ],
-        
+    'publicDir' => getenv('VIGILANTUS_PUBLIC_DIR'),
     //geolocalização
     'googleMapsAPIKey' => 'AIzaSyDxnC_bLYD97iaRgZ2qGts6_7IE8KOYLik',
     'postgisSRID' => 4326, /* Spatial Reference System Identifier (SRID). Usamos o WGS84 */
