@@ -33,7 +33,7 @@ class MunicipioHelper extends YiiStringHelper
      */
     public static function getBrasaoPath(Municipio $municipio, $internal = false)
     {
-        $path = $internal ? Yii::$app->basePath . '/' . Yii::$app->params['publicDir'] : Url::base();
+        $path = $internal ? Yii::$app->basePath . '/web' : Url::base();
 
         return $path . '/img/brasao/' . $municipio->sigla_estado . '/';
     }

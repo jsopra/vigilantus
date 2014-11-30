@@ -13,7 +13,7 @@ class DenunciaHelper extends YiiStringHelper
     /**
      * Retorna path de brasão
      * @param boolean $base Default is false
-     * @return string 
+     * @return string
      */
     public static function getUploadPath($internal = false)
     {
@@ -46,7 +46,7 @@ class DenunciaHelper extends YiiStringHelper
         $html = '<ul>';
 
         $html .= '<li><strong>Bairro:</strong> ' . $model->bairro->nome . '</li>';
-        
+
         if($model->endereco) {
             $html .= '<li><strong>Endereço:</strong> ' . $model->endereco . '</li>';
         }

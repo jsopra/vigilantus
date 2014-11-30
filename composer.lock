@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "85b2409a4242142578799d553bf90c92",
+    "hash": "369df702bfa4e2c2d5f03ad42f949c00",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -193,6 +194,63 @@
                 "html"
             ],
             "time": "2013-11-30 08:25:19"
+        },
+        {
+            "name": "imagine/imagine",
+            "version": "0.5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalanche123/Imagine.git",
+                "reference": "343580fceed1f89220481ac98480e92f47d91e6c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/343580fceed1f89220481ac98480e92f47d91e6c",
+                "reference": "343580fceed1f89220481ac98480e92f47d91e6c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "sami/sami": "dev-master"
+            },
+            "suggest": {
+                "ext-gd": "to use the GD implementation",
+                "ext-gmagick": "to use the Gmagick implementation",
+                "ext-imagick": "to use the Imagick implementation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Imagine": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bulat Shakirzyanov",
+                    "email": "mallluhuct@gmail.com",
+                    "homepage": "http://avalanche123.com"
+                }
+            ],
+            "description": "Image processing for PHP 5.3",
+            "homepage": "http://imagine.readthedocs.org/",
+            "keywords": [
+                "drawing",
+                "graphics",
+                "image manipulation",
+                "image processing"
+            ],
+            "time": "2014-06-13 10:54:04"
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
@@ -798,6 +856,54 @@
             "time": "2014-07-19 19:39:03"
         },
         {
+            "name": "yiisoft/yii2-imagine",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-imagine.git",
+                "reference": "39ac3cc712d64be214a8053735e898fa26fac290"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-imagine/zipball/39ac3cc712d64be214a8053735e898fa26fac290",
+                "reference": "39ac3cc712d64be214a8053735e898fa26fac290",
+                "shasum": ""
+            },
+            "require": {
+                "imagine/imagine": "0.5.*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\imagine\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Ramirez",
+                    "email": "amigo.cobos@gmail.com"
+                }
+            ],
+            "description": "The Imagine integration for the Yii framework",
+            "keywords": [
+                "helper",
+                "image",
+                "imagine",
+                "yii2"
+            ],
+            "time": "2014-10-12 20:44:45"
+        },
+        {
             "name": "yiisoft/yii2-redis",
             "version": "dev-master",
             "source": {
@@ -1049,23 +1155,78 @@
             "time": "2014-03-22 00:46:25"
         },
         {
-            "name": "facebook/webdriver",
-            "version": "v0.4",
+            "name": "doctrine/instantiator",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/facebook/php-webdriver.git",
-                "reference": "342df507312ea5ae5337be47e16e4268d7ed661f"
+                "url": "https://github.com/doctrine/instantiator.git",
+                "reference": "f976e5de371104877ebc89bd8fecb0019ed9c119"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/342df507312ea5ae5337be47e16e4268d7ed661f",
-                "reference": "342df507312ea5ae5337be47e16e4268d7ed661f",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/f976e5de371104877ebc89bd8fecb0019ed9c119",
+                "reference": "f976e5de371104877ebc89bd8fecb0019ed9c119",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3,<8.0-DEV"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "ext-pdo": "*",
+                "ext-phar": "*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "2.0.*@ALPHA"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Instantiator\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://ocramius.github.com/"
+                }
+            ],
+            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
+            "homepage": "https://github.com/doctrine/instantiator",
+            "keywords": [
+                "constructor",
+                "instantiate"
+            ],
+            "time": "2014-10-13 12:58:55"
+        },
+        {
+            "name": "facebook/webdriver",
+            "version": "v0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/facebook/php-webdriver.git",
+                "reference": "bbcb697efb394d17bd9ec3d467e7da847cde4509"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/bbcb697efb394d17bd9ec3d467e7da847cde4509",
+                "reference": "bbcb697efb394d17bd9ec3d467e7da847cde4509",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.19"
             },
             "require-dev": {
+                "phpdocumentor/phpdocumentor": "2.*",
                 "phpunit/phpunit": "3.7.*"
             },
             "type": "library",
@@ -1086,7 +1247,7 @@
                 "selenium",
                 "webdriver"
             ],
-            "time": "2014-02-21 18:22:11"
+            "time": "2014-11-05 20:53:09"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1249,29 +1410,28 @@
             "time": "2014-03-31 12:48:42"
         },
         {
-            "name": "ocramius/instantiator",
-            "version": "1.1.3",
+            "name": "phpdocumentor/reflection-docblock",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Ocramius/Instantiator.git",
-                "reference": "e24a12178906ff2e7471b8aaf3a0eb789b59f881"
+                "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
+                "reference": "fd0ac2007401505fb596fdfb859ec4e103d69e55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/Instantiator/zipball/e24a12178906ff2e7471b8aaf3a0eb789b59f881",
-                "reference": "e24a12178906ff2e7471b8aaf3a0eb789b59f881",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/fd0ac2007401505fb596fdfb859ec4e103d69e55",
+                "reference": "fd0ac2007401505fb596fdfb859ec4e103d69e55",
                 "shasum": ""
             },
             "require": {
-                "ocramius/lazy-map": "1.0.*",
-                "php": "~5.3"
+                "php": ">=5.3.3"
             },
             "require-dev": {
-                "athletic/athletic": "~0.1.8",
-                "ext-pdo": "*",
-                "ext-phar": "*",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "2.0.*@ALPHA"
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "dflydev/markdown": "~1.0",
+                "erusev/parsedown": "~1.0"
             },
             "type": "library",
             "extra": {
@@ -1281,7 +1441,9 @@
             },
             "autoload": {
                 "psr-0": {
-                    "Instantiator\\": "src"
+                    "phpDocumentor": [
+                        "src/"
+                    ]
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1290,76 +1452,11 @@
             ],
             "authors": [
                 {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "http://ocramius.github.com/"
+                    "name": "Mike van Riel",
+                    "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
-            "homepage": "https://github.com/Ocramius/Instantiator",
-            "keywords": [
-                "constructor",
-                "instantiate"
-            ],
-            "time": "2014-08-25 14:48:16"
-        },
-        {
-            "name": "ocramius/lazy-map",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Ocramius/LazyMap.git",
-                "reference": "5c77102e225d225ae2d74d5f2cc488527834b821"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/LazyMap/zipball/5c77102e225d225ae2d74d5f2cc488527834b821",
-                "reference": "5c77102e225d225ae2d74d5f2cc488527834b821",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "athletic/athletic": "~0.1.7",
-                "phpmd/phpmd": "1.5.*",
-                "phpunit/phpunit": ">=3.7",
-                "satooshi/php-coveralls": "~0.6",
-                "squizlabs/php_codesniffer": "1.4.*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "LazyMap\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "http://ocramius.github.com/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A library that provides lazy instantiation logic for a map of objects",
-            "homepage": "https://github.com/Ocramius/LazyMap",
-            "keywords": [
-                "lazy",
-                "lazy instantiation",
-                "lazy loading",
-                "map",
-                "service location"
-            ],
-            "time": "2014-05-01 22:15:23"
+            "time": "2014-09-02 14:26:20"
         },
         {
             "name": "phpspec/php-diff",
@@ -1395,26 +1492,85 @@
             "time": "2013-11-01 13:02:21"
         },
         {
+            "name": "phpspec/prophecy",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpspec/prophecy.git",
+                "reference": "9ca52329bcdd1500de24427542577ebf3fc2f1c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/9ca52329bcdd1500de24427542577ebf3fc2f1c9",
+                "reference": "9ca52329bcdd1500de24427542577ebf3fc2f1c9",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/instantiator": "~1.0,>=1.0.2",
+                "phpdocumentor/reflection-docblock": "~2.0"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Prophecy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com",
+                    "homepage": "http://everzet.com"
+                },
+                {
+                    "name": "Marcello Duarte",
+                    "email": "marcello.duarte@gmail.com"
+                }
+            ],
+            "description": "Highly opinionated mocking framework for PHP 5.3+",
+            "homepage": "http://phpspec.org",
+            "keywords": [
+                "Double",
+                "Dummy",
+                "fake",
+                "mock",
+                "spy",
+                "stub"
+            ],
+            "time": "2014-11-17 16:23:49"
+        },
+        {
             "name": "phpunit/php-code-coverage",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "9171bca1b0c859fe6d8b5951bf0805a741794afd"
+                "reference": "28d21b57c189cb72829056353de603c4d4da55a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/9171bca1b0c859fe6d8b5951bf0805a741794afd",
-                "reference": "9171bca1b0c859fe6d8b5951bf0805a741794afd",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/28d21b57c189cb72829056353de603c4d4da55a0",
+                "reference": "28d21b57c189cb72829056353de603c4d4da55a0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "phpunit/php-file-iterator": "~1.3.1",
-                "phpunit/php-text-template": "~1.2.0",
-                "phpunit/php-token-stream": "~1.2.2",
-                "sebastian/environment": "~1.0.0",
-                "sebastian/version": "~1.0.3"
+                "phpunit/php-file-iterator": "~1.3",
+                "phpunit/php-text-template": "~1.2",
+                "phpunit/php-token-stream": "~1.3",
+                "sebastian/environment": "~1.0",
+                "sebastian/version": "~1.0"
             },
             "require-dev": {
                 "ext-xdebug": ">=2.1.4",
@@ -1437,9 +1593,6 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                ""
-            ],
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1457,7 +1610,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-07-09 09:03:35"
+            "time": "2014-10-05 10:46:54"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1598,41 +1751,40 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "a0802561692c3b2bb0ed972f7ffafbfab068e580"
+                "reference": "f8d5d08c56de5cfd592b3340424a81733259a876"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/a0802561692c3b2bb0ed972f7ffafbfab068e580",
-                "reference": "a0802561692c3b2bb0ed972f7ffafbfab068e580",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/f8d5d08c56de5cfd592b3340424a81733259a876",
+                "reference": "f8d5d08c56de5cfd592b3340424a81733259a876",
                 "shasum": ""
             },
             "require": {
                 "ext-tokenizer": "*",
                 "php": ">=5.3.3"
             },
+            "require-dev": {
+                "phpunit/phpunit": "~4.2"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
                 "classmap": [
-                    "PHP/"
+                    "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                ""
-            ],
             "license": [
                 "BSD-3-Clause"
             ],
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sb@sebastian-bergmann.de",
-                    "role": "lead"
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Wrapper around PHP's tokenizer extension.",
@@ -1640,7 +1792,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2014-06-26 07:15:38"
+            "time": "2014-08-31 06:12:13"
         },
         {
             "name": "phpunit/phpunit",
@@ -1648,12 +1800,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "f608785bef567a9da36dd47e4e5a099fb42fdefc"
+                "reference": "247756f342dfb0a319f8985ef06f21a00d98b59c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f608785bef567a9da36dd47e4e5a099fb42fdefc",
-                "reference": "f608785bef567a9da36dd47e4e5a099fb42fdefc",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/247756f342dfb0a319f8985ef06f21a00d98b59c",
+                "reference": "247756f342dfb0a319f8985ef06f21a00d98b59c",
                 "shasum": ""
             },
             "require": {
@@ -1663,15 +1815,17 @@
                 "ext-reflection": "*",
                 "ext-spl": "*",
                 "php": ">=5.3.3",
+                "phpspec/prophecy": "~1.2",
                 "phpunit/php-code-coverage": "3.0.*@dev",
-                "phpunit/php-file-iterator": "~1.3.1",
+                "phpunit/php-file-iterator": "~1.3.2",
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-timer": "~1.0.2",
-                "phpunit/phpunit-mock-objects": "2.3.*@dev",
-                "sebastian/comparator": "~1.0",
+                "phpunit/phpunit-mock-objects": "2.4.*@dev",
+                "sebastian/comparator": "1.1.*@dev",
                 "sebastian/diff": "~1.1",
-                "sebastian/environment": "~1.0",
+                "sebastian/environment": "~1.2",
                 "sebastian/exporter": "~1.0",
+                "sebastian/global-state": "1.0.*@dev",
                 "sebastian/version": "~1.0",
                 "symfony/yaml": "~2.0"
             },
@@ -1684,7 +1838,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.4.x-dev"
+                    "dev-master": "4.5.x-dev"
                 }
             },
             "autoload": {
@@ -1704,13 +1858,13 @@
                 }
             ],
             "description": "The PHP Unit Testing framework.",
-            "homepage": "http://www.phpunit.de/",
+            "homepage": "https://phpunit.de/",
             "keywords": [
                 "phpunit",
                 "testing",
                 "xunit"
             ],
-            "time": "2014-08-24 13:50:04"
+            "time": "2014-11-06 08:43:29"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1718,21 +1872,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "f9f31b9e7f93483fd4dbd500ee41e2e5fc0923b7"
+                "reference": "96c5b81f9842f38fe6c73ad0020306cc4862a9e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/f9f31b9e7f93483fd4dbd500ee41e2e5fc0923b7",
-                "reference": "f9f31b9e7f93483fd4dbd500ee41e2e5fc0923b7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/96c5b81f9842f38fe6c73ad0020306cc4862a9e3",
+                "reference": "96c5b81f9842f38fe6c73ad0020306cc4862a9e3",
                 "shasum": ""
             },
             "require": {
-                "ocramius/instantiator": "~1.0",
+                "doctrine/instantiator": "~1.0,>=1.0.2",
                 "php": ">=5.3.3",
                 "phpunit/php-text-template": "~1.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.3.*@dev"
+                "phpunit/phpunit": "4.4.*@dev"
             },
             "suggest": {
                 "ext-soap": "*"
@@ -1740,7 +1894,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3.x-dev"
+                    "dev-master": "2.4.x-dev"
                 }
             },
             "autoload": {
@@ -1749,9 +1903,6 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                ""
-            ],
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1768,7 +1919,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2014-07-05 15:46:50"
+            "time": "2014-10-04 10:04:20"
         },
         {
             "name": "sebastian/comparator",
@@ -1776,12 +1927,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "e54a01c0da1b87db3c5a3c4c5277ddf331da4aef"
+                "reference": "6f67d2ae044ba17ba30573941f4ac96c4777be97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/e54a01c0da1b87db3c5a3c4c5277ddf331da4aef",
-                "reference": "e54a01c0da1b87db3c5a3c4c5277ddf331da4aef",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/6f67d2ae044ba17ba30573941f4ac96c4777be97",
+                "reference": "6f67d2ae044ba17ba30573941f4ac96c4777be97",
                 "shasum": ""
             },
             "require": {
@@ -1795,7 +1946,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -1809,11 +1960,6 @@
             ],
             "authors": [
                 {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
-                },
-                {
                     "name": "Jeff Welch",
                     "email": "whatthejeff@gmail.com"
                 },
@@ -1824,6 +1970,10 @@
                 {
                     "name": "Bernhard Schussek",
                     "email": "bschussek@2bepublished.at"
+                },
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Provides the functionality to compare PHP values for equality",
@@ -1833,7 +1983,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2014-05-11 23:00:21"
+            "time": "2014-10-21 10:04:18"
         },
         {
             "name": "sebastian/diff",
@@ -1893,24 +2043,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "10c7467da0622f7848cc5cadc0828c3359254df4"
+                "reference": "6e6c71d918088c251b181ba8b3088af4ac336dd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/10c7467da0622f7848cc5cadc0828c3359254df4",
-                "reference": "10c7467da0622f7848cc5cadc0828c3359254df4",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6e6c71d918088c251b181ba8b3088af4ac336dd7",
+                "reference": "6e6c71d918088c251b181ba8b3088af4ac336dd7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "~4.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -1925,8 +2075,7 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Provides functionality to handle HHVM/PHP environments",
@@ -1936,7 +2085,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2014-05-04 17:56:05"
+            "time": "2014-10-25 08:00:45"
         },
         {
             "name": "sebastian/exporter",
@@ -2006,6 +2155,57 @@
             "time": "2014-05-05 08:31:02"
         },
         {
+            "name": "sebastian/global-state",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/global-state.git",
+                "reference": "231d48620efde984fd077ee92916099a3ece9a59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/231d48620efde984fd077ee92916099a3ece9a59",
+                "reference": "231d48620efde984fd077ee92916099a3ece9a59",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.2"
+            },
+            "suggest": {
+                "ext-uopz": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
+                }
+            ],
+            "description": "Snapshotting of global state",
+            "homepage": "http://www.github.com/sebastianbergmann/global-state",
+            "keywords": [
+                "global state"
+            ],
+            "time": "2014-10-06 09:49:11"
+        },
+        {
             "name": "sebastian/version",
             "version": "1.0.3",
             "source": {
@@ -2042,17 +2242,17 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "dev-master",
+            "version": "2.7.x-dev",
             "target-dir": "Symfony/Component/BrowserKit",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/BrowserKit.git",
-                "reference": "c8b7ca1034645c67e01c14c4dc25eab4e4cb1df7"
+                "reference": "fcc474092cc6e92abb038f69d0219ce63ae04f66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/BrowserKit/zipball/c8b7ca1034645c67e01c14c4dc25eab4e4cb1df7",
-                "reference": "c8b7ca1034645c67e01c14c4dc25eab4e4cb1df7",
+                "url": "https://api.github.com/repos/symfony/BrowserKit/zipball/fcc474092cc6e92abb038f69d0219ce63ae04f66",
+                "reference": "fcc474092cc6e92abb038f69d0219ce63ae04f66",
                 "shasum": ""
             },
             "require": {
@@ -2069,7 +2269,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -2083,33 +2283,31 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony BrowserKit Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-09 09:06:26"
+            "time": "2014-11-10 18:00:54"
         },
         {
             "name": "symfony/console",
-            "version": "dev-master",
+            "version": "2.7.x-dev",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "06d8f2a22d4801cc2d80d5697d35860e073077bb"
+                "reference": "8c47430b88b646f91a0255fea7aef72dc7ca57e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/06d8f2a22d4801cc2d80d5697d35860e073077bb",
-                "reference": "06d8f2a22d4801cc2d80d5697d35860e073077bb",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/8c47430b88b646f91a0255fea7aef72dc7ca57e1",
+                "reference": "8c47430b88b646f91a0255fea7aef72dc7ca57e1",
                 "shasum": ""
             },
             "require": {
@@ -2128,7 +2326,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -2142,33 +2340,31 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-15 14:15:21"
+            "time": "2014-11-10 18:00:54"
         },
         {
             "name": "symfony/css-selector",
-            "version": "dev-master",
+            "version": "2.7.x-dev",
             "target-dir": "Symfony/Component/CssSelector",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/CssSelector.git",
-                "reference": "4d29ae5f1dbc3ee7fcd82ffbb292476975a78692"
+                "reference": "301d5705725b4e11c6255e443244642eb3b5dfa1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/4d29ae5f1dbc3ee7fcd82ffbb292476975a78692",
-                "reference": "4d29ae5f1dbc3ee7fcd82ffbb292476975a78692",
+                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/301d5705725b4e11c6255e443244642eb3b5dfa1",
+                "reference": "301d5705725b4e11c6255e443244642eb3b5dfa1",
                 "shasum": ""
             },
             "require": {
@@ -2177,7 +2373,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -2191,37 +2387,35 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
                 },
                 {
                     "name": "Jean-François Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-17 08:32:45"
+            "time": "2014-11-10 18:00:54"
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "dev-master",
+            "version": "2.7.x-dev",
             "target-dir": "Symfony/Component/DomCrawler",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "e50da0a1af797151266110f432586d062bb873fb"
+                "reference": "2808b614d7e848c7729e58a580d60d7c998e4341"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/e50da0a1af797151266110f432586d062bb873fb",
-                "reference": "e50da0a1af797151266110f432586d062bb873fb",
+                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/2808b614d7e848c7729e58a580d60d7c998e4341",
+                "reference": "2808b614d7e848c7729e58a580d60d7c998e4341",
                 "shasum": ""
             },
             "require": {
@@ -2236,7 +2430,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -2250,33 +2444,31 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-09 09:06:26"
+            "time": "2014-11-10 18:00:54"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "dev-master",
+            "version": "2.7.x-dev",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "c2f8a5d3181736d107d6622a536fbdcd55436674"
+                "reference": "8e5829263631e686bf4d1254b02411263b8fa228"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/c2f8a5d3181736d107d6622a536fbdcd55436674",
-                "reference": "c2f8a5d3181736d107d6622a536fbdcd55436674",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/8e5829263631e686bf4d1254b02411263b8fa228",
+                "reference": "8e5829263631e686bf4d1254b02411263b8fa228",
                 "shasum": ""
             },
             "require": {
@@ -2285,7 +2477,8 @@
             "require-dev": {
                 "psr/log": "~1.0",
                 "symfony/config": "~2.0",
-                "symfony/dependency-injection": "~2.0",
+                "symfony/dependency-injection": "~2.6",
+                "symfony/expression-language": "~2.6",
                 "symfony/stopwatch": "~2.2"
             },
             "suggest": {
@@ -2295,7 +2488,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -2309,33 +2502,31 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-09 09:06:26"
+            "time": "2014-11-10 18:00:54"
         },
         {
             "name": "symfony/finder",
-            "version": "dev-master",
+            "version": "2.7.x-dev",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "45fbbe9444b04be0a8595a86d91808278a0d22fc"
+                "reference": "cd7fe8483f071508e9440b9966ff0aeb70b840a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/45fbbe9444b04be0a8595a86d91808278a0d22fc",
-                "reference": "45fbbe9444b04be0a8595a86d91808278a0d22fc",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/cd7fe8483f071508e9440b9966ff0aeb70b840a0",
+                "reference": "cd7fe8483f071508e9440b9966ff0aeb70b840a0",
                 "shasum": ""
             },
             "require": {
@@ -2344,7 +2535,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -2358,33 +2549,31 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-15 14:15:21"
+            "time": "2014-11-10 18:00:54"
         },
         {
             "name": "symfony/yaml",
-            "version": "dev-master",
+            "version": "2.7.x-dev",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "07ff901ce8b081cf227091b4919d347fa999b2a0"
+                "reference": "6165f4b5224c22de2873deb6a3a4e622044f0705"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/07ff901ce8b081cf227091b4919d347fa999b2a0",
-                "reference": "07ff901ce8b081cf227091b4919d347fa999b2a0",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/6165f4b5224c22de2873deb6a3a4e622044f0705",
+                "reference": "6165f4b5224c22de2873deb6a3a4e622044f0705",
                 "shasum": ""
             },
             "require": {
@@ -2393,7 +2582,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -2407,19 +2596,17 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-09 09:06:26"
+            "time": "2014-11-10 18:00:54"
         },
         {
             "name": "yiisoft/yii2-codeception",
@@ -2551,18 +2738,15 @@
             "time": "2014-07-17 16:31:56"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "kartik-v/yii2-widgets": 20,
         "phpoffice/phpexcel": 20
     },
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.4.0"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
