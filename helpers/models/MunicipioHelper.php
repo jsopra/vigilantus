@@ -22,7 +22,13 @@ class MunicipioHelper extends YiiStringHelper
             return '-';
         }
 
-        return Html::img(self::getBrasaoPath($municipio) . $tipo . '/' . $municipio->brasao);
+        $externalPath = self::getBrasaoPath($municipio);
+
+        if(!$externalPath) {
+            return '-';
+        }
+
+        return Html::img($externalPath . $tipo . '/' . $municipio->brasao);
     }
 
     /**
@@ -33,8 +39,33 @@ class MunicipioHelper extends YiiStringHelper
      */
     public static function getBrasaoPath(Municipio $municipio, $internal = false)
     {
-        $path = $internal ? Yii::$app->basePath . '/web' : Url::base();
+        $internalPath = Yii::$app->params['dataDir'] . '/brasao/' . $municipio->sigla_estado . '/';
+        if($internal) {
+            return $internalPath;
+        }
 
-        return $path . '/img/brasao/' . $municipio->sigla_estado . '/';
+        $externalPath = Yii::$app->params['publicDir'] . '/brasao/' . $municipio->sigla_estado . '/';
+        if(!is_dir($externalPath)) {
+            mkdir($externalPath);
+        }
+
+        foreach($municipio->brasaoSizes as $size) {
+
+            $internalFile = $internalPath . $size[0] . '/' . $municipio->brasao;
+
+            if(!is_dir($externalPath . $size[0])) {
+                mkdir($externalPath . $size[0]);
+            }
+
+            $externalFile = $externalPath . $size[0] . '/' . $municipio->brasao;
+            if(!is_file($externalFile)) {
+                if(is_file($internalFile)) {
+                    copy($internalFile, $externalFile);
+                }
+            }
+
+        }
+
+        return Url::base() . '/brasao/' . $municipio->sigla_estado . '/';
     }
 }
