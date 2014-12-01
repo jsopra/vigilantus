@@ -7,7 +7,7 @@ use yii\helpers\Url;
 <div class="row">
 	<div class="col-md-6">
 
-		<h1><?= Html::img(Url::base() . '/img/brasao/SC/chapeco.jpg');  //fix brasão da prefeitura ?>&nbsp;&nbsp;<?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?></h1>
+		<h1><?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>&nbsp;&nbsp;<?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?></h1>
 	</div>
 
 	<div class="col-md-3 col-md-offset-3" style="margin-top: 1em;">
