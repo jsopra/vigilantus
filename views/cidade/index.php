@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Tabs;
 use yii\helpers\Url;
+use app\helpers\models\MunicipioHelper;
 ?>
 
 <div class="row">
