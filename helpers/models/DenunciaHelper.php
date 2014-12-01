@@ -15,11 +15,9 @@ class DenunciaHelper extends YiiStringHelper
      * @param boolean $base Default is false
      * @return string
      */
-    public static function getUploadPath($internal = false)
+    public static function getUploadPath()
     {
-        $path = $internal ? Yii::$app->basePath . '/web' : Url::base();
-
-        return $path . '/denuncias/';
+        return Yii::$app->params['dataDir'] . '/denuncias/';
     }
 
     public static function getDadosContato($model)

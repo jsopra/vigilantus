@@ -24,7 +24,7 @@ class Municipio extends PostgisActiveRecord
     public $longitude;
     public $file;
 
-    private $_brasaoSizes =[
+    public $brasaoSizes =[
         /* folder, width, height */
         ['mini', 50, 50],
         ['small', 75, 75],
@@ -89,7 +89,7 @@ class Municipio extends PostgisActiveRecord
     {
         throw new \Exception(\Yii::t('Site', 'Exclusão não habilitada'), 500);
     }
-    
+
     /**
      * @return Cliente
      */
@@ -97,63 +97,63 @@ class Municipio extends PostgisActiveRecord
     {
         return $this->hasOne(Cliente::className(), ['municipio_id' => 'id']);
     }
-    
+
     /**
      * Busca municípios
      * @param int $id Default is null
-     * @return Cliente[] 
+     * @return Cliente[]
      */
     public static function getMunicipios($id = null) {
-        
+
         $query = self::find();
-        
+
         $query->joinWith('cliente');
 
         if($id) {
             $query->andWhere(['"municipios"."id"' => $id]);
         }
-        
+
         return $query->all();
     }
-    
+
     /**
      * Define latitude e longitude para o modelo, caso exista ponto válido cadastrado
      * @return boolean (false em caso de não popular e true em caso de popular)
      */
     public function loadCoordenadas() {
 
-        if(!$this->coordenadas_area) 
+        if(!$this->coordenadas_area)
             return false;
-        
+
         if($this->latitude && $this->longitude)
             return true;
-        
+
         list($this->latitude, $this->longitude) = $this->postgisToArray('Point', 'coordenadas_area');
-        
+
         return true;
-        
-    } 
-    
+
+    }
+
     /**
      * Busca coordenadas de bairros
      * @param array $except
-     * @return array 
+     * @return array
      */
     public function getCoordenadasBairros(array $except) {
-        
+
         $return = [];
-        
+
         $bairros = Bairro::find()->comCoordenadas()->all();
-        
+
         foreach($bairros as $bairro) {
-            
-            if(in_array($bairro->id,$except)) 
+
+            if(in_array($bairro->id,$except))
                 continue;
-            
+
             $bairro->loadCoordenadas();
             $return[] = ['nome' => $bairro->nome, 'coordenadas' => $bairro->coordenadas];
         }
-        
+
         return $return;
     }
 
@@ -162,11 +162,11 @@ class Municipio extends PostgisActiveRecord
      */
     public function save($runValidation = true, $attributes = NULL) {
 
-        $currentTransaction = $this->getDb()->getTransaction();     
+        $currentTransaction = $this->getDb()->getTransaction();
         $newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
-        
+
         try {
-            
+
             $this->file = UploadedFile::getInstance($this, 'file');
 
             $salvouImagem = true;
@@ -181,7 +181,7 @@ class Municipio extends PostgisActiveRecord
                     mkdir($path);
                     mkdir($path . 'original/');
 
-                    foreach($this->_brasaoSizes as $size) {
+                    foreach($this->brasaoSizes as $size) {
                         mkdir($path . $size[0]);
                     }
                 }
@@ -189,8 +189,8 @@ class Municipio extends PostgisActiveRecord
                 $imagemOriginal = $this->file->saveAs($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, false);
 
                 list($originalWidth, $originalHeight) = getimagesize($path . 'original/' . $this->file->baseName . '.' . $this->file->extension);
-                
-                foreach($this->_brasaoSizes as $size) {
+
+                foreach($this->brasaoSizes as $size) {
 
                     $folder = $size[0];
                     $width = $size[1];
@@ -198,24 +198,24 @@ class Municipio extends PostgisActiveRecord
 
                     $size = ImageHelper::calculateDimensions($originalWidth, $originalHeight, $width, $height);
                     $image = Image::thumbnail($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, $size['width'], $size['height']);
-                    $thumb = $image->save($path . $folder . $this->file->baseName . '.' . $this->file->extension);
-                
+                    $thumb = $image->save($path . $folder . '/' . $this->file->baseName . '.' . $this->file->extension);
+
                     if(!$thumb) {
                         $salvouImagem = false;
-                        break;           
+                        break;
                     }
                 }
 
-                if($salvouImagem) { 
+                if($salvouImagem) {
                     $this->brasao = $this->file->baseName . '.' . $this->file->extension;
                 }
 
             }
-            
+
             if ($salvouImagem) {
 
                 $result = parent::save($runValidation, $attributes);
-                
+
                 if($result) {
 
                     if($newTransaction) {
@@ -226,16 +226,16 @@ class Municipio extends PostgisActiveRecord
                     if($newTransaction) {
                         $newTransaction->rollback();
                     }
-                    
-                    $result = false;                    
+
+                    $result = false;
                 }
-            } 
+            }
             else {
                 if($newTransaction) {
                     $newTransaction->rollback();
                 }
             }
-        } 
+        }
         catch (\Exception $e) {
             if($newTransaction) {
                 $newTransaction->rollback();

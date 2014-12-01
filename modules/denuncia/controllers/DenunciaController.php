@@ -65,7 +65,7 @@ class DenunciaController extends CRUDController
                 if ($model->save()) {
 
                     if($model->file) {
-                        $model->file->saveAs(DenunciaHelper::getUploadPath(true) . $model->anexo);
+                        $model->file->saveAs(DenunciaHelper::getUploadPath() . $model->anexo);
                     }
 
                     Yii::$app->session->setFlash('success', 'Denúncia cadastrada com sucesso.');
@@ -92,7 +92,7 @@ class DenunciaController extends CRUDController
 
     	$response = new yii\web\Response;
 
-    	$response->sendFile(DenunciaHelper::getUploadPath(true) . $model->anexo, $model->nome_original_anexo);
+    	$response->sendFile(DenunciaHelper::getUploadPath() . $model->anexo, $model->nome_original_anexo);
 
     	$response->send();
     }
@@ -119,7 +119,7 @@ class DenunciaController extends CRUDController
     {
     	$model = is_object($id) ? $id : $this->findModel($id);
 
-    	if (!empty($_POST) && $model->load($_POST)) { 
+    	if (!empty($_POST) && $model->load($_POST)) {
 
     		$model->scenario = 'aprovacao';
 	    	$model->status = DenunciaStatus::APROVADA;
@@ -153,7 +153,7 @@ class DenunciaController extends CRUDController
     {
         $model = is_object($id) ? $id : $this->findModel($id);
 
-        if (!empty($_POST) && $model->load($_POST)) { 
+        if (!empty($_POST) && $model->load($_POST)) {
 
             $model->scenario = 'trocaStatus';
             $model->usuario_id = Yii::$app->user->id;

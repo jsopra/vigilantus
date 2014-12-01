@@ -38,7 +38,7 @@ class CidadeController extends Controller
                 if ($model->save()) {
 
                     if($model->file) {
-                        $model->file->saveAs(DenunciaHelper::getUploadPath(true) . $model->anexo);
+                        $model->file->saveAs(DenunciaHelper::getUploadPath() . $model->anexo);
                     }
 
                     Yii::$app->session->setFlash('success', 'Denúncia realizada com sucesso. Você será notificado quando a denúncia for avaliada.');
