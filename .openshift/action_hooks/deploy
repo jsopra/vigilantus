@@ -8,4 +8,7 @@ else
  php $OPENSHIFT_DATA_DIR/composer.phar self-update
 fi
 
+mkdir $OPENSHIFT_HOMEDIR/$VIGILANTUS_PUBLIC_FOLDER/brasao
+chmod 777 $OPENSHIFT_HOMEDIR/$VIGILANTUS_PUBLIC_FOLDER/brasao
+
 ( unset GIT_DIR ; cd $OPENSHIFT_REPO_DIR ; php $OPENSHIFT_DATA_DIR/composer.phar install )
