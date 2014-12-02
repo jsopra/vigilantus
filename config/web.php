@@ -16,7 +16,7 @@ if (getenv('VIGILANTUS_COOKIES_KEY')) {
     $cookieValidationKey = getenv('VIGILANTUS_COOKIES_KEY');
 }
 
-if (YII_ENV_PROD) {
+if (getenv('VIGILANTUS_ENV') == 'prod') {
     $logTargets[] = [
         'class' => 'yii\log\EmailTarget',
         'mailer' => 'mail',
