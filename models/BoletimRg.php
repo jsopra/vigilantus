@@ -79,7 +79,7 @@ class BoletimRg extends ClienteActiveRecord
             if ($result = $this->save()) {
 
                 if (!$this->isNewRecord) {
-                    $this->clearRelationships();
+                    $this->_clearRelationships();
                 }
 
                 if (($imoveisSalvos = $this->insereImoveis()) == 0) {
@@ -99,9 +99,9 @@ class BoletimRg extends ClienteActiveRecord
 
         return $result;
     }
-    
+
     public function salvarComFechamento()
-    { 
+    {
         $transaction = $this->getDb()->beginTransaction();
 
         try {
@@ -109,7 +109,7 @@ class BoletimRg extends ClienteActiveRecord
             if ($result = $this->save()) {
 
                 if (!$this->isNewRecord) {
-                    $this->clearRelationships();
+                    $this->_clearRelationships();
                 }
 
                 $totalImoveis = ImovelTipo::find()->ativo()->count();
@@ -196,14 +196,14 @@ class BoletimRg extends ClienteActiveRecord
     {
         return BoletimRgImovel::find()->where(['boletim_rg_id' => $this->id])->count();
     }
-    
+
     /**
      * @return int
      */
     public function getQuantidadeImoveisFechamento()
     {
         $qtde = 0;
-        
+
         $queryFechamentos = $this->boletinsFechamento;
         foreach ($queryFechamentos as $fechamento) {
             if($fechamento->imovel_lira) {
@@ -220,7 +220,7 @@ class BoletimRg extends ClienteActiveRecord
     {
         $parent = parent::beforeDelete();
 
-        $this->clearRelationships();
+        $this->_clearRelationships();
 
         return $parent;
     }
@@ -308,7 +308,7 @@ class BoletimRg extends ClienteActiveRecord
 
         return $imoveisSalvos;
     }
-    
+
     /**
      * Insere os imóveis associados com o objeto
      * @return int
@@ -323,7 +323,7 @@ class BoletimRg extends ClienteActiveRecord
         foreach ($this->fechamentos as $id => $data) {
 
             if(isset($data['lira'])) {
-                
+
                 $boletimFechamento = new BoletimRgFechamento;
                 $boletimFechamento->cliente_id = $this->cliente_id;
                 $boletimFechamento->boletim_rg_id = $this->id;
@@ -334,9 +334,9 @@ class BoletimRg extends ClienteActiveRecord
                 if ($boletimFechamento->save())
                     $imoveisSalvos++;
             }
-            
+
             if(isset($data['nao_lira'])) {
-                
+
                 $boletimFechamento = new BoletimRgFechamento;
                 $boletimFechamento->cliente_id = $this->cliente_id;
                 $boletimFechamento->boletim_rg_id = $this->id;
@@ -347,12 +347,12 @@ class BoletimRg extends ClienteActiveRecord
                 if ($boletimFechamento->save())
                     $imoveisSalvos++;
             }
-            
+
         }
 
         return $imoveisSalvos;
     }
-    
+
     /**
      * Popula imóveis cadastrados em $this->imoveis
      * @return void
@@ -372,7 +372,7 @@ class BoletimRg extends ClienteActiveRecord
 
         return;
     }
-    
+
     /**
      * @param integer $tipo
      * @param boolean $lira
@@ -382,12 +382,12 @@ class BoletimRg extends ClienteActiveRecord
     {
         if (!is_array($this->fechamentos))
             $this->fechamentos = [];
-        
+
         if (!isset($this->fechamentos[$tipo]))
             $this->fechamentos[$tipo] = [];
 
         $stringLira = $lira ? 'lira' : 'nao_lira';
-        
+
         if(isset($this->fechamentos[$tipo][$stringLira])) {
             continue;
         }
@@ -399,7 +399,7 @@ class BoletimRg extends ClienteActiveRecord
      * Apaga relações do boletim com imóveis e fechamento de RG
      * @return void
      */
-    private function clearRelationships()
+    private function _clearRelationships()
     {
         foreach (BoletimRgImovel::find()->where('boletim_rg_id = :boletim', [':boletim' => $this->id])->all() as $boletim) {
             $boletim->delete();
