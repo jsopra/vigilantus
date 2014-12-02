@@ -19,7 +19,7 @@ if (getenv('VIGILANTUS_COOKIES_KEY')) {
 if (YII_ENV_PROD) {
     $logTargets[] = [
         'class' => 'yii\log\EmailTarget',
-        'mail' => 'mail',
+        'mailer' => 'mail',
         'levels' => ['error', 'warning'],
         'message' => [
             'from' => ['tenha@perspectiva.in'],
@@ -85,7 +85,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                
+
             ],
         ],
         'user' => [
