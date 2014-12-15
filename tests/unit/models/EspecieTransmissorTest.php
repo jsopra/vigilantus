@@ -46,4 +46,36 @@ class EspecieTransmissorTest extends TestCase
         $this->assertNull(EspecieTransmissor::find()->doNome('Finn')->one());
         $this->assertInstanceOf("app\models\EspecieTransmissor", EspecieTransmissor::find()->doNome('Aedes Robervalus')->one());
     }
+
+    public function testQtdeAssociaDoenca()
+    {
+        $cliente = Phactory::cliente();
+        $doenca = Phactory::doenca(['cliente_id' => $cliente]);
+        $especieTransmissor = Phactory::especieTransmissor(['nome' => 'Aedes Aegypti', 'cliente_id' => $cliente]);
+
+        $this->assertEquals(0, count($especieTransmissor->doencasEspecie));
+
+        Phactory::especieTransmissorDoenca(['doenca_id' => $doenca, 'especie_transmissor_id' => $especieTransmissor, 'cliente_id' => $cliente]);
+
+        $especieTransmissor->refresh();
+
+        $this->assertEquals(1, count($especieTransmissor->doencasEspecie));
+    }
+
+    public function testAssociaDoenca()
+    {
+        $cliente = Phactory::cliente();
+        $doenca = Phactory::doenca(['cliente_id' => $cliente]);
+        $especieTransmissor = Phactory::especieTransmissor(['nome' => 'Aedes Aegypti', 'cliente_id' => $cliente]);
+
+        $this->assertEquals(0, count($especieTransmissor->doencasEspecie));
+
+        $especieTransmissor->doencas = [$doenca->id];
+
+        $this->assertTrue($especieTransmissor->save());
+
+        $especieTransmissor->refresh();
+
+        $this->assertEquals(1, count($especieTransmissor->doencasEspecie));
+    }
 }

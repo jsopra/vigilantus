@@ -1,12 +1,18 @@
 <?php
 
 use \Phactory;
+use app\models\Cliente;
+use app\models\Doenca;
 
 $eu = new TesterDeAceitacao($scenario);
 
 Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
 
-$eu->quero('verificar que o CRUD de espécies de transmissoress funciona');
+$cliente = Cliente::find()->andWhere('id=1')->one();
+
+$doenca = Phactory::doenca(['cliente_id' => $cliente]);
+
+$eu->quero('verificar que o CRUD de espécies de transmissores funciona');
 $eu->facoLoginComo('administrador', 'administrador');
 $eu->clicoNoMenu(['Cadastros', 'Espécies de Transmissores']);
 
@@ -17,6 +23,7 @@ $eu->vejoUmTitulo('Cadastrar Espécie de Transmissor');
 $eu->preenchoCampo('Nome', 'Aedes aegypti');
 $eu->preenchoCampo('Área de foco (metros)', '300');
 $eu->preenchoCampo('Permanência do foco (dias)', '360');
+$eu->markSelect2Option('Doenças', $doenca->nome);
 $eu->clico('Cadastrar');
 $eu->aguardoPor(1);
 $eu->vejo('O cadastro foi realizado com sucesso.');
