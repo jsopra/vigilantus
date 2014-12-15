@@ -16,6 +16,8 @@ use app\components\ActiveRecord;
  */
 class Configuracao extends ActiveRecord
 {
+    const ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA = 1;
+
 	/**
 	 * @inheritdoc
 	 */
@@ -96,7 +98,7 @@ class Configuracao extends ActiveRecord
             case ConfiguracaoTipo::TIPO_TIME : {
 
                 if(!preg_match("/^((([01][0-9])|([2][0-3])):([0-5][0-9]))|(24:00)$/", $this->valor)) {
-                    $this->addError('valor', Yii::t('Configuracao', 'Não é um horário válido'));
+                    $this->addError('valor', 'Não é um horário válido');
                 }
                 break;
             }
@@ -167,6 +169,7 @@ class Configuracao extends ActiveRecord
 
     /**
      * Cria configuração para todas as empresas
+     * @param int $id
      * @param string $nome
      * @param string $descricao
      * @param string $tipo
@@ -174,9 +177,10 @@ class Configuracao extends ActiveRecord
      * @param array $values
      * @return void
      */
-    public static function cria($nome, $descricao, $tipo, $valor, $values = null)
+    public static function cria($id, $nome, $descricao, $tipo, $valor, $values = null)
     {
     	$configuracao = new Configuracao;
+        $configuracao->id = $id;
         $configuracao->nome = $nome;
         $configuracao->descricao = $descricao;
         $configuracao->tipo = $tipo;
@@ -186,6 +190,9 @@ class Configuracao extends ActiveRecord
         if(!$configuracao->save()) {
         	return false;
         }
+
+        //como está adicionando o id, não incremente a sequence e quebra os testes
+        \Yii::$app->db->createCommand()->execute("ALTER SEQUENCE configuracoes_id_seq START WITH " . ($id + 1));
 
         $clientes = Cliente::find()->all();
         foreach($clientes as $cliente) {
@@ -198,6 +205,17 @@ class Configuracao extends ActiveRecord
         }
 
         return true;
+    }
+
+    public static function getValorConfiguracaoParaCliente($idConfiguracao, $idCliente)
+    {
+        $configuracao = self::find()->doId($idConfiguracao)->one();
+
+        if(!$configuracao) {
+            return null;
+        }
+
+        return $configuracao->getValor($idCliente);
     }
 
     public function beforeDelete()

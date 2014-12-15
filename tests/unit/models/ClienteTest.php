@@ -3,6 +3,7 @@
 namespace tests\unit\models;
 
 use app\models\Cliente;
+use app\models\Configuracao;
 use Phactory;
 use yii\codeception\TestCase;
 use yii\db\Expression;

@@ -4,14 +4,14 @@ use \yii\web\User;
 use app\models\Modulo;
 
 class VigilantusLayoutHelper {
-    
+
     /**
-     * Menu de usuário logado 
+     * Menu de usuário logado
      * @param User $user
      * @return array
      */
     public static function getMenuUsuarioLogado(User $user) {
-        
+
         return [
             [
                 'label' => 'Denúncias',
@@ -69,6 +69,7 @@ class VigilantusLayoutHelper {
                 'icon' => 'cog',
                 'items' => [
                     ['label' => 'Clientes', 'url' => ['/cliente/'], 'visible' => $user->can('Root'),],
+                    ['label' => 'Configurações', 'url' => ['/configuracao-cliente/'], 'visible' => $user->can('Administrador'),],
                     ['label' => 'Municípios', 'url' => ['/municipio/'], 'visible' => $user->can('Root'),],
                     ['label' => 'Módulos', 'url' => ['/modulo/'], 'visible' => $user->can('Root'),],
                     ['label' => 'Usuários', 'url' => ['/usuario/'], 'visible' => $user->can('Administrador'),],
@@ -78,26 +79,26 @@ class VigilantusLayoutHelper {
             [
                 'label' => 'Blog Posts',
                 'icon' => 'pencil',
-                'url' => ['/blog-post/'], 
+                'url' => ['/blog-post/'],
                 'visible' => $user->can('Root'),
             ],
-            ['label' => 'Contato', 'url' => ['/site/contato'], 'icon' => 'envelope-alt'],     
+            ['label' => 'Contato', 'url' => ['/site/contato'], 'icon' => 'envelope-alt'],
             [
                 'label' => 'Sair',
-                'url' => ['/site/logout'], 
+                'url' => ['/site/logout'],
                 'linkOptions' => ['data-method' => 'post'],
                 'icon' => 'off'
             ],
         ];
     }
-    
+
     /**
      * Menu comum, exibido em qualquer página da aplicação
-     * @param User $user 
+     * @param User $user
      * @return array
      */
     public static function getMenuComum(User $user) {
-        
+
         return [
             ['label' => 'Blog', 'url' => ['/blog']],
             ['label' => '', 'url' => ['/site/contato'], 'icon' => 'envelope'],
@@ -109,33 +110,33 @@ class VigilantusLayoutHelper {
                 ],
                 'items' => [
                     [
-                        'label' => 'Alterar senha', 
+                        'label' => 'Alterar senha',
                         'url' => ['/usuario/change-password'],
                     ],
                 ]
             ],
             [
                 'visible' => $user->isGuest,
-                'url' => ['/site/login'], 
+                'url' => ['/site/login'],
                 'label' => ' Login' ,
                 'icon' => 'off',
             ],
             [
                 'visible' => !$user->isGuest,
-                'url' => ['/site/logout'], 
+                'url' => ['/site/logout'],
                 'label' => ' Logout (' . ($user->isGuest ? '' : $user->identity->login) . ')' ,
                 'icon' => 'off',
                 'linkOptions' => ['data-method' => 'post']
             ],
         ];
     }
-    
+
     /**
      * Código do google analytics
-     * @return string 
+     * @return string
      */
     public static function getAnalyticsCode() {
-        
+
         return "
             <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -148,15 +149,15 @@ class VigilantusLayoutHelper {
 
             </script>
         ";
-        
+
     }
-    
+
     /**
      * Busca parceiros do projeto
-     * @return array 
+     * @return array
      */
     public static function getPartners() {
-        
+
         return [
             [
                 'url' => 'http://www.fapesc.sc.gov.br/',

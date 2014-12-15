@@ -105,7 +105,7 @@ class ConfiguracaoCliente extends ClienteActiveRecord
 			case ConfiguracaoTipo::TIPO_TIME : {
 
 				if(!preg_match("/^((([01][0-9])|([2][0-3])):([0-5][0-9]))|(24:00)$/", $this->valor)) {
-                	$this->addError('valor', Yii::t('Configuracao', 'Não é um horário válido'));
+                	$this->addError('valor', 'Não é um horário válido');
 				}
 				break;
 			}

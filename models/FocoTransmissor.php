@@ -45,7 +45,7 @@ class FocoTransmissor extends ClienteActiveRecord
     public $mes;
     public $quantidade_registros;
 
-    const QTDE_DIAS_INFORMACAO_PUBLICA = 60; //fix migrar para configuração
+    const QTDE_DIAS_INFORMACAO_PUBLICA = 60;
 
     /**
      * @inheritdoc
@@ -197,10 +197,25 @@ class FocoTransmissor extends ClienteActiveRecord
     public function isInformacaoPublica()
     {
         $dataAtual = new \DateTime;
-        $dataAtual->modify('-' . self::QTDE_DIAS_INFORMACAO_PUBLICA . ' days');
+        $dataAtual->modify('-' . $this->getQuantidadeDiasInformacaoPublica() . ' days');
 
         $dataColeta = new \DateTime($this->data_coleta);
 
         return $dataColeta >= $dataAtual;
+    }
+
+    public function getQuantidadeDiasInformacaoPublica()
+    {
+        $valor = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA, $this->cliente_id);
+
+        if(!$valor) {
+            return self::QTDE_DIAS_INFORMACAO_PUBLICA;
+        }
+
+        if($valor < self::QTDE_DIAS_INFORMACAO_PUBLICA) {
+            return self::QTDE_DIAS_INFORMACAO_PUBLICA;
+        }
+
+        return $valor;
     }
 }

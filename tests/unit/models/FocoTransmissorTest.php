@@ -6,6 +6,7 @@ use Yii;
 use Phactory;
 use tests\TestCase;
 use app\models\FocoTransmissor;
+use app\models\Configuracao;
 
 class FocoTransmissorTest extends TestCase
 {
@@ -37,6 +38,45 @@ class FocoTransmissorTest extends TestCase
 
         $foco = Phactory::focoTransmissor([
             'data_coleta' => date("Y-m-d", strtotime("-61 days"))
+        ]);
+        $this->assertFalse($foco->isInformacaoPublica());
+    }
+
+    public function testIsInformacaoPublicaDoCliente()
+    {
+        $this->assertEquals(1, Configuracao::find()->count());
+
+        $cliente = Phactory::cliente();
+
+        $configuracao = Configuracao::find()->doId(Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA)->one();
+
+        $this->assertInstanceOf('\app\models\Configuracao', $configuracao);
+
+        $configuracaoCliente = new \app\models\ConfiguracaoCliente;
+        $configuracaoCliente->cliente_id = $cliente->id;
+        $configuracaoCliente->configuracao_id = $configuracao->id;
+        $configuracaoCliente->valor = '100';
+
+        $this->assertTrue($configuracaoCliente->save());
+
+        $foco = Phactory::focoTransmissor(['cliente_id' => $cliente->id]);
+        $this->assertTrue($foco->isInformacaoPublica());
+
+        $foco = Phactory::focoTransmissor([
+            'data_coleta' => date("Y-m-d", strtotime("-59 days")),
+            'cliente_id' => $cliente->id
+        ]);
+        $this->assertTrue($foco->isInformacaoPublica());
+
+        $foco = Phactory::focoTransmissor([
+            'data_coleta' => date("Y-m-d", strtotime("-61 days")),
+            'cliente_id' => $cliente->id
+        ]);
+        $this->assertTrue($foco->isInformacaoPublica());
+
+        $foco = Phactory::focoTransmissor([
+            'data_coleta' => date("Y-m-d", strtotime("-101 days")),
+            'cliente_id' => $cliente->id
         ]);
         $this->assertFalse($foco->isInformacaoPublica());
     }

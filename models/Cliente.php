@@ -19,10 +19,10 @@ use app\components\ActiveRecord;
  *
  * @property Municipios $municipio
  */
-class Cliente extends ActiveRecord 
+class Cliente extends ActiveRecord
 {
     protected $_validateMunicipio = false;
-    
+
 	/**
 	 * @inheritdoc
 	 */
@@ -37,7 +37,7 @@ class Cliente extends ActiveRecord
 	public function rules()
 	{
         return [
-			[['municipio_id', 'nome_contato', 'telefone_contato', 'departamento'], 'required'],          
+			[['municipio_id', 'nome_contato', 'telefone_contato', 'departamento'], 'required'],
             [['email_contato', 'cargo'], 'safe'],
             [['municipio_id'], 'unique'],
             [['rotulo'], 'unique'],
@@ -79,7 +79,7 @@ class Cliente extends ActiveRecord
     {
         return $this->hasMany(ClienteModulo::className(), ['cliente_id' => 'id']);
     }
-    
+
     /**
      * @return int
      */
@@ -95,7 +95,7 @@ class Cliente extends ActiveRecord
     public function moduloIsHabilitado($moduloId)
     {
         $this->refresh();
-        
+
         foreach($this->modulos as $modulo) {
             if($modulo->modulo_id == $moduloId) {
                 return true;
@@ -104,22 +104,68 @@ class Cliente extends ActiveRecord
 
         return false;
     }
-    
+
     public function beforeDelete()
     {
         $parent = parent::beforeDelete();
 
-        $this->clearRelationships();
+        $this->_clearRelationships();
 
         return $parent;
     }
-    
+
+     /**
+     * @inheritdoc
+     */
+    public function save($runValidation = true, $attributes = NULL) {
+
+        $currentTransaction = $this->getDb()->getTransaction();
+        $newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
+
+        try {
+
+            $result = parent::save($runValidation, $attributes);
+
+            if ($result) {
+
+                $configuracoes = Configuracao::find()->all();
+                foreach($configuracoes as $configuracao) {
+
+                    //adiciona via command, pois do contrário vai forçar o cliente_id da sessão logada
+                    \Yii::$app->db->createCommand()->insert('configuracoes_clientes', [
+                        'configuracao_id' => $configuracao->id,
+                        'cliente_id' => $this->id,
+                        'valor' =>$configuracao->valor,
+                    ])->execute();
+                }
+
+                if($newTransaction) {
+                    $newTransaction->commit();
+                }
+            }
+            else {
+                if($newTransaction) {
+                    $newTransaction->rollback();
+                }
+            }
+        }
+        catch (\Exception $e) {
+            if($newTransaction) {
+                $newTransaction->rollback();
+            }
+            throw $e;
+        }
+
+        return $result;
+    }
+
     /**
      * Apaga relações do boletim com imóveis e fechamento de RG
      * @return void
      */
-    private function clearRelationships()
+    private function _clearRelationships()
     {
         ClienteModulo::deleteAll('cliente_id = :cliente', [':cliente' => $this->id]);
+        ConfiguracaoCliente::deleteAll('cliente_id = :cliente', [':cliente' => $this->id]);
     }
 }
