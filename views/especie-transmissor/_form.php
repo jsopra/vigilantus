@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\ColorInput;
+use kartik\widgets\Select2;
 
 /**
  * @var yii\web\View $this
@@ -15,11 +16,11 @@ use kartik\widgets\ColorInput;
     <?php $form = ActiveForm::begin(); ?>
 
         <div class="row">
-            <div class="col-xs-3">
+            <div class="col-xs-8">
                 <?= $form->field($model, 'nome') ?>
             </div>
         </div>
-    
+
         <div class="row">
             <div class="col-xs-4">
                 <?= $form->field($model, 'qtde_metros_area_foco')->input('number') ?>
@@ -28,16 +29,32 @@ use kartik\widgets\ColorInput;
                 <?= $form->field($model, 'qtde_dias_permanencia_foco')->input('number') ?>
             </div>
         </div>
-    
-    <div class="row">
-        <div class="col-xs-4">
-            <?php
-            echo $form->field($model, 'cor_foco_no_mapa')->widget(ColorInput::classname(), [
-                'options' => ['placeholder' => 'Selecione cor...'],
-            ]);
-            ?>
+
+        <div class="row">
+            <div class="col-xs-8">
+                <?php
+                echo $form->field($model, 'cor_foco_no_mapa')->widget(ColorInput::classname(), [
+                    'options' => ['placeholder' => 'Selecione cor...'],
+                ]);
+                ?>
+            </div>
         </div>
-    </div>
+
+        <div class="row">
+            <div class="col-xs-8">
+                <?php
+                echo $form->field($model, 'doencas')->widget(Select2::classname(),[
+                    'model' => $model,
+                    'attribute' => 'doencas',
+                    'data' => \app\models\Doenca::listData('nome'),
+                    'options' => ['placeholder' => 'Selecione...', 'multiple'=>true],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]);
+                ?>
+            </div>
+        </div>
 
         <div class="form-group form-actions">
             <?php
@@ -45,7 +62,7 @@ use kartik\widgets\ColorInput;
                 $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
                 ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
             );
-            
+
             echo Html::a(
                 'Cancelar',
                 array('/especie-transmissor/index'),
@@ -53,7 +70,7 @@ use kartik\widgets\ColorInput;
             );
 
             ?>
-            
+
        </div>
 
     <?php ActiveForm::end(); ?>

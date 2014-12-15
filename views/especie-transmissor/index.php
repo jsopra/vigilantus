@@ -47,6 +47,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             [
+                'format' => 'raw',
+                'attribute' => 'doencas',
+                'value' => function ($model, $index, $widget) {
+                    return app\helpers\models\EspecieTransmissorHelper::doencasToHtml($model);
+                },
+            ],
+            [
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
             ],
