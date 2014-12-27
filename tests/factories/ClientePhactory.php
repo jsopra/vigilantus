@@ -4,7 +4,6 @@ class ClientePhactory
     public function blueprint()
     {
         return [
-            'id' => '#{sn}',
             'municipio_id' => Phactory::hasOne('municipio'),
             'nome_contato' => 'Contato #{sn}',
             'email_contato' => 'cliente@vigilantus.com.br',

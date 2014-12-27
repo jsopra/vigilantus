@@ -116,7 +116,6 @@ class Configuracao extends ActiveRecord
         if($idCliente) {
         	$configuracaoCliente = ConfiguracaoCliente::find()->doCliente($idCliente)->doIdConfiguracao($this->id)->one();
         	if($configuracaoCliente) {
-        		$tipo = $configuracaoCliente->configuracao->tipo;
                 $valor = $configuracaoCliente->valor;
         	}
     		unset($configuracaoCliente);
@@ -179,8 +178,9 @@ class Configuracao extends ActiveRecord
      */
     public static function cria($id, $nome, $descricao, $tipo, $valor, $values = null)
     {
+        \Yii::$app->db->createCommand()->execute("ALTER SEQUENCE configuracoes_id_seq START WITH " . ($id - 1));
+
     	$configuracao = new Configuracao;
-        $configuracao->id = $id;
         $configuracao->nome = $nome;
         $configuracao->descricao = $descricao;
         $configuracao->tipo = $tipo;
@@ -190,9 +190,6 @@ class Configuracao extends ActiveRecord
         if(!$configuracao->save()) {
         	return false;
         }
-
-        //como está adicionando o id, não incremente a sequence e quebra os testes
-        \Yii::$app->db->createCommand()->execute("ALTER SEQUENCE configuracoes_id_seq START WITH " . ($id + 1));
 
         $clientes = Cliente::find()->all();
         foreach($clientes as $cliente) {

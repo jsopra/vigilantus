@@ -13,8 +13,9 @@ class ConfiguracaoClienteTest extends TestCase
 {
     public function testValidateInteger()
     {
-        $configuracao = Phactory::configuracao('inteiro');
         $cliente = Phactory::cliente();
+
+        $configuracao = Phactory::configuracao('inteiro');
 
         $configuracaoCliente = new ConfiguracaoCliente;
         $configuracaoCliente->cliente_id = $cliente->id;
@@ -30,8 +31,9 @@ class ConfiguracaoClienteTest extends TestCase
 
     public function testValidateDecimal()
     {
-        $configuracao = Phactory::configuracao('decimal');
         $cliente = Phactory::cliente();
+
+        $configuracao = Phactory::configuracao('decimal');
 
         $configuracaoCliente = new ConfiguracaoCliente;
         $configuracaoCliente->cliente_id = $cliente->id;
@@ -47,8 +49,9 @@ class ConfiguracaoClienteTest extends TestCase
 
     public function testValidateBooleano()
     {
-        $configuracao = Phactory::configuracao('boleano');
         $cliente = Phactory::cliente();
+
+        $configuracao = Phactory::configuracao('boleano');
 
         $configuracaoCliente = new ConfiguracaoCliente;
         $configuracaoCliente->cliente_id = $cliente->id;
@@ -61,8 +64,9 @@ class ConfiguracaoClienteTest extends TestCase
 
     public function testValidateRange()
     {
-        $configuracao = Phactory::configuracao('range');
         $cliente = Phactory::cliente();
+
+        $configuracao = Phactory::configuracao('range');
 
         $configuracaoCliente = new ConfiguracaoCliente;
         $configuracaoCliente->cliente_id = $cliente->id;
@@ -78,8 +82,9 @@ class ConfiguracaoClienteTest extends TestCase
 
     public function testValidateTime()
     {
-        $configuracao = Phactory::configuracao('time');
         $cliente = Phactory::cliente();
+
+        $configuracao = Phactory::configuracao('time');
 
         $configuracaoCliente = new ConfiguracaoCliente;
         $configuracaoCliente->cliente_id = $cliente->id;

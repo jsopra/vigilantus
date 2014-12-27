@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "369df702bfa4e2c2d5f03ad42f949c00",
+    "hash": "bf3c9db7bcfe51664fd00fdb03d27f72",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -995,54 +995,6 @@
     ],
     "packages-dev": [
         {
-            "name": "alanwillms/phactory",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/alanwillms/phactory.git",
-                "reference": "8d32361abc53a285b5cd33ad9a5196702c231577"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/alanwillms/phactory/zipball/8d32361abc53a285b5cd33ad9a5196702c231577",
-                "reference": "8d32361abc53a285b5cd33ad9a5196702c231577",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Phactory": "lib"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Richard Bone",
-                    "email": "rjonbone@gmail.com"
-                },
-                {
-                    "name": "Alan Willms",
-                    "email": "dyulax@gmail.com"
-                }
-            ],
-            "description": "A PHP library for generating data for tests",
-            "homepage": "https://github.com/alanwillms/phactory",
-            "keywords": [
-                "data",
-                "test"
-            ],
-            "time": "2014-03-05 13:27:49"
-        },
-        {
             "name": "codeception/codeception",
             "version": "2.0.x-dev",
             "source": {
@@ -1800,12 +1752,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "247756f342dfb0a319f8985ef06f21a00d98b59c"
+                "reference": "2a1f8746a5bc0ff5d0cd24b356123fcf0fd1fb64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/247756f342dfb0a319f8985ef06f21a00d98b59c",
-                "reference": "247756f342dfb0a319f8985ef06f21a00d98b59c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2a1f8746a5bc0ff5d0cd24b356123fcf0fd1fb64",
+                "reference": "2a1f8746a5bc0ff5d0cd24b356123fcf0fd1fb64",
                 "shasum": ""
             },
             "require": {
@@ -1815,19 +1767,19 @@
                 "ext-reflection": "*",
                 "ext-spl": "*",
                 "php": ">=5.3.3",
-                "phpspec/prophecy": "~1.2",
-                "phpunit/php-code-coverage": "3.0.*@dev",
-                "phpunit/php-file-iterator": "~1.3.2",
+                "phpspec/prophecy": "~1.3.1",
+                "phpunit/php-code-coverage": "~3.0",
+                "phpunit/php-file-iterator": "~1.3",
                 "phpunit/php-text-template": "~1.2",
-                "phpunit/php-timer": "~1.0.2",
-                "phpunit/phpunit-mock-objects": "2.4.*@dev",
-                "sebastian/comparator": "1.1.*@dev",
-                "sebastian/diff": "~1.1",
+                "phpunit/php-timer": "~1.0",
+                "phpunit/phpunit-mock-objects": "~2.3",
+                "sebastian/comparator": "~1.1",
+                "sebastian/diff": "~1.2",
                 "sebastian/environment": "~1.2",
                 "sebastian/exporter": "~1.0",
-                "sebastian/global-state": "1.0.*@dev",
+                "sebastian/global-state": "~1.0",
                 "sebastian/version": "~1.0",
-                "symfony/yaml": "~2.0"
+                "symfony/yaml": "~2.1|~3.0"
             },
             "suggest": {
                 "phpunit/php-invoker": "~1.1"
@@ -1838,7 +1790,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.5.x-dev"
+                    "dev-master": "4.6.x-dev"
                 }
             },
             "autoload": {
@@ -1864,7 +1816,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-11-06 08:43:29"
+            "time": "2014-12-22 16:18:11"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1920,6 +1872,54 @@
                 "xunit"
             ],
             "time": "2014-10-04 10:04:20"
+        },
+        {
+            "name": "rbone/phactory",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rbone/phactory.git",
+                "reference": "f1c474084f9b310d171f393fe196e8a2a7aae1ec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rbone/phactory/zipball/f1c474084f9b310d171f393fe196e8a2a7aae1ec",
+                "reference": "f1c474084f9b310d171f393fe196e8a2a7aae1ec",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Phactory": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Richard Bone",
+                    "email": "rjonbone@gmail.com"
+                },
+                {
+                    "name": "Alan Willms",
+                    "email": "alanwillms@gmail.com"
+                }
+            ],
+            "description": "A PHP library for generating data for tests",
+            "homepage": "https://github.com/rbone/phactory",
+            "keywords": [
+                "data",
+                "test"
+            ],
+            "time": "2014-11-05 01:57:45"
         },
         {
             "name": "sebastian/comparator",

@@ -7,20 +7,27 @@ use Phactory;
 use tests\TestCase;
 use app\models\FocoTransmissor;
 use app\models\Configuracao;
+use app\models\Cliente;
+use app\models\ConfiguracaoCliente;
 
 class FocoTransmissorTest extends TestCase
 {
+
     public function testIsAtivo()
     {
-        $foco = Phactory::focoTransmissor([]);
+        $cliente = Cliente::find(['id' => 1])->one();
+
+        $foco = Phactory::focoTransmissor(['cliente_id' => $cliente]);
         $this->assertTrue($foco->isAtivo());
 
         $foco = Phactory::focoTransmissor([
+            'cliente_id' => $cliente,
             'data_coleta' => date("Y-m-d", strtotime("-360 days"))
         ]);
         $this->assertTrue($foco->isAtivo());
 
         $foco = Phactory::focoTransmissor([
+            'cliente_id' => $cliente,
             'data_coleta' => date("Y-m-d", strtotime("-361 days"))
         ]);
         $this->assertFalse($foco->isAtivo());
@@ -52,9 +59,10 @@ class FocoTransmissorTest extends TestCase
 
         $this->assertInstanceOf('\app\models\Configuracao', $configuracao);
 
-        $configuracaoCliente = new \app\models\ConfiguracaoCliente;
-        $configuracaoCliente->cliente_id = $cliente->id;
-        $configuracaoCliente->configuracao_id = $configuracao->id;
+        $configuracaoCliente = ConfiguracaoCliente::find()->doCliente($cliente->id)->doIdConfiguracao($configuracao->id)->one();
+
+        $this->assertInstanceOf('\app\models\ConfiguracaoCliente', $configuracaoCliente);
+
         $configuracaoCliente->valor = '100';
 
         $this->assertTrue($configuracaoCliente->save());

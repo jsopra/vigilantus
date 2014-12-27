@@ -4,7 +4,6 @@ class FocoTransmissorPhactory
     public function blueprint()
     {
         return [
-            'id' => '#{sn}',
             'tecnico' => 'Tecnico',
             'laboratorio' => 'Labz',
             'bairro_quarteirao_id' => Phactory::hasOne('bairroQuarteirao'),

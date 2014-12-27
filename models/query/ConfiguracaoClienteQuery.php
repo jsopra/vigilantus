@@ -12,6 +12,12 @@ class ConfiguracaoClienteQuery extends ActiveQuery
         return $this;
     }
 
+    public function doCliente($id)
+    {
+        $this->andWhere('cliente_id = :idcliente', [':idcliente' => $id]);
+        return $this;
+    }
+
     public function doTipo($tipo)
     {
         $this->joinWith(['configuracao']);

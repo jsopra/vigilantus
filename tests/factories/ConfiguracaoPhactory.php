@@ -6,7 +6,6 @@ class ConfiguracaoPhactory
     public function blueprint()
     {
         return [
-            'id' => '#{sn}',
             'nome' => 'Configuracao #{sn}',
             'descricao' => 'Descrição de configuração #{sn}',
             'tipo' => ConfiguracaoTipo::TIPO_STRING,

@@ -8,7 +8,6 @@ class DenunciaPhactory
     public function blueprint()
     {
         return [
-            'id' => '#{sn}',
             'nome' => 'Denunciante #{sn}',
             'telefone' => '(49) 3316 0928',
             'bairro_id' => Phactory::hasOne('bairro'),

@@ -193,8 +193,9 @@ class ConfiguracaoTest extends TestCase
 
     public function testGetValorConfiguracaoCliente()
     {
-        $configuracao = Phactory::configuracao(['valor' => 'default']);
         $cliente = Phactory::cliente();
+
+        $configuracao = Phactory::configuracao(['valor' => 'default']);
 
         $configuracaoCliente = Phactory::configuracaoCliente(['configuracao_id' => $configuracao, 'cliente_id' => $cliente]);
         $configuracaoCliente->valor = 'customizado';
