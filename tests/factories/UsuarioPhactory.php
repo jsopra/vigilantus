@@ -6,7 +6,6 @@ class UsuarioPhactory
     public function blueprint()
     {
         return [
-            'id' => '#{sn}',
             'nome' => 'Usuário #{sn}',
             'login' => 'login#{sn}',
             'sal' => 'salgado',

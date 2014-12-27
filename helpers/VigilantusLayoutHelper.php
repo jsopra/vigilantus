@@ -70,6 +70,7 @@ class VigilantusLayoutHelper {
                 'icon' => 'cog',
                 'items' => [
                     ['label' => 'Clientes', 'url' => ['/cliente/'], 'visible' => $user->can('Root'),],
+                    ['label' => 'Configurações', 'url' => ['/configuracao-cliente/'], 'visible' => $user->can('Administrador'),],
                     ['label' => 'Municípios', 'url' => ['/municipio/'], 'visible' => $user->can('Root'),],
                     ['label' => 'Módulos', 'url' => ['/modulo/'], 'visible' => $user->can('Root'),],
                     ['label' => 'Usuários', 'url' => ['/usuario/'], 'visible' => $user->can('Administrador'),],

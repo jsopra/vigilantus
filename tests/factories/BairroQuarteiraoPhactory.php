@@ -4,7 +4,6 @@ class BairroQuarteiraoPhactory
     public function blueprint()
     {
         return [
-            'id' => '#{sn}',
             'numero_quarteirao' => '#{sn}',
             'cliente_id' => Phactory::hasOne('cliente'),
             'municipio_id' => Phactory::hasOne('municipio'),

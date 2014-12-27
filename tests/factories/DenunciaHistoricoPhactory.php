@@ -7,7 +7,6 @@ class DenunciaHistoricoPhactory
     public function blueprint()
     {
         return [
-            'id' => '#{sn}',
             'denuncia_id' => Phactory::hasOne('denuncia'),
             'tipo' => DenunciaHistoricoTipo::INCLUSAO,
             'observacoes' => 'Observações de histórico',

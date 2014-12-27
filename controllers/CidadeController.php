@@ -6,6 +6,7 @@ use app\components\Controller;
 use app\models\Cliente;
 use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use app\models\Denuncia;
+use app\models\Modulo;
 use yii\web\UploadedFile;
 use app\helpers\models\DenunciaHelper;
 
@@ -16,6 +17,10 @@ class CidadeController extends Controller
         $cliente = Cliente::find()->andWhere(['id' => $id])->one();
         if(!$cliente) {
             throw new \Exception('Município não localizado');
+        }
+
+        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
+            throw new \Exception('Município não utiliza denúncias');
         }
 
         Yii::$app->session->set('user.cliente', $cliente);

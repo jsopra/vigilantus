@@ -15,6 +15,7 @@ use app\components\Controller;
 use app\models\Municipio;
 use app\models\report\ResumoRgCapaReport;
 use app\models\report\ResumoFocosCapaReport;
+use app\models\Modulo;
 use yii\base\Exception;
 use yii\base\UserException;
 use app\models\Cliente;
@@ -191,7 +192,9 @@ class SiteController extends Controller
             $objeto = Cliente::find()->doRotulo($municipio)->one();
             if($objeto) {
 
-                $this->redirect(['cidade/index', 'id' => $objeto->id]);
+                if($objeto->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
+                    $this->redirect(['cidade/index', 'id' => $objeto->id]);
+                }
             }
         }
 

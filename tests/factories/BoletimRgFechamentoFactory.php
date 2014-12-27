@@ -5,7 +5,6 @@ class BoletimRgFechamentoPhactory
     public function blueprint()
     {
         return [
-            'id' => '#{sn}',
             'cliente_id' => Phactory::hasOne('cliente'),
             'boletim_rg_id' => Phactory::hasOne('boletimRg'),
             'quantidade' => 10,
