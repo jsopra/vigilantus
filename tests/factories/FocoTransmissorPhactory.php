@@ -18,6 +18,7 @@ class FocoTransmissorPhactory
             'data_coleta' => date('Y-m-d'),
             'inserido_por' => Phactory::hasOne('usuario'),
             'atualizado_por' => Phactory::hasOne('usuario'),
+            'cliente_id' => Phactory::hasOne('cliente'),
         ];
     }
 }

@@ -5,7 +5,6 @@ use app\models\Bairro;
 use app\models\BairroQuarteirao;
 use app\models\FocoTransmissor;
 use app\models\EspecieTransmissor;
-use app\models\Municipio;
 use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -66,7 +65,7 @@ class AreaTratamentoReport extends Model
         $this->dataProviderAreasFoco = new ActiveDataProvider(['query' => $focos]);
     }
     
-    public function loadAreasDeTratamento() {
+    public function loadAreasDeTratamento($cliente) {
        
         $lira = null;
         if($this->lira != '' && $this->lira != null)
@@ -74,10 +73,11 @@ class AreaTratamentoReport extends Model
         
         $especieTransmissor = is_numeric($this->especie_transmissor_id) ? $this->especie_transmissor_id : null;
         
-        $quarteiroes = BairroQuarteirao::find()->emAreaDeTratamento($lira, $especieTransmissor);
+        $quarteiroes = BairroQuarteirao::find()->emAreaDeTratamento($cliente, $lira, $especieTransmissor);
         
-        if(is_numeric($this->bairro_id))
+        if(is_numeric($this->bairro_id)) {
             $quarteiroes->doBairro($this->bairro_id);
+        }
         
         $this->dataProviderAreasTratamento = new ActiveDataProvider(['query' => $quarteiroes]);
     }
@@ -86,13 +86,11 @@ class AreaTratamentoReport extends Model
      * Carrega áreas de foco para o mapa
      * @return FocosAtivos[] 
      */
-    public function loadAreasDeFocoMapa()
+    public function loadAreasDeFocoMapa($cliente)
     {
         $focos = FocoTransmissorRedis::find();
         
-        $municipio = Municipio::find()->one(); //fix
-        
-        $focos->doMunicipio($municipio->id);
+        $focos->doCliente($cliente->id);
         
         if(is_numeric($this->bairro_id))
             $focos->doBairro($this->bairro_id);

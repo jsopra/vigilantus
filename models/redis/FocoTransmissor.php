@@ -14,7 +14,7 @@ class FocoTransmissor extends RedisActiveRecord
     {
         return [
             'id', 
-            'municipio_id',
+            'cliente_id',
             'bairro_id',
             'bairro_quarteirao_id', 
             'quarteirao_coordenadas', 
@@ -23,6 +23,7 @@ class FocoTransmissor extends RedisActiveRecord
             'especie_transmissor_id', 
             'cor_foco', 
             'qtde_metros_area_foco',
+            'informacao_publica',
         ];
     }
     

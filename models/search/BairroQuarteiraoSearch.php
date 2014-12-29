@@ -15,11 +15,12 @@ class BairroQuarteiraoSearch extends SearchModel
 	public $data_atualizacao;
 	public $inserido_por;
 	public $atualizado_por;
+	public $cliente_id;
 
 	public function rules()
 	{
 		return [
-			[['id', 'municipio_id', 'bairro_id', 'inserido_por', 'atualizado_por'], 'integer'],
+			[['id', 'municipio_id', 'bairro_id', 'inserido_por', 'atualizado_por', 'cliente_id'], 'integer'],
 			[['data_cadastro', 'data_atualizacao', 'numero_quarteirao', 'numero_quarteirao_2'], 'safe'],
 		];
 	}
@@ -35,5 +36,6 @@ class BairroQuarteiraoSearch extends SearchModel
 		$this->addCondition($query, 'data_atualizacao', true);
 		$this->addCondition($query, 'inserido_por');
 		$this->addCondition($query, 'atualizado_por');
+		$this->addCondition($query, 'cliente_id');
 	}
 }

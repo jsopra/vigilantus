@@ -7,6 +7,7 @@ use app\helpers\GoogleMapsAPIHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\bootstrap\Button;
+use yii\helpers\HtmlPurifier;
 use yii\bootstrap\ButtonGroup;
 
 /**
@@ -98,7 +99,6 @@ use yii\bootstrap\ButtonGroup;
     var bairroBoundsObj = new google.maps.LatLngBounds();
     var bairroPolygon;
     
-    var defaultZoom = 13;
     var defaultLat = <?= $municipio->latitude; ?>;
     var defaultLong = <?= $municipio->longitude; ?>;
 
@@ -123,7 +123,6 @@ use yii\bootstrap\ButtonGroup;
             bairroBoundsObj.extend(bairroBounds[i]);
 
         mapCenter = bairroBoundsObj.getCenter();
-        defaultZoom = 15;
     
     <?php endif; ?>
         
@@ -143,11 +142,10 @@ use yii\bootstrap\ButtonGroup;
             quarteiraoBoundsObj.extend(quarteiraoBounds[i]);
 
         mapCenter = quarteiraoBoundsObj.getCenter();
-        defaultZoom = 16;
     <?php endif; ?>
 
     var options = {
-        zoom: defaultZoom,
+        zoom: 16,
         center: mapCenter,
         mapTypeId: google.maps.MapTypeId.HYBRID,
         disableDefaultUI: true,
@@ -181,16 +179,33 @@ use yii\bootstrap\ButtonGroup;
         
         <?php 
         $i = 0;
-        foreach($coordenadasQuarteiroes as $quarteiraoCoordenada) : ?>
+        foreach($coordenadasQuarteiroes as $dadosQuarteirao) : ?>
         
+            <?php $quarteiraoCoordenada = $dadosQuarteirao['coordenada']; ?>
+
+            var quarteiraoBounds<?= $i; ?> = [<?= GoogleMapsAPIHelper::arrayToBounds($quarteiraoCoordenada); ?>];
+            var quarteiraoObj<?= $i; ?> = new google.maps.LatLngBounds();
+
             var quarteiraoPolygon<?= $i; ?> = new google.maps.Polygon({
-                paths: [<?= GoogleMapsAPIHelper::arrayToBounds($quarteiraoCoordenada); ?>],
+                paths: quarteiraoBounds<?= $i; ?>,
                 strokeWeight: 0,
                 fillColor: quarteiraoColor,
                 fillOpacity: 0.85,
                 map: map
             });
             
+            for (i = 0; i < quarteiraoBounds<?= $i; ?>.length; i++) {
+                quarteiraoObj<?= $i; ?>.extend(quarteiraoBounds<?= $i; ?>[i]);
+            }
+
+            var marker<?= $i; ?> = new google.maps.Marker({
+                  position: quarteiraoObj<?= $i; ?>.getCenter(),
+                  map: map,
+                  title: '<?= $dadosQuarteirao['numero']; ?>'
+            });
+
+            <?php $i++; ?>
+
         <?php endforeach; ?>
         
     <?php endif; ?>

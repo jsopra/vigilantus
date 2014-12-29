@@ -1,6 +1,5 @@
 <?php
 
-use app\models\Municipio;
 use app\models\UsuarioRole;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -42,15 +41,6 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'confirmacao_senha')->passwordInput() ?>
             </div>
         </div>	
-    
-        <?php
-        if (Yii::$app->user->can('Root')) : ?>
-            <div class="row">
-                <div class="col-xs-3">
-                    <?= $form->field($model, 'municipio_id')->dropDownList(Municipio::listData('nome'), ['prompt' => "Selecione..."]) ?>
-                </div>
-            </div>	
-        <?php endif; ?>
 
 		<div class="form-group">
 			<?php

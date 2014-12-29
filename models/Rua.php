@@ -1,7 +1,7 @@
 <?php
 
 namespace app\models;
-use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 
 /**
  * This is the model class for table "ruas".
@@ -9,12 +9,14 @@ use app\components\ActiveRecord;
  * @property integer $id
  * @property integer $municipio_id
  * @property string $nome
+ * @property integer $cliente_id
  *
- * @property Municipios $municipio
+ * @property Municipio $municipio
+ * @property Cliente $cliente
  * @property Bairros $bairro
  * @property BairroRuaImoveis[] $bairroRuaImoveis
  */
-class Rua extends ActiveRecord
+class Rua extends ClienteActiveRecord
 {
 	/**
 	 * @inheritdoc
@@ -31,7 +33,7 @@ class Rua extends ActiveRecord
 	{
 		return [
 			[['municipio_id', 'nome'], 'required'],
-			[['municipio_id'], 'integer'],
+			[['municipio_id', 'cliente_id'], 'integer'],
             ['nome', 'unique', 'compositeWith' => 'municipio_id'],
 			[['nome'], 'string']
 		];
@@ -44,8 +46,9 @@ class Rua extends ActiveRecord
 	{
 		return [
 			'id' => 'ID',
-			'municipio_id' => 'Municipio ID',
+			'municipio_id' => 'Municipio',
 			'nome' => 'Nome',
+			'cliente_id' => 'Cliente'
 		];
 	}
 
@@ -54,6 +57,14 @@ class Rua extends ActiveRecord
 	 */
 	public function getMunicipio()
 	{
-		return $this->hasOne(Municipios::className(), ['id' => 'municipio_id']);
+		return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getCliente()
+	{
+		return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
 	}
 }

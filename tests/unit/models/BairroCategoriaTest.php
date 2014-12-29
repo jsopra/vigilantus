@@ -11,13 +11,13 @@ class BairroCategoriaTest extends TestCase
     public function testNaoSalvaDuplicado()
     {
         // Trava no mesmo município
-        Phactory::bairroCategoria(['nome' => 'Espacial', 'municipio_id' => 1]);
-        $categoriaDuplicada = Phactory::bairroCategoria(['municipio_id' => 1]);
+        Phactory::bairroCategoria(['nome' => 'Espacial', 'cliente_id' => 1]);
+        $categoriaDuplicada = Phactory::bairroCategoria(['cliente_id' => 1]);
         $categoriaDuplicada->nome = 'Espacial';
         $this->assertFalse($categoriaDuplicada->save());
 
         // Permite com municípios diferentes
-        $categoriaDuplicada->municipio_id = Phactory::municipio()->id;
+        $categoriaDuplicada->cliente_id = Phactory::cliente()->id;
         $this->assertTrue($categoriaDuplicada->save());
     }
 

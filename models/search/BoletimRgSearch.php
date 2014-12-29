@@ -8,7 +8,7 @@ class BoletimRgSearch extends SearchModel
 {
 
     public $id;
-    public $municipio_id;
+    public $cliente_id;
     public $folha;
     public $bairro_id;
     public $bairro_quarteirao_id;
@@ -21,7 +21,7 @@ class BoletimRgSearch extends SearchModel
     public function rules()
     {
         return [
-            [['municipio_id', 'bairro_id', 'bairro_quarteirao_id', 'seq', 'folha', 'bairro_quarteirao_numero'], 'integer'],
+            [['cliente_id', 'bairro_id', 'bairro_quarteirao_id', 'seq', 'folha', 'bairro_quarteirao_numero'], 'integer'],
             [['data_cadastro', 'data'], 'safe'],
         ];
     }
@@ -29,7 +29,7 @@ class BoletimRgSearch extends SearchModel
     public function searchConditions($query)
     {
         $this->addCondition($query, 'id');
-        $this->addCondition($query, 'municipio_id');
+        $this->addCondition($query, 'cliente_id');
         $this->addCondition($query, 'folha');
         $this->addCondition($query, 'bairro_id');
         $this->addCondition($query, 'bairro_quarteirao_id');

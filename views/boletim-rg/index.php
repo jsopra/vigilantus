@@ -68,6 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'bairro_quarteirao_numero',
+                'header' => 'Quarteirão',
                 'value' => function ($model, $index, $widget) {
                     return $model->quarteirao ? $model->quarteirao->numero_sequencia : null;
                 },
@@ -83,12 +84,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model, $index, $widget) {
                     return $model->getFormattedAttribute('data');
                 },
-            ], 
-            [
-                'attribute' => 'folha',
-                'options' => [
-                    'width' => '10%',
-                ]
             ],
             [
                 'header' => 'Detalhado?',
@@ -99,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'width' => '10%',
                 ]
             ],
-            [   
+            [
                 'class' => 'app\extensions\grid\ModalColumn',
                 'iconClass' => 'icon-search opacity50',
                 'modalId' => 'fechamento-detalhes',
@@ -115,13 +110,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => [
                     'width' => '15%',
                 ]
-            ],  
+            ],
             [
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
                 'buttons' => [
                     'update' => function ($url, $model) {
-                        $url = $model->quantidadeImoveis == 0 ? Url::toRoute(array('boletim-rg/update-fechamento', 'id' => $model->id)) : Url::toRoute(array('boletim-rg/update', 'id' => $model->id));   
+                        $url = $model->quantidadeImoveis == 0 ? Url::toRoute(array('boletim-rg/update-fechamento', 'id' => $model->id)) : Url::toRoute(array('boletim-rg/update', 'id' => $model->id));
                         return  Html::a('<i class="table-edit"></i>', $url, array('title' => 'Alterar'));
                     },
                 ],

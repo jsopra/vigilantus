@@ -6,7 +6,7 @@ class BoletimRgImovelPhactory
     {
         return [
             'id' => '#{sn}',
-            'municipio_id' => Phactory::hasOne('municipio'),
+            'cliente_id' => Phactory::hasOne('cliente'),
             'boletim_rg_id' => Phactory::hasOne('boletimRg'),
             'imovel_id' => Phactory::hasOne('imovel'),
             'imovel_tipo_id' => 1, //Phactory::hasOne('imovelTipo'),

@@ -1,20 +1,23 @@
 <?php
 
 use \Phactory;
+use app\models\Cliente;
 
 $eu = new TesterDeAceitacao($scenario);
 
+$cliente = Cliente::find()->andWhere('id=1')->one();
+
 Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
-Phactory::bairro(['nome' => 'Seminário', 'municipio_id' => 1, 'bairro_categoria_id' => 1]);
+Phactory::bairro(['nome' => 'Seminário', 'cliente_id' => $cliente, 'bairro_categoria_id' => 1]);
 Phactory::bairroQuarteirao([
     'numero_quarteirao' => '123',
-    'municipio_id' => 1,
+    'cliente_id' => $cliente,
     'bairro_id' => 1,
 ]);
 
 $eu->quero('verificar que a ficha de RG funciona');
 $eu->facoLoginComo('administrador', 'administrador');
-$eu->clicoNoMenu(['Localização', 'Boletim de RG']);
+$eu->clicoNoMenu(['Localização', 'Reconhecimento Geográfico']);
 
 $eu->espero('cadastrar uma ficha');
 $eu->clico('Novo Boletim/Imóvel');

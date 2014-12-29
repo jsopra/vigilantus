@@ -40,6 +40,7 @@ class ModalColumn extends Column
 	public $requestType = 'GET';
 	public $requestIsJSON = false;
     public $linkTitle = '';
+    public $customScript = null;
 
 	/**
 	 * @var boolean Se o campo será exportado ou não no CSV gerado
@@ -101,7 +102,10 @@ class ModalColumn extends Column
         
 			$jqueryCall = $this->requestType == 'POST' ? 'jQuery.post' : ($this->requestIsJSON ? 'jQuery.getJSON' : 'jQuery.get');
 			
-			if($this->modalContent) {
+			if ($this->modalContent instanceof Closure) {
+	            $scriptResult = "jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-body').html(jQuery(this).attr('data_content'));";
+	        }
+			else if($this->modalContent) {
 				$scriptResult = "jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-body').html('" . $this->modalContent . "');";
 			}
 			else if($this->modalFunctionToProcessContent) {
@@ -113,7 +117,10 @@ class ModalColumn extends Column
 			else {
 
 				$scriptResult = $jqueryCall . "(jQuery(this).attr('ajax_url'), function(data) {
+
 						jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-body').html(data);
+
+						" . $this->customScript . "
 					});
 				";
 			}
@@ -122,10 +129,11 @@ class ModalColumn extends Column
 			jQuery('.FModalColumn_" . $this->modalId . "').on(\"click\", function(e){
 				e.preventDefault();
 				
-				if(jQuery(this).attr('data-modal-title') != '')
+				if(jQuery(this).attr('data-modal-title') != '') {
 					jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-header').children('h4').html(jQuery(this).attr('data-modal-title'));
+				}
 				
-				jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-body').html('');
+				jQuery('#" . $this->modalId . "').children('.modal-dialog').children('.modal-content').children('.modal-body').html('<span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Carregando...');
 
 				" . $scriptResult . "
 
@@ -152,6 +160,8 @@ class ModalColumn extends Column
 		$onClick = $this->onClick ? call_user_func($this->onClick, $model, $key, $index, $this) : null;
 
 		$modalAjaxContent = $this->modalAjaxContent ? call_user_func($this->modalAjaxContent, $model, $key, $index, $this) : null;
+
+		$modalData = $this->modalContent instanceof Closure ? call_user_func($this->modalContent, $model, $key, $index, $this) : $this->modalContent;
 		
         $finalHtml = '';
         
@@ -159,7 +169,7 @@ class ModalColumn extends Column
 			$finalHtml .= call_user_func($this->textBeforeLink, $model, $key, $index, $this);
 		
 		if(!$hideLinkExpression)
-			$finalHtml .= '<a href="javascript:void(0)" title="' . $this->linkTitle . '" data-modal-title="' . ($this->modalTitle ? call_user_func($this->modalTitle, $model, $key, $index, $this) : '') . '" ajax_url="' . ($modalAjaxContent ? $modalAjaxContent : null) . '" class="FModalColumn_' . $this->modalId . '" ' . ($this->tooltipText ? 'rel="tooltip" title="' . $this->tooltipText . '"' : '') . ($onClick ? 'onClick="' . $onClick . '"' : '') . '>' . $columnContent . '</a>';
+			$finalHtml .= '<a href="javascript:void(0)" title="' . $this->linkTitle . '" data-modal-title="' . ($this->modalTitle ? call_user_func($this->modalTitle, $model, $key, $index, $this) : '') . '" ajax_url="' . ($modalAjaxContent ? $modalAjaxContent : null) . '" data_content="' . ($modalData ? $modalData : null) . '" class="FModalColumn_' . $this->modalId . '" ' . ($this->tooltipText ? 'rel="tooltip" title="' . $this->tooltipText . '"' : '') . ($onClick ? 'onClick="' . $onClick . '"' : '') . '>' . $columnContent . '</a>';
 		else
 			$finalHtml .= $columnContent;
 		

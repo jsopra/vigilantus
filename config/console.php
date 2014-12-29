@@ -44,7 +44,19 @@ $config = [
         'fixture' => [
             'class' => 'yii\test\DbFixtureManager',
             'basePath' => '@tests/unit/fixtures',
-        ]
+        ],
+        'mail' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.mandrillapp.com',
+                'username' => 'jsopra@gmail.com',
+                'password' => 'KzL9E8rMpAd6Ux0pv7Lmbg',
+                'port' => '587',
+                'encryption' => 'tls',
+            ],
+        ],
     ],
     'params' => $params,
 ];
@@ -53,7 +65,7 @@ if (file_exists(__DIR__ . '/test_db.php')) {
     
     $config['components']['testDb'] = [
         'class' => 'yii\db\Connection',
-        'dsn' => getenv('VIGILANTUS_TEST_DB_DSN'),
+        'dsn' => getenv('VIGILANTUS_DB_DSN_HOST') . ';' . getenv('VIGILANTUS_DB_DSN_DBNAME'),
         'username' => getenv('VIGILANTUS_TEST_DB_USERNAME'),
         'password' => getenv('VIGILANTUS_TEST_DB_PASSWORD'),
         'charset' => 'utf8',

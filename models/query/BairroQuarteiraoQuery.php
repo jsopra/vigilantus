@@ -4,7 +4,7 @@ namespace app\models\query;
 use Yii;
 use app\components\ActiveQuery;
 use app\models\BairroQuarteirao;
-use app\models\Municipio;
+use app\models\Cliente;
 
 class BairroQuarteiraoQuery extends ActiveQuery
 {  
@@ -66,9 +66,9 @@ class BairroQuarteiraoQuery extends ActiveQuery
         return $this;
     }
     
-    public function emAreaDeTratamento($lira = null, $especieTransmissor = null) {
+    public function emAreaDeTratamento($cliente, $lira = null, $especieTransmissor = null) {
         
-        $idsAreaTratamento = BairroQuarteirao::getIDsAreaTratamento(Municipio::find()->one()->id, $especieTransmissor, $lira); //@fix municipio
+        $idsAreaTratamento = BairroQuarteirao::getIDsAreaTratamento($cliente->id, $especieTransmissor, $lira);
         
         $query = $idsAreaTratamento ? "id IN (" . implode(',', $idsAreaTratamento) . ")" : '1=2';
         

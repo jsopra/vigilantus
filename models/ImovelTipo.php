@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 use yii\db\Expression;
 
 /**
@@ -10,7 +10,7 @@ use yii\db\Expression;
  *
  * Estas são as colunas disponíveis na tabela 'imovel_tipos':
  * @property integer $id
- * @property integer $municipio_id
+ * @property integer $cliente_id
  * @property string $nome
  * @property string $sigla
  * @property string $data_cadastro
@@ -21,7 +21,7 @@ use yii\db\Expression;
  * @property integer $excluido_por
  * @property string $data_exclusao
  */
-class ImovelTipo extends ActiveRecord
+class ImovelTipo extends ClienteActiveRecord
 {
 
     /**
@@ -38,22 +38,14 @@ class ImovelTipo extends ActiveRecord
     public function rules()
     {
         return array(
-            array(['municipio_id', 'nome', 'inserido_por'], 'required'),
-            array(['municipio_id', 'inserido_por', 'atualizado_por', '!excluido_por'], 'integer'),
+            array(['cliente_id', 'nome', 'inserido_por'], 'required'),
+            array(['cliente_id', 'inserido_por', 'atualizado_por', '!excluido_por'], 'integer'),
             array(['sigla', 'data_atualizacao', 'data_exclusao'], 'safe'),
-            array('nome', 'unique', 'compositeWith' => 'municipio_id'),
-            array('sigla', 'unique', 'compositeWith' => 'municipio_id', 'skipOnEmpty' => true),
+            array('nome', 'unique', 'compositeWith' => 'cliente_id'),
+            array('sigla', 'unique', 'compositeWith' => 'cliente_id', 'skipOnEmpty' => true),
             array('inserido_por', 'required', 'on' => 'insert'),
             array('atualizado_por', 'required', 'on' => 'update'),
         );
-    }
-    
-    /**
-     * @return Municipio
-     */
-    public function getMunicipio()
-    {
-        return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
     }
     
     /**
@@ -87,7 +79,7 @@ class ImovelTipo extends ActiveRecord
     {
         return array(
             'id' => 'ID',
-            'municipio_id' => 'Município',
+            'cliente_id' => 'Município Cliente',
             'nome' => 'Nome',
             'sigla' => 'Sigla',
             'data_cadastro' => 'Data Cadastro',

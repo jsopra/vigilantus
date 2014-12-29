@@ -15,6 +15,7 @@ use app\components\PostgisActiveRecord;
  * @property integer $ultimo_mes_rg
  * @property integer $ultimo_ano_rg
  * @property string $coordenadas_area
+ * @property integer $cliente_id
  */
 class Bairro extends PostgisActiveRecord
 {
@@ -25,13 +26,13 @@ class Bairro extends PostgisActiveRecord
      * @var array
      */
     public $coordenadas;
-    
+
     /**
      * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco
      * @var array
      */
     public $coordenadasJson;
-    
+
     /**
      * @return string
      */
@@ -49,16 +50,16 @@ class Bairro extends PostgisActiveRecord
             [['municipio_id', 'nome'], 'required'],
             [['ultimo_mes_rg', 'ultimo_ano_rg'], 'required', 'on' => 'setAtualizacaoRG'],
             ['nome', 'unique', 'compositeWith' => 'municipio_id'],
-            [['municipio_id', 'bairro_categoria_id', 'ultimo_mes_rg', 'ultimo_ano_rg'], 'integer'],
+            [['municipio_id', 'bairro_categoria_id', 'ultimo_mes_rg', 'ultimo_ano_rg', 'cliente_id'], 'integer'],
             ['coordenadas', 'required', 'on' => ['insert','update']],
             [['coordenadasJson'], 'string'],
         );
     }
-    
+
     public function beforeValidate() {
-        
+
         $this->_validateAndLoadPostgisField();
-        
+
         return parent::beforeValidate();
     }
 
@@ -69,7 +70,15 @@ class Bairro extends PostgisActiveRecord
     {
         return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
     }
-    
+
+    /**
+     * @return \yii\db\ActiveRelation
+     */
+    public function getCliente()
+    {
+        return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
+    }
+
     /**
      * @return BairroCategoria
      */
@@ -77,7 +86,7 @@ class Bairro extends PostgisActiveRecord
     {
         return $this->hasOne(BairroCategoria::className(), ['id' => 'bairro_categoria_id']);
     }
-    
+
     /**
      * @return BairroCategoria
      */
@@ -85,7 +94,7 @@ class Bairro extends PostgisActiveRecord
     {
         return $this->hasMany(BairroQuarteirao::className(), ['bairro_id' => 'id']);
     }
-    
+
     /**
      * @return BairroCategoria
      */
@@ -93,7 +102,7 @@ class Bairro extends PostgisActiveRecord
     {
         return $this->hasMany(BairroRua::className(), ['bairro_id' => 'id']);
     }
-    
+
     /**
      * @return int
      */
@@ -117,9 +126,10 @@ class Bairro extends PostgisActiveRecord
             'coordenadas_area' => 'Área',
             'coordenadas' => 'Área',
             'coordenadasJson' => 'Área',
+            'cliente_id' => 'Cliente',
         );
     }
-    
+
     /**
      * Define latitude e longitude para o modelo, caso exista ponto válido cadastrado
      * @return boolean (false em caso de não popular e true em caso de popular)
@@ -128,24 +138,49 @@ class Bairro extends PostgisActiveRecord
 
         if($this->coordenadas)
             return true;
-        
-        $this->coordenadas = $this->postgisToArray('Polygon', 'coordenadas_area');        
-        
+
+        $this->coordenadas = $this->postgisToArray('Polygon', 'coordenadas_area');
+
         return is_array($this->coordenadas);
-    } 
-    
+    }
+
+    public function beforeDelete()
+    {
+        $parent = parent::beforeDelete();
+
+        $this->_clearRelationships();
+
+        return $parent;
+    }
+
     /**
      * Valida e carrega json de coordenadas em campo postgis
-     * @return boolean 
+     * @return boolean
      */
     private function _validateAndLoadPostgisField() {
-        
+
         if(!$this->coordenadasJson) {
             $this->addError('coordenadasJson', 'Coordenadas do quarteirão não foram definidas');
             return false;
         }
-        
+
         $this->coordenadas_area = $this->jsonToPostgis('Polygon', $this->coordenadasJson);
         return true;
+    }
+
+    /**
+     * Apaga relações do boletim com imóveis e fechamento de RG
+     * @return void
+     */
+    private function _clearRelationships()
+    {
+        foreach (BairroQuarteirao::find()->where('bairro_id = :bairro', [':bairro' => $this->id])->all() as $registro) {
+            $registro->delete();
+        }
+
+        foreach (Denuncia::find()->where('bairro_id = :bairro', [':bairro' => $this->id])->all() as $registro) {
+            $registro->bairro_id = null;
+            $registro->save();
+        }
     }
 }

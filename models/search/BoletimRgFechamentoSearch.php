@@ -8,7 +8,7 @@ class BoletimRgFechamentoSearch extends SearchModel
 {
 
     public $id;
-    public $municipio_id;
+    public $cliente_id;
     public $boletim_rg_id;
     public $quantidade;
     public $area_de_foco;
@@ -16,7 +16,7 @@ class BoletimRgFechamentoSearch extends SearchModel
     public function rules()
     {
         return [
-            [['municipio_id', 'boletim_rg_id','quantidade',],'integer'],
+            [['cliente_id', 'boletim_rg_id','quantidade',],'integer'],
             [['area_de_foco'], 'boolean']
         ];
     }
@@ -24,7 +24,7 @@ class BoletimRgFechamentoSearch extends SearchModel
     public function searchConditions($query)
     {
         $this->addCondition($query, 'id');
-        $this->addCondition($query, 'municipio_id');
+        $this->addCondition($query, 'cliente_id');
         $this->addCondition($query, 'boletim_rg_id');
         $this->addCondition($query, 'quantidade');
         $this->addCondition($query, 'area_de_foco');

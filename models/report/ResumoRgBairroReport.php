@@ -15,7 +15,7 @@ class ResumoRgBairroReport extends Model
     public function rules()
     {
         return [
-            ['bairro_id', 'required'],
+            [['bairro_id', 'lira'], 'required'],
             ['bairro_id', 'exist', 'targetClass' => Bairro::className(), 'targetAttribute' => 'id'],
             ['lira', 'boolean'],
         ];
@@ -25,7 +25,7 @@ class ResumoRgBairroReport extends Model
     {
         return [
             'bairro_id' => 'Bairro',
-            'lira' => 'LIRA',
+            'lira' => 'Tipo',
         ];
     }
 

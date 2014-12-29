@@ -1,7 +1,10 @@
 <?php
 use yii\helpers\Html;
+use yii\bootstrap\Tabs;
 
-$this->title = 'Resumo do Reconhecimento Geográfico';
+$this->title = 'Resumo de Indicadores';
 ?>
-<h1><?= Html::encode($this->title) ?></h1>
-<?= $this->render('/resumo-rg/_capa', ['model' => $model]);
+
+<?= $this->render('_menuHome', ['municipio' => $cliente->municipio]); ?>
+
+<?= $this->render('/resumo-rg/_capa', ['model' => $modelRg, 'ultimaAtualizacao' => Yii::$app->cache->get('ultima_atualizacao_cache_rg')], true); ?>

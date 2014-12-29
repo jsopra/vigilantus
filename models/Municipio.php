@@ -3,6 +3,10 @@
 namespace app\models;
 
 use app\components\PostgisActiveRecord;
+use app\helpers\models\MunicipioHelper;
+use yii\web\UploadedFile;
+use yii\imagine\Image;
+use app\helpers\ImageHelper;
 
 /**
  * Este é a classe de modelo da tabela "municipios".
@@ -11,17 +15,22 @@ use app\components\PostgisActiveRecord;
  * @property integer $id
  * @property string $nome
  * @property string $sigla_estado
- * @property string $nome_contato
- * @property string $email_contato
- * @property string $telefone_contato
- * @property string $departamento
- * @property string $cargo
  * @property string $coordenadas_area
+ * @property string $brasao
  */
 class Municipio extends PostgisActiveRecord
 {
     public $latitude;
     public $longitude;
+    public $file;
+
+    public $brasaoSizes =[
+        /* folder, width, height */
+        ['mini', 50, 50],
+        ['small', 75, 75],
+        ['normal', 150, 150],
+        ['large', 300, 300]
+    ];
 
     /**
      * @return string
@@ -37,11 +46,11 @@ class Municipio extends PostgisActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'sigla_estado', 'nome_contato', 'telefone_contato', 'departamento'], 'required'],
+            [['nome', 'sigla_estado', 'coordenadas_area'], 'required'],
             ['sigla_estado', 'string', 'max' => 2],
-            [['email_contato', 'cargo'], 'safe'],
             ['nome', 'unique', 'compositeWith' => 'sigla_estado'],
-            [['coordenadas_area'], 'string']
+            [['coordenadas_area'], 'string'],
+            [['file'], 'file', 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png'],
         ];
     }
 
@@ -65,12 +74,9 @@ class Municipio extends PostgisActiveRecord
             'id' => 'ID',
             'nome' => 'Nome',
             'sigla_estado' => 'Estado Sigla',
-            'nome_contato' => 'Nome do contato',
-            'email_contato' => 'Email do contato',
-            'telefone_contato' => 'Telefone do contato',
-            'departamento' => 'Departamento do contato',
-            'cargo' => 'Cargo do contato',
             'coordenadas_area' => 'Coordenadas',
+            'brasao' => 'Brasão',
+            'file' => 'Brasão',
         );
     }
 
@@ -83,60 +89,160 @@ class Municipio extends PostgisActiveRecord
     {
         throw new \Exception(\Yii::t('Site', 'Exclusão não habilitada'), 500);
     }
-    
+
+    /**
+     * @return Cliente
+     */
+    public function getCliente()
+    {
+        return $this->hasOne(Cliente::className(), ['municipio_id' => 'id']);
+    }
+
     /**
      * Busca municípios
      * @param int $id Default is null
-     * @return Municipio[] 
+     * @return Cliente[]
      */
     public static function getMunicipios($id = null) {
-        
+
         $query = self::find();
 
-        if($id)
-            $query->andWhere(['"id"' => $id]);
-        
+        $query->joinWith('cliente');
+
+        if($id) {
+            $query->andWhere(['"municipios"."id"' => $id]);
+        }
+
         return $query->all();
     }
-    
+
     /**
      * Define latitude e longitude para o modelo, caso exista ponto válido cadastrado
      * @return boolean (false em caso de não popular e true em caso de popular)
      */
     public function loadCoordenadas() {
 
-        if(!$this->coordenadas_area) 
+        if(!$this->coordenadas_area)
             return false;
-        
+
         if($this->latitude && $this->longitude)
             return true;
-        
+
         list($this->latitude, $this->longitude) = $this->postgisToArray('Point', 'coordenadas_area');
-        
+
         return true;
-        
-    } 
-    
+
+    }
+
     /**
      * Busca coordenadas de bairros
      * @param array $except
-     * @return array 
+     * @return array
      */
     public function getCoordenadasBairros(array $except) {
-        
+
         $return = [];
-        
+
         $bairros = Bairro::find()->comCoordenadas()->all();
-        
+
         foreach($bairros as $bairro) {
-            
-            if(in_array($bairro->id,$except)) 
+
+            if(in_array($bairro->id,$except))
                 continue;
-            
+
             $bairro->loadCoordenadas();
-            $return[] = $bairro->coordenadas;
+            $return[] = ['nome' => $bairro->nome, 'coordenadas' => $bairro->coordenadas];
         }
-        
+
         return $return;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function save($runValidation = true, $attributes = NULL) {
+
+        $currentTransaction = $this->getDb()->getTransaction();
+        $newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
+
+        try {
+
+            $this->file = UploadedFile::getInstance($this, 'file');
+
+            $salvouImagem = true;
+
+            $result = false;
+
+            if($this->file) {
+
+                $path = MunicipioHelper::getBrasaoPath($this, true);
+
+                if(!is_dir($path)) {
+                    mkdir($path);
+                    mkdir($path . 'original/');
+
+                    foreach($this->brasaoSizes as $size) {
+                        mkdir($path . $size[0]);
+                    }
+                }
+
+                $imagemOriginal = $this->file->saveAs($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, false);
+
+                list($originalWidth, $originalHeight) = getimagesize($path . 'original/' . $this->file->baseName . '.' . $this->file->extension);
+
+                foreach($this->brasaoSizes as $size) {
+
+                    $folder = $size[0];
+                    $width = $size[1];
+                    $height = $size[2];
+
+                    $size = ImageHelper::calculateDimensions($originalWidth, $originalHeight, $width, $height);
+                    $image = Image::thumbnail($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, $size['width'], $size['height']);
+                    $thumb = $image->save($path . $folder . '/' . $this->file->baseName . '.' . $this->file->extension);
+
+                    if(!$thumb) {
+                        $salvouImagem = false;
+                        break;
+                    }
+                }
+
+                if($salvouImagem) {
+                    $this->brasao = $this->file->baseName . '.' . $this->file->extension;
+                }
+
+            }
+
+            if ($salvouImagem) {
+
+                $result = parent::save($runValidation, $attributes);
+
+                if($result) {
+
+                    if($newTransaction) {
+                        $newTransaction->commit();
+                    }
+                }
+                else {
+                    if($newTransaction) {
+                        $newTransaction->rollback();
+                    }
+
+                    $result = false;
+                }
+            }
+            else {
+                if($newTransaction) {
+                    $newTransaction->rollback();
+                }
+            }
+        }
+        catch (\Exception $e) {
+            if($newTransaction) {
+                $newTransaction->rollback();
+            }
+            throw $e;
+        }
+
+        return $result;
     }
 }

@@ -1,3 +1,18 @@
+<?php
+use yii\helpers\Html;
+?>
+<br />
+
+<?php if($ultimaAtualizacao) : ?>
+    <div class="bs-callout bs-callout-success">
+      <p><span class="glyphicon glyphicon-time" style="font-size: 1em; padding-right: 10px;"></span> Última atualização do relatório em <?= $ultimaAtualizacao; ?>. <?= Html::a(Html::encode("Solicite uma atualização agora"),'relatorio/update-rg'); ?>.</p>
+    </div>
+<?php else : ?>
+    <div class="bs-callout bs-callout-danger">
+      <p><span class="glyphicon glyphicon-time" style="font-size: 1em; padding-right: 10px;"></span> Não existe histórico de atualização para este relatório. <?= Html::a(Html::encode("Solicite uma atualização agora"),'relatorio/update-rg'); ?>.</p>
+    </div>
+<?php endif; ?>
+
 <div id="capa-resumo-rg" class="row">
     <div class="col-md-6">
         <table class="table table-striped">
@@ -32,7 +47,7 @@
             <tfoot>
                 <tr class="totalizador">
                     <td>Total</td>
-                    <td class="text-center"><?= $model->getTotalImoveis() ?></td>
+                    <td class="text-center"><?= $model->getTotalImoveis(\Yii::$app->session->get('user.cliente')->id) ?></td>
                 </tr>
             </tfoot>
         </table>

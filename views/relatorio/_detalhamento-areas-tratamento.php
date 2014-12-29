@@ -9,10 +9,14 @@ use app\helpers\models\ImovelHelper;
 
 <br />
 
+<?php \yii\widgets\Pjax::begin([
+    'options' => ['id' => 'pjax-modal-focos']
+]); ?>
 <?php
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => false,
+    'id' => 'ajax-focos-modal-detalhamento',
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
         [
@@ -74,3 +78,5 @@ echo GridView::widget([
         ],
     ],
 ]); 
+?>
+<?php \yii\widgets\Pjax::end(); ?>

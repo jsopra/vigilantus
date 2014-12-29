@@ -1,25 +1,27 @@
 <?php
 
 use app\models\ImovelTipo;
-use app\models\Municipio;
 use \Phactory;
+use app\models\Cliente;
 
 $eu = new TesterDeAceitacao($scenario);
 
+$cliente = Cliente::find()->andWhere('id=1')->one();
+
 $usuario = Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
 
-$bairro = Phactory::bairro(['nome' => 'Seminário', 'municipio_id' => 1]);
+$bairro = Phactory::bairro(['nome' => 'Seminário', 'cliente_id' => $cliente]);
 
-$rua = Phactory::rua(['municipio_id' => 1, 'nome' => 'Rua 0001']);
+$rua = Phactory::rua(['cliente_id' => $cliente, 'nome' => 'Rua 0001']);
 
-$tipoDeposito = Phactory::depositoTipo(['municipio_id' => 1, 'descricao' => 'TD0001', 'sigla' => 'TD0001']);
+$tipoDeposito = Phactory::depositoTipo(['cliente_id' => $cliente, 'descricao' => 'TD0001', 'sigla' => 'TD0001']);
 
-$especieTransmissor = Phactory::especieTransmissor(['municipio_id' => 1, 'nome' => 'Aedes_0001']);
+$especieTransmissor = Phactory::especieTransmissor(['cliente_id' => $cliente, 'nome' => 'Aedes_0001']);
 
-$especieTransmissor2 = Phactory::especieTransmissor(['municipio_id' => 1, 'nome' => 'Aedes_0002']);
-    
+$especieTransmissor2 = Phactory::especieTransmissor(['cliente_id' => $cliente, 'nome' => 'Aedes_0002']);
+
 $quarteiraoA = Phactory::bairroQuarteirao([
-    'municipio_id' => 1,
+    'cliente_id' => $cliente,
     'numero_quarteirao' => '1',
     'bairro_id' => $bairro->id,
     'coordenadasJson' => '[{"A":"-27.084606946049","k":"-52.610427439213"},{"A":"-27.085101274411","k":"-52.610169947147"},{"A":"-27.084843364233","k":"-52.608764469624"},{"A":"-27.08433709438","k":"-52.608957588673"},{"A":"-27.084556796673","k":"-52.61054545641"},{"A":"-27.084606946049","k":"-52.610427439213"}]',
@@ -27,15 +29,15 @@ $quarteiraoA = Phactory::bairroQuarteirao([
 ]);
 
 $quarteiraoB = Phactory::bairroQuarteirao([
-    'municipio_id' => 1,
-    'numero_quarteirao' => '2',  
+    'cliente_id' => $cliente,
+    'numero_quarteirao' => '2',
     'bairro_id' => $bairro->id,
     'coordenadasJson' => '[{"A":"-27.084977095511","k":"-52.611755132675"},{"A":"-27.085550227749","k":"-52.61160492897"},{"A":"-27.085110826628","k":"-52.610210180283"},{"A":"-27.084614110243","k":"-52.610446214676"},{"A":"-27.084977095511","k":"-52.611755132675"}]',
     'coordenadas_area' => '0103000020E61000000100000005000000FA20160FC1153BC0E8FFFFFD4D4E4AC0E958A69EE6153BC0D1FFFF11494E4AC01DE7B8D2C9153BC03900005E1B4E4AC019463445A9153BC00E00001A234E4AC0FA20160FC1153BC0E8FFFFFD4D4E4AC0',
 ]);
 
 $quarteiraoC = Phactory::bairroQuarteirao([
-    'municipio_id' => 1,
+    'cliente_id' => $cliente,
     'numero_quarteirao' => '3',
     'bairro_id' => $bairro->id,
     'coordenadasJson' => '[{"A":"-27.082856480737","k":"-52.613750696182"},{"A":"-27.083945450094","k":"-52.613471746445"},{"A":"-27.083677984917","k":"-52.612291574478"},{"A":"-27.082589012961","k":"-52.612570524216"},{"A":"-27.082856480737","k":"-52.613750696182"}]',
@@ -43,7 +45,7 @@ $quarteiraoC = Phactory::bairroQuarteirao([
 ]);
 
 $quarteiraoD = Phactory::bairroQuarteirao([
-    'municipio_id' => 1,
+    'cliente_id' => $cliente,
     'numero_quarteirao' => '4',
     'bairro_id' => $bairro->id,
     'coordenadasJson' => '[{"A":"-27.08745109535","k":"-52.61846601963"},{"A":"-27.087260054838","k":"-52.618723511696"},{"A":"-27.085712614683","k":"-52.616663575172"},{"A":"-27.085091722193","k":"-52.61628806591"},{"A":"-27.084614110243","k":"-52.61618077755"},{"A":"-27.083639775554","k":"-52.615730166435"},{"A":"-27.083467833258","k":"-52.615622878075"},{"A":"-27.083515595033","k":"-52.614786028862"},{"A":"-27.086252310745","k":"-52.614906728268"},{"A":"-27.086338279789","k":"-52.61604398489"},{"A":"-27.086643946967","k":"-52.617503106594"},{"A":"-27.086739467789","k":"-52.617824971676"},{"A":"-27.086920957126","k":"-52.617969810963"},{"A":"-27.08745109535","k":"-52.61846601963"}]',
@@ -51,7 +53,7 @@ $quarteiraoD = Phactory::bairroQuarteirao([
 ]);
 
 $imovel = Phactory::imovel([
-    'municipio_id' => 1,
+    'cliente_id' => $cliente,
     'bairro_quarteirao_id' => $quarteiraoC->id,
     'rua_id' => $rua->id,
 ]);
@@ -61,6 +63,7 @@ $foco = Phactory::focoTransmissor([
     'bairro_quarteirao_id' => $quarteiraoC->id,
     'tipo_deposito_id' => $tipoDeposito->id,
     'especie_transmissor_id' => $especieTransmissor->id,
+    'cliente_id' => $cliente,
 ]);
 
 $eu->quero('verificar que o relatório de áreas de tratamento funciona');

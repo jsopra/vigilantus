@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 
 /**
  * This is the model class for table "boletim_rg_fechamento".
@@ -10,14 +10,13 @@ use app\components\ActiveRecord;
  * @property integer $id
  * @property integer $boletim_rg_id
  * @property integer $quantidade
- * @property integer $municipio_id
  * @property integer $imovel_tipo_id
  * @property boolean $imovel_lira
  * 
  *
  * @property BoletinsRg $boletimRg
  */
-class BoletimRgFechamento extends ActiveRecord
+class BoletimRgFechamento extends ClienteActiveRecord
 {
 	/**
 	 * @inheritdoc
@@ -33,12 +32,39 @@ class BoletimRgFechamento extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['boletim_rg_id', 'municipio_id', 'imovel_tipo_id'], 'required'],
-			[['boletim_rg_id', 'quantidade', 'municipio_id', 'imovel_tipo_id'], 'integer'],
-            ['boletim_rg_id', 'unique', 'compositeWith' => ['imovel_tipo_id', 'imovel_lira', 'municipio_id']],
+			[['boletim_rg_id', 'cliente_id', 'imovel_tipo_id'], 'required'],
+			[['boletim_rg_id', 'quantidade', 'imovel_tipo_id'], 'integer'],
+            ['boletim_rg_id', 'unique', 'compositeWith' => ['imovel_tipo_id', 'imovel_lira', 'cliente_id']],
             [['imovel_lira'], 'boolean'],
+            [['boletim_rg_id', 'imovel_tipo_id', 'imovel_lira'], 'validateLira'],
 		];
 	}
+
+    public function validateLira()
+    {
+        $fechamentoInverso = self::find()
+            ->doBoletim($this->boletim_rg_id)
+            ->doTipoDeImovel($this->imovel_tipo_id)
+            ->doTipoLira(!$this->imovel_lira)
+            ->one();
+
+        if(!$fechamentoInverso) {
+            return true;
+        }
+
+        if($this->imovel_lira) {
+            if($this->quantidade > $fechamentoInverso->quantidade) {
+                $this->addError('quantidade', 'Quantidade Lira deve ser menor que total de imóveis do tipo');
+                return false;
+            }
+        }
+        else {
+            if($this->quantidade < $fechamentoInverso->quantidade) {
+                $this->addError('quantidade', 'Quantidade Lira deve ser menor que total de imóveis do tipo');
+                return false;
+            }
+        }
+    }
 
 	/**
 	 * @inheritdoc
@@ -49,7 +75,6 @@ class BoletimRgFechamento extends ActiveRecord
 			'id' => 'ID',
 			'boletim_rg_id' => 'Boletim RG',
 			'quantidade' => 'Quantidade',
-            'municipio_id' => 'Município',
             'imovel_tipo_id' => 'Tipo do Imóvel',
             'imovel_lira' => 'Lira?'
 		];
@@ -62,13 +87,13 @@ class BoletimRgFechamento extends ActiveRecord
 	{
 		return $this->hasOne(BoletimRg::className(), ['id' => 'boletim_rg_id']);
 	}
-    
+
     /**
-     * @return Municipio
+     * @return \yii\db\ActiveRelation
      */
-    public function getMunicipio()
+    public function getCliente()
     {
-        return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+        return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
     
     /**
@@ -80,7 +105,7 @@ class BoletimRgFechamento extends ActiveRecord
 	}
     
     /**
-     * Incrementa contage de imóveis em fechamento de boletim
+     * Incrementa contagem de imóveis em fechamento de boletim
      * 
      * @param BoletimRg $oBoletim
      * @param integer $imovelTipoId
@@ -99,16 +124,44 @@ class BoletimRgFechamento extends ActiveRecord
             
             $boletimExistente = new self;
             $boletimExistente->boletim_rg_id = $oBoletim->id;
-            $boletimExistente->quantidade = 0;
-            $boletimExistente->municipio_id = $oBoletim->municipio_id;
+            $boletimExistente->quantidade = 1;
+            $boletimExistente->cliente_id = $oBoletim->cliente_id;
             $boletimExistente->imovel_tipo_id = $imovelTipoId;
             $boletimExistente->imovel_lira = $lira;
             
-            if(!$boletimExistente->save())
+            if(!$boletimExistente->save()) {
                 return false;
+            }
+
+            return true;
         }
         
         $boletimExistente->quantidade = $boletimExistente->quantidade + 1;
+        
+        return $boletimExistente->save() ? $boletimExistente : false;
+    }
+
+    /**
+     * Decrementa contagem de imóveis em fechamento de boletim
+     * 
+     * @param BoletimRg $oBoletim
+     * @param integer $imovelTipoId
+     * @param boolean $lira
+     * @return boolean
+     */
+    public static function decrementaContagemImovel(BoletimRg $oBoletim, $imovelTipoId, $lira) {
+        
+        $boletimExistente = self::find()
+            ->doBoletim($oBoletim->id)
+            ->doTipoDeImovel($imovelTipoId)
+            ->doTipoLira($lira)
+            ->one();
+
+        if(!$boletimExistente || $boletimExistente->quantidade == 0) {      
+            return true;
+        }
+        
+        $boletimExistente->quantidade = $boletimExistente->quantidade - 1;
         
         return $boletimExistente->save() ? $boletimExistente : false;
     }

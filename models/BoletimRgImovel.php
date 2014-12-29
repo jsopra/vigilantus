@@ -1,16 +1,13 @@
 <?php
 
 namespace app\models;
-
-use app\components\ActiveRecord;
-
+use app\components\ClienteActiveRecord;
 /**
  * This is the model class for table "boletim_rg_imoveis".
  *
  * @property integer $id
  * @property integer $boletim_rg_id
  * @property integer $imovel_id
- * @property integer $municipio_id
  * @property integer $imovel_tipo_id
  * @property string $rua_nome
  * @property integer $rua_id
@@ -18,11 +15,12 @@ use app\components\ActiveRecord;
  * @property integer $imovel_seq
  * @property integer $imovel_complemento
  * @property boolean $imovel_lira
+ * @property integer $cliente_id
  * 
  * @property BoletinsRg $boletimRg
  * @property BairroRuaImoveis $bairroRuaImovel
  */
-class BoletimRgImovel extends ActiveRecord
+class BoletimRgImovel extends ClienteActiveRecord
 {
 	/**
 	 * @inheritdoc
@@ -38,9 +36,9 @@ class BoletimRgImovel extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['boletim_rg_id', 'imovel_id', 'municipio_id', 'imovel_tipo_id', 'rua_nome', 'rua_id'], 'required'],
+			[['boletim_rg_id', 'imovel_id', 'cliente_id', 'imovel_tipo_id', 'rua_nome', 'rua_id'], 'required'],
             ['imovel_lira', 'boolean'],
-			[['boletim_rg_id', 'imovel_id', 'municipio_id', 'imovel_tipo_id', 'rua_id'], 'integer'],
+			[['boletim_rg_id', 'imovel_id', 'imovel_tipo_id', 'rua_id', 'cliente_id'], 'integer'],
             [['imovel_numero', 'imovel_seq', 'imovel_complemento'], 'string']
 		];
 	}
@@ -53,13 +51,13 @@ class BoletimRgImovel extends ActiveRecord
 		return [
 			'boletim_rg_id' => 'Boletim RG',
 			'imovel_id' => 'Bairro Rua Imóvel',
-            'municipio_id' => 'Município',    
             'imovel_tipo_id' => 'Tipo do Imóvel',
             'imovel_numero' => 'Nímero',
 			'imovel_seq' => 'Sequência',
 			'imovel_complemento' => 'Complemento',
             'imovel_lira' => 'Imóvel Lira',
-            'rua_id' => 'Rua',		
+            'rua_id' => 'Rua',	
+            'cliente_id' => 'Cliente'	
         ];
 	}
 
@@ -86,17 +84,17 @@ class BoletimRgImovel extends ActiveRecord
 	{
 		return $this->hasOne(ImovelTipo::className(), ['id' => 'imovel_tipo_id']);
 	}
-    
+
     /**
-     * @return Municipio
+     * @return \yii\db\ActiveRelation
      */
-    public function getMunicipio()
+    public function getCliente()
     {
-        return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+        return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
     
     /**
-     * @return Municipio
+     * @return \yii\db\ActiveRelation
      */
     public function getRua()
     {
@@ -115,7 +113,8 @@ class BoletimRgImovel extends ActiveRecord
         if (!$rua) {
 
             $rua = new Rua;
-            $rua->municipio_id = $this->municipio_id;
+            $rua->cliente_id = $this->cliente_id;
+            $rua->municipio_id  = $this->cliente ? $this->cliente->municipio_id : null;
             $rua->nome = $nomeRua;
 
             if (!$rua->save()) {
@@ -156,7 +155,8 @@ class BoletimRgImovel extends ActiveRecord
         } else {
 
             $imovel = new Imovel;
-            $imovel->municipio_id = $this->municipio_id;
+            $imovel->municipio_id = $this->cliente ? $this->cliente->municipio->id : null;
+            $imovel->cliente_id = $this->cliente->id;
             $imovel->bairro_quarteirao_id = $this->boletimRg->bairro_quarteirao_id;
             $imovel->imovel_tipo_id = $this->imovel_tipo_id;
             $imovel->rua_id = $this->rua_id;
@@ -188,6 +188,15 @@ class BoletimRgImovel extends ActiveRecord
             $result = parent::save($runValidation, $attributes);
             
             if ($result) {
+
+                $boletimFechamentoInverso = true;
+                if($this->imovel->imovel_lira) {
+                    $boletimFechamentoInverso = BoletimRgFechamento::incrementaContagemImovel(
+                        $this->boletimRg,
+                        $this->imovel_tipo_id,
+                        false
+                    );
+                }
                 
                 $boletimFechamento = BoletimRgFechamento::incrementaContagemImovel(
                     $this->boletimRg,
@@ -195,29 +204,55 @@ class BoletimRgImovel extends ActiveRecord
                     $this->imovel->imovel_lira
                 );
 
-                if($boletimFechamento instanceof BoletimRgFechamento) {
-                    if($newTransaction)
+                if($boletimFechamento && $boletimFechamentoInverso) {
+
+                    if($newTransaction) {
                         $newTransaction->commit();
+                    }
                 }
                 else {
-
-                    if($newTransaction)
+                    if($newTransaction) {
                         $newTransaction->rollback();
+                    }
                     
                     $result = false;                    
                 }
             } 
             else {
-                if($newTransaction)
+                if($newTransaction) {
                     $newTransaction->rollback();
+                }
             }
         } 
         catch (\Exception $e) {
-            if($newTransaction)
+            if($newTransaction) {
                 $newTransaction->rollback();
+            }
             throw $e;
         }
 
         return $result;
+    }
+
+    public function beforeDelete()
+    {
+        $parent = parent::beforeDelete();
+
+        if($this->imovel->imovel_lira == true) {
+
+            BoletimRgFechamento::decrementaContagemImovel(
+                $this->boletimRg,
+                $this->imovel_tipo_id,
+                false
+            );
+        }
+
+        BoletimRgFechamento::decrementaContagemImovel(
+            $this->boletimRg,
+            $this->imovel_tipo_id,
+            $this->imovel->imovel_lira
+        );
+
+        return $parent;
     }
 }

@@ -10,16 +10,18 @@ use tests\TestCase;
 class ResumoRgCapaReportTest extends TestCase
 {
     protected $report;
+    protected $_cliente;
 
     public function setUp()
     {
         parent::setUp();
 
+        $this->_cliente = Phactory::cliente();
+
         ImovelTipo::deleteAll();
 
-        $municipio = Phactory::municipio();
-        $casa = Phactory::imovelTipo(['nome' => 'Casa', 'municipio_id' => $municipio]);
-        $terreno = Phactory::imovelTipo(['nome' => 'Terreno', 'municipio_id' => $municipio]);
+        $casa = Phactory::imovelTipo(['nome' => 'Casa', 'cliente_id' => $this->_cliente->id]);
+        $terreno = Phactory::imovelTipo(['nome' => 'Terreno', 'cliente_id' => $this->_cliente->id]);
 
         $baseDados = [
             'Seminário' => [
@@ -36,9 +38,11 @@ class ResumoRgCapaReportTest extends TestCase
             // 2 bairros, 5 quarteiroes, 30 imóveis = 19 casa + 11 terreno
         ];
 
-        $this->criarDados($baseDados, $municipio);
+        $this->criarDados($baseDados, $this->_cliente);
 
         $this->report = new ResumoRgCapaReport;
+
+        \app\jobs\RefreshFechamentoRgJob::run();
     }
 
     public function testGetTotalQuarteiroes()
@@ -48,7 +52,7 @@ class ResumoRgCapaReportTest extends TestCase
 
     public function testGetTotalImoveis()
     {
-        $this->assertEquals(30, $this->report->getTotalImoveis());
+        $this->assertEquals(30, $this->report->getTotalImoveis($this->_cliente->id));
     }
 
     public function testGetImoveisPorTipo()
@@ -73,26 +77,26 @@ class ResumoRgCapaReportTest extends TestCase
         );
     }
 
-    protected function criarDados($baseDados, $municipio)
+    protected function criarDados($baseDados, $cliente)
     {
         foreach ($baseDados as $nomeBairro => $quarteiroes) {
 
             $bairro = Phactory::bairro([
                 'nome' => $nomeBairro,
-                'municipio_id' => $municipio->id,
+                'cliente_id' => $cliente->id,
             ]);
 
             foreach ($quarteiroes as $numero => $imoveisPorTipo) {
 
                 $quarteirao = Phactory::bairroQuarteirao([
                     'numero_quarteirao' => (string) $numero,
-                    'municipio_id' => $municipio->id,
+                    'cliente_id' => $cliente->id,
                     'bairro_id' => $bairro->id,
                 ]);
 
                 $boletim = Phactory::boletimRg([
                     'data' => '07/03/1989',
-                    'municipio_id' => $municipio->id,
+                    'cliente_id' => $cliente->id,
                     'bairro_id' => $bairro->id,
                     'bairro_quarteirao_id' => $quarteirao->id,
                 ]);

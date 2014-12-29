@@ -2,12 +2,15 @@
 
 namespace app\components;
 
+use Yii;
 use app\components\ActiveRecord;
 use app\helpers\StringHelper;
 use yii\web\Controller as YiiController;
 use yii\web\NotFoundHttpException;
 use app\forms\FeedbackForm;
 use app\models\Municipio;
+use app\models\Cliente;
+use app\models\UsuarioRole;
 
 class Controller extends YiiController
 {
@@ -22,29 +25,42 @@ class Controller extends YiiController
      * for more details on how to specify this property.
      */
     public $breadcrumbs = [];
-    
+
     public $feedbackModel;
-    
+
     public $municipiosDisponiveis;
     public $municipioLogado;
-    
+
     public function init()
     {
         $this->feedbackModel = new FeedbackForm();
 
-        if(!\Yii::$app->user->isGuest) {
-            
-            if(!\Yii::$app->session->get('user.municipio') && method_exists($this, 'getUser')) {
-                $municipios = Municipio::getMunicipios($this->getUser()->municipio_id);
-                $municipio = count($municipios) > 0 ? $municipios[0] : null;
-                Yii::$app->session->set('user.municipio',$municipio);
+        if(!\Yii::$app->user->isGuest && !\Yii::$app->session->get('user.cliente')) {
+
+            if(\Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
+
+                Yii::$app->session->set('user.municipios', Municipio::find()->innerJoinWith('cliente')->all());
+                Yii::$app->session->set('user.cliente', Cliente::find()->one());
+
+                unset($municipios);
             }
-            
-            $this->municipiosDisponiveis = Municipio::getMunicipios(\Yii::$app->user->identity->municipio_id); 
-            $this->municipioLogado = \Yii::$app->session->get('user.municipio');
+            else {
+
+                $municipios = null;
+
+                Yii::$app->session->set('municipios', $municipios);
+                Yii::$app->session->set('user.cliente',\Yii::$app->user->identity->cliente);
+
+                unset($municipios);
+            }
         }
+
+        $this->municipiosDisponiveis = \Yii::$app->session->get('user.municipios') ? \Yii::$app->session->get('user.municipios') : null;
+        $this->municipioLogado = \Yii::$app->session->get('user.cliente') ? \Yii::$app->session->get('user.cliente')->municipio : null;
+
+        Yii::$app->setTimeZone('America/Sao_Paulo');
     }
-    
+
     /**
 	 * Finds the model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
@@ -73,14 +89,14 @@ class Controller extends YiiController
         $words = StringHelper::camelToWords($className);
 
         $words = explode(' ', $words);
-        
+
         array_pop($words);
 
         $words = implode(' ', $words);
 
         return 'app\\models\\' . str_replace(' ', '', ucwords($words));
     }
-    
+
     /**
      * @param ActiveRecord $model
      * @param array|null $data Dados para atribuir. Por padrão pega o $_POST
@@ -89,7 +105,7 @@ class Controller extends YiiController
     protected function loadAndSaveModel(ActiveRecord $model, $data = null)
     {
         $data = empty($data) ? $_POST : $data;
-        
+
         if ($model->load($data) && $model->save()) {
             return $this->redirect(['index']);
         }

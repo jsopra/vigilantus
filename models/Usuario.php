@@ -2,11 +2,12 @@
 
 namespace app\models;
 
-use app\components\ActiveRecord;
-use app\models\Municipio;
+use app\components\ClienteActiveRecord;
+use app\models\Cliente;
 use app\models\UsuarioRole;
 use yii\validators\Validator;
 use yii\web\IdentityInterface;
+use Yii;
 
 /**
  * Este é a classe de modelo da tabela "usuarios".
@@ -19,7 +20,7 @@ use yii\web\IdentityInterface;
  * @property string $confirmacao_senha
  * @property string $senha_criptografada
  * @property string $sal
- * @property integer $municipio_id
+ * @property integer $cliente_id
  * @property integer $usuario_role_id
  * @property string $ultimo_login
  * @property string $email
@@ -27,7 +28,7 @@ use yii\web\IdentityInterface;
  * @property string $data_recupera_senha
  * @property boolean $excluido
  */
-class Usuario extends ActiveRecord implements IdentityInterface
+class Usuario extends ClienteActiveRecord implements IdentityInterface
 {
     /**
      * Atributos temporários utilizados para definir a senha_criptografada
@@ -36,7 +37,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
     public $confirmacao_senha;
 
     /* Métodos pra interface IdentityInterface */
-    
+
     /**
      * @inheritdoc
      */
@@ -44,7 +45,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
     {
         return $this->sal;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -52,7 +53,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
     {
         return $this->id;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -60,7 +61,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
     {
         return $this->getAuthKey() === $authKey;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -77,7 +78,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
         // @TODO Obter usuário pelo token para uso em APIs
         return false;
     }
-    
+
     /* Métodos ActiveRecord */
 
     /**
@@ -100,18 +101,18 @@ class Usuario extends ActiveRecord implements IdentityInterface
         $temSenhaJavaScript = 'function (attribute, value) {
             return jQuery("input[name=\'Usuario[senha]\']").val() != "";
         }';
-        
+
         return array(
             [['senha', 'confirmacao_senha'], 'required',                    'when' => $temSenha, 'whenClient' => $temSenhaJavaScript],
             [['senha', 'confirmacao_senha'], 'string', 'min' => 8,          'when' => $temSenha, 'whenClient' => $temSenhaJavaScript],
             ['senha', 'compare', 'compareAttribute' => 'confirmacao_senha', 'when' => $temSenha, 'whenClient' => $temSenhaJavaScript],
 
-            ['municipio_id', 'required', 'when' => function($model) {
+            ['cliente_id', 'required', 'when' => function($model) {
                 return $model->usuario_role_id != UsuarioRole::ROOT;
             }],
 
             [['nome', 'login', '!sal', '!senha_criptografada', 'usuario_role_id', 'email'], 'required'],
-            [['municipio_id', 'usuario_role_id'], 'integer'],
+            [['cliente_id', 'usuario_role_id'], 'integer'],
             ['login', 'unique'],
             ['email', 'unique'],
             ['email', 'email'],
@@ -133,21 +134,13 @@ class Usuario extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @return Municipio
+     * @return Cliente
      */
-    public function getMunicipio()
+    public function getClienteLogado()
     {
-        return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+        return \Yii::$app->session->get('user.cliente');
     }
-    
-    /**
-     * @return Municipio
-     */
-    public function getMunicipioLogado() 
-    {
-        return Municipio::find()->one();//\Yii::$app->session->get('user.municipio');
-    }
-    
+
     /**
      * @return UsuarioRole
      */
@@ -169,7 +162,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
             'senha' => 'Senha',
             'confirmacao_senha' => 'Repita a senha',
             'sal' => 'Sal',
-            'municipio_id' => 'Município',
+            'cliente_id' => 'Município Cliente',
             'usuario_role_id' => 'Nível do Usuário',
             'ultimo_login' => 'Último Login',
             'email' => 'E-mail',
@@ -181,10 +174,10 @@ class Usuario extends ActiveRecord implements IdentityInterface
 
     /**
      * Codificação de senha
-     * 
+     *
      * @param string $sal
      * @param string $senha
-     * @return string 
+     * @return string
      */
     public static function encryptPassword($sal, $password)
     {
@@ -206,7 +199,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
 
     /**
      * Altera a senha
-     * @param type $password 
+     * @param type $password
      */
     public function changePassword($password, $confirmation)
     {
@@ -261,5 +254,30 @@ class Usuario extends ActiveRecord implements IdentityInterface
             default:
                 return null;
         }
+    }
+
+    public function getCliente()
+    {
+        if(!\Yii::$app->session->get('user.cliente')) {
+
+            if(\Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
+                Yii::$app->session->set('user.cliente', Cliente::find()->one());
+            }
+            else {
+                Yii::$app->session->set('user.cliente',Cliente::find()->andWhere(['id' => \Yii::$app->user->identity->cliente_id])->one());
+            }
+        }
+
+        return \Yii::$app->session->get('user.cliente');
+    }
+
+    public function moduloIsHabilitado($moduloId, $cliente = null)
+    {
+        $cliente = $cliente ? $cliente : $this->getCliente();
+        if(!$cliente) {
+            return false;
+        }
+
+        return $cliente->moduloIsHabilitado($moduloId);
     }
 }

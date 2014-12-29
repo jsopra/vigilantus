@@ -1,7 +1,7 @@
 <?php
 
 namespace app\models;
-use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 
 /**
  * This is the model class for table "imoveis".
@@ -15,12 +15,14 @@ use app\components\ActiveRecord;
  * @property string $complemento
  * @property boolean $imovel_lira
  * @property integer $imovel_tipo_id
+ * @property integer $cliente_id
  *
  * @property BoletimRgImoveis[] $boletimRgImovel
- * @property Municipios $municipio
+ * @property Municipio $municipio
+ * @property Cliente $cliente
  * @property BairroRuas $bairroRua
  */
-class Imovel extends ActiveRecord
+class Imovel extends ClienteActiveRecord
 {
 	/**
 	 * @inheritdoc
@@ -38,7 +40,7 @@ class Imovel extends ActiveRecord
 		return [
 			[['municipio_id', 'bairro_quarteirao_id', 'rua_id', 'imovel_tipo_id'], 'required'],
             ['imovel_lira', 'boolean'],
-			[['municipio_id', 'bairro_quarteirao_id', 'rua_id', 'imovel_tipo_id'], 'integer'],
+			[['municipio_id', 'bairro_quarteirao_id', 'rua_id', 'imovel_tipo_id', 'cliente_id'], 'integer'],
 			[['numero', 'sequencia', 'complemento'], 'string']
 		];
 	}
@@ -58,6 +60,7 @@ class Imovel extends ActiveRecord
             'bairro_quarteirao_id' => 'Quarteirão',
             'rua_id' => 'Rua',
             'imovel_tipo_id' => 'Tipo do Imóvel',
+            'cliente_id' => 'Cliente'
 		];
 	}
 
@@ -74,7 +77,15 @@ class Imovel extends ActiveRecord
 	 */
 	public function getMunicipio()
 	{
-		return $this->hasOne(Municipios::className(), ['id' => 'municipio_id']);
+		return $this->hasOne(Municipio::className(), ['id' => 'municipio_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getCliente()
+	{
+		return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
 	}
     
     /**

@@ -7,6 +7,8 @@ use app\models\BoletimRg;
 use app\models\BoletimRgFechamento;
 use app\models\BoletimRgImovel;
 use app\models\ImovelTipo;
+use app\models\BairroQuarteirao;
+use app\models\redis\FechamentoRg as FechamentoRgRedis;
 
 class ResumoRgCapaReport
 {
@@ -15,40 +17,15 @@ class ResumoRgCapaReport
      */
     public function getTotalQuarteiroes()
     {
-        $query = BoletimRg::find();
-        $query->andWhere('
-            data = (
-                SELECT MAX(data)
-                FROM boletins_rg brg
-                WHERE brg.bairro_quarteirao_id = boletins_rg.bairro_quarteirao_id
-            )
-        ');
-        
-        return $query->count();
+        return BairroQuarteirao::find()->count();
     }
 
     /**
      * @return integer
      */
-    public function getTotalImoveis()
+    public function getTotalImoveis($idCliente)
     {
-        $totalImoveis = 0;
-        
-        $query = BoletimRgFechamento::find();
-        $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
-        $query->andWhere('
-            boletins_rg.data = (
-                SELECT MAX(data)
-                FROM boletins_rg brg
-                WHERE brg.bairro_quarteirao_id = boletins_rg.bairro_quarteirao_id
-            )
-        ');
-        
-        $dados = $query->all();
-        foreach ($dados as $imovelFechamento)
-            $totalImoveis += $imovelFechamento->quantidade;
-        
-        return $totalImoveis;
+        return FechamentoRgRedis::find()->doTipoLira(false)->doCliente($idCliente)->sum('quantidade');
     }
 
     /**
@@ -58,31 +35,14 @@ class ResumoRgCapaReport
     {
         $dados = [];
 
-        // Tipos de imóveis
-        foreach (ImovelTipo::find()->ativo()->orderBy('nome')->all() as $tipoImovel)
-            $dados[$tipoImovel->nome] = 0;
+        foreach (ImovelTipo::find()->ativo()->orderBy('nome')->all() as $tipoImovel) {
 
-        // Valores dos tipos de imóveis
-        $query = BoletimRgFechamento::find();
-        $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
-        $query->with(['imovelTipo' => function ($query) {
-            $query->andWhere('excluido = FALSE');
-        }]);
-        $query->andWhere('
-            boletins_rg.data = (
-                SELECT MAX(data)
-                FROM boletins_rg brg
-                WHERE brg.bairro_quarteirao_id = boletins_rg.bairro_quarteirao_id
-            )
-        ');
-        
-        $queryResults = $query->all();
-        foreach ($queryResults as $boletim) {
+            $query = FechamentoRgRedis::find()->doTipoLira(false)->doTipoImovel($tipoImovel->id);
 
-            if (!$boletim->imovelTipo)
-                continue;
-
-            $dados[$boletim->imovelTipo->nome] += $boletim->quantidade;
+            $dados[$tipoImovel->nome] = $query->sum('quantidade');
+            if(!$dados[$tipoImovel->nome]) {
+                $dados[$tipoImovel->nome] = 0;
+            }
         }
 
         return $dados;
@@ -95,24 +55,15 @@ class ResumoRgCapaReport
     {
         $dados = [];
 
-        // Adiciona todos os bairros vazios
-        foreach (Bairro::find()->orderBy('nome')->all() as $bairro)
-            $dados[$bairro->nome] = 0;
+        foreach (Bairro::find()->orderBy('nome')->all() as $bairro) {
 
-        // Bairros com informações
-        $query = BoletimRgFechamento::find()->with('boletimRg.bairro');
-        $query->innerJoin('boletins_rg', 'boletim_rg_fechamento.boletim_rg_id=boletins_rg.id');
-        $query->andWhere('
-            boletins_rg.data = (
-                SELECT MAX(data)
-                FROM boletins_rg brg
-                WHERE brg.bairro_quarteirao_id = boletins_rg.bairro_quarteirao_id
-            )
-        ');
-        
-        $queryResults = $query->all();
-        foreach ($queryResults as $row)
-            $dados[$row->boletimRg->bairro->nome] += $row->quantidade;
+            $query = FechamentoRgRedis::find()->doTipoLira(false)->doBairro($bairro->id);
+
+            $dados[$bairro->nome] = $query->sum('quantidade');
+            if(!$dados[$bairro->nome]) {
+                $dados[$bairro->nome] = 0;
+            }
+        }
         
         return $dados;
     }

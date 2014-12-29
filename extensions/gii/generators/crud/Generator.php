@@ -119,12 +119,12 @@ class Generator extends YiiCrudGenerator
 			new CodeFile($controllerFile, $this->render('controller.php')),
 			new CodeFile($searchModel, $this->render('search.php')),
 		];
-        
+
         if($this->acceptanceClass) {
-            $acceptanceFile = Yii::getAlias('@' . str_replace('\\', '/', ltrim($this->acceptanceClass, '\\') . '.php'));
+            $acceptanceFile = Yii::getAlias('@' . str_replace('\\', '/', ltrim($this->acceptanceClass, '\\') . 'Cept.php'));
             $files[] = new CodeFile($acceptanceFile, $this->render('acceptance.php'));
         }
-        
+
         $viewPath = $this->getViewPath();
 		$templatePath = $this->getTemplatePath() . '/views';
 		foreach (scandir($templatePath) as $file) {
@@ -132,7 +132,7 @@ class Generator extends YiiCrudGenerator
 				$files[] = new CodeFile("$viewPath/$file", $this->render("views/$file"));
 			}
 		}
-        
+
 		return $files;
 	}
 }

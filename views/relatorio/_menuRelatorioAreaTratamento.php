@@ -18,7 +18,7 @@ echo Nav::widget([
             'options' => ['id' => 'area-mapa']
         ],
         [
-            'label' => 'Focos',
+            'label' => 'Focos Ativos',
             'url' => ['relatorio/area-tratamento-focos'],
             'options' => ['id' => 'area-focos']
         ],

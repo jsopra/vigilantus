@@ -9,8 +9,8 @@ use yii\db\ActiveRecord as YiiActiveRecord;
 use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
 use yii\validators\Validator;
-use app\models\Municipio;
 use app\models\UsuarioRole;
+use app\models\Cliente;
 
 class ActiveRecord extends YiiActiveRecord
 {
@@ -112,6 +112,20 @@ class ActiveRecord extends YiiActiveRecord
         }
         
         return parent::__set($name, $value);
+    }
+      
+    /**
+     * @inheritdoc
+     */
+    public static function find()
+    {
+        $className = get_called_class();
+        $queryClassName = str_replace('\\models\\', '\\models\\query\\', $className) . 'Query';
+        $tableName = $className::tableName();
+
+        $query = class_exists($queryClassName) ? new $queryClassName($className) : new ActiveQuery($className);
+        
+        return $query;
     }
     
     /**
@@ -229,57 +243,6 @@ class ActiveRecord extends YiiActiveRecord
     public static function listData($descriptionAttribute, $idAttribute = 'id', $groupingRelation = null, $groupingRelationAttribute = 'id')
     {
         return static::find()->listData($descriptionAttribute, $idAttribute, $groupingRelation, $groupingRelationAttribute);
-    }
-    
-    /**
-     * @inheritdoc
-     */
-    public static function find()
-    {
-        $className = get_called_class();
-        $queryClassName = str_replace('\\models\\', '\\models\\query\\', $className) . 'Query';
-        $tableName = $className::tableName();
-
-        if (class_exists($queryClassName)) {
-            $query = new $queryClassName($className);
-        }
-        else {
-            $query = new ActiveQuery($className);
-        }
-        
-        if (self::temFiltroMunicipio()) {
-            $idMunicipio = Municipio::find()->one()->id;//intval(\Yii::$app->session->get('user.municipio')->id);
-            $query->andWhere(
-                '[[' . $tableName . '.municipio_id]] IS NULL OR [[' . $tableName . '.municipio_id]] = ' . $idMunicipio
-            );
-        }
-        
-        return $query;
-    }
-    
-    /**
-     * @inheritdoc
-     */
-	public function beforeValidate()
-	{
-        if (self::temFiltroMunicipio()) {
-            $this->municipio_id = Municipio::find()->one()->id;//\Yii::$app->session->get('user.municipio')->id;
-        }
-        
-		return parent::beforeValidate();
-    }
-
-    /**
-     * @return boolean
-     */
-    protected static function temFiltroMunicipio()
-    {
-        return (
-            php_sapi_name() != 'cli'
-            && \Yii::$app->has('session')
-            //&& \Yii::$app->session->get('user.municipio') instanceof Municipio
-            && isset(static::getTableSchema()->columns['municipio_id'])
-        );
     }
 
     /**

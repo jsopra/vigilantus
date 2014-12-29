@@ -10,18 +10,19 @@ $logTargets = [
     ]
 ];
 
-$cookieValidationKey = getenv('VIGILANTUS_DB_DSN');
+$cookieValidationKey = getenv('VIGILANTUS_DB_DSN_HOST') . ';' . getenv('VIGILANTUS_DB_DSN_DBNAME');
 
 if (getenv('VIGILANTUS_COOKIES_KEY')) {
     $cookieValidationKey = getenv('VIGILANTUS_COOKIES_KEY');
 }
 
-if (YII_ENV_PROD) {
+if (getenv('VIGILANTUS_ENV') == 'prod') {
     $logTargets[] = [
         'class' => 'yii\log\EmailTarget',
-        'mail' => 'mail',
+        'mailer' => 'mail',
         'levels' => ['error', 'warning'],
         'message' => [
+            'from' => ['tenha@perspectiva.in'],
             'to' => ['dev@vigilantus.com.br'],
             'subject' => 'Application Log',
         ],
@@ -67,11 +68,12 @@ $config = [
         ],
         'mail' => [
             'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtpi.vigilantus.com.br',
-                'username' => 'vigilantus@vigilantus.com.br',
-                'password' => 'f33dh1t5',
+                'host' => 'smtp.mandrillapp.com',
+                'username' => 'jsopra@gmail.com',
+                'password' => 'KzL9E8rMpAd6Ux0pv7Lmbg',
                 'port' => '587',
                 'encryption' => 'tls',
             ],
@@ -82,11 +84,19 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'rules' => [
+
+            ],
         ],
         'user' => [
             'class' => 'yii\web\User',
             'identityClass' => 'app\models\Usuario',
             'enableAutoLogin' => true,
+        ],
+    ],
+    'modules' => [
+        'denuncia' => [
+            'class' => 'app\modules\denuncia\Module',
         ],
     ],
     'params' => $params,

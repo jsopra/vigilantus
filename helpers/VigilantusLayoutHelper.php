@@ -1,6 +1,7 @@
 <?php
 namespace app\helpers;
 use \yii\web\User;
+use app\models\Modulo;
 
 class VigilantusLayoutHelper {
     
@@ -13,6 +14,46 @@ class VigilantusLayoutHelper {
         
         return [
             [
+                'label' => 'Denúncias',
+                'icon' => 'bullhorn',
+                'url' => ['/denuncia/denuncia/index'],
+                'visible' =>  $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)
+            ],
+            [
+                'label' => 'Focos',
+                'icon' => 'screenshot',
+                'url' => ['/foco-transmissor/'],
+            ],
+            [
+                'label' => 'Localização',
+                'icon' => 'globe',
+                'items' => [
+                    ['label' => 'Bairros e Quarteirões', 'url' => ['/bairro/']],
+                    ['label' => 'Reconhecimento Geográfico', 'url' => ['/boletim-rg']],
+                ]
+            ],
+            [
+                'label' => 'Relatórios',
+                'icon' => 'bar-chart',
+                'items' => [
+                    ['label' => 'Resumo de RG por Bairro', 'url' => ['/relatorio/resumo-rg-bairro'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Focos', 'url' => ['/relatorio/focos'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Focos por Bairro', 'url' => ['/relatorio/focos-bairro'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Exportação de Focos', 'url' => ['/relatorio/focos-export']],
+                ],
+            ],
+            [
+                'label' => 'Indicadores',
+                'icon' => 'bar-chart',
+                'items' => [
+                    ['label' => 'Resumo de Focos por Ano', 'url' => ['/indicador/resumo-focos'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Evolução de Focos por Mês', 'url' => ['/indicador/evolucao-focos'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Focos por Bairros', 'url' => ['/indicador/focos-bairro'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Focos por Tipo de Depósito', 'url' => ['/indicador/focos-tipo-deposito'], 'visible' => $user->can('Gerente'),],
+                ],
+            ],
+            [
                 'label' => 'Cadastros',
                 'icon' => 'edit',
                 'items' => [
@@ -20,36 +61,16 @@ class VigilantusLayoutHelper {
                     ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
                     ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/']],
                     ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/']],
+                    ['label' => 'Tipo de Problema em Denúncia', 'url' => ['/denuncia/denuncia-tipo-problema/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)],
                 ]
-            ],
-            [
-                'label' => 'Formulários',
-                'icon' => 'edit',
-                'items' => [
-                    ['label' => 'Focos de Transmissores', 'url' => ['/foco-transmissor/']],
-                ]
-            ],
-            [
-                'label' => 'Localização',
-                'icon' => 'globe',
-                'items' => [
-                    ['label' => 'Bairros e Quarteirões', 'url' => ['/bairro/']],
-                    ['label' => 'Boletim de RG', 'url' => ['/boletim-rg']],
-                ]
-            ],
-            [
-                'label' => 'Relatórios',
-                'icon' => 'bar-chart',
-                'items' => [
-                    ['label' => 'Boletim de RG', 'url' => ['/relatorio/resumo-rg-bairro'], 'visible' => $user->can('Gerente'),],
-                    ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente'),],
-                    ['label' => 'Exportação de Focos', 'url' => ['/relatorio/focos-export']],
-                ],
             ],
             [
                 'label' => 'Sistema',
                 'icon' => 'cog',
                 'items' => [
+                    ['label' => 'Clientes', 'url' => ['/cliente/'], 'visible' => $user->can('Root'),],
+                    ['label' => 'Municípios', 'url' => ['/municipio/'], 'visible' => $user->can('Root'),],
+                    ['label' => 'Módulos', 'url' => ['/modulo/'], 'visible' => $user->can('Root'),],
                     ['label' => 'Usuários', 'url' => ['/usuario/'], 'visible' => $user->can('Administrador'),],
                     ['label' => 'Alterar minha senha', 'url' => ['/usuario/change-password']],
                 ]

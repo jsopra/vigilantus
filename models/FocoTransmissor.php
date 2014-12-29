@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\components\ActiveRecord;
+use app\components\ClienteActiveRecord;
 
 /**
  * Este é a classe de modelo da tabela "focos_transmissores".
@@ -28,19 +28,25 @@ use app\components\ActiveRecord;
  * @property integer $bairro_quarteirao_id
  * @property string $planilha_endereco
  * @property integer $planilha_imovel_tipo_id
+ * @property integer $cliente_id
  *
  * @property Usuario $inseridoPor
  * @property Usuario $atualizadoPor
  * @property DepositoTipo $tipoDeposito
  * @property EspecieTransmissor $especieTransmissor
  */
-class FocoTransmissor extends ActiveRecord 
+class FocoTransmissor extends ClienteActiveRecord
 {
     public $categoria_id;
     public $bairro_id;
     public $foco_ativo;
     public $imovel_lira;
-    
+
+    public $mes;
+    public $quantidade_registros;
+
+    const QTDE_DIAS_INFORMACAO_PUBLICA = 60; //fix migrar para configuração
+
     /**
      * @inheritdoc
      */
@@ -55,17 +61,18 @@ class FocoTransmissor extends ActiveRecord
     public function rules()
     {
         return [
-            [['inserido_por', 'tipo_deposito_id', 'especie_transmissor_id', 'bairro_quarteirao_id', 'data_entrada', 'data_exame', 'data_coleta', 'quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'], 'required'],
+            [['cliente_id', 'inserido_por', 'tipo_deposito_id', 'especie_transmissor_id', 'bairro_quarteirao_id', 'data_entrada', 'data_exame', 'data_coleta', 'quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'], 'required'],
             [['quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'], 'integer', 'min' => 0],
             [['!inserido_por', '!atualizado_por'], 'exist', 'targetClass' => Usuario::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['tipo_deposito_id', 'exist', 'targetClass' => DepositoTipo::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['especie_transmissor_id', 'exist', 'targetClass' => EspecieTransmissor::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
+            ['cliente_id', 'exist', 'targetClass' => Cliente::className(), 'targetAttribute' => 'id'],
             ['imovel_id', 'exist', 'targetClass' => Imovel::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['bairro_quarteirao_id', 'exist', 'targetClass' => BairroQuarteirao::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             ['planilha_imovel_tipo_id', 'exist', 'targetClass' => ImovelTipo::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
             [['!data_cadastro', '!data_atualizacao', 'data_entrada', 'data_exame', 'data_coleta'], 'date'],
             [['laboratorio', 'tecnico'], 'string', 'max' => 256],
-            [['planilha_imovel_tipo_id', 'planilha_endereco'], 'safe'],
+            [['planilha_imovel_tipo_id', 'planilha_endereco', 'mes', 'quantidade_registros'], 'safe'],
         ];
     }
 
@@ -96,9 +103,9 @@ class FocoTransmissor extends ActiveRecord
             'foco_ativo' => 'Foco Ativo',
             'imovel_lira' => 'Imóvel LIRA',
             'bairro_quarteirao_id' => 'Quarteirão',
-                
             'planilha_endereco' => 'Endereço',
             'planilha_imovel_tipo_id' => 'Tipo do Imóvel',
+            'cliente_id' => 'Município Cliente',
         ];
     }
 
@@ -133,23 +140,23 @@ class FocoTransmissor extends ActiveRecord
     {
         return $this->hasOne(EspecieTransmissor::className(), ['id' => 'especie_transmissor_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveRelation
      */
-    public function getImovel() 
+    public function getImovel()
     {
         return $this->hasOne(Imovel::className(), ['id' => 'imovel_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveRelation
      */
-    public function getBairroQuarteirao() 
+    public function getBairroQuarteirao()
     {
         return $this->hasOne(BairroQuarteirao::className(), ['id' => 'bairro_quarteirao_id']);
     }
-    
+
     /**
 	 * @return \yii\db\ActiveRelation
 	 */
@@ -157,33 +164,43 @@ class FocoTransmissor extends ActiveRecord
 	{
 		return $this->hasOne(ImovelTipo::className(), ['id' => 'planilha_imovel_tipo_id']);
 	}
-    
+
     /**
      * Verifica se um foco ainda é ativo conforme configuração de dias do projeto
-     * @return boolean 
+     * @return boolean
      */
     public function isAtivo() {
-        
+
         list($anoColeta, $mesColeta, $diaColeta) = explode('-', $this->data_coleta);
         $dataColeta = new \DateTime();
         $dataColeta->setDate($anoColeta, $mesColeta, $diaColeta);
-        
+
         $dataValidade = new \DateTime();
         $dataValidade->modify('-' . $this->especieTransmissor->qtde_dias_permanencia_foco . ' days');
-        
+
         $validacaoData = $dataColeta >= $dataValidade;
-        
+
         if(!$validacaoData)
             return false;
-        
+
         return $this->quantidade_forma_adulta > 0 || $this->quantidade_forma_aquatica > 0 || $this->quantidade_ovos > 0;
     }
-    
+
     /*
      * Popula ID do bairro pelo quarteirão cadastrado
      */
     public function popularBairro() {
-        
+
         $this->bairro_id = $this->bairroQuarteirao->bairro_id;
+    }
+
+    public function isInformacaoPublica()
+    {
+        $dataAtual = new \DateTime;
+        $dataAtual->modify('-' . self::QTDE_DIAS_INFORMACAO_PUBLICA . ' days');
+
+        $dataColeta = new \DateTime($this->data_coleta);
+
+        return $dataColeta >= $dataAtual;
     }
 }

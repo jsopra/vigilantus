@@ -6,7 +6,7 @@ class BoletimRgPhactory
         return [
             'id' => '#{sn}',
             'folha' => '#{sn}',
-            'municipio_id' => Phactory::hasOne('municipio'),
+            'cliente_id' => Phactory::hasOne('cliente'),
             'bairro_quarteirao_id' => Phactory::hasOne('bairroQuarteirao'),
             'bairro_id' => Phactory::hasOne('bairro'),
             'inserido_por' => Phactory::hasOne('usuario'),

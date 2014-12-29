@@ -4,15 +4,20 @@ namespace tests\unit\models;
 
 use Phactory;
 use app\models\BoletimRgFechamento;
+use app\models\BoletimRgImovel;
 use tests\TestCase;
 
 class BoletimRgImovelTest extends TestCase
 {
     public function testPrepararRua()
     {
-        $ruaExistente = Phactory::rua(['nome' => 'Avenida Existente']);
+         $cliente = Phactory::cliente();
 
-        $imovelRg = Phactory::boletimRgImovel();
+        $ruaExistente = Phactory::rua(['nome' => 'Avenida Existente', 'cliente_id' => $cliente->id]);
+
+
+
+        $imovelRg = Phactory::boletimRgImovel(['cliente_id' => $cliente->id]);
 
         // Rua que já existe, seta o ID
         $this->assertTrue($imovelRg->prepararRua('Avenida Existente'));
@@ -26,7 +31,9 @@ class BoletimRgImovelTest extends TestCase
 
     public function testPrepararImovel()
     {
-        $imovelRg = Phactory::boletimRgImovel();
+        $cliente = Phactory::cliente();
+
+        $imovelRg = Phactory::boletimRgImovel(['cliente_id' => $cliente->id]);
 
         // Assegura que o imóvel tem os mesmos dados que o imovelRg
         $imovel = $imovelRg->imovel;
@@ -35,7 +42,7 @@ class BoletimRgImovelTest extends TestCase
         $imovel->sequencia = $imovelRg->imovel_seq;
         $imovel->complemento = $imovelRg->imovel_complemento;
         $imovel->rua_id = $imovelRg->rua_id;
-        $imovel->municipio_id = $imovelRg->municipio_id;
+        $imovel->cliente_id = $cliente->id;
         $this->assertTrue($imovel->save());
 
         // Procura imóvel existente
@@ -78,5 +85,38 @@ class BoletimRgImovelTest extends TestCase
         );
 
         $this->assertEquals($quantidade, $boletimFechamento->quantidade);
+    }
+
+    public function testSaveDecrementaBoletimFechamento()
+    {
+        $this->assertNull(BoletimRgFechamento::find()->one());
+
+        $imovelRg = Phactory::boletimRgImovel();
+        $quantidade = 5;
+
+        // Insere mais 4 imóveis no mesmo boletimRg
+        for ($i = 1; $i < $quantidade; $i++) {
+
+            $rua = Phactory::rua();
+            $imovel = Phactory::imovel(['rua_id' => $rua->id]);
+
+            $parametrosDiferentes = [
+                'id' => null,
+                'rua_id' => $rua->id,
+                'imovel_id' => $imovel->id,
+            ];
+            
+            Phactory::boletimRgImovel($imovelRg->attributes + $parametrosDiferentes);
+        }
+
+        $this->assertEquals(1, $imovelRg->delete());
+
+        $boletimFechamento = BoletimRgFechamento::findOne(
+            [
+                'boletim_rg_id' => $imovelRg->boletim_rg_id,
+            ]
+        );
+
+        $this->assertEquals($quantidade - 1, $boletimFechamento->quantidade);
     }
 }
