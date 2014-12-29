@@ -14,6 +14,11 @@ use app\models\FocoTransmissor;
 use Yii;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
+/*
+use app\extensions\geom\kml\Kml;
+use app\extensions\geom\kml\models\Polygon;
+use app\extensions\geom\kml\models\Point;
+*/
 use app\models\redis\Queue;
 
 class RelatorioController extends Controller
@@ -57,33 +62,33 @@ class RelatorioController extends Controller
 
         return $this->render('resumo-rg-bairro', $params);
     }
-    
+
     public function actionAreaTratamento()
     {
         $model = new AreaTratamentoReport;
-        
+
         $model->load($_GET);
-        
+
         $model->loadAreasDeTratamento(\Yii::$app->session->get('user.cliente'));
 
         return $this->render('area-tratamento', ['model' => $model]);
     }
-    
+
     public function actionAreaTratamentoFocos()
     {
         $model = new AreaTratamentoReport;
-        
+
         $model->load($_GET);
 
         $model->loadAreasDeFoco();
 
         return $this->render('focos', ['model' => $model]);
     }
-    
+
     public function actionAreaTratamentoMapa()
     {
         $model = new AreaTratamentoReport;
-        
+
         $model->load($_GET);
 
         return $this->render('mapa', [
@@ -91,11 +96,11 @@ class RelatorioController extends Controller
             'modelFocos' => $model->loadAreasDeFocoMapa(\Yii::$app->session->get('user.cliente'))
         ]);
     }
-    
+
     public function actionFocosAreaTratamento($idQuarteirao) {
-            
+
         $quarteirao = BairroQuarteirao::findOne($idQuarteirao);
-        
+
         $dataProvider = FocoTransmissor::find()->daAreaDeTratamento($quarteirao);
 
         $this->layout = 'ajax';
@@ -105,11 +110,11 @@ class RelatorioController extends Controller
             ['dataProvider' => new ActiveDataProvider(['query' => $dataProvider, 'pagination' => false])]
         );
     }
-    
+
     public function actionFocosExport()
     {
         $model = new FocosExcelReport;
-        
+
         if ($model->load($_GET) && $model->validate()) {
             $model->export(\Yii::$app->session->get('user.cliente'));
         }
@@ -117,33 +122,79 @@ class RelatorioController extends Controller
         return $this->render('focos-export', ['model' => $model]);
     }
 
+    public function actionFocosKml()
+    {
+        $model = new Kml;
+
+        $focos = FocoTransmissor::find()->ativo()->all();
+        foreach($focos as $foco) {
+
+            /*
+             * Quarteirão
+             */
+            $quarteirao = $foco->bairroQuarteirao;
+            $quarteirao->loadCoordenadas();
+
+            $polygon = new Polygon;
+
+            foreach($quarteirao->coordenadas as $coordenada) {
+                $point = new Point;
+                $point->value = $coordenada;
+                $polygon->value[] = $point;
+                unset($point);
+            }
+
+            $model->add($polygon);
+            unset($polygon);
+
+            /*
+             * Foco
+             */
+            $centro = $quarteirao->getCentro();
+
+            $polygon = new Polygon;
+
+            foreach($quarteirao->coordenadas as $coordenada) {
+                $point = new Point;
+                $point->value = $coordenada;
+                $polygon->value[] = $point;
+                unset($point);
+            }
+
+            $model->add($polygon);
+            unset($polygon);
+        }
+
+        return $model->toJSON();
+    }
+
     public function actionFocos()
     {
         $model = new FocosReport;
-        
+
         if(!isset($_GET['FocosReport'])) {
             $model->ano = date('Y');
         }
 
         $model->load($_GET);
-        
+
         return $this->render('relatorio-focos', ['model' => $model]);
     }
 
     public function actionFocosBairro()
     {
         $model = new FocosBairroReport;
-        
+
         if(!isset($_GET['FocosBairroReport'])) {
             $model->ano = date('Y');
         }
 
         $model->load($_GET);
-        
+
         return $this->render('relatorio-focos-bairro', ['model' => $model]);
     }
 
-    public function actionFocosBairroData($idBairro, $ano, $mes = null, $idEspecieTransmissor = null) 
+    public function actionFocosBairroData($idBairro, $ano, $mes = null, $idEspecieTransmissor = null)
     {
         $dataProvider = FocoTransmissor::find()->doBairro($idBairro)->doAno($ano);
 
@@ -164,9 +215,9 @@ class RelatorioController extends Controller
     }
 
     public function actionDownloadMapa($bairro_id = null, $lira = null, $especie_transmissor_id = null) {
-        
+
         $model = new AreaTratamentoReport;
-        
+
         $model->bairro_id = $bairro_id;
         $model->lira = $lira;
         $model->especie_transmissor_id = $especie_transmissor_id;
