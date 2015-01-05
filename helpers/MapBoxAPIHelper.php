@@ -8,6 +8,38 @@ use yii\helpers\Json;
 class MapBoxAPIHelper extends YiiStringHelper
 {
     /**
+     * Scripts do mapbox e plugins diversos
+     * @var array
+     */
+    private static $_scripts = [
+        'default' => [
+            'js' => ['https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'],
+            'css' => ['https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css']
+        ],
+        'drawing' => [
+            'js' => [
+                'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-geodesy/v0.1.0/leaflet-geodesy.js',
+                'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.2/leaflet.draw.js'
+            ],
+            'css' => ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.2/leaflet.draw.css'],
+        ],
+        'fullScreen' => [
+            'js' => ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.3/Leaflet.fullscreen.min.js'],
+            'css' => ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.3/leaflet.fullscreen.css'],
+        ],
+        'minimap' =>
+        [
+            'js' => ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-minimap/v1.0.0/Control.MiniMap.js'],
+            'css' => ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.3/leaflet.fullscreen.css'],
+        ],
+        'omnivore' =>
+        [
+            'js' => ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'],
+            'css' => [],
+        ]
+    ];
+
+    /**
      * Converte array de coordenadas PHP em objeto JS para google maps
      * @param array $bounds
      * @return string
@@ -72,43 +104,46 @@ class MapBoxAPIHelper extends YiiStringHelper
     /**
      * Registra scripts do MapBox
      * @param Object $view
-     * @return true
+     * @param array $plugins
+     * @param boolean $useDefault
+     * @return void
      */
-    public static function registerScripts($view)
+    public static function registerScript($view, $plugins = [], $useDefault = true)
     {
-        $view->registerJsFile('https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js');
-        $view->registerCssFile('https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css');
+        if($useDefault) {
+            self::_registerScriptFiles($view, 'default');
+        }
 
-        return true;
+        if(isset($plugins['default'])) {
+            unset($plugins['default']);
+        }
+
+        foreach($plugins as $plugin) {
+
+            if(!isset(self::$_scripts[$plugin])) {
+                continue;
+            }
+
+            self::_registerScriptFiles($view, $plugin);
+        }
+
+        return;
     }
 
     /**
-     * Registra scripts do MapBox
-     * @param Object $view
-     * @return true
+     * Register script files into view file
+     * @return void
      */
-    public static function registerDrawingScripts($view)
+    private static function _registerScriptFiles($view, $plugin)
     {
-        $view->registerJsFile('https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.2/leaflet.draw.js');
-        $view->registerJsFile('https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-geodesy/v0.1.0/leaflet-geodesy.js');
-        $view->registerCssFile('https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.2/leaflet.draw.css');
+        foreach(self::$_scripts[$plugin]['js'] as $script) {
+            $view->registerJsFile($script);
+        }
 
-        return true;
-    }
+        foreach(self::$_scripts[$plugin]['css'] as $style) {
+            $view->registerCssFile($style);
+        }
 
-    public static function registerFullWindowScripts($view)
-    {
-        $view->registerJsFile('https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.3/Leaflet.fullscreen.min.js');
-        $view->registerCssFile('https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.3/leaflet.fullscreen.css');
-
-        return true;
-    }
-
-    public static function registerMinimapScripts($view)
-    {
-        $view->registerJsFile('https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-minimap/v1.0.0/Control.MiniMap.js');
-        $view->registerCssFile('https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-minimap/v1.0.0/Control.MiniMap.css');
-
-        return true;
+        return;
     }
 }

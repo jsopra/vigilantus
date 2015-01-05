@@ -7,11 +7,9 @@ use yii\widgets\ActiveForm;
 use app\helpers\MapBoxAPIHelper;
 use yii\bootstrap\Button;
 use yii\bootstrap\ButtonGroup;
+use Yii\helpers\Url;
 
-MapBoxAPIHelper::registerScripts($this);
-MapBoxAPIHelper::registerDrawingScripts($this);
-MapBoxAPIHelper::registerFullWindowScripts($this);
-MapBoxAPIHelper::registerMinimapScripts($this);
+MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omnivore']);
 
 ?>
 <div class="bairro-form">
@@ -66,10 +64,10 @@ if ($municipio->latitude && $municipio->longitude) :
     $javascript = "
     L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
     var map = L.mapbox
-        .map('map', 'examples.map-i86nkdio')
+        .map('map', 'vigilantus.kjkb4j0a')
         .setView([" . $municipio->latitude . ", " . $municipio->longitude . "], 13)
         .on('ready', function() {
-            new L.Control.MiniMap(L.mapbox.tileLayer('examples.map-i86nkdio'))
+            new L.Control.MiniMap(L.mapbox.tileLayer('vigilantus.kjkb4j0a'))
                 .addTo(map);
         });
 
@@ -104,6 +102,24 @@ if ($municipio->latitude && $municipio->longitude) :
         e.layer.bindPopup((LGeo.area(e.layer) / 1000000).toFixed(2) + ' km<sup>2</sup>');
         e.layer.openPopup();
     }
+
+    var bairrosLayer = L.geoJson(null, {
+        // http://leafletjs.com/reference.html#geojson-style
+        style: function(feature) {
+            return {
+                color: '#f00'
+            };
+        },
+        onEachFeature: function(feature, layer) {
+            //layer.bindLabel(feature.properties.description);
+        }
+    });
+
+    var runLayer = omnivore.kml('" . Url::to(['kml/cidade']) . "', null, bairrosLayer)
+        .on('ready', function() {
+            map.fitBounds(runLayer.getBounds());
+        })
+        .addTo(map);
     ";
 
     $qtdeBairrosComCoordenada = count($coordenadasBairros);

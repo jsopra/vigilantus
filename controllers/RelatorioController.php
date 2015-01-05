@@ -14,11 +14,7 @@ use app\models\FocoTransmissor;
 use Yii;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
-/*
-use app\extensions\geom\kml\Kml;
-use app\extensions\geom\kml\models\Polygon;
-use app\extensions\geom\kml\models\Point;
-*/
+
 use app\models\redis\Queue;
 
 class RelatorioController extends Controller
@@ -120,52 +116,6 @@ class RelatorioController extends Controller
         }
 
         return $this->render('focos-export', ['model' => $model]);
-    }
-
-    public function actionFocosKml()
-    {
-        $model = new Kml;
-
-        $focos = FocoTransmissor::find()->ativo()->all();
-        foreach($focos as $foco) {
-
-            /*
-             * Quarteirão
-             */
-            $quarteirao = $foco->bairroQuarteirao;
-            $quarteirao->loadCoordenadas();
-
-            $polygon = new Polygon;
-
-            foreach($quarteirao->coordenadas as $coordenada) {
-                $point = new Point;
-                $point->value = $coordenada;
-                $polygon->value[] = $point;
-                unset($point);
-            }
-
-            $model->add($polygon);
-            unset($polygon);
-
-            /*
-             * Foco
-             */
-            $centro = $quarteirao->getCentro();
-
-            $polygon = new Polygon;
-
-            foreach($quarteirao->coordenadas as $coordenada) {
-                $point = new Point;
-                $point->value = $coordenada;
-                $polygon->value[] = $point;
-                unset($point);
-            }
-
-            $model->add($polygon);
-            unset($polygon);
-        }
-
-        return $model->toJSON();
     }
 
     public function actionFocos()

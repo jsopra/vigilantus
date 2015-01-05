@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\components\PostgisActiveRecord;
+use app\components\ClienteActiveRecord;
 
 /**
  * Este é a classe de modelo da tabela "bairros".
@@ -17,7 +17,7 @@ use app\components\PostgisActiveRecord;
  * @property string $coordenadas_area
  * @property integer $cliente_id
  */
-class Bairro extends PostgisActiveRecord
+class Bairro extends ClienteActiveRecord
 {
     /**
      * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco

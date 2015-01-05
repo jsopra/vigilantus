@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\components\PostgisActiveRecord;
+use app\components\ClienteActiveRecord;
 use app\models\Query\BairroQuarteiraoQuery as BairroQuarteiraoQuery;
 
 /**
@@ -28,7 +28,7 @@ use app\models\Query\BairroQuarteiraoQuery as BairroQuarteiraoQuery;
  * @property Usuarios $inseridoPor
  * @property Usuarios $atualizadoPor
  */
-class BairroQuarteirao extends PostgisActiveRecord
+class BairroQuarteirao extends ClienteActiveRecord
 {
     /**
      * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco
@@ -194,7 +194,7 @@ class BairroQuarteirao extends PostgisActiveRecord
 
             if($quarteirao->coordenadas) {
 
-                $dependency = new \app\components\caching\DbDependency; //fix quando atualizar yii
+                $dependency = new \yii\caching\DbDependency;
                 $dependency->sql = 'SELECT coalesce(data_atualizacao, data_cadastro) FROM bairro_quarteiroes WHERE id = ' . $quarteirao->id;
 
                 Yii::$app->cache->set($cacheKey, ['numero' => $quarteirao->numero_quarteirao, 'coordenada' => $quarteirao->coordenadas], null, $dependency);
