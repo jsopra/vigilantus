@@ -30,8 +30,8 @@ class BairroQuarteiraoSearch extends SearchModel
 		$this->addCondition($query, 'id');
 		$this->addCondition($query, 'municipio_id');
 		$this->addCondition($query, 'bairro_id');
-		$this->addCondition($query, 'numero_quarteirao');
-		$this->addCondition($query, 'numero_quarteirao_2');
+		$this->addCondition($query, 'numero_quarteirao', true);
+		$this->addCondition($query, 'numero_quarteirao_2', true);
 		$this->addCondition($query, 'data_cadastro', true);
 		$this->addCondition($query, 'data_atualizacao', true);
 		$this->addCondition($query, 'inserido_por');

@@ -21,8 +21,8 @@ class BoletimRgSearch extends SearchModel
     public function rules()
     {
         return [
-            [['cliente_id', 'bairro_id', 'bairro_quarteirao_id', 'seq', 'folha', 'bairro_quarteirao_numero'], 'integer'],
-            [['data_cadastro', 'data'], 'safe'],
+            [['cliente_id', 'bairro_id', 'bairro_quarteirao_id', 'seq', 'folha'], 'integer'],
+            [['data_cadastro', 'data', 'bairro_quarteirao_numero'], 'safe'],
         ];
     }
 
@@ -36,11 +36,11 @@ class BoletimRgSearch extends SearchModel
         $this->addCondition($query, 'data_cadastro', true);
         $this->addCondition($query, 'inserido_por');
         $this->addCondition($query, 'data');
-        
-        if($this->bairro_quarteirao_numero) { 
+
+        if($this->bairro_quarteirao_numero) {
             $query->innerJoinWith([
                 'quarteirao' => function ($query) {
-                    $query->where('bairro_quarteiroes.numero_quarteirao = ' . $this->bairro_quarteirao_numero);
+                    $query->where("bairro_quarteiroes.numero_quarteirao LIKE '" . $this->bairro_quarteirao_numero . "%'");
                 }
             ]);
         }

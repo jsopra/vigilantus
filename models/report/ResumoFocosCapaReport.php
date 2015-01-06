@@ -34,26 +34,26 @@ class ResumoFocosCapaReport
 
     public function getQuantidadeFocosTipoDeposito($ano, $especieId, $tipoDepositoId)
     {
-        return FocoTransmissor::find()->doAno($ano)->daEspecieDeTransmissor($especieId)->doTipoDeposito($tipoDepositoId)->count();
+        return FocoTransmissor::find()->ativo()->daEspecieDeTransmissor($especieId)->doTipoDeposito($tipoDepositoId)->count();
     }
 
     public function getPercentualFocosTipoDeposito($ano, $especieId, $tipoDepositoId)
     {
-        $qtdeDoTipo = FocoTransmissor::find()->doAno($ano)->daEspecieDeTransmissor($especieId)->doTipoDeposito($tipoDepositoId)->count();
-        $qtdeTotal = FocoTransmissor::find()->doAno($ano)->daEspecieDeTransmissor($especieId)->count();
+        $qtdeDoTipo = FocoTransmissor::find()->ativo()->daEspecieDeTransmissor($especieId)->doTipoDeposito($tipoDepositoId)->count();
+        $qtdeTotal = FocoTransmissor::find()->ativo()->daEspecieDeTransmissor($especieId)->count();
 
         return $qtdeTotal > 0 ? round((($qtdeDoTipo * 100) / $qtdeTotal),2) : 0;
     }
-    
+
     public function getQuantidadeFocosFormaFoco($ano, $especieId, $formaFocoColumn)
     {
-        return FocoTransmissor::find()->doAno($ano)->daEspecieDeTransmissor($especieId)->comQuantidadeEm($formaFocoColumn)->count();
+        return FocoTransmissor::find()->ativo()->daEspecieDeTransmissor($especieId)->comQuantidadeEm($formaFocoColumn)->count();
     }
 
     public function getPercentualFocosFormaFoco($ano, $especieId, $formaFocoColumn)
     {
-        $qtdeDoTipo = FocoTransmissor::find()->doAno($ano)->daEspecieDeTransmissor($especieId)->comQuantidadeEm($formaFocoColumn)->count();
-        $qtdeTotal = FocoTransmissor::find()->doAno($ano)->daEspecieDeTransmissor($especieId)->count();
+        $qtdeDoTipo = FocoTransmissor::find()->ativo()->daEspecieDeTransmissor($especieId)->comQuantidadeEm($formaFocoColumn)->count();
+        $qtdeTotal = FocoTransmissor::find()->ativo()->daEspecieDeTransmissor($especieId)->count();
 
         return $qtdeTotal > 0 ? round((($qtdeDoTipo * 100) / $qtdeTotal),2) : 0;
     }
