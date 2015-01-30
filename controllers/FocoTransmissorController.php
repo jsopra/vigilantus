@@ -71,7 +71,7 @@ class FocoTransmissorController extends CRUDController
     /**
      * @inheritdoc
      */
-    protected function loadAndSaveModel(FocoTransmissor $model, $data = null, $redirect = ['index'])
+    protected function loadAndSaveModel($model, $data = null, $redirect = ['index'])
     {
         if(isset($data['FocoTransmissor']['imovel_id']) && is_string($data['FocoTransmissor']['imovel_id'])) {
             $data['FocoTransmissor']['planilha_endereco'] = $data['FocoTransmissor']['imovel_id'];

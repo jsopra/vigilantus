@@ -153,7 +153,7 @@ class CRUDController extends Controller
     /**
      * @inheritdoc
      */
-    protected function loadAndSaveModel(ActiveRecord $model, $data = null, $redirect = ['index'])
+    protected function loadAndSaveModel($model, $data = null, $redirect = ['index'])
     {
         if (!empty($data) && $model->load($data)) {
 
