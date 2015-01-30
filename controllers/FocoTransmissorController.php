@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\components\CRUDController;
 use app\batch\controller\Batchable;
+use app\models\FocoTransmissor;
 
 class FocoTransmissorController extends CRUDController
 {
@@ -24,7 +25,7 @@ class FocoTransmissorController extends CRUDController
             ]
         ];
     }
-    
+
     public function behaviors()
     {
         return [
@@ -47,7 +48,7 @@ class FocoTransmissorController extends CRUDController
             ],
         ];
     }
-    
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -65,5 +66,41 @@ class FocoTransmissorController extends CRUDController
         }
 
         return $this->render('update', ['model' => $model]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function loadAndSaveModel(FocoTransmissor $model, $data = null, $redirect = ['index'])
+    {
+        if(isset($data['FocoTransmissor']['imovel_id']) && is_string($data['FocoTransmissor']['imovel_id'])) {
+            $data['FocoTransmissor']['planilha_endereco'] = $data['FocoTransmissor']['imovel_id'];
+            unset($data['FocoTransmissor']['imovel_id']);
+        }
+
+        if (!empty($data) && $model->load($data)) {
+
+            $isNewRecord = $model->isNewRecord;
+
+            if ($isNewRecord && $model->hasAttribute('inserido_por')) {
+                $model->inserido_por = Yii::$app->user->identity->id;
+            }
+            elseif ($model->hasAttribute('atualizado_por')) {
+                $model->atualizado_por = Yii::$app->user->identity->id;
+            }
+
+            $saveMethodName = $this->getModelSaveMethodName();
+
+            if ($model->$saveMethodName()) {
+
+                $message = $isNewRecord ? $this->createFlashMessage : $this->updateFlashMessage;
+
+                Yii::$app->session->setFlash('success', $message);
+
+                return $this->redirect($redirect);
+            }
+        }
+
+        return false;
     }
 }
