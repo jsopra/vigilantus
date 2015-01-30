@@ -14,17 +14,17 @@ class CRUDController extends Controller
      * @var string
      */
     protected $createFlashMessage = 'O cadastro foi realizado com sucesso.';
-    
+
     /**
      * @var string
      */
     protected $updateFlashMessage = 'O registro foi atualizado com sucesso.';
-    
+
     /**
      * @var string
      */
     protected $deleteFlashMessage = 'O registro foi excluído com sucesso.';
-    
+
     /**
      * @return array
      */
@@ -50,24 +50,24 @@ class CRUDController extends Controller
             ],
         ];
     }
-    
+
     public function actionIndex()
     {
         $searchModelClass = $this->getSearchModelClassName();
         $searchModel = new $searchModelClass;
         $dataProvider = $searchModel->search($_GET);
-        
+
         return $this->renderAjaxOrLayout(
             'index',
             ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
         );
     }
-    
+
     public function actionCreate()
     {
         $model = $this->buildNewModel();
 
-        if (!$this->loadAndSaveModel($model, $_POST)) { 
+        if (!$this->loadAndSaveModel($model, $_POST)) {
             return $this->renderAjaxOrLayout('create', ['model' => $model]);
         }
     }
@@ -81,36 +81,36 @@ class CRUDController extends Controller
     {
         $model = is_object($id) ? $id : $this->findModel($id);
 
-        if (!$this->loadAndSaveModel($model, $_POST)) { 
+        if (!$this->loadAndSaveModel($model, $_POST)) {
             return $this->renderAjaxOrLayout('update', ['model' => $model]);
         }
     }
-    
+
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        
+
         $this->disableOrDelete($model);
-        
-        if (!Yii::$app->request->isAjax) 
+
+        if (!Yii::$app->request->isAjax)
             Yii::$app->session->setFlash('success', $this->deleteFlashMessage);
-        
+
         return $this->redirect(['index']);
     }
-    
+
     /**
      * @return string
      */
     protected function getSearchModelClassName()
     {
         $modelName = explode('\\', $this->getModelClassName());
-        
+
         $modelName[count($modelName) - 2] .= '\\search';
         $modelName[count($modelName) - 1] .= 'Search';
-        
+
         return implode('\\', $modelName);
     }
-    
+
     /**
      * @return string
      */
@@ -149,19 +149,19 @@ class CRUDController extends Controller
             return $model->delete();
         }
     }
-    
+
     /**
      * @inheritdoc
      */
     protected function loadAndSaveModel(ActiveRecord $model, $data = null, $redirect = ['index'])
     {
-        if (!empty($data) && $model->load($data)) { 
+        if (!empty($data) && $model->load($data)) {
 
             $isNewRecord = $model->isNewRecord;
-            
+
             if ($isNewRecord && $model->hasAttribute('inserido_por')) {
                 $model->inserido_por = Yii::$app->user->identity->id;
-            } 
+            }
             elseif ($model->hasAttribute('atualizado_por')) {
                 $model->atualizado_por = Yii::$app->user->identity->id;
             }
@@ -177,10 +177,10 @@ class CRUDController extends Controller
                 return $this->redirect($redirect);
             }
         }
-        
+
         return false;
     }
-    
+
     /**
      * @return \app\components\ActiveRecord
      */

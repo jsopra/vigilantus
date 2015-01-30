@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
 <div class="foco-transmissor-form">
 
 	<?php $form = ActiveForm::begin(); ?>
-    
+
         <div class="row">
             <div class="col-xs-3">
                 <?= $form->field($model, 'laboratorio')->textInput(['maxlength' => 256]) ?>
@@ -27,7 +27,7 @@ use yii\helpers\ArrayHelper;
                 <?= $form->field($model, 'tecnico')->textInput(['maxlength' => 256]) ?>
             </div>
         </div>
-    
+
         <div class="row">
             <div class="col-xs-3">
                 <?= $form->field($model, 'tipo_deposito_id')->widget(
@@ -54,7 +54,7 @@ use yii\helpers\ArrayHelper;
                 ?>
             </div>
         </div>
-    
+
         <div class="row" id="dadosPrincipais">
             <div class="col-xs-2">
                 <?php
@@ -62,22 +62,22 @@ use yii\helpers\ArrayHelper;
                 echo $form->field($model, 'bairro_id')->dropDownList(ArrayHelper::map($bairros, 'id', 'nome'), ['prompt' => 'Selecione..']);
                 ?>
             </div>
-            
+
             <div class="col-xs-2 bairro-hide">
                 <?= $form->field($model, 'categoria_id')->dropDownList(BairroCategoria::listData('nome')) ?>
             </div>
-            
+
             <div class="col-xs-2 bairro-hide">
                 <?= $form->field($model, 'bairro_quarteirao_id')->dropDownList(array()) ?>
             </div>
         </div>
-    
+
         <div class="row bairro-hide">
             <div class="col-xs-9">
                 <?= $form->field($model, 'imovel_id')->textInput(['class' => 'form-control']) ?>
             </div>
         </div>
-    
+
         <div class="row">
             <div class="col-xs-3">
                 <?= $form->field($model, 'data_entrada')->input('date', ['class' => 'form-control input-datepicker']) ?>
@@ -101,12 +101,12 @@ use yii\helpers\ArrayHelper;
             </div>
         </div>
         <div class="form-group form-actions">
-			<?php 
+			<?php
             echo Html::submitButton(
-                $model->isNewRecord ? 'Cadastrar' : 'Atualizar', 
+                $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
                 ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
             );
-		
+
             echo Html::a(
                 'Cancelar',
                 array('/foco-transmissor/index'),
@@ -164,8 +164,8 @@ $script .= '
 
             jQuery("#focotransmissor-categoria_id").parent().parent().show();
             jQuery("#focotransmissor-bairro_quarteirao_id").parent().parent().show();
-            
-            if(quarteiraoID) 
+
+            if(quarteiraoID)
                 jQuery("#focotransmissor-bairro_quarteirao_id").val(quarteiraoID);
         });
     }
@@ -194,19 +194,19 @@ $script .= '
                     $.each(data, function(key, desc) {
                         options.append($("<option />").val(key).text(desc));
                     });
-                    
+
                     jQuery("#focotransmissor-categoria_id").parent().parent().show();
                     jQuery("#focotransmissor-bairro_quarteirao_id").parent().parent().show();
                 });
-                
+
             });
 
         }
-        
+
         jQuery("#focotransmissor-bairro_quarteirao_id").change(function(){
             if($(this).val() != "") {
                 jQuery(".bairro-hide").show();
-                
+
                 startSelect2();
             }
             else {
@@ -219,7 +219,7 @@ $script .= '
 
         jQuery("form").submit(function(){
 ';
-  
+
 
 if($model->isNewRecord) {
     $script .= '
@@ -244,12 +244,16 @@ $script .= '
         });
     });
 
+    var lastResults = [];
+
     function startSelect2() {
 
         $("#focotransmissor-imovel_id").select2({
+            multiple: false,
             placeholder: "Buscar por um imóvel...",
             allowClear: true,
-            ajax: { 
+            ajax: {
+                multiple: false,
                 url: "' . Url::toRoute(['foco-transmissor/imoveis', 'bairro_id' => '']) . '" + bairroID,
                 dataType: "json",
                 data: function (term, page) {
@@ -257,15 +261,22 @@ $script .= '
                         q: term,
                     };
                 },
-                results: function (data, page) { 
+                results: function (data, page) {
+
+                    lastResults = data;
+
                     return {
-                        results : $.map(data, function (item) { 
-                            return { 
-                                text:item.name, slug:item.name, id:item.id 
-                            } 
-                        }) 
+                        results : $.map(lastResults, function (item) {
+                            return {
+                                text:item.name, slug:item.name, id:item.id
+                            }
+                        })
                     };
                 }
+            },
+            createSearchChoice: function (term) {
+                var text = term + (lastResults.some(function(r) { return r.text == term }) ? "" : " (novo)");
+                return { id: term, text: text };
             },
             initSelection: function(element, callback) {
                 var id = ' . (!$model->getIsNewRecord() && $model->imovel_id ? $model->imovel_id : 'null') . ';
@@ -275,7 +286,7 @@ $script .= '
             }
         });
     }
-    
+
 });
 ';
 $view->registerJs($script);
