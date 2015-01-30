@@ -182,7 +182,7 @@ class RelatorioController extends Controller
 
     public function actionUpdateRg()
     {
-        Queue::push('RefreshFechamentoRgJob');
+        Queue::push('RefreshResumoFechamentoRgJob');
 
         Yii::$app->session->setFlash('success', 'Em até 10 minutos o relatório estará atualizado.');
 

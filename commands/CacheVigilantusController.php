@@ -12,22 +12,22 @@ class CacheVigilantusController extends Console
     {
         return Controller::EXIT_CODE_NORMAL;
     }
-    
-    public function actionRefreshAreaTratamento() 
+
+    public function actionRefreshAreaTratamento()
     {
-        \app\models\redis\Queue::push('RefreshAreaTratamentoJob'); 
+        \app\models\redis\Queue::push('RefreshAreaTratamentoJob');
         return Controller::EXIT_CODE_NORMAL;
     }
-    
+
     public function actionGenerateFocos()
     {
-        \app\models\redis\Queue::push('RefreshFocosJob'); 
+        \app\models\redis\Queue::push('RefreshFocosJob');
         return Controller::EXIT_CODE_NORMAL;
     }
 
     public function actionGenerateFechamentoRg()
     {
-        \app\models\redis\Queue::push('RefreshFechamentoRgJob'); 
+        \app\models\redis\Queue::push('RefreshResumoFechamentoRgJob');
         return Controller::EXIT_CODE_NORMAL;
     }
 }

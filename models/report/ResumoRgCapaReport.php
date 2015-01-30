@@ -3,12 +3,10 @@
 namespace app\models\report;
 
 use app\models\Bairro;
-use app\models\BoletimRg;
-use app\models\BoletimRgFechamento;
-use app\models\BoletimRgImovel;
 use app\models\ImovelTipo;
 use app\models\BairroQuarteirao;
-use app\models\redis\FechamentoRg as FechamentoRgRedis;
+use app\models\redis\ResumoImovelFechamentoRg as ResumoImovelFechamentoRgRedis;
+use app\models\redis\ResumoBairroFechamentoRg as ResumoBairroFechamentoRgRedis;
 
 class ResumoRgCapaReport
 {
@@ -25,7 +23,7 @@ class ResumoRgCapaReport
      */
     public function getTotalImoveis($idCliente)
     {
-        return FechamentoRgRedis::find()->doTipoLira(false)->doCliente($idCliente)->sum('quantidade');
+        return ResumoBairroFechamentoRgRedis::find()->doCliente($idCliente)->sum('quantidade');
     }
 
     /**
@@ -37,10 +35,13 @@ class ResumoRgCapaReport
 
         foreach (ImovelTipo::find()->ativo()->orderBy('nome')->all() as $tipoImovel) {
 
-            $query = FechamentoRgRedis::find()->doTipoLira(false)->doTipoImovel($tipoImovel->id);
+            $query = ResumoImovelFechamentoRgRedis::find()->doTipoImovel($tipoImovel->id)->one();
 
-            $dados[$tipoImovel->nome] = $query->sum('quantidade');
-            if(!$dados[$tipoImovel->nome]) {
+            if($query) {
+                $dados[$tipoImovel->nome] = $query->quantidade;
+            }
+
+            if(!isset($dados[$tipoImovel->nome]) || !$dados[$tipoImovel->nome]) {
                 $dados[$tipoImovel->nome] = 0;
             }
         }
@@ -57,14 +58,17 @@ class ResumoRgCapaReport
 
         foreach (Bairro::find()->orderBy('nome')->all() as $bairro) {
 
-            $query = FechamentoRgRedis::find()->doTipoLira(false)->doBairro($bairro->id);
+            $query = ResumoBairroFechamentoRgRedis::find()->doBairro($bairro->id)->one();
 
-            $dados[$bairro->nome] = $query->sum('quantidade');
-            if(!$dados[$bairro->nome]) {
+            if($query) {
+                $dados[$bairro->nome] = $query->quantidade;
+            }
+
+            if(!isset($dados[$bairro->nome]) || !$dados[$bairro->nome]) {
                 $dados[$bairro->nome] = 0;
             }
         }
-        
+
         return $dados;
     }
 }

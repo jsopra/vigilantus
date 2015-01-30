@@ -102,7 +102,7 @@ class Controller extends YiiController
      * @param array|null $data Dados para atribuir. Por padrão pega o $_POST
      * @return void
      */
-    protected function loadAndSaveModel(ActiveRecord $model, $data = null)
+    protected function loadAndSaveModel($model, $data = null)
     {
         $data = empty($data) ? $_POST : $data;
 
