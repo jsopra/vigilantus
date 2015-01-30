@@ -4,7 +4,7 @@ use app\models\BairroCategoria;
 use app\models\Municipio;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\helpers\MapBoxAPIHelper;
+use perspectivain\mapbox\MapBoxAPIHelper;
 use yii\bootstrap\Button;
 use yii\bootstrap\ButtonGroup;
 use Yii\helpers\Url;

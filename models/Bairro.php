@@ -139,7 +139,7 @@ class Bairro extends ClienteActiveRecord
         if($this->coordenadas)
             return true;
 
-        $this->coordenadas = $this->postgisToArray('Polygon', 'coordenadas_area');
+        $this->coordenadas = $this->wktToArray('Polygon', 'coordenadas_area');
 
         return is_array($this->coordenadas);
     }

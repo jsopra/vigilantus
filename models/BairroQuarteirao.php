@@ -164,7 +164,23 @@ class BairroQuarteirao extends ClienteActiveRecord
             return true;
         }
 
-        $this->coordenadas = $this->postgisToArray('Polygon', 'coordenadas_area');
+        $this->coordenadas = $this->wktToArray('Polygon', 'coordenadas_area');
+
+        return is_array($this->coordenadas);
+    }
+
+    /**
+     * Define coordenadas para modelo
+     * @return boolean (false em caso de não popular e true em caso de popular)
+     */
+    public function getAsSRID($srid)
+    {
+
+        if($this->coordenadas) {
+            return true;
+        }
+
+        $this->coordenadas = $this->wktToArray('Polygon', 'coordenadas_area', $srid);
 
         return is_array($this->coordenadas);
     }

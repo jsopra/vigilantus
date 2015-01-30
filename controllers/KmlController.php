@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\components\Controller;
 use app\models\Bairro;
+use app\models\FocoTransmissor;
 use Yii;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
@@ -24,7 +25,7 @@ class KmlController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['focos', 'cidade', 'bairro'],
+                        'actions' => ['focos', 'cidade', 'bairro', 'area-tratamento-foco'],
                         'roles' => ['Usuario'],
                     ],
                 ],
@@ -68,7 +69,15 @@ class KmlController extends Controller
             return false;
         }
 
-        $quarteiroes = $bairro->quarteiroes;
+        if($except) {
+            $quarteiroes = ? $bairro->quarteiroes(function($query) {
+                $query->queNao($except);
+            });
+        }
+        else {
+            $quarteiroes =$bairro->quarteiroes;
+        }
+
         foreach($quarteiroes as $quarteirao) {
 
             $quarteirao->loadCoordenadas();
@@ -89,47 +98,46 @@ class KmlController extends Controller
         return $model->toJSON();
     }
 
-    public function actionFocos()
+    public function actionAreaTratamentoFoco($id)
+    {
+        $model = new Kml;
+        $model->id = 'quarteirao';
+
+        $foco = FocoTransmissor::find()->where(['id' => $id])->one();
+        if(!$foco) {
+            return false;
+        }
+
+        $areaTratamento = $foco->getAreaTratamento();
+        foreach ($areaTratamento as $quarteirao) {
+
+            $quarteirao->loadCoordenadas();
+
+            $point = new Point;
+            $point->value = $quarteirao->getCentro();
+
+            $model->add($point);
+            unset($point);
+        }
+
+        return $model->toJSON();
+    }
+
+    public function actionFocos($especieId = null)
     {
         $model = new Kml;
 
-        $focos = FocoTransmissor::find()->ativo()->all();
+        $focos = $especieId ? FocoTransmissor::find()->daEspecieDeTransmissor($especieId)->ativo()->all() : FocoTransmissor::find()->ativo()->all();
         foreach($focos as $foco) {
 
-            /*
-             * Quarteirão
-             */
             $quarteirao = $foco->bairroQuarteirao;
             $quarteirao->loadCoordenadas();
 
-            $polygon = new Polygon;
+            $point = new Point;
+            $point->value = $quarteirao->getCentro();
 
-            foreach($quarteirao->coordenadas as $coordenada) {
-                $point = new Point;
-                $point->value = $coordenada;
-                $polygon->value[] = $point;
-                unset($point);
-            }
-
-            $model->add($polygon);
-            unset($polygon);
-
-            /*
-             * Foco
-             */
-            $centro = $quarteirao->getCentro();
-
-            $polygon = new Polygon;
-
-            foreach($quarteirao->coordenadas as $coordenada) {
-                $point = new Point;
-                $point->value = $coordenada;
-                $polygon->value[] = $point;
-                unset($point);
-            }
-
-            $model->add($polygon);
-            unset($polygon);
+            $model->add($point);
+            unset($point);
         }
 
         return $model->toJSON();

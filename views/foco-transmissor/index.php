@@ -105,7 +105,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 			[
                 'class' => 'app\components\ActionColumn',
-                'template' => '{update} {delete}',
+                'buttons' => [
+                    'ver' => function ($url, $model, $key) {
+                        return Html::a(
+                            '<i class="table-view"></i>',
+                            \yii\helpers\Url::to(['mapa/tratamento-foco', 'TratamentoFocoMapForm[foco_id]' => $model->id]),
+                            ['title' => 'Ver Foco no mapa']
+                        );
+                    },
+                ],
+                'template' => '{ver} {update} {delete}',
             ],
 		],
 	]); ?>

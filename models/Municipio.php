@@ -128,7 +128,7 @@ class Municipio extends ActiveRecord
         if($this->latitude && $this->longitude)
             return true;
 
-        list($this->latitude, $this->longitude) = $this->postgisToArray('Point', 'coordenadas_area');
+        list($this->latitude, $this->longitude) = $this->wktToArray('Point', 'coordenadas_area');
 
         return true;
 
