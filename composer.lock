@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a3943aa619ffcf5a631a1d5fd3d55a10",
+    "hash": "955c6cbb55ac41c238f07b53e796764e",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -454,16 +454,16 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v4.1.6",
+            "version": "v4.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "6e47ad45ae87a196bf10f3436d570283249992e9"
+                "reference": "f95a7e5fa0a9db1ead445e438653aa71e9f599f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/6e47ad45ae87a196bf10f3436d570283249992e9",
-                "reference": "6e47ad45ae87a196bf10f3436d570283249992e9",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/f95a7e5fa0a9db1ead445e438653aa71e9f599f9",
+                "reference": "f95a7e5fa0a9db1ead445e438653aa71e9f599f9",
                 "shasum": ""
             },
             "type": "library",
@@ -498,20 +498,20 @@
                 "progress",
                 "upload"
             ],
-            "time": "2015-01-22 07:25:09"
+            "time": "2015-02-13 14:26:42"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
-            "version": "v3.5.0",
+            "version": "v3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-star-rating.git",
-                "reference": "dd56000e6d5c075d39fe40112b0158f42d624deb"
+                "reference": "1625fb582212e73dc1a8be13b766a37e52d32969"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/dd56000e6d5c075d39fe40112b0158f42d624deb",
-                "reference": "dd56000e6d5c075d39fe40112b0158f42d624deb",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/1625fb582212e73dc1a8be13b766a37e52d32969",
+                "reference": "1625fb582212e73dc1a8be13b766a37e52d32969",
                 "shasum": ""
             },
             "type": "library",
@@ -539,7 +539,7 @@
                 "jquery",
                 "star"
             ],
-            "time": "2015-02-01 01:11:43"
+            "time": "2015-02-13 14:02:46"
         },
         {
             "name": "kartik-v/dependent-dropdown",
@@ -631,16 +631,16 @@
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
-            "version": "v1.4.0",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-activeform.git",
-                "reference": "159851f49f5cd3b5c2885889423f8b6ed0d8c489"
+                "reference": "23b941277600c4eb26cd3594311b650827300ded"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-activeform/zipball/159851f49f5cd3b5c2885889423f8b6ed0d8c489",
-                "reference": "159851f49f5cd3b5c2885889423f8b6ed0d8c489",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-activeform/zipball/23b941277600c4eb26cd3594311b650827300ded",
+                "reference": "23b941277600c4eb26cd3594311b650827300ded",
                 "shasum": ""
             },
             "require": {
@@ -674,7 +674,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-01-28 05:59:06"
+            "time": "2015-02-14 08:50:36"
         },
         {
             "name": "kartik-v/yii2-widget-affix",
@@ -1580,12 +1580,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/perspectivain/php-postgis.git",
-                "reference": "73963003eb6ec08954bc6224f394ccc5c804ac08"
+                "reference": "eca3da8029f336a6e8196562c19c0b4fd5412235"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/perspectivain/php-postgis/zipball/73963003eb6ec08954bc6224f394ccc5c804ac08",
-                "reference": "73963003eb6ec08954bc6224f394ccc5c804ac08",
+                "url": "https://api.github.com/repos/perspectivain/php-postgis/zipball/eca3da8029f336a6e8196562c19c0b4fd5412235",
+                "reference": "eca3da8029f336a6e8196562c19c0b4fd5412235",
                 "shasum": ""
             },
             "type": "library",
@@ -1611,7 +1611,7 @@
                 "postgis",
                 "trait"
             ],
-            "time": "2015-01-29 20:32:23"
+            "time": "2015-02-16 13:21:33"
         },
         {
             "name": "perspectivain/yii2-geo",
@@ -1704,12 +1704,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PHPExcel.git",
-                "reference": "31aa953c0b97a22a98d67f00905840bd2d0499bd"
+                "reference": "538fbcd2e807c14609ade41cad0b4ecf33355d84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/31aa953c0b97a22a98d67f00905840bd2d0499bd",
-                "reference": "31aa953c0b97a22a98d67f00905840bd2d0499bd",
+                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/538fbcd2e807c14609ade41cad0b4ecf33355d84",
+                "reference": "538fbcd2e807c14609ade41cad0b4ecf33355d84",
                 "shasum": ""
             },
             "require": {
@@ -1753,7 +1753,7 @@
                 "xls",
                 "xlsx"
             ],
-            "time": "2015-02-04 15:41:59"
+            "time": "2015-02-15 00:01:01"
         },
         {
             "name": "swiftmailer/swiftmailer",
