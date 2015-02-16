@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\components\PostgisActiveRecord;
+use app\components\ActiveRecord;
 use app\helpers\models\MunicipioHelper;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
@@ -18,7 +18,7 @@ use app\helpers\ImageHelper;
  * @property string $coordenadas_area
  * @property string $brasao
  */
-class Municipio extends PostgisActiveRecord
+class Municipio extends ActiveRecord
 {
     public $latitude;
     public $longitude;
@@ -125,10 +125,10 @@ class Municipio extends PostgisActiveRecord
         if(!$this->coordenadas_area)
             return false;
 
-        if($this->latitude && $this->longitude)
+        if($this->longitude && $this->latitude)
             return true;
 
-        list($this->latitude, $this->longitude) = $this->postgisToArray('Point', 'coordenadas_area');
+        list($this->longitude, $this->latitude) = $this->wktToArray('Point', 'coordenadas_area');
 
         return true;
 

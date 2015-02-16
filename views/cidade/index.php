@@ -33,7 +33,7 @@ use app\helpers\models\MunicipioHelper;
 <div class="row">
 
   	<div class="col-md-6">
-		<?= $this->render($viewPartial, ['dados' => $dados, 'municipio' => $municipio, 'cliente' => $cliente]); ?>
+		<?= $this->render($viewPartial, ['url' => $url, 'municipio' => $municipio, 'cliente' => $cliente]); ?>
 	</div>
 
 	<div class="col-md-5 col-md-offset-1">

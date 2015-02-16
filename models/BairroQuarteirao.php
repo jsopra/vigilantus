@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\components\PostgisActiveRecord;
+use app\components\ClienteActiveRecord;
 use app\models\Query\BairroQuarteiraoQuery as BairroQuarteiraoQuery;
 
 /**
@@ -28,7 +28,7 @@ use app\models\Query\BairroQuarteiraoQuery as BairroQuarteiraoQuery;
  * @property Usuarios $inseridoPor
  * @property Usuarios $atualizadoPor
  */
-class BairroQuarteirao extends PostgisActiveRecord
+class BairroQuarteirao extends ClienteActiveRecord
 {
     /**
      * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco
@@ -164,7 +164,23 @@ class BairroQuarteirao extends PostgisActiveRecord
             return true;
         }
 
-        $this->coordenadas = $this->postgisToArray('Polygon', 'coordenadas_area');
+        $this->coordenadas = $this->wktToArray('Polygon', 'coordenadas_area');
+
+        return is_array($this->coordenadas);
+    }
+
+    /**
+     * Define coordenadas para modelo
+     * @return boolean (false em caso de não popular e true em caso de popular)
+     */
+    public function getAsSRID($srid)
+    {
+
+        if($this->coordenadas) {
+            return true;
+        }
+
+        $this->coordenadas = $this->wktToArray('Polygon', 'coordenadas_area', $srid);
 
         return is_array($this->coordenadas);
     }
@@ -194,7 +210,7 @@ class BairroQuarteirao extends PostgisActiveRecord
 
             if($quarteirao->coordenadas) {
 
-                $dependency = new \app\components\caching\DbDependency; //fix quando atualizar yii
+                $dependency = new \yii\caching\DbDependency;
                 $dependency->sql = 'SELECT coalesce(data_atualizacao, data_cadastro) FROM bairro_quarteiroes WHERE id = ' . $quarteirao->id;
 
                 Yii::$app->cache->set($cacheKey, ['numero' => $quarteirao->numero_quarteirao, 'coordenada' => $quarteirao->coordenadas], null, $dependency);
@@ -210,11 +226,11 @@ class BairroQuarteirao extends PostgisActiveRecord
     {
         $cacheKey = 'quarteirao_centro_' . $this->id;
         $data = Yii::$app->cache->get($cacheKey);
-
+/*
         if($data !== false) {
             return $data;
         }
-
+*/
         $object = self::find()
             ->select('ST_asText(ST_Centroid(coordenadas_area)) as centro')
             ->where(['id' => $this->id])
@@ -231,7 +247,7 @@ class BairroQuarteirao extends PostgisActiveRecord
         if(count($coordenadas) == 0)
             return false;
 
-        $dependency = new \app\components\caching\DbDependency; //fix quando atualizar yii
+        $dependency = new \yii\caching\DbDependency;
         $dependency->sql = 'SELECT coalesce(data_atualizacao, data_cadastro) FROM bairro_quarteiroes WHERE id = ' . $this->id;
 
         Yii::$app->cache->set($cacheKey, $coordenadas, null, $dependency);
@@ -318,7 +334,10 @@ class BairroQuarteirao extends PostgisActiveRecord
             return false;
         }
 
-        $this->coordenadas_area = $this->jsonToPostgis('Polygon', $this->coordenadasJson);
+        $arrayCoordinates = json_decode($this->coordenadasJson);
+
+        $this->coordenadas_area = new \yii\db\Expression($this->arrayToWkt('Polygon', $arrayCoordinates));
+
         return true;
     }
 

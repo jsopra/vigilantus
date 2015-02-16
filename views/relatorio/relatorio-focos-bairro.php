@@ -30,7 +30,7 @@ $modelForm = $model;
                 <div class="col-xs-2">
                     <?= $form->field($model, 'ano')->input('number') ?>
                 </div>
-                
+
                 <div class="col-xs-3">
                     <?= $form->field($model, 'especie_transmissor_id')->dropDownList(EspecieTransmissor::listData('nome'), ['prompt' => 'Todas']) ?>
                 </div>
@@ -60,7 +60,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-jan',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'mes' => 1, 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -80,7 +80,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-fev',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'mes' => 2, 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -100,7 +100,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-mar',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'mes' => 3, 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -120,7 +120,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-abr',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'mes' => 4, 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -140,7 +140,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-mai',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'mes' => 5, 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -160,7 +160,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-jun',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'mes' => 6, 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -180,7 +180,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-jul',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'mes' => 7, 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -200,7 +200,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-ago',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'mes' => 8, 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -220,7 +220,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-set',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'mes' => 9, 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -240,7 +240,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-out',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'mes' => 10, 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -260,7 +260,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-nov',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'mes' => 11, 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -280,7 +280,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-dez',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'mes' => 12, 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -300,7 +300,7 @@ echo GridView::widget([
 		[
 			'class' => 'app\extensions\grid\ModalColumn',
 	        'iconClass' => 'icon-search opacity50',
-	        'modalId' => 'focos-detalhes',
+	        'modalId' => 'focos-detalhes-total',
 	        'modalAjaxContent' => function ($model, $index, $widget) {
 	            return Url::toRoute(['relatorio/focos-bairro-data', 'idBairro' => $model[14], 'ano' => $model[15], 'idEspecieTransmissor' => $model[16]]);
 	        },
@@ -318,4 +318,4 @@ echo GridView::widget([
 	        ]
 		],
 	]
-]); 
+]);

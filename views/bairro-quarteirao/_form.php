@@ -1,26 +1,20 @@
 <?php
-
 use app\models\Municipio;
 use app\models\Bairro;
-use \app\models\BairroQuarteirao;
-use app\helpers\GoogleMapsAPIHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use perspectivain\mapbox\MapBoxAPIHelper;
+use app\helpers\MapHelper;
 use yii\bootstrap\Button;
-use yii\helpers\HtmlPurifier;
 use yii\bootstrap\ButtonGroup;
+use Yii\helpers\Url;
 
-/**
- * @var yii\web\View $this
- * @var app\models\BairroQuarteirao $model
- * @var yii\widgets\ActiveForm $form
- */
+MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omnivore']);
+
 ?>
-
-
 <div class="bairro-quarteirao-form">
 
-	<?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
         <div class="row">
             <div class="col-xs-2">
@@ -30,304 +24,161 @@ use yii\bootstrap\ButtonGroup;
                 <?= $form->field($model, 'numero_quarteirao_2')->textInput() ?>
             </div>
         </div>
-    
-        
+
+
         <div class="row">
-            
+
             <div class="col-xs-3">
                 <?= Html::label($model->getAttributeLabel('coordenadas_area'), 'bairroquarteirao-coordenadas_area', ['class' => 'form-group field-bairroquarteirao-coordenadas_area required']); ?>
             </div>
-            
+
         </div>
-    
-        <div class="row" style="margin-bottom: 10px;">
-            
-            <div class="col-xs-6">
-                <?= ButtonGroup::widget([
-                    'buttons' => [
-                        Button::widget(['label' => 'Marcar área', 'options' => ['class' => 'glow marcar-area']]),
-                    ]
-                ]); ?>
-                
-                <?= ButtonGroup::widget([
-                    'buttons' => [
-                        Button::widget(['label' => 'Remover marcação', 'options' => ['class' => 'glow remover-marcacao']]),
-                    ]
-                ]); ?>
-            </div>
-            
-        </div>
-    
+
         <?= Html::error($model, 'coordenadasJson',['class' => 'help-block']); ?>
-    
-        <div id="map"  style="height: 300px; width: 100%;"></div>
-        
+
+        <div id="map"  style="height: 450px; width: 100%;"></div>
+
         <?= Html::activeHiddenInput($model, 'coordenadasJson'); ?>
-        
-		<div class="form-group form-actions">
-			<?php
+
+        <div class="form-group form-actions">
+            <?php
             echo Html::submitButton(
                 $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
                 ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
             );
-            
+
             echo Html::a(
                 'Cancelar',
-                array('/bairro-quarteirao/index'),
+                array('/bairro-quarteirao/index', 'parentID' => $bairro->id),
                 array('class'=>'link','rel'=>'tooltip', 'data-role' => 'cancel','data-title'=>'Ir à lista de quarteirões de bairros')
             );
 
             ?>
-            
+
        </div>
 
-	<?php ActiveForm::end(); ?>
-
+    <?php ActiveForm::end(); ?>
 </div>
 
-<?php if($municipio->latitude && $municipio->longitude) : ?>
-<script>
-    var map;
-    var drawingManager;
-    var selectedShape;
-    
-    var bairroColor = '#32CD32';
-    var selectionColor = '#4387BF';
-    var quarteiraoColor = '#FF0000';
-    
-    var bairroBouds;
-    var bairroBoundsObj = new google.maps.LatLngBounds();
-    var bairroPolygon;
-    
-    var defaultLat = <?= $municipio->latitude; ?>;
-    var defaultLong = <?= $municipio->longitude; ?>;
+<?php
+$municipio = \Yii::$app->session->get('user.cliente')->municipio;
+$municipio->loadCoordenadas();
 
-    var mapCenter = new google.maps.LatLng(defaultLat, defaultLong)
-    
-    var quarteiraoBoundsObj = new google.maps.LatLngBounds();
-    var quarteiraoBounds;
+$bairro->loadCoordenadas();
+$bairroCentro = $bairro->getCentro();
 
-    <?php if($bairro->coordenadas) : ?>
+if($model->coordenadasJson) {
+    $model->loadCoordenadas();
+    $centro = $model->getCentro();
+}
+?>
 
-        bairroBounds = [<?= GoogleMapsAPIHelper::arrayToBounds($bairro->coordenadas); ?>];
+<?php
+$javascript = "
+L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
+var map = L.mapbox
+    .map('map', 'vigilantus.kjkb4j0a')
+";
 
-        bairroPolygon = new google.maps.Polygon({
-            paths: bairroBounds,
-            strokeWeight: 0,
-            fillColor: bairroColor,
-            fillOpacity: 0.2,
-            zindex: 5
-        });
-        
-        for (i = 0; i < bairroBounds.length; i++)
-            bairroBoundsObj.extend(bairroBounds[i]);
+if($model->coordenadasJson) {
+    $javascript .= ".setView([" . $centro[1] . ", " . $centro[0] . "], 17)";
+}
+else {
+    $javascript .= ".setView([" . $bairroCentro[1] . ", " . $bairroCentro[0] . "], 15)";
+}
 
-        mapCenter = bairroBoundsObj.getCenter();
-    
-    <?php endif; ?>
-        
-    <?php if ($model->coordenadasJson) : ?>
-        
-        quarteiraoBounds = [<?= GoogleMapsAPIHelper::jsonToBounds($model->coordenadasJson); ?>];
-        
-        selectedShape = new google.maps.Polygon({
-            paths: quarteiraoBounds,
-            strokeWeight: 0,
-            editable: true,
-            fillColor: selectionColor,
-            fillOpacity: 0.85
-        });
-        
-        for (i = 0; i < quarteiraoBounds.length; i++)
-            quarteiraoBoundsObj.extend(quarteiraoBounds[i]);
-
-        mapCenter = quarteiraoBoundsObj.getCenter();
-    <?php endif; ?>
-
-    var options = {
-        zoom: 16,
-        center: mapCenter,
-        mapTypeId: google.maps.MapTypeId.HYBRID,
-        disableDefaultUI: true,
-        zoomControl: true
-    };
-    
-    var drawingOptions = {
-        drawingMode: google.maps.drawing.OverlayType.POLYGON,
-        drawingControlOptions: {
-            drawingModes: []
-        },
-        polygonOptions: {
-            strokeWeight: 0,
-            fillOpacity: 0.85,
-            editable: true,
-            fillColor: selectionColor,
-            zindex: 10
-        }
-    };
-
-    map = new google.maps.Map(document.getElementById('map'), options);
-    
-    <?php if($bairro->coordenadas) : ?>
-        bairroPolygon.setMap(map);
-    <?php endif; ?>
-        
-        
-    <?php 
-    $qtdeQuarteiroesComCoordenada = count($coordenadasQuarteiroes);
-    if ($qtdeQuarteiroesComCoordenada > 0) : ?>
-        
-        <?php 
-        $i = 0;
-        foreach($coordenadasQuarteiroes as $dadosQuarteirao) : ?>
-        
-            <?php $quarteiraoCoordenada = $dadosQuarteirao['coordenada']; ?>
-
-            var quarteiraoBounds<?= $i; ?> = [<?= GoogleMapsAPIHelper::arrayToBounds($quarteiraoCoordenada); ?>];
-            var quarteiraoObj<?= $i; ?> = new google.maps.LatLngBounds();
-
-            var quarteiraoPolygon<?= $i; ?> = new google.maps.Polygon({
-                paths: quarteiraoBounds<?= $i; ?>,
-                strokeWeight: 0,
-                fillColor: quarteiraoColor,
-                fillOpacity: 0.85,
-                map: map
-            });
-            
-            for (i = 0; i < quarteiraoBounds<?= $i; ?>.length; i++) {
-                quarteiraoObj<?= $i; ?>.extend(quarteiraoBounds<?= $i; ?>[i]);
-            }
-
-            var marker<?= $i; ?> = new google.maps.Marker({
-                  position: quarteiraoObj<?= $i; ?>.getCenter(),
-                  map: map,
-                  title: '<?= $dadosQuarteirao['numero']; ?>'
-            });
-
-            <?php $i++; ?>
-
-        <?php endforeach; ?>
-        
-    <?php endif; ?>
-        
-    <?php if ($model->coordenadasJson) : ?>
-        setSelection(selectedShape);
-        selectedShape.setMap(map);
-        overlayClickListener(selectedShape);
-        overlayExitListener(selectedShape);
-    <?php endif; ?>
-    
-    drawingManager = new google.maps.drawing.DrawingManager(drawingOptions);
-    
-    google.maps.event.addListener(drawingManager, 'overlaycomplete', function(e) {
-        if (e.type != google.maps.drawing.OverlayType.MARKER) {
-
-            drawingManager.setDrawingMode(null);
-            
-            overlayClickListener(e.overlay);
-
-            var newShape = e.overlay;
-            newShape.type = e.type;
-            
-            overlayExitListener(e.overlay);
-            
-            setSelection(newShape);
-            
-            coordinatesToInput(newShape.getPath().getArray());
-        }
+$javascript .= "
+    .on('ready', function() {
+        new L.Control.MiniMap(L.mapbox.tileLayer('vigilantus.kjkb4j0a'))
+            .addTo(map);
     });
-    
-    function overlayExitListener(overlay) {
-        google.maps.event.addListener(overlay, 'click', function() {
-            coordinatesToInput(overlay.getPath().getArray());
-            setSelection(overlay);
-        });
-    }
-    
-    function overlayClickListener(overlay) {
-        google.maps.event.addListener(overlay, "mouseup", function(event){
-            coordinatesToInput(overlay.getPath().getArray());
-        });
-    }
 
-    google.maps.event.addListener(map, 'click', clearSelection);
- 
-    $(document).ready(function(){
-        
-       $('.marcar-area').click(function(e) {
-            e.preventDefault();
-            startDraw();
-           
-            $('.remover-marcacao').show();
-            $('.marcar-area').hide();
-            
-            return;
-       });
-       
-       $('.remover-marcacao').click(function(e) {
-            e.preventDefault();
-           
-            if(!selectedShape) {
-               alert('Não existe área a remover');
-               return true;
-            }
-           
-            $('#bairroquarteirao-coordenadasjson').val('');
-           
-            deleteSelectedShape();
-           
-            $('.remover-marcacao').hide();
-            $('.marcar-area').show();
-            
-            return;
-       });
-       
-        <?php if ($model->coordenadasJson) : ?>
-            $('.remover-marcacao').show();
-            $('.marcar-area').hide();
-        <?php else : ?>
-            $('.remover-marcacao').hide();
-        <?php endif; ?>
-        
-        $('button[type="submit"]').click(function(){
-            if(selectedShape)
-                coordinatesToInput(selectedShape.getPath().getArray());
-        });
+L.control.fullscreen().addTo(map);
+
+var featureGroup = L.featureGroup().addTo(map);
+
+var drawControl = new L.Control.Draw({
+    edit: {
+        featureGroup: featureGroup
+    },
+    draw: {
+        polygon: true,
+        polyline: false,
+        rectangle: false,
+        circle: false,
+        marker: false
+    }
+}).addTo(map);
+
+map.on('draw:created', showPolygonArea);
+map.on('draw:edited', showPolygonAreaEdited);
+
+function showPolygonAreaEdited(e) {
+    e.layers.eachLayer(function(layer) {
+        showPolygonArea({ layer: layer });
     });
-    
+}
 
-    function clearSelection() {
-        
-        if (!selectedShape) 
-            return;
-        
-        selectedShape.setEditable(false);
-        //selectedShape = null;
-    }
-    
-    function setSelection(shape) {
-        
-        clearSelection();
-        
-        selectedShape = shape;
-        shape.setEditable(true);
-    }
+function showPolygonArea(e) {
+    featureGroup.clearLayers();
+    featureGroup.addLayer(e.layer);
+    e.layer.bindPopup((LGeo.area(e.layer) / 1000000).toFixed(2) + ' km<sup>2</sup>');
+    e.layer.openPopup();
 
-    function deleteSelectedShape() {
-        if(drawingManager)
-            drawingManager.setMap(map);
-        
-        if (selectedShape)
-            selectedShape.setMap(null);
-    }
+    coordinatesToInput(e.layer.toGeoJSON().geometry.coordinates[0]);
+}
 
-    function startDraw() {
-        drawingManager.setMap(map);
-        drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+var bairrosLayer = L.geoJson(null, {
+    // http://leafletjs.com/reference.html#geojson-style
+    style: function(feature) {
+        return {
+            color: '#f00'
+        };
+    },
+    onEachFeature: function(feature, layer) {
+        //layer.bindLabel(feature.properties.description);
     }
-    
-    function coordinatesToInput(coordinates) {
-        $('#bairroquarteirao-coordenadasjson').val(JSON.stringify(coordinates));
-    }
-</script>
-<?php endif; ?>
+});
+
+var runLayer = omnivore.kml('" . Url::to(['kml/bairro', 'id' => $bairro->id, 'except' => $model->isNewRecord ? null : $model->id]) . "')
+.on('ready', function() {
+    this.eachLayer(function(layer) {
+
+        var quarteiraoPoligono = L.polygon(layer.feature.geometry.coordinates[0]);
+        var quarteiraoCenter = quarteiraoPoligono.getBounds().getCenter();
+
+        L.marker([quarteiraoCenter.lng, quarteiraoCenter.lat], {
+            icon: L.divIcon({
+                className: 'label',
+                html: layer.feature.properties.numero_quarteirao,
+                iconSize: [100, 40]
+            })
+        })
+        .addTo(map);
+    });
+})
+.addTo(map);
+
+function coordinatesToInput(coordinates) {
+    $('#bairroquarteirao-coordenadasjson').val(JSON.stringify(coordinates));
+}
+";
+
+if ($model->coordenadasJson) :
+    $javascript .= "
+
+        var polygon_options = {
+          color: '#000',
+          opacity: 0.5,
+          weight: 1,
+          fillColor: '#000',
+          fillOpacity: 0.2
+      };
+
+        var quarteirao = L.polygon([" . MapHelper::getArrayCoordenadas($model->coordenadas) ."], polygon_options).addTo(featureGroup);
+
+        quarteirao.editing.enable();
+    ";
+endif;
+
+$this->registerJs($javascript);

@@ -61,7 +61,7 @@ class CidadeController extends Controller
             [
                 'cliente' => $cliente,
                 'municipio' => $cliente->municipio,
-                'dados' => FocoTransmissorRedis::find()->doCliente($cliente->id)->informacaoPublica()->all(),
+                'url' => ['kml/focos', 'informacaoPublica' => true],
                 'viewPartial' => '_focos',
                 'model' => $model,
             ]

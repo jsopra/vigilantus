@@ -11,21 +11,26 @@ class Ruas extends Action
     {
         $onlyName = isset($_REQUEST['onlyName']) && $_REQUEST['onlyName'] == 'true';
         $queryString = isset($_REQUEST['q']) ? $_REQUEST['q'] : null;
-        
+
         $array = [];
 
         $query = Rua::find();
-  
-        if($queryString)
+
+        if($queryString) {
             $query->andWhere('nome ILIKE \'%' . $queryString . '%\'');
-        
+        }
+
         $ruas = $query->all();
 
-        foreach($ruas as $rua)
-            if(!$onlyName)
+        foreach($ruas as $rua) {
+
+            if(!$onlyName) {
                 $array[$rua->id] = $rua->nome;
-            else
+            }
+            else {
                 $array[] = (string) $rua->nome;
+            }
+        }
 
 		echo Json::encode($array);
     }

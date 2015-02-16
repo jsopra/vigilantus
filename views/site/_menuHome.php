@@ -27,7 +27,7 @@ echo Nav::widget([
             'url' => ['site/home'],
             'options' => ['id' => 'rg']
         ],
-        
+
         [
             'label' => 'Focos',
             'url' => ['site/resumo-focos'],

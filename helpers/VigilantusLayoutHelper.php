@@ -33,6 +33,15 @@ class VigilantusLayoutHelper {
                 ]
             ],
             [
+                'label' => 'Mapas',
+                'icon' => 'map-marker',
+                'items' => [
+                    ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento-mapa'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Tratamento de Foco', 'url' => ['/mapa/tratamento-foco'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Visão Geral', 'url' => ['/mapa/visao-geral'], 'visible' => $user->can('Gerente'),],
+                ],
+            ],
+            [
                 'label' => 'Relatórios',
                 'icon' => 'bar-chart',
                 'items' => [

@@ -11,9 +11,12 @@ use yii\behaviors\TimestampBehavior;
 use yii\validators\Validator;
 use app\models\UsuarioRole;
 use app\models\Cliente;
+use perspectivain\postgis\PostgisTrait as postgisTrait;
 
 class ActiveRecord extends YiiActiveRecord
 {
+    use postgisTrait;
+
     const SAVE_OBJECT = 1;
     const DONT_SAVE_OBJECT = 0;
 
@@ -21,13 +24,13 @@ class ActiveRecord extends YiiActiveRecord
         'date', 'datetime', 'timestamp', 'timestamp without time zone',
         'timestamptz'
     ];
-    
+
     protected $dateOutcomeFormat = 'Y-m-d';
     protected $dateTimeOutcomeFormat = 'Y-m-d H:i:s';
 
     protected $dateIncomeFormat = 'yyyy-MM-dd';
     protected $dateTimeIncomeFormat = 'yyyy-MM-dd hh:mm:ss';
-    
+
     /**
      * @param array $config
      */
@@ -51,7 +54,7 @@ class ActiveRecord extends YiiActiveRecord
                 $behaviors['TimestampBehavior']['attributes'][ActiveRecord::EVENT_BEFORE_UPDATE] = 'data_atualizacao';
             }
         }
-        
+
         Validator::$builtInValidators['date'] = 'app\validators\DateValidator';
         Validator::$builtInValidators['unique'] = 'app\validators\UniqueValidator';
 
@@ -59,7 +62,7 @@ class ActiveRecord extends YiiActiveRecord
 
         parent::__construct($config);
     }
-    
+
     /**
      * @param string $name
      * @return boolean
@@ -67,17 +70,17 @@ class ActiveRecord extends YiiActiveRecord
     public function __isset($name)
     {
         if (substr($name, 0, 9) == 'formatted') {
-            
+
             $referedName = substr($name, 10);
-            
+
             if ($this->hasAttribute($referedName)) {
                 return true;
             }
         }
-        
+
         return parent::__isset($name);
     }
-    
+
     /**
      * @param string $name
      * @return mixed
@@ -85,17 +88,17 @@ class ActiveRecord extends YiiActiveRecord
     public function __get($name)
     {
         if (substr($name, 0, 9) == 'formatted') {
-            
+
             $referedName = substr($name, 10);
-            
+
             if ($this->hasAttribute($referedName)) {
                 return $this->getFormattedAttribute($referedName);
             }
         }
-        
+
         return parent::__get($name);
     }
-    
+
     /**
      * @param string $name
      * @param mixed $value
@@ -103,17 +106,17 @@ class ActiveRecord extends YiiActiveRecord
     public function __set($name, $value)
     {
         if (substr($name, 0, 9) == 'formatted') {
-            
+
             $referedName = substr($name, 10);
-            
+
             if ($this->hasAttribute($referedName)) {
                 return $this->setFormattedAttribute($referedName, $value);
             }
         }
-        
+
         return parent::__set($name, $value);
     }
-      
+
     /**
      * @inheritdoc
      */
@@ -124,10 +127,10 @@ class ActiveRecord extends YiiActiveRecord
         $tableName = $className::tableName();
 
         $query = class_exists($queryClassName) ? new $queryClassName($className) : new ActiveQuery($className);
-        
+
         return $query;
     }
-    
+
     /**
      * Returns the attribute names that are safe to be massively assigned.
      * A safe attribute is one that is associated with a validation rule in the current {@link scenario}.
@@ -137,20 +140,20 @@ class ActiveRecord extends YiiActiveRecord
     {
         $safeAttributes = parent::getSafeAttributeNames();
         $formattedSafe = [];
-        
+
         foreach ($safeAttributes as $attribute) {
-            
+
             if (!empty($this->tableSchema->columns[$attribute])) {
-                
+
                 $metaData = $this->tableSchema->columns[$attribute];
-                
+
                 if (in_array($metaData->dbType, $this->dateDbTypes)) {
-                    
+
                     $formattedSafe[] = 'formatted_' . $attribute;
                 }
             }
         }
-        
+
         return array_merge($safeAttributes, $formattedSafe);
     }
 
@@ -161,11 +164,11 @@ class ActiveRecord extends YiiActiveRecord
     public function getFormattedAttribute($attribute)
     {
         if (!empty($this->tableSchema->columns[$attribute])) {
-            
+
             $metaData = $this->tableSchema->columns[$attribute];
-                
+
             if (in_array($metaData->dbType, $this->dateDbTypes) && strlen($this->$attribute)) {
-                
+
                 if ($metaData->dbType == 'date') {
                     return \Yii::$app->formatter->asDate($this->$attribute);
                 } else {
@@ -173,23 +176,23 @@ class ActiveRecord extends YiiActiveRecord
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * @param string $attribute
      * @param string $value
      * @return void
      */
     public function setFormattedAttribute($attribute, $value)
-    { 
+    {
         if (!empty($this->tableSchema->columns[$attribute])) {
-            
+
             $metaData = $this->tableSchema->columns[$attribute];
-            
+
             if (in_array($metaData->dbType, $this->dateDbTypes)) {
-                
+
                 if (!strlen($value)) {
 
                     $value = null;
@@ -216,7 +219,7 @@ class ActiveRecord extends YiiActiveRecord
                 }
             }
         }
-        
+
         return $this->setAttribute($attribute, $value);
     }
 
@@ -227,12 +230,12 @@ class ActiveRecord extends YiiActiveRecord
     {
         $className = explode('\\', get_called_class());
         $className = array_pop($className);
-        
+
         $tableName = StringHelper::camelToWords($className);
 
         return str_replace(' ', '_', strtolower($tableName));
     }
-    
+
     /**
      * @param string $descriptionAttribute
      * @param string $idAttribute 'id' by default
@@ -256,7 +259,7 @@ class ActiveRecord extends YiiActiveRecord
         $object = static::find()->where($attributes)->one();
 
         if (!$object) {
-            
+
             $object = new static($attributes);
 
             if ($save && false == $object->save()) {

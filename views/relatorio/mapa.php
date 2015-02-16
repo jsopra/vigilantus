@@ -4,9 +4,11 @@ use app\models\Bairro;
 use app\models\Municipio;
 use app\models\Cliente;
 use app\models\EspecieTransmissor;
-use app\helpers\GoogleMapsAPIHelper;
+use app\helpers\MapHelper;
+use perspectivain\mapbox\MapBoxAPIHelper;
 use app\models\redis\FocosAtivos;
 use yii\helpers\Url;
+use yii\helpers\Json;
 
 $this->title = 'Áreas de Tratamento';
 $this->params['breadcrumbs'][] = $this->title;
@@ -22,78 +24,63 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <br /><br />
 
-<script src="<?= GoogleMapsAPIHelper::getAPIUrl(); ?>"></script>
+<?php MapBoxAPIHelper::registerScript($this, ['fullScreen', 'minimap', 'omnivore']); ?>
 
-<div id="map" style="height: 500px; width: 100%;"></div>
-        
+<div id="map" style="height: 450px; width: 100%;"></div>
+
 <?php
 $municipio = \Yii::$app->session->get('user.cliente')->municipio;
 $municipio->loadCoordenadas();
 ?>
 
 <?php if($municipio->latitude && $municipio->longitude) : ?>
-    <script>
-        var map;
-        
-        var defaultZoom = 13;
-        var defaultLat = <?= $municipio->latitude; ?>;
-        var defaultLong = <?= $municipio->longitude; ?>;
-            
-        var options = {
-            zoom: defaultZoom,
-            center: new google.maps.LatLng(defaultLat, defaultLong),
-            mapTypeId: google.maps.MapTypeId.HYBRID,
-            disableDefaultUI: false,
-            zoomControl: true
+
+    <?php
+    $javascript = "
+        var line_points = " . Json::encode([]) . ";
+        var polyline_options = {
+            color: '#000'
         };
-            
-        map = new google.maps.Map(document.getElementById('map'), options);   
 
-        <?php 
-        $qtdeQuarteiroes = count($modelFocos);
-        if ($qtdeQuarteiroes > 0) : ?>
-                var quarteiraoColor = '#000000';
-            <?php 
-            $i = 0;
-            foreach($modelFocos as $foco) : 
- 
-                $quarteiraoCoordenada = $foco->getQuarteiraoCoordenadas();
-                
-                $corFoco = $foco->cor_foco;
-                
-                $centroQuarteirao = $foco->getCentroQuarteirao();
-                ?>
+        L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
+        var map = L.mapbox
+            .map('map', 'vigilantus.kjkb4j0a')
+            .setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13)
+            .on('ready', function() {
+                new L.Control.MiniMap(L.mapbox.tileLayer('vigilantus.kjkb4j0a'))
+                    .addTo(map);
+            });
 
-                var quarteiraoPolygon<?= $i; ?> = new google.maps.Polygon({
-                    paths: [<?= GoogleMapsAPIHelper::arrayToBounds($quarteiraoCoordenada); ?>],
-                    strokeWeight: 0,
-                    fillColor: quarteiraoColor,
-                    fillOpacity: 0.45,
-                    map: map
-                });
+        L.control.fullscreen().addTo(map);
 
-                var options<?= $i; ?> = {
-                    strokeColor: '<?= $corFoco; ?>',
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillColor: '<?= $corFoco; ?>',
-                    fillOpacity: 0.35,
-                    map: map,
-                    center: new google.maps.LatLng(<?= $centroQuarteirao[0]; ?>, <?= $centroQuarteirao[1]; ?>),
-                    radius: <?= $foco->qtde_metros_area_foco; ?>
-                };
+        L.featureGroup().addTo(map);
 
-                var circle<?= $i; ?> = new google.maps.Circle(options<?= $i; ?>);
-                
-                <?php $i++; ?>
-                    
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </script>
+        L.control.scale().addTo(map);
+
+        var runLayer = omnivore.kml('" . Url::to($url) . "')
+        .on('ready', function() {
+            this.eachLayer(function(marker) {
+
+                marker.setIcon(L.mapbox.marker.icon({
+                    'marker-color': '#fc6a6a',
+                    'marker-size': 'small',
+                    'marker-symbol': 'danger'
+                }));
+
+                marker.bindPopup(marker.feature.properties.numero_quarteirao);
+
+                L.circle([marker.feature.geometry.coordinates[1], marker.feature.geometry.coordinates[0]], marker.feature.properties.metros_tratamento).addTo(map);
+            });
+        })
+        .addTo(map);
+    ";
+
+    $this->registerJs($javascript);
+    ?>
 <?php endif; ?>
-   
+
 <script>
- 
+
 function gmapPrint() {
     var inseriuParametro = false;
     var url = '<?= Url::toRoute(array("relatorio/download-mapa")); ?>?';

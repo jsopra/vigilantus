@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $this->registerJsFile(GoogleMapsAPIHelper::getAPIUrl(false, 'drawing'), ['yii\web\JqueryAsset']);
 ?>
-<div class="bairro-quarteirao-index" data-role="modal-grid">
+<div class="bairro-quarteirao-index">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 

@@ -2,7 +2,8 @@
 
 namespace app\models;
 
-use app\components\PostgisActiveRecord;
+use Yii;
+use app\components\ClienteActiveRecord;
 
 /**
  * Este é a classe de modelo da tabela "bairros".
@@ -17,7 +18,7 @@ use app\components\PostgisActiveRecord;
  * @property string $coordenadas_area
  * @property integer $cliente_id
  */
-class Bairro extends PostgisActiveRecord
+class Bairro extends ClienteActiveRecord
 {
     /**
      * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco
@@ -32,6 +33,8 @@ class Bairro extends PostgisActiveRecord
      * @var array
      */
     public $coordenadasJson;
+
+    public $centro;
 
     /**
      * @return string
@@ -139,7 +142,7 @@ class Bairro extends PostgisActiveRecord
         if($this->coordenadas)
             return true;
 
-        $this->coordenadas = $this->postgisToArray('Polygon', 'coordenadas_area');
+        $this->coordenadas = $this->wktToArray('Polygon', 'coordenadas_area');
 
         return is_array($this->coordenadas);
     }
@@ -164,7 +167,10 @@ class Bairro extends PostgisActiveRecord
             return false;
         }
 
-        $this->coordenadas_area = $this->jsonToPostgis('Polygon', $this->coordenadasJson);
+        $arrayCoordinates = json_decode($this->coordenadasJson);
+
+        $this->coordenadas_area = new \yii\db\Expression($this->arrayToWkt('Polygon', $arrayCoordinates));
+
         return true;
     }
 
@@ -182,5 +188,37 @@ class Bairro extends PostgisActiveRecord
             $registro->bairro_id = null;
             $registro->save();
         }
+    }
+
+    public function getCentro()
+    {
+        $cacheKey = 'bairro_centro_' . $this->id;
+        $data = Yii::$app->cache->get($cacheKey);
+/*
+        if($data !== false) {
+            return $data;
+        }
+*/
+        $object = self::find()
+            ->select('ST_asText(ST_Centroid(coordenadas_area)) as centro')
+            ->where(['id' => $this->id])
+            ->one();
+
+        if(!$object instanceof self) {
+            return false;
+        }
+
+        if(strstr($object->centro, 'POINT') === false) {
+            return false;
+        }
+
+        $coordenadas = explode(" ", str_replace(['POINT(', ')'], '', $object->centro));
+        if(count($coordenadas) == 0) {
+            return false;
+        }
+
+        Yii::$app->cache->set($cacheKey, $coordenadas, null);
+
+        return $coordenadas;
     }
 }

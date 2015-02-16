@@ -4,16 +4,63 @@ use app\models\Bairro;
 use app\models\Municipio;
 use app\models\Cliente;
 use app\models\EspecieTransmissor;
-use app\helpers\GoogleMapsAPIHelper;
+use app\helpers\MapHelper;
+use perspectivain\mapbox\MapBoxAPIHelper;
 use app\models\redis\FocosAtivos;
+use yii\helpers\Url;
+use yii\helpers\Json;
 ?>
 
 <?php $this->beginBody() ?>
 
-<script src="<?= GoogleMapsAPIHelper::getAPIUrl(); ?>"></script>
+<?php MapBoxAPIHelper::registerScript($this, ['fullScreen', 'omnivore']); ?>
 
-<div id="map" style="height: 600px; width: 100%;"></div>
-        
+<style>
+.menu-ui {
+  background:#fff;
+  position:absolute;
+  top:10px;right:10px;
+  z-index:1;
+  border-radius:3px;
+  width:120px;
+  border:1px solid rgba(0,0,0,0.4);
+  }
+  .menu-ui a {
+    font-size:13px;
+    color:#404040;
+    display:block;
+    margin:0;padding:0;
+    padding:5px 10px;
+    text-decoration:none;
+    border-bottom:1px solid rgba(0,0,0,0.25);
+    text-align:center;
+    }
+    .menu-ui a:first-child {
+      border-radius:3px 3px 0 0;
+      }
+    .menu-ui a:last-child {
+      border:none;
+      border-radius:0 0 3px 3px;
+      }
+    .menu-ui a:hover {
+      background:#f8f8f8;
+      color:#404040;
+      }
+    .menu-ui a.active {
+      background:#3887BE;
+      color:#FFF;
+      }
+      .menu-ui a.active:hover {
+        background:#3074a4;
+        }
+</style>
+
+<div id="map" style="height: 600px; width: 100%;">
+    <nav class='menu-ui no-print'>
+      <a href='#' id='print' class='active'>Imprimir</a>
+    </nav>
+</div>
+
 <?php
 $municipio = \Yii::$app->session->get('user.cliente')->municipio;
 $municipio->loadCoordenadas();
@@ -21,109 +68,58 @@ $municipio->loadCoordenadas();
 ?>
 
 <?php if($municipio->latitude && $municipio->longitude) : ?>
-    <script>
-        var map;
-        
-        var defaultZoom = 13;
-        var defaultLat = <?= $municipio->latitude; ?>;
-        var defaultLong = <?= $municipio->longitude; ?>;
-            
-        var options = {
-            zoom: defaultZoom,
-            center: new google.maps.LatLng(defaultLat, defaultLong),
-            mapTypeId: google.maps.MapTypeId.HYBRID,
-            disableDefaultUI: false,
-            zoomControl: true
+
+    <?php
+    $javascript = "
+        var line_points = " . Json::encode([]) . ";
+        var polyline_options = {
+            color: '#000'
         };
-            
-        map = new google.maps.Map(document.getElementById('map'), options);   
 
-        var homeControlDiv = document.createElement('div');
-        var homeControl = new PrintControl(homeControlDiv, map);
-        homeControlDiv.index = 1;
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
-
-        google.maps.event.addListenerOnce(map, 'idle', function(){
-            google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-                setTimeout(function() { window.print(); }, 2000);
+        L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
+        var map = L.mapbox
+            .map('map', 'vigilantus.kjkb4j0a')
+            .setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13)
+            .on('ready', function() {
             });
-        });
 
-        <?php 
-        $qtdeQuarteiroes = count($modelFocos);
-        if ($qtdeQuarteiroes > 0) : ?>
-                var quarteiraoColor = '#000000';
-            <?php 
-            $i = 0;
-            foreach($modelFocos as $foco) : 
- 
-                $quarteiraoCoordenada = $foco->getQuarteiraoCoordenadas();
-                
-                $corFoco = $foco->cor_foco;
-                
-                $centroQuarteirao = $foco->getCentroQuarteirao();
-                ?>
+        L.control.fullscreen().addTo(map);
 
-                var quarteiraoPolygon<?= $i; ?> = new google.maps.Polygon({
-                    paths: [<?= GoogleMapsAPIHelper::arrayToBounds($quarteiraoCoordenada); ?>],
-                    strokeWeight: 0,
-                    fillColor: quarteiraoColor,
-                    fillOpacity: 0.45,
-                    map: map
-                });
+        L.featureGroup().addTo(map);
 
-                var options<?= $i; ?> = {
-                    strokeColor: '<?= $corFoco; ?>',
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillColor: '<?= $corFoco; ?>',
-                    fillOpacity: 0.35,
-                    map: map,
-                    center: new google.maps.LatLng(<?= $centroQuarteirao[0]; ?>, <?= $centroQuarteirao[1]; ?>),
-                    radius: <?= $foco->qtde_metros_area_foco; ?>
-                };
+        L.control.scale().addTo(map);
 
-                var circle<?= $i; ?> = new google.maps.Circle(options<?= $i; ?>);
-                
-                <?php $i++; ?>
-                    
-            <?php endforeach; ?>
-        <?php endif; ?>
+        var runLayer = omnivore.kml('" . Url::to($url) . "')
+        .on('ready', function() {
+            this.eachLayer(function(marker) {
 
-        function PrintControl(controlDiv, map) {
+                marker.setIcon(L.mapbox.marker.icon({
+                    'marker-color': '#fc6a6a',
+                    'marker-size': 'small',
+                    'marker-symbol': 'danger'
+                }));
 
-            controlDiv.style.padding = '5px';
+                marker.bindPopup(marker.feature.properties.numero_quarteirao);
 
-            var controlUI = document.createElement('div');
-            controlUI.style.backgroundColor = 'white';
-            controlUI.style.borderStyle = 'solid';
-            controlUI.style.borderWidth = '1px';
-            controlUI.style.cursor = 'pointer';
-            controlUI.style.textAlign = 'center';
-            controlUI.title = 'Imprimir mapa';
-            controlUI.style.paddingTop = '3px';
-            controlUI.style.paddingBottom = '3px';
-            controlUI.className = 'no-print';
-            controlDiv.appendChild(controlUI);
-
-            var controlText = document.createElement('div');
-            controlText.style.fontFamily = 'Arial,sans-serif';
-            controlText.style.fontSize = '11px';
-            controlText.style.paddingLeft = '3px';
-            controlText.style.paddingRight = '3px';
-            controlText.innerHTML = '<b>Imprimir</b>';
-            controlUI.appendChild(controlText);
-
-            google.maps.event.addDomListener(controlUI, 'click', function() {
-                window.print();
+                L.circle([marker.feature.geometry.coordinates[1], marker.feature.geometry.coordinates[0]], marker.feature.properties.metros_tratamento).addTo(map);
             });
-        }
-    </script>
+        })
+        .addTo(map);
+
+        map.getContainer().querySelector('#print').onclick = function() {
+            window.print();
+            return false;
+        };
+    ";
+
+    $this->registerJs($javascript);
+    ?>
+
 <?php endif; ?>
 
 <style>
 @media print
-{    
+{
     .no-print, .no-print *
     {
         display: none !important;

@@ -14,6 +14,7 @@ use app\models\FocoTransmissor;
 use Yii;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
+
 use app\models\redis\Queue;
 
 class RelatorioController extends Controller
@@ -88,7 +89,7 @@ class RelatorioController extends Controller
 
         return $this->render('mapa', [
             'model' => $model,
-            'modelFocos' => $model->loadAreasDeFocoMapa(\Yii::$app->session->get('user.cliente'))
+            'url' => $model->getUrlAreasFocos(),
         ]);
     }
 
@@ -175,7 +176,7 @@ class RelatorioController extends Controller
 
         return $this->render('mapa_impressao', [
             'model' => $model,
-            'modelFocos' => $model->loadAreasDeFocoMapa(\Yii::$app->session->get('user.cliente')),
+            'url' => $model->getUrlAreasFocos(),
         ]);
     }
 

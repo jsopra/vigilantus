@@ -3,7 +3,7 @@
 use app\models\BairroCategoria;
 use app\widgets\GridView;
 use yii\helpers\Html;
-use app\helpers\GoogleMapsAPIHelper;
+use app\helpers\MapBoxAPIHelper;
 
 /**
  * @var yii\web\View $this
@@ -47,16 +47,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Quarteirões',
                 'format' => 'raw',
                 'value' => function ($model, $index, $widget) {
-                
+
                     $img = Html::tag('i', '', ['class' => 'glyphicon glyphicon-link']);
-                
+
                     $link = Html::a(
                         'Gerenciar (' . $model->quantidadeQuarteiroes . ') &nbsp;' . $img,
                         Yii::$app->urlManager->createUrl(['bairro-quarteirao/index', 'parentID' => $model->id]),
                         ['title' => 'Gerenciar Quarteirões do Bairro ' . $model->nome]
                     );
-                
-                    return Html::tag('p', $link, ['class' => 'text-center no-margin']); 
+
+                    return Html::tag('p', $link, ['class' => 'text-center no-margin']);
                 },
             ],
             [

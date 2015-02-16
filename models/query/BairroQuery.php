@@ -4,24 +4,29 @@ namespace app\models\query;
 use app\components\ActiveQuery;
 
 class BairroQuery extends ActiveQuery
-{  
+{
     public function doNome($nome) {
         $this->andWhere('nome = :nome', [':nome' => trim($nome)]);
         return $this;
     }
-    
+
     public function comQuarteiroes() {
-        
+
         $this->andWhere('id IN (SELECT DISTINCT bairro_id FROM bairro_quarteiroes)');
         return $this;
     }
-    
+
     public function comCoordenadas() {
         $this->andWhere('coordenadas_area IS NOT NULL');
         return $this;
     }
 
-    public function comFoco($ano, $especieTransmissor = null) 
+    public function queNao($id) {
+        $this->andWhere('id <> :quenao', [':quenao' => $id]);
+        return $this;
+    }
+
+    public function comFoco($ano, $especieTransmissor = null)
     {
         $query = 'id IN (
             SELECT DISTINCT bq.bairro_id
