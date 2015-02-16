@@ -137,10 +137,11 @@ class Bairro extends ClienteActiveRecord
      * Define latitude e longitude para o modelo, caso exista ponto válido cadastrado
      * @return boolean (false em caso de não popular e true em caso de popular)
      */
-    public function loadCoordenadas() {
-
-        if($this->coordenadas)
+    public function loadCoordenadas()
+    {
+        if($this->coordenadas) {
             return true;
+        }
 
         $this->coordenadas = $this->wktToArray('Polygon', 'coordenadas_area');
 
@@ -160,8 +161,8 @@ class Bairro extends ClienteActiveRecord
      * Valida e carrega json de coordenadas em campo postgis
      * @return boolean
      */
-    private function _validateAndLoadPostgisField() {
-
+    private function _validateAndLoadPostgisField()
+    {
         if(!$this->coordenadasJson) {
             $this->addError('coordenadasJson', 'Coordenadas do quarteirão não foram definidas');
             return false;

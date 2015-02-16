@@ -36,7 +36,9 @@ class VigilantusLayoutHelper {
                 'label' => 'Mapas',
                 'icon' => 'map-marker',
                 'items' => [
+                    ['label' => 'Armadilhas', 'url' => ['/mapa/armadilha'], 'visible' => $user->can('Gerente'),],
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento-mapa'], 'visible' => $user->can('Gerente'),],
+                    ['label' => 'Pontos Estratégicos', 'url' => ['/mapa/ponto-estrategico'], 'visible' => $user->can('Gerente'),],
                     ['label' => 'Tratamento de Foco', 'url' => ['/mapa/tratamento-foco'], 'visible' => $user->can('Gerente'),],
                     ['label' => 'Visão Geral', 'url' => ['/mapa/visao-geral'], 'visible' => $user->can('Gerente'),],
                 ],
@@ -66,11 +68,13 @@ class VigilantusLayoutHelper {
                 'label' => 'Cadastros',
                 'icon' => 'edit',
                 'items' => [
+                    ['label' => 'Armadilhas', 'url' => ['/armadilha/']],
                     ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria/']],
                     ['label' => 'Doenças', 'url' => ['/doenca/']],
+                    ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/']],
+                    ['label' => 'Pontos Estratégicos', 'url' => ['/ponto-estrategico/']],
                     ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
                     ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/']],
-                    ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/']],
                     ['label' => 'Tipo de Problema em Denúncia', 'url' => ['/denuncia/denuncia-tipo-problema/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)],
                 ]
             ],

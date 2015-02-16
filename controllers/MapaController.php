@@ -22,11 +22,11 @@ class MapaController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['tratamento-foco', 'focos'],
+                'only' => ['tratamento-foco', 'focos', 'armadilha', 'ponto-estrategico'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['tratamento-foco', 'visao-geral'],
+                        'actions' => ['tratamento-foco', 'visao-geral', 'armadilha', 'ponto-estrategico'],
                         'roles' => ['Gerente'],
                     ],
                     [
@@ -58,6 +58,20 @@ class MapaController extends Controller
     public function actionVisaoGeral()
     {
         return $this->render('visao-geral', [
+
+        ]);
+    }
+
+    public function actionArmadilha()
+    {
+        return $this->render('armadilha', [
+
+        ]);
+    }
+
+    public function actionPontoEstrategico()
+    {
+        return $this->render('ponto-estrategico', [
 
         ]);
     }
