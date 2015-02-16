@@ -61,7 +61,7 @@ class CidadeController extends Controller
             [
                 'cliente' => $cliente,
                 'municipio' => $cliente->municipio,
-                'url' => ['kml/focos', 'informacaoPublica' => true],
+                'url' => ['kml/focos', 'clienteId' => $cliente->id, 'informacaoPublica' => true],
                 'viewPartial' => '_focos',
                 'model' => $model,
             ]

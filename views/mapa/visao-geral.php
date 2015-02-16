@@ -77,6 +77,38 @@ $municipio->loadCoordenadas();
 
         addLayer(bairrosLayer, 'Bairros', 2);
 
+        var bairrosLayer = omnivore.kml('" . Url::to(['kml/armadilha']) . "')
+        .on('ready', function() {
+            this.eachLayer(function(marker) {
+
+                marker.setIcon(L.mapbox.marker.icon({
+                    'marker-color': '#C8DF9F',
+                    'marker-size': 'small',
+                    'marker-symbol': 'chemist'
+                }));
+
+            });
+        })
+        .addTo(map);
+
+        addLayer(bairrosLayer, 'Armadilhas', 3);
+
+        var bairrosLayer = omnivore.kml('" . Url::to(['kml/ponto-estrategico']) . "')
+        .on('ready', function() {
+            this.eachLayer(function(marker) {
+
+                marker.setIcon(L.mapbox.marker.icon({
+                    'marker-color': '#BBBBDC',
+                    'marker-size': 'small',
+                    'marker-symbol': 'golf'
+                }));
+
+            });
+        })
+        .addTo(map);
+
+        addLayer(bairrosLayer, 'Pontos Estratégicos', 4);
+
         function addLayer(layer, name, zIndex) {
             layer
                 .setZIndex(zIndex)

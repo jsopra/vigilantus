@@ -120,18 +120,19 @@ class Municipio extends ActiveRecord
      * Define latitude e longitude para o modelo, caso exista ponto válido cadastrado
      * @return boolean (false em caso de não popular e true em caso de popular)
      */
-    public function loadCoordenadas() {
-
-        if(!$this->coordenadas_area)
+    public function loadCoordenadas()
+    {
+        if(!$this->coordenadas_area) {
             return false;
+        }
 
-        if($this->longitude && $this->latitude)
+        if($this->longitude && $this->latitude) {
             return true;
+        }
 
         list($this->longitude, $this->latitude) = $this->wktToArray('Point', 'coordenadas_area');
 
         return true;
-
     }
 
     /**

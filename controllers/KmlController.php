@@ -3,9 +3,12 @@
 namespace app\controllers;
 
 use app\components\Controller;
+use app\models\Cliente;
 use app\models\Bairro;
 use app\models\BairroQuarteirao;
 use app\models\FocoTransmissor;
+use app\models\Armadilha;
+use app\models\PontoEstrategico;
 use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use Yii;
 use yii\filters\AccessControl;
@@ -24,10 +27,11 @@ class KmlController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'only' => ['cidade', 'bairro', 'area-tratamento-foco', 'armadilha', 'ponto-estrategico'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['focos', 'cidade', 'bairro', 'area-tratamento-foco'],
+                        'actions' => ['area-tratamento-foco', 'cidade', 'bairro', 'armadilha', 'ponto-estrategico'],
                         'roles' => ['Usuario'],
                     ],
                 ],
@@ -142,9 +146,9 @@ class KmlController extends Controller
         return $model->output();
     }
 
-    public function actionFocos($especieId = null, $bairroId = null, $lira = null, $informacaoPublica = null)
+    public function actionFocos($clienteId = null, $especieId = null, $bairroId = null, $lira = null, $informacaoPublica = null)
     {
-        $cliente = \Yii::$app->session->get('user.cliente');
+        $cliente = $clienteId ? Cliente::find()->andWhere(['id' => $clienteId])->one() : \Yii::$app->session->get('user.cliente');
         if(!$cliente) {
             exit;
         }
@@ -183,6 +187,56 @@ class KmlController extends Controller
             $point->extendedData = [
                 'metros_tratamento' => $foco->especieTransmissor->qtde_metros_area_foco,
                 'numero_quarteirao' => $quarteirao->numero_quarteirao,
+            ];
+
+            $model->add($point);
+            unset($point);
+        }
+
+        return $model->output();
+    }
+
+    public function actionArmadilha($except = null)
+    {
+        $model = new Kml;
+        $model->id = 'armadilha';
+
+        $armadilhas = $except ? Armadilha::find()->queNao($except)->all() : Armadilha::find()->all();
+        foreach($armadilhas as $armadilha) {
+
+            $armadilha->loadCoordenadas();
+
+            $point = new Point;
+            $point->value = [$armadilha->longitude, $armadilha->latitude];
+
+            $point->extendedData = [
+                'numero_quarteirao' => $armadilha->bairro_quarteirao_id ? $armadilha->bairroQuarteirao->numero_quarteirao : null,
+                'bairro' => $armadilha->bairro_quarteirao_id ? $armadilha->bairroQuarteirao->bairro->nome : null,
+            ];
+
+            $model->add($point);
+            unset($point);
+        }
+
+        return $model->output();
+    }
+
+    public function actionPontoEstrategico($except = null)
+    {
+        $model = new Kml;
+        $model->id = 'pontoestrategico';
+
+        $pontos = $except ? PontoEstrategico::find()->queNao($except)->all() : PontoEstrategico::find()->all();
+        foreach($pontos as $ponto) {
+
+            $ponto->loadCoordenadas();
+
+            $point = new Point;
+            $point->value = [$ponto->longitude, $ponto->latitude];
+
+            $point->extendedData = [
+                'numero_quarteirao' => $ponto->bairro_quarteirao_id ? $ponto->bairroQuarteirao->numero_quarteirao : null,
+                'bairro' => $ponto->bairro_quarteirao_id ? $ponto->bairroQuarteirao->bairro->nome : null,
             ];
 
             $model->add($point);

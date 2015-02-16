@@ -1619,12 +1619,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/perspectivain/yii2-geo.git",
-                "reference": "7536925fb384a2f8059dfacd211fbf03d82333c6"
+                "reference": "03469fa537e88911532635155c2d9789213ba31f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/perspectivain/yii2-geo/zipball/7536925fb384a2f8059dfacd211fbf03d82333c6",
-                "reference": "7536925fb384a2f8059dfacd211fbf03d82333c6",
+                "url": "https://api.github.com/repos/perspectivain/yii2-geo/zipball/03469fa537e88911532635155c2d9789213ba31f",
+                "reference": "03469fa537e88911532635155c2d9789213ba31f",
                 "shasum": ""
             },
             "require": {
@@ -1653,7 +1653,7 @@
                 "kml",
                 "yii2"
             ],
-            "time": "2015-02-16 13:45:58"
+            "time": "2015-02-16 14:09:15"
         },
         {
             "name": "perspectivain/yii2-mapbox-leaflet-helper",
@@ -1661,12 +1661,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/perspectivain/yii2-mapbox-leaflet-helper.git",
-                "reference": "4c263067ef47cbf8abf95d7a5883786f901de0b8"
+                "reference": "d7a58953a2d55c4cbcf8f103bf43f8d52ca2fee7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/perspectivain/yii2-mapbox-leaflet-helper/zipball/4c263067ef47cbf8abf95d7a5883786f901de0b8",
-                "reference": "4c263067ef47cbf8abf95d7a5883786f901de0b8",
+                "url": "https://api.github.com/repos/perspectivain/yii2-mapbox-leaflet-helper/zipball/d7a58953a2d55c4cbcf8f103bf43f8d52ca2fee7",
+                "reference": "d7a58953a2d55c4cbcf8f103bf43f8d52ca2fee7",
                 "shasum": ""
             },
             "require": {
@@ -1696,7 +1696,7 @@
                 "mapbox",
                 "yii2"
             ],
-            "time": "2015-01-30 10:42:16"
+            "time": "2015-02-16 14:09:44"
         },
         {
             "name": "phpoffice/phpexcel",
