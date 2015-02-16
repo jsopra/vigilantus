@@ -1580,12 +1580,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/perspectivain/php-postgis.git",
-                "reference": "eca3da8029f336a6e8196562c19c0b4fd5412235"
+                "reference": "43fdbb3bf802d9fd702f77336363bd88243efc70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/perspectivain/php-postgis/zipball/eca3da8029f336a6e8196562c19c0b4fd5412235",
-                "reference": "eca3da8029f336a6e8196562c19c0b4fd5412235",
+                "url": "https://api.github.com/repos/perspectivain/php-postgis/zipball/43fdbb3bf802d9fd702f77336363bd88243efc70",
+                "reference": "43fdbb3bf802d9fd702f77336363bd88243efc70",
                 "shasum": ""
             },
             "type": "library",
@@ -1611,7 +1611,7 @@
                 "postgis",
                 "trait"
             ],
-            "time": "2015-02-16 13:21:33"
+            "time": "2015-02-16 16:45:45"
         },
         {
             "name": "perspectivain/yii2-geo",
