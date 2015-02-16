@@ -1619,12 +1619,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/perspectivain/yii2-geo.git",
-                "reference": "32974f047bda9e866f0853b0e8d2db9c629cebeb"
+                "reference": "7536925fb384a2f8059dfacd211fbf03d82333c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/perspectivain/yii2-geo/zipball/32974f047bda9e866f0853b0e8d2db9c629cebeb",
-                "reference": "32974f047bda9e866f0853b0e8d2db9c629cebeb",
+                "url": "https://api.github.com/repos/perspectivain/yii2-geo/zipball/7536925fb384a2f8059dfacd211fbf03d82333c6",
+                "reference": "7536925fb384a2f8059dfacd211fbf03d82333c6",
                 "shasum": ""
             },
             "require": {
@@ -1653,7 +1653,7 @@
                 "kml",
                 "yii2"
             ],
-            "time": "2015-02-13 09:57:20"
+            "time": "2015-02-16 13:45:58"
         },
         {
             "name": "perspectivain/yii2-mapbox-leaflet-helper",
