@@ -15,14 +15,16 @@ class Focos extends Action
         $array = [];
 
         $query = FocoTransmissor::find();
+
+        $query->select(['distinct on (especie_transmissor_id, imovel_id, bairro_quarteirao_id) focos_transmissores.*']);
+
         $query->join = [
             ['INNER JOIN', 'bairro_quarteiroes bq', 'focos_transmissores.bairro_quarteirao_id = bq.id'],
             ['INNER JOIN', 'bairros b', 'bq.bairro_id = b.id']
         ];
 
-
         if($queryString) {
-            $strFoco = "b.nome || ' - Quarteirão nº ' || bq.numero_quarteirao || ' (' || data_entrada || ')'";
+            $strFoco = "b.nome || ' - Quarteirão nº ' || bq.numero_quarteirao";
             $query->andWhere($strFoco . ' ILIKE \'' . $queryString . '%\'');
         }
 
@@ -35,7 +37,7 @@ class Focos extends Action
         foreach($focos as $foco) {
             $array[] = [
                 'id' => $foco->id,
-                'text' => $foco->bairroQuarteirao->bairro->nome . ' - Quarteirão nº ' . $foco->bairroQuarteirao->numero_quarteirao . ' (' . $foco->getFormattedAttribute('data_entrada') . ')'
+                'text' => $foco->bairroQuarteirao->bairro->nome . ' - Quarteirão nº ' . $foco->bairroQuarteirao->numero_quarteirao
             ];
         }
 

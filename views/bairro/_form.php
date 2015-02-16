@@ -1,10 +1,10 @@
 <?php
-
-use app\models\BairroCategoria;
 use app\models\Municipio;
+use app\models\BairroCategoria;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use perspectivain\mapbox\MapBoxAPIHelper;
+use app\helpers\MapHelper;
 use yii\bootstrap\Button;
 use yii\bootstrap\ButtonGroup;
 use Yii\helpers\Url;
@@ -14,7 +14,7 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
 ?>
 <div class="bairro-form">
 
-	<?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
         <div class="row">
             <div class="col-xs-3">
@@ -31,8 +31,8 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
 
         <?= Html::activeHiddenInput($model, 'coordenadasJson'); ?>
 
-		<div class="form-group form-actions">
-			<?php
+        <div class="form-group form-actions">
+            <?php
             echo Html::submitButton(
                 $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
                 ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
@@ -48,94 +48,113 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
 
        </div>
 
-	<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 </div>
 
 <?php
 $municipio = \Yii::$app->session->get('user.cliente')->municipio;
 $municipio->loadCoordenadas();
 
-$coordenadasBairros = $municipio->getCoordenadasBairros(array($model->id));
+if($model->coordenadasJson) {
+    $model->loadCoordenadas();
+    $centro = $model->getCentro();
+}
 ?>
 
 <?php
-if ($municipio->latitude && $municipio->longitude) :
+$javascript = "
+L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
+var map = L.mapbox
+    .map('map', 'vigilantus.kjkb4j0a')
+";
 
-    $javascript = "
-    L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
-    var map = L.mapbox
-        .map('map', 'vigilantus.kjkb4j0a')
-        .setView([" . $municipio->latitude . ", " . $municipio->longitude . "], 13)
-        .on('ready', function() {
-            new L.Control.MiniMap(L.mapbox.tileLayer('vigilantus.kjkb4j0a'))
-                .addTo(map);
-        });
+if($model->coordenadasJson) {
+    $javascript .= ".setView([" . $centro[1] . ", " . $centro[0] . "], 14)";
+}
+else {
+    $javascript .= ".setView([" . $municipio->latitude . ", " . $municipio->longitude . "], 12)";
+}
 
-    L.control.fullscreen().addTo(map);
-
-    var featureGroup = L.featureGroup().addTo(map);
-
-    var drawControl = new L.Control.Draw({
-        edit: {
-            featureGroup: featureGroup
-        },
-        draw: {
-            polygon: true,
-            polyline: false,
-            rectangle: false,
-            circle: false,
-            marker: false
-        }
-    }).addTo(map);
-
-    map.on('draw:created', showPolygonArea);
-    map.on('draw:edited', showPolygonAreaEdited);
-
-    function showPolygonAreaEdited(e) {
-        e.layers.eachLayer(function(layer) {
-            showPolygonArea({ layer: layer });
-        });
-    }
-    function showPolygonArea(e) {
-        featureGroup.clearLayers();
-        featureGroup.addLayer(e.layer);
-        e.layer.bindPopup((LGeo.area(e.layer) / 1000000).toFixed(2) + ' km<sup>2</sup>');
-        e.layer.openPopup();
-    }
-
-    var bairrosLayer = L.geoJson(null, {
-        // http://leafletjs.com/reference.html#geojson-style
-        style: function(feature) {
-            return {
-                color: '#f00'
-            };
-        },
-        onEachFeature: function(feature, layer) {
-            //layer.bindLabel(feature.properties.description);
-        }
+$javascript .= "
+    .on('ready', function() {
+        new L.Control.MiniMap(L.mapbox.tileLayer('vigilantus.kjkb4j0a'))
+            .addTo(map);
     });
 
-    var runLayer = omnivore.kml('" . Url::to(['kml/cidade']) . "', null, bairrosLayer)
-        .on('ready', function() {
-            map.fitBounds(runLayer.getBounds());
-        })
-        .addTo(map);
+L.control.fullscreen().addTo(map);
+
+var featureGroup = L.featureGroup().addTo(map);
+
+var drawControl = new L.Control.Draw({
+    edit: {
+        featureGroup: featureGroup
+    },
+    draw: {
+        polygon: true,
+        polyline: false,
+        rectangle: false,
+        circle: false,
+        marker: false
+    }
+}).addTo(map);
+
+map.on('draw:created', showPolygonArea);
+map.on('draw:edited', showPolygonAreaEdited);
+
+function showPolygonAreaEdited(e) {
+    e.layers.eachLayer(function(layer) {
+        showPolygonArea({ layer: layer });
+    });
+}
+
+function showPolygonArea(e) {
+    featureGroup.clearLayers();
+    featureGroup.addLayer(e.layer);
+    e.layer.bindPopup((LGeo.area(e.layer) / 1000000).toFixed(2) + ' km<sup>2</sup>');
+    e.layer.openPopup();
+
+    coordinatesToInput(e.layer.toGeoJSON().geometry.coordinates[0]);
+}
+
+var bairrosLayer = L.geoJson(null, {
+    // http://leafletjs.com/reference.html#geojson-style
+    style: function(feature) {
+        return {
+            color: '#f00'
+        };
+    },
+    onEachFeature: function(feature, layer) {
+        //layer.bindLabel(feature.properties.description);
+    }
+});
+
+var runLayer = omnivore.kml('" . Url::to(['kml/cidade', 'except' => $model->isNewRecord ? null : $model->id]) . "')
+.on('ready', function() {
+    this.eachLayer(function(layer) {
+    });
+})
+.addTo(map);
+
+function coordinatesToInput(coordinates) {
+    $('#bairro-coordenadasjson').val(JSON.stringify(coordinates));
+}
+";
+
+if ($model->coordenadasJson) :
+    $javascript .= "
+
+        var polygon_options = {
+          color: '#000',
+          opacity: 0.5,
+          weight: 1,
+          fillColor: '#000',
+          fillOpacity: 0.2
+      };
+
+        var bairro = L.polygon([" . MapHelper::getArrayCoordenadas($model->coordenadas) ."], polygon_options).addTo(featureGroup);
+
+        bairro.editing.enable();
     ";
-
-    $qtdeBairrosComCoordenada = count($coordenadasBairros);
-
-    if ($qtdeBairrosComCoordenada > 0) :
-
-        $i = 0;
-        foreach($coordenadasBairros as $bairroDados) :
-
-
-        endforeach;
-    endif;
-
-    if ($model->coordenadasJson) :
-
-    endif;
+endif;
 
 $this->registerJs($javascript);
-endif;

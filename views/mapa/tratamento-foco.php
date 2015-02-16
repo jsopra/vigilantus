@@ -6,11 +6,12 @@ use yii\widgets\ActiveForm;
 use kartik\widgets\Select2;
 use app\models\FocoTransmissor;
 use yii\web\JsExpression;
+use Yii\helpers\Url;
 
 $this->title = 'Área de Tratamento de Foco';
 $this->params['breadcrumbs'][] = $this->title;
 
-MapBoxAPIHelper::registerScript($this, ['fullScreen']);
+MapBoxAPIHelper::registerScript($this, ['fullScreen', 'omnivore']);
 ?>
 
 <h1><?= Html::encode($this->title) ?></h1>
@@ -42,7 +43,7 @@ MapBoxAPIHelper::registerScript($this, ['fullScreen']);
                     echo $form->field($model, 'foco_id')->widget(
                         Select2::classname(),
                         [
-                            'options' => ['placeholder' => 'Bairro - Quarteirão nº XXX (XX/XX/XXXX)'],
+                            'options' => ['placeholder' => 'Bairro - Quarteirão nº XXX'],
                             'pluginOptions' => [
                                 'allowClear' => true,
                                 'minimumInputLength' => 3,
@@ -86,6 +87,10 @@ if($foco) {
             color: '#000'
         };
 
+        var polyline_related_options = {
+            color: '#797979'
+        }
+
         var quarteiraoPoligono = L.polygon(line_points, polyline_options);
         var quarteiraoCenter = quarteiraoPoligono.getBounds().getCenter();
 
@@ -101,48 +106,52 @@ if($foco) {
         L.circle(quarteiraoCenter, " . $foco->especieTransmissor->qtde_metros_area_foco . ").addTo(map);
 
         L.control.scale().addTo(map);
-    ";
 
-    if($areaTratamento) {
+        L.mapbox.featureLayer({
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [quarteiraoCenter.lng, quarteiraoCenter.lat]
+            },
+            properties: {
+                title: '" . $quarteirao->numero_quarteirao . "',
+                'marker-color': '#000',
+                'marker-symbol': 'danger'
+            }
+        }).addTo(map);
 
-        $javascript .= "
-            var areaTratamentoLayer = L.mapbox.featureLayer().addTo(map);
-            var areaTratamento = [];
-        ";
+        var customLayer = L.geoJson(null, {
+            style: function(feature) {
+                return {
+                    color: '#959391'
+                };
+            }
+        });
 
-        foreach($areaTratamento as $quarteirao) {
+        var runLayer = omnivore.kml('" . Url::to(['kml/area-tratamento-foco', 'id' => $foco->id]) . "', null, customLayer)
+        .on('ready', function() {
+            this.eachLayer(function(layer) {
 
-            $quarteirao->loadCoordenadas();
+                var quarteiraoPoligono = L.polygon(layer.feature.geometry.coordinates[0]);
+                var quarteiraoCenter = quarteiraoPoligono.getBounds().getCenter();
 
-            $javascript .= "
-
-                var line_points" . $quarteirao->id . " = " . MapHelper::getArrayCoordenadas($quarteirao->coordenadas) . ";
-
-                var quarteiraoPoligono" . $quarteirao->id . " = L.polygon(line_points" . $quarteirao->id . ", polyline_options);
-                var quarteiraoCenter" . $quarteirao->id . " = quarteiraoPoligono" . $quarteirao->id . ".getBounds().getCenter();
-
-                areaTratamento.push({
+                L.mapbox.featureLayer({
                     type: 'Feature',
                     geometry: {
                         type: 'Point',
-                        coordinates: [quarteiraoCenter" . $quarteirao->id . ".lng, quarteiraoCenter" . $quarteirao->id . ".lat]
+                        coordinates: [quarteiraoCenter.lat, quarteiraoCenter.lng]
                     },
                     properties: {
-                        'marker-color': '#000',
-                        'marker-symbol': 'danger',
-                        title: '" . $quarteirao->numero_quarteirao . "',
+                        title: layer.feature.properties.numero_quarteirao,
+                        'marker-size': 'small',
+                        'marker-color': '#fc6a6a',
+                        'marker-symbol': 'hospital'
                     }
-                });
-            ";
-        }
-
-        $javascript .= "
-            areaTratamentoLayer.setGeoJSON({
-                type: 'FeatureCollection',
-                features: areaTratamento
+                }).addTo(map);
             });
-        ";
-    }
+        })
+        .addTo(map);
+    ";
 
     $this->registerJs($javascript);
 }

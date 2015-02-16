@@ -26,7 +26,7 @@ class MapaController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['tratamento-foco', 'focos'],
+                        'actions' => ['tratamento-foco', 'visao-geral'],
                         'roles' => ['Gerente'],
                     ],
                     [
@@ -48,12 +48,17 @@ class MapaController extends Controller
         }
 
         $foco = $model->foco_id ? \app\models\FocoTransmissor::find()->where(['id' => $model->foco_id])->one() : null;
-        $areaTratamento = $foco ? $foco->getAreaTratamento() : null;
 
         return $this->render('tratamento-foco', [
             'model' => $model,
             'foco' => $foco,
-            'areaTratamento' => $areaTratamento,
+        ]);
+    }
+
+    public function actionVisaoGeral()
+    {
+        return $this->render('visao-geral', [
+
         ]);
     }
 }
