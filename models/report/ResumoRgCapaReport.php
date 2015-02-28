@@ -21,9 +21,25 @@ class ResumoRgCapaReport
     /**
      * @return integer
      */
+    public function getTotalQuarteiroesFoco()
+    {
+        return BairroQuarteirao::find()->comFocoDeclarado()->count();
+    }
+
+    /**
+     * @return integer
+     */
     public function getTotalImoveis($idCliente)
     {
         return ResumoBairroFechamentoRgRedis::find()->doCliente($idCliente)->sum('quantidade');
+    }
+
+    /**
+     * @return integer
+     */
+    public function getTotalImoveisFoco($idCliente)
+    {
+        return ResumoBairroFechamentoRgRedis::find()->doCliente($idCliente)->sum('quantidade_foco');
     }
 
     /**
@@ -38,11 +54,11 @@ class ResumoRgCapaReport
             $query = ResumoImovelFechamentoRgRedis::find()->doTipoImovel($tipoImovel->id)->one();
 
             if($query) {
-                $dados[$tipoImovel->nome] = $query->quantidade;
+                $dados[$tipoImovel->nome] = ['imoveis' => $query->quantidade, 'focos' => $query->quantidade_foco];
             }
 
             if(!isset($dados[$tipoImovel->nome]) || !$dados[$tipoImovel->nome]) {
-                $dados[$tipoImovel->nome] = 0;
+                $dados[$tipoImovel->nome] = ['imoveis' => 0, 'focos' => 0];
             }
         }
 
@@ -61,11 +77,11 @@ class ResumoRgCapaReport
             $query = ResumoBairroFechamentoRgRedis::find()->doBairro($bairro->id)->one();
 
             if($query) {
-                $dados[$bairro->nome] = $query->quantidade;
+                $dados[$bairro->nome] = ['imoveis' => $query->quantidade, 'focos' => $query->quantidade_foco];
             }
 
             if(!isset($dados[$bairro->nome]) || !$dados[$bairro->nome]) {
-                $dados[$bairro->nome] = 0;
+                $dados[$bairro->nome] = ['imoveis' => 0, 'focos' => 0];
             }
         }
 

@@ -21,6 +21,7 @@ use app\models\Query\BairroQuarteiraoQuery as BairroQuarteiraoQuery;
  * @property integer $seq;
  * @property string $coordenadas_area
  * @property integer $cliente_id
+ * @property string $data_ultimo_foco
  *
  * @property Municipio $municipio
  * @property Cliente $cliente
@@ -65,11 +66,20 @@ class BairroQuarteirao extends ClienteActiveRecord
             ['numero_quarteirao_2', 'unique', 'compositeWith' => ['bairro_id', 'municipio_id']],
 			[['municipio_id', 'bairro_id', 'inserido_por', 'atualizado_por', 'seq', 'cliente_id'], 'integer'],
             ['inserido_por', 'required', 'on' => 'insert'],
+            ['data_ultimo_foco', 'date'],
             ['atualizado_por', 'required', 'on' => 'update'],
             ['coordenadas', 'required', 'on' => ['insert','update']],
             [['coordenadasJson', 'numero_quarteirao', 'numero_quarteirao_2'], 'string'],
 		];
 	}
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios['updateAttributes'] = ['data_ultimo_foco'];
+        return $scenarios;
+    }
+
 
     public function beforeValidate() {
 
@@ -97,7 +107,8 @@ class BairroQuarteirao extends ClienteActiveRecord
             'coordenadas_area' => 'Área',
             'coordenadas' => 'Área',
             'coordenadasJson' => 'Área',
-            'cliente_id' => 'Cliente'
+            'cliente_id' => 'Cliente',
+            'data_ultimo_foco' => 'Data do Último Foco',
 		];
 	}
 
@@ -275,8 +286,9 @@ class BairroQuarteirao extends ClienteActiveRecord
 
         $data = Yii::$app->cache->get($cacheKey);
 
-        if($data !== false && !YII_ENV_TEST)
+        if($data !== false && !YII_ENV_TEST) {
             return $data;
+        }
 
         $return = [];
 
@@ -328,6 +340,10 @@ class BairroQuarteirao extends ClienteActiveRecord
      * @return boolean
      */
     private function _validateAndLoadPostgisField() {
+
+        if($this->scenario == 'updateAttributes') {
+            return true;
+        }
 
         if(!$this->coordenadasJson) {
             $this->addError('coordenadasJson', 'Coordenadas do quarteirão não foram definidas');

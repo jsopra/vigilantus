@@ -82,4 +82,11 @@ class BairroQuarteiraoQuery extends ActiveQuery
 
         return $this;
     }
+
+    public function comFocoDeclarado()
+    {
+        $this->andWhere('data_ultimo_foco is not null');
+
+        return $this;
+    }
 }

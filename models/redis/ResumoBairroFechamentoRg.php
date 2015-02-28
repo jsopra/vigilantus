@@ -15,6 +15,7 @@ class ResumoBairroFechamentoRg extends RedisActiveRecord
             'cliente_id',
             'bairro_id',
             'quantidade',
+            'quantidade_foco',
         ];
     }
 

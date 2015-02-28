@@ -30,4 +30,10 @@ class CacheVigilantusController extends Console
         \app\models\redis\Queue::push('RefreshResumoFechamentoRgJob');
         return Controller::EXIT_CODE_NORMAL;
     }
+
+    public function actionUpdateUltimoFocoQuarteirao()
+    {
+        \app\models\redis\Queue::push('UpdateUltimoFocoQuarteiraoJob');
+        return Controller::EXIT_CODE_NORMAL;
+    }
 }

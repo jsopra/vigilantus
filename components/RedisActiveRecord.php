@@ -4,7 +4,7 @@ namespace app\components;
 use app\models\Municipio;
 
 class RedisActiveRecord extends \yii\redis\ActiveRecord
-{   
+{
     /**
      * @inheritdoc
      */
@@ -13,7 +13,7 @@ class RedisActiveRecord extends \yii\redis\ActiveRecord
         $className = get_called_class();
         $queryClassName = str_replace('\\models\\', '\\models\\query\\', $className) . 'Query';
 
-        if (class_exists($queryClassName)) { 
+        if (class_exists($queryClassName)) {
             $query = new $queryClassName($className);
         }
         else {

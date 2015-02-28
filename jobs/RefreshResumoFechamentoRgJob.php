@@ -7,6 +7,7 @@ use app\models\redis\ResumoImovelFechamentoRg;
 use app\models\BoletimRgFechamento;
 use app\models\Cliente;
 use app\models\Bairro;
+use app\models\BairroQuarteirao;
 use app\models\ImovelTipo;
 
 class RefreshResumoFechamentoRgJob implements AbstractJob
@@ -18,12 +19,9 @@ class RefreshResumoFechamentoRgJob implements AbstractJob
 
         Yii::$app->cache->set('ultima_atualizacao_resumo_cache_rg', null, (60*60*24*7*4));
 
-        $clientes = Cliente::find()->all();
-        foreach($clientes as $cliente) {
+        foreach(Cliente::find()->each(10) as $cliente) {
 
-            //bairros
-            $bairros = Bairro::find()->doCliente($cliente->id)->all();
-            foreach($bairros as $bairro) {
+            foreach(Bairro::find()->doCliente($cliente->id)->each(10) as $bairro) {
 
                 $query = BoletimRgFechamento::find()->doCliente($cliente->id)->doTipoLira(false);
 
@@ -37,20 +35,29 @@ class RefreshResumoFechamentoRgJob implements AbstractJob
                     )
                 ');
 
+                $queryQuantidadeFoco = clone $query;
+                $queryQuantidadeFoco->innerJoin('bairro_quarteiroes', 'bairro_quarteiroes.id=boletins_rg.bairro_quarteirao_id');
+                $queryQuantidadeFoco->andWhere('bairro_quarteiroes.data_ultimo_foco is not null');
+
                 $resumoFechamento = new ResumoBairroFechamentoRg;
                 $resumoFechamento->cliente_id = $cliente->id;
                 $resumoFechamento->bairro_id = $bairro->id;
+
                 $resumoFechamento->quantidade = $query->sum('quantidade');
                 if(!$resumoFechamento->quantidade) {
                     $resumoFechamento->quantidade = 0;
+                }
+
+                $resumoFechamento->quantidade_foco = $queryQuantidadeFoco->sum('quantidade');
+                if(!$resumoFechamento->quantidade_foco) {
+                    $resumoFechamento->quantidade_foco = 0;
                 }
 
                 $resumoFechamento->save();
             }
 
             //imoveis
-            $tipos = ImovelTipo::find()->ativo()->doCliente($cliente->id)->all();
-            foreach($tipos as $tipo) {
+            foreach(ImovelTipo::find()->ativo()->doCliente($cliente->id)->each(10) as $tipo) {
 
                 $query = BoletimRgFechamento::find()->doCliente($cliente->id)->doTipoLira(false)->doTipoDeImovel($tipo->id);
 
@@ -63,12 +70,22 @@ class RefreshResumoFechamentoRgJob implements AbstractJob
                     )
                 ');
 
+                $queryQuantidadeFoco = clone $query;
+                $queryQuantidadeFoco->innerJoin('bairro_quarteiroes', 'bairro_quarteiroes.id=boletins_rg.bairro_quarteirao_id');
+                $queryQuantidadeFoco->andWhere('bairro_quarteiroes.data_ultimo_foco is not null');
+
                 $resumoFechamento = new ResumoImovelFechamentoRg;
                 $resumoFechamento->cliente_id = $cliente->id;
                 $resumoFechamento->imovel_tipo_id = $tipo->id;
+
                 $resumoFechamento->quantidade = $query->sum('quantidade');
                 if(!$resumoFechamento->quantidade) {
                     $resumoFechamento->quantidade = 0;
+                }
+
+                $resumoFechamento->quantidade_foco = $queryQuantidadeFoco->sum('quantidade');
+                if(!$resumoFechamento->quantidade_foco) {
+                    $resumoFechamento->quantidade_foco = 0;
                 }
 
                 $resumoFechamento->save();

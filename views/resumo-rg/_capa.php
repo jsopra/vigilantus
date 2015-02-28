@@ -20,12 +20,14 @@ use yii\helpers\Html;
                 <tr>
                     <th>&nbsp;</th>
                     <th class="number">Geral</th>
+                    <th class="number">Foco</th>
                 </tr>
             </thead>
             <tbody>
                 <tr class="totalizador">
                     <td>Quarteirões</td>
                     <td class="text-center"><?= $model->getTotalQuarteiroes() ?></td>
+                    <td class="text-center"><?= $model->getTotalQuarteiroesFoco() ?></td>
                 </tr>
             </tbody>
         </table>
@@ -34,13 +36,15 @@ use yii\helpers\Html;
                 <tr>
                     <th>Imóveis</th>
                     <th class="number">Geral</th>
+                    <th class="number">Foco</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($model->getImoveisPorTipo() as $tipo => $imoveis) : ?>
+                <?php foreach ($model->getImoveisPorTipo() as $tipo => $dados) : ?>
                 <tr>
                     <td><?= $tipo ?></td>
-                    <td class="text-center"><?= $imoveis ?></td>
+                    <td class="text-center"><?= $dados['imoveis'] ?></td>
+                    <td class="text-center"><?= $dados['focos'] ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -48,6 +52,7 @@ use yii\helpers\Html;
                 <tr class="totalizador">
                     <td>Total</td>
                     <td class="text-center"><?= $model->getTotalImoveis(\Yii::$app->session->get('user.cliente')->id) ?></td>
+                    <td class="text-center"><?= $model->getTotalImoveisFoco(\Yii::$app->session->get('user.cliente')->id) ?></td>
                 </tr>
             </tfoot>
         </table>
@@ -61,10 +66,11 @@ use yii\helpers\Html;
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($model->getImoveisPorBairro() as $bairro => $imoveis) : ?>
+                <?php foreach ($model->getImoveisPorBairro() as $bairro => $dados) : ?>
                 <tr>
                     <td><?= $bairro ?></td>
-                    <td style="text-align: center;"><?= $imoveis ?></td>
+                    <td style="text-align: center;"><?= $dados['imoveis'] ?></td>
+                    <td style="text-align: center;"><?= $dados['focos'] ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

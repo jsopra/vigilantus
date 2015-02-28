@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-xs-2">
                 <?= $form->field($model, 'lira')->dropDownList([0 => 'Todos', 1 => 'Lira']) ?>
             </div>
-            
+
             <div class="col-xs-2" style="padding-top: 20px;">
                 <?= Html::submitButton('Gerar', ['class' => 'btn btn-primary']) ?>
             </div>
@@ -58,6 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <th rowspan="2" class="number">Seq.</th>
             <th colspan="<?= count($model->tiposImoveis) ?>">TIPO DO IMÓVEL</th>
             <th rowspan="2" class="total">Total de Imóveis</th>
+            <th rowspan="2" class="total">Último Foco</th>
         </tr>
         <tr>
             <?php foreach ($model->tiposImoveis as $tipoImovel) : ?>
@@ -85,6 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <td><?= $row['imoveis'][$tipo] ?></td>
             <?php endforeach; ?>
             <td><strong><?= $totalQuarteirao ?></strong></td>
+            <td><strong><?= Yii::$app->formatter->asDate($row['data_ultimo_foco'], 'medium') ?></strong></td>
         </tr>
         <?php endforeach; ?>
     </tbody>
@@ -95,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <td class="text-center"><?= $dadosTotaisImoveis[$tipo] ?></td>
             <?php endforeach; ?>
             <td class="text-center"><strong><?= $dadosTotaisImoveis['total'] ?></strong></td>
-
+            <td></td>
         </tr>
     </tfoot>
 </table>
