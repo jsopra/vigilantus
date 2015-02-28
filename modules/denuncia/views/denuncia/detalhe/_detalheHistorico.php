@@ -10,6 +10,7 @@ use app\models\Usuario;
 
 <?php echo GridView::widget([
     'dataProvider' => $dataProvider,
+    'exportable' => $isExportable,
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
         [
@@ -20,7 +21,7 @@ use app\models\Usuario;
             'value' => function ($model, $index, $widget) {
                 return $model->getFormattedAttribute('data_hora');
             },
-        ], 
+        ],
         [
             'attribute' => 'tipo',
             'value' => function ($model, $index, $widget) {

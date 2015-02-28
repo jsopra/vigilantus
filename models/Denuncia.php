@@ -26,6 +26,7 @@ use yii\web\UploadedFile;
  * @property string $nome_original_anexo
  * @property integer $denuncia_tipo_problema_id
  * @property integer $bairro_quarteirao_id
+ * @property string $hash_acesso_publico
  *
  * @property DenunciaHistorico[] $denunciaHistoricos
  * @property Cliente $cliente
@@ -55,6 +56,7 @@ class Denuncia extends ClienteActiveRecord
 			[['data_criacao'], 'safe'],
 			[['cliente_id', 'bairro_id', 'endereco', 'mensagem', 'tipo_imovel'], 'required'],
 			[['cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'denuncia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
+            ['hash_acesso_publico', 'unique'],
 			[['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo'], 'string'],
 			['status', 'default', 'value' => DenunciaStatus::AVALIACAO],
 			['status', 'in', 'range' => DenunciaStatus::getIDs()],
@@ -91,6 +93,7 @@ class Denuncia extends ClienteActiveRecord
 			'nome_original_anexo' => 'Nome Original do Anexo',
 			'denuncia_tipo_problema_id' => 'Tipo do Problema',
 			'bairro_quarteirao_id' => 'Quarteirão',
+            'hash_acesso_publico' => 'Hash de acesso público',
 		];
 	}
 
@@ -155,6 +158,10 @@ class Denuncia extends ClienteActiveRecord
         	$oldStatus = isset($this->oldAttributes['status']) ? $this->oldAttributes['status'] : null;
         	$isNewRecord = $this->isNewRecord;
 
+            if($this->isNewRecord) {
+                $this->hash_acesso_publico = $this->_createHashAcessoPublico();
+            }
+
             $result = parent::save($runValidation, $attributes);
 
             if ($result) {
@@ -179,7 +186,7 @@ class Denuncia extends ClienteActiveRecord
             			$historico = new DenunciaHistorico;
 	            		$historico->cliente_id = $this->cliente_id;
 	            		$historico->denuncia_id = $this->id;
-	            		$historico->tipo = DenunciaHistoricoTipo::REPROVACAO;
+	            		$historico->tipo = $this->status == DenunciaStatus::REPROVADA ? DenunciaHistoricoTipo::REPROVACAO : DenunciaHistoricoTipo::INFORMACAO;
 	            		$historico->status_antigo = $oldStatus;
 	            		$historico->status_novo = $this->status;
 	            		$historico->usuario_id = $this->usuario_id;
@@ -221,5 +228,18 @@ class Denuncia extends ClienteActiveRecord
         }
 
         return $result;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProtocolo()
+    {
+        return str_pad($this->id, 12, '0', STR_PAD_LEFT);
+    }
+
+    private function _createHashAcessoPublico()
+    {
+        return sha1('pub' . rand(1,50000) . date('dmYHisu'));
     }
 }

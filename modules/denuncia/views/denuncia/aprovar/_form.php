@@ -39,20 +39,20 @@ use yii\bootstrap\Tabs;
             ]
         ]);
         ?>
-    
+
         <div class="form-group form-actions">
-            <?php 
+            <?php
             echo Html::submitButton(
-                'Aprovar', 
+                'Aprovar',
                 ['class' => 'btn btn-flat primary']
             );
 
             echo Html::a(
-                'Reprovar', 
-                array('/denuncia/reprovar', 'id' => $model->id),
+                'Reprovar',
+                array('denuncia/reprovar', 'id' => $model->id),
                 ['class' => 'btn btn-flat inverse']
             );
-        
+
             echo Html::a(
                 'Cancelar',
                 array('/denuncia/index'),
@@ -100,7 +100,7 @@ $script .= '
         $("#denuncia-imovel_id").select2({
             placeholder: "Buscar por um imóvel...",
             allowClear: true,
-            ajax: { 
+            ajax: {
                 url: "' . Url::toRoute(['denuncia/imoveis', 'bairro_id' => '']) . '" + bairroID,
                 dataType: "json",
                 data: function (term, page) {
@@ -108,19 +108,19 @@ $script .= '
                         q: term,
                     };
                 },
-                results: function (data, page) { 
+                results: function (data, page) {
                     return {
-                        results : $.map(data, function (item) { 
-                            return { 
-                                text:item.name, slug:item.name, id:item.id 
-                            } 
-                        }) 
+                        results : $.map(data, function (item) {
+                            return {
+                                text:item.name, slug:item.name, id:item.id
+                            }
+                        })
                     };
                 }
             },
         });
     }
-    
+
     jQuery("#denuncia-bairro_quarteirao_id").change();
 });
 ';
