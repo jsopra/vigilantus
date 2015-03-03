@@ -12,4 +12,5 @@ return [
     //geolocalização
     'googleMapsAPIKey' => 'AIzaSyDxnC_bLYD97iaRgZ2qGts6_7IE8KOYLik',
     'postgisSRID' => 4326, /* Spatial Reference System Identifier (SRID). Usamos o WGS84 */
+    'maximoTermosMonitoramentoRedesSociaisPorCliente' => 3,
 ];
