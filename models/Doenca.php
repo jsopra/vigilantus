@@ -32,7 +32,7 @@ class Doenca extends ClienteActiveRecord
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
 			[['data_criacao'], 'safe'],
-			[['cliente_id'], 'required'],
+			[['cliente_id', 'nome'], 'required'],
 			[['cliente_id'], 'integer'],
 			['nome', 'unique', 'compositeWith' => ['cliente_id']],
 			[['nome'], 'string']
