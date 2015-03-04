@@ -9,6 +9,8 @@ use app\models\Denuncia;
 use app\models\Modulo;
 use yii\web\UploadedFile;
 use app\helpers\models\DenunciaHelper;
+use yii\data\ActiveDataProvider;
+use app\models\DenunciaHistorico;
 
 class CidadeController extends Controller
 {
@@ -48,7 +50,7 @@ class CidadeController extends Controller
 
                     Yii::$app->session->setFlash('success', 'Denúncia realizada com sucesso. Você será notificado quando a denúncia for avaliada.');
 
-                    return $this->redirect(['cidade/index', 'id' => $id]);
+                    return $this->redirect(['cidade/acompanhar-denuncia', 'id' => $id, 'hash' => $model->hash_acesso_publico]);
                 }
                 else {
                     Yii::$app->session->setFlash('error', 'Erro ao salvar a denúncia.');
@@ -64,6 +66,39 @@ class CidadeController extends Controller
                 'url' => ['kml/focos', 'clienteId' => $cliente->id, 'informacaoPublica' => true],
                 'viewPartial' => '_focos',
                 'model' => $model,
+            ]
+        );
+    }
+
+    public function actionAcompanharDenuncia($id, $hash)
+    {
+        $cliente = Cliente::find()->andWhere(['id' => $id])->one();
+        if(!$cliente) {
+            throw new \Exception('Município não localizado');
+        }
+
+        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
+            throw new \Exception('Município não utiliza denúncias');
+        }
+
+        Yii::$app->session->set('user.cliente', $cliente);
+
+        $model = Denuncia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
+        if(!$model) {
+            throw new \Exception('Denúncia não localizada');
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => DenunciaHistorico::find()->daDenuncia($model->id),
+        ]);
+
+        return $this->render(
+            'acompanhar-denuncia',
+            [
+                'cliente' => $cliente,
+                'municipio' => $cliente->municipio,
+                'model' => $model,
+                'dataProvider' => $dataProvider
             ]
         );
     }

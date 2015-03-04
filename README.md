@@ -52,6 +52,7 @@ export VIGILANTUS_REDIS_DB_DATABASE='ASDF'
 export VIGILANTUS_REDIS_DB_PASSWORD='ASDF'
 export VIGILANTUS_REDIS_DB_PORT='QWER'
 export VIGILANTUS_REDIS_HOST='XyZ-vigilantus.getup.io'
+export VIGILANTUS_BASE_PATH='http://vigilantus/'
 ```
 
 Configure o seu arquivo `hosts`:

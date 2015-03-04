@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Tabs;
 
-$this->title = 'Detalhes de Denúncia #' . $model->id;
+$this->title = 'Detalhes de Denúncia #' . $model->protocolo;
 $this->params['breadcrumbs'][] = ['label' => 'Denúncias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Detalhes';
 ?>
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = 'Detalhes';
             ],
             [
                 'label' => 'Histórico',
-                'content' => $this->render('detalhe/_detalheHistorico', ['model' => $model, 'dataProvider' => $dataProvider]),
+                'content' => $this->render('detalhe/_detalheHistorico', ['model' => $model, 'dataProvider' => $dataProvider, 'isExportable' => true]),
                 'active' => false
             ],
             [

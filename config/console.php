@@ -62,7 +62,7 @@ $config = [
 ];
 
 if (file_exists(__DIR__ . '/test_db.php')) {
-    
+
     $config['components']['testDb'] = [
         'class' => 'yii\db\Connection',
         'dsn' => getenv('VIGILANTUS_DB_DSN_HOST') . ';' . getenv('VIGILANTUS_DB_DSN_DBNAME'),
