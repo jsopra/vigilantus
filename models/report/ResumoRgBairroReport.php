@@ -38,9 +38,9 @@ class ResumoRgBairroReport extends Model
 
             $this->_tiposImoveis = [];
             $dados = ImovelTipo::find()->ativo()->all();
-            foreach ($dados as $imovelTipo) 
+            foreach ($dados as $imovelTipo)
                 $this->_tiposImoveis[$imovelTipo->id] = $imovelTipo->sigla ? $imovelTipo->sigla : $imovelTipo->nome;
-            
+
         }
 
         return $this->_tiposImoveis;
@@ -79,7 +79,7 @@ class ResumoRgBairroReport extends Model
                 )'
             );
         }
-        
+
         // Se tiver dois boletins pro mesmo quarteirão, pega o mais recente
         $query->andWhere('
             data = (
@@ -95,6 +95,7 @@ class ResumoRgBairroReport extends Model
                 'quarteirao' => $boletimRg->quarteirao->numero_quarteirao,
                 'quarteirao_numero_alternativo' => $boletimRg->quarteirao->numero_quarteirao_2,
                 'quarteirao_sequencia' => $boletimRg->quarteirao->seq,
+                'data_ultimo_foco' => $boletimRg->quarteirao->data_ultimo_foco,
                 'imoveis' => [],
             ];
 
@@ -102,13 +103,13 @@ class ResumoRgBairroReport extends Model
                 $valores['imoveis'][$idTipo] = 0;
 
             $queryFechamentos = $boletimRg->getBoletinsFechamento();
-            
+
             if($this->lira !== '')
                 $queryFechamentos->where('imovel_lira = ' . ($this->lira ? 'TRUE' : 'FALSE'));
 
             foreach ($queryFechamentos->all() as $fechamento)
                 $valores['imoveis'][$fechamento->imovel_tipo_id] += $fechamento->quantidade;
-            
+
 
             $data[$boletimRg->bairro_quarteirao_id] = $valores;
         }

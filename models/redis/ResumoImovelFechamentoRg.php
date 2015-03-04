@@ -15,6 +15,7 @@ class ResumoImovelFechamentoRg extends RedisActiveRecord
             'cliente_id',
             'imovel_tipo_id',
             'quantidade',
+            'quantidade_foco',
         ];
     }
 
