@@ -74,6 +74,7 @@ class VigilantusLayoutHelper {
                     ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/']],
                     ['label' => 'Pontos Estratégicos', 'url' => ['/ponto-estrategico/']],
                     ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/']],
+                    ['label' => 'Termos de Rede Social', 'url' => ['/denuncia/social-hashtag/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)],
                     ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/']],
                     ['label' => 'Tipo de Problema em Denúncia', 'url' => ['/denuncia/denuncia-tipo-problema/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)],
                 ]

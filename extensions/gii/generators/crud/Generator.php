@@ -15,6 +15,7 @@ class Generator extends YiiCrudGenerator
 	public $baseControllerClass = 'app\components\Controller';
 	public $indexWidgetType = 'grid';
     public $acceptanceClass;
+    public $moduleID;
 
 	/**
 	 * @inheritdoc
@@ -49,7 +50,7 @@ class Generator extends YiiCrudGenerator
 			[['controllerClass', 'searchModelClass'], 'validateNewClass'],
 			[['indexWidgetType'], 'in', 'range' => ['grid', 'list']],
 			[['modelClass'], 'validateModelClass'],
-			[['moduleID'], 'validateModuleID'],
+			//[['moduleID'], 'validateModuleID'],
 		]);
 	}
 
