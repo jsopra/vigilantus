@@ -3,6 +3,7 @@
 namespace app\models;
 use app\components\ClienteActiveRecord;
 use yii\web\UploadedFile;
+use yii\db\Expression;
 
 /**
  * Este é a classe de modelo da tabela "denuncias".
@@ -27,6 +28,7 @@ use yii\web\UploadedFile;
  * @property integer $denuncia_tipo_problema_id
  * @property integer $bairro_quarteirao_id
  * @property string $hash_acesso_publico
+ * @property string $data_fechamento
  *
  * @property DenunciaHistorico[] $denunciaHistoricos
  * @property Cliente $cliente
@@ -53,7 +55,7 @@ class Denuncia extends ClienteActiveRecord
 	{
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
-			[['data_criacao'], 'safe'],
+			[['data_criacao', 'data_fechamento'], 'safe'],
 			[['cliente_id', 'bairro_id', 'endereco', 'mensagem', 'tipo_imovel'], 'required'],
 			[['cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'denuncia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
             ['hash_acesso_publico', 'unique'],
@@ -94,6 +96,7 @@ class Denuncia extends ClienteActiveRecord
 			'denuncia_tipo_problema_id' => 'Tipo do Problema',
 			'bairro_quarteirao_id' => 'Quarteirão',
             'hash_acesso_publico' => 'Hash de acesso público',
+            'data_fechamento' => 'Data de Fechamento',
 		];
 	}
 
@@ -160,6 +163,11 @@ class Denuncia extends ClienteActiveRecord
 
             if($this->isNewRecord) {
                 $this->hash_acesso_publico = $this->_createHashAcessoPublico();
+            }
+            else {
+                if($oldStatus != $this->status && in_array($this->status, DenunciaStatus::getStatusTerminativos())) {
+                    $this->data_fechamento = new Expression('NOW()');
+                }
             }
 
             $result = parent::save($runValidation, $attributes);
@@ -236,6 +244,17 @@ class Denuncia extends ClienteActiveRecord
     public function getProtocolo()
     {
         return str_pad($this->id, 12, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * @return int
+     */
+    public function getQtde_dias_em_aberto()
+    {
+        $dataCriacao = new \DateTime($this->data_criacao);
+        $dataFechamento = $this->data_fechamento ? new \DateTime($this->data_fechamento) : new \DateTime();
+
+        return $dataFechamento->diff($dataCriacao)->days;
     }
 
     private function _createHashAcessoPublico()

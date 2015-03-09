@@ -17,6 +17,8 @@ use app\components\ActiveRecord;
 class Configuracao extends ActiveRecord
 {
     const ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA = 1;
+    const ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE = 2;
+    const ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO = 3;
 
 	/**
 	 * @inheritdoc
@@ -178,7 +180,7 @@ class Configuracao extends ActiveRecord
      */
     public static function cria($id, $nome, $descricao, $tipo, $valor, $values = null)
     {
-        \Yii::$app->db->createCommand()->execute("ALTER SEQUENCE configuracoes_id_seq START WITH " . ($id - 1));
+        \Yii::$app->db->createCommand()->execute("ALTER SEQUENCE configuracoes_id_seq RESTART WITH " . $id);
 
     	$configuracao = new Configuracao;
         $configuracao->nome = $nome;
