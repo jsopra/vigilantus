@@ -41,6 +41,29 @@ $config = [
             //'authFile' => __DIR__ . '/../data/rbac.php',
             'defaultRoles' => ['Anonimo'],
         ],
+        // AuthClient - http://www.yiiframework.com/doc-2.0/ext-authclient-index.html
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'twitter' => [
+                    'class' => 'yii\authclient\clients\Twitter',
+                    'consumerKey' => $params['twitter']['app_key'],
+                    'consumerSecret' => $params['twitter']['app_secret'],
+                ],
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'clientId' => $params['facebook']['app_key'],
+                    'clientSecret' => $params['facebook']['app_secret'],
+                    'scope' => 'email, publish_actions, user_friends'
+                ],
+                'instagram' => [
+                    'class' => 'app\components\clients\Instagram',
+                    'clientId' => $params['instagram']['app_key'],
+                    'clientSecret' => $params['instagram']['app_secret'],
+                    'scope' => 'likes relationships',
+                ],
+            ]
+        ],
         'cache' => [
             'class' => 'yii\redis\Cache',
         ],
