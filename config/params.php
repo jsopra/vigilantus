@@ -18,15 +18,15 @@ return [
         'app_secret' => 'g6UhInqNfTtIpeXjdIwrilLvJYa3k4GDhMgc8YjrausUAU4JO5',
     ],
     'facebook' => [
-        //'app_key' => '451847198312682',
-        //'app_secret' => '92cb51d562f5af814469576f115b24b3',
-        'app_key' => '451847534979315',
-        'app_secret' => 'c63aed81ff578633a1483e8835e93adc',
+        'app_key' => '451847198312682',
+        'app_secret' => '92cb51d562f5af814469576f115b24b3',
+        //'app_key' => '451847534979315',
+        //'app_secret' => 'c63aed81ff578633a1483e8835e93adc',
     ],
     'instagram' => [
-        //'app_key' => '2e27d4f38b624f45b0f3323070cb19b2',
-        //'app_secret' => '8f4f65a441ec463e911b4f3115ee62cc',
-        'app_key' => '86b191c2e1214f57bdde569a2514f3b0',
-        'app_secret' => '6e55d6d21d764cdcbd9254f1db00e7ff',
+        'app_key' => '2e27d4f38b624f45b0f3323070cb19b2',
+        'app_secret' => '8f4f65a441ec463e911b4f3115ee62cc',
+        //'app_key' => '86b191c2e1214f57bdde569a2514f3b0',
+        //'app_secret' => '6e55d6d21d764cdcbd9254f1db00e7ff',
     ],
 ];
