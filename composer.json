@@ -12,7 +12,9 @@
         "yiisoft/yii2-imagine": "*",
         "perspectivain/php-postgis": "dev-master",
         "perspectivain/yii2-mapbox-leaflet-helper": "dev-master",
-        "perspectivain/yii2-geo": "dev-master"
+        "perspectivain/yii2-geo": "dev-master",
+        "yiisoft/yii2-authclient": "*",
+        "cosenary/instagram": "dev-master"
 	},
 	"require-dev": {
 		"yiisoft/yii2-codeception": "*",

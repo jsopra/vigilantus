@@ -160,6 +160,14 @@ class Cliente extends ActiveRecord
     }
 
     /**
+     * @return boolean
+     */
+    public function hasNetwork($id)
+    {
+        return SocialAccount::find()->doCliente($this->id)->daRede($id)->count() > 0;
+    }
+
+    /**
      * Apaga relações do boletim com imóveis e fechamento de RG
      * @return void
      */

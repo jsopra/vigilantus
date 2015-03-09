@@ -25,22 +25,26 @@ AppAsset::register($this);
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css' />
         <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css' />
         <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700' rel='stylesheet' type='text/css' />
-        
+
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        
+
         <?php $this->head() ?>
 
         <?= Html::csrfMetaTags() ?>
+
+        <script>
+            var socialHandlerUrl = '<?= Url::to(['/site/auth']); ?>';
+        </script>
     </head>
     <body>
-        
-        <?php 
+
+        <?php
         $view = Yii::$app->getView();
-        $view->registerJs('var feedbackUrl = "' .Url::toRoute(['site/feedback']) . '";', View::POS_HEAD);
+        $view->registerJs('var feedbackUrl = "' .Url::toRoute(['/site/feedback']) . '";', View::POS_HEAD);
         ?>
-        
+
         <?php $this->beginBody() ?>
         <?php
         DetailwrapNavBar::begin([
@@ -49,18 +53,18 @@ AppAsset::register($this);
             'municipios' => $this->context->municipiosDisponiveis,
             'municipioLogado' => $this->context->municipioLogado,
         ]);
-        
+
             echo DetailwrapNav::widget([
                 'options' => ['class' => 'nav navbar-nav pull-right hidden-xs'],
-                'items' => VigilantusLayoutHelper::getMenuComum(Yii::$app->user), 
+                'items' => VigilantusLayoutHelper::getMenuComum(Yii::$app->user),
             ]);
-            
+
         DetailwrapNavBar::end();
         ?>
 
 
         <!-- sidebar -->
-        <?php 
+        <?php
         if(!Yii::$app->user->isGuest)
             echo DetailwrapSideBar::widget([
                 'options' => ['id' => 'dashboard-menu'],
@@ -69,7 +73,7 @@ AppAsset::register($this);
         ?>
 
         <div class="content <?= Yii::$app->user->isGuest ? 'wide-content' : ''; ?>">
-            
+
             <div id="pad-wrapper">
                 <?=
                 Breadcrumbs::widget([
@@ -88,8 +92,8 @@ AppAsset::register($this);
 
                             <div class="row">
 
-                                <?php 
-                                $partners = VigilantusLayoutHelper::getPartners(); 
+                                <?php
+                                $partners = VigilantusLayoutHelper::getPartners();
                                 foreach($partners as $partner) :
                                 ?>
                                     <div class="partner text-center">
@@ -104,7 +108,7 @@ AppAsset::register($this);
                                 <div class="clearfix"></div>
                             </div>
                         </div>
-                        
+
                         <div class="col-sm-2 col-sm-offset-2" style="padding-top: 35px;">
 
                             <p class="text-center perspectiva">
@@ -114,22 +118,22 @@ AppAsset::register($this);
                             </p>
 
                             <p class="text-center">
-                                Perspectiva Negócios Digitais &copy; <?= date('Y') ?> 
+                                Perspectiva Negócios Digitais &copy; <?= date('Y') ?>
                             </p>
                         </div>
-                        
+
                     </div>
                 </footer>
             </div>
         </div>
-        
-        <?php 
-        if (!Yii::$app->user->isGuest) 
-            echo $this->render('//shared/_feedback', array('model' => $this->context->feedbackModel)); 
+
+        <?php
+        if (!Yii::$app->user->isGuest)
+            echo $this->render('//shared/_feedback', array('model' => $this->context->feedbackModel));
         ?>
-        
+
         <?php $this->endBody() ?>
-        
+
         <?php
         if (YII_ENV_PROD) {
             echo VigilantusLayoutHelper::getAnalyticsCode();

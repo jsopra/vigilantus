@@ -12,7 +12,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/resumo-rg-bairro.css',
         'css/index.css',
-        'css/common.css',    
+        'css/common.css',
         'css/blog.css',
     ];
     public $js = [
@@ -21,7 +21,8 @@ class AppAsset extends AssetBundle
         'js/grid.js',
         'js/typeahead.min.js',
         'js/jquery.numeric.min.js',
-        'js/modernizr.vigilantus.min.js'
+        'js/modernizr.vigilantus.min.js',
+        'js/social-login.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

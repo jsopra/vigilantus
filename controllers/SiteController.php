@@ -19,6 +19,8 @@ use app\models\Modulo;
 use yii\base\Exception;
 use yii\base\UserException;
 use app\models\Cliente;
+use app\components\SocialLoginHandler;
+use yii\helpers\Url;
 
 class SiteController extends Controller
 {
@@ -69,6 +71,11 @@ class SiteController extends Controller
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successUrl' => Url::to(['/denuncia/social-account/index']),
+                'successCallback' => [new SocialLoginHandler(), 'loginHandler'],
             ],
         ];
     }
