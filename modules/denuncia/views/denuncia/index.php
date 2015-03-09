@@ -6,6 +6,7 @@ use app\models\Bairro;
 use app\models\DenunciaStatus;
 use app\models\DenunciaTipoProblema;
 use app\helpers\models\DenunciaHelper;
+use app\models\Configuracao;
 
 $this->title = 'Denúncias';
 $this->params['breadcrumbs'][] = $this->title;
@@ -17,6 +18,21 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
+        'rowOptions' => function ($model, $index, $widget, $grid){
+
+            $qtdeDias = $model->qtde_dias_em_aberto;
+
+            $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
+            $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
+
+            if($qtdeDias >= $qtdeDiasVermelho) {
+                return ['style'=>'background-color: #FFA0A0;'];
+            } else if($qtdeDias >= $qtdeDiasVerde) {
+                return ['style'=>'background-color: #4FD190;'];
+            }
+
+            return [];
+        },
         'buttons' => [
             'create' => function() {
                 return Html::a(
@@ -39,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model, $index, $widget) {
                     return $model->getFormattedAttribute('data_criacao');
                 },
-            ], 
+            ],
 			[
                 'attribute' => 'status',
                 'filter' => DenunciaStatus::getDescricoes(),
@@ -59,6 +75,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => Bairro::listData('nome'),
                 'value' => function ($model, $index, $widget) {
                     return $model->bairro ? $model->bairro->nome : null;
+                }
+            ],
+            [
+                'header' => 'Qtde. Dias em aberto',
+                'filter' => false,
+                'value' => function ($model, $index, $widget) {
+                    return $model->qtde_dias_em_aberto;
                 }
             ],
 			[
