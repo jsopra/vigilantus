@@ -21,6 +21,8 @@ use yii\base\UserException;
 use app\models\Cliente;
 use app\components\SocialLoginHandler;
 use yii\helpers\Url;
+use app\models\Denuncia;
+use app\models\Configuracao;
 
 class SiteController extends Controller
 {
@@ -82,22 +84,36 @@ class SiteController extends Controller
 
     public function actionHome()
     {
+        $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
+        $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
+
         return $this->render(
             'home',
             [
                 'modelRg' => new ResumoRgCapaReport,
                 'cliente' => \Yii::$app->session->get('user.cliente'),
+                'diasVerde' => $qtdeDiasVerde,
+                'diasVermelho' => $qtdeDiasVermelho,
+                'qtdeVerde' => Denuncia::find()->aberta()->anteriorA($qtdeDiasVerde)->count(),
+                'qtdeVermelho' => Denuncia::find()->aberta()->anteriorA($qtdeDiasVermelho)->count(),
             ]
         );
     }
 
     public function actionResumoFocos()
     {
+        $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
+        $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
+
         return $this->render(
             'resumo-focos',
             [
                 'modelFoco' => new ResumoFocosCapaReport,
                 'cliente' => \Yii::$app->session->get('user.cliente'),
+                'diasVerde' => $qtdeDiasVerde,
+                'diasVermelho' => $qtdeDiasVermelho,
+                'qtdeVerde' => Denuncia::find()->aberta()->anteriorA($qtdeDiasVerde)->count(),
+                'qtdeVermelho' => Denuncia::find()->aberta()->anteriorA($qtdeDiasVermelho)->count(),
             ]
         );
     }

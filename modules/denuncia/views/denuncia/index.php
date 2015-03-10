@@ -18,21 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
-        'rowOptions' => function ($model, $index, $widget, $grid){
-
-            $qtdeDias = $model->qtde_dias_em_aberto;
-
-            $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
-            $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
-
-            if($qtdeDias >= $qtdeDiasVermelho) {
-                return ['style'=>'background-color: #FFA0A0;'];
-            } else if($qtdeDias >= $qtdeDiasVerde) {
-                return ['style'=>'background-color: #4FD190;'];
-            }
-
-            return [];
-        },
         'buttons' => [
             'create' => function() {
                 return Html::a(
@@ -64,6 +49,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'attribute' => 'data_fechamento',
+                'filter' => ['0' => 'Aberto', '1' => 'Fechado'],
+                'value' => function ($model, $index, $widget) {
+                    return $model->getFormattedAttribute('data_fechamento');
+                }
+            ],
+            [
                 'attribute' => 'denuncia_tipo_problema_id',
                 'filter' => DenunciaTipoProblema::listData('nome'),
                 'value' => function ($model, $index, $widget) {
@@ -79,10 +71,29 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'header' => 'Qtde. Dias em aberto',
-                'filter' => false,
+                'attribute' => 'qtde_dias_aberto',
+                'filter' => [
+                    Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id) => 'Verde',
+                    Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id) => 'Vermelho'
+                ],
                 'value' => function ($model, $index, $widget) {
                     return $model->qtde_dias_em_aberto;
-                }
+                },
+                'contentOptions' => function ($model, $index, $widget, $grid) {
+
+                    $qtdeDias = $model->qtde_dias_em_aberto;
+
+                    $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
+                    $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
+
+                    if($qtdeDias >= $qtdeDiasVermelho) {
+                        return ['style'=>'background-color: #FFA0A0; font-weight: bold;'];
+                    } else if($qtdeDias >= $qtdeDiasVerde) {
+                        return ['style'=>'background-color: #4FD190; font-weight: bold;'];
+                    }
+
+                    return [];
+                },
             ],
 			[
 				'header' => 'Ações',
