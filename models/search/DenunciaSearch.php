@@ -27,12 +27,14 @@ class DenunciaSearch extends SearchModel
 	public $nome_original_anexo;
 	public $denuncia_tipo_problema_id;
 	public $bairro_quarteirao_id;
+    public $qtde_dias_aberto;
+    public $data_fechamento;
 
 	public function rules()
 	{
 		return [
-			[['id', 'cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'denuncia_tipo_problema_id', 'bairro_quarteirao_id'], 'integer'],
-			[['data_criacao', 'nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo'], 'safe'],
+			[['id', 'cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'denuncia_tipo_problema_id', 'bairro_quarteirao_id', 'qtde_dias_aberto'], 'integer'],
+			[['data_criacao', 'nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'data_fechamento'], 'safe'],
 		];
 	}
 
@@ -59,6 +61,15 @@ class DenunciaSearch extends SearchModel
             ->andFilterWhere(['like', 'mensagem', $this->mensagem])
             ->andFilterWhere(['like', 'anexo', $this->anexo])
             ->andFilterWhere(['like', 'nome_original_anexo', $this->nome_original_anexo]);
-        
+
+        if($this->qtde_dias_aberto) {
+            $query->anteriorA($this->qtde_dias_aberto);
+        }
+
+        if($this->data_fechamento == '1') {
+            $query->fechada();
+        } else if($this->data_fechamento == '0') {
+            $query->aberta();
+        }
 	}
 }
