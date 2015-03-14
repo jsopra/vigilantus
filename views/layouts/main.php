@@ -10,7 +10,6 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\widgets\Alert;
 use yii\web\View;
-
 AppAsset::register($this);
 ?>
 
@@ -36,6 +35,20 @@ AppAsset::register($this);
 
         <script>
             var socialHandlerUrl = '<?= Url::to(['/site/auth']); ?>';
+            var stepFocosUrl = '<?= Url::to(['/foco-transmissor', 'step' => true]); ?>';
+            var stepVisaoGeralUrl= '<?= Url::to(['/site/home', 'step' => true]); ?>';
+            var stepArmadilhasCadastroUrl = '<?= Url::to(['/armadilha', 'step' => true]); ?>';
+            var stepArmadilhasMapaUrl = '<?= Url::to(['/mapa/armadilha', 'step' => true]); ?>';
+            var stepPECadastroUrl = '<?= Url::to(['/ponto-estrategico', 'step' => true]); ?>';
+            var stepPEMapaUrl = '<?= Url::to(['/mapa/ponto-estrategico', 'step' => true]); ?>';
+            var stepGeolocalizacaoUrl = '<?= Url::to(['/bairro', 'step' => true]); ?>';
+            var stepRGUrl = '<?= Url::to(['/boletim-rg', 'step' => true]); ?>';
+            var stepDenunciasUrl  = '<?= Url::to(['/denuncia/denuncia/index', 'step' => true]); ?>';
+
+            var moduloDenunciaIsHabilitado = '<?= \Yii::$app->user->getIdentity() && \Yii::$app->user->getIdentity()->moduloIsHabilitado(\app\models\Modulo::MODULO_DENUNCIA) ? '1' : '0'; ?>';
+
+            var isAnalista = '<?= \Yii::$app->user->can("Analista") ? "1" : "0"; ?>';
+            var isGerente = '<?= \Yii::$app->user->can("Gerente") ? "1" : "0"; ?>';
         </script>
     </head>
     <body>
@@ -128,8 +141,10 @@ AppAsset::register($this);
         </div>
 
         <?php
-        if (!Yii::$app->user->isGuest)
-            echo $this->render('//shared/_feedback', array('model' => $this->context->feedbackModel));
+        if (!Yii::$app->user->isGuest) {
+            echo $this->render('//shared/_feedback', ['model' => $this->context->feedbackModel]);
+            echo $this->render('//shared/_stepguides');
+        }
         ?>
 
         <?php $this->endBody() ?>

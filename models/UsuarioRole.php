@@ -17,6 +17,7 @@ class UsuarioRole extends ActiveRecord
     const ADMINISTRADOR = 2;
     const GERENTE = 3;
     const USUARIO = 4;
+    const ANALISTA = 5;
 
     /**
      * @return string nome da tabela do banco de dados
@@ -66,24 +67,24 @@ class UsuarioRole extends ActiveRecord
     {
         throw new \Exception('Exclusão não habilitada', 500);
     }
-    
+
     /**
      * @return array
      */
     public static function listDataNivelUsuario(Usuario $usuario)
     {
         $listData = [];
-        
+
         $query = self::find()
             ->doNivelDoUsuario($usuario)
             ->select('id,nome')
             ->orderBy('nome')
         ;
-        
+
         foreach ($query->all() as $row) {
             $listData[$row->id] = $row->nome;
         }
-        
+
         return $listData;
     }
 }

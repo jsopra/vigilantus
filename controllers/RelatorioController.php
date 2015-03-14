@@ -32,12 +32,12 @@ class RelatorioController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'resumo-rg-bairro', 'mapa-area-tratamento', 'focos', 'focos-bairro', 'focos-bairro-data', 'download-mapa', 'update-rg'],
-                        'roles' => ['Gerente'],
+                        'roles' => ['Gerente', 'Analista'],
                     ],
                     [
                         'allow' => true,
                         'actions' => ['focos-export', 'update-rg'],
-                        'roles' => ['Usuario'],
+                        'roles' => ['Usuario', 'Analista'],
                     ],
                 ],
             ],

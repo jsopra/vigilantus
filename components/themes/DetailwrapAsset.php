@@ -19,7 +19,7 @@ class DetailwrapAsset extends AssetBundle
         'css/compiled/layout.css',
         'css/compiled/elements.css',
         'css/compiled/icons.css',
-        'css/lib/uniform.default.css', 
+        'css/lib/uniform.default.css',
         'css/compiled/form-wizard.css',
     ];
     public $js = [

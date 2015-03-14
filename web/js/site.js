@@ -9,7 +9,7 @@ $(document).ready(function(){
 	if ($('.alert-success').length) {
 		createAutoClosingAlert(".alert-success", 2000);
 	}
-    
+
     $('select[name="user_municipio"]').change(function(){
        window.location.href =  $(this).val();
     });
@@ -75,8 +75,8 @@ function populaSelectJSON(elemento, url) {
         jQuery.each(data, function(i, value) {
             elemento.append($('<option>').text(value).attr('value', i));
             qtde++;
-        });      
-        
+        });
+
         if(qtde > 1)
             elemento.prepend($('<option>').text('Selecione...').attr('value', ''));
     });

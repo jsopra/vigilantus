@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bairro-tipo-index" data-role="">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+	<h1 id="stepguide-title"><?= Html::encode($this->title) ?></h1>
 
     <?php
     echo GridView::widget([
@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'class' => 'btn btn-flat success',
                         'data-role' => 'create',
+                        'id' => 'stepguide-create-boletim-imovel',
                     ]
                 );
             },
@@ -44,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'class' => 'btn btn-flat success',
                         'data-role' => 'create',
+                        'id' => 'stepguide-create-boletim-fechamento',
                     ]
                 );
             },
@@ -53,6 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     Url::to(['batch']),
                     [
                         'class' => 'btn btn-flat default',
+                        'id' => 'stepguide-create-carga-fechamento',
                     ]
                 );
             }
@@ -137,3 +140,42 @@ $script = '
 ';
 $view->registerJs($script);
 ?>
+
+<?php
+if(isset($_GET['step'])) {
+    $view = Yii::$app->getView();
+    $script = '
+        $(document).ready(function() {
+
+            var intro = introJs();
+            intro.setOption("skipLabel", "Sair");
+            intro.setOption("doneLabel", "Fechar");
+            intro.setOption("nextLabel", "Próximo");
+            intro.setOption("prevLabel", "Anterior");
+
+            intro.setOptions({
+                steps: [
+                    {
+                        element: "#stepguide-title",
+                        intro: "Este é o cadastro de Boletins de Reconhecimento Geográfico"
+                    },
+                    {
+                        element: "#stepguide-create-boletim-imovel",
+                        intro: "Você pode transcrever integralmente um Boletim de RG, imóvel a imóvel"
+                    },
+                    {
+                        element: "#stepguide-create-boletim-fechamento",
+                        intro: "Como também pode apenas submeter o fechamento do Boletim, com o resumo de imóveis por tipo"
+                    },
+                    {
+                        element: "#stepguide-create-carga-fechamento",
+                        intro: "Caso a quantidade de dados seja muito grande, você pode também fazer uma carga de fechamento de RG"
+                    },
+                ],
+            });
+
+            intro.start();
+        })
+    ';
+    $view->registerJs($script);
+}

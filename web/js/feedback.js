@@ -1,13 +1,13 @@
 $(document).ready(function() {
-    
+
     $('#feedback-form').submit(function(event){
-        
+
         event.preventDefault();
         event.stopImmediatePropagation();
-        
+
         var data = $(this).serialize();
         var oldValue = $('.submitFeedback').html();
-        
+
         $('.submitFeedback').html('Enviando...');
         $('.submitFeedback').attr('disabled', 'disabled');
 
@@ -18,9 +18,10 @@ $(document).ready(function() {
             dataType:'json',
             success:function(data){
 
-                if(data.status)
+                if(data.status) {
                     $('#feedbackform-body').val('');
-                
+                }
+
                 $('.modal-feedback-message').html(data.message);
                 $('.submitFeedback').html(oldValue);
                 $('.submitFeedback').removeAttr('disabled');

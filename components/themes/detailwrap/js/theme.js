@@ -5,7 +5,7 @@ $(function () {
     var $el = $(el);
     var $dialog = $el.find(".pop-dialog");
     var $trigger = $el.find(".trigger");
-    
+
     $dialog.click(function (e) {
         e.stopPropagation()
     });
@@ -22,7 +22,7 @@ $(function () {
     $trigger.click(function (e) {
       e.preventDefault();
       e.stopPropagation();
-      
+
       // hide all other pop-dialogs
       $(".notification-dropdown .pop-dialog").removeClass("is-visible");
       $(".notification-dropdown .trigger").removeClass("active")
@@ -45,7 +45,7 @@ $(function () {
     }
     $(".skins-nav .skin").removeClass("selected");
     $(this).addClass("selected");
-    
+
     if (!$("#skin-file").length) {
       $("head").append('<link rel="stylesheet" type="text/css" id="skin-file" href="">');
     }
@@ -86,7 +86,7 @@ $(function () {
     e.stopPropagation();
     $("body").toggleClass("menu");
   });
-  $(window).resize(function() { 
+  $(window).resize(function() {
     $(this).width() > 769 && $("body.menu").removeClass("menu")
   })
 
@@ -142,7 +142,7 @@ $(function () {
   			$checks.prop("checked", true);
   		} else {
   			$checks.prop("checked", false);
-  		}  		
+  		}
   	});
 
     // quirk to fix dark skin sidebar menu because of B3 border-box

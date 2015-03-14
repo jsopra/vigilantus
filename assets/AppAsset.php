@@ -13,7 +13,7 @@ class AppAsset extends AssetBundle
         'css/resumo-rg-bairro.css',
         'css/index.css',
         'css/common.css',
-        'css/blog.css',
+        'css/blog.css'
     ];
     public $js = [
         'js/feedback.js',
@@ -23,10 +23,12 @@ class AppAsset extends AssetBundle
         'js/jquery.numeric.min.js',
         'js/modernizr.vigilantus.min.js',
         'js/social-login.js',
+        'js/stepguide.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'app\components\themes\DetailwrapAsset',
         'app\batch\Asset',
+        'app\components\IntroJsAsset',
     ];
 }

@@ -27,12 +27,12 @@ class MapaController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['tratamento-foco', 'visao-geral', 'armadilha', 'ponto-estrategico'],
-                        'roles' => ['Gerente'],
+                        'roles' => ['Gerente', 'Analista'],
                     ],
                     [
                         'allow' => true,
                         'actions' => [],
-                        'roles' => ['Usuario'],
+                        'roles' => ['Usuario', 'Analista'],
                     ],
                 ],
             ],
