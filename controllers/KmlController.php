@@ -32,7 +32,7 @@ class KmlController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['area-tratamento-foco', 'cidade', 'bairro', 'armadilha', 'ponto-estrategico'],
-                        'roles' => ['Usuario'],
+                        'roles' => ['Gerente', 'Analista'],
                     ],
                 ],
             ],

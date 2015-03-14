@@ -69,7 +69,7 @@ class FocoTransmissorQuery extends ActiveQuery
             FROM focos_transmissores ft
             JOIN especies_transmissores et ON ft.especie_transmissor_id = et.id
             JOIN bairro_quarteiroes bf on ft.bairro_quarteirao_id = bf.id
-            LEFT JOIN bairro_quarteiroes br	st_dwithin(br.coordenadas_area, ST_Centroid(bf.coordenadas_area)::geography, qtde_metros_area_foco)
+            LEFT JOIN bairro_quarteiroes br	ON st_dwithin(br.coordenadas_area, ST_Centroid(bf.coordenadas_area)::geography, qtde_metros_area_foco)
             WHERE
                 br.id = " . $quarteirao->id . " AND
                 data_coleta BETWEEN NOW() - INTERVAL '1 DAY' * et.qtde_dias_permanencia_foco AND NOW() AND

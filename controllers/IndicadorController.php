@@ -26,7 +26,7 @@ class IndicadorController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['resumo-focos', 'focos-tipo-deposito', 'evolucao-focos', 'focos-bairro'],
-                        'roles' => ['Gerente'],
+                        'roles' => ['Gerente', 'Analista'],
                     ],
                 ],
             ],

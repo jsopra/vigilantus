@@ -14,6 +14,10 @@ return [
         'type' => Item::TYPE_ROLE,
         'children' => ['Usuario'],
     ],
+    'Analista' => [
+        'type' => Item::TYPE_ROLE,
+        'children' => ['Anonimo'],
+    ],
     'Administrador' => [
         'type' => Item::TYPE_ROLE,
         'children' => ['Gerente'],
@@ -21,5 +25,5 @@ return [
     'Root' => [
         'type' => Item::TYPE_ROLE,
         'children' => ['Administrador'],
-    ],
+    ]
 ];

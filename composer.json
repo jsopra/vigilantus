@@ -14,7 +14,8 @@
         "perspectivain/yii2-mapbox-leaflet-helper": "dev-master",
         "perspectivain/yii2-geo": "dev-master",
         "yiisoft/yii2-authclient": "*",
-        "cosenary/instagram": "dev-master"
+        "cosenary/instagram": "dev-master",
+        "bower-asset/intro.js": "*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-codeception": "*",

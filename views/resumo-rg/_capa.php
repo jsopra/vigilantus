@@ -3,6 +3,7 @@ use yii\helpers\Html;
 ?>
 <br />
 
+<div id="stepguide-indicador-rg-update">
 <?php if($ultimaAtualizacao) : ?>
     <div class="bs-callout bs-callout-success">
       <p><span class="glyphicon glyphicon-time" style="font-size: 1em; padding-right: 10px;"></span> Última atualização do relatório em <?= $ultimaAtualizacao; ?>. <?= Html::a(Html::encode("Solicite uma atualização agora"),'/relatorio/update-rg'); ?>.</p>
@@ -12,6 +13,7 @@ use yii\helpers\Html;
       <p><span class="glyphicon glyphicon-time" style="font-size: 1em; padding-right: 10px;"></span> Não existe histórico de atualização para este relatório. <?= Html::a(Html::encode("Solicite uma atualização agora"),'/relatorio/update-rg'); ?>.</p>
     </div>
 <?php endif; ?>
+</div>
 
 <div id="capa-resumo-rg" class="row">
     <div class="col-md-6">
@@ -63,6 +65,7 @@ use yii\helpers\Html;
                 <tr>
                     <th>Bairro</th>
                     <th>Imóveis</th>
+                    <th class="number">Foco</th>
                 </tr>
             </thead>
             <tbody>

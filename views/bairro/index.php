@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bairro-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 id="stepguide-title"><?= Html::encode($this->title) ?></h1>
 
     <?php
     echo GridView::widget([
@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'class' => 'btn btn-flat success',
                         'data-role' => 'create',
+                        'id' => 'stepguide-create-bairro',
                     ]
                 );
             },
@@ -68,3 +69,39 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
 </div>
+
+<?php
+if(isset($_GET['step'])) {
+    $view = Yii::$app->getView();
+    $script = '
+        $(document).ready(function() {
+
+            var intro = introJs();
+            intro.setOption("skipLabel", "Sair");
+            intro.setOption("doneLabel", "Fechar");
+            intro.setOption("nextLabel", "Próximo");
+            intro.setOption("prevLabel", "Anterior");
+
+            intro.setOptions({
+                steps: [
+                    {
+                        element: "#stepguide-title",
+                        intro: "Este é o cadastro de bairros e quarteirões."
+                    },
+                    {
+                        element: "#stepguide-create-bairro",
+                        intro: "Você deve começar cadastrando um bairro, identificando seu nome e definindo um espaço geográfico para ele"
+                    },
+
+                    {
+                        element: "thead",
+                        intro: "Uma vez cadastrado o bairro, ele aparecerá na tabela abaixo. Bastará clicar em \"Gerenciar\" na coluna Quarteirões para proceder, da mesma forma, o cadastro e geolocalização dos quarteirões do bairro"
+                    },
+                ],
+            });
+
+            intro.start();
+        })
+    ';
+    $view->registerJs($script);
+}

@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 MapBoxAPIHelper::registerScript($this, ['fullScreen', 'omnivore']);
 ?>
 
-<h1><?= Html::encode($this->title) ?></h1>
+<h1 id="stepguide-title"><?= Html::encode($this->title) ?></h1>
 
 <div id="map"  style="height: 450px; width: 100%;"></div>
 
@@ -61,3 +61,34 @@ $municipio->loadCoordenadas();
     $this->registerJs($javascript);
     ?>
 <?php endif; ?>
+
+<?php
+if(isset($_GET['step'])) {
+    $view = Yii::$app->getView();
+    $script = '
+        $(document).ready(function() {
+
+            var intro = introJs();
+            intro.setOption("skipLabel", "Sair");
+            intro.setOption("doneLabel", "Fechar");
+            intro.setOption("nextLabel", "Próximo");
+            intro.setOption("prevLabel", "Anterior");
+
+            intro.setOptions({
+                steps: [
+                    {
+                        element: "#stepguide-title",
+                        intro: "Este é mapa de armadilhas. Ele lista todas as armadilhas cadastradas"
+                    },
+                    {
+                        element: "#stepguide-mapa-visao-geral",
+                        intro: "Você também verá armadilhas no mapa de visão geral, que mostra as principais informações geolocalizadas do sistema"
+                    },
+                ],
+            });
+
+            intro.start();
+        })
+    ';
+    $view->registerJs($script);
+}

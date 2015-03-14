@@ -251,6 +251,9 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
             case UsuarioRole::USUARIO:
                 return 'Usuario';
                 break;
+                case UsuarioRole::ANALISTA:
+                return 'Analista';
+                break;
             default:
                 return null;
         }

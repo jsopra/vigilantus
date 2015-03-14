@@ -36,7 +36,7 @@ class FocoTransmissorController extends CRUDController
                     [
                         'allow' => true,
                         'actions' => ['create', 'update', 'delete', 'index', 'imoveis', 'bairroCategoria', 'bairroQuarteiroes', 'ruas', 'batch'],
-                        'roles' => ['@'],
+                        'roles' => ['Usuario'],
                     ],
                 ],
             ],

@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="denuncia-index">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+	<h1 id="stepguide-title"><?= Html::encode($this->title) ?></h1>
 
 	<?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'class' => 'btn btn-flat success',
                         'data-role' => 'create',
+                        'id' => 'stepguide-create-denuncia',
                     ]
                 );
             }
@@ -104,3 +105,39 @@ $this->params['breadcrumbs'][] = $this->title;
 	]); ?>
 
 </div>
+
+
+<?php
+if(isset($_GET['step'])) {
+    $view = Yii::$app->getView();
+    $script = '
+        $(document).ready(function() {
+
+            var intro = introJs();
+            intro.setOption("skipLabel", "Sair");
+            intro.setOption("doneLabel", "Fechar");
+            intro.setOption("nextLabel", "Próximo");
+            intro.setOption("prevLabel", "Anterior");
+
+            intro.setOptions({
+                steps: [
+                    {
+                        element: "#stepguide-title",
+                        intro: "Este é o painel de gestão de Denúncias. Uma denúncia pode ser cadastrada por você, ou mesmo recebida através da página pública ou das redes sociais"
+                    },
+                    {
+                        element: "#stepguide-create-denuncia",
+                        intro: "Você pode transcrever uma denúncia recebida por uma forma não automatizada"
+                    },
+                    {
+                        element: "thead",
+                        intro: "Todas as denúncias ficarão listadas abaixo. Você poderá filtrar por status, tipo de problema, bairro, ou acompanhar indicadores de atendimento da denúncia. A última coluna traz alguns ícones que darão continuidade à uma denúncia: ver detalhes, baixar anexo, aprovar, reprovar e informar alteração de status"
+                    },
+                ],
+            });
+
+            intro.start();
+        })
+    ';
+    $view->registerJs($script);
+}

@@ -13,8 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="foco-transmissor-index">
 
-	<h1><?= Html::encode($this->title) ?></h1>
-
+	<h1 id="stepguide-title"><?= Html::encode($this->title) ?></h1>
 	<?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
@@ -24,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'Cadastrar Foco de Transmissor',
                     Yii::$app->urlManager->createUrl('foco-transmissor/create'),
                     [
+                        'id' => 'stepguide-cadastro-focos',
                         'class' => 'btn btn-flat success',
                         'data-role' => 'create',
                     ]
@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'Importar Arquivo de Focos',
                     Url::to(['batch']),
                     [
+                        'id' => 'stepguide-carga-focos',
                         'class' => 'btn btn-flat default',
                     ]
                 );
@@ -120,3 +121,37 @@ $this->params['breadcrumbs'][] = $this->title;
 	]); ?>
 
 </div>
+
+<?php
+if(isset($_GET['step'])) {
+    $view = Yii::$app->getView();
+    $script = '
+        $(document).ready(function() {
+
+            var intro = introJs();
+            intro.setOption("skipLabel", "Sair");
+            intro.setOption("doneLabel", "Fechar");
+            intro.setOption("nextLabel", "Próximo");
+            intro.setOption("prevLabel", "Anterior");
+
+            intro.setOptions({
+                steps: [
+                    {
+                        element: "#stepguide-title",
+                        intro: "Este é o cadastro de focos"
+                    },
+                    {
+                        element: "#stepguide-cadastro-focos",
+                        intro: "Cadastre um novo foco pelo formulário"
+                    },
+                    {
+                        element: "#stepguide-carga-focos",
+                        intro: "Ou cadastre vários focos através de uma carga"
+                    }
+                ]
+            });
+            intro.start();
+        })
+    ';
+    $view->registerJs($script);
+}

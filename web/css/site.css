@@ -450,3 +450,9 @@ footer h2 {
       #map .menu-ui a.active:hover {
         background:#3074a4;
         }
+
+span.introjs-helperNumberLayer {
+    -webkit-box-sizing: initial !important;
+    box-sizing: initial !important;
+    -moz-box-sizing: initial !important;
+}
