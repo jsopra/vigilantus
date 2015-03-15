@@ -9,6 +9,7 @@ use app\models\EspecieTransmissor;
 use app\models\DepositoTipo;
 use app\models\FocoTransmissor;
 use app\models\ImovelTipo;
+use \IntlDateFormatter;
 
 class FocosTransmissor extends Model
 {
@@ -88,13 +89,19 @@ class FocosTransmissor extends Model
             $foco->cliente_id = $clienteId;
         }
 
+        $formatter = new IntlDateFormatter(
+            \Yii::$app->language,
+            IntlDateFormatter::MEDIUM,
+            IntlDateFormatter::NONE
+        );
+
         $foco->inserido_por = $userId ? $userId : \Yii::$app->user->identity->id;
         $foco->tipo_deposito_id = $tipoDeposito->id;
         $foco->especie_transmissor_id = $especieTransmissor->id;
         $foco->bairro_quarteirao_id = $bairroQuarteirao->id;
-        $foco->data_coleta = $row->getValue('data_coleta');
-        $foco->data_entrada = $row->getValue('data_entrada');
-        $foco->data_exame = $row->getValue('data_exame');
+        $foco->data_coleta = date('Y-m-d', $formatter->parse($row->getValue('data_coleta')));
+        $foco->data_entrada = date('Y-m-d', $formatter->parse($row->getValue('data_entrada')));
+        $foco->data_exame = date('Y-m-d', $formatter->parse($row->getValue('data_exame')));
         $foco->quantidade_ovos = $row->getValue('qtde_ovos') ? $row->getValue('qtde_ovos') : 0;
         $foco->quantidade_forma_adulta = $row->getValue('qtde_adulta') ? $row->getValue('qtde_adulta') : 0;
         $foco->quantidade_forma_aquatica = $row->getValue('qtde_aquatica') ? $row->getValue('qtde_aquatica') : 0;
