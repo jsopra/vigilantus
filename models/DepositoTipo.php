@@ -96,4 +96,5 @@ class DepositoTipo extends ClienteActiveRecord
     {
         return '(' . $this->sigla . ') ' . $this->descricao;
     }
+
 }

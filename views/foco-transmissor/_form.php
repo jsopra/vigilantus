@@ -290,4 +290,5 @@ $script .= '
 });
 ';
 $view->registerJs($script);
+
 ?>
