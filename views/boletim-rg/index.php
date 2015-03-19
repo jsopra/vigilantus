@@ -152,6 +152,8 @@ if(isset($_GET['step'])) {
             intro.setOption("doneLabel", "Fechar");
             intro.setOption("nextLabel", "Próximo");
             intro.setOption("prevLabel", "Anterior");
+            intro.setOption("tooltipPosition", "auto");
+            intro.setOption("positionPrecedence", ["left", "right", "bottom", "top"]);
 
             intro.setOptions({
                 steps: [

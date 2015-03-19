@@ -17,7 +17,8 @@ $(document).ready(function(){
                     intro: "Para cadastrar os focos, abra o cadastro de focos"
                 },
             ],
-            doneLabel: 'Próxima Página'
+            doneLabel: 'Próxima Página',
+            tooltipPosition: 'auto'
         });
 
         intro.start().oncomplete(function() {
@@ -36,7 +37,8 @@ $(document).ready(function(){
                     intro: "Você pode acessar a visão geral clicando na logo do software"
                 },
             ],
-            doneLabel: 'Ir para página!'
+            doneLabel: 'Ir para página!',
+            tooltipPosition: 'auto'
         });
 
         intro.start().oncomplete(function() {
@@ -57,7 +59,8 @@ $(document).ready(function(){
                     intro: "Para começar, você precisa mapear suas armadilhas"
                 },
             ],
-            doneLabel: 'Ir para página!'
+            doneLabel: 'Ir para página!',
+            tooltipPosition: 'auto'
         });
 
         intro.start().oncomplete(function() {
@@ -78,7 +81,8 @@ $(document).ready(function(){
                     intro: "Para começar, você precisa mapear seus pontos estratégicos"
                 },
             ],
-            doneLabel: 'Ir para ferramenta!'
+            doneLabel: 'Ir para ferramenta!',
+            tooltipPosition: 'auto'
         });
 
         intro.start().oncomplete(function() {
@@ -117,8 +121,13 @@ $(document).ready(function(){
                 {
                     element: "#step-cadastro-tipos-deposito",
                     intro: "Aqui você define os tipos de depósitos em monitoramento. Ex: Cisternas, Piscinas"
+                },
+                {
+                    element: "#stepguide-equipe",
+                    intro: "Aqui você cadastra equipes e agentes para estruturar visitação, denúncias, etc"
                 }
-            ]
+            ],
+            tooltipPosition: 'auto'
         });
 
         intro.start();
@@ -144,7 +153,8 @@ $(document).ready(function(){
                     element: "#step-sistema-usuarios",
                     intro: "Aqui você gerencia os usuários do sistema para seu Município"
                 }
-            ]
+            ],
+            tooltipPosition: 'auto'
         });
 
         intro.start();
@@ -209,7 +219,8 @@ $(document).ready(function(){
         );
 
         intro.setOptions({
-            steps: arrayOpcoes
+            steps: arrayOpcoes,
+            tooltipPosition: 'auto'
         });
 
         intro.start();
@@ -235,7 +246,8 @@ $(document).ready(function(){
                     element: "#step-cadastro-rg",
                     intro: "No cadastro de Boletins de RG você poderá cadastrar Boletins, Fechamentos ou importar Fechamentos ao sistema"
                 }
-            ]
+            ],
+            tooltipPosition: 'auto'
         });
 
         intro.start();
@@ -254,7 +266,8 @@ $(document).ready(function(){
                     intro: "No cadastro de bairros e quarteirões você geolocalizará seu município, permitindo inúmeras relações entre dados ao sistema"
                 },
             ],
-            doneLabel: 'Ir para ferramenta!'
+            doneLabel: 'Ir para ferramenta!',
+            tooltipPosition: 'auto'
         });
 
         intro.start().oncomplete(function() {
@@ -275,7 +288,8 @@ $(document).ready(function(){
                     intro: "No cadastro de RG você submete Boletins de Reconhecimento aos bairros/quarteirões cadastrados"
                 },
             ],
-            doneLabel: 'Ir para ferramenta!'
+            doneLabel: 'Ir para ferramenta!',
+            tooltipPosition: 'auto'
         });
 
         intro.start().oncomplete(function() {
@@ -294,7 +308,8 @@ $(document).ready(function(){
                     intro: "Você pode gerenciar todas as denúncias recebidas ou cadastradas no sistema"
                 },
             ],
-            doneLabel: 'Ir para ferramenta!'
+            doneLabel: 'Ir para ferramenta!',
+            tooltipPosition: 'auto'
         });
 
         intro.start().oncomplete(function() {
@@ -325,7 +340,8 @@ $(document).ready(function(){
                     element: "#stepguide-denuncias",
                     intro: "Com isso, qualquer denúncia feita via rede social será cadastrada como uma pré-denúncia"
                 }
-            ]
+            ],
+            tooltipPosition: 'auto'
         });
 
         intro.start();
@@ -409,7 +425,8 @@ $(document).ready(function(){
                     element: "#stepguide-indicadores-focos-tipo-deposito",
                     intro: "Um gráfico que fornece a você a visão de número de focos por tipo de depósito em um ano"
                 }
-            ])
+            ]),
+            tooltipPosition: 'auto'
         });
 
         intro.start();
@@ -451,7 +468,8 @@ $(document).ready(function(){
                     element: "#stepguide-mapa-visao-geral",
                     intro: "No mapa de visão geral você tem uma visão geral sobre os bairros geolocalizados, como também focos, armadilhas, entre outros"
                 }
-            ])
+            ]),
+            tooltipPosition: 'auto'
         });
 
         intro.start();

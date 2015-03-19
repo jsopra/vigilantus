@@ -9,7 +9,7 @@ use app\models\search\BoletimRgFechamentoSearch;
 class BoletimRgController extends CRUDController
 {
     private $_modelSaveName;
-    
+
     public function actions()
     {
         return [
@@ -36,8 +36,8 @@ class BoletimRgController extends CRUDController
 
         return $behaviors;
     }
-    
-    
+
+
 
     public function init()
     {
@@ -47,14 +47,14 @@ class BoletimRgController extends CRUDController
             unset($_POST['BoletimRg']['imoveis']['exemplo']);
         }
     }
-    
+
     public function actionCreate()
     {
         $this->_modelSaveName = 'salvarComImoveis';
-        
+
         $model = $this->buildNewModel();
 
-        if (!$this->loadAndSaveModel($model, $_POST)) { 
+        if (!$this->loadAndSaveModel($model, $_POST, ['boletim-rg/create', 'bairro_id' => isset($_POST['a']) ? $_POST['a'] : null])) {
             return $this->renderAjaxOrLayout('create', ['model' => $model]);
         }
     }
@@ -62,7 +62,7 @@ class BoletimRgController extends CRUDController
     public function actionUpdate($id)
     {
         $this->_modelSaveName = 'salvarComImoveis';
-        
+
         $model = $this->findModel($id);
 
         if (!empty($_POST)) {
@@ -91,22 +91,22 @@ class BoletimRgController extends CRUDController
             ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
         );
     }
-    
+
     public function actionCreateFechamento()
     {
         $this->_modelSaveName = 'salvarComFechamento';
-        
+
         $model = $this->buildNewModel();
 
-        if (!$this->loadAndSaveModel($model, $_POST)) { 
+        if (!$this->loadAndSaveModel($model, $_POST)) {
             return $this->renderAjaxOrLayout('create-fechamento', ['model' => $model]);
         }
     }
-    
+
     public function actionUpdateFechamento($id)
     {
         $this->_modelSaveName = 'salvarComFechamento';
-        
+
         $model = $this->findModel($id);
 
         if (!empty($_POST)) {

@@ -12,17 +12,17 @@ class BairroQuarteiroes extends Action
     {
         $bairroID = isset($_REQUEST['bairro_id']) ? $_REQUEST['bairro_id'] : null;
         $onlyName = isset($_REQUEST['onlyName']) && $_REQUEST['onlyName'] == 'true';
-        
+
         if(!is_numeric($bairroID))
             exit;
-        
+
 		$oBairro = Bairro::findOne(intval($bairroID));
         if(!$oBairro instanceof Bairro)
             exit;
 
         $array = [];
-        
-        $quarteiroes = BairroQuarteirao::find()->doBairro($oBairro->id)->orderBy('numero_quarteirao ASC')->all();
+
+        $quarteiroes = BairroQuarteirao::find()->doBairro($oBairro->id)->orderBy("numero_quarteirao ASC")->all();
         foreach($quarteiroes as $quarteirao)
             if(!$onlyName)
                 $array[$quarteirao->id] = $quarteirao->numero_sequencia;
