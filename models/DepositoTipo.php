@@ -21,8 +21,9 @@ use app\components\ClienteActiveRecord;
  *
  * @property DepositoTipos $depositoTipoPai
  */
-class DepositoTipo extends ClienteActiveRecord 
+class DepositoTipo extends ClienteActiveRecord
 {
+
 	/**
 	 * @inheritdoc
 	 */
@@ -74,7 +75,7 @@ class DepositoTipo extends ClienteActiveRecord
 	{
 		return $this->hasOne(DepositoTipo::className(), ['id' => 'deposito_tipo_pai']);
 	}
-    
+
     /**
      * @return \yii\db\ActiveRelation
      */
@@ -89,5 +90,10 @@ class DepositoTipo extends ClienteActiveRecord
     public function getAtualizadoPor()
     {
         return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
+    }
+
+    public function getDescricao_sigla()
+    {
+        return '(' . $this->sigla . ') ' . $this->descricao;
     }
 }
