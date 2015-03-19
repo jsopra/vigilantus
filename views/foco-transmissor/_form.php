@@ -33,7 +33,7 @@ use yii\helpers\ArrayHelper;
                 <?= $form->field($model, 'tipo_deposito_id')->widget(
                     Select2::classname(),
                     [
-                        'data' => ['' => ''] + DepositoTipo::listData('descricao'),
+                        'data' => ['' => ''] + DepositoTipo::listData('descricao_sigla'),
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
@@ -290,4 +290,5 @@ $script .= '
 });
 ';
 $view->registerJs($script);
+
 ?>
