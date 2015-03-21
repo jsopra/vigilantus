@@ -314,7 +314,7 @@ class BairroQuarteirao extends ClienteActiveRecord
             $return[] = $quarteirao->id;
         }
 
-        $dependency = new \app\components\caching\DbDependency; //fix quando atualizar yii
+        $dependency = new \yii\caching\DbDependency;
         $dependency->sql = '
             SELECT max(ft.id)
             FROM focos_transmissores ft
