@@ -64,6 +64,13 @@ $config = [
                 ],
             ]
         ],
+        'gearman' => [
+            'class' => 'perspectivain\gearman\Gearman',
+            'jobsNamespace' => '\app\jobs\\',
+            'servers' => [
+                ['host' => getenv('OPENSHIFT_GEARMAN_IP'), 'port' => getenv('OPENSHIFT_GEARMAN_PORT')],
+            ],
+        ],
         'cache' => [
             'class' => 'yii\redis\Cache',
         ],

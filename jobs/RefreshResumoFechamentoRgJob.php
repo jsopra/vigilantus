@@ -10,10 +10,14 @@ use app\models\Bairro;
 use app\models\BairroQuarteirao;
 use app\models\ImovelTipo;
 
-class RefreshResumoFechamentoRgJob implements AbstractJob
+class RefreshResumoFechamentoRgJob implements \perspectivain\gearman\InterfaceJob
 {
     public function run($params = [])
     {
+        if(!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
+            return true;
+        }
+
         ResumoBairroFechamentoRg::deleteAll();
         ResumoImovelFechamentoRg::deleteAll();
 
@@ -93,5 +97,7 @@ class RefreshResumoFechamentoRgJob implements AbstractJob
         }
 
         Yii::$app->cache->set('ultima_atualizacao_resumo_cache_rg', date('d/m/Y H:i:s'), (60*60*24*7*4));
+
+        return true;
     }
 }

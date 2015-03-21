@@ -13,6 +13,7 @@ return [
     'googleMapsAPIKey' => 'AIzaSyDxnC_bLYD97iaRgZ2qGts6_7IE8KOYLik',
     'postgisSRID' => 4326, /* Spatial Reference System Identifier (SRID). Usamos o WGS84 */
     'maximoTermosMonitoramentoRedesSociaisPorCliente' => 3,
+    'gearmanQueueName' => 'vigilantus', /* também referenciado estaticamente por .openshift/cron/minutely/queue.sh */
     'twitter' => [
         'app_key' => 'RvwgUXj0vvpkd68WHHiBBhPZv',
         'app_secret' => 'g6UhInqNfTtIpeXjdIwrilLvJYa3k4GDhMgc8YjrausUAU4JO5',

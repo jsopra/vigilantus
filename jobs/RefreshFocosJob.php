@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace app\jobs;
 
 use Yii;
@@ -6,13 +6,17 @@ use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use app\models\FocoTransmissor;
 use app\models\Cliente;
 
-class RefreshFocosJob implements AbstractJob
+class RefreshFocosJob implements \perspectivain\gearman\InterfaceJob
 {
-    public function run($params = []) 
-    { 
+    public function run($params = [])
+    {
+        if(!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
+            return true;
+        }
+
         FocoTransmissorRedis::deleteAll();
-        
-        $clientes = Cliente::find()->all(); 
+
+        $clientes = Cliente::find()->all();
         foreach($clientes as $cliente) {
 
             $focos = FocoTransmissor::find()
@@ -45,7 +49,9 @@ class RefreshFocosJob implements AbstractJob
                	$focoRedis->informacao_publica = $foco->isInformacaoPublica() ? '1' : '0';
 
                 $focoRedis->save();
-            }     
+            }
         }
+
+        return true;
     }
 }

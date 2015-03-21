@@ -15,25 +15,45 @@ class CacheVigilantusController extends Console
 
     public function actionRefreshAreaTratamento()
     {
-        \app\models\redis\Queue::push('RefreshAreaTratamentoJob');
+        \perspectivain\gearman\BackgroundJob::register(
+            'RefreshAreaTratamentoJob',
+            ['key' => getenv('GEARMAN_JOB_KEY')],
+            \perspectivain\gearman\BackgroundJob::NORMAL,
+            \Yii::$app->params['gearmanQueueName']
+        );
         return Controller::EXIT_CODE_NORMAL;
     }
 
     public function actionGenerateFocos()
     {
-        \app\models\redis\Queue::push('RefreshFocosJob');
+        \perspectivain\gearman\BackgroundJob::register(
+            'RefreshFocosJob',
+            ['key' => getenv('GEARMAN_JOB_KEY')],
+            \perspectivain\gearman\BackgroundJob::NORMAL,
+            \Yii::$app->params['gearmanQueueName']
+        );
         return Controller::EXIT_CODE_NORMAL;
     }
 
     public function actionGenerateFechamentoRg()
     {
-        \app\models\redis\Queue::push('RefreshResumoFechamentoRgJob');
+        \perspectivain\gearman\BackgroundJob::register(
+            'RefreshResumoFechamentoRgJob',
+            ['key' => getenv('GEARMAN_JOB_KEY')],
+            \perspectivain\gearman\BackgroundJob::NORMAL,
+            \Yii::$app->params['gearmanQueueName']
+        );
         return Controller::EXIT_CODE_NORMAL;
     }
 
     public function actionUpdateUltimoFocoQuarteirao()
     {
-        \app\models\redis\Queue::push('UpdateUltimoFocoQuarteiraoJob');
+        \perspectivain\gearman\BackgroundJob::register(
+            'UpdateUltimoFocoQuarteiraoJob',
+            ['key' => getenv('GEARMAN_JOB_KEY')],
+            \perspectivain\gearman\BackgroundJob::NORMAL,
+            \Yii::$app->params['gearmanQueueName']
+        );
         return Controller::EXIT_CODE_NORMAL;
     }
 }

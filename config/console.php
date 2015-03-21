@@ -19,11 +19,21 @@ $config = [
             'class' => MigrateController::className(),
             'migrationTable' => 'tbl_migration',
             'templateFile' => '@app/data/migrationsTemplate.php',
-        ]
+        ],
+        'worker' => [
+            'class' => 'perspectivain\gearman\WorkerController'
+        ],
     ],
     'components' => [
         'cache' => [
             'class' => 'yii\redis\Cache',
+        ],
+        'gearman' => [
+            'class' => 'perspectivain\gearman\Gearman',
+            'jobsNamespace' => '\app\jobs\\',
+            'servers' => [
+                ['host' => getenv('OPENSHIFT_GEARMAN_IP'), 'port' => getenv('OPENSHIFT_GEARMAN_PORT')],
+            ],
         ],
         'redis' => [
             'class' => 'yii\redis\Connection',

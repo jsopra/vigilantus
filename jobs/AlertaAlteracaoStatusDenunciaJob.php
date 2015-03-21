@@ -6,17 +6,21 @@ use yii\helpers\Url;
 use app\models\Denuncia;
 use app\models\DenunciaStatus;
 
-class AlertaAlteracaoStatusDenunciaJob implements AbstractJob
+class AlertaAlteracaoStatusDenunciaJob implements \perspectivain\gearman\InterfaceJob
 {
     public function run($params = [])
     {
+        if(!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
+            return true;
+        }
+
         if(!isset($params['id'])) {
-            return;
+            return true;
         }
 
         $model = Denuncia::find()->andWhere(['id' => $params['id']])->one();
         if(!$model) {
-            return;
+            return true;
         }
 
         $message = '<p><strong>Alteração de status em denúncia</strong></p>';
@@ -31,5 +35,7 @@ class AlertaAlteracaoStatusDenunciaJob implements AbstractJob
             ->setSubject('Alteração de status de Denúncia')
             ->setHtmlBody($message)
             ->send();
+
+        return true;
     }
 }

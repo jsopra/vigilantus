@@ -15,8 +15,6 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 
-use app\models\redis\Queue;
-
 class RelatorioController extends Controller
 {
     /**
@@ -182,7 +180,12 @@ class RelatorioController extends Controller
 
     public function actionUpdateRg()
     {
-        Queue::push('RefreshResumoFechamentoRgJob');
+        \perspectivain\gearman\BackgroundJob::register(
+            'RefreshResumoFechamentoRgJob',
+            ['key' => getenv('GEARMAN_JOB_KEY')],
+            \perspectivain\gearman\BackgroundJob::HIGH,
+            \Yii::$app->params['gearmanQueueName']
+        );
 
         Yii::$app->session->setFlash('success', 'Em até 10 minutos o relatório estará atualizado.');
 

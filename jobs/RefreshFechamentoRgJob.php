@@ -6,10 +6,14 @@ use app\models\redis\FechamentoRg as FechamentoRgRedis;
 use app\models\BoletimRgFechamento;
 use app\models\Cliente;
 
-class RefreshFechamentoRgJob implements AbstractJob
+class RefreshFechamentoRgJob implements \perspectivain\gearman\InterfaceJob
 {
     public function run($params = [])
     {
+        if(!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
+            return true;
+        }
+
         FechamentoRgRedis::deleteAll();
 
         Yii::$app->cache->set('ultima_atualizacao_cache_rg', null, (60*60*24*7*4));
@@ -45,5 +49,7 @@ class RefreshFechamentoRgJob implements AbstractJob
         }
 
         Yii::$app->cache->set('ultima_atualizacao_cache_rg', date('d/m/Y H:i:s'), (60*60*24*7*4));
+
+        return true;
     }
 }
