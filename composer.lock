@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "862d555b71dc3672adbe5e92d3babed9",
+    "hash": "3ef9c8da7cfb2a029c9d07fb1941edfe",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -1694,12 +1694,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/perspectivain/yii2-gearman.git",
-                "reference": "e6c3f41fbfa4fe38ceae4c69f95bc545b08a9aa8"
+                "reference": "81dd4e892011c56743ec295c0a157d5f9799fd9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/perspectivain/yii2-gearman/zipball/e6c3f41fbfa4fe38ceae4c69f95bc545b08a9aa8",
-                "reference": "e6c3f41fbfa4fe38ceae4c69f95bc545b08a9aa8",
+                "url": "https://api.github.com/repos/perspectivain/yii2-gearman/zipball/81dd4e892011c56743ec295c0a157d5f9799fd9c",
+                "reference": "81dd4e892011c56743ec295c0a157d5f9799fd9c",
                 "shasum": ""
             },
             "require": {
@@ -1731,7 +1731,7 @@
                 "php",
                 "yii2"
             ],
-            "time": "2015-03-21 13:01:06"
+            "time": "2015-03-21 15:08:29"
         },
         {
             "name": "perspectivain/yii2-geo",
