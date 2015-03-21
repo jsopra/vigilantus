@@ -37,6 +37,9 @@ NameVirtualHost 127.0.0.1
     SetEnv VIGILANTUS_REDIS_DB_PASSWORD 'ASDF'
     SetEnv VIGILANTUS_REDIS_DB_PORT 'QWER'
     SetEnv VIGILANTUS_REDIS_HOST 'XyZ-vigilantus.getup.io'
+    SetEnv OPENSHIFT_GEARMAN_IP 'localhost'
+    SetEnv OPENSHIFT_GEARMAN_PORT '4730'
+    SetEnv GEARMAN_JOB_KEY 'n2398n289fn2nf'
 </VirtualHost>
 ```
 
@@ -53,6 +56,9 @@ export VIGILANTUS_REDIS_DB_PASSWORD='ASDF'
 export VIGILANTUS_REDIS_DB_PORT='QWER'
 export VIGILANTUS_REDIS_HOST='XyZ-vigilantus.getup.io'
 export VIGILANTUS_BASE_PATH='http://vigilantus/'
+export OPENSHIFT_GEARMAN_IP='localhost'
+export OPENSHIFT_GEARMAN_PORT='4730'
+export GEARMAN_JOB_KEY='n2398n289fn2nf'
 ```
 
 Configure o seu arquivo `hosts`:

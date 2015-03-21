@@ -25,6 +25,13 @@ $config = [
         'cache' => [
             'class' => 'yii\redis\Cache',
         ],
+        'gearman' => [
+            'class' => 'perspectivain\gearman\Gearman',
+            'jobsNamespace' => '\app\jobs\\',
+            'servers' => [
+                ['host' => getenv('OPENSHIFT_GEARMAN_IP'), 'port' => getenv('OPENSHIFT_GEARMAN_PORT')],
+            ],
+        ],
         'redis' => [
             'class' => 'yii\redis\Connection',
             'hostname' => getenv('VIGILANTUS_REDIS_HOST'),
@@ -56,6 +63,11 @@ $config = [
                 'port' => '587',
                 'encryption' => 'tls',
             ],
+        ],
+    ],
+    'controllerMap' => [
+        'worker' => [
+            'class' => 'perspectivain\gearman\WorkerController'
         ],
     ],
     'params' => $params,

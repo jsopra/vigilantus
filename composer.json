@@ -15,7 +15,8 @@
         "perspectivain/yii2-geo": "dev-master",
         "yiisoft/yii2-authclient": "*",
         "cosenary/instagram": "dev-master",
-        "bower-asset/intro.js": "*"
+        "bower-asset/intro.js": "*",
+        "perspectivain/yii2-gearman": "dev-master"
 	},
 	"require-dev": {
 		"yiisoft/yii2-codeception": "*",
@@ -25,6 +26,10 @@
 		"codeception/specify": "0.3.*",
 		"rbone/phactory": "1.4.*"
 	},
+    "suggest": {
+        "ext-gearman": "This library needs Gearman",
+        "ext-redis": "This library needs Redis"
+    },
 	"config": {
 		"process-timeout": 1800
 	},

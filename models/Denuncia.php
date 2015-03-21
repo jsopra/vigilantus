@@ -202,7 +202,15 @@ class Denuncia extends ClienteActiveRecord
 	            		$salvouHistorico = $historico->save();
 
 	            		if($salvouHistorico && $this->email) {
-                			\app\models\redis\Queue::push('AlertaAlteracaoStatusDenunciaJob', ['id' => $this->id]);
+                            \perspectivain\gearman\BackgroundJob::register(
+                                'AlertaAlteracaoStatusDenunciaJob',
+                                [
+                                    'id' => $this->id,
+                                    'key' => getenv('GEARMAN_JOB_KEY')
+                                ],
+                                \perspectivain\gearman\BackgroundJob::NORMAL,
+                                \Yii::$app->params['gearmanQueueName']
+                            );
 	            		}
             		}
 

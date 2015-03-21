@@ -3,10 +3,14 @@ namespace app\jobs;
 
 use Yii;
 
-class UpdateUltimoFocoQuarteiraoJob implements AbstractJob
+class UpdateUltimoFocoQuarteiraoJob implements \perspectivain\gearman\InterfaceJob
 {
     public function run($params = [])
     {
+        if(!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
+            return true;
+        }
+
         \app\models\BairroQuarteirao::updateAll(['data_ultimo_foco' => null]);
 
         foreach(\app\models\Cliente::find()->each(10) as $cliente) {
@@ -25,5 +29,7 @@ class UpdateUltimoFocoQuarteiraoJob implements AbstractJob
                 }
             }
         }
+
+        return true;
     }
 }
