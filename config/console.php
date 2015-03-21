@@ -19,7 +19,10 @@ $config = [
             'class' => MigrateController::className(),
             'migrationTable' => 'tbl_migration',
             'templateFile' => '@app/data/migrationsTemplate.php',
-        ]
+        ],
+        'worker' => [
+            'class' => 'perspectivain\gearman\WorkerController'
+        ],
     ],
     'components' => [
         'cache' => [
@@ -63,11 +66,6 @@ $config = [
                 'port' => '587',
                 'encryption' => 'tls',
             ],
-        ],
-    ],
-    'controllerMap' => [
-        'worker' => [
-            'class' => 'perspectivain\gearman\WorkerController'
         ],
     ],
     'params' => $params,
