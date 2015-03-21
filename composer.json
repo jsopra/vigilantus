@@ -27,8 +27,8 @@
 		"rbone/phactory": "1.4.*"
 	},
     "suggest": {
-        "ext-gearman": "This library needs Gearman",
-        "ext-redis": "This library needs Redis"
+        "ext-gearman": "This app needs Gearman",
+        "ext-redis": "This app needs Redis"
     },
 	"config": {
 		"process-timeout": 1800
