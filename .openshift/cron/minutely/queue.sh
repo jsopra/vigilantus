@@ -1,3 +1,3 @@
 #!/bin/bash
 
-php $OPENSHIFT_REPO_DIR/yii worker/run-one vigilantus
+php $OPENSHIFT_REPO_DIR/yii queue/run-one vigilantus
