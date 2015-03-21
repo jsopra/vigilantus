@@ -20,9 +20,6 @@ $config = [
             'migrationTable' => 'tbl_migration',
             'templateFile' => '@app/data/migrationsTemplate.php',
         ],
-        'worker' => [
-            'class' => 'perspectivain\gearman\WorkerController'
-        ],
     ],
     'components' => [
         'cache' => [
