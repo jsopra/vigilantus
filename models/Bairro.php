@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Json;
 use app\components\ClienteActiveRecord;
 
 /**
@@ -56,6 +57,7 @@ class Bairro extends ClienteActiveRecord
             [['municipio_id', 'bairro_categoria_id', 'ultimo_mes_rg', 'ultimo_ano_rg', 'cliente_id'], 'integer'],
             ['coordenadas', 'required', 'on' => ['insert','update']],
             [['coordenadasJson'], 'string'],
+            ['coordenadas_area', 'safe'],
         );
     }
 
@@ -178,7 +180,7 @@ class Bairro extends ClienteActiveRecord
             return false;
         }
 
-        $arrayCoordinates = json_decode($this->coordenadasJson);
+        $arrayCoordinates = Json::decode($this->coordenadasJson);
 
         $this->coordenadas_area = new \yii\db\Expression($this->arrayToWkt('Polygon', $arrayCoordinates));
 

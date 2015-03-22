@@ -1,12 +1,14 @@
 <?php
 
+namespace tests\factories;
+use Phactory;
+
 class DoencaPhactory
 {
     public function blueprint()
     {
         return [
-            'id' => '#{sn}',
-            'cliente_id' => Phactory::hasOne('cliente'),
+            'cliente' => Phactory::hasOne('cliente'),
             'nome' => 'Doença #{sn}',
         ];
     }

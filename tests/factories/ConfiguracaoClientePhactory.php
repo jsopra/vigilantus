@@ -1,14 +1,18 @@
 <?php
+
+namespace tests\factories;
+
 use app\models\ConfiguracaoTipo;
+use Phactory;
 
 class ConfiguracaoClientePhactory
 {
     public function blueprint()
     {
         return [
-            'cliente_id' => Phactory::hasOne('cliente'),
+            'cliente' => Phactory::hasOne('cliente'),
             'valor' => 'Descrição de configuração #{sn}',
-            'configuracao_id' => Phactory::hasOne('configuracao'),
+            'configuracao' => Phactory::hasOne('configuracao'),
         ];
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+namespace tests\factories;
+
 class MunicipioPhactory
 {
     public function blueprint()

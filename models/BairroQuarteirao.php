@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Json;
 use app\components\ClienteActiveRecord;
 use app\models\Query\BairroQuarteiraoQuery as BairroQuarteiraoQuery;
 
@@ -70,6 +71,7 @@ class BairroQuarteirao extends ClienteActiveRecord
             ['atualizado_por', 'required', 'on' => 'update'],
             ['coordenadas', 'required', 'on' => ['insert','update']],
             [['coordenadasJson', 'numero_quarteirao', 'numero_quarteirao_2'], 'string'],
+            [['data_cadastro', 'data_atualizacao', 'coordenadas_area'], 'safe'],
 		];
 	}
 
@@ -361,7 +363,7 @@ class BairroQuarteirao extends ClienteActiveRecord
             return false;
         }
 
-        $arrayCoordinates = json_decode($this->coordenadasJson);
+        $arrayCoordinates = Json::decode($this->coordenadasJson);
 
         $this->coordenadas_area = new \yii\db\Expression($this->arrayToWkt('Polygon', $arrayCoordinates));
 

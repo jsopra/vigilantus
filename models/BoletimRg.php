@@ -178,7 +178,7 @@ class BoletimRg extends ClienteActiveRecord
 	 */
 	public function getInseridoPor()
 	{
-		return $this->hasOne(Usuarios::className(), ['id' => 'inserido_por']);
+		return $this->hasOne(Usuario::className(), ['id' => 'inserido_por']);
 	}
 
     /**

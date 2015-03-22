@@ -1,4 +1,8 @@
 <?php
+
+namespace tests\factories;
+use Phactory;
+
 class FocoTransmissorPhactory
 {
     public function blueprint()
@@ -6,18 +10,18 @@ class FocoTransmissorPhactory
         return [
             'tecnico' => 'Tecnico',
             'laboratorio' => 'Labz',
-            'bairro_quarteirao_id' => Phactory::hasOne('bairroQuarteirao'),
+            'bairroQuarteirao' => Phactory::hasOne('bairroQuarteirao'),
             'quantidade_ovos' => 2,
             'quantidade_forma_adulta' => 2,
             'quantidade_forma_aquatica' => 2,
-            'tipo_deposito_id' => Phactory::hasOne('depositoTipo'),
-            'especie_transmissor_id' => Phactory::hasOne('especieTransmissor'),
+            'tipoDeposito' => Phactory::hasOne('depositoTipo'),
+            'especieTransmissor' => Phactory::hasOne('especieTransmissor'),
             'data_entrada' => date('Y-m-d'),
             'data_exame' => date('Y-m-d'),
             'data_coleta' => date('Y-m-d'),
-            'inserido_por' => Phactory::hasOne('usuario'),
-            'atualizado_por' => Phactory::hasOne('usuario'),
-            'cliente_id' => Phactory::hasOne('cliente'),
+            'inseridoPor' => Phactory::hasOne('usuario'),
+            'atualizadoPor' => Phactory::hasOne('usuario'),
+            'cliente' => Phactory::hasOne('cliente'),
         ];
     }
 }

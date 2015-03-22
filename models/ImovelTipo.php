@@ -39,12 +39,13 @@ class ImovelTipo extends ClienteActiveRecord
     {
         return array(
             array(['cliente_id', 'nome', 'inserido_por'], 'required'),
-            array(['cliente_id', 'inserido_por', 'atualizado_por', '!excluido_por'], 'integer'),
-            array(['sigla', 'data_atualizacao', 'data_exclusao'], 'safe'),
+            array(['cliente_id', 'inserido_por', 'atualizado_por', 'excluido_por'], 'integer'),
+            array(['sigla', 'data_atualizacao', 'data_exclusao', 'data_cadastro'], 'safe'),
             array('nome', 'unique', 'compositeWith' => 'cliente_id'),
             array('sigla', 'unique', 'compositeWith' => 'cliente_id', 'skipOnEmpty' => true),
             array('inserido_por', 'required', 'on' => 'insert'),
             array('atualizado_por', 'required', 'on' => 'update'),
+            array('excluido', 'boolean'),
         );
     }
 

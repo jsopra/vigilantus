@@ -46,10 +46,10 @@ class BairroCategoria extends ClienteActiveRecord
             array(['cliente_id', 'inserido_por', 'atualizado_por'], 'integer'),
             array('atualizado_por', 'required', 'on' => 'update'),
             array('nome', 'unique', 'compositeWith' => 'cliente_id'),
-            array('data_atualizacao', 'safe'),
+            array(['data_cadastro', 'data_atualizacao'], 'safe'),
         );
     }
-    
+
     /**
      * @return Bairro[]
      */
@@ -57,7 +57,7 @@ class BairroCategoria extends ClienteActiveRecord
     {
         return $this->hasMany(Bairro::className(), ['bairro_categoria_id' => 'id']);
     }
-    
+
     /**
      * @return Usuario
      */
@@ -65,7 +65,7 @@ class BairroCategoria extends ClienteActiveRecord
     {
         return $this->hasOne(Usuario::className(), ['id' => 'inserido_por']);
     }
-    
+
     /**
      * @return Usuario
      */

@@ -1,4 +1,7 @@
 <?php
+
+namespace tests\factories;
+
 use app\models\ConfiguracaoTipo;
 
 class ConfiguracaoPhactory

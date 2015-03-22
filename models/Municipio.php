@@ -51,6 +51,7 @@ class Municipio extends ActiveRecord
             ['nome', 'unique', 'compositeWith' => 'sigla_estado'],
             [['coordenadas_area'], 'string'],
             [['file'], 'file', 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png'],
+            ['brasao', 'safe'],
         ];
     }
 

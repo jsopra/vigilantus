@@ -1,13 +1,17 @@
 <?php
+
+namespace tests\factories;
+use Phactory;
+
 class ImovelTipoPhactory
 {
     public function blueprint()
     {
         return [
             'nome' => 'TipoImovel_#{sn}',
-            'cliente_id' => Phactory::hasOne('cliente'),
-            'inserido_por' => Phactory::hasOne('usuario'),
-            'atualizado_por' => Phactory::hasOne('usuario'),
+            'cliente' => Phactory::hasOne('cliente'),
+            'inseridoPor' => Phactory::hasOne('usuario'),
+            'atualizadoPor' => Phactory::hasOne('usuario'),
         ];
     }
 }

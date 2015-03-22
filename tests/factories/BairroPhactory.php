@@ -1,13 +1,17 @@
 <?php
+
+namespace tests\factories;
+use Phactory;
+
 class BairroPhactory
 {
     public function blueprint()
     {
         return [
             'nome' => 'Bairro #{sn}',
-            'municipio_id' => Phactory::hasOne('municipio'),
-            'cliente_id' => Phactory::hasOne('cliente'),
-            'bairro_categoria_id' => Phactory::hasOne('bairroCategoria'),
+            'municipio' => Phactory::hasOne('municipio'),
+            'cliente' => Phactory::hasOne('cliente'),
+            'categoria' => Phactory::hasOne('bairroCategoria'),
             'coordenadasJson' => '[{"A":"-27.090154283676","k":"-52.620005607605"},{"A":"-27.088855233117","k":"-52.617774009705"},{"A":"-27.091778075689","k":"-52.613772153854"},{"A":"-27.091797178985","k":"-52.615638971329"},{"A":"-27.10027872022","k":"-52.602034807205"},{"A":"-27.101921467004","k":"-52.612849473953"},{"A":"-27.100698960064","k":"-52.62481212616"},{"A":"-27.089008063376","k":"-52.625670433044"},{"A":"-27.085760375501","k":"-52.622172832489"},{"A":"-27.084996199966","k":"-52.621314525604"},{"A":"-27.087212294659","k":"-52.621014118195"},{"A":"-27.090154283676","k":"-52.620005607605"}] ',
             'coordenadas_area' => '0103000020E6100000010000000C00000094FBE35914173BC0030000585C4F4AC0E3507037BF163BC03A000038134F4AC0F69299C47E173BC0CCFFFF15904E4AC00B9B190580173BC025000042CD4E4AC063D4BFDDAB193BC0E4FFFF790F4D4AC0E38A7786171A3BC0DDFFFFD9714E4AC052373468C7193BC02F0000D8F94F4AC0BC47813BC9163BC0C3FFFFF715504AC0C9115864F4153BC0FEFFFF5BA34F4AC064239B4FC2153BC0DDFFFF3B874F4AC0995E818B53163BC03B0000647D4F4AC094FBE35914173BC0030000585C4F4AC0',
         ];

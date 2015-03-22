@@ -69,7 +69,6 @@ $config = [
 ];
 
 if (file_exists(__DIR__ . '/test_db.php')) {
-
     $config['components']['testDb'] = [
         'class' => 'yii\db\Connection',
         'dsn' => getenv('VIGILANTUS_DB_DSN_HOST') . ';' . getenv('VIGILANTUS_DB_DSN_DBNAME'),
@@ -77,6 +76,10 @@ if (file_exists(__DIR__ . '/test_db.php')) {
         'password' => getenv('VIGILANTUS_TEST_DB_PASSWORD'),
         'charset' => 'utf8',
     ];
+}
+
+if (empty($config['components']['redis']['password'])) {
+    unset($config['components']['redis']['password']);
 }
 
 return $config;

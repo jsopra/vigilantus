@@ -87,7 +87,7 @@ class Imovel extends ClienteActiveRecord
 	{
 		return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
 	}
-    
+
     /**
 	 * @return \yii\db\ActiveRelation
 	 */
@@ -95,7 +95,7 @@ class Imovel extends ClienteActiveRecord
 	{
 		return $this->hasOne(BairroQuarteirao::className(), ['id' => 'bairro_quarteirao_id']);
     }
-    
+
     /**
 	 * @return \yii\db\ActiveRelation
 	 */
@@ -103,7 +103,7 @@ class Imovel extends ClienteActiveRecord
 	{
 		return $this->hasOne(Rua::className(), ['id' => 'rua_id']);
     }
-    
+
     /**
 	 * @return \yii\db\ActiveRelation
 	 */

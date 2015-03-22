@@ -179,9 +179,8 @@ class BoletimRgImovel extends ClienteActiveRecord
      * @inheritdoc
      */
     public function save($runValidation = true, $attributes = NULL) {
-
-        $currentTransaction = $this->getDb()->getTransaction();
-		$newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
+		$transaction = $this->getDb()->beginTransaction();
+        $result = false;
 
         try {
 
@@ -190,7 +189,7 @@ class BoletimRgImovel extends ClienteActiveRecord
             if ($result) {
 
                 $boletimFechamentoInverso = true;
-                if($this->imovel->imovel_lira) {
+                if ($this->imovel->imovel_lira) {
                     $boletimFechamentoInverso = BoletimRgFechamento::incrementaContagemImovel(
                         $this->boletimRg,
                         $this->imovel_tipo_id,
@@ -204,30 +203,17 @@ class BoletimRgImovel extends ClienteActiveRecord
                     $this->imovel->imovel_lira
                 );
 
-                if($boletimFechamento && $boletimFechamentoInverso) {
-
-                    if($newTransaction) {
-                        $newTransaction->commit();
-                    }
-                }
-                else {
-                    if($newTransaction) {
-                        $newTransaction->rollback();
-                    }
-
+                if ($boletimFechamento && $boletimFechamentoInverso) {
+                    $transaction->commit();
+                } else {
+                    $transaction->rollback();
                     $result = false;
                 }
+            } else {
+                $transaction->rollback();
             }
-            else {
-                if($newTransaction) {
-                    $newTransaction->rollback();
-                }
-            }
-        }
-        catch (\Exception $e) {
-            if($newTransaction) {
-                $newTransaction->rollback();
-            }
+        } catch (\Exception $e) {
+            $transaction->rollback();
             throw $e;
         }
 

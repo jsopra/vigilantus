@@ -1,70 +1,59 @@
-Testando
-========
+# Testes da Aplicação
 
-RODANDO OS TESTES
------------------
- 
-Rode os testes unitários com `vendor/bin/codecept run unit`
+Os testes do diretório `codeception` foram desenvolvidos com o
+[Framework de testes Codeception ](http://codeception.com/).
 
-Para testes de aceitação, instale e rode o Selenium2 com 
-`java -jar selenium-server-standalone-2.37.0.jar`, e então rode os testes com
-`vendor/bin/codecept run acceptance`
+# Tipos de testes
 
-Você também pode rodar o teste somente para um arquivo, mas não esqueça de rodar
-para todos antes de comitar: `vendor/bin/codecept run tests/unit/models/BairroTipoTest.php`
+* **Acceptance** (aceitação): são testes que simulam o comportamento do usuário
+  navegando nas telas do sistema. Utilizado em conjunto com o Selenium, e permite
+  testar o comportamento do JavaScript.
+* **Functional** (funcional): simula requisições/respostas aos controllers web
+  do sistema. Ao invés de clicar e preencher campos pelo nome que aparece na tela,
+  ele usa os nomes e IDs dos elementos. É mais rápido, mas não permite testar o
+  JavaScript.
+* **Unit** (unitário): testa o comportamento da menor unidade de código: uma classe.
 
-Consulte o [manual do Codeception](http://codeception.com) para saber mais.
+Como o Yii2 utiliza o pattern ActiveRecord, todos os nossos testes são testes de
+integração, pois raramente um modelo funcionará desacoplado do banco de dados.
 
-COMO FUNCIONAM OS TESTES
-------------------------
+# Organização
 
-O script excluirá o esquema `public` do seu banco de testes, então rodará todas
-as migrations, carregará as fixtures e exportará o resultado em um arquivo SQL
-(o modelo de esquema limpo). Antes de cada método de teste unitário ou arquivo
-de teste de aceitação, ele recarregará o banco de dados com esse esquema limpo
-que foi gerado antes de começar, garantindo que você tenha os testes
-completamente isolados um do outro.
-
-Caso o seu teste falhe, experimente conferir os logs na pasta `tests/_logs`. O
-Codeception até mesmo tira uma screenshot nos testes de aceitação.
-
-CONFIGURANDO O AMBIENTE DE TESTES
----------------------------------
-
-Instale o [Composer](http://getcomposer.org/) e rode `composer install` na
-   raiz do projeto.
-
-Configure o Apache com as variáveis de ambiente necessárias:
-
-```apache
-NameVirtualHost 127.0.0.1
-<VirtualHost 127.0.0.1>
-    ServerName vigilantustest
-    DocumentRoot /var/www/vigilantus/web
-    SetEnv VIGILANTUS_ENV test
-    SetEnv VIGILANTUS_TEST_DB_DSN "pgsql:host=localhost;dbname=vigilantus_test"
-    SetEnv VIGILANTUS_TEST_DB_USERNAME postgres
-    SetEnv VIGILANTUS_TEST_DB_PASSWORD postgres
-</VirtualHost>
+```yaml
+codeception: # diretório dos testes
+  _output # logs, screenshots e relatórios de cobertura de código
+  _pages #classes que representam páginas do sistema
+  acceptance # testes de aceitação (com Selenium)
+  bin # executáveis para o ambiente de testes
+  config # configurações do ambiente de testes
+  fixtures # não é utilizado
+  functional # testes funcionais (sem Selenium/JavaScript), não é utilizado
+  templates # não é utilizado
+  unit #testes unitários
+factories # factories escritas para a biblioteca Phactory
 ```
 
-Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente necessárias:
+# Configuração
+
+Crie a base de testes conforme as configurações `TEST_DB_NAME`,
+`TEST_DB_HOST`, `TEST_DB_PORT`, `TEST_DB_USER_NAME` e `TEST_DB_USER_PASSWORD`.
+
+# Execução
+
+1. Rode o script que atualiza as migrations e roda os testes:
 
 ```bash
-export VIGILANTUS_TEST_DB_DSN='pgsql:host=localhost;dbname=vigilantus_test'
-export VIGILANTUS_TEST_DB_USERNAME='postgres'
-export VIGILANTUS_TEST_DB_PASSWORD='qwerty'
+cd tests
+sh run
 ```
 
-Configure o seu arquivo `hosts`:
+2. Para rodar os testes de aceitação, você precisa ter o selenium instalado e
+rodando em outra janela do terminal:
 
+```bash
+selenium-server -p 4444
 ```
-127.0.0.1   vigilantustest
-```
 
-IMPORTANTE: Reinicie o Apache.
-
-Gere as classes `Guy` do Codeception: `vendor/bin/codecept build`
-
-Instale o browser **Mozilla Firefox** e baixe o **Selenium Server Standalone**
-para poder rodar testes de aceitação.
+Por favor consulte o [tutorial do Codeception](http://codeception.com/docs/01-Introduction)
+para mais detalhes sobre como escrever e rodar os testes unitários, funcionais
+e de aceitação.

@@ -38,11 +38,10 @@ class Cliente extends ActiveRecord
 	{
         return [
 			[['municipio_id', 'nome_contato', 'telefone_contato', 'departamento'], 'required'],
-            [['email_contato', 'cargo'], 'safe'],
             [['municipio_id'], 'unique'],
             [['rotulo'], 'unique'],
             ['municipio_id', 'exist', 'targetClass' => Municipio::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
-            [['data_cadastro'], 'safe']
+            [['data_cadastro', 'brasao', 'email_contato', 'cargo'], 'safe']
 		];
 	}
 
@@ -119,8 +118,7 @@ class Cliente extends ActiveRecord
      */
     public function save($runValidation = true, $attributes = NULL) {
 
-        $currentTransaction = $this->getDb()->getTransaction();
-        $newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
+        $transaction = $this->getDb()->beginTransaction();
 
         try {
 
@@ -138,21 +136,14 @@ class Cliente extends ActiveRecord
                         'valor' =>$configuracao->valor,
                     ])->execute();
                 }
-
-                if($newTransaction) {
-                    $newTransaction->commit();
-                }
+                $transaction->commit();
             }
             else {
-                if($newTransaction) {
-                    $newTransaction->rollback();
-                }
+                $transaction->rollback();
             }
         }
         catch (\Exception $e) {
-            if($newTransaction) {
-                $newTransaction->rollback();
-            }
+            $transaction->rollback();
             throw $e;
         }
 

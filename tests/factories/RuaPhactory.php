@@ -1,12 +1,16 @@
 <?php
+
+namespace tests\factories;
+use Phactory;
+
 class RuaPhactory
 {
     public function blueprint()
     {
         return [
             'nome' => 'Rua #{sn}',
-            'cliente_id' => Phactory::hasOne('cliente'),
-            'municipio_id' => Phactory::hasOne('municipio'),
+            'cliente' => Phactory::hasOne('cliente'),
+            'municipio' => Phactory::hasOne('municipio'),
         ];
     }
 }

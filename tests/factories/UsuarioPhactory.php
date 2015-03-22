@@ -1,5 +1,9 @@
 <?php
+
+namespace tests\factories;
+
 use app\models\UsuarioRole;
+use Phactory;
 
 class UsuarioPhactory
 {
@@ -10,9 +14,10 @@ class UsuarioPhactory
             'login' => 'login#{sn}',
             'sal' => 'salgado',
             'senha' => '12345678',
+            'confirmacao_senha' => '12345678',
             'usuario_role_id' => UsuarioRole::USUARIO,
             'email' => 'email#{sn}@vigilantus.com.br',
-            'cliente_id' => Phactory::hasOne('cliente'),
+            'cliente' => Phactory::hasOne('cliente'),
         ];
     }
 
@@ -20,7 +25,7 @@ class UsuarioPhactory
     {
         return array(
             'usuario_role_id' => UsuarioRole::ROOT,
-            'cliente_id' => null,
+            'cliente' => null,
         );
     }
 

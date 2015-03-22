@@ -4,8 +4,8 @@
 
 A variável `VIGILANTUS_ENV` indica qual é o ambiente atual.
 
-Ao programar, a URL `http://vigilantus` aponta para o ambiente de
-desenvolvimento e a URL `http://vigilantustest` aponta para o ambiente de testes.
+Ao programar, a URL `http://vigilantus.dev` aponta para o ambiente de
+desenvolvimento e a URL `http://vigilantus.test.dev` aponta para o ambiente de testes.
 
 Desta forma, ao rodar os testes estaremos utilizando um banco de dados diferente,
 porém a partir do mesmo diretório.
@@ -19,9 +19,8 @@ Instale o [Composer](http://getcomposer.org/) e rode `composer install` na
 Configure o Apache com as variáveis de ambiente necessárias:
 
 ```apache
-NameVirtualHost 127.0.0.1
-<VirtualHost 127.0.0.1>
-    ServerName vigilantus
+<VirtualHost vigilantus.dev>
+    ServerName vigilantus.dev
     DocumentRoot /var/www/vigilantus/web
     SetEnv VIGILANTUS_ENV development
     SetEnv VIGILANTUS_DB_DSN_HOST "pgsql:host=localhost"
@@ -61,7 +60,8 @@ Adicione também o caminho para a API:
 </VirtualHost>
 ```
 
-Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente necessárias:
+Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente
+necessárias:
 
 ```bash
 export VIGILANTUS_DB_DSN='pgsql:host=localhost;dbname=vigilantus_development'
@@ -82,13 +82,12 @@ export GEARMAN_JOB_KEY='n2398n289fn2nf'
 Configure o seu arquivo `hosts`:
 
 ```
-127.0.0.1 vigilantus
-127.0.0.1 api.vigilantus.dev
+127.0.0.1 vigilantus.dev vigilantus.test.dev api.vigilantus.dev
 ```
 
-IMPORTANTE: Reinicie o Apache.
+IMPORTANTE: Reinicie o Apache e recarregue as variáveis de ambiente `source ~/.profile`.
 
-Rode as migrations com `php yii migrate`
+Rode as migrations com `php yii migrate`.
 
 ## CONFIGURANDO O AMBIENTE DE PRODUÇÃO
 
@@ -123,7 +122,7 @@ CONFIGURANDO O AMBIENTE DE TESTES
 Consulte as instruções completas no [README.md](tests/README.md) do diretório `tests`.
 
 DEPLOY
------------------------------------------------------
+------
 
 Veja uma [Introdução de deploy da getup](https://getupcloud.com/blog/deploy-e-rollback).
 

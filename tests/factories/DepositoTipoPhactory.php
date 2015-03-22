@@ -1,4 +1,8 @@
 <?php
+
+namespace tests\factories;
+use Phactory;
+
 class DepositoTipoPhactory
 {
     public function blueprint()
@@ -6,9 +10,9 @@ class DepositoTipoPhactory
         return [
             'descricao' => 'Tipo_Depósito_#{sn}',
             'sigla' => 'TD#{sn}',
-            'cliente_id' => Phactory::hasOne('cliente'),
-            'inserido_por' => Phactory::hasOne('usuario'),
-            'atualizado_por' => Phactory::hasOne('usuario'),
+            'cliente' => Phactory::hasOne('cliente'),
+            'inseridoPor' => Phactory::hasOne('usuario'),
+            'atualizadoPor' => Phactory::hasOne('usuario'),
         ];
     }
 }

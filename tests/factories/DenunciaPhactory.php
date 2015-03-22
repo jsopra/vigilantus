@@ -1,27 +1,31 @@
 <?php
+
+namespace tests\factories;
+
 use app\models\DenunciaTipoImovel;
 use app\models\DenunciaTipoLocalizacao;
 use app\models\DenunciaStatus;
+use Phactory;
 
 class DenunciaPhactory
 {
     public function blueprint()
     {
         return [
+            'bairro' => Phactory::hasOne('bairro'),
+            'cliente' => Phactory::hasOne('cliente'),
+            'denunciaTipoProblema' => Phactory::hasOne('denunciaTipoProblema'),
+            'bairroQuarteirao' => Phactory::hasOne('bairroQuarteirao'),
+            'imovel' => Phactory::hasOne('imovel'),
             'nome' => 'Denunciante #{sn}',
             'telefone' => '(49) 3316 0928',
-            'bairro_id' => Phactory::hasOne('bairro'),
-            'imovel_id' => null,
             'endereco' => 'Endereço #{sn}',
-            'cliente_id' => Phactory::hasOne('cliente'),
             'email' => 'denunciante@gmail.com',
             'pontos_referencia' => 'Pontos de referencia #{sn}',
             'mensagem' => 'Mensagem de denúncia',
             'tipo_imovel' => DenunciaTipoImovel::CASA,
             'localizacao' => DenunciaTipoLocalizacao::INTERIOR,
             'status' => DenunciaStatus::AVALIACAO,
-            'denuncia_tipo_problema_id' => Phactory::hasOne('denunciaTipoProblema'),
-            'bairro_quarteirao_id' => Phactory::hasOne('bairroQuarteirao'),
         ];
     }
 }

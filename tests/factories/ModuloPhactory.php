@@ -1,4 +1,7 @@
 <?php
+
+namespace tests\factories;
+
 class ModuloPhactory
 {
     public function blueprint()

@@ -1,4 +1,8 @@
 <?php
+
+namespace tests\factories;
+use Phactory;
+
 class DenunciaTipoProblemaPhactory
 {
     public function blueprint()
@@ -6,8 +10,8 @@ class DenunciaTipoProblemaPhactory
         return [
             'nome' => 'Tipo #{sn}',
             'ativo' => true,
-            'inserido_por' => Phactory::hasOne('usuario'),
-            'cliente_id' => Phactory::hasOne('cliente'),
+            'inseridoPor' => Phactory::hasOne('usuario'),
+            'cliente' => Phactory::hasOne('cliente'),
         ];
     }
 }

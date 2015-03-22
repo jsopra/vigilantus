@@ -261,6 +261,9 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
 
     public function getCliente()
     {
+        if (YII_ENV_TEST) {
+            return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
+        }
         if(!\Yii::$app->session->get('user.cliente')) {
 
             if(\Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {

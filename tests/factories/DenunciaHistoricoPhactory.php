@@ -1,19 +1,23 @@
 <?php
+
+namespace tests\factories;
+
 use app\models\DenunciaHistoricoTipo;
 use app\models\DenunciaStatus;
+use Phactory;
 
 class DenunciaHistoricoPhactory
 {
     public function blueprint()
     {
         return [
-            'denuncia_id' => Phactory::hasOne('denuncia'),
+            'denuncia' => Phactory::hasOne('denuncia'),
             'tipo' => DenunciaHistoricoTipo::INCLUSAO,
             'observacoes' => 'Observações de histórico',
             'status_antigo' => DenunciaStatus::AVALIACAO,
             'status_novo' => DenunciaStatus::APROVADA,
-            'usuario_id' => Phactory::hasOne('usuario'),
-            'cliente_id' => Phactory::hasOne('cliente'),
+            'usuario' => Phactory::hasOne('usuario'),
+            'cliente' => Phactory::hasOne('cliente'),
         ];
     }
 }
