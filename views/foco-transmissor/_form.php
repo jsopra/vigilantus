@@ -59,7 +59,15 @@ use yii\helpers\ArrayHelper;
             <div class="col-xs-2">
                 <?php
                 $bairros = Bairro::find()->comQuarteiroes()->orderBy('nome')->all();
-                echo $form->field($model, 'bairro_id')->dropDownList(ArrayHelper::map($bairros, 'id', 'nome'), ['prompt' => 'Selecione..']);
+                echo $form->field($model, 'bairro_id')->widget(
+                    Select2::classname(),
+                    [
+                        'data' => ['' => ''] + ArrayHelper::map($bairros, 'id', 'nome'),
+                        'pluginOptions' => [
+                            'allowClear' => false
+                        ],
+                    ]
+                );
                 ?>
             </div>
 
@@ -68,7 +76,7 @@ use yii\helpers\ArrayHelper;
             </div>
 
             <div class="col-xs-2 bairro-hide">
-                <?= $form->field($model, 'bairro_quarteirao_id')->dropDownList(array()) ?>
+                <?= $form->field($model, 'bairro_quarteirao_id')->textInput(['class' => 'form-control']) ?>
             </div>
         </div>
 
@@ -123,20 +131,13 @@ use yii\helpers\ArrayHelper;
 $view = Yii::$app->getView();
 $script = '
     jQuery(document).ready(function(){
-
     var bairroID = null;
-    var quarteiraoID = null;
 ';
 
 if(!$model->bairro_id) {
     $script .= 'jQuery(".bairro-hide").hide();';
-}
-else {
+} else {
     $script .= 'bairroID = ' . $model->bairro_id . ';';
-}
-
-if($model->bairro_quarteirao_id) {
-    $script .= 'quarteiraoID = ' . $model->bairro_quarteirao_id . ';';
 }
 
 if(!$model->isNewRecord) {
@@ -154,20 +155,9 @@ $script .= '
 
     if(bairroID) {
 
-        jQuery.getJSON("' . Url::toRoute(['foco-transmissor/bairroQuarteiroes', 'bairro_id' => '']) . '" + bairroID, function(data) {
+        startSelect2Quarteirao(bairroID);
 
-            options = $("#focotransmissor-bairro_quarteirao_id");
-            options.append($("<option />").val("").text("Selecione..."));
-            $.each(data, function(key, desc) {
-                options.append($("<option />").val(key).text(desc));
-            });
-
-            jQuery("#focotransmissor-categoria_id").parent().parent().show();
-            jQuery("#focotransmissor-bairro_quarteirao_id").parent().parent().show();
-
-            if(quarteiraoID)
-                jQuery("#focotransmissor-bairro_quarteirao_id").val(quarteiraoID);
-        });
+        $("#focotransmissor-bairro_id").attr("disabled","disabled");
     }
 
     jQuery("#focotransmissor-bairro_id").change(function() {
@@ -187,17 +177,7 @@ $script .= '
                 $("#focotransmissor-categoria_id").val(data.id);
                 $("#focotransmissor-categoria_id").attr("disabled","disabled");
 
-                jQuery.getJSON("' . Url::toRoute(['foco-transmissor/bairroQuarteiroes', 'bairro_id' => '']) . '" + bairroID, function(data) {
-
-                    options = $("#focotransmissor-bairro_quarteirao_id");
-                    options.append($("<option />").val("").text("Selecione..."));
-                    $.each(data, function(key, desc) {
-                        options.append($("<option />").val(key).text(desc));
-                    });
-
-                    jQuery("#focotransmissor-categoria_id").parent().parent().show();
-                    jQuery("#focotransmissor-bairro_quarteirao_id").parent().parent().show();
-                });
+                startSelect2Quarteirao(bairroID);
 
             });
 
@@ -281,6 +261,43 @@ $script .= '
             initSelection: function(element, callback) {
                 var id = ' . (!$model->getIsNewRecord() && $model->imovel_id ? $model->imovel_id : 'null') . ';
                 var text = "' . (!$model->getIsNewRecord() && $model->imovel ? ImovelHelper::getEnderecoCompleto($model->imovel) : 'null') . '";
+                var data = { id: id, text: text, slug: text };
+                callback(data);
+            }
+        });
+    }
+
+    function startSelect2Quarteirao(bairroID)
+    {
+        jQuery("#focotransmissor-categoria_id").parent().parent().show();
+        jQuery("#focotransmissor-bairro_quarteirao_id").parent().parent().show();
+
+        $("#focotransmissor-bairro_quarteirao_id").select2({
+            multiple: false,
+            placeholder: "Buscar por um quarteirão...",
+            allowClear: false,
+            ajax: {
+                multiple: false,
+                url: "' . Url::toRoute(['foco-transmissor/bairroQuarteiroes', 'bairro_id' => '']) . '" + bairroID,
+                dataType: "json",
+                data: function (term, page) {
+                    return {
+                        q: term,
+                    };
+                },
+                results: function (data, page) {
+                    return {
+                        results : $.map(data, function (name, id) {
+                            return {
+                                text:name, slug:name, id:id
+                            }
+                        })
+                    };
+                }
+            },
+            initSelection: function(element, callback) {
+                var id = ' . (!$model->getIsNewRecord() && $model->bairro_quarteirao_id ? $model->bairro_quarteirao_id  : 'null') . ';
+                var text = "' . (!$model->getIsNewRecord() && $model->bairroQuarteirao ? $model->bairroQuarteirao->numero_quarteirao : 'null') . '";
                 var data = { id: id, text: text, slug: text };
                 callback(data);
             }

@@ -12,22 +12,33 @@ class BairroQuarteiroes extends Action
     {
         $bairroID = isset($_REQUEST['bairro_id']) ? $_REQUEST['bairro_id'] : null;
         $onlyName = isset($_REQUEST['onlyName']) && $_REQUEST['onlyName'] == 'true';
+        $queryString = isset($_REQUEST['q']) ? $_REQUEST['q'] : null;
 
-        if(!is_numeric($bairroID))
+        if(!is_numeric($bairroID)) {
             exit;
+        }
 
 		$oBairro = Bairro::findOne(intval($bairroID));
-        if(!$oBairro instanceof Bairro)
+        if(!$oBairro instanceof Bairro) {
             exit;
+        }
 
         $array = [];
 
-        $quarteiroes = BairroQuarteirao::find()->doBairro($oBairro->id)->orderBy("numero_quarteirao ASC")->all();
-        foreach($quarteiroes as $quarteirao)
-            if(!$onlyName)
+        $query = BairroQuarteirao::find()->doBairro($oBairro->id)->orderBy("numero_quarteirao ASC");
+
+        if($queryString) {
+            $query->andWhere('numero_quarteirao ILIKE \'' . $queryString . '%\'');
+        }
+
+        $quarteiroes = $query->all();
+        foreach($quarteiroes as $quarteirao) {
+            if(!$onlyName) {
                 $array[$quarteirao->id] = $quarteirao->numero_sequencia;
-            else
+            } else {
                 $array[] = (string) $quarteirao->numero_sequencia;
+            }
+        }
 
 		echo Json::encode($array);
     }
