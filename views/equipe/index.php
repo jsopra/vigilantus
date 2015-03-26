@@ -34,6 +34,22 @@ $this->params['breadcrumbs'][] = $this->title;
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
 			'nome',
+            [
+                'header' => 'Agentes',
+                'format' => 'raw',
+                'value' => function ($model, $index, $widget) {
+
+                    $img = Html::tag('i', '', ['class' => 'glyphicon glyphicon-link']);
+
+                    $link = Html::a(
+                        'Gerenciar (' . $model->quantidadeAgentes . ') &nbsp;' . $img,
+                        Yii::$app->urlManager->createUrl(['equipe-agente/index', 'parentID' => $model->id]),
+                        ['title' => 'Gerenciar Agentes da Equipe ' . $model->nome]
+                    );
+
+                    return Html::tag('p', $link, ['class' => 'text-center no-margin']);
+                },
+            ],
 			[
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
