@@ -37,8 +37,6 @@ class BoletimRgController extends CRUDController
         return $behaviors;
     }
 
-
-
     public function init()
     {
         parent::init();
@@ -54,7 +52,12 @@ class BoletimRgController extends CRUDController
 
         $model = $this->buildNewModel();
 
-        if (!$this->loadAndSaveModel($model, $_POST, ['boletim-rg/create', 'bairro_id' => isset($_POST['a']) ? $_POST['a'] : null])) {
+        $bairroID = isset($_REQUEST['BoletimRg']['bairro_id']) ? $_REQUEST['BoletimRg']['bairro_id'] : null;
+
+        if (!$this->loadAndSaveModel($model, $_POST, ['boletim-rg/create', 'BoletimRg[bairro_id]' => $bairroID])) {
+
+            $model->bairro_id = $bairroID;
+
             return $this->renderAjaxOrLayout('create', ['model' => $model]);
         }
     }
@@ -98,7 +101,12 @@ class BoletimRgController extends CRUDController
 
         $model = $this->buildNewModel();
 
-        if (!$this->loadAndSaveModel($model, $_POST)) {
+        $bairroID = isset($_REQUEST['BoletimRg']['bairro_id']) ? $_REQUEST['BoletimRg']['bairro_id'] : null;
+
+        if (!$this->loadAndSaveModel($model, $_POST, ['boletim-rg/create-fechamento', 'BoletimRg[bairro_id]' => $bairroID])) {
+
+            $model->bairro_id = $bairroID;
+
             return $this->renderAjaxOrLayout('create-fechamento', ['model' => $model]);
         }
     }

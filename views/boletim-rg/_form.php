@@ -108,6 +108,14 @@ use kartik\widgets\Select2;
             ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
         );
 
+        if($model->isNewRecord) {
+            echo Html::a(
+                'Limpar',
+                array('boletim-rg/create'),
+                array('class'=>'btn btn-flat default','rel'=>'tooltip','data-title'=>'Criar novo boletim sem dados pré-definidos')
+            );
+        }
+
         echo Html::a(
             'Cancelar',
             array('index'),
@@ -158,6 +166,15 @@ $script .= '
         }]);
 
         startSelect2(bairroID);
+
+        jQuery.getJSON("' . Url::toRoute(['boletim-rg/bairroCategoria', 'bairro_id' => '']) . '" + bairroID, function(data) {
+
+            $("#boletimrg-categoria_id").val(data.id);
+            $("#boletimrg-categoria_id").attr("disabled","disabled");
+
+            startSelect2(bairroID);
+
+        });
 
         $("#boletimrg-bairro_id").attr("disabled","disabled");
     }
@@ -211,10 +228,12 @@ $script .= '
 if($model->isNewRecord) {
     $script .= '
         jQuery("#boletimrg-bairro_id").removeAttr("disabled");
+        jQuery("#boletimrg-bairro_quarteirao_id").removeAttr("disabled");
         jQuery("#boletimrg-categoria_id").removeAttr("disabled");
 
         jQuery("#boletimrg-bairro_id").attr("readonly","readonly");
         jQuery("#boletimrg-categoria_id").attr("readonly","readonly");
+        jQuery("#boletimrg-bairro_quarteirao_id").attr("readonly","readonly");
     ';
 }
 else {
