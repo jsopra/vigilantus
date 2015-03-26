@@ -1,0 +1,75 @@
+<?php
+
+namespace app\models;
+use app\components\ClienteActiveRecord;
+
+/**
+ * Este é a classe de modelo da tabela "equipe_agentes".
+ *
+ * Estas são as colunas disponíveis na tabela "equipe_agentes":
+ * @property integer $id
+ * @property integer $cliente_id
+ * @property integer $equipe_id
+ * @property string $nome
+ * @property boolean $ativo
+ * @property string $codigo
+ *
+ * @property Clientes $cliente
+ * @property Equipes $equipe
+ */
+class EquipeAgente extends ClienteActiveRecord
+{
+	/**
+	 * @inheritdoc
+	 */
+	public static function tableName()
+	{
+		return 'equipe_agentes';
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function rules()
+	{
+        // AVISO: só defina regras dos atributos que receberão dados do usuário
+		return [
+			[['cliente_id', 'equipe_id'], 'required'],
+			[['cliente_id', 'equipe_id'], 'integer'],
+			[['nome', 'codigo'], 'string'],
+			[['ativo'], 'boolean'],
+            ['codigo', 'unique', 'compositeWith' => ['cliente_id']],
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels()
+	{
+		return [
+			'id' => 'ID',
+			'cliente_id' => 'Cliente',
+			'equipe_id' => 'Equipe',
+			'nome' => 'Nome',
+			'ativo' => 'Ativo',
+			'codigo' => 'Código',
+		];
+	}
+
+	/**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getCliente()
+	{
+		return $this->hasOne(Clientes::className(), ['id' => 'cliente_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getEquipe()
+	{
+		return $this->hasOne(Equipes::className(), ['id' => 'equipe_id']);
+	}
+}

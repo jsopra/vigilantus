@@ -58,4 +58,14 @@ class Equipe extends ClienteActiveRecord
 	{
 		return $this->hasOne(Clientes::className(), ['id' => 'cliente_id']);
 	}
+
+
+
+    /**
+     * @return int
+     */
+    public function getQuantidadeAgentes()
+    {
+        return EquipeAgente::find()->where(['equipe_id' => $this->id])->count();
+    }
 }
