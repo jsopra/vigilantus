@@ -9,7 +9,7 @@ use app\models\search\BoletimRgFechamentoSearch;
 class BoletimRgController extends CRUDController
 {
     private $_modelSaveName;
-    
+
     public function actions()
     {
         return [
@@ -36,8 +36,6 @@ class BoletimRgController extends CRUDController
 
         return $behaviors;
     }
-    
-    
 
     public function init()
     {
@@ -47,14 +45,19 @@ class BoletimRgController extends CRUDController
             unset($_POST['BoletimRg']['imoveis']['exemplo']);
         }
     }
-    
+
     public function actionCreate()
     {
         $this->_modelSaveName = 'salvarComImoveis';
-        
+
         $model = $this->buildNewModel();
 
-        if (!$this->loadAndSaveModel($model, $_POST)) { 
+        $bairroID = isset($_REQUEST['BoletimRg']['bairro_id']) ? $_REQUEST['BoletimRg']['bairro_id'] : null;
+
+        if (!$this->loadAndSaveModel($model, $_POST, ['boletim-rg/create', 'BoletimRg[bairro_id]' => $bairroID])) {
+
+            $model->bairro_id = $bairroID;
+
             return $this->renderAjaxOrLayout('create', ['model' => $model]);
         }
     }
@@ -62,7 +65,7 @@ class BoletimRgController extends CRUDController
     public function actionUpdate($id)
     {
         $this->_modelSaveName = 'salvarComImoveis';
-        
+
         $model = $this->findModel($id);
 
         if (!empty($_POST)) {
@@ -91,22 +94,27 @@ class BoletimRgController extends CRUDController
             ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
         );
     }
-    
+
     public function actionCreateFechamento()
     {
         $this->_modelSaveName = 'salvarComFechamento';
-        
+
         $model = $this->buildNewModel();
 
-        if (!$this->loadAndSaveModel($model, $_POST)) { 
+        $bairroID = isset($_REQUEST['BoletimRg']['bairro_id']) ? $_REQUEST['BoletimRg']['bairro_id'] : null;
+
+        if (!$this->loadAndSaveModel($model, $_POST, ['boletim-rg/create-fechamento', 'BoletimRg[bairro_id]' => $bairroID])) {
+
+            $model->bairro_id = $bairroID;
+
             return $this->renderAjaxOrLayout('create-fechamento', ['model' => $model]);
         }
     }
-    
+
     public function actionUpdateFechamento($id)
     {
         $this->_modelSaveName = 'salvarComFechamento';
-        
+
         $model = $this->findModel($id);
 
         if (!empty($_POST)) {

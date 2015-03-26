@@ -82,6 +82,7 @@ class VigilantusLayoutHelper {
                     ['label' => 'Armadilhas', 'url' => ['/armadilha/'], 'options' => ['id' => 'step-armadilhas']],
                     ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria/'], 'options' => ['id' => 'step-cadastro-categoria-bairros']],
                     ['label' => 'Doenças', 'url' => ['/doenca/'], 'options' => ['id' => 'step-cadastro-doencas']],
+                    ['label' => 'Equipes', 'url' => ['/equipe/'], 'visible' => $user->can('Gerente'), 'options' => ['id' => 'stepguide-equipe']],
                     ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/'], 'options' => ['id' => 'step-cadastro-especieis-transmissores']],
                     ['label' => 'Pontos Estratégicos', 'url' => ['/ponto-estrategico/'], 'options' => ['id' => 'step-pontos-estrategicos']],
                     ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/'], 'options' => ['id' => 'step-cadastro-tipos-imoveis']],

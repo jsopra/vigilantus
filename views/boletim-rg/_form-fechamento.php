@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use kartik\widgets\Select2;
 
 /**
  * @var yii\web\View $this
@@ -17,34 +18,42 @@ use yii\helpers\ArrayHelper;
 ?>
 
 <div class="bairro-tipo-form">
-    
+
 	<?php $form = ActiveForm::begin(); ?>
 
 	<div class="row" id="dadosPrincipais">
         <div class="col-xs-2">
             <?php
             $bairros = Bairro::find()->comQuarteiroes()->orderBy('nome')->all();
-            echo $form->field($model, 'bairro_id')->dropDownList(ArrayHelper::map($bairros, 'id', 'nome'), ['prompt' => 'Selecione..']);
+            echo $form->field($model, 'bairro_id')->widget(
+                Select2::classname(),
+                [
+                    'data' => ['' => ''] + ArrayHelper::map($bairros, 'id', 'nome'),
+                    'pluginOptions' => [
+                        'allowClear' => false
+                    ],
+                ]
+            );
             ?>
         </div>
         <div class="col-xs-2 bairro-hide">
             <?= $form->field($model, 'categoria_id')->dropDownList(BairroCategoria::listData('nome')) ?>
         </div>
         <div class="col-xs-2 bairro-hide">
-            <?= $form->field($model, 'bairro_quarteirao_id')->dropDownList(array()) ?>
+            <?= $form->field($model, 'bairro_quarteirao_id')->textInput(['class' => 'form-control']) ?>
         </div>
-        
+
         <div class="col-xs-2 col-lg-offset-2 bairro-hide">
             <?= $form->field($model, 'folha')->textInput() ?>
         </div>
-        
+
         <div class="col-xs-2 bairro-hide">
             <?= $form->field($model, 'data')->input('date', ['class' => 'form-control input-datepicker']) ?>
         </div>
     </div>
     <br />
     <div class="row bairro-hide">
-        
+
         <table id="form-imoveis" class="table table-hover">
             <thread>
                 <tr>
@@ -65,9 +74,9 @@ use yii\helpers\ArrayHelper;
                         <td><?= Html::input('number', 'BoletimRg[fechamentos][' . $tipo->id . '][lira]', (isset($model->fechamentos[$tipo->id]['lira']) ? $model->fechamentos[$tipo->id]['lira'] : 0), ['class' => 'form-control']) ?></td>
                         <td><?= Html::input('number', 'BoletimRg[fechamentos][' . $tipo->id . '][nao_lira]', (isset($model->fechamentos[$tipo->id]['nao_lira']) ? $model->fechamentos[$tipo->id]['nao_lira'] : 0), ['class' => 'form-control']) ?></td>
                     </tr>
-                <?php 
+                <?php
                     endforeach;
-                endif; 
+                endif;
                 ?>
             </tbody>
         </table>
@@ -80,6 +89,14 @@ use yii\helpers\ArrayHelper;
             $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
             ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
         );
+
+        if($model->isNewRecord) {
+            echo Html::a(
+                'Limpar',
+                array('boletim-rg/create-fechamento'),
+                array('class'=>'btn btn-flat default','rel'=>'tooltip','data-title'=>'Criar novo boletim sem dados pré-definidos')
+            );
+        }
 
         echo Html::a(
             'Cancelar',
@@ -98,18 +115,14 @@ use yii\helpers\ArrayHelper;
 $view = Yii::$app->getView();
 $script = '
     jQuery(document).ready(function(){
-
     var bairroID = null;
-    var quarteiraoID = null;
 ';
 
-if(!$model->bairro_id)
+if(!$model->bairro_id) {
     $script .= 'jQuery(".bairro-hide").hide();';
-else
+} else {
     $script .= 'bairroID = ' . $model->bairro_id . ';';
-
-if($model->bairro_quarteirao_id)
-    $script .= 'quarteiraoID = ' . $model->bairro_quarteirao_id . ';';
+}
 
 if(!$model->isNewRecord) {
     $script .= '
@@ -121,27 +134,25 @@ if(!$model->isNewRecord) {
 $script .= '
 
     jQuery("input#selecaoNumero").numeric();
-    jQuery("input#selecaoSeq").numeric();        
+    jQuery("input#selecaoSeq").numeric();
 
     jQuery("input#boletimrg-folha").numeric();
     jQuery("input#boletimrg-mes").numeric();
     jQuery("input#boletimrg-ano").numeric();
 
     if(bairroID) {
-        jQuery.getJSON("' . Url::toRoute(['boletim-rg/bairroQuarteiroes', 'bairro_id' => '']) . '" + bairroID, function(data) {
+        startSelect2(bairroID);
 
-            options = $("#boletimrg-bairro_quarteirao_id");
-            options.append($("<option />").val("").text("Selecione..."));
-            $.each(data, function(key, desc) {
-                options.append($("<option />").val(key).text(desc));
-            });
+        jQuery.getJSON("' . Url::toRoute(['boletim-rg/bairroCategoria', 'bairro_id' => '']) . '" + bairroID, function(data) {
 
-            jQuery("#boletimrg-categoria_id").parent().parent().show();
-            jQuery("#boletimrg-bairro_quarteirao_id").parent().parent().show();
-            
-            if(quarteiraoID) 
-                jQuery("#boletimrg-bairro_quarteirao_id").val(quarteiraoID);
+            $("#boletimrg-categoria_id").val(data.id);
+            $("#boletimrg-categoria_id").attr("disabled","disabled");
+
+            startSelect2(bairroID);
+
         });
+
+        $("#boletimrg-bairro_id").attr("disabled","disabled");
     }
 
     jQuery("#boletimrg-bairro_id").change(function() {
@@ -161,23 +172,16 @@ $script .= '
                 $("#boletimrg-categoria_id").val(data.id);
                 $("#boletimrg-categoria_id").attr("disabled","disabled");
 
-                jQuery.getJSON("' . Url::toRoute(['boletim-rg/bairroQuarteiroes', 'bairro_id' => '']) . '" + bairroID, function(data) {
+                startSelect2(bairroID);
 
-                    options = $("#boletimrg-bairro_quarteirao_id");
-                    options.append($("<option />").val("").text("Selecione..."));
-                    $.each(data, function(key, desc) {
-                        options.append($("<option />").val(key).text(desc));
-                    });
-                    
-                    jQuery("#boletimrg-categoria_id").parent().parent().show();
-                    jQuery("#boletimrg-bairro_quarteirao_id").parent().parent().show();
-                });
-                
             });
 
         }
-        
+
         jQuery("#boletimrg-bairro_quarteirao_id").change(function(){
+
+            $(this).attr("disabled","disabled");
+
             if($(this).val() != "") {
                 jQuery(".bairro-hide").show();
             }
@@ -190,15 +194,17 @@ $script .= '
 
         jQuery("form").submit(function(){
 ';
-  
+
 
 if($model->isNewRecord) {
     $script .= '
         jQuery("#boletimrg-bairro_id").removeAttr("disabled");
+        jQuery("#boletimrg-bairro_quarteirao_id").removeAttr("disabled");
         jQuery("#boletimrg-categoria_id").removeAttr("disabled");
 
         jQuery("#boletimrg-bairro_id").attr("readonly","readonly");
         jQuery("#boletimrg-categoria_id").attr("readonly","readonly");
+        jQuery("#boletimrg-bairro_quarteirao_id").attr("readonly","readonly");
     ';
 }
 else {
@@ -215,6 +221,43 @@ $script .= '
             });
         });
     });
+
+    function startSelect2(bairroID)
+    {
+        jQuery("#boletimrg-categoria_id").parent().parent().show();
+        jQuery("#boletimrg-bairro_quarteirao_id").parent().parent().show();
+
+        $("#boletimrg-bairro_quarteirao_id").select2({
+            multiple: false,
+            placeholder: "Buscar por um quarteirão...",
+            allowClear: false,
+            ajax: {
+                multiple: false,
+                url: "' . Url::toRoute(['boletim-rg/bairroQuarteiroes', 'bairro_id' => '']) . '" + bairroID,
+                dataType: "json",
+                data: function (term, page) {
+                    return {
+                        q: term,
+                    };
+                },
+                results: function (data, page) {
+                    return {
+                        results : $.map(data, function (name, id) {
+                            return {
+                                text:name, slug:name, id:id
+                            }
+                        })
+                    };
+                }
+            },
+            initSelection: function(element, callback) {
+                var id = ' . (!$model->getIsNewRecord() && $model->bairro_quarteirao_id ? $model->bairro_quarteirao_id  : 'null') . ';
+                var text = "' . (!$model->getIsNewRecord() && $model->quarteirao ? $model->quarteirao->numero_quarteirao : 'null') . '";
+                var data = { id: id, text: text, slug: text };
+                callback(data);
+            }
+        });
+    }
 ';
 $view->registerJs($script);
 ?>
