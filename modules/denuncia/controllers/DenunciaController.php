@@ -30,11 +30,11 @@ class DenunciaController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes'],
+                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes'],
+                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao'],
                         'roles' => ['Usuario'],
                     ],
                 ],
@@ -169,5 +169,30 @@ class DenunciaController extends CRUDController
         }
 
         return $this->renderAjaxOrLayout('mudar-status', ['model' => $model]);
+    }
+
+    public function actionTentativaAveriguacao($id)
+    {
+        $denuncia = is_object($id) ? $id : $this->findModel($id);
+
+        $model = new \app\forms\TentativaVisita;
+
+        if (!empty($_POST) && $model->load($_POST)) {
+
+            $model->usuario_id = Yii::$app->user->id;
+
+            if ($model->save()) {
+
+                if($model->fechou_visita) {
+                    Yii::$app->session->setFlash('success', 'Denúncia teve tentativa de visita registrada e foi fechada após exceder o limite de tentativas de visitação');
+                } else {
+                    Yii::$app->session->setFlash('success', 'Denúncia teve tentativa de visita registrada.');
+                }
+
+                return $this->redirect(['denuncia/index']);
+            }
+        }
+
+        return $this->renderAjaxOrLayout('tentativa-visita', ['model' => $model]);
     }
 }

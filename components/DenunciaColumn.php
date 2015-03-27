@@ -72,6 +72,22 @@ class DenunciaColumn extends YiiActionColumn
 			]);
 		};
 
+		$this->buttons['tentativa-averiguacao'] = function ($url, $model) {
+
+			if(in_array($model->status, DenunciaStatus::getStatusTerminativos())) {
+				return;
+			}
+
+			if($model->status == DenunciaStatus::AVALIACAO) {
+				return;
+			}
+
+			return Html::a('<i class="glyphicon glyphicon-home"></i>', $url, [
+				'title' => Yii::t('yii', 'Informar tentativa de averiguação'),
+				'data-method' => 'post',
+			]);
+		};
+
 		$this->buttons['anexo'] = function ($url, $model) {
 
 			if(!$model->anexo) {

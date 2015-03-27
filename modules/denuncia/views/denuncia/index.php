@@ -99,7 +99,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'header' => 'Ações',
                 'class' => 'app\components\DenunciaColumn',
-                'template' => '{detalhes} {aprovar} {reprovar} {mudar-status} {anexo}',
+                'template' => '{detalhes} {aprovar} {reprovar} {mudar-status} {anexo} {tentativa-visita}',
             ],
 		],
 	]); ?>

@@ -3,25 +3,17 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\DenunciaStatus;
 
-$this->title = 'Alterar status de Denuncia #' . $model->id;
+$this->title = 'Informar tentativa de averiguação de Denúncia #' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Denúncias', 'url' => ['index']];
-$this->params['breadcrumbs'][] = 'Alterar status';
+$this->params['breadcrumbs'][] = 'Informar tentativa de averiguação';
 ?>
 <div class="denuncia-update">
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-	<?php $form = ActiveForm::begin([]); ?>
+    <?php $form = ActiveForm::begin([]); ?>
 
-	<div class="row">
-        <div class="col-xs-4">
+    <div class="form-group form-actions">
             <?php
-            echo $form->field($model, 'status')->dropDownList(DenunciaStatus::getStatusPossiveis($model->status), ['prompt' => 'Selecione..']);
-            ?>
-        </div>
-    </div>
-
-	<div class="form-group form-actions">
-			<?php
             echo Html::submitButton(
                 'Cadastrar',
                 ['class' => 'btn btn-flat success']
@@ -35,5 +27,5 @@ $this->params['breadcrumbs'][] = 'Alterar status';
             ?>
         </div>
 
-	<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 </div>
