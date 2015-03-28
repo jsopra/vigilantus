@@ -116,7 +116,7 @@ if($foco) {
             properties: {
                 title: '" . $quarteirao->numero_quarteirao . "',
                 'marker-color': '#000',
-                'marker-symbol': 'danger'
+                'marker-symbol': 'hospital'
             }
         }).addTo(map);
 
@@ -145,7 +145,7 @@ if($foco) {
                         title: layer.feature.properties.numero_quarteirao,
                         'marker-size': 'small',
                         'marker-color': '#fc6a6a',
-                        'marker-symbol': 'hospital'
+                        'marker-symbol': 'roadblock'
                     }
                 }).addTo(map);
             });

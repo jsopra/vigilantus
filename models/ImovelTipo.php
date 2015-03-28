@@ -47,7 +47,7 @@ class ImovelTipo extends ClienteActiveRecord
             array('atualizado_por', 'required', 'on' => 'update'),
         );
     }
-    
+
     /**
      * @return Usuario
      */
@@ -55,7 +55,7 @@ class ImovelTipo extends ClienteActiveRecord
     {
         return $this->hasOne(Usuario::className(), ['id' => 'inserido_por']);
     }
-    
+
     /**
      * @return Usuario
      */
@@ -63,7 +63,7 @@ class ImovelTipo extends ClienteActiveRecord
     {
         return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
     }
-    
+
     /**
      * @return Usuario
      */
@@ -90,5 +90,10 @@ class ImovelTipo extends ClienteActiveRecord
             'excluido_por' => 'Excluído Por',
             'data_exclusao' => 'Data Exclusão',
         );
+    }
+
+    public function getDescricao_sigla()
+    {
+        return '(' . $this->sigla . ') ' . $this->nome;
     }
 }

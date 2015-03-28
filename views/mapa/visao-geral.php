@@ -9,7 +9,7 @@ use yii\helpers\Json;
 $this->title = 'Visão Geral';
 $this->params['breadcrumbs'][] = $this->title;
 
-MapBoxAPIHelper::registerScript($this, ['fullScreen', 'omnivore']);
+MapBoxAPIHelper::registerScript($this, ['fullScreen', 'omnivore', 'markercluster']);
 ?>
 
 <h1><?= Html::encode($this->title) ?></h1>
@@ -45,36 +45,26 @@ $municipio->loadCoordenadas();
 
         L.control.scale().addTo(map);
 
-        var focosLayer = omnivore.kml('" . Url::to(['kml/focos']) . "')
+        var markers = new L.MarkerClusterGroup();
+
+        var runLayer = omnivore.kml('" . Url::to(['kml/focos']) . "')
         .on('ready', function() {
             this.eachLayer(function(marker) {
 
-                marker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#fc6a6a',
-                    'marker-size': 'small',
-                    'marker-symbol': 'danger'
-                }));
-
+                var marker = L.marker(new L.LatLng(marker.feature.geometry.coordinates[1], marker.feature.geometry.coordinates[0]), {
+                    icon: L.mapbox.marker.icon({
+                        'marker-color': '#fc6a6a',
+                        'marker-size': 'small',
+                        'marker-symbol': 'hospital'
+                    }),
+                });
+                markers.addLayer(marker);
             });
-        })
-        .addTo(map);
+        });
 
-        addLayer(focosLayer, 'Focos', 1);
+        addLayer(markers, 'Focos', 1);
 
-        var bairrosLayer = omnivore.kml('" . Url::to(['kml/cidade']) . "')
-        .on('ready', function() {
-            this.eachLayer(function(marker) {
-
-                marker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#fc6a6a',
-                    'marker-size': 'small',
-                    'marker-symbol': 'danger'
-                }));
-
-            });
-        })
-        .addTo(map);
-
+        var bairrosLayer = omnivore.kml('" . Url::to(['kml/cidade']) . "').addTo(map);
         addLayer(bairrosLayer, 'Bairros', 2);
 
         var bairrosLayer = omnivore.kml('" . Url::to(['kml/armadilha']) . "')
@@ -90,7 +80,6 @@ $municipio->loadCoordenadas();
             });
         })
         .addTo(map);
-
         addLayer(bairrosLayer, 'Armadilhas', 3);
 
         var bairrosLayer = omnivore.kml('" . Url::to(['kml/ponto-estrategico']) . "')
@@ -106,7 +95,6 @@ $municipio->loadCoordenadas();
             });
         })
         .addTo(map);
-
         addLayer(bairrosLayer, 'Pontos Estratégicos', 4);
 
         function addLayer(layer, name, zIndex) {
@@ -114,8 +102,6 @@ $municipio->loadCoordenadas();
                 .setZIndex(zIndex)
                 .addTo(map);
 
-            // Create a simple layer switcher that
-            // toggles layers on and off.
             var link = document.createElement('a');
                 link.href = '#';
                 link.className = 'active';

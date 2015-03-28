@@ -73,6 +73,16 @@ class FocoTransmissor extends ClienteActiveRecord
             [['!data_cadastro', '!data_atualizacao', 'data_entrada', 'data_exame', 'data_coleta'], 'date'],
             [['laboratorio', 'tecnico'], 'string', 'max' => 256],
             [['planilha_imovel_tipo_id', 'planilha_endereco', 'mes', 'quantidade_registros'], 'safe'],
+            ['planilha_imovel_tipo_id', 'required', 'when' => function($model) {
+                return $model->planilha_endereco != '';
+            }, 'whenClient' => "function (attribute, value) {
+                return novoEndereco == true;
+            }"],
+            ['imovel_id', 'required', 'when' => function($model) {
+                return $model->planilha_endereco == '';
+            }, 'whenClient' => "function (attribute, value) {
+                return novoEndereco == false;
+            }"]
         ];
     }
 

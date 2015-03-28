@@ -12,7 +12,7 @@ use yii\helpers\Json;
 $this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
 ?>
 
-<?php MapBoxAPIHelper::registerScript($this, ['fullScreen', 'minimap', 'omnivore']); ?>
+<?php MapBoxAPIHelper::registerScript($this, ['fullScreen', 'minimap', 'omnivore', 'markercluster']); ?>
 
 <div class="row" style="margin-bottom: 2em;">
     <h4 class="text-center" style="font-weight: bold; margin-top: 1em; font-size: 2.5em;">
@@ -21,11 +21,11 @@ $this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
 </div>
 
 <?php
-$municipio->loadCoordenadas();
-?>
 
-<?php if($municipio->latitude && $municipio->longitude) : ?>
-    <?php
+$municipio->loadCoordenadas();
+
+if($municipio->latitude && $municipio->longitude) {
+
     $javascript = "
         var line_points = " . Json::encode([]) . ";
         var polyline_options = {
@@ -45,25 +45,29 @@ $municipio->loadCoordenadas();
 
         L.control.scale().addTo(map);
 
+        var markers = new L.MarkerClusterGroup();
+
         var runLayer = omnivore.kml('" . Url::to($url) . "')
         .on('ready', function() {
             this.eachLayer(function(marker) {
 
-                marker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#fc6a6a',
-                    'marker-size': 'small',
-                    'marker-symbol': 'danger'
-                }));
-
-                L.circle([marker.feature.geometry.coordinates[1], marker.feature.geometry.coordinates[0]], marker.feature.properties.metros_tratamento).addTo(map);
+                var marker = L.marker(new L.LatLng(marker.feature.geometry.coordinates[1], marker.feature.geometry.coordinates[0]), {
+                    icon: L.mapbox.marker.icon({
+                        'marker-color': '#fc6a6a',
+                        'marker-size': 'small',
+                        'marker-symbol': 'hospital'
+                    }),
+                });
+                markers.addLayer(marker);
             });
-        })
-        .addTo(map);
+
+            map.addLayer(markers);
+        });
     ";
 
     $this->registerJs($javascript);
-    ?>
-<?php endif; ?>
+}
+?>
 
 <style>
 .controls {
@@ -96,3 +100,4 @@ $municipio->loadCoordenadas();
 </style>
 
 <div id="map" style="height: 500px; width: 100%;"></div>
+<p class="bg-info text-center" style="padding: 0.5em 0;"><strong>Focos dos últimos <?= $qtdeDias; ?> dias</strong></p>
