@@ -81,8 +81,20 @@ use yii\helpers\ArrayHelper;
         </div>
 
         <div class="row bairro-hide">
-            <div class="col-xs-9">
+            <div class="col-xs-6">
                 <?= $form->field($model, 'imovel_id')->textInput(['class' => 'form-control']) ?>
+            </div>
+            <div class="col-xs-3 tipo_imovel">
+                <?= $form->field($model, 'planilha_imovel_tipo_id')->widget(
+                    Select2::classname(),
+                    [
+                        'data' => ['' => ''] + ImovelTipo::listData('descricao_sigla'),
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]
+                );
+                ?>
             </div>
         </div>
 
@@ -130,8 +142,12 @@ use yii\helpers\ArrayHelper;
 <?php
 $view = Yii::$app->getView();
 $script = '
+    var novoEndereco = false;
+
     jQuery(document).ready(function(){
     var bairroID = null;
+
+    $(".tipo_imovel").hide();
 ';
 
 if(!$model->bairro_id) {
@@ -151,6 +167,11 @@ if($model->imovel_id) {
     $script .= 'startSelect2();';
 }
 
+if($model->planilha_imovel_tipo_id) {
+    $script .= 'startSelect2();';
+    $script .= '$(".tipo_imovel").show();';
+}
+
 $script .= '
 
     if(bairroID) {
@@ -161,6 +182,8 @@ $script .= '
     }
 
     jQuery("#focotransmissor-bairro_id").change(function() {
+
+        $(".tipo_imovel").hide();
 
         if(jQuery(this).val() == "") {
             jQuery(".bairro-hide").hide();
@@ -255,12 +278,14 @@ $script .= '
                 }
             },
             createSearchChoice: function (term) {
+                $(".tipo_imovel").show();
+                novoEndereco = true;
                 var text = term + (lastResults.some(function(r) { return r.text == term }) ? "" : " (novo)");
                 return { id: term, text: text };
             },
             initSelection: function(element, callback) {
                 var id = ' . (!$model->getIsNewRecord() && $model->imovel_id ? $model->imovel_id : 'null') . ';
-                var text = "' . (!$model->getIsNewRecord() && $model->imovel ? ImovelHelper::getEnderecoCompleto($model->imovel) : 'null') . '";
+                var text = "' . (!$model->getIsNewRecord() ? ($model->imovel_id ? ImovelHelper::getEnderecoCompleto($model->imovel) : ($model->planilha_endereco ? $model->planilha_endereco : 'null')) : 'null') . '";
                 var data = { id: id, text: text, slug: text };
                 callback(data);
             }
