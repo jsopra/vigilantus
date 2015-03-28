@@ -73,7 +73,7 @@ class FocoTransmissorController extends CRUDController
      */
     protected function loadAndSaveModel($model, $data = null, $redirect = ['index'])
     {
-        if(isset($data['FocoTransmissor']['imovel_id']) && is_string($data['FocoTransmissor']['imovel_id'])) {
+        if(isset($data['FocoTransmissor']['imovel_id']) && !is_numeric($data['FocoTransmissor']['imovel_id'])) {
             $data['FocoTransmissor']['planilha_endereco'] = $data['FocoTransmissor']['imovel_id'];
             unset($data['FocoTransmissor']['imovel_id']);
         }

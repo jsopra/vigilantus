@@ -4,6 +4,7 @@ namespace app\controllers;
 use Yii;
 use app\components\Controller;
 use app\models\Cliente;
+use app\models\Configuracao;
 use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use app\models\Denuncia;
 use app\models\Modulo;
@@ -66,6 +67,7 @@ class CidadeController extends Controller
                 'url' => ['kml/focos', 'clienteId' => $cliente->id, 'informacaoPublica' => true],
                 'viewPartial' => '_focos',
                 'model' => $model,
+                'qtdeDias' => Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA, $cliente->id),
             ]
         );
     }

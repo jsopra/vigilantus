@@ -145,9 +145,9 @@ $script = '
     var novoEndereco = false;
 
     jQuery(document).ready(function(){
-    var bairroID = null;
+        var bairroID = null;
 
-    $(".tipo_imovel").hide();
+        $(".tipo_imovel").hide();
 ';
 
 if(!$model->bairro_id) {
@@ -201,7 +201,6 @@ $script .= '
                 $("#focotransmissor-categoria_id").attr("disabled","disabled");
 
                 startSelect2Quarteirao(bairroID);
-
             });
 
         }
@@ -209,7 +208,6 @@ $script .= '
         jQuery("#focotransmissor-bairro_quarteirao_id").change(function(){
             if($(this).val() != "") {
                 jQuery(".bairro-hide").show();
-
                 startSelect2();
             }
             else {
