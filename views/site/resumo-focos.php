@@ -5,12 +5,6 @@ use yii\bootstrap\Tabs;
 $this->title = 'Resumo de Indicadores';
 ?>
 
-<?= $this->render('_menuHome', [
-    'municipio' => $cliente->municipio,
-    'qtdeVerde' => $qtdeVerde,
-    'qtdeVermelho' => $qtdeVermelho,
-    'diasVerde' => $diasVerde,
-    'diasVermelho' => $diasVermelho,
-]); ?>
+<?= $this->render('_menuHome', ['municipio' => $cliente->municipio]); ?>
 
-<?= $this->render('/resumo-focos/_capa', ['model' => $modelFoco], true); ?>
+<?= $this->render('/resumo/_focos', ['model' => $modelFoco], true); ?>

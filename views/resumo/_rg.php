@@ -1,5 +1,9 @@
 <?php
 use yii\helpers\Html;
+use miloschuman\highcharts\Highcharts;
+use miloschuman\highcharts\HighchartsAsset;
+HighchartsAsset::register($this)->withScripts(['highstock', 'modules/exporting', 'modules/drilldown']);
+
 ?>
 <br />
 
@@ -33,31 +37,45 @@ use yii\helpers\Html;
                 </tr>
             </tbody>
         </table>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Imóveis</th>
-                    <th class="number">Geral</th>
-                    <th class="number">Foco</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($model->getImoveisPorTipo() as $tipo => $dados) : ?>
-                <tr>
-                    <td><?= $tipo ?></td>
-                    <td class="text-center"><?= $dados['imoveis'] ?></td>
-                    <td class="text-center"><?= $dados['focos'] ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-            <tfoot>
-                <tr class="totalizador">
-                    <td>Total</td>
-                    <td class="text-center"><?= $model->getTotalImoveis(\Yii::$app->session->get('user.cliente')->id) ?></td>
-                    <td class="text-center"><?= $model->getTotalImoveisFoco(\Yii::$app->session->get('user.cliente')->id) ?></td>
-                </tr>
-            </tfoot>
-        </table>
+        <?php
+        $series = [
+            'rg' => [],
+            'focos' => [],
+        ];
+        $tipos = [];
+        foreach ($model->getImoveisPorTipo() as $tipo => $dados) {
+            $tipos[] = $tipo;
+            $series['rg'][] = (int) $dados['imoveis'];
+            $series['focos'][] =(int) $dados['focos'];
+        }
+        ?>
+
+        <?= Highcharts::widget([
+           'options' => [
+                'title' => ['text' => 'Quarteirões por Tipo de Imóvel'],
+                'xAxis' => [
+                    'categories' => $tipos,
+                ],
+                'yAxis' => [
+                    'title' => ['text' => 'Qtde de Imóveis'],
+                ],
+                'tooltip' => ['shared' => true],
+                'series' => [
+                    [
+                        'name' => 'Qtde de Imóveis',
+                        'type' => 'column',
+                        'data' => $series['rg'],
+
+                    ],
+                    [
+                        'name' => 'Qtde de Imóveis em Área de Tratamento de Foco',
+                        'type' => 'spline',
+                        'data' => $series['focos'],
+                    ]
+                ],
+           ]
+        ]);
+        ?>
     </div>
     <div class="col-md-6">
         <table class="table table-striped">

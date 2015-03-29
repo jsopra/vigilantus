@@ -5,15 +5,9 @@ use yii\bootstrap\Tabs;
 $this->title = 'Resumo de Indicadores';
 ?>
 
-<?= $this->render('_menuHome', [
-    'municipio' => $cliente->municipio,
-    'qtdeVerde' => $qtdeVerde,
-    'qtdeVermelho' => $qtdeVermelho,
-    'diasVerde' => $diasVerde,
-    'diasVermelho' => $diasVermelho,
-]); ?>
+<?= $this->render('_menuHome', ['municipio' => $cliente->municipio]); ?>
 
-<?= $this->render('/resumo-rg/_capa', ['model' => $modelRg, 'ultimaAtualizacao' => Yii::$app->cache->get('ultima_atualizacao_resumo_cache_rg')], true); ?>
+<?= $this->render('/resumo/_rg', ['model' => $modelRg, 'ultimaAtualizacao' => Yii::$app->cache->get('ultima_atualizacao_resumo_cache_rg')], true); ?>
 
 <?php
 if(isset($_GET['step'])) {
@@ -40,7 +34,7 @@ if(isset($_GET['step'])) {
             if(isAnalista == "0" && isGerente == "1") {
                 stepsOptions.push(
                     {
-                        element: "#stepguide-denuncias-indicators",
+                        element: "#denuncias",
                         intro: "Você pode rapidamente avaliar problemas de atendimento em denúncias"
                     }
                 );

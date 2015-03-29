@@ -2,6 +2,7 @@
 
 namespace app\models\search;
 
+use app\models\Configuracao;
 use app\components\SearchModel;
 
 /**
@@ -62,8 +63,15 @@ class DenunciaSearch extends SearchModel
             ->andFilterWhere(['like', 'anexo', $this->anexo])
             ->andFilterWhere(['like', 'nome_original_anexo', $this->nome_original_anexo]);
 
-        if($this->qtde_dias_aberto) {
-            $query->anteriorA($this->qtde_dias_aberto);
+        $diasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
+        $diasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
+
+        if($this->qtde_dias_aberto == 1) {
+            $query->anteriorA($diasVerde);
+        } else if($this->qtde_dias_aberto == 2) {
+            $query->entre($diasVerde, $diasVermelho);
+        } else if($this->qtde_dias_aberto == 3) {
+            $query->posteriorA($diasVermelho);
         }
 
         if($this->data_fechamento == '1') {
