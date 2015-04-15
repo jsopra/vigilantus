@@ -1,14 +1,17 @@
 <?php
 
-require_once 'acceptance/AcceptanceTester.php';
+namespace tests;
 
-use tests\_pages\LoginPage;
-use tests\TestHelper;
+require_once __DIR__ . '/codeception/acceptance/AcceptanceTester.php';
+
+use fidelize\phactory\DbCleaner;
+use tests\codeception\_pages\LoginPage;
+use Yii;
 
 /**
  * Traduz métodos da WebGuy para o português
  */
-class TesterDeAceitacao extends AcceptanceTester
+class TesterDeAceitacao extends \AcceptanceTester
 {
     public function __construct(\Codeception\Scenario $scenario)
     {
@@ -18,7 +21,10 @@ class TesterDeAceitacao extends AcceptanceTester
         $this->maximizeWindow();
 
         // Recria o banco
-        TestHelper::recreateSchema();
+        DbCleaner::recreate();
+
+        // Configura a Phactory
+        Yii::$app->get('phactory')->init();
 
         // Vai pra home
         $this->amOnPage('/');

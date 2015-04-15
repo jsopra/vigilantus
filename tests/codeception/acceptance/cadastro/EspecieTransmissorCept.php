@@ -4,7 +4,7 @@ use \Phactory;
 use app\models\Cliente;
 use app\models\Doenca;
 
-$eu = new TesterDeAceitacao($scenario);
+$eu = new \tests\TesterDeAceitacao($scenario);
 
 Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
 

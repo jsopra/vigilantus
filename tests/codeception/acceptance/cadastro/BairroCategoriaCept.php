@@ -2,9 +2,17 @@
 
 use \Phactory;
 
-$eu = new TesterDeAceitacao($scenario);
+$eu = new \tests\TesterDeAceitacao($scenario);
 
-Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
+Phactory::usuario(
+    'root',
+    [
+        'login' => 'administrador',
+        'senha' => 'administrador',
+        'confirmacao_senha' => 'administrador',
+        'cliente' => Phactory::cliente(),
+    ]
+);
 
 $eu->quero('verificar que o CRUD de categorias de bairro funciona');
 $eu->facoLoginComo('administrador', 'administrador');

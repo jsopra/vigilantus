@@ -1,6 +1,6 @@
 <?php
 
-$eu = new TesterDeAceitacao($scenario);
+$eu = new \tests\TesterDeAceitacao($scenario);
 $eu->quero('verificar que a home funciona');
 $eu->estouNaPagina(Yii::$app->homeUrl);
 $eu->vejo('Vigilantus');

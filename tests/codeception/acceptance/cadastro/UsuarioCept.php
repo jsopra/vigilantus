@@ -2,7 +2,7 @@
 
 use \Phactory;
 
-$eu = new TesterDeAceitacao($scenario);
+$eu = new \tests\TesterDeAceitacao($scenario);
 
 Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
 

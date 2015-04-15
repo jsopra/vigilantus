@@ -19,7 +19,7 @@ require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
 $config = require(__DIR__ . '/../config/web.php');
 
 if ($env == 'test') {
-    $config = require(__DIR__ . '/../tests/acceptance/_config.php');
+    $config = require(__DIR__ . '/../tests/codeception/config/acceptance.php');
 }
 
 (new yii\web\Application($config))->run();

@@ -1,7 +1,7 @@
 <?php
 use \Phactory;
 
-$eu = new TesterDeAceitacao($scenario);
+$eu = new \tests\TesterDeAceitacao($scenario);
 
 Phactory::blogPost();
 

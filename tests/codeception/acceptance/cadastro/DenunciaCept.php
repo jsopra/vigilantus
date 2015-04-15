@@ -2,7 +2,7 @@
 use \Phactory;
 use app\models\Cliente;
 
-$eu = new TesterDeAceitacao($scenario);
+$eu = new \tests\TesterDeAceitacao($scenario);
 
 $usuario = Phactory::usuario('root', ['login' => 'administrador', 'senha' => 'administrador']);
 $modulo = Phactory::modulo(['id' => 1, 'nome' => 'Denuncias']);

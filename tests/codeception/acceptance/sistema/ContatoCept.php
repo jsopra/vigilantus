@@ -2,7 +2,7 @@
 
 use tests\_pages\ContatoPage;
 
-$eu = new TesterDeAceitacao($scenario);
+$eu = new \tests\TesterDeAceitacao($scenario);
 $eu->quero('verificar que o contato funciona');
 
 $paginaDeContato = ContatoPage::openBy($eu);

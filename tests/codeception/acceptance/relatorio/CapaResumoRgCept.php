@@ -5,7 +5,7 @@ use app\models\Cliente;
 use app\models\BoletimRgFechamento;
 use app\models\redis\FechamentoRg as FechamentoRgRedis;
 
-$eu = new TesterDeAceitacao($scenario);
+$eu = new \tests\TesterDeAceitacao($scenario);
 
 $cliente = Cliente::find()->andWhere('id=1')->one();
 

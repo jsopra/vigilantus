@@ -4,7 +4,7 @@ use app\models\ImovelTipo;
 use \Phactory;
 use app\models\Cliente;
 
-$eu = new TesterDeAceitacao($scenario);
+$eu = new \tests\TesterDeAceitacao($scenario);
 
 $cliente = Cliente::find()->andWhere('id=1')->one();
 

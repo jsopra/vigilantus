@@ -9,7 +9,11 @@ return yii\helpers\ArrayHelper::merge(
         'components' => [
             'request' => [
                 'cookieValidationKey' => 'secret_key',
-            ]
+            ],
+            'urlManager' => [
+                'enablePrettyUrl' => true,
+                'showScriptName' => false,
+            ],
         ],
     ]
 );
