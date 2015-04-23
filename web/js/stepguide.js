@@ -6,7 +6,7 @@ $(document).ready(function(){
     intro.setOption("nextLabel", "Próximo");
     intro.setOption("prevLabel", "Anterior");
 
-    $('a[data-step-type="focos"').click(function(){
+    $('a[data-step-type="focos"]').click(function(){
 
         $('#stepguideModal').modal('hide');
 
@@ -26,7 +26,7 @@ $(document).ready(function(){
         });
     });
 
-    $('a[data-step-type="visao-geral"').click(function(){
+    $('a[data-step-type="visao-geral"]').click(function(){
 
         $('#stepguideModal').modal('hide');
 
@@ -46,7 +46,7 @@ $(document).ready(function(){
         });
     });
 
-    $('a[data-step-type="armadilhas"').click(function(){
+    $('a[data-step-type="armadilhas"]').click(function(){
 
         $('#stepguideModal').modal('hide');
 
@@ -68,7 +68,7 @@ $(document).ready(function(){
         });
     });
 
-    $('a[data-step-type="pontos-estrategicos"').click(function(){
+    $('a[data-step-type="pontos-estrategicos"]').click(function(){
 
         $('#stepguideModal').modal('hide');
 
