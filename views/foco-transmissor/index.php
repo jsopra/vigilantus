@@ -81,6 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'attribute' => 'data_entrada',
                 'format' => 'raw',
                 'header' => 'Datas',
                 'value' => function ($model, $index, $widget) {
@@ -90,6 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                     return $str;
                 },
+                'filter' => Html::input('date', 'FocoTransmissorSearch[data_entrada]', $searchModel->data_entrada, ['class' => 'form-control input-datepicker']),
                 'options' => ['style' => 'width: 15%']
             ],
             [

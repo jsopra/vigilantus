@@ -25,16 +25,16 @@ class RelatorioController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'focos-export', 'focos', 'focos-bairro', 'focos-bairro-data', 'download-mapa', 'update-rg'],
+                'only' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'focos-export', 'focos', 'focos-bairro', 'focos-bairro-data', 'download-mapa', 'update-rg', 'update-focos'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'resumo-rg-bairro', 'mapa-area-tratamento', 'focos', 'focos-bairro', 'focos-bairro-data', 'download-mapa', 'update-rg'],
+                        'actions' => ['resumo-rg-bairro', 'focos-area-tratamento', 'area-tratamento', 'area-tratamento-focos', 'area-tratamento-mapa', 'resumo-rg-bairro', 'mapa-area-tratamento', 'focos', 'focos-bairro', 'focos-bairro-data', 'download-mapa', 'update-rg', 'update-focos'],
                         'roles' => ['Gerente', 'Analista'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['focos-export', 'update-rg'],
+                        'actions' => ['focos-export', 'update-rg', 'update-focos'],
                         'roles' => ['Usuario', 'Analista'],
                     ],
                 ],
@@ -190,5 +190,19 @@ class RelatorioController extends Controller
         Yii::$app->session->setFlash('success', 'Em até 10 minutos o relatório estará atualizado.');
 
         return $this->redirect(['site/home']);
+    }
+
+    public function actionUpdateFocos()
+    {
+        \perspectivain\gearman\BackgroundJob::register(
+            'RefreshFocosJob',
+            ['key' => getenv('GEARMAN_JOB_KEY')],
+            \perspectivain\gearman\BackgroundJob::HIGH,
+            \Yii::$app->params['gearmanQueueName']
+        );
+
+        Yii::$app->session->setFlash('success', 'Em até 10 minutos o mapa estará atualizado.');
+
+        return $this->redirect(['site/resumo-focos']);
     }
 }
