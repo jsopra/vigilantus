@@ -151,8 +151,8 @@ class Denuncia extends ClienteActiveRecord
 	/**
      * @inheritdoc
      */
-    public function save($runValidation = true, $attributes = NULL) {
-
+    public function save($runValidation = true, $attributes = NULL)
+    {
         $currentTransaction = $this->getDb()->getTransaction();
 		$newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
 

@@ -13,7 +13,8 @@ class AppAsset extends AssetBundle
         'css/resumo-rg-bairro.css',
         'css/index.css',
         'css/common.css',
-        'css/blog.css'
+        'css/blog.css',
+        'js/jquery-toast-plugin-master/jquery.toast.min.css',
     ];
     public $js = [
         'js/feedback.js',
@@ -23,7 +24,9 @@ class AppAsset extends AssetBundle
         'js/jquery.numeric.min.js',
         'js/modernizr.vigilantus.min.js',
         'js/social-login.js',
-        'js/stepguide.js'
+        'js/stepguide.js',
+        'js/jquery.geolocation.js',
+        'js/jquery-toast-plugin-master/jquery.toast.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
