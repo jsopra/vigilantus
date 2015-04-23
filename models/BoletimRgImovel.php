@@ -16,7 +16,7 @@ use app\components\ClienteActiveRecord;
  * @property integer $imovel_complemento
  * @property boolean $imovel_lira
  * @property integer $cliente_id
- * 
+ *
  * @property BoletinsRg $boletimRg
  * @property BairroRuaImoveis $bairroRuaImovel
  */
@@ -56,8 +56,8 @@ class BoletimRgImovel extends ClienteActiveRecord
 			'imovel_seq' => 'Sequência',
 			'imovel_complemento' => 'Complemento',
             'imovel_lira' => 'Imóvel Lira',
-            'rua_id' => 'Rua',	
-            'cliente_id' => 'Cliente'	
+            'rua_id' => 'Rua',
+            'cliente_id' => 'Cliente'
         ];
 	}
 
@@ -76,7 +76,7 @@ class BoletimRgImovel extends ClienteActiveRecord
 	{
 		return $this->hasOne(Imovel::className(), ['id' => 'imovel_id']);
 	}
-    
+
     /**
 	 * @return \yii\db\ActiveRelation
 	 */
@@ -92,7 +92,7 @@ class BoletimRgImovel extends ClienteActiveRecord
     {
         return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveRelation
      */
@@ -180,13 +180,13 @@ class BoletimRgImovel extends ClienteActiveRecord
      */
     public function save($runValidation = true, $attributes = NULL) {
 
-        $currentTransaction = $this->getDb()->getTransaction();		
+        $currentTransaction = $this->getDb()->getTransaction();
 		$newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
-        
+
         try {
-            
+
             $result = parent::save($runValidation, $attributes);
-            
+
             if ($result) {
 
                 $boletimFechamentoInverso = true;
@@ -197,7 +197,7 @@ class BoletimRgImovel extends ClienteActiveRecord
                         false
                     );
                 }
-                
+
                 $boletimFechamento = BoletimRgFechamento::incrementaContagemImovel(
                     $this->boletimRg,
                     $this->imovel_tipo_id,
@@ -214,16 +214,16 @@ class BoletimRgImovel extends ClienteActiveRecord
                     if($newTransaction) {
                         $newTransaction->rollback();
                     }
-                    
-                    $result = false;                    
+
+                    $result = false;
                 }
-            } 
+            }
             else {
                 if($newTransaction) {
                     $newTransaction->rollback();
                 }
             }
-        } 
+        }
         catch (\Exception $e) {
             if($newTransaction) {
                 $newTransaction->rollback();

@@ -23,7 +23,8 @@ class AppAsset extends AssetBundle
         'js/jquery.numeric.min.js',
         'js/modernizr.vigilantus.min.js',
         'js/social-login.js',
-        'js/stepguide.js'
+        'js/stepguide.js',
+        'js/jquery.geolocation.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
