@@ -1,10 +1,23 @@
 <?php
+use yii\helpers\Html;
 use miloschuman\highcharts\Highcharts;
 use miloschuman\highcharts\HighchartsAsset;
 HighchartsAsset::register($this)->withScripts(['highstock', 'modules/exporting', 'modules/drilldown']);
 ?>
 
 <br />
+
+<div id="stepguide-indicador-rg-update">
+<?php if($ultimaAtualizacao) : ?>
+    <div class="bs-callout bs-callout-success">
+      <p><span class="glyphicon glyphicon-time" style="font-size: 1em; padding-right: 10px;"></span> Última atualização do mapa em <?= $ultimaAtualizacao; ?>. <?= Html::a(Html::encode("Solicite uma atualização agora"),'/relatorio/update-focos'); ?>.</p>
+    </div>
+<?php else : ?>
+    <div class="bs-callout bs-callout-danger">
+      <p><span class="glyphicon glyphicon-time" style="font-size: 1em; padding-right: 10px;"></span> Não existe histórico de atualização para o mapa. <?= Html::a(Html::encode("Solicite uma atualização agora"),'/relatorio/update-focos'); ?>.</p>
+    </div>
+<?php endif; ?>
+</div>
 
 <div id="capa-tipo-deposito-focos" class="row">
 

@@ -7,4 +7,4 @@ $this->title = 'Resumo de Indicadores';
 
 <?= $this->render('_menuHome', ['municipio' => $cliente->municipio]); ?>
 
-<?= $this->render('/resumo/_focos', ['model' => $modelFoco], true); ?>
+<?= $this->render('/resumo/_focos', ['model' => $modelFoco, 'ultimaAtualizacao' => Yii::$app->cache->get('ultima_atualizacao_resumo_focos')], true); ?>

@@ -16,6 +16,8 @@ class RefreshFocosJob implements \perspectivain\gearman\InterfaceJob
 
         FocoTransmissorRedis::deleteAll();
 
+        Yii::$app->cache->set('ultima_atualizacao_resumo_focos', null, (60*60*24*7*4));
+
         $clientes = Cliente::find()->all();
         foreach($clientes as $cliente) {
 
@@ -51,6 +53,8 @@ class RefreshFocosJob implements \perspectivain\gearman\InterfaceJob
                 $focoRedis->save();
             }
         }
+
+        Yii::$app->cache->set('ultima_atualizacao_resumo_focos', date('d/m/Y H:i:s'), (60*60*24*7*4));
 
         return true;
     }
