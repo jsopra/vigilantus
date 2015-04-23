@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\Url;
-use app\helpers\models\MunicipioHelper;
 use yii\helpers\Html;
 use app\models\Bairro;
 use app\models\Municipio;
@@ -15,40 +14,28 @@ $this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
 MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omnivore', 'markercluster']);
 ?>
 
-<div class="row">
-	<div class="col-md-6">
-		<h1>
-			<?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>&nbsp;&nbsp;<a href="<?= Url::to(['cidade/index', 'id' => $cliente->id]); ?>"><?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?></a>
-		</h1>
-	</div>
+<?= $this->render('_cidadeHeader', ['municipio' => $municipio, 'cliente' => $cliente, 'button' => '_buttonDenunciar']); ?>
 
-	<div class="col-md-3">
+<div class="panel panel-default" style="margin-top: 2.5em;">
 
-	</div>
+    <div class="panel-heading focos">
+        <h4 class="text-center" style="font-weight: bold; margin-top: 1em; font-size: 2.5em; margin-top: 0;">
+            Os transmissores da <span style="color: #CC0000; font-size: 1.2em;">Dengue e da Chikungunya</span> vivem perto de você?
+        </h4>
+        <br />
+        <p class="text-center" style="font-size: 1.3em;">Utilize o marcador na lateral esquerda do mapa para alterar o ponto de pesquisa</p>
+    </div>
 
-	<div class="col-md-3" style="margin-top: 1em;">
-		<div class="text-right">
-			<button type="button" class="btn btn-danger btn-lg" data-toggle="tooltip" data-placement="bottom" title="Sua denúncia será avaliada pela Prefeitura Municipal e você receberá acesso para acompanhar a resolução">
-				<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
-				&nbsp; Faça uma denúncia
-			</button>
-		</div>
-	</div>
-</div>
 
-<div class="row">
-  	<div class="col-md-12">
+    <div class="row">
+      	<div class="col-md-12">
 
-		<div class="row" style="margin-bottom: 2em;">
-		    <h4 class="text-center" style="font-weight: bold; margin-top: 1em; font-size: 2.5em; margin-top: 0;">
-		        Os transmissores da <span style="color: #CC0000; font-size: 1.2em;">Dengue e da Chikungunya</span> vivem perto de você?
-		    </h4>
-		</div>
+            <p class="bg-info text-center" style="padding: 0.5em 0; margin: 1em 0 0 0;"><strong>Focos dos últimos <?= $qtdeDias; ?> dias</strong></p>
+    		<div id="map" style="height: 500px; width: 100%;"></div>
 
-		<div id="map" style="height: 500px; width: 100%;"></div>
-		<p class="bg-info text-center" style="padding: 0.5em 0;"><strong>Focos dos últimos <?= $qtdeDias; ?> dias</strong></p>
+    	</div>
+    </div>
 
-	</div>
 </div>
 
 <?php
@@ -73,6 +60,7 @@ if($municipio->latitude && $municipio->longitude) {
             function (lat, lng) {
                 map.setView([lat , lng], 15);
                 search = L.marker([lat, lng]).addTo(featureGroup);
+                verificaAreaTratamento(lat, lng);
             },
             function (error) {
                 map.setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13);
@@ -91,9 +79,10 @@ if($municipio->latitude && $municipio->longitude) {
 		}).addTo(map);
 
 		map.on('draw:created', function showPolygonArea(e) {
+
 		    featureGroup.clearLayers();
 		    featureGroup.addLayer(e.layer);
-		    alert('ahuia');
+            verificaAreaTratamento(e.layer.toGeoJSON().geometry.coordinates[1], e.layer.toGeoJSON().geometry.coordinates[0]);
 		});
 
         L.control.fullscreen().addTo(map);
@@ -102,7 +91,7 @@ if($municipio->latitude && $municipio->longitude) {
 
         var markers = new L.MarkerClusterGroup();
 
-        var runLayer = omnivore.kml('" . Url::to($url) . "')
+        var runLayer = omnivore.kml('" . Url::to(['kml/focos', 'clienteId' => $cliente->id, 'informacaoPublica' => true]) . "')
         .on('ready', function() {
             this.eachLayer(function(marker) {
 
@@ -113,11 +102,36 @@ if($municipio->latitude && $municipio->longitude) {
                         'marker-symbol': 'hospital'
                     }),
                 });
+
                 markers.addLayer(marker);
             });
 
             map.addLayer(markers);
         });
+
+        function verificaAreaTratamento(lat, lon) {
+
+            $.getJSON('" . Url::to(['cidade/is-area-tratamento', 'id' => $cliente->id]) . "&lat=' + lat + '&lon=' + lon, function(data) {
+
+                if(data.isAreaTratamento == true) {
+                    $.toast({
+                        heading: 'Em área de risco!',
+                        text: 'O ponto está em área de tratamento! Denuncie qualquer irregularidade!',
+                        position: 'top-right',
+                        stack: false,
+                        icon: 'error'
+                    });
+                } else {
+                    $.toast({
+                        heading: 'Fora de área de risco',
+                        text: 'O ponto não está em área de tratamento!',
+                        position: 'top-right',
+                        stack: false,
+                        icon: 'info'
+                    });
+                }
+            });
+        }
     ";
 
     $this->registerJs($javascript);

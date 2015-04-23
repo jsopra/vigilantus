@@ -246,4 +246,24 @@ class FocoTransmissor extends ClienteActiveRecord
 
         return BairroQuarteirao::find()->andWhere($query)->all();
     }
+
+    /**
+     * @return voolean
+     */
+    public static function isAreaTratamento($clienteId, $lat, $lon)
+    {
+        $return = [];
+
+        $query = "
+            id IN (
+                SELECT DISTINCT ft.id
+                FROM focos_transmissores ft
+                JOIN especies_transmissores et ON ft.especie_transmissor_id = et.id
+                JOIN bairro_quarteiroes bf on ft.bairro_quarteirao_id = bf.id
+                WHERE st_dwithin(bf.coordenadas_area, ST_SetSRID(ST_Point(" . $lon . ", " . $lat . "),4326)::geography, qtde_metros_area_foco)
+            )
+        ";
+
+        return self::find()->andWhere($query)->count() > 0;
+    }
 }
