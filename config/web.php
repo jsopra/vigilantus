@@ -79,7 +79,7 @@ $config = [
             'hostname' => getenv('VIGILANTUS_REDIS_HOST'),
             'port' => getenv('VIGILANTUS_REDIS_DB_PORT'),
             'database' => 0,
-            'password' => getenv('VIGILANTUS_REDIS_DB_PASSWORD'),
+            //'password' => getenv('VIGILANTUS_REDIS_DB_PASSWORD'),
         ],
         'db' => $db,
         'errorHandler' => [

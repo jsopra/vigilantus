@@ -1,7 +1,9 @@
 <?php
 
 namespace app\models;
+
 use app\components\ClienteActiveRecord;
+use Hashids\Hashids;
 use yii\web\UploadedFile;
 use yii\db\Expression;
 
@@ -58,7 +60,9 @@ class Denuncia extends ClienteActiveRecord
 			[['data_criacao', 'data_fechamento'], 'safe'],
 			[['cliente_id', 'bairro_id', 'endereco', 'mensagem', 'tipo_imovel'], 'required'],
 			[['cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'denuncia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
-            ['hash_acesso_publico', 'unique'],
+            ['hash_acesso_publico', 'unique', 'when' => function($model, $attribute) {
+                return !empty($this->hash_acesso_publico);
+            }],
 			[['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo'], 'string'],
 			['status', 'default', 'value' => DenunciaStatus::AVALIACAO],
 			['status', 'in', 'range' => DenunciaStatus::getIDs()],
@@ -95,7 +99,7 @@ class Denuncia extends ClienteActiveRecord
 			'nome_original_anexo' => 'Nome Original do Anexo',
 			'denuncia_tipo_problema_id' => 'Tipo do Problema',
 			'bairro_quarteirao_id' => 'Quarteirão',
-            'hash_acesso_publico' => 'Hash de acesso público',
+            'hash_acesso_publico' => 'Protocolo',
             'data_fechamento' => 'Data de Fechamento',
 		];
 	}
@@ -161,23 +165,20 @@ class Denuncia extends ClienteActiveRecord
         	$oldStatus = isset($this->oldAttributes['status']) ? $this->oldAttributes['status'] : null;
         	$isNewRecord = $this->isNewRecord;
 
-            if($this->isNewRecord) {
-                $this->hash_acesso_publico = $this->_createHashAcessoPublico();
-            }
-            else {
-                if($oldStatus != $this->status && in_array($this->status, DenunciaStatus::getStatusTerminativos())) {
-                    $this->data_fechamento = new Expression('NOW()');
-                }
+            if(!$this->isNewRecord && $oldStatus != $this->status && in_array($this->status, DenunciaStatus::getStatusTerminativos())) {
+                $this->data_fechamento = new Expression('NOW()');
             }
 
             $result = parent::save($runValidation, $attributes);
 
             if ($result) {
 
-
             	$salvouHistorico = true;
 
             	if($isNewRecord) {
+
+                    $this->hash_acesso_publico = $this->_createHashAcessoPublico();
+                    $this->update(false, ['hash_acesso_publico']);
 
             		$historico = new DenunciaHistorico;
             		$historico->cliente_id = $this->cliente_id;
@@ -251,7 +252,7 @@ class Denuncia extends ClienteActiveRecord
      */
     public function getProtocolo()
     {
-        return str_pad($this->id, 12, '0', STR_PAD_LEFT);
+        return $this->hash_acesso_publico;
     }
 
     /**
@@ -265,8 +266,16 @@ class Denuncia extends ClienteActiveRecord
         return $dataFechamento->diff($dataCriacao)->days;
     }
 
+    /**
+     * @return string
+     */
     private function _createHashAcessoPublico()
     {
-        return sha1('pub' . rand(1,50000) . date('dmYHisu'));
+        $sal = '';
+        $tamanhoMinimo = 4;
+        $alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $hashids = new Hashids($sal, $tamanhoMinimo, $alfabeto);
+
+        return $hashids->encode($this->id);
     }
 }

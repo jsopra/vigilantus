@@ -17,7 +17,8 @@
         "cosenary/instagram": "dev-master",
         "bower-asset/intro.js": "*",
         "perspectivain/yii2-gearman": "dev-master",
-        "miloschuman/yii2-highcharts-widget": "*"
+        "miloschuman/yii2-highcharts-widget": "*",
+		"hashids/hashids": "~1.0"
 	},
 	"require-dev": {
 		"yiisoft/yii2-codeception": "*",
