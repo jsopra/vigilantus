@@ -26,11 +26,18 @@ $this->params['breadcrumbs'][] = 'Detalhes';
     $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
     $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
 
-    if($qtdeDias >= $qtdeDiasVermelho && !$model->data_fechamento) {
-        Yii::$app->session->setFlash('error', 'A denúncia está aberta há ' . $qtdeDias . ' dias');
-    } else if($qtdeDias >= $qtdeDiasVerde) {
-        Yii::$app->session->setFlash('warning', 'A denúncia está aberta há ' . $qtdeDias . ' dias');
+    if(!$model->data_fechamento) {
+
+        if($qtdeDias > $qtdeDiasVermelho) {
+            Yii::$app->session->setFlash('error', 'A denúncia está aberta há ' . $qtdeDias . ' dias');
+        } else if($qtdeDias > $qtdeDiasVerde && $qtdeDias <= $qtdeDiasVermelho) {
+            Yii::$app->session->setFlash('warning', 'A denúncia está aberta há ' . $qtdeDias . ' dias');
+        } else if($qtdeDias <= $qtdeDiasVerde) {
+            Yii::$app->session->setFlash('info', 'A denúncia está aberta há ' . $qtdeDias . ' dias');
+        }
+
     }
+
     ?>
     <?php
     echo Tabs::widget([

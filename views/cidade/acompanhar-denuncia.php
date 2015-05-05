@@ -9,7 +9,7 @@ use yii\bootstrap\Tabs;
 use yii\helpers\Url;
 
 $this->title = 'Detalhes de Denúncia #' . $model->protocolo;
-$this->params['breadcrumbs'][] = ['label' => 'Denúncias', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Denúncias', 'url' => ['index', 'id' => $cliente->id]];
 $this->params['breadcrumbs'][] = 'Detalhes';
 ?>
 

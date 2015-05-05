@@ -4,17 +4,43 @@ namespace app\controllers;
 use Yii;
 use app\components\Controller;
 use app\models\Cliente;
+use app\models\Configuracao;
 use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use app\models\Denuncia;
 use app\models\Modulo;
+use app\models\FocoTransmissor;
 use yii\web\UploadedFile;
 use app\helpers\models\DenunciaHelper;
 use yii\data\ActiveDataProvider;
 use app\models\DenunciaHistorico;
+use yii\helpers\Json;
 
 class CidadeController extends Controller
 {
     public function actionIndex($id)
+    {
+        $cliente = Cliente::find()->andWhere(['id' => $id])->one();
+        if(!$cliente) {
+            throw new \Exception('Município não localizado');
+        }
+
+        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
+            throw new \Exception('Município não utiliza denúncias');
+        }
+
+        Yii::$app->session->set('user.cliente', $cliente);
+
+        return $this->render(
+            'index',
+            [
+                'cliente' => $cliente,
+                'municipio' => $cliente->municipio,
+                'qtdeDias' => Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA, $cliente->id),
+            ]
+        );
+    }
+
+    public function actionDenunciar($id)
     {
         $cliente = Cliente::find()->andWhere(['id' => $id])->one();
         if(!$cliente) {
@@ -59,12 +85,10 @@ class CidadeController extends Controller
         }
 
         return $this->render(
-            'index',
+            'denuncia',
             [
                 'cliente' => $cliente,
                 'municipio' => $cliente->municipio,
-                'url' => ['kml/focos', 'clienteId' => $cliente->id, 'informacaoPublica' => true],
-                'viewPartial' => '_focos',
                 'model' => $model,
             ]
         );
@@ -101,5 +125,21 @@ class CidadeController extends Controller
                 'dataProvider' => $dataProvider
             ]
         );
+    }
+
+    public function actionIsAreaTratamento($id, $lat, $lon)
+    {
+        $cliente = Cliente::find()->andWhere(['id' => $id])->one();
+        if(!$cliente) {
+            throw new \Exception('Município não localizado');
+        }
+
+        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
+            throw new \Exception('Município não utiliza denúncias');
+        }
+
+        Yii::$app->session->set('user.cliente', $cliente);
+
+        echo Json::encode(['isAreaTratamento' => FocoTransmissor::isAreaTratamento($cliente->id, $lat, $lon)]);
     }
 }

@@ -1,42 +1,169 @@
 <?php
-use yii\helpers\Html;
-use yii\bootstrap\Tabs;
 use yii\helpers\Url;
-use app\helpers\models\MunicipioHelper;
+use yii\helpers\Html;
+use app\models\Bairro;
+use app\models\Municipio;
+use app\models\EspecieTransmissor;
+use app\helpers\MapHelper;
+use perspectivain\mapbox\MapBoxAPIHelper;
+use app\models\redis\FocosAtivos;
+use yii\helpers\Json;
+
+$this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
+
+MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omnivore', 'markercluster']);
 ?>
 
-<div class="row">
-	<div class="col-md-6">
+<?= $this->render('_cidadeHeader', ['municipio' => $municipio, 'cliente' => $cliente, 'button' => '_buttonDenunciar']); ?>
 
-		<h1><?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>&nbsp;&nbsp;<a href="<?= Url::to(['cidade/index', 'id' => $cliente->id]); ?>"><?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?></a></h1>
-	</div>
+<div class="panel panel-default" style="margin-top: 2.5em;">
 
-	<div class="col-md-3 col-md-offset-3" style="margin-top: 1em;">
-		<div class="text-right">
-			<div id="fb-root"></div>
-			<script>(function(d, s, id) {
-			  var js, fjs = d.getElementsByTagName(s)[0];
-			  if (d.getElementById(id)) return;
-			  js = d.createElement(s); js.id = id;
-			  js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&appId=634366506660294&version=v2.0";
-			  fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));</script>
-			<div class="fb-share-button" data-href="" data-layout="button_count"></div>
-		</div>
-		<div class="text-right" style="margin-top: 1em; margin-right: -3em;">
-			<a href="https://twitter.com/share" class="twitter-share-button" data-via="BrasilSemDengue" data-lang="pt">Tweetar</a>
-			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-		</div>
-	</div>
+    <div class="panel-heading focos">
+        <h4 class="text-center" style="font-weight: bold; margin-top: 1em; font-size: 2.5em; margin-top: 0;">
+            Os transmissores da <span style="color: #CC0000; font-size: 1.2em;">Dengue e da Chikungunya</span> vivem perto de você?
+        </h4>
+        <br />
+        <p class="text-center" style="font-size: 1.3em;">Utilize o marcador na lateral esquerda do mapa para alterar o ponto de pesquisa</p>
+    </div>
+
+
+    <div class="row">
+      	<div class="col-md-12">
+
+            <p class="bg-info text-center" style="padding: 0.5em 0; margin: 1em 0 0 0;"><strong>Focos dos últimos <?= $qtdeDias; ?> dias</strong></p>
+    		<div id="map" style="height: 500px; width: 100%;"></div>
+
+    	</div>
+    </div>
+
 </div>
 
-<div class="row">
+<?php
+$municipio->loadCoordenadas();
 
-  	<div class="col-md-6">
-		<?= $this->render($viewPartial, ['url' => $url, 'municipio' => $municipio, 'cliente' => $cliente]); ?>
-	</div>
+if($municipio->latitude && $municipio->longitude) {
 
-	<div class="col-md-5 col-md-offset-1">
-		<?= $this->render('_denuncia', ['municipio' => $municipio, 'model' => $model, 'cliente' => $cliente]); ?>
-	</div>
-</div>
+    $javascript = "
+        var line_points = " . Json::encode([]) . ";
+        var polyline_options = {
+            color: '#000'
+        };
+
+        L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
+        var map = L.mapbox.map('map', 'vigilantus.kjkb4j0a');
+
+		var featureGroup = L.featureGroup().addTo(map);
+
+		var search;
+
+        $.geolocation(
+            function (lat, lng) {
+                map.setView([lat , lng], 15);
+                search = L.marker([lat, lng]).addTo(featureGroup);
+                verificaAreaTratamento(lat, lng);
+            },
+            function (error) {
+                map.setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13);
+            }
+        );
+
+		var drawControl = new L.Control.Draw({
+		    edit: false,
+		    draw: {
+		        polygon: false,
+		        polyline: false,
+		        rectangle: false,
+		        circle: false,
+		        marker: true
+		    }
+		}).addTo(map);
+
+		map.on('draw:created', function showPolygonArea(e) {
+
+		    featureGroup.clearLayers();
+		    featureGroup.addLayer(e.layer);
+            verificaAreaTratamento(e.layer.toGeoJSON().geometry.coordinates[1], e.layer.toGeoJSON().geometry.coordinates[0]);
+		});
+
+        L.control.fullscreen().addTo(map);
+
+        L.control.scale().addTo(map);
+
+        var markers = new L.MarkerClusterGroup();
+
+        var runLayer = omnivore.kml('" . Url::to(['kml/focos', 'clienteId' => $cliente->id, 'informacaoPublica' => true]) . "')
+        .on('ready', function() {
+            this.eachLayer(function(marker) {
+
+                var marker = L.marker(new L.LatLng(marker.feature.geometry.coordinates[1], marker.feature.geometry.coordinates[0]), {
+                    icon: L.mapbox.marker.icon({
+                        'marker-color': '#fc6a6a',
+                        'marker-size': 'small',
+                        'marker-symbol': 'hospital'
+                    }),
+                });
+
+                markers.addLayer(marker);
+            });
+
+            map.addLayer(markers);
+        });
+
+        function verificaAreaTratamento(lat, lon) {
+
+            $.getJSON('" . Url::to(['cidade/is-area-tratamento', 'id' => $cliente->id]) . "&lat=' + lat + '&lon=' + lon, function(data) {
+
+                if(data.isAreaTratamento == true) {
+                    $.toast({
+                        heading: 'Em área de risco!',
+                        text: 'O ponto está em área de tratamento! Denuncie qualquer irregularidade!',
+                        position: 'top-right',
+                        stack: false,
+                        icon: 'error'
+                    });
+                } else {
+                    $.toast({
+                        heading: 'Fora de área de risco',
+                        text: 'O ponto não está em área de tratamento!',
+                        position: 'top-right',
+                        stack: false,
+                        icon: 'info'
+                    });
+                }
+            });
+        }
+    ";
+
+    $this->registerJs($javascript);
+}
+?>
+
+<style>
+.controls {
+    margin-top: 16px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#pac-input {
+    background-color: #fff;
+    padding: 0 11px 0 13px;
+    width: 400px;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    text-overflow: ellipsis;
+}
+
+#pac-input:focus {
+    border-color: #4d90fe;
+    margin-left: -1px;
+    padding-left: 14px;  /* Regular padding-left + 1. */
+    width: 401px;
+}
+</style>

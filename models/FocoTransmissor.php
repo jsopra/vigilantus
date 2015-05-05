@@ -73,6 +73,16 @@ class FocoTransmissor extends ClienteActiveRecord
             [['!data_cadastro', '!data_atualizacao', 'data_entrada', 'data_exame', 'data_coleta'], 'date'],
             [['laboratorio', 'tecnico'], 'string', 'max' => 256],
             [['planilha_imovel_tipo_id', 'planilha_endereco', 'mes', 'quantidade_registros'], 'safe'],
+            ['planilha_imovel_tipo_id', 'required', 'when' => function($model) {
+                return $model->planilha_endereco != '';
+            }, 'whenClient' => "function (attribute, value) {
+                return novoEndereco == true;
+            }"],
+            ['imovel_id', 'required', 'when' => function($model) {
+                return $model->planilha_endereco == '';
+            }, 'whenClient' => "function (attribute, value) {
+                return novoEndereco == false;
+            }"]
         ];
     }
 
@@ -235,5 +245,25 @@ class FocoTransmissor extends ClienteActiveRecord
         ";
 
         return BairroQuarteirao::find()->andWhere($query)->all();
+    }
+
+    /**
+     * @return voolean
+     */
+    public static function isAreaTratamento($clienteId, $lat, $lon)
+    {
+        $return = [];
+
+        $query = "
+            id IN (
+                SELECT DISTINCT ft.id
+                FROM focos_transmissores ft
+                JOIN especies_transmissores et ON ft.especie_transmissor_id = et.id
+                JOIN bairro_quarteiroes bf on ft.bairro_quarteirao_id = bf.id
+                WHERE st_dwithin(bf.coordenadas_area, ST_SetSRID(ST_Point(" . $lon . ", " . $lat . "),4326)::geography, qtde_metros_area_foco)
+            )
+        ";
+
+        return self::find()->andWhere($query)->count() > 0;
     }
 }

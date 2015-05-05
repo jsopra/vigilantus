@@ -43,10 +43,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['feedback', 'logout', 'home', 'session', 'resumo-focos'],
+                'only' => ['feedback', 'logout', 'home', 'session', 'resumo-focos', 'resumo-denuncias'],
                 'rules' => [
                     [
-                        'actions' => ['feedback', 'logout', 'home', 'resumo-focos'],
+                        'actions' => ['feedback', 'logout', 'home', 'resumo-focos', 'resumo-denuncias'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -84,36 +84,41 @@ class SiteController extends Controller
 
     public function actionHome()
     {
-        $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
-        $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
-
         return $this->render(
             'home',
             [
                 'modelRg' => new ResumoRgCapaReport,
                 'cliente' => \Yii::$app->session->get('user.cliente'),
-                'diasVerde' => $qtdeDiasVerde,
-                'diasVermelho' => $qtdeDiasVermelho,
-                'qtdeVerde' => Denuncia::find()->aberta()->anteriorA($qtdeDiasVerde)->count(),
-                'qtdeVermelho' => Denuncia::find()->aberta()->anteriorA($qtdeDiasVermelho)->count(),
             ]
         );
     }
 
     public function actionResumoFocos()
     {
-        $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
-        $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
-
         return $this->render(
             'resumo-focos',
             [
                 'modelFoco' => new ResumoFocosCapaReport,
                 'cliente' => \Yii::$app->session->get('user.cliente'),
+            ]
+        );
+    }
+
+    public function actionResumoDenuncias()
+    {
+        $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
+        $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
+
+        return $this->render(
+            'resumo-denuncias',
+            [
+                'modelDenuncias' => new ResumoFocosCapaReport,
+                'cliente' => \Yii::$app->session->get('user.cliente'),
                 'diasVerde' => $qtdeDiasVerde,
                 'diasVermelho' => $qtdeDiasVermelho,
                 'qtdeVerde' => Denuncia::find()->aberta()->anteriorA($qtdeDiasVerde)->count(),
-                'qtdeVermelho' => Denuncia::find()->aberta()->anteriorA($qtdeDiasVermelho)->count(),
+                'qtdeAmarelo' => Denuncia::find()->aberta()->entre($qtdeDiasVerde, $qtdeDiasVermelho)->count(),
+                'qtdeVermelho' => Denuncia::find()->aberta()->posteriorA($qtdeDiasVermelho)->count(),
             ]
         );
     }

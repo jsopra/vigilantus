@@ -10,6 +10,9 @@ use app\models\Configuracao;
 
 $this->title = 'Denúncias';
 $this->params['breadcrumbs'][] = $this->title;
+
+$diasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
+$diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
 ?>
 <div class="denuncia-index">
 
@@ -74,23 +77,27 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Qtde. Dias em aberto',
                 'attribute' => 'qtde_dias_aberto',
                 'filter' => [
-                    Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id) => 'Verde',
-                    Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id) => 'Vermelho'
+                    1 => 'Até ' . $diasVerde . ' dias',
+                    2 => 'Entre ' . $diasVerde . ' e ' . $diasVemelho . ' dias',
+                    3 => 'Mais de ' . $diasVemelho . ' dias',
                 ],
                 'value' => function ($model, $index, $widget) {
                     return $model->qtde_dias_em_aberto;
                 },
-                'contentOptions' => function ($model, $index, $widget, $grid) {
+                'contentOptions' => function ($model, $index, $widget, $grid) use ($diasVerde, $diasVemelho) {
+
+                    if(in_array($model->status, DenunciaStatus::getStatusTerminativos())) {
+                        return [];
+                    }
 
                     $qtdeDias = $model->qtde_dias_em_aberto;
 
-                    $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
-                    $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
-
-                    if($qtdeDias >= $qtdeDiasVermelho) {
-                        return ['style'=>'background-color: #FFA0A0; font-weight: bold;'];
-                    } else if($qtdeDias >= $qtdeDiasVerde) {
+                    if($qtdeDias <= $diasVerde) {
                         return ['style'=>'background-color: #4FD190; font-weight: bold;'];
+                    } else if($qtdeDias > $diasVerde && $qtdeDias <= $diasVemelho) {
+                        return ['style'=>'background-color: #FFFF50; font-weight: bold;'];
+                    } else if($qtdeDias > $diasVemelho) {
+                        return ['style'=>'background-color: #FFA0A0; font-weight: bold;'];
                     }
 
                     return [];
