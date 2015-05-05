@@ -123,6 +123,13 @@ $config = [
             'identityClass' => 'app\models\Usuario',
             'enableAutoLogin' => true,
         ],
+        'response' => [
+            'formatters' => [
+                'pdf' => [
+                    'class' => 'robregonm\pdf\PdfResponseFormatter',
+                ],
+            ]
+        ],
     ],
     'modules' => [
         'denuncia' => [

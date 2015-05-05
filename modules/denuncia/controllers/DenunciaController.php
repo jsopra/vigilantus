@@ -30,11 +30,11 @@ class DenunciaController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes'],
+                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'comprovante'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes'],
+                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'comprovante'],
                         'roles' => ['Usuario'],
                     ],
                 ],
@@ -169,5 +169,16 @@ class DenunciaController extends CRUDController
         }
 
         return $this->renderAjaxOrLayout('mudar-status', ['model' => $model]);
+    }
+
+    public function actionComprovante($id)
+    {
+        $model = is_object($id) ? $id : $this->findModel($id);
+
+        Yii::$app->response->format = 'pdf';
+        $this->layout = '//print';
+        return $this->render('//shared/comprovante-denuncia', [
+            'model' => $model,
+        ]);
     }
 }

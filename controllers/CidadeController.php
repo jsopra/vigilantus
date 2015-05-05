@@ -142,4 +142,22 @@ class CidadeController extends Controller
 
         echo Json::encode(['isAreaTratamento' => FocoTransmissor::isAreaTratamento($cliente->id, $lat, $lon)]);
     }
+
+    public function actionComprovanteDenuncia($id, $hash)
+    {
+        $model = Denuncia::find()
+            ->andWhere(['id' => $id])
+            ->andWhere(['hash_acesso_publico' => $hash])
+            ->one();
+
+        if(!$model) {
+            throw new \Exception('Denúncia não localizada');
+        }
+
+        Yii::$app->response->format = 'pdf';
+        $this->layout = '//print';
+        return $this->render('//shared/comprovante-denuncia', [
+            'model' => $model,
+        ]);
+    }
 }
