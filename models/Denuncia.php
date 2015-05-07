@@ -153,8 +153,7 @@ class Denuncia extends ClienteActiveRecord
      */
     public function save($runValidation = true, $attributes = NULL)
     {
-        $currentTransaction = $this->getDb()->getTransaction();
-		$newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
+        $transaction = $this->getDb()->beginTransaction();
 
         try {
 
@@ -217,29 +216,19 @@ class Denuncia extends ClienteActiveRecord
             	}
 
                 if($salvouHistorico) {
-
-                    if($newTransaction) {
-                        $newTransaction->commit();
-                    }
+                    $transaction->commit();
                 }
                 else {
-                    if($newTransaction) {
-                        $newTransaction->rollback();
-                    }
-
+                    $transaction->rollback();
                     $result = false;
                 }
             }
             else {
-                if($newTransaction) {
-                    $newTransaction->rollback();
-                }
+                $transaction->rollback();
             }
         }
         catch (\Exception $e) {
-            if($newTransaction) {
-                $newTransaction->rollback();
-            }
+            $transaction->rollback();
             throw $e;
         }
 
@@ -263,6 +252,14 @@ class Denuncia extends ClienteActiveRecord
         $dataFechamento = $this->data_fechamento ? new \DateTime($this->data_fechamento) : new \DateTime();
 
         return $dataFechamento->diff($dataCriacao)->days;
+    }
+
+    /**
+     * @return int
+     */
+    public function getQuantidadeAveriguacoes()
+    {
+        return DenunciaHistorico::find()->where(['denuncia_id' => $this->id, 'tipo' => DenunciaHistoricoTipo::AVERIGUACAO])->count();
     }
 
     private function _createHashAcessoPublico()

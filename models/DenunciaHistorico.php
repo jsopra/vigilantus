@@ -16,11 +16,13 @@ use app\components\ClienteActiveRecord;
  * @property integer $status_antigo
  * @property integer $status_novo
  * @property integer $usuario_id
+ * @property integer $agente_id
+ * @property integer $data_associada
  *
  * @property Cliente $cliente
  * @property Denuncias $denuncia
  */
-class DenunciaHistorico extends ClienteActiveRecord 
+class DenunciaHistorico extends ClienteActiveRecord
 {
 	/**
 	 * @inheritdoc
@@ -38,8 +40,8 @@ class DenunciaHistorico extends ClienteActiveRecord
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
 			[['cliente_id', 'denuncia_id', 'tipo'], 'required'],
-			[['cliente_id', 'denuncia_id', 'tipo', 'status_antigo', 'status_novo', 'usuario_id'], 'integer'],
-			[['data_hora'], 'safe'],
+			[['cliente_id', 'denuncia_id', 'tipo', 'status_antigo', 'status_novo', 'usuario_id', 'agente_id'], 'integer'],
+			[['data_hora', 'data_associada'], 'safe'],
 			[['observacoes'], 'string'],
 			['tipo', 'in', 'range' => DenunciaHistoricoTipo::getIDs()],
 			['status_antigo', 'in', 'range' => DenunciaStatus::getIDs()],
@@ -61,7 +63,9 @@ class DenunciaHistorico extends ClienteActiveRecord
 			'observacoes' => 'Observações',
 			'status_antigo' => 'Status Antigo',
 			'status_novo' => 'Status Novo',
-			'usuario_id' => 'Usuário'
+			'usuario_id' => 'Usuário',
+			'agente_id' => 'Agente',
+			'data_associada' => 'Data Associada',
 		];
 	}
 
@@ -87,5 +91,13 @@ class DenunciaHistorico extends ClienteActiveRecord
 	public function getUsuario()
 	{
 		return $this->hasOne(Usuario::className(), ['id' => 'usuario_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getAgente()
+	{
+		return $this->hasOne(EquipeAgente::className(), ['id' => 'agente_id']);
 	}
 }

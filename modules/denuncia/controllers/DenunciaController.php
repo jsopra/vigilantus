@@ -175,10 +175,12 @@ class DenunciaController extends CRUDController
     {
         $denuncia = is_object($id) ? $id : $this->findModel($id);
 
-        $model = new \app\forms\TentativaVisita;
+        $model = new \app\forms\TentativaAveriguacaoForm;
 
         if (!empty($_POST) && $model->load($_POST)) {
 
+            $model->denuncia_id = $denuncia->id;
+            $model->cliente_id = $denuncia->cliente_id;
             $model->usuario_id = Yii::$app->user->id;
 
             if ($model->save()) {
@@ -193,6 +195,6 @@ class DenunciaController extends CRUDController
             }
         }
 
-        return $this->renderAjaxOrLayout('tentativa-visita', ['model' => $model]);
+        return $this->renderAjaxOrLayout('tentativa-visita', ['model' => $denuncia, 'modelForm' => $model]);
     }
 }
