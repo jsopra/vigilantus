@@ -101,7 +101,7 @@ $this->title = 'Faça uma denúncia para Prefeitura Municipal de ' . $municipio-
 		                echo MaskedInput::widget([
 		                    'model' => $model,
 		                    'name' => 'telefone',
-		                    'mask' => '(99) 9999-9999',
+		                    'mask' => ['(99) 9999-9999', '(99) 9999-99999'],
 		                ]);
 		                ?>
 		            </div>
