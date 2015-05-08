@@ -1,3 +1,11 @@
 .no-margin {
     margin: 0 !important;
 }
+
+.twitter-share-button {
+    vertical-align: top;
+}
+
+.denuncia-detalhes .twitter-share-button {
+    margin-left: 20px;
+}
