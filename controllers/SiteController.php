@@ -252,7 +252,7 @@ class SiteController extends Controller
             $message = $exception->getMessage();
         }
         else {
-            $message = $this->defaultMessage ?: Yii::t('yii', 'An internal server error occurred.');
+            $message = Yii::t('yii', 'An internal server error occurred.');
         }
 
         if (Yii::$app->getRequest()->getIsAjax()) {
