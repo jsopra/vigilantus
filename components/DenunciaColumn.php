@@ -98,5 +98,11 @@ class DenunciaColumn extends YiiActionColumn
 				'title' => Yii::t('yii', 'Baixar anexo'),
 			]);
 		};
+
+		$this->buttons['comprovante'] = function ($url, $model) {
+			return Html::a('<i class="glyphicon glyphicon-download-alt"></i>', $url, [
+				'title' => Yii::t('yii', 'Baixar comprovante de denúncia'),
+			]);
+		};
 	}
 }

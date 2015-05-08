@@ -12,6 +12,17 @@ $this->params['breadcrumbs'][] = 'Detalhes';
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= Html::a(
+        '<i class="glyphicon glyphicon-download-alt"></i> Baixar Comprovante de Denúncia',
+        Yii::$app->urlManager->createUrl(['denuncia/denuncia/comprovante', 'id' => $model->id]),
+        [
+            'class' => 'btn btn-primary',
+        ]
+    );
+    ?>
+
+    <br /><br />
+
+    <?= Html::a(
         '<i class="glyphicon glyphicon-circle-arrow-left"></i> Voltar às denúncias',
         Yii::$app->urlManager->createUrl('denuncia/denuncia/index'),
         [
