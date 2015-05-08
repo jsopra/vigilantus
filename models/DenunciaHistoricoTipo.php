@@ -7,6 +7,7 @@ class DenunciaHistoricoTipo
 	const APROVACAO = 2;
 	const REPROVACAO = 3;
 	const INFORMACAO = 4;
+	const AVERIGUACAO = 5;
 
 	public static function getDescricoes()
 	{
@@ -15,6 +16,7 @@ class DenunciaHistoricoTipo
 			self::APROVACAO => 'Aprovação',
 			self::REPROVACAO => 'Reprovação',
 			self::INFORMACAO => 'Informação',
+			self::AVERIGUACAO => 'Averiguação',
 		];
 	}
 

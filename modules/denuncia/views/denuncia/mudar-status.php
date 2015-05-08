@@ -13,20 +13,20 @@ $this->params['breadcrumbs'][] = 'Alterar status';
 	<?php $form = ActiveForm::begin([]); ?>
 
 	<div class="row">
-            <div class="col-xs-4">
-                <?php
-                echo $form->field($model, 'status')->dropDownList(DenunciaStatus::getStatusPossiveis($model->status), ['prompt' => 'Selecione..']);
-                ?>
-            </div>
+        <div class="col-xs-4">
+            <?php
+            echo $form->field($model, 'status')->dropDownList(DenunciaStatus::getStatusPossiveis($model->status), ['prompt' => 'Selecione..']);
+            ?>
         </div>
+    </div>
 
 	<div class="form-group form-actions">
-			<?php 
+			<?php
             echo Html::submitButton(
-                'Cadastrar', 
+                'Cadastrar',
                 ['class' => 'btn btn-flat success']
             );
-		
+
             echo Html::a(
                 'Cancelar',
                 array('/denuncia/index'),

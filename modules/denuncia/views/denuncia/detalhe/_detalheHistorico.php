@@ -42,7 +42,19 @@ use app\models\Usuario;
         ],
         'observacoes',
         [
-            'attribute' => 'usuario',
+            'attribute' => 'data_associada',
+            'value' => function ($model, $index, $widget) {
+                return $model->getFormattedAttribute('data_associada');
+            }
+        ],
+        [
+            'attribute' => 'agente_id',
+            'value' => function ($model, $index, $widget) {
+                return $model->agente_id ? $model->agente->nome : null;
+            }
+        ],
+        [
+            'attribute' => 'usuario_id',
             'value' => function ($model, $index, $widget) {
                 return $model->usuario_id ? $model->usuario->nome : null;
             }

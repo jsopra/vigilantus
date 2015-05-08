@@ -59,7 +59,13 @@ class Equipe extends ClienteActiveRecord
 		return $this->hasOne(Clientes::className(), ['id' => 'cliente_id']);
 	}
 
-
+	/**
+     * @return int
+     */
+    public function getAgentes()
+    {
+        return $this->hasMany(EquipeAgente::className(), ['equipe_id' => 'id']);
+    }
 
     /**
      * @return int
