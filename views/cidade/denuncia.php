@@ -84,6 +84,8 @@ $this->title = 'Faça uma denúncia para Prefeitura Municipal de ' . $municipio-
 
 		        <p style="color: #797979;"><strong>Seus dados (opcional)</strong></p>
 
+		        <p><strong>Preenchendo seus dados, você recebe atualizações sobre a denúncia em seu email. Todas as informações da são mantidas em sigilo. </strong></p>
+
 		        <div class="row">
 		            <div class="col-xs-12">
 		                <?= $form->field($model, 'nome')->textInput() ?>
