@@ -3,8 +3,8 @@ namespace app\commands;
 
 use Yii;
 use app\components\Console;
-use app\models\Bairro;
-use app\models\BoletimRg;
+use app\models\Denuncia;
+use app\models\DenunciaHistorico;
 use yii\console\Controller;
 
 class LimpaBaseController extends Console
@@ -25,6 +25,23 @@ class LimpaBaseController extends Console
         foreach($boletinsRg as $boletim) {
             $boletim->delete();
         }
+
+        return Controller::EXIT_CODE_NORMAL;
+    }
+
+    public function actionDenuncias($iddenuncia)
+    {
+        $denuncia = Denuncia::find()->andWhere(['id' => $iddenuncia])->one();
+        if(!$denuncia) {
+            return Controller::EXIT_CODE_NORMAL;
+        }
+
+        $historicos = $denuncia->denunciaHistoricos;
+        foreach($historicos as $historico) {
+            $historico->delete();
+        }
+
+        $denuncia->delete();
 
         return Controller::EXIT_CODE_NORMAL;
     }
