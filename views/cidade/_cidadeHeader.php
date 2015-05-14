@@ -10,12 +10,9 @@ use yii\helpers\Html;
         </h1>
     </div>
 
-    <div class="col-md-3">
-
-    </div>
-
-    <div class="col-md-3" style="margin-top: 1em;">
+    <div class="col-md-6" style="margin-top: 1em;">
         <div class="text-right">
+            <?= $this->render('_buttonAcompanhar', ['municipio' => $municipio, 'cliente' => $cliente]); ?>
             <?= $this->render($button, ['municipio' => $municipio, 'cliente' => $cliente]); ?>
         </div>
     </div>

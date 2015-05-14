@@ -18,7 +18,7 @@ $municipio = $model->cliente->municipio;
     <p style="padding: 0; margin: 1em 0 0.3em 0;">SECRETARIA MUNICIPAL DE SAÚDE</p>
     <p style="padding: 0; margin: 0.3em 0;">DEPTO. DE VIGILÂNCIA SANITÁRIA</p>
         <p style="padding: 0; margin: 1em 0 0 0; font-weight: bold;">COMPROVANTE DE DENÚNCIA</p>
-        <!--<p style="padding: 0; margin: 1em 0 0 0;">Protocolo nº b132by12</p>-->
+        <p style="padding: 0; margin: 1em 0 0 0;">Protocolo nº <strong><?= $model->protocolo; ?></strong></p>
     </div>
 </div>
 

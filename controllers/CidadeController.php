@@ -98,18 +98,18 @@ class CidadeController extends Controller
     {
         $cliente = Cliente::find()->andWhere(['id' => $id])->one();
         if(!$cliente) {
-            throw new \Exception('Município não localizado');
+            throw new \yii\web\HttpException(400, 'Município não localizado', 405);
         }
 
         if(!$cliente->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
-            throw new \Exception('Município não utiliza denúncias');
+            throw new \yii\web\HttpException(400, 'Município não utiliza denúncias', 405);
         }
 
         Yii::$app->session->set('user.cliente', $cliente);
 
         $model = Denuncia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
         if(!$model) {
-            throw new \Exception('Denúncia não localizada');
+            throw new \yii\web\HttpException(400, 'Denúncia não localizada', 405);
         }
 
         $dataProvider = new ActiveDataProvider([
@@ -145,13 +145,9 @@ class CidadeController extends Controller
 
     public function actionComprovanteDenuncia($id, $hash)
     {
-        $model = Denuncia::find()
-            ->andWhere(['id' => $id])
-            ->andWhere(['hash_acesso_publico' => $hash])
-            ->one();
-
+        $model = Denuncia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
         if(!$model) {
-            throw new \Exception('Denúncia não localizada');
+            throw new \yii\web\HttpException(400, 'Denúncia não localizada', 405);
         }
 
         Yii::$app->response->format = 'pdf';

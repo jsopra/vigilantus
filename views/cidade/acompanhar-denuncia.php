@@ -33,7 +33,11 @@ $this->params['breadcrumbs'][] = 'Detalhes';
 
 <div class="denuncia-detalhes">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 style="padding-bottom: 0; margin-bottom: 0.3em;">Protocolo nº: <strong><?= $model->protocolo; ?></strong></h1>
+
+    <p style="color: #797979;"><strong>Anote o seu número de protocolo. Com ele você poderá acompanhar o andamento da denúncia a qualquer momento.</strong></p>
+
+    <br />
 
     <?php
     echo Tabs::widget([
