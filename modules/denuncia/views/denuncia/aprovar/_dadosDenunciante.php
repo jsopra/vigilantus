@@ -2,30 +2,17 @@
 use yii\helpers\Html;
 ?>
 
-<br />
+<p>
+    <strong><?= Html::activeLabel($model, 'nome') ?></strong><br>
+    <?= $model->nome ? Html::encode($model->nome) : 'Não informado' ?>
+</p>
 
-<div class="row">
-    <div class="col-xs-12">
-        <?= Html::activeLabel($model, 'nome'); ?>
-        <p class="form-control-static"><?php echo $model->nome; ?></p>
-    </div>
-</div>
+<p>
+    <strong><?= Html::activeLabel($model, 'email') ?></strong><br>
+    <?= $model->email ? Html::encode($model->email) : 'Não informado' ?>
+</p>
 
-<br />
-
-<div class="row">
-    <div class="col-xs-12">
-        <?= Html::activeLabel($model, 'email'); ?>
-        <p class="form-control-static"><?php echo $model->email; ?></p>
-    </div>
-
-</div>
-
-<br />
-
-<div class="row">
-    <div class="col-xs-5">
-        <?= Html::activeLabel($model, 'telefone'); ?>
-        <p class="form-control-static"><?php echo $model->telefone; ?></p>
-    </div>
-</div>
+<p>
+    <strong><?= Html::activeLabel($model, 'telefone') ?></strong><br>
+    <?= $model->telefone ? Html::encode($model->telefone) : 'Não informado' ?>
+</p>

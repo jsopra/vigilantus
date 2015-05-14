@@ -13,7 +13,7 @@ use yii\web\JsExpression;
 <div class="row">
     <div class="col-xs-4">
         <?= Html::activeLabel($model, 'bairro_id'); ?>
-        <p class="form-control-static"><?php echo $model->bairro->nome; ?></p>
+        <p class="form-control-static"><?= Html::encode($model->bairro->nome) ?></p>
     </div>
 </div>
 
@@ -33,7 +33,7 @@ use yii\web\JsExpression;
 <div class="row">
     <div class="col-xs-12">
         <?= Html::activeLabel($model, 'endereco'); ?>
-        <p class="form-control-static"><?php echo $model->endereco; ?></p>
+        <p class="form-control-static"><?= Html::encode($model->endereco) ?></p>
         <?= Html::error($model, 'endereco'); ?>
     </div>
 </div>
@@ -51,13 +51,13 @@ use yii\web\JsExpression;
                         'url' => "' . Url::toRoute(['denuncia/imoveis', 'bairro_id' => $model->bairro_id]) . '",
                         'dataType' => 'json',
                         'data' => new JsExpression('function(term,page) { return {q:term}; }'),
-                        'results' => new JsExpression('function (data, page) { 
+                        'results' => new JsExpression('function (data, page) {
                             return {
-                                results : $.map(data, function (item) { 
-                                    return { 
-                                        text:item.name, slug:item.name, id:item.id 
-                                    } 
-                                }) 
+                                results : $.map(data, function (item) {
+                                    return {
+                                        text:item.name, slug:item.name, id:item.id
+                                    }
+                                })
                             };
                         }'),
                     ],
@@ -73,14 +73,14 @@ use yii\web\JsExpression;
 <div class="row">
     <div class="col-xs-3">
         <?php
-        echo $form->field($model, 'tipo_imovel')->dropDownList(\app\models\DenunciaTipoImovel::getDescricoes(), ['prompt' => 'Selecione..']);
+        echo $form->field($model, 'tipo_imovel')->dropDownList(\app\models\DenunciaTipoImovel::getDescricoes(), ['prompt' => 'Selecione...']);
         ?>
     </div>
 
     <div class="col-xs-3">
         <?php
         $tipos = \app\models\DenunciaTipoProblema::find()->ativos()->orderBy('nome')->all();
-        echo $form->field($model, 'denuncia_tipo_problema_id')->dropDownList(ArrayHelper::map($tipos, 'id', 'nome'), ['prompt' => 'Selecione..']);
+        echo $form->field($model, 'denuncia_tipo_problema_id')->dropDownList(ArrayHelper::map($tipos, 'id', 'nome'), ['prompt' => 'Selecione...']);
         ?>
     </div>
 </div>
@@ -89,7 +89,7 @@ use yii\web\JsExpression;
 <div class="row">
     <div class="col-xs-12">
         <?= Html::activeLabel($model, 'pontos_referencia'); ?>
-        <p class="form-control-static"><?php echo $model->pontos_referencia; ?></p>
+        <p class="form-control-static"><?= Html::encode($model->pontos_referencia) ?></p>
         <?= Html::error($model, 'pontos_referencia'); ?>
     </div>
 </div>
@@ -98,7 +98,7 @@ use yii\web\JsExpression;
 <div class="row">
     <div class="col-xs-12">
         <?= Html::activeLabel($model, 'mensagem'); ?>
-        <p class="form-control-static"><?php echo $model->mensagem; ?></p>
+        <p class="form-control-static"><?= Html::encode($model->mensagem) ?></p>
         <?= Html::error($model, 'mensagem'); ?>
     </div>
 </div>
