@@ -5,12 +5,16 @@ use yii\helpers\Html;
 ?>
 
 <form class="form-inline" action="/cidade/acompanhar-denuncia" method="get">
-    <input type="hidden" name="id" value="<?= $cliente->id; ?>" />
-    <input type="text" class="form-control" name="hash" placeholder="Nº Protocolo da Denúncia" />
-    <button id="enviar" class="btn btn-flat info">Acompanhar</button>
+    <div class="form-group">
+        <input type="hidden" name="id" value="<?= $cliente->id; ?>" />
+        <input type="text" class="form-control" name="hash" placeholder="Nº Protocolo da Denúncia" />
+    <div class="form-group">
+    </div>
+        <button id="enviar" class="btn btn-flat info">Acompanhar</button>
+    </div>
 </form>
 
-<br />
+<br class="" />
 
 <?php
 $view = Yii::$app->getView();

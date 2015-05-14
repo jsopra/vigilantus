@@ -8,6 +8,7 @@ use app\models\Usuario;
 
 <br />
 
+<div class="table-responsive">
 <?php echo GridView::widget([
     'dataProvider' => $dataProvider,
     'exportable' => $isExportable,
@@ -61,3 +62,4 @@ use app\models\Usuario;
         ],
     ],
 ]); ?>
+</div>

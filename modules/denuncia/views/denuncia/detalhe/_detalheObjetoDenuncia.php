@@ -7,87 +7,56 @@ use yii\helpers\Url;
 use app\helpers\models\ImovelHelper;
 ?>
 
-<br />
+<p>
+    <strong><?= Html::activeLabel($model, 'bairro_id') ?></strong><br>
+    <?= Html::encode($model->bairro->nome) ?>
+</p>
 
-<div class="row">
-    <div class="col-xs-4">
-        <?= Html::activeLabel($model, 'bairro_id'); ?>
-        <p class="form-control-static"><?php echo $model->bairro->nome; ?></p>
-    </div>
-</div>
-
-<br />
-
-<div class="row">
-    <div class="col-xs-3">
-        <?= Html::activeLabel($model, 'bairro_quarteirao_id'); ?>
-        <p class="form-control-static"><?php echo $model->bairro_quarteirao_id ? $model->bairroQuarteirao->numero_quarteirao : null; ?></p>
-    </div>
-</div>
-
-<br />
-
-<div class="row">
-    <div class="col-xs-8">
-       <?= Html::activeLabel($model, 'imovel_id'); ?>
-        <p class="form-control-static"><?php echo $model->imovel_id ? ImovelHelper::getEnderecoCompleto($model->imovel) : null; ?></p>
-    </div>
-</div>
-
-<br />
-
-<div class="row">
-    <div class="col-xs-12">
-        <?= Html::activeLabel($model, 'endereco'); ?>
-        <p class="form-control-static"><?php echo $model->endereco; ?></p>
-    </div>
-</div>
-
-<br />
-
-<div class="row">
-    <div class="col-xs-3">
-        <?= Html::activeLabel($model, 'tipo_imovel'); ?>
-        <p class="form-control-static"><?= \app\models\DenunciaTipoImovel::getDescricao($model->tipo_imovel); ?></p>
-    </div>
-</div>
-
-<br />
-
-<div class="row">
-    <div class="col-xs-3">
-        <?= Html::activeLabel($model, 'denuncia_tipo_problema_id'); ?>
-        <p class="form-control-static"><?= $model->denuncia_tipo_problema_id ? $model->denunciaTipoProblema->nome : null; ?></p>
-    </div>
-</div>
-
-<br />
-
-<?php if($model->pontos_referencia) : ?>
-<div class="row">
-    <div class="col-xs-12">
-        <?= Html::activeLabel($model, 'pontos_referencia'); ?>
-        <p class="form-control-static"><?php echo $model->pontos_referencia; ?></p>
-    </div>
-</div>
-
-<br />
-
+<?php if ($model->bairro_quarteirao_id) : ?>
+<p>
+    <strong><?= Html::activeLabel($model, 'bairro_quarteirao_id') ?></strong><br>
+    <?= $model->bairro_quarteirao_id ? Html::encode($model->bairroQuarteirao->numero_quarteirao) : null ?>
+</p>
 <?php endif; ?>
 
-<div class="row">
-    <div class="col-xs-12">
-        <?= Html::activeLabel($model, 'mensagem'); ?>
-        <p class="form-control-static"><?php echo $model->mensagem; ?></p>
-    </div>
-</div>
+<?php if ($model->imovel_id) : ?>
+<p>
+    <strong><?= Html::activeLabel($model, 'imovel_id') ?></strong><br>
+    <?= $model->imovel_id ? Html::encode(ImovelHelper::getEnderecoCompleto($model->imovel)) : null ?>
+</p>
+<?php endif; ?>
 
-<br />
+<p>
+    <strong><?= Html::activeLabel($model, 'endereco') ?></strong><br>
+    <?= Html::encode($model->endereco) ?>
+</p>
 
-<?php if($model->anexo) : ?>
-<div class="row" style="margin-top: 2em;">
-    <div class="col-xs-12">
-        <a href="<?= Url::to(['denuncia/anexo', 'id' => $model->id]); ?>"><i class="glyphicon glyphicon-paperclip"></i> Download do anexo</a>
-    </div>
-</div>
+<p>
+    <strong><?= Html::activeLabel($model, 'tipo_imovel') ?></strong><br>
+    <?= Html::encode(\app\models\DenunciaTipoImovel::getDescricao($model->tipo_imovel)) ?>
+</p>
+
+<p>
+    <strong><?= Html::activeLabel($model, 'denuncia_tipo_problema_id') ?></strong><br>
+    <?= $model->denuncia_tipo_problema_id ? Html::encode($model->denunciaTipoProblema->nome) : null ?>
+</p>
+
+<?php if ($model->pontos_referencia) : ?>
+<p>
+    <strong><?= Html::activeLabel($model, 'pontos_referencia') ?></strong><br>
+    <?= Html::encode($model->pontos_referencia) ?>
+</p>
+<?php endif; ?>
+
+<p>
+    <strong><?= Html::activeLabel($model, 'mensagem') ?></strong><br>
+    <?= Html::encode($model->mensagem) ?>
+</p>
+
+<?php if ($model->anexo) : ?>
+<p>
+    <a href="<?= Url::to(['denuncia/anexo', 'id' => $model->id]); ?>">
+        <i class="glyphicon glyphicon-paperclip"></i> Download do anexo
+    </a>
+</p>
 <?php endif; ?>
