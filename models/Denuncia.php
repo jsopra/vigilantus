@@ -67,7 +67,7 @@ class Denuncia extends ClienteActiveRecord
 			['status', 'default', 'value' => DenunciaStatus::AVALIACAO],
 			['status', 'in', 'range' => DenunciaStatus::getIDs()],
 			['localizacao', 'in', 'range' => DenunciaTipoImovel::getIDs()],
-			[['bairro_quarteirao_id', 'denuncia_tipo_problema_id'], 'required', 'on' => ['aprovacao']],
+			[['denuncia_tipo_problema_id'], 'required', 'on' => ['aprovacao']],
 			[['file'], 'file'],
 			[['email'], 'email'],
 			['usuario_id', 'required', 'on' => ['aprovacao', 'trocaStatus']],

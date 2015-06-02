@@ -26,14 +26,14 @@ class FocosExcelReport extends Model
     public function rules()
     {
         return [
-            [['inicio', 'fim'], 'required'],  
+            [['inicio', 'fim'], 'required'],
             ['especie_transmissor_id', 'exist', 'targetClass' => EspecieTransmissor::className(), 'targetAttribute' => 'id'],
             ['bairro_id', 'exist', 'targetClass' => Bairro::className(), 'targetAttribute' => 'id'],
-            [['inicio', 'fim'], 'date'],   
+            [['inicio', 'fim'], 'date'],
             [['inicio', 'fim'], 'validaIntervalo'],
         ];
     }
-    
+
     public function validaIntervalo($attribute, $params)
     {
         if(!$this->inicio || !$this->fim) {
@@ -43,9 +43,9 @@ class FocosExcelReport extends Model
         $inicio = new \DateTime($this->inicio);
         $fim = new \DateTime($this->fim);
 
-        if((abs($fim->getTimestamp() - $inicio->getTimestamp()) / 60 / 60 / 24) > 30) {
-            $this->addError('inicio', 'Selecione até 30 dias para gerar o relatório');
-            $this->addError('fim', 'Selecione até 30 dias para gerar o relatório');
+        if((abs($fim->getTimestamp() - $inicio->getTimestamp()) / 60 / 60 / 24) > 90) {
+            $this->addError('inicio', 'Selecione até 90 dias para gerar o relatório');
+            $this->addError('fim', 'Selecione até 90 dias para gerar o relatório');
         }
     }
 
@@ -59,36 +59,36 @@ class FocosExcelReport extends Model
             'fim' => 'Fim Entrada',
         ];
     }
-    
-    public function export($cliente) 
+
+    public function export($cliente)
     {
         $municipio = $cliente->municipio;
-        
+
         $model = FocoTransmissor::find();
-        
+
         if($this->bairro_id) {
             $model->doBairro($this->bairro_id);
         }
-        
+
         $modelEspecie = null;
         if($this->especie_transmissor_id) {
             $model->daEspecieDeTransmissor($this->especie_transmissor_id);
-            
+
             $modelEspecie = EspecieTransmissor::find()->andWhere(['id' => $this->especie_transmissor_id])->one();
         }
-        
-        $model->dataEntradaEntre($this->inicio, $this->fim); 
-        
+
+        $model->dataEntradaEntre($this->inicio, $this->fim);
+
         $objPHPExcel = new \PHPExcel();
         $objPHPExcel->getProperties()->setCreator("Vigilantus");
         $objPHPExcel->getProperties()->setTitle("Relatório de Focos");
-        
+
         $objPHPExcel->setActiveSheetIndex(0);
         $sheet = $objPHPExcel->getActiveSheet();
-        
+
         //cabeçalho: logo, texto prefeitura
         $linha = 1;
-        
+
         if($municipio->brasao) {
             $path = MunicipioHelper::getBrasaoPath($municipio, true);
             $objDrawing = new \PHPExcel_Worksheet_MemoryDrawing();
@@ -102,42 +102,42 @@ class FocosExcelReport extends Model
             $objDrawing->setWidth(60);
             $objDrawing->setHeight(75);
         }
-        
+
         $textoCabecalho = [
             'Prefeitura Municipal de ' . $municipio->nome,
             'Secretaria Municipal de Saúde',
             'Vigilância em Saúde/Vigilância Ambiental',
             'Programa de Controle da Dengue',
         ];
-        
+
         $linha = 0;
         $coluna = 0;
-        
+
         foreach($textoCabecalho as $header) {
             ++$linha;
             $sheet->setCellValue('B' . $linha, $header);
             $coluna++;
         }
-        
+
         $linha++;
-        
+
         $sheet->mergeCells("A1:A{$linha}");
-        
+
         $linha++;
         $coluna = 0;
-        
+
         //linha relatorio de focos titulo
         $sheet->setCellValue('A' . $linha, 'Relatório de Focos ' . ($modelEspecie ? ' ' . $modelEspecie->nome : ''));
-        
+
         //linha header tabela
         $headers = ['Bairro', 'Endereço', 'Quarteirão'];
-        
+
         if(!$modelEspecie) {
             array_push($headers,'Espécie');
         }
-        
+
         array_push($headers, 'Tipo Imóvel', 'Tipo Depósito', 'Data Entrada', 'Data Exame', 'Data Coleta', 'Nº F. Aquática', 'Nº F. Adulta', 'Nº F. Ovos');
-        
+
         $linha++;
         $coluna = 0;
 
@@ -146,47 +146,47 @@ class FocosExcelReport extends Model
             $sheet->setCellValue($letraColuna . $linha, $header);
             $coluna++;
         }
-        
+
         $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getFont()->setBold(true);
         $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getBorders()->getAllBorders()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
-                     
+
         $letraColuna = \PHPExcel_Cell::stringFromColumnIndex($coluna - 1);
-        
+
         $linhaMerge = $linha;
-        
+
         while($linhaMerge > 0) {
-            
+
             $linhaMerge = $linhaMerge -1;
-            
+
             $letra = $linhaMerge == $linha - 1 ? 'A' : 'B';
-            
+
             $sheet->mergeCells("{$letra}{$linhaMerge}:{$letraColuna}{$linhaMerge}");
             $sheet->getStyle("{$letra}{$linhaMerge}:{$letraColuna}{$linhaMerge}")->getFont()->setBold(true);
-            
+
             if($letra == 'A') {
                 $sheet->getStyle("{$letra}{$linhaMerge}:{$letraColuna}{$linhaMerge}")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             }
         }
-        
+
         unset($linhaMerge);
-        
+
         //registros
         $rows = $model->all();
         foreach($rows as $row) {
-            
+
             $linha++;
             $coluna = -1;
-            
+
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->bairroQuarteirao->bairro->nome);
-            
+
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->imovel_id ? ImovelHelper::getEnderecoCompleto($row->imovel) : $row->planilha_endereco);
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->bairroQuarteirao->numero_quarteirao);
-            
+
             if(!$modelEspecie) {
                 $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->especieTransmissor->nome);
             }
-            
+
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->imovel_id ? $row->imovel->imovelTipo->sigla : ($row->imovelTipo ? $row->imovelTipo->sigla : null));
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->tipoDeposito->sigla);
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->data_entrada);
@@ -195,10 +195,10 @@ class FocosExcelReport extends Model
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->quantidade_forma_aquatica);
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->quantidade_forma_adulta);
             $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->quantidade_ovos);
-            
+
             $letraColuna = \PHPExcel_Cell::stringFromColumnIndex($coluna);
             $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getBorders()->getAllBorders()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
-        
+
             unset($letraColuna);
         }
 
@@ -210,19 +210,19 @@ class FocosExcelReport extends Model
         $sheet->mergeCells("A{$linha}:{$letraColuna}{$linha}");
         $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getFont()->setBold(true);
         $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        
+
         foreach(range('A',$letraColuna) as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
-        
+
         $sheet->getDefaultStyle()->getFont()->setName('Arial');
-        $sheet->getDefaultStyle()->getFont()->setSize(10); 
+        $sheet->getDefaultStyle()->getFont()->setSize(10);
         $sheet->getDefaultRowDimension()->setRowHeight(20);
-        
-        header('Content-Type: application/vnd.ms-excel'); 
-        header('Content-Disposition: attachment;filename="export.xls"'); 
-        header('Cache-Control: max-age=0'); 
-        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5'); 
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="export.xls"');
+        header('Cache-Control: max-age=0');
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
         $objWriter->save('php://output');
     }
 }
