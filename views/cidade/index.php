@@ -27,10 +27,11 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
         <h4 class="text-center" style="font-weight: bold; margin-top: 1em; font-size: 2.5em; margin-top: 0;">
             Os transmissores da <span style="color: #CC0000; font-size: 1.2em;">Dengue e da Chikungunya</span> vivem perto de você?
         </h4>
-        <br />
-        <p class="text-center" style="font-size: 1.3em;">Utilize o marcador na lateral esquerda do mapa para alterar o ponto de pesquisa</p>
     </div>
 
+    <div id="map"  style="height: 450px; width: 100%;">
+        <nav id='menu-ui' class='menu-ui'></nav>
+    </div>
 
     <div class="row">
       	<div class="col-md-12">
@@ -49,6 +50,8 @@ $municipio->loadCoordenadas();
 if($municipio->latitude && $municipio->longitude) {
 
     $javascript = "
+        var layers = document.getElementById('menu-ui');
+
         var line_points = " . Json::encode([]) . ";
         var polyline_options = {
             color: '#000'
@@ -136,6 +139,26 @@ if($municipio->latitude && $municipio->longitude) {
                     });
                 }
             });
+        }
+
+        addButton('Marcar novo local', 1);
+
+        function addButton(name, zIndex) {
+
+            var link = document.createElement('a');
+                link.href = '#';
+                link.className = 'active';
+                link.innerHTML = name;
+
+            link.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var pontoestrategico = L.marker([" . $model->latitude . ", " . $model->longitude . "]).addTo(featureGroup);
+                pontoestrategico.editing.enable();
+            };
+
+            layers.appendChild(link);
         }
     ";
 
