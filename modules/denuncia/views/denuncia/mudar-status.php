@@ -6,6 +6,10 @@ use app\models\DenunciaStatus;
 $this->title = 'Alterar status de Denuncia #' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Denúncias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Alterar status';
+
+if($model->email) {
+    Yii::$app->session->setFlash('warning', 'ATENÇÃO: O denunciante preencheu o email ao fazer a denúncia, assim ele receberá uma mensagem informando sobre a atualização do status.');
+}
 ?>
 <div class="denuncia-update">
 	<h1><?= Html::encode($this->title) ?></h1>
