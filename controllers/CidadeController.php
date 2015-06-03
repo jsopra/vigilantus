@@ -143,6 +143,22 @@ class CidadeController extends Controller
         echo Json::encode(['isAreaTratamento' => FocoTransmissor::isAreaTratamento($cliente->id, $lat, $lon)]);
     }
 
+    public function actionCoordenadaNaCidade($id, $lat, $lon)
+    {
+        $cliente = Cliente::find()->andWhere(['id' => $id])->one();
+        if(!$cliente) {
+            throw new \Exception('Município não localizado');
+        }
+
+        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
+            throw new \Exception('Município não utiliza denúncias');
+        }
+
+        Yii::$app->session->set('user.cliente', $cliente);
+
+        echo Json::encode(['coordenadaNaCidade' => $cliente->municipio->coordenadaNaCidade($lat, $lon)]);
+    }
+
     public function actionComprovanteDenuncia($id, $hash)
     {
         $model = Denuncia::find()

@@ -246,4 +246,19 @@ class Municipio extends ActiveRecord
 
         return $result;
     }
+
+    public function coordenadaNaCidade($lat, $lon)
+    {
+        $return = [];
+
+        $query = "
+            id IN (
+                SELECT DISTINCT b.id
+                FROM bairros b
+                WHERE ST_Contains(b.coordenadas_area, ST_SetSRID(ST_Point(" . $lon . ", " . $lat . "),4326))
+            )
+        ";
+
+        return Bairro::find()->andWhere($query)->count() > 0;
+    }
 }
