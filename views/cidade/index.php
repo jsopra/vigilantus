@@ -29,16 +29,13 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
         </h4>
     </div>
 
-    <div id="map"  style="height: 450px; width: 100%;">
-        <nav id='menu-ui' class='menu-ui'></nav>
-    </div>
-
     <div class="row">
       	<div class="col-md-12">
 
             <p class="bg-info text-center" style="padding: 0.5em 0; margin: 1em 0 0 0;"><strong>Focos dos últimos <?= $qtdeDias; ?> dias</strong></p>
-    		<div id="map" style="height: 500px; width: 100%;"></div>
-
+    		<div id="map" style="height: 500px; width: 100%;">
+                <nav id='menu-ui' class='menu-ui'></nav>
+            </div>
     	</div>
     </div>
 
@@ -66,9 +63,28 @@ if($municipio->latitude && $municipio->longitude) {
 
         $.geolocation(
             function (lat, lng) {
-                map.setView([lat , lng], 15);
-                search = L.marker([lat, lng]).addTo(featureGroup);
-                verificaAreaTratamento(lat, lng);
+
+                $.getJSON('" . Url::to(['cidade/coordenada-na-cidade', 'id' => $cliente->id]) . "&lat=' + lat + '&lon=' + lng, function(data) {
+                    if(data.coordenadaNaCidade) {
+
+                        map.setView([lat , lng], 15);
+                        search = L.marker([lat, lng]).addTo(featureGroup);
+                        verificaAreaTratamento(lat, lng);
+
+                    } else {
+                        map.setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13);
+
+                        $.toast({
+                            heading: 'Fora da cidade',
+                            text: 'Você não está nesta cidade. Sua localização foi descartada.',
+                            position: 'top-right',
+                            stack: false,
+                            icon: 'info'
+                        });
+                    }
+                });
+
+
             },
             function (error) {
                 map.setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13);
@@ -76,15 +92,20 @@ if($municipio->latitude && $municipio->longitude) {
         );
 
 		var drawControl = new L.Control.Draw({
+            position: 'topright',
 		    edit: false,
 		    draw: {
 		        polygon: false,
 		        polyline: false,
 		        rectangle: false,
 		        circle: false,
-		        marker: true
+		        marker: false
 		    }
 		}).addTo(map);
+
+        L.drawLocal.draw.handlers.marker.tooltip.start = 'Selecione um local e saiba se ele está em área de risco';
+
+        var markerDrawer = new L.Draw.Marker(map, drawControl.options.marker);
 
 		map.on('draw:created', function showPolygonArea(e) {
 
@@ -141,7 +162,7 @@ if($municipio->latitude && $municipio->longitude) {
             });
         }
 
-        addButton('Marcar novo local', 1);
+        addButton('Verificar um local', 1);
 
         function addButton(name, zIndex) {
 
@@ -154,8 +175,7 @@ if($municipio->latitude && $municipio->longitude) {
                 e.preventDefault();
                 e.stopPropagation();
 
-                var pontoestrategico = L.marker([" . $model->latitude . ", " . $model->longitude . "]).addTo(featureGroup);
-                pontoestrategico.editing.enable();
+                markerDrawer.enable();
             };
 
             layers.appendChild(link);
