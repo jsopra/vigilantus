@@ -92,7 +92,7 @@ class TentativaAveriguacaoForm extends Model
 
                 $denuncia->scenario = 'trocaStatus';
                 $denuncia->usuario_id = $this->usuario_id;
-                $denuncia->status = DenunciaStatus::NAO_ENCONTRADO;
+                $denuncia->status = DenunciaStatus::FECHADO;
 
                 $saved = $denuncia->save();
 
