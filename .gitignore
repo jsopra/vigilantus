@@ -6,3 +6,4 @@ web/img/brasao/**
 tests/_log/**
 /web/denuncias/**
 web/brasao/**
+/api/runtime/

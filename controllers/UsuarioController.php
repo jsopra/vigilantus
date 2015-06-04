@@ -30,7 +30,7 @@ class UsuarioController extends CRUDController
                         'actions' => ['create', 'update', 'delete', 'index'],
                         'roles' => ['Administrador'],
                     ],
-                ], 
+                ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -40,19 +40,19 @@ class UsuarioController extends CRUDController
             ],
         ];
     }
-    
+
     public function actionChangePassword()
     {
         $model = new AlterarSenhaForm;
-        
+
         if ($model->load($_POST) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Senha alterada com sucesso.');
             return $this->redirect(['site/home']);
         }
-        
+
         return $this->render('change-password', ['model' => $model]);
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -60,6 +60,8 @@ class UsuarioController extends CRUDController
     {
         $model = parent::buildNewModel();
         $model->cliente_id = Yii::$app->user->identity->cliente_id;
+        // @FIXME Colocado aqui porque não atualizamos o Yii2 e o método beforeSave vai quebrar
+        $model->token_api = bin2hex(openssl_random_pseudo_bytes(16));
         return $model;
     }
 }
