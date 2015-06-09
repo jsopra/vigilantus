@@ -10,8 +10,8 @@ use app\models\redis\FocosAtivos;
 use yii\helpers\Json;
 
 $this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
-$urlDenuncia = Url::to('/' . $cliente->rotulo, true);
-$descricaoPagina = 'Acabei de denunciar um foco da dengue para a Prefeitura de ' . $municipio->nome . ' - ' . $municipio->sigla_estado . '. Veja as dicas para combater a doença e caso perceba qualquer problema, denuncie em ' .  $urlDenuncia;
+$urlOcorrencia = Url::to('/' . $cliente->rotulo, true);
+$descricaoPagina = 'Acabei de denunciar um foco da dengue para a Prefeitura de ' . $municipio->nome . ' - ' . $municipio->sigla_estado . '. Veja as dicas para combater a doença e caso perceba qualquer problema, denuncie em ' .  $urlOcorrencia;
 $this->registerMetaTag(['property' => 'og:image', 'content' => Url::to('/img/og-sharing-preview.jpg', true)]);
 $this->registerMetaTag(['property' => 'og:title', 'content' => 'Denuncie focos de mosquitos da dengue']);
 $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoPagina]);
@@ -19,7 +19,7 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
 MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omnivore', 'markercluster']);
 ?>
 
-<?= $this->render('_cidadeHeader', ['municipio' => $municipio, 'cliente' => $cliente, 'button' => '_buttonDenunciar']); ?>
+<?= $this->render('_cidadeHeader', ['municipio' => $municipio, 'cliente' => $cliente, 'button' => '_buttonOcorrencia']); ?>
 
 <div class="panel panel-default" style="margin-top: 2.5em;">
 
