@@ -61,6 +61,8 @@ if($municipio->latitude && $municipio->longitude) {
 
 		var search;
 
+        map.setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13);
+
         $.geolocation(
             function (lat, lng) {
 
