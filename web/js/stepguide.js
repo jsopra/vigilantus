@@ -124,7 +124,7 @@ $(document).ready(function(){
                 },
                 {
                     element: "#stepguide-equipe",
-                    intro: "Aqui você cadastra equipes e agentes para estruturar visitação, denúncias, etc"
+                    intro: "Aqui você cadastra equipes e agentes para estruturar visitação, ocorrências, etc"
                 }
             ],
             tooltipPosition: 'auto'
@@ -147,7 +147,7 @@ $(document).ready(function(){
                 },
                 {
                     element: "#step-sistema-configuracoes",
-                    intro: "Aqui você define configurações do sistema, como visiblidade de informações, intervalos de atenção em denúncias, entre outros"
+                    intro: "Aqui você define configurações do sistema, como visiblidade de informações, intervalos de atenção em ocorrências, entre outros"
                 },
                 {
                     element: "#step-sistema-usuarios",
@@ -195,11 +195,11 @@ $(document).ready(function(){
             }
         ];
 
-        if(moduloDenunciaIsHabilitado == '1') {
+        if(moduloOcorrenciaIsHabilitado == '1') {
             arrayOpcoes.push(
                 {
-                    element: "#stepguide-denuncias",
-                    intro: "Você também poderá gerenciar denúncias e configurar sua integração com redes sociais"
+                    element: "#stepguide-ocorrencias",
+                    intro: "Você também poderá gerenciar ocorrências e configurar sua integração com redes sociais"
                 }
             );
         }
@@ -297,15 +297,15 @@ $(document).ready(function(){
         });
     });
 
-    $('a[data-step-type="denuncias"]').click(function(){
+    $('a[data-step-type="ocorrencias"]').click(function(){
 
         $('#stepguideModal').modal('hide');
 
         intro.setOptions({
             steps: [
                 {
-                    element: "#stepguide-denuncias",
-                    intro: "Você pode gerenciar todas as denúncias recebidas ou cadastradas no sistema"
+                    element: "#stepguide-ocorrencias",
+                    intro: "Você pode gerenciar todas as ocorrências recebidas ou cadastradas no sistema"
                 },
             ],
             doneLabel: 'Ir para ferramenta!',
@@ -313,11 +313,11 @@ $(document).ready(function(){
         });
 
         intro.start().oncomplete(function() {
-          window.location.href = stepDenunciasUrl;
+          window.location.href = stepOcorrenciasUrl;
         });
     });
 
-    $('a[data-step-type="denuncias-social"]').click(function(){
+    $('a[data-step-type="ocorrencias-social"]').click(function(){
 
         $('#stepguideModal').modal('hide');
 
@@ -327,18 +327,18 @@ $(document).ready(function(){
             steps: [
                 {
                     element: "li.step-cadastro",
-                    intro: "Para configurar o recebimento de denúncias por redes sociais, você precisa fazer algumas configurações"
+                    intro: "Para configurar o recebimento de ocorrências por redes sociais, você precisa fazer algumas configurações"
                 },
                 {
-                    element: "#stepguide-denuncias-rs-contas",
+                    element: "#stepguide-ocorrencias-rs-contas",
                     intro: "Primeiramente você precisa associar as contas de rede social de seu Setor ao sistema"
                 },
                 {
-                    element: "#stepguide-denuncias-rs-hashtag",
+                    element: "#stepguide-ocorrencias-rs-hashtag",
                     intro: "Em seguida você pode cadastrar termos de pesquisa (hashtags) para monitorar"
                 },{
-                    element: "#stepguide-denuncias",
-                    intro: "Com isso, qualquer denúncia feita via rede social será cadastrada como uma pré-denúncia"
+                    element: "#stepguide-ocorrencias",
+                    intro: "Com isso, qualquer ocorrência feita via rede social será cadastrada como uma pré-ocorrência"
                 }
             ],
             tooltipPosition: 'auto'

@@ -21,7 +21,7 @@ use yii\base\UserException;
 use app\models\Cliente;
 use app\components\SocialLoginHandler;
 use yii\helpers\Url;
-use app\models\Denuncia;
+use app\models\Ocorrencia;
 use app\models\Configuracao;
 
 class SiteController extends Controller
@@ -43,10 +43,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['feedback', 'logout', 'home', 'session', 'resumo-focos', 'resumo-denuncias'],
+                'only' => ['feedback', 'logout', 'home', 'session', 'resumo-focos', 'resumo-ocorrencias'],
                 'rules' => [
                     [
-                        'actions' => ['feedback', 'logout', 'home', 'resumo-focos', 'resumo-denuncias'],
+                        'actions' => ['feedback', 'logout', 'home', 'resumo-focos', 'resumo-ocorrencias'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -76,7 +76,7 @@ class SiteController extends Controller
             ],
             'auth' => [
                 'class' => 'yii\authclient\AuthAction',
-                'successUrl' => Url::to(['/denuncia/social-account/index']),
+                'successUrl' => Url::to(['/ocorrencia/social-account/index']),
                 'successCallback' => [new SocialLoginHandler(), 'loginHandler'],
             ],
         ];
@@ -104,21 +104,21 @@ class SiteController extends Controller
         );
     }
 
-    public function actionResumoDenuncias()
+    public function actionResumoOcorrencias()
     {
-        $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
-        $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_DENUNCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
+        $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
+        $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
 
         return $this->render(
-            'resumo-denuncias',
+            'resumo-ocorrencias',
             [
-                'modelDenuncias' => new ResumoFocosCapaReport,
+                'modelOcorrencias' => new ResumoFocosCapaReport,
                 'cliente' => \Yii::$app->session->get('user.cliente'),
                 'diasVerde' => $qtdeDiasVerde,
                 'diasVermelho' => $qtdeDiasVermelho,
-                'qtdeVerde' => Denuncia::find()->aberta()->anteriorA($qtdeDiasVerde)->count(),
-                'qtdeAmarelo' => Denuncia::find()->aberta()->entre($qtdeDiasVerde, $qtdeDiasVermelho)->count(),
-                'qtdeVermelho' => Denuncia::find()->aberta()->posteriorA($qtdeDiasVermelho)->count(),
+                'qtdeVerde' => Ocorrencia::find()->aberta()->anteriorA($qtdeDiasVerde)->count(),
+                'qtdeAmarelo' => Ocorrencia::find()->aberta()->entre($qtdeDiasVerde, $qtdeDiasVermelho)->count(),
+                'qtdeVermelho' => Ocorrencia::find()->aberta()->posteriorA($qtdeDiasVermelho)->count(),
             ]
         );
     }
@@ -220,7 +220,7 @@ class SiteController extends Controller
             $objeto = Cliente::find()->doRotulo($municipio)->one();
             if($objeto) {
 
-                if($objeto->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
+                if($objeto->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
                     $this->redirect(['cidade/index', 'id' => $objeto->id]);
                 }
             }
