@@ -132,8 +132,8 @@ $config = [
         ],
     ],
     'modules' => [
-        'denuncia' => [
-            'class' => 'app\modules\denuncia\Module',
+        'ocorrencia' => [
+            'class' => 'app\modules\ocorrencia\Module',
         ],
     ],
     'params' => $params,
