@@ -115,7 +115,10 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['v1/session'],
+                ],
             ],
         ],
         'user' => [
@@ -132,9 +135,8 @@ $config = [
         ],
     ],
     'modules' => [
-        'ocorrencia' => [
-            'class' => 'app\modules\ocorrencia\Module',
-        ],
+        'ocorrencia' => ['class' => 'app\modules\ocorrencia\Module'],
+        'api-v1' => ['class' => 'app\api\v1\Module'],
     ],
     'params' => $params,
 ];
@@ -151,6 +153,10 @@ if (YII_ENV_DEV) {
             'vigilantus-controller' => ['class' => 'app\extensions\gii\generators\controller\Generator'],
         ],
     ];
+}
+
+if (empty($config['components']['redis']['password'])) {
+    unset($config['components']['redis']['password']);
 }
 
 return $config;

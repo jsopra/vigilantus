@@ -25,6 +25,7 @@ use Yii;
  * @property string $ultimo_login
  * @property string $email
  * @property string $token_recupera_senha
+ * @property string $token_api
  * @property string $data_recupera_senha
  * @property boolean $excluido
  */
@@ -75,8 +76,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        // @TODO Obter usuário pelo token para uso em APIs
-        return false;
+        return static::find()->where(['token_api' => $token])->one();
     }
 
     /* Métodos ActiveRecord */

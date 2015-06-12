@@ -1,9 +1,6 @@
-Vigilantus
-==========
+# Vigilantus
 
-
-SOBRE OS AMBIENTES
-------------------
+## SOBRE OS AMBIENTES
 
 A variável `VIGILANTUS_ENV` indica qual é o ambiente atual.
 
@@ -14,8 +11,7 @@ Desta forma, ao rodar os testes estaremos utilizando um banco de dados diferente
 porém a partir do mesmo diretório.
 
 
-CONFIGURANDO O AMBIENTE DE DESENVOLVIMENTO
------------------------------------------------------
+## CONFIGURANDO O AMBIENTE DE DESENVOLVIMENTO
 
 Instale o [Composer](http://getcomposer.org/) e rode `composer install` na
    raiz do projeto.
@@ -27,6 +23,28 @@ NameVirtualHost 127.0.0.1
 <VirtualHost 127.0.0.1>
     ServerName vigilantus
     DocumentRoot /var/www/vigilantus/web
+    SetEnv VIGILANTUS_ENV development
+    SetEnv VIGILANTUS_DB_DSN_HOST "pgsql:host=localhost"
+    SetEnv VIGILANTUS_DB_DSN_DBNAME "dbname=vigilantus_development"
+    SetEnv VIGILANTUS_DB_USERNAME postgres
+    SetEnv VIGILANTUS_DB_PASSWORD postgres
+    SetEnv VIGILANTUS_COOKIES_KEY umastringsecreta
+    SetEnv VIGILANTUS_REDIS_DB_DATABASE 'ASDF'
+    SetEnv VIGILANTUS_REDIS_DB_PASSWORD 'ASDF'
+    SetEnv VIGILANTUS_REDIS_DB_PORT 'QWER'
+    SetEnv VIGILANTUS_REDIS_HOST 'XyZ-vigilantus.getup.io'
+    SetEnv OPENSHIFT_GEARMAN_IP 'localhost'
+    SetEnv OPENSHIFT_GEARMAN_PORT '4730'
+    SetEnv GEARMAN_JOB_KEY 'n2398n289fn2nf'
+</VirtualHost>
+```
+
+Adicione também o caminho para a API:
+
+```apache
+<VirtualHost api.vigilantus.dev:80>
+    ServerName api.vigilantus.dev
+    DocumentRoot /var/www/vigilantus/api/web
     SetEnv VIGILANTUS_ENV development
     SetEnv VIGILANTUS_DB_DSN_HOST "pgsql:host=localhost"
     SetEnv VIGILANTUS_DB_DSN_DBNAME "dbname=vigilantus_development"
@@ -64,37 +82,39 @@ export GEARMAN_JOB_KEY='n2398n289fn2nf'
 Configure o seu arquivo `hosts`:
 
 ```
-127.0.0.1   vigilantus
+127.0.0.1 vigilantus
+127.0.0.1 api.vigilantus.dev
 ```
 
 IMPORTANTE: Reinicie o Apache.
 
 Rode as migrations com `php yii migrate`
 
-CONFIGURANDO O AMBIENTE DE PRODUÇÃO
------------------------------------------------------
+## CONFIGURANDO O AMBIENTE DE PRODUÇÃO
 
 Usando o [OpenShift RHC](https://www.openshift.com/developers/rhc-client-tools-install) faça:
 
 Adicionar variável de ambiente:
-```adicionar
-$ rhc set-env VIGILANTUS_REDIS_DB_PASSWORD="XXXXXXXX" -a vigilantus
-Setting environment variable(s) ... done
+
+```bash
+rhc set-env VIGILANTUS_REDIS_DB_PASSWORD="XXXXXXXX" -a vigilantus
+# Setting environment variable(s) ... done
 ```
 
 Listar as variáveis existentes:
-```listar
-$ rhc env list vigilantus
-VIGILANTUS_DB_DSN_HOST="pgsql:host=123-vigilantus.getup.io"
-VIGILANTUS_DB_DSN_DBNAME="dbname=vigilantus"
-VIGILANTUS_COOKIES_KEY=ASDF
-VIGILANTUS_DB_PASSWORD=ASDF
-VIGILANTUS_DB_USERNAME=ASDF
-VIGILANTUS_ENV=production
-VIGILANTUS_REDIS_DB_DATABASE=ASDF
-VIGILANTUS_REDIS_DB_PASSWORD=ASDF
-VIGILANTUS_REDIS_DB_PORT=QWER
-VIGILANTUS_REDIS_HOST=XyZ-vigilantus.getup.io
+
+```bash
+rhc env list vigilantus
+# VIGILANTUS_DB_DSN_HOST="pgsql:host=123-vigilantus.getup.io"
+# VIGILANTUS_DB_DSN_DBNAME="dbname=vigilantus"
+# VIGILANTUS_COOKIES_KEY=ASDF
+# VIGILANTUS_DB_PASSWORD=ASDF
+# VIGILANTUS_DB_USERNAME=ASDF
+# VIGILANTUS_ENV=production
+# VIGILANTUS_REDIS_DB_DATABASE=ASDF
+# VIGILANTUS_REDIS_DB_PASSWORD=ASDF
+# VIGILANTUS_REDIS_DB_PORT=QWER
+# VIGILANTUS_REDIS_HOST=XyZ-vigilantus.getup.io
 ```
 
 CONFIGURANDO O AMBIENTE DE TESTES
@@ -108,10 +128,10 @@ DEPLOY
 Veja uma [Introdução de deploy da getup](https://getupcloud.com/blog/deploy-e-rollback).
 
 Para fazer deploy manualmente, siga os seguintes passos:
-```
-deploy
-$ git clone ssh://536a900a99fc77c093000257@vigilantus-vigilantus.getup.io/~/git/vigilantus.git/ vigilantus-deploy
-$ git git remote add upstream git@git.perspectiva.in:perspectiva/vigilantus.git
-$ git pull upstream master
-$ git push
+
+```bash
+git clone ssh://536a900a99fc77c093000257@vigilantus-vigilantus.getup.io/~/git/vigilantus.git/ vigilantus-deploy
+git git remote add upstream git@git.perspectiva.in:perspectiva/vigilantus.git
+git pull upstream master
+git push
 ```
