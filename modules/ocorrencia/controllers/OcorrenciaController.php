@@ -11,6 +11,8 @@ use app\models\OcorrenciaStatus;
 use yii\data\ActiveDataProvider;
 use app\models\Ocorrencia;
 use yii\web\UploadedFile;
+use app\models\search\OcorrenciaHistoricoSearch;
+use app\models\OcorrenciaHistoricoTipo;
 
 class OcorrenciaController extends CRUDController
 {
@@ -30,11 +32,11 @@ class OcorrenciaController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante'],
+                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante'],
+                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes'],
                         'roles' => ['Usuario'],
                     ],
                 ],
@@ -207,5 +209,17 @@ class OcorrenciaController extends CRUDController
         return $this->render('//shared/comprovante-ocorrencia', [
             'model' => $model,
         ]);
+    }
+
+    public function actionVerAveriguacoes($id)
+    {
+        $searchModel = new OcorrenciaHistoricoSearch;
+
+        $dataProvider = $searchModel->search(['ocorrencia_id' => $id, 'tipo' => OcorrenciaHistoricoTipo::AVERIGUACAO]);
+
+        return $this->renderPartial(
+            '_averiguacoes',
+            ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
+        );
     }
 }

@@ -7,6 +7,7 @@ use app\models\OcorrenciaStatus;
 use app\models\OcorrenciaTipoProblema;
 use app\helpers\models\OcorrenciaHelper;
 use app\models\Configuracao;
+use yii\helpers\Url;
 
 $this->title = 'Ocorrências';
 $this->params['breadcrumbs'][] = $this->title;
@@ -72,6 +73,27 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                 'value' => function ($model, $index, $widget) {
                     return $model->bairro ? $model->bairro->nome : null;
                 }
+            ],
+            [
+                'class' => 'app\extensions\grid\ModalColumn',
+                'iconClass' => 'icon-search opacity50',
+                'modalId' => 'averiguacoes-detalhes',
+                'modalAjaxContent' => function ($model, $index, $widget) {
+                    return Url::toRoute(['ocorrencia/ver-averiguacoes', 'id' => $model->id]);
+                },
+                'requestType' => 'GET',
+                'header' => 'Averiguações',
+                'linkTitle' => 'Ver Averiguações',
+                'value' => function ($model, $index, $widget) {
+                    $quantidade = $model->quantidadeAveriguacoes;
+                    return $quantidade > 0  ? 'Ver (' . $quantidade . ')' : '';
+                },
+                'hideLinkExpression' => function ($model, $index, $widget) {
+                    return  $model->quantidadeAveriguacoes == 0;
+                },
+                'options' => [
+                    'width' => '10%',
+                ]
             ],
             [
                 'header' => 'Qtde. Dias em aberto',
