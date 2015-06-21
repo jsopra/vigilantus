@@ -31,6 +31,7 @@ use yii\db\Expression;
  * @property integer $bairro_quarteirao_id
  * @property string $hash_acesso_publico
  * @property string $data_fechamento
+ * @property string $numero_controle
  *
  * @property OcorrenciaHistorico[] $ocorrenciaHistoricos
  * @property Cliente $cliente
@@ -57,7 +58,7 @@ class Ocorrencia extends ClienteActiveRecord
 	{
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
-			[['data_criacao', 'data_fechamento', 'telefone'], 'safe'],
+			[['data_criacao', 'data_fechamento', 'telefone', 'numero_controle'], 'safe'],
 			[['cliente_id', 'bairro_id', 'endereco', 'mensagem', 'tipo_imovel'], 'required'],
 			[['cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'ocorrencia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
             ['hash_acesso_publico', 'unique', 'when' => function($model, $attribute) {
@@ -101,6 +102,7 @@ class Ocorrencia extends ClienteActiveRecord
 			'bairro_quarteirao_id' => 'Quarteirão',
             'hash_acesso_publico' => 'Protocolo',
             'data_fechamento' => 'Data de Fechamento',
+            'numero_controle' => 'Número de Controle',
 		];
 	}
 

@@ -12,6 +12,12 @@ use yii\web\JsExpression;
 
 <div class="row">
     <div class="col-xs-4">
+        <?= $form->field($model, 'numero_controle'); ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-4">
         <?= Html::activeLabel($model, 'bairro_id'); ?>
         <p class="form-control-static"><?= Html::encode($model->bairro->nome) ?></p>
     </div>
