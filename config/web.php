@@ -135,7 +135,7 @@ $config = [
         ],
     ],
     'modules' => [
-        'denuncia' => ['class' => 'app\modules\denuncia\Module'],
+        'ocorrencia' => ['class' => 'app\modules\ocorrencia\Module'],
         'api-v1' => ['class' => 'app\api\v1\Module'],
     ],
     'params' => $params,

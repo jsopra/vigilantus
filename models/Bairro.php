@@ -185,7 +185,7 @@ class Bairro extends ClienteActiveRecord
             $registro->delete();
         }
 
-        foreach (Denuncia::find()->where('bairro_id = :bairro', [':bairro' => $this->id])->all() as $registro) {
+        foreach (Ocorrencia::find()->where('bairro_id = :bairro', [':bairro' => $this->id])->all() as $registro) {
             $registro->bairro_id = null;
             $registro->save();
         }
@@ -195,11 +195,11 @@ class Bairro extends ClienteActiveRecord
     {
         $cacheKey = 'bairro_centro_' . $this->id;
         $data = Yii::$app->cache->get($cacheKey);
-/*
+
         if($data !== false) {
             return $data;
         }
-*/
+
         $object = self::find()
             ->select('ST_asText(ST_Centroid(coordenadas_area)) as centro')
             ->where(['id' => $this->id])

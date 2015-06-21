@@ -14,11 +14,11 @@ class VigilantusLayoutHelper {
 
         return [
             [
-                'label' => 'Denúncias',
+                'label' => 'Ocorrências',
                 'icon' => 'bullhorn',
-                'url' => ['/denuncia/denuncia/index'],
-                'visible' =>  $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA) && !$user->can('Analista'),
-                'options' => ['id' => 'stepguide-denuncias'],
+                'url' => ['/ocorrencia/ocorrencia/index'],
+                'visible' =>  $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && !$user->can('Analista'),
+                'options' => ['id' => 'stepguide-ocorrencias'],
             ],
             [
                 'label' => 'Focos',
@@ -86,10 +86,10 @@ class VigilantusLayoutHelper {
                     ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/'], 'options' => ['id' => 'step-cadastro-especieis-transmissores']],
                     ['label' => 'Pontos Estratégicos', 'url' => ['/ponto-estrategico/'], 'options' => ['id' => 'step-pontos-estrategicos']],
                     ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/'], 'options' => ['id' => 'step-cadastro-tipos-imoveis']],
-                    ['label' => 'Termos de Rede Social', 'url' => ['/denuncia/social-hashtag/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA), 'options' => ['id' => 'stepguide-denuncias-rs-hashtag']],
-                    ['label' => 'Contas de Rede Social', 'url' => ['/denuncia/social-account/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA), 'options' => ['id' => 'stepguide-denuncias-rs-contas']],
+                    ['label' => 'Termos de Rede Social', 'url' => ['/ocorrencia/social-hashtag/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA), 'options' => ['id' => 'stepguide-ocorrencias-rs-hashtag']],
+                    ['label' => 'Contas de Rede Social', 'url' => ['/ocorrencia/social-account/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA), 'options' => ['id' => 'stepguide-ocorrencias-rs-contas']],
                     ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/'], 'options' => ['id' => 'step-cadastro-tipos-deposito']],
-                    ['label' => 'Tipo de Problema em Denúncia', 'url' => ['/denuncia/denuncia-tipo-problema/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)],
+                    ['label' => 'Tipo de Problema em Ocorrência', 'url' => ['/ocorrencia/ocorrencia-tipo-problema/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)],
                 ],
                 'options' => ['class' => 'step-cadastro'],
             ],

@@ -13,9 +13,9 @@ use app\components\ActiveRecord;
  * @property string $data_cadastro
  * @property string $data_atualizacao
  */
-class Modulo extends ActiveRecord 
+class Modulo extends ActiveRecord
 {
-	const MODULO_DENUNCIA = 1;
+	const MODULO_OCORRENCIA = 1;
 	const MODULO_VISITACAO = 2;
 
 	/**
