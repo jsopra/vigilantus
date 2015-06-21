@@ -16,6 +16,7 @@ class DenunciaStatus
 	const AUTO_INTIMACAO = 11;
 	const ENCAMINHADO_PARA_SERVICO_URBANO = 12;
 	const REPROVADA = 13;
+	const AGRICULTURA = 14;
 
 	public static function getDescricoes()
 	{
@@ -33,6 +34,7 @@ class DenunciaStatus
 			self::AUTO_INTIMACAO => 'Auto de intimação',
 			self::ENCAMINHADO_PARA_SERVICO_URBANO => 'Enc. para Serv. Urb.',
 			self::REPROVADA => 'Reprovada',
+			self::AGRICULTURA => 'Agricultura',
 		];
 	}
 
@@ -88,6 +90,7 @@ class DenunciaStatus
 					self::EXTREVIADA => self::getDescricao(self::EXTREVIADA),
 					self::NAO_ENCONTRADO => self::getDescricao(self::NAO_ENCONTRADO),
 					self::SOLICIONADO => self::getDescricao(self::SOLICIONADO),
+					self::AGRICULTURA => self::getDescricao(self::AGRICULTURA),
 				];
 				break;
 			}
