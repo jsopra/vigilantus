@@ -19,7 +19,7 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
 MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omnivore', 'markercluster']);
 ?>
 
-<?= $this->render('_cidadeHeader', ['municipio' => $municipio, 'cliente' => $cliente, 'button' => '_buttonOcorrencia']); ?>
+<?= $this->render('_cidadeHeader', ['municipio' => $municipio, 'cliente' => $cliente, 'button' => '_buttonDenunciar']); ?>
 
 <div class="panel panel-default" style="margin-top: 2.5em;">
 
