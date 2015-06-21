@@ -4,10 +4,10 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 ?>
 
-<form class="form-inline" action="/cidade/acompanhar-denuncia" method="get">
+<form class="form-inline" action="/cidade/acompanhar-ocorrencia" method="get">
     <div class="form-group">
         <input type="hidden" name="id" value="<?= $cliente->id; ?>" />
-        <input type="text" class="form-control" name="hash" placeholder="Nº Protocolo da Denúncia" />
+        <input type="text" class="form-control" name="hash" placeholder="Nº Protocolo da Ocorrência" />
     <div class="form-group">
     </div>
         <button id="enviar" class="btn btn-flat info">Acompanhar</button>

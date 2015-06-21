@@ -371,7 +371,7 @@ class BairroQuarteirao extends ClienteActiveRecord
             $registro->delete();
         }
 
-        foreach (Denuncia::find()->where('bairro_quarteirao_id = :quarteirao', [':quarteirao' => $this->id])->all() as $registro) {
+        foreach (Ocorrencia::find()->where('bairro_quarteirao_id = :quarteirao', [':quarteirao' => $this->id])->all() as $registro) {
             $registro->bairro_quarteirao_id = null;
             $registro->save();
         }

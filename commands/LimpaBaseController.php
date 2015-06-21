@@ -3,8 +3,8 @@ namespace app\commands;
 
 use Yii;
 use app\components\Console;
-use app\models\Denuncia;
-use app\models\DenunciaHistorico;
+use app\models\Ocorrencia;
+use app\models\OcorrenciaHistorico;
 use yii\console\Controller;
 
 class LimpaBaseController extends Console
@@ -29,19 +29,19 @@ class LimpaBaseController extends Console
         return Controller::EXIT_CODE_NORMAL;
     }
 
-    public function actionDenuncias($iddenuncia)
+    public function actionOcorrencias($idocorrencia)
     {
-        $denuncia = Denuncia::find()->andWhere(['id' => $iddenuncia])->one();
-        if(!$denuncia) {
+        $ocorrencia = Ocorrencia::find()->andWhere(['id' => $idocorrencia])->one();
+        if(!$ocorrencia) {
             return Controller::EXIT_CODE_NORMAL;
         }
 
-        $historicos = $denuncia->denunciaHistoricos;
+        $historicos = $ocorrencia->ocorrenciaHistoricos;
         foreach($historicos as $historico) {
             $historico->delete();
         }
 
-        $denuncia->delete();
+        $ocorrencia->delete();
 
         return Controller::EXIT_CODE_NORMAL;
     }

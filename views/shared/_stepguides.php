@@ -40,12 +40,12 @@ use yii\widgets\ActiveForm;
                             </ul>
                         </li>
                     <?php endif; ?>
-                    <?php if(!\Yii::$app->user->can('Analista') && \Yii::$app->user->getIdentity()->moduloIsHabilitado(\app\models\Modulo::MODULO_DENUNCIA)) : ?>
+                    <?php if(!\Yii::$app->user->can('Analista') && \Yii::$app->user->getIdentity()->moduloIsHabilitado(\app\models\Modulo::MODULO_OCORRENCIA)) : ?>
                         <li>
-                            <a href="#" data-step-type="denuncias">Denúncias</a>
+                            <a href="#" data-step-type="ocorrencias">Ocorrências</a>
                             <?php if(\Yii::$app->user->can('Gerente')) : ?>
                                 <ul>
-                                    <li><a href="#" data-step-type="denuncias-social">Denúncias em Redes Sociais</a></li>
+                                    <li><a href="#" data-step-type="ocorrencias-social">Ocorrências em Redes Sociais</a></li>
                                 </ul>
                             <?php endif; ?>
                         </li>

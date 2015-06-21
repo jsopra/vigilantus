@@ -31,10 +31,10 @@ echo Nav::widget([
             'options' => ['id' => 'rg']
         ],
         [
-            'label' => 'Denúncias',
-            'url' => ['site/resumo-denuncias'],
-            'options' => ['id' => 'denuncias'],
-            'visible' => \Yii::$app->user->can('Gerente') && \Yii::$app->user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_DENUNCIA),
+            'label' => 'Ocorrências',
+            'url' => ['site/resumo-ocorrencias'],
+            'options' => ['id' => 'ocorrencias'],
+            'visible' => \Yii::$app->user->can('Gerente') && \Yii::$app->user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA),
         ],
         [
             'label' => 'Focos',

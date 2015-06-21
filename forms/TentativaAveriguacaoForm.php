@@ -4,16 +4,16 @@ namespace app\forms;
 
 use Yii;
 use yii\base\Model;
-use app\models\Denuncia;
-use app\models\DenunciaHistorico;
-use app\models\DenunciaHistoricoTipo;
+use app\models\Ocorrencia;
+use app\models\OcorrenciaHistorico;
+use app\models\OcorrenciaHistoricoTipo;
 use app\models\Configuracao;
-use app\models\DenunciaStatus;
+use app\models\OcorrenciaStatus;
 
 class TentativaAveriguacaoForm extends Model
 {
     public $cliente_id;
-    public $denuncia_id;
+    public $ocorrencia_id;
     public $agente_id;
     public $data;
     public $observacoes;
@@ -26,8 +26,8 @@ class TentativaAveriguacaoForm extends Model
     public function rules()
     {
         return [
-            [['denuncia_id', 'agente_id', 'cliente_id', 'usuario_id', 'data'], 'required'],
-            [['denuncia_id', 'agente_id', 'cliente_id', 'usuario_id'], 'integer'],
+            [['ocorrencia_id', 'agente_id', 'cliente_id', 'usuario_id', 'data'], 'required'],
+            [['ocorrencia_id', 'agente_id', 'cliente_id', 'usuario_id'], 'integer'],
             [['observacoes', 'fechou_visita'], 'safe'],
         ];
     }
@@ -38,7 +38,7 @@ class TentativaAveriguacaoForm extends Model
     public function attributeLabels()
     {
         return [
-            'denuncia_id' => 'Denúncia',
+            'ocorrencia_id' => 'Ocorrência',
             'agente_id' => 'Agente',
             'cliente_id' => 'Cliente',
             'data' => 'Data da Averiguação',
@@ -53,7 +53,7 @@ class TentativaAveriguacaoForm extends Model
      */
     public function save()
     {
-        $transaction = Denuncia::getDb()->beginTransaction();
+        $transaction = Ocorrencia::getDb()->beginTransaction();
 
         try {
 
@@ -62,17 +62,17 @@ class TentativaAveriguacaoForm extends Model
                 return false;
             }
 
-            $denuncia = Denuncia::find()->andWhere(['id' => $this->denuncia_id])->one();
-            if(!$denuncia) {
+            $ocorrencia = Ocorrencia::find()->andWhere(['id' => $this->ocorrencia_id])->one();
+            if(!$ocorrencia) {
                 $transaction->rollback();
                 return false;
             }
 
-            $historico = new DenunciaHistorico;
+            $historico = new OcorrenciaHistorico;
             $historico->cliente_id = $this->cliente_id;
-            $historico->denuncia_id = $denuncia->id;
+            $historico->ocorrencia_id = $ocorrencia->id;
             $historico->data_associada = $this->data;
-            $historico->tipo = DenunciaHistoricoTipo::AVERIGUACAO;
+            $historico->tipo = OcorrenciaHistoricoTipo::AVERIGUACAO;
             $historico->observacoes = $this->observacoes;
             $historico->usuario_id = $this->usuario_id;
             $historico->agente_id = $this->agente_id;
@@ -84,17 +84,17 @@ class TentativaAveriguacaoForm extends Model
                 return false;
             }
 
-            $denuncia->refresh();
+            $ocorrencia->refresh();
 
-            $qtdeAveriguacoesEncerraDenuncia = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_TENTATIVAS_VISITACAO, $this->cliente_id);
+            $qtdeAveriguacoesEncerraOcorrencia = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_TENTATIVAS_VISITACAO, $this->cliente_id);
 
-            if($denuncia->quantidadeAveriguacoes == $qtdeAveriguacoesEncerraDenuncia) {
+            if($ocorrencia->quantidadeAveriguacoes == $qtdeAveriguacoesEncerraOcorrencia) {
 
-                $denuncia->scenario = 'trocaStatus';
-                $denuncia->usuario_id = $this->usuario_id;
-                $denuncia->status = DenunciaStatus::FECHADO;
+                $ocorrencia->scenario = 'trocaStatus';
+                $ocorrencia->usuario_id = $this->usuario_id;
+                $ocorrencia->status = OcorrenciaStatus::FECHADO;
 
-                $saved = $denuncia->save();
+                $saved = $ocorrencia->save();
 
                 $this->fechou_visita = true;
             }

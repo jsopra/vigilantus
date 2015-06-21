@@ -6,13 +6,13 @@ use app\components\Controller;
 use app\models\Cliente;
 use app\models\Configuracao;
 use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
-use app\models\Denuncia;
+use app\models\Ocorrencia;
 use app\models\Modulo;
 use app\models\FocoTransmissor;
 use yii\web\UploadedFile;
-use app\helpers\models\DenunciaHelper;
+use app\helpers\models\OcorrenciaHelper;
 use yii\data\ActiveDataProvider;
-use app\models\DenunciaHistorico;
+use app\models\OcorrenciaHistorico;
 use yii\helpers\Json;
 
 class CidadeController extends Controller
@@ -24,8 +24,8 @@ class CidadeController extends Controller
             throw new \Exception('Município não localizado');
         }
 
-        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
-            throw new \Exception('Município não utiliza denúncias');
+        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
+            throw new \Exception('Município não utiliza ocorrências');
         }
 
         Yii::$app->session->set('user.cliente', $cliente);
@@ -40,20 +40,20 @@ class CidadeController extends Controller
         );
     }
 
-    public function actionDenunciar($id)
+    public function actionRegistrarOcorrencia($id)
     {
         $cliente = Cliente::find()->andWhere(['id' => $id])->one();
         if(!$cliente) {
             throw new \Exception('Município não localizado');
         }
 
-        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
-            throw new \Exception('Município não utiliza denúncias');
+        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
+            throw new \Exception('Município não utiliza ocorrências');
         }
 
         Yii::$app->session->set('user.cliente', $cliente);
 
-        $model = new Denuncia();
+        $model = new Ocorrencia;
 
         if (Yii::$app->request->post()) {
 
@@ -71,21 +71,21 @@ class CidadeController extends Controller
                 if ($model->save()) {
 
                     if($model->file) {
-                        $model->file->saveAs(DenunciaHelper::getUploadPath() . $model->anexo);
+                        $model->file->saveAs(OcorrenciaHelper::getUploadPath() . $model->anexo);
                     }
 
-                    Yii::$app->session->setFlash('success', 'Denúncia realizada com sucesso. Você será notificado quando a denúncia for avaliada.');
+                    Yii::$app->session->setFlash('success', 'Ocorrência enviada com sucesso. Você será notificado quando ela for avaliada.');
 
-                    return $this->redirect(['cidade/acompanhar-denuncia', 'id' => $id, 'hash' => $model->hash_acesso_publico]);
+                    return $this->redirect(['cidade/acompanhar-ocorrencia', 'id' => $id, 'hash' => $model->hash_acesso_publico]);
                 }
                 else {
-                    Yii::$app->session->setFlash('error', 'Erro ao salvar a denúncia.');
+                    Yii::$app->session->setFlash('error', 'Erro ao salvar a ocorrência.');
                 }
             }
         }
 
         return $this->render(
-            'denuncia',
+            'ocorrencia',
             [
                 'cliente' => $cliente,
                 'municipio' => $cliente->municipio,
@@ -94,30 +94,30 @@ class CidadeController extends Controller
         );
     }
 
-    public function actionAcompanharDenuncia($id, $hash)
+    public function actionAcompanharOcorrencia($id, $hash)
     {
         $cliente = Cliente::find()->andWhere(['id' => $id])->one();
         if(!$cliente) {
             throw new \yii\web\HttpException(400, 'Município não localizado', 405);
         }
 
-        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
-            throw new \yii\web\HttpException(400, 'Município não utiliza denúncias', 405);
+        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
+            throw new \yii\web\HttpException(400, 'Município não utiliza ocorrências', 405);
         }
 
         Yii::$app->session->set('user.cliente', $cliente);
 
-        $model = Denuncia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
+        $model = Ocorrencia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
         if(!$model) {
-            throw new \yii\web\HttpException(400, 'Denúncia não localizada', 405);
+            throw new \yii\web\HttpException(400, 'Ocorrência não localizada', 405);
         }
 
         $dataProvider = new ActiveDataProvider([
-            'query' => DenunciaHistorico::find()->daDenuncia($model->id),
+            'query' => OcorrenciaHistorico::find()->daOcorrencia($model->id),
         ]);
 
         return $this->render(
-            'acompanhar-denuncia',
+            'acompanhar-ocorrencia',
             [
                 'cliente' => $cliente,
                 'municipio' => $cliente->municipio,
@@ -134,8 +134,8 @@ class CidadeController extends Controller
             throw new \Exception('Município não localizado');
         }
 
-        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
-            throw new \Exception('Município não utiliza denúncias');
+        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
+            throw new \Exception('Município não utiliza ocorrências');
         }
 
         Yii::$app->session->set('user.cliente', $cliente);
@@ -150,8 +150,8 @@ class CidadeController extends Controller
             throw new \Exception('Município não localizado');
         }
 
-        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_DENUNCIA)) {
-            throw new \Exception('Município não utiliza denúncias');
+        if(!$cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
+            throw new \Exception('Município não utiliza ocorrências');
         }
 
         Yii::$app->session->set('user.cliente', $cliente);
@@ -159,16 +159,16 @@ class CidadeController extends Controller
         echo Json::encode(['coordenadaNaCidade' => $cliente->municipio->coordenadaNaCidade($lat, $lon)]);
     }
 
-    public function actionComprovanteDenuncia($id, $hash)
+    public function actionComprovanteOcorrencia($id, $hash)
     {
-        $model = Denuncia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
+        $model = Ocorrencia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
         if(!$model) {
-            throw new \yii\web\HttpException(400, 'Denúncia não localizada', 405);
+            throw new \yii\web\HttpException(400, 'Ôcorrência não localizada', 405);
         }
 
         Yii::$app->response->format = 'pdf';
         $this->layout = '//print';
-        return $this->render('//shared/comprovante-denuncia', [
+        return $this->render('//shared/comprovante-ocorrencia', [
             'model' => $model,
         ]);
     }

@@ -34,8 +34,8 @@ if(isset($_GET['step'])) {
             if(isAnalista == "0" && isGerente == "1") {
                 stepsOptions.push(
                     {
-                        element: "#denuncias",
-                        intro: "Você pode rapidamente avaliar problemas de atendimento em denúncias"
+                        element: "#ocorrencias",
+                        intro: "Você pode rapidamente avaliar problemas de atendimento em ocorrências"
                     }
                 );
             }
