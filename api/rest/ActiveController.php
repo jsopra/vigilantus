@@ -39,6 +39,7 @@ class ActiveController extends \yii\rest\ActiveController
                 'Access-Control-Request-Method' => ['GET', 'HEAD', 'POST', 'OPTIONS'],
                 'Access-Control-Allow-Credentials' => true,
                 'Access-Control-Expose-Headers' => [
+                    'Link',
                     'X-Pagination-Current-Page',
                     'X-Pagination-Page-Count',
                     'X-Pagination-Per-Page',
