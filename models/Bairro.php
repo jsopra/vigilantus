@@ -158,6 +158,16 @@ class Bairro extends ClienteActiveRecord
     }
 
     /**
+     * @return array campos exibidos na API
+     */
+    public function fields()
+    {
+        return [
+            'id', 'nome',
+        ];
+    }
+
+    /**
      * Valida e carrega json de coordenadas em campo postgis
      * @return boolean
      */

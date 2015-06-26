@@ -50,7 +50,7 @@ return [
             ],
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\Usuario',
             'enableAutoLogin' => false,
             'enableSession' => false,
             'loginUrl' => null,
