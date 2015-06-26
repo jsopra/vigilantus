@@ -38,6 +38,12 @@ class ActiveController extends \yii\rest\ActiveController
                 'Access-Control-Request-Headers' => ['Accept', 'Authorization', 'Content-Type', 'WWW-Authenticate'],
                 'Access-Control-Request-Method' => ['GET', 'HEAD', 'POST', 'OPTIONS'],
                 'Access-Control-Allow-Credentials' => true,
+                'Access-Control-Expose-Headers' => [
+                    'X-Pagination-Current-Page',
+                    'X-Pagination-Page-Count',
+                    'X-Pagination-Per-Page',
+                    'X-Pagination-Total-Count',
+                ],
             ],
         ];
 
