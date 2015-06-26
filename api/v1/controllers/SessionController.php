@@ -3,8 +3,6 @@ namespace api\v1\controllers;
 
 use api\models\Session;
 use Yii;
-use yii\filters\AccessControl;
-use yii\filters\auth\HttpBearerAuth;
 use yii\filters\ContentNegotiator;
 use yii\rest\Controller;
 use yii\web\Response;
