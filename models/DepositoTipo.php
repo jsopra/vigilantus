@@ -68,6 +68,16 @@ class DepositoTipo extends ClienteActiveRecord
 		];
 	}
 
+    /**
+     * @return array campos disponíveis na API
+     */
+    public function fields()
+    {
+        return [
+            'id', 'descricao', 'sigla',
+        ];
+    }
+
 	/**
 	 * @return \yii\db\ActiveRelation
 	 */

@@ -112,6 +112,17 @@ class BairroQuarteirao extends ClienteActiveRecord
 		];
 	}
 
+    /**
+     * @return array campos disponíveis na API
+     */
+    public function fields()
+    {
+        return [
+            'id', 'bairro_id', 'municipio_id', 'numero_quarteirao',
+            'numero_quarteirao_2', 'seq',
+        ];
+    }
+
 	/**
 	 * @return \yii\db\ActiveRelation
 	 */

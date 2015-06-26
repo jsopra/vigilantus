@@ -45,7 +45,12 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => ['v1/session', 'v1/bairro'],
+                    'controller' => [
+                        'v1/bairro',
+                        'v1/quarteiroes' => 'v1/bairro-quarteirao',
+                        'v1/session',
+                        'v1/tipos-depositos' => 'v1/deposito-tipo',
+                    ],
                 ]
             ],
         ],
