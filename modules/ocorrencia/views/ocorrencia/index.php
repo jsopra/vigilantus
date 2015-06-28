@@ -33,6 +33,16 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                         'id' => 'stepguide-create-ocorrencia',
                     ]
                 );
+            },
+            'batch' => function() {
+                return Html::a(
+                    'Importar Arquivo de Ocorrências',
+                    Url::to(['batch']),
+                    [
+                        'class' => 'btn btn-flat success',
+                        'id' => 'stepguide-create-carga-ocorrencias',
+                    ]
+                );
             }
         ],
 		'columns' => [
