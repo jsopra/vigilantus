@@ -117,7 +117,7 @@ $config = [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => ['v1/session'],
+                    'controller' => ['api-v1/session'],
                 ],
             ],
         ],
@@ -136,7 +136,7 @@ $config = [
     ],
     'modules' => [
         'ocorrencia' => ['class' => 'app\modules\ocorrencia\Module'],
-        'api-v1' => ['class' => 'app\api\v1\Module'],
+        'api-v1' => ['class' => 'app\modules\api\v1\Module'],
     ],
     'params' => $params,
 ];
