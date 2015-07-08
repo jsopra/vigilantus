@@ -2,7 +2,7 @@
 use app\models\Cliente;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\widgets\Select2;
+use kartik\select2\Select2;
 use app\models\Municipio;
 use yii\widgets\MaskedInput;
 ?>

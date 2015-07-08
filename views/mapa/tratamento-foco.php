@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use app\helpers\MapHelper;
 use perspectivain\mapbox\MapBoxAPIHelper;
 use yii\widgets\ActiveForm;
-use kartik\widgets\Select2;
+use kartik\select2\Select2;
 use app\models\FocoTransmissor;
 use yii\web\JsExpression;
 use Yii\helpers\Url;
