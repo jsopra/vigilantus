@@ -8,7 +8,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use kartik\widgets\Select2;
+use kartik\select2\Select2;
 
 /**
  * @var yii\web\View $this

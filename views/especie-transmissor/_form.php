@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\widgets\ColorInput;
-use kartik\widgets\Select2;
+use kartik\color\ColorInput;
+use kartik\select2\Select2;
 
 /**
  * @var yii\web\View $this
