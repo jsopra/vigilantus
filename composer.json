@@ -8,7 +8,7 @@
         "kartik-v/yii2-widget-select2": "v1.0.1",
         "kartik-v/yii2-widget-colorinput": "dev-master",
         "2amigos/yii2-ckeditor-widget" : "*",
-        "phpoffice/phpexcel": "dev-develop",
+        "phpoffice/phpexcel": "dev-master",
         "yiisoft/yii2-redis": "*",
         "yiisoft/yii2-imagine": "*",
         "perspectivain/php-postgis": "dev-master",
