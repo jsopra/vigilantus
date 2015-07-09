@@ -7,7 +7,7 @@
 		"yiisoft/yii2-swiftmailer": "*",
         "kartik-v/yii2-widgets": "dev-master",
         "2amigos/yii2-ckeditor-widget" : "*",
-        "phpoffice/phpexcel": "dev-develop",
+        "phpoffice/phpexcel": "dev-master",
         "yiisoft/yii2-redis": "*",
         "yiisoft/yii2-imagine": "*",
         "perspectivain/php-postgis": "dev-master",
