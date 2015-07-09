@@ -7,12 +7,13 @@ use app\models\EspecieTransmissor;
 use app\models\FocoTransmissor;
 use app\models\ImovelTipo;
 use app\helpers\models\ImovelHelper;
-use kartik\widgets\Select2;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
+use yii\base\View;
 ?>
 
 <div class="foco-transmissor-form">
