@@ -87,8 +87,6 @@ class FocosExcelReport extends Model
         $sheet = $objPHPExcel->getActiveSheet();
 
         //cabeçalho: logo, texto prefeitura
-        $linha = 1;
-
         if($municipio->brasao) {
             $path = MunicipioHelper::getBrasaoPath($municipio, true);
             $objDrawing = new \PHPExcel_Worksheet_MemoryDrawing();
@@ -147,29 +145,22 @@ class FocosExcelReport extends Model
             $coluna++;
         }
 
-        $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getFont()->setBold(true);
-        $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getBorders()->getAllBorders()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+        for($i = 1; $i <= $linha; $i++) {
 
-        $letraColuna = \PHPExcel_Cell::stringFromColumnIndex($coluna - 1);
+            $letra = $i == $linha -1 ? 'A' : 'B';
 
-        $linhaMerge = $linha;
+            $sheet->getStyle("{$letra}{$i}:{$letraColuna}{$i}")->getFont()->setBold(true);
 
-        while($linhaMerge > 0) {
-
-            $linhaMerge = $linhaMerge -1;
-
-            $letra = $linhaMerge == $linha - 1 ? 'A' : 'B';
-
-            $sheet->mergeCells("{$letra}{$linhaMerge}:{$letraColuna}{$linhaMerge}");
-            $sheet->getStyle("{$letra}{$linhaMerge}:{$letraColuna}{$linhaMerge}")->getFont()->setBold(true);
+            if($i < $linha) {
+                $sheet->mergeCells("{$letra}{$i}:{$letraColuna}{$i}");
+            } else {
+                $sheet->getStyle("A{$i}:{$letraColuna}{$i}")->getBorders()->getAllBorders()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+            }
 
             if($letra == 'A') {
-                $sheet->getStyle("{$letra}{$linhaMerge}:{$letraColuna}{$linhaMerge}")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyle("{$letra}{$i}:{$letraColuna}{$i}")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             }
         }
-
-        unset($linhaMerge);
 
         //registros
         $rows = $model->all();
@@ -205,7 +196,7 @@ class FocosExcelReport extends Model
         //linha com municipio, data_extração
         $linha++;
         $linha++;
-        $letraColuna = \PHPExcel_Cell::stringFromColumnIndex($coluna);
+        $letraColuna = \PHPExcel_Cell::stringFromColumnIndex($coluna -1);
         $sheet->setCellValue('A' . $linha, ($municipio->nome . '/' . $municipio->sigla_estado . ', ' . date('d/m/Y')));
         $sheet->mergeCells("A{$linha}:{$letraColuna}{$linha}");
         $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getFont()->setBold(true);
