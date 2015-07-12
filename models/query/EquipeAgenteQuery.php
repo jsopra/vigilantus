@@ -15,4 +15,10 @@ class EquipeAgenteQuery extends ActiveQuery
         $this->andWhere('id <> :quenao', [':quenao' => $id]);
         return $this;
     }
+
+    public function doNome($nome)
+    {
+        $this->andWhere('nome = :nome', [':nome' => trim($nome)]);
+        return $this;
+    }
 }

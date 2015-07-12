@@ -15,6 +15,16 @@ use yii\helpers\Url;
 
 	<?php $form = ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data']]); ?>
 
+        <p style="color: #797979;"><strong>Controle interno</strong></p>
+
+        <div class="row" id="dadosPrincipais">
+            <div class="col-xs-4">
+                <?= $form->field($model, 'numero_controle'); ?>
+            </div>
+        </div>
+
+        <hr />
+
         <p style="color: #797979;"><strong>Objeto da ocorrência</strong></p>
 
         <div class="row" id="dadosPrincipais">

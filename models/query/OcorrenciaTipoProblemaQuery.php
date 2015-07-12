@@ -11,4 +11,10 @@ class OcorrenciaTipoProblemaQuery extends ActiveQuery
 		$this->andWhere('ativo IS TRUE');
         return $this;
 	}
+
+    public function comNome($nome)
+    {
+        $this->andWhere("nome ILIKE '%" . trim($nome) . "%'");
+        return $this;
+    }
 }
