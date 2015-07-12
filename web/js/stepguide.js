@@ -300,9 +300,18 @@ $(document).ready(function(){
     $('a[data-step-type="ocorrencias"]').click(function(){
 
         $('#stepguideModal').modal('hide');
+        $('li.step-indicadores').children('a').trigger('click');
 
         intro.setOptions({
             steps: [
+                {
+                    element: "li.step-indicadores",
+                    intro: "Os indicadores permitem a você ter uma visão sintética sobre diferentes contextos"
+                },
+                {
+                    element: "#stepguide-indicadores-ocorrencias",
+                    intro: "Um conjunto de gráficos que detalham a situação de Ocorrências em seu Município"
+                },
                 {
                     element: "#stepguide-ocorrencias",
                     intro: "Você pode gerenciar todas as ocorrências recebidas ou cadastradas no sistema"
@@ -361,7 +370,7 @@ $(document).ready(function(){
             stepsOptions.push(
                 {
                     element: "#stepguide-focos",
-                    intro: "Após inserir alguns focos pela ferramenta, você já pode visualizar diferentes relatórios, mapas e indicadores de focos"
+                    intro: "Após inserir alguns focos pela ferramenta, você já pode visualizar diferentes relatórios, mapas e indicadores"
                 }
             );
         }
@@ -407,23 +416,11 @@ $(document).ready(function(){
                 },
                 {
                     element: "li.step-indicadores",
-                    intro: "Os indicadores de foco permitem a você ter uma visão sintética sobre a situação de focos em seu Município"
+                    intro: "Os indicadores de foco permitem a você ter uma visão sintética sobre diferentes contextos"
                 },
                 {
-                    element: "#stepguide-indicadores-focos-ano",
-                    intro: "Um gráfico que fornece a você a quantidade de focos em cada um dos últimos anos"
-                },
-                {
-                    element: "#stepguide-indicadores-evolucao-focos",
-                    intro: "Um gráfico que fornece a você a evolução de focos mês a mês durante um ano"
-                },
-                {
-                    element: "#stepguide-indicadores-focos-bairro",
-                    intro: "Um gráfico que fornece a você a visão de número de focos por bairro em um ano"
-                },
-                {
-                    element: "#stepguide-indicadores-focos-tipo-deposito",
-                    intro: "Um gráfico que fornece a você a visão de número de focos por tipo de depósito em um ano"
+                    element: "#stepguide-indicadores-focos",
+                    intro: "Um conjunto de gráficos que detalham a situação de focos em seu Município"
                 }
             ]),
             tooltipPosition: 'auto'

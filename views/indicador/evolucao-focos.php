@@ -9,9 +9,15 @@ $this->title = 'Evolução de Focos por Mês';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
+<?php echo $this->render('_menuIndicadoresFocos', []); ?>
+
+<br />
+
 <div class="mapa-area-tratamento-index" data-role="modal-grid">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2><?= Html::encode($this->title) ?></h2>
+
+    <br />
 
     <div class="form well">
         <?php $form = ActiveForm::begin([

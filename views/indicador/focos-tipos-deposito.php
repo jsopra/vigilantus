@@ -9,9 +9,15 @@ $this->title = 'Focos por Tipo de Depósito';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
+<?php echo $this->render('_menuIndicadoresFocos', []); ?>
+
+<br />
+
 <div class="mapa-area-tratamento-index" data-role="modal-grid">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2><?= Html::encode($this->title) ?></h2>
+
+    <br />
 
     <div class="form well">
         <?php $form = ActiveForm::begin([
@@ -23,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-xs-3">
                     <?= $form->field($model, 'especie_transmissor_id')->dropDownList(EspecieTransmissor::listData('nome'), ['prompt' => 'Todas']) ?>
                 </div>
-            
+
                 <div class="col-xs-3">
                     <?= $form->field($model, 'ano')->input('number') ?>
                 </div>

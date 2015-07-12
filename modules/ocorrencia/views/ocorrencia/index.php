@@ -65,6 +65,7 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
             ],
             [
                 'attribute' => 'data_fechamento',
+                'header' => 'Fechamento',
                 'filter' => ['0' => 'Aberto', '1' => 'Fechado'],
                 'value' => function ($model, $index, $widget) {
                     return $model->getFormattedAttribute('data_fechamento');
@@ -169,6 +170,10 @@ if(isset($_GET['step'])) {
                     {
                         element: "#stepguide-create-ocorrencia",
                         intro: "Você pode transcrever uma ocorrência recebida por uma forma não automatizada"
+                    },
+                    {
+                        element: "#stepguide-create-carga-ocorrencias",
+                        intro: "Ou também fazer uma carga de ocorrências no sistema"
                     },
                     {
                         element: "thead",

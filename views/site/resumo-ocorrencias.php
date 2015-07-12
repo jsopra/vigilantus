@@ -14,4 +14,5 @@ $this->title = 'Resumo de Indicadores';
     'qtdeVerde' => $qtdeVerde,
     'qtdeAmarelo' => $qtdeAmarelo,
     'qtdeVermelho' => $qtdeVermelho,
+    'resumo' => $modelResumo,
 ], true); ?>

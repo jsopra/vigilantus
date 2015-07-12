@@ -23,6 +23,7 @@ use app\components\SocialLoginHandler;
 use yii\helpers\Url;
 use app\models\Ocorrencia;
 use app\models\Configuracao;
+use app\models\indicador\OcorrenciasResumoReport;
 
 class SiteController extends Controller
 {
@@ -109,6 +110,9 @@ class SiteController extends Controller
         $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
         $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
 
+        $modelResumo = new OcorrenciasResumoReport;
+        $modelResumo->ano = date('Y');
+
         return $this->render(
             'resumo-ocorrencias',
             [
@@ -119,6 +123,7 @@ class SiteController extends Controller
                 'qtdeVerde' => Ocorrencia::find()->aberta()->anteriorA($qtdeDiasVerde)->count(),
                 'qtdeAmarelo' => Ocorrencia::find()->aberta()->entre($qtdeDiasVerde, $qtdeDiasVermelho)->count(),
                 'qtdeVermelho' => Ocorrencia::find()->aberta()->posteriorA($qtdeDiasVermelho)->count(),
+                'modelResumo' => $modelResumo,
             ]
         );
     }
