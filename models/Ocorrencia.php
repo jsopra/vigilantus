@@ -40,6 +40,8 @@ use yii\db\Expression;
  */
 class Ocorrencia extends ClienteActiveRecord
 {
+    CONST SCENARIO_CARGA = 'carga';
+
 	public $file;
 	public $usuario_id;
 
@@ -51,6 +53,13 @@ class Ocorrencia extends ClienteActiveRecord
 		return 'ocorrencias';
 	}
 
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_CARGA => ['carga'],
+        ];
+    }
+
 	/**
 	 * @inheritdoc
 	 */
@@ -59,7 +68,8 @@ class Ocorrencia extends ClienteActiveRecord
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
 			[['data_criacao', 'data_fechamento', 'telefone', 'numero_controle'], 'safe'],
-			[['cliente_id', 'bairro_id', 'endereco', 'mensagem', 'tipo_imovel'], 'required'],
+			[['cliente_id', 'bairro_id', 'endereco', 'mensagem'], 'required'],
+            ['tipo_imovel', 'required', 'on' => 'insert'],
 			[['cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'ocorrencia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
             ['hash_acesso_publico', 'unique', 'when' => function($model, $attribute) {
                 return !empty($this->hash_acesso_publico);

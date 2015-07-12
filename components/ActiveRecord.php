@@ -2,6 +2,7 @@
 
 namespace app\components;
 
+use Yii;
 use \IntlDateFormatter;
 use app\components\ActiveQuery;
 use app\components\StringHelper;
@@ -169,10 +170,11 @@ class ActiveRecord extends YiiActiveRecord
 
             if (in_array($metaData->dbType, $this->dateDbTypes) && strlen($this->$attribute)) {
 
+                //see https://github.com/yiisoft/yii2/issues/5448
                 if ($metaData->dbType == 'date') {
-                    return \Yii::$app->formatter->asDate($this->$attribute);
+                    return \Yii::$app->formatter->asDate($this->$attribute . ' ' . Yii::$app->timeZone);
                 } else {
-                    return \Yii::$app->formatter->asDateTime($this->$attribute);
+                    return \Yii::$app->formatter->asDateTime($this->$attribute . ' ' . Yii::$app->timeZone);
                 }
             }
         }
