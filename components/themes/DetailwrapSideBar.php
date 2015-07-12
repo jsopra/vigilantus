@@ -10,7 +10,7 @@ use yii\bootstrap\Widget;
 
 class DetailwrapSideBar extends Widget
 {
-    
+
     public $items = [];
 
     /**
@@ -19,7 +19,7 @@ class DetailwrapSideBar extends Widget
 	 * @see isItemActive
 	 */
 	public $activateItems = true;
-    
+
     /**
 	 * @var string the route used to determine if a menu item is active or not.
 	 * If not set, it will use the route of the current request.
@@ -27,7 +27,7 @@ class DetailwrapSideBar extends Widget
 	 * @see isItemActive
 	 */
 	public $route;
-    
+
 	/**
 	 * @var array the parameters used to determine if a menu item is active or not.
 	 * If not set, it will use `$_GET`.
@@ -35,7 +35,7 @@ class DetailwrapSideBar extends Widget
 	 * @see isItemActive
 	 */
 	public $params;
-    
+
 	/**
 	 * Initializes the widget.W
 	 */
@@ -49,17 +49,17 @@ class DetailwrapSideBar extends Widget
 		if ($this->params === null) {
 			$this->params = $_GET;
 		}
-        
+
 		echo Html::beginTag('div', ['id' => 'sidebar-nav']);
 	}
-    
+
     /**
 	 * Renders the widget.
 	 */
 	public function run()
 	{
 		echo $this->renderItems();
-        
+
         echo Html::endTag('div');
 	}
 
@@ -93,17 +93,17 @@ class DetailwrapSideBar extends Widget
 
 		if (!isset($item['label']))
 			throw new InvalidConfigException("The 'label' or the 'icon' option are required.");
-        
+
         $label = '';
-        
+
         if(isset($item['icon'])) {
-            $label .= ' ' . Html::tag('i', '', ['class' => 'icon-' . $item['icon']]) . ' ';         
+            $label .= ' ' . Html::tag('i', '', ['class' => 'icon-' . $item['icon']]) . ' ';
             $label .= Html::tag('span', $item['label']);
         }
         else {
             $label .=  $item['label'];
         }
-        
+
         $options = ArrayHelper::getValue($item, 'options', []);
 		$items = ArrayHelper::getValue($item, 'items');
 		$url = Url::toRoute(ArrayHelper::getValue($item, 'url', '#'));
@@ -122,34 +122,34 @@ class DetailwrapSideBar extends Widget
         }
 
 		if ($items !== null) {
-            
+
             Html::addCssClass($linkOptions, 'dropdown-toggle');
-            
+
 			$label .= ' ' . Html::tag('i', '', ['class' => 'icon-chevron-down']);
-            
+
 			if (is_array($items)) {
 				$lines = [];
-                
+
                 $ulOptions = [];
-                
+
                 foreach ($items as $i => $item) {
-                    
+
                     if (isset($item['visible']) && !$item['visible']) {
                         unset($items[$i]);
                         continue;
                     }
-                    
+
                     if (is_string($item)) {
                         $lines[] = $item;
                         continue;
                     }
-                    
+
                     $slinkOptions = ArrayHelper::getValue($item, 'linkOptions', []);
-                    
-                    if($this->isItemActive($item)) { 
+
+                    if($this->isItemActive($item)) {
                         Html::addCssClass($ulOptions, 'active');
                         Html::addCssClass($slinkOptions, 'active');
-                        
+
                         $lines[] = '
                             <div class="pointer">
                                 <div class="arrow"></div>
@@ -157,18 +157,18 @@ class DetailwrapSideBar extends Widget
                             </div>
                         ';
                     }
-                    
+
                     if (!isset($item['label']))
                         throw new InvalidConfigException("The 'label' option is required.");
 
                     $slabel = $item['label'];
                     $soptions = ArrayHelper::getValue($item, 'options', []);
-                    
+
                     $scontent = Html::a($slabel, ArrayHelper::getValue($item, 'url', '#'), $slinkOptions);
                     $lines[] = Html::tag('li', $scontent, $soptions);
                 }
-                
-                
+
+
                 Html::addCssClass($ulOptions, 'submenu');
 
                 $items = Html::tag('ul', implode("\n", $lines), $ulOptions);
@@ -191,24 +191,43 @@ class DetailwrapSideBar extends Widget
 	 */
 	protected function isItemActive($item)
 	{
-        
-		if (isset($item['url']) && is_array($item['url']) && isset($item['url'][0])) { 
+        if(isset($item['related']) && is_array($item['related'])) {
+
+            $item['related'][] = $item['url'][0];
+
+            foreach($item['related'] as $related) {
+                $route = $related;
+                if ($route[0] !== '/' && Yii::$app->controller) {
+                    $route = Yii::$app->controller->module->getUniqueId() . '/' . $route;
+                }
+
+                if (ltrim($route, '/') !== $this->route && strstr($this->route, ltrim($route, '/')) === false) {
+                    continue;
+                }
+
+                return true;
+            }
+
+            return false;
+
+        } else if (isset($item['url']) && is_array($item['url']) && isset($item['url'][0])) {
 			$route = $item['url'][0];
+
 			if ($route[0] !== '/' && Yii::$app->controller) {
 				$route = Yii::$app->controller->module->getUniqueId() . '/' . $route;
 			}
 
-			if (ltrim($route, '/') !== $this->route && strstr($this->route, ltrim($route, '/')) === false) { 
+			if (ltrim($route, '/') !== $this->route && strstr($this->route, ltrim($route, '/')) === false) {
 				return false;
 			}
 			unset($item['url']['#']);
-			if (count($item['url']) > 1) { 
+			if (count($item['url']) > 1) {
 				foreach (array_splice($item['url'], 1) as $name => $value) {
-					if (!isset($this->params[$name]) || $this->params[$name] != $value) {  
+					if (!isset($this->params[$name]) || $this->params[$name] != $value) {
 						return false;
 					}
 				}
-			} 
+			}
 			return true;
 		}
 		return false;

@@ -41,4 +41,40 @@ class OcorrenciaQuery extends ActiveQuery
         $this->andWhere('numero_controle = :numero_controle', [':numero_controle' => trim($numero)]);
         return $this;
     }
+
+    public function criadaEm($mes, $ano)
+    {
+        $this->andWhere("EXTRACT(month from data_criacao) = :mesCriadoEm AND EXTRACT(year from data_criacao) = :anoCriadoEm", [':mesCriadoEm' => $mes, ':anoCriadoEm' => $ano]);
+        return $this;
+    }
+
+    public function finalizadaEm($mes, $ano)
+    {
+        $this->andWhere("EXTRACT(month from data_fechamento) = :mesFechadoEm AND EXTRACT(year from data_fechamento) = :anoFechadoEm", [':mesFechadoEm' => $mes, ':anoFechadoEm' => $ano]);
+        return $this;
+    }
+
+    public function criadaNoAno($ano)
+    {
+        $this->andWhere("EXTRACT(year from data_criacao) = :anoCriadoEm", [':anoCriadoEm' => $ano]);
+        return $this;
+    }
+
+    public function finalizadaNoAno($ano)
+    {
+        $this->andWhere("EXTRACT(year from data_fechamento) = :anoFechadoEm", [':anoFechadoEm' => $ano]);
+        return $this;
+    }
+
+    public function doProblema($id)
+    {
+        $this->andWhere('ocorrencia_tipo_problema_id = :idProblema', [':idProblema' => $id]);
+        return $this;
+    }
+
+    public function doStatus($id)
+    {
+        $this->andWhere('status = :idStatus', [':idStatus' => $id]);
+        return $this;
+    }
 }

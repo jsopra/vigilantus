@@ -102,4 +102,23 @@ class OcorrenciaStatus
 
 		return $status;
 	}
+
+	public function getStatusFechamento()
+	{
+		return [
+			'aberta' => 'Aberta',
+			'fechada' => 'Fechada',
+		];
+	}
+
+	public function getDescricaoFechamento($id)
+	{
+		$statusTerminativo = self::isStatusTerminativo($id);
+
+		if($statusTerminativo) {
+			return 'Fechada';
+		}
+
+		return 'Aberta';
+	}
 }

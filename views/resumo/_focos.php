@@ -19,6 +19,12 @@ HighchartsAsset::register($this)->withScripts(['highstock', 'modules/exporting',
 <?php endif; ?>
 </div>
 
+<?php if(\Yii::$app->user->can('Analista') || \Yii::$app->user->can('Gerente')) : ?>
+    <div class="bs-callout bs-callout-success">
+        <p><span class="glyphicon glyphicon-dashboard" style="font-size: 1em; padding-right: 10px;"></span> <?= Html::a(Html::encode("Clique aqui e veja diferentes indicadores de focos"),'/indicador/resumo-focos'); ?></p>
+    </div>
+<?php endif; ?>
+
 <div id="capa-tipo-deposito-focos" class="row">
 
     <div class="col-md-8">

@@ -17,7 +17,7 @@ class VigilantusLayoutHelper {
                 'label' => 'Ocorrências',
                 'icon' => 'bullhorn',
                 'url' => ['/ocorrencia/ocorrencia/index'],
-                'visible' =>  $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && !$user->can('Analista'),
+                'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && !$user->can('Analista'),
                 'options' => ['id' => 'stepguide-ocorrencias'],
             ],
             [
@@ -67,10 +67,8 @@ class VigilantusLayoutHelper {
                 'icon' => 'bar-chart',
                 'visible' => $user->can('Gerente') || $user->can('Analista'),
                 'items' => [
-                    ['label' => 'Resumo de Focos por Ano', 'url' => ['/indicador/resumo-focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-indicadores-focos-ano']],
-                    ['label' => 'Evolução de Focos por Mês', 'url' => ['/indicador/evolucao-focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-indicadores-evolucao-focos']],
-                    ['label' => 'Focos por Bairros', 'url' => ['/indicador/focos-bairro'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-indicadores-focos-bairro']],
-                    ['label' => 'Focos por Tipo de Depósito', 'url' => ['/indicador/focos-tipo-deposito'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-indicadores-focos-tipo-deposito']],
+                    ['label' => 'Focos', 'url' => ['/indicador/resumo-focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-indicadores-focos'], 'related' => ['/indicador/evolucao-focos','/indicador/focos-bairro','/indicador/focos-tipo-deposito']],
+                    ['label' => 'Ocorrências', 'url' => ['/ocorrencia/indicador/ocorrencias-mes'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && ($user->can('Gerente') || $user->can('Analista')), 'options' => ['id' => 'stepguide-indicadores-ocorrencias'], 'related' => ['/ocorrencia/indicador/ocorrencias-status', '/ocorrencia/indicador/ocorrencias-problema']],
                 ],
                 'options' => ['class' => 'step-indicadores'],
             ],
