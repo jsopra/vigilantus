@@ -41,6 +41,7 @@ use yii\db\Expression;
 class Ocorrencia extends ClienteActiveRecord
 {
     CONST SCENARIO_CARGA = 'carga';
+    const SCENARIO_TROCA_STATUS = 'trocaStatus';
 
 	public $file;
 	public $usuario_id;
@@ -57,6 +58,7 @@ class Ocorrencia extends ClienteActiveRecord
     {
         return [
             self::SCENARIO_CARGA => ['carga'],
+            SELF::SCENARIO_TROCA_STATUS => ['trocaStatus'],
         ];
     }
 
