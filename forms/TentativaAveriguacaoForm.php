@@ -19,6 +19,7 @@ class TentativaAveriguacaoForm extends Model
     public $observacoes;
     public $usuario_id;
     public $fechou_visita;
+    public $status;
 
     /**
      * @return array the validation rules.
@@ -27,7 +28,7 @@ class TentativaAveriguacaoForm extends Model
     {
         return [
             [['ocorrencia_id', 'agente_id', 'cliente_id', 'usuario_id', 'data'], 'required'],
-            [['ocorrencia_id', 'agente_id', 'cliente_id', 'usuario_id'], 'integer'],
+            [['ocorrencia_id', 'agente_id', 'cliente_id', 'usuario_id', 'status'], 'integer'],
             [['observacoes', 'fechou_visita'], 'safe'],
         ];
     }
@@ -45,6 +46,7 @@ class TentativaAveriguacaoForm extends Model
             'observacoes' => 'Observacoes',
             'fechou_visita' => 'Fechou Visita',
             'usuario_id' => 'Usuário',
+            'status' => 'Novo Status',
         ];
     }
 
@@ -86,17 +88,21 @@ class TentativaAveriguacaoForm extends Model
 
             $ocorrencia->refresh();
 
-            $qtdeAveriguacoesEncerraOcorrencia = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_TENTATIVAS_VISITACAO, $this->cliente_id);
+            if(!$this->status) {
+                $qtdeAveriguacoesEncerraOcorrencia = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_TENTATIVAS_VISITACAO, $this->cliente_id);
+                if($ocorrencia->quantidadeAveriguacoes == $qtdeAveriguacoesEncerraOcorrencia) {
 
-            if($ocorrencia->quantidadeAveriguacoes == $qtdeAveriguacoesEncerraOcorrencia) {
-
-                $ocorrencia->scenario = 'trocaStatus';
+                    $ocorrencia->scenario = Ocorrencia::SCENARIO_TROCA_STATUS;
+                    $ocorrencia->usuario_id = $this->usuario_id;
+                    $ocorrencia->status = OcorrenciaStatus::FECHADO;
+                    $saved = $ocorrencia->save();
+                    $this->fechou_visita = true;
+                }
+            } else {
+                $ocorrencia->scenario = Ocorrencia::SCENARIO_TROCA_STATUS;
                 $ocorrencia->usuario_id = $this->usuario_id;
-                $ocorrencia->status = OcorrenciaStatus::FECHADO;
-
+                $ocorrencia->status = $this->status;
                 $saved = $ocorrencia->save();
-
-                $this->fechou_visita = true;
             }
 
             if(!$saved) {

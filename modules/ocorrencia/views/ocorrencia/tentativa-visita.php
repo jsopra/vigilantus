@@ -1,7 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\widgets\Select2;
+use kartik\select2\Select2;
+use app\models\OcorrenciaStatus;
 
 $this->title = 'Informar tentativa de averiguação de Ocorrência #' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['index']];
@@ -32,6 +33,16 @@ $this->params['breadcrumbs'][] = 'Informar tentativa de averiguação';
     <div class="row">
         <div class="col-xs-8">
             <?= $form->field($modelForm, 'observacoes')->textArea(); ?>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-xs-8">
+            <?php
+            echo $form->field($modelForm, 'status')->dropDownList(OcorrenciaStatus::getStatusPossiveis($model->status), ['prompt' => 'Selecione..']);
+            ?>
         </div>
     </div>
 
