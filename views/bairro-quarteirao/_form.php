@@ -177,6 +177,8 @@ if ($model->coordenadasJson) :
 
         var quarteirao = L.polygon([" . MapHelper::getArrayCoordenadas($model->coordenadas) ."], polygon_options).addTo(featureGroup);
 
+        coordinatesToInput(" . MapHelper::getArrayCoordenadas($model->coordenadas) .");
+
         quarteirao.editing.enable();
     ";
 endif;

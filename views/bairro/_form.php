@@ -153,6 +153,8 @@ if ($model->coordenadasJson) :
 
         var bairro = L.polygon([" . MapHelper::getArrayCoordenadas($model->coordenadas) ."], polygon_options).addTo(featureGroup);
 
+        coordinatesToInput(" . MapHelper::getArrayCoordenadas($model->coordenadas) .");
+
         bairro.editing.enable();
     ";
 endif;
