@@ -51,6 +51,6 @@ class OcorrenciasResumoReport extends Model
             $tempoTotal += $ocorrencia->qtde_dias_em_aberto;
         }
 
-        return round(($tempoTotal / $qtdeOcorrencias), 2);
+        return $qtdeOcorrencias > 0 ? round(($tempoTotal / $qtdeOcorrencias), 2) : 0;
     }
 }

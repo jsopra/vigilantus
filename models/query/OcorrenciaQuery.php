@@ -20,7 +20,7 @@ class OcorrenciaQuery extends ActiveQuery
 
     public function anteriorA($dias)
     {
-        $this->andWhere("data_criacao + interval '" . $dias . " days' >= CURRENT_DATE");
+        $this->andWhere("data_criacao + interval '" . $dias . " days' >= coalesce(data_fechamento,CURRENT_DATE)");
         return $this;
     }
 
@@ -32,7 +32,7 @@ class OcorrenciaQuery extends ActiveQuery
 
     public function posteriorA($dias)
     {
-        $this->andWhere("data_criacao + interval '" . $dias . " days' < CURRENT_DATE");
+        $this->andWhere("data_criacao + interval '" . $dias . " days' < coalesce(data_fechamento,CURRENT_DATE)");
         return $this;
     }
 

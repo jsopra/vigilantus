@@ -48,7 +48,7 @@ class Ocorrencia extends Model
      */
     public function insert($row, $userId = null, $clienteId = null)
     {
-        if($row->getValue('id') != '' && OcorrenciaModel::find()->doNumeroControle($row->getValue('id'))->one()) {
+        if($row->getValue('id') != '' && OcorrenciaModel::find()->doNumeroControle($row->getValue('id'))->count() > 0) {
             $row->addError('ID já existe');
             return false;
         }
@@ -59,11 +59,29 @@ class Ocorrencia extends Model
             IntlDateFormatter::NONE
         );
 
-        $transaction = \Yii::$app->db->beginTransaction();
+        //@temp
+        /*
+        if($row->getValue('bairro') == '') {
+            return true;
+        }
+        */
 
         $bairro = $row->getValue('bairro') != '' ? Bairro::find()->doNome($row->getValue('bairro'))->one() : null;
         $numero = $row->getValue('numero');
         $bairroQuarteirao = $bairro && $numero ? BairroQuarteirao::find()->doBairro($bairro->id)->doNumero($numero)->one() : null;
+
+        //@temp
+        /*
+        if(!$bairro) {
+            $row->addError('Não salvou Bairro');
+            return false;
+        }
+        */
+
+        if($row->getValue('bairro') != '' && !$bairro) {
+            $row->addError('Não salvou Bairro');
+            return false;
+        }
 
         $ocorrencia = new OcorrenciaModel;
         $ocorrencia->scenario = OcorrenciaModel::SCENARIO_CARGA;
@@ -88,9 +106,10 @@ class Ocorrencia extends Model
 
         if(!$saved) {
             $row->addError('Não salvou Ocorrência');
-            $transaction->rollback();
             return false;
         }
+
+        $saved = true;
 
         /*
          * registro historico de visitacao quando agente e data_averiguacao
@@ -103,7 +122,6 @@ class Ocorrencia extends Model
                 $equipe = Equipe::find()->doNome('Ocorrência')->one();
                 if(!$equipe) {
                     $row->addError('Não localizou equipe para cadastrar agente');
-                    $transaction->rollback();
                     return false;
                 }
 
@@ -116,9 +134,9 @@ class Ocorrencia extends Model
 
                 if(!$agente->save()) {
                     $row->addError('Não salvou Agente');
-                    $transaction->rollback();
                     return false;
                 }
+
             }
 
             $averiguacao = new TentativaAveriguacaoForm;
@@ -132,12 +150,11 @@ class Ocorrencia extends Model
 
             if (!$averiguacao->save()) {
                 $row->addError('Não salvou histórico de visitação');
-                $transaction->rollback();
                 return false;
             }
+
         }
 
-        $transaction->commit();
         return true;
     }
 
@@ -157,16 +174,19 @@ class Ocorrencia extends Model
             case 'Enc. para fiscalização urbana' :
                 return OcorrenciaStatus::ENCAMINHADO_FISCALIZACAO_URBANA;
 
-            case 'Enc. paa fiscalização sanitária' :
+            case 'Enc. para fiscalização sanitária' :
                 return OcorrenciaStatus::ENCAMINHADO_FISCALIZACAO_SANITARIA;
 
             case 'Fechada' :
+            case 'Fechado' :
                 return OcorrenciaStatus::FECHADO;
 
             case 'Não encontrado' :
                 return OcorrenciaStatus::NAO_ENCONTRADO;
 
             case 'Extraviada' :
+            case 'Extraviado' :
+            case 'Extraviada a denúncia' :
                 return OcorrenciaStatus::EXTREVIADA;
 
             case 'Agricultura' :

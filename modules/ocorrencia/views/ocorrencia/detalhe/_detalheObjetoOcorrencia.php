@@ -16,7 +16,7 @@ use app\helpers\models\ImovelHelper;
 
 <p>
     <strong><?= Html::activeLabel($model, 'bairro_id') ?></strong><br />
-    <?= Html::encode($model->bairro->nome) ?>
+    <?= $model->bairro ? Html::encode($model->bairro->nome) : null ?>
 </p>
 
 <?php if ($model->bairro_quarteirao_id) : ?>

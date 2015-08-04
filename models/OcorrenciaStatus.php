@@ -58,6 +58,11 @@ class OcorrenciaStatus
 			self::SOLICIONADO,
 			self::FECHADO,
 			self::REPROVADA,
+			self::ENCAMINHADO_FISCALIZACAO_URBANA,
+			self::ENCAMINHADO_FISCALIZACAO_SANITARIA,
+			self::ENCAMINHADO_PARA_SERVICO_URBANO,
+			self::AGRICULTURA,
+			self::ABERTO_TERMO_RESPONSABILIDADE,
 		];
 	}
 
@@ -74,11 +79,7 @@ class OcorrenciaStatus
 		switch($idStatus)
 		{
 			case self::APROVADA :
-			case self::ABERTO_TERMO_RESPONSABILIDADE :
-			case self::ENCAMINHADO_FISCALIZACAO_URBANA :
-			case self::ENCAMINHADO_FISCALIZACAO_SANITARIA :
 			case self::AUTO_INTIMACAO :
-			case self::ENCAMINHADO_PARA_SERVICO_URBANO :
 			{
 				$status = [
 					self::ABERTO_TERMO_RESPONSABILIDADE => self::getDescricao(self::ABERTO_TERMO_RESPONSABILIDADE),

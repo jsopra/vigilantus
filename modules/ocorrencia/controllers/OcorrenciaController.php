@@ -162,8 +162,9 @@ class OcorrenciaController extends CRUDController
 
         if (!empty($_POST) && $model->load($_POST)) {
 
-            $model->scenario = 'trocaStatus';
+            $model->scenario = Ocorrencia::SCENARIO_TROCA_STATUS;
             $model->usuario_id = Yii::$app->user->id;
+            $model->status = $_POST['Ocorrencia']['status'];
 
             $saveMethodName = $this->getModelSaveMethodName();
 
