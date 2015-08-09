@@ -20,14 +20,14 @@
         "perspectivain/yii2-gearman": "dev-master",
         "miloschuman/yii2-highcharts-widget": "*",
 		"hashids/hashids": "~1.0",
-        "robregonm/yii2-pdf": "dev-master",
-		"codeception/verify": "0.2.*"
+        "robregonm/yii2-pdf": "dev-master"
 	},
 	"require-dev": {
 		"yiisoft/yii2-codeception": "*",
 		"yiisoft/yii2-debug": "*",
 		"yiisoft/yii2-gii": "*",
 		"codeception/codeception": "2.*",
+        "codeception/verify": "0.2.*",
 		"codeception/specify": "0.3.*",
         "fidelize/yii2-phactory": "*"
 	},
