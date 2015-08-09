@@ -1,5 +1,7 @@
 # Vigilantus
 
+[ ![Codeship Status for perspectivain/vigilantus](https://codeship.com/projects/258d1ae0-20ce-0133-f5de-5ae45cb2c8e5/status?branch=master)](https://codeship.com/projects/95726)
+
 ## REQUISITOS DE TECNOLOGIA
 
 * **PHP 5.6**, com as extensões:
