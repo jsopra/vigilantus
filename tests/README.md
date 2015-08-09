@@ -35,16 +35,17 @@ factories # factories escritas para a biblioteca Phactory
 
 # Configuração
 
-Crie a base de testes conforme as configurações `TEST_DB_NAME`,
-`TEST_DB_HOST`, `TEST_DB_PORT`, `TEST_DB_USER_NAME` e `TEST_DB_USER_PASSWORD`.
+Crie a base de testes conforme as configurações `VIGILANTUS_TEST_DB_DSN_HOST`,
+`VIGILANTUS_TEST_DB_DSN_DBNAME`, `VIGILANTUS_TEST_DB_USERNAME` e
+`VIGILANTUS_TEST_DB_PASSWORD`.
 
 # Execução
 
 1. Rode o script que atualiza as migrations e roda os testes:
 
 ```bash
-cd tests
-sh run
+php ./codeception/bin/yii migrate
+../vendor/bin/codecept run unit
 ```
 
 2. Para rodar os testes de aceitação, você precisa ter o selenium instalado e
