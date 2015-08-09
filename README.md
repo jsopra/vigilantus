@@ -1,5 +1,16 @@
 # Vigilantus
 
+## REQUISITOS DE TECNOLOGIA
+
+* **PHP 5.6**, com as extensões:
+** **PHP Redis**
+** **PHP PDO Postgres**
+* **Postgres 9.4**, com as extensões:
+** **Postgis**
+* **Redis**
+* **Composer**
+* **Codeception**
+
 ## SOBRE OS AMBIENTES
 
 A variável `VIGILANTUS_ENV` indica qual é o ambiente atual.
