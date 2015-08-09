@@ -42,13 +42,13 @@ class ContatoFormTest extends Test
 			$this->assertFileExists($this->getMessageFile(), 'email file should exist');
 		});
 
-		$this->specify('message should contain correct data', function () use($model) {
+		// $this->specify('message should contain correct data', function () use($model) { // comentado por causa de bug
 			$emailMessage = file_get_contents($this->getMessageFile());
 			$this->assertContains($model->name, $emailMessage, 'email should contain user name');
 			$this->assertContains($model->email, $emailMessage, 'email should contain sender email');
 			$this->assertContains($model->subject, $emailMessage, 'email should contain subject');
 			$this->assertContains($model->body, $emailMessage, 'email should contain body');
-		});
+		// });
 	}
 
 	private function getMessageFile()

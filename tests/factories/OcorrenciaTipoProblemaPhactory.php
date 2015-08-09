@@ -3,7 +3,7 @@
 namespace tests\factories;
 use Phactory;
 
-class DenunciaTipoProblemaPhactory
+class OcorrenciaTipoProblemaPhactory
 {
     public function blueprint()
     {

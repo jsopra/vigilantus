@@ -5,9 +5,9 @@ namespace tests\unit\reports;
 use Yii;
 use app\models\report\AreaTratamentoReport;
 use Phactory;
-use fidelize\phactory\ActiveRecordTest;
+use fidelize\phactory\Test;
 
-class AreaTratamentoReportTest extends ActiveRecordTest
+class AreaTratamentoReportTest extends Test
 {
     public $cliente;
 

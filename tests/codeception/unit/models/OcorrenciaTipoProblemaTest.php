@@ -2,19 +2,19 @@
 
 namespace tests\unit\models;
 
-use app\models\DenunciaTipoProblema;
+use app\models\OcorrenciaTipoProblema;
 use Phactory;
 use fidelize\phactory\ActiveRecordTest;
 use yii\db\Expression;
 
-class DenunciaTipoProblemaTest extends ActiveRecordTest
+class OcorrenciaTipoProblemaTest extends ActiveRecordTest
 {
     /*
 	public function testScopeAtivos()
 	{
-		Phactory::denunciaTipoProblema(['ativo' => true]);
-        Phactory::denunciaTipoProblema(['ativo' => true]);
-        Phactory::denunciaTipoProblema(['ativo' => false]);
+		Phactory::ocorrenciaTipoProblema(['ativo' => true]);
+        Phactory::ocorrenciaTipoProblema(['ativo' => true]);
+        Phactory::ocorrenciaTipoProblema(['ativo' => false]);
 
         $this->assertEquals(3, DenunciaTipoProblema::find()->count());
         $this->assertEquals(2, DenunciaTipoProblema::find()->ativos()->count());
@@ -23,9 +23,9 @@ class DenunciaTipoProblemaTest extends ActiveRecordTest
 
     public function testExclusaoException()
     {
-        $tipo = Phactory::denunciaTipoProblema(['ativo' => true]);
+        $tipo = Phactory::ocorrenciaTipoProblema(['ativo' => true]);
 
-        Phactory::denuncia(['denunciaTipoProblema' => $tipo]);
+        Phactory::ocorrencia(['ocorrenciaTipoProblema' => $tipo]);
 
         $this->setExpectedException('Exception');
 
@@ -34,9 +34,9 @@ class DenunciaTipoProblemaTest extends ActiveRecordTest
 
     public function testExclusao()
     {
-        $tipo = Phactory::denunciaTipoProblema(['ativo' => true]);
+        $tipo = Phactory::ocorrenciaTipoProblema(['ativo' => true]);
 
-        Phactory::denuncia();
+        Phactory::ocorrencia();
 
         $this->assertEquals(1, $tipo->delete());
     }

@@ -2,19 +2,19 @@
 
 namespace tests\factories;
 
-use app\models\DenunciaTipoImovel;
-use app\models\DenunciaTipoLocalizacao;
-use app\models\DenunciaStatus;
+use app\models\OcorrenciaTipoImovel;
+use app\models\OcorrenciaTipoLocalizacao;
+use app\models\OcorrenciaStatus;
 use Phactory;
 
-class DenunciaPhactory
+class OcorrenciaPhactory
 {
     public function blueprint()
     {
         return [
             'bairro' => Phactory::hasOne('bairro'),
             'cliente' => Phactory::hasOne('cliente'),
-            'denunciaTipoProblema' => Phactory::hasOne('denunciaTipoProblema'),
+            'ocorrenciaTipoProblema' => Phactory::hasOne('ocorrenciaTipoProblema'),
             'bairroQuarteirao' => Phactory::hasOne('bairroQuarteirao'),
             'imovel' => Phactory::hasOne('imovel'),
             'nome' => 'Denunciante #{sn}',
@@ -23,9 +23,9 @@ class DenunciaPhactory
             'email' => 'denunciante@gmail.com',
             'pontos_referencia' => 'Pontos de referencia #{sn}',
             'mensagem' => 'Mensagem de denúncia',
-            'tipo_imovel' => DenunciaTipoImovel::CASA,
-            'localizacao' => DenunciaTipoLocalizacao::INTERIOR,
-            'status' => DenunciaStatus::AVALIACAO,
+            'tipo_imovel' => OcorrenciaTipoImovel::CASA,
+            'localizacao' => OcorrenciaTipoLocalizacao::INTERIOR,
+            'status' => OcorrenciaStatus::AVALIACAO,
         ];
     }
 }

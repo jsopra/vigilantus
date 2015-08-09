@@ -16,7 +16,7 @@ Phactory::bairroQuarteirao([
     'cliente_id' => $cliente,
     'bairro_id' => 1,
 ]);
-Phactory::denunciaTipoProblema(['nome' => 'Problema', 'cliente_id' => $cliente]);
+Phactory::ocorrenciaTipoProblema(['nome' => 'Problema', 'cliente_id' => $cliente]);
 
 $eu->quero('verificar que o envio de denúncia funciona');
 $eu->estouNaPagina(Yii::$app->homeUrl . '?r=cidade/index&id=' . $cliente->id);

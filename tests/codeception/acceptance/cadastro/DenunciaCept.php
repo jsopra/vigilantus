@@ -14,7 +14,7 @@ Phactory::bairroQuarteirao([
     'cliente_id' => $cliente,
     'bairro_id' => 1,
 ]);
-Phactory::denunciaTipoProblema(['nome' => 'Problema', 'cliente_id' => $cliente]);
+Phactory::ocorrenciaTipoProblema(['nome' => 'Problema', 'cliente_id' => $cliente]);
 
 $eu->quero('verificar que o CRUD Denuncias funciona');
 $eu->facoLoginComo('administrador', 'administrador');
