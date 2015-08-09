@@ -1992,11 +1992,11 @@
         },
         {
             "name": "perspectiva/yii2-phactory",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:perspectivain/yii2-phactory.git",
-                "reference": "85f0685bd3ea6ec0d79ff48f908adf9a0f04024b"
+                "reference": "5968005da0e9800742f6fe5f1cd7c386442a615a"
             },
             "require": {
                 "rbone/phactory": "*",
@@ -2020,7 +2020,7 @@
                 "test",
                 "yii"
             ],
-            "time": "2015-08-09 14:32:48"
+            "time": "2015-08-09 15:16:35"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
