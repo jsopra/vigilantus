@@ -5,7 +5,7 @@ namespace tests\unit\models;
 use app\models\Cliente;
 use app\models\Configuracao;
 use Phactory;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 use yii\db\Expression;
 
 class ClienteTest extends ActiveRecordTest

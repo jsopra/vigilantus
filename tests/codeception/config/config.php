@@ -18,7 +18,7 @@ $config = [
         'mailer' => [
             'useFileTransport' => true,
         ],
-        'phactory' => 'fidelize\phactory\Component',
+        'phactory' => 'perspectiva\phactory\Component',
         'urlManager' => [
             'showScriptName' => true,
         ],

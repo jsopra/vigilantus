@@ -5,7 +5,7 @@ namespace tests\unit\models;
 use Phactory;
 use app\models\BoletimRgFechamento;
 use app\models\BoletimRgImovel;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 
 class BoletimRgImovelTest extends ActiveRecordTest
 {

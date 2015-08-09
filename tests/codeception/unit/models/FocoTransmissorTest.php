@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use Yii;
 use Phactory;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 use app\models\FocoTransmissor;
 use app\models\Configuracao;
 use app\models\Cliente;

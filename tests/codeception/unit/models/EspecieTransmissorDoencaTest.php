@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use app\models\EspecieTransmissorDoenca;
 use Phactory;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 use yii\db\Expression;
 
 class EspecieTransmissorDoencaTest extends ActiveRecordTest

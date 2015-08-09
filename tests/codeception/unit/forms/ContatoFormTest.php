@@ -3,7 +3,7 @@
 namespace tests\unit\models;
 
 use Yii;
-use fidelize\phactory\Test;
+use perspectiva\phactory\Test;
 
 class ContatoFormTest extends Test
 {

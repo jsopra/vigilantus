@@ -5,7 +5,7 @@ namespace tests\unit\report;
 use Yii;
 use app\models\report\ResumoFocosCapaReport;
 use Phactory;
-use fidelize\phactory\Test;
+use perspectiva\phactory\Test;
 
 class ResumoFocosCapaReportTest extends Test
 {

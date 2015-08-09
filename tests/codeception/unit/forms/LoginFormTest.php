@@ -5,7 +5,7 @@ namespace tests\unit\models;
 use app\models\Usuario;
 use Phactory;
 use Yii;
-use fidelize\phactory\Test;
+use perspectiva\phactory\Test;
 
 class LoginFormTest extends Test
 {

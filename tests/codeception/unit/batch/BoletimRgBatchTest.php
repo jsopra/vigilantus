@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use Yii;
 use Phactory;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 use app\batch\Row;
 use app\models\ImovelTipo;
 

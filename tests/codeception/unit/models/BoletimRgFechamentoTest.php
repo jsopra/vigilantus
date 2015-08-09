@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use Phactory;
 use app\models\BoletimRgFechamento;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 
 class BoletimRgFechamentoTest extends ActiveRecordTest
 {

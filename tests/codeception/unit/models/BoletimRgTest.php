@@ -7,7 +7,7 @@ use app\models\BoletimRg;
 use app\models\BoletimRgFechamento;
 use app\models\Imovel;
 use app\models\Rua;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 
 class BoletimRgTest extends ActiveRecordTest
 {

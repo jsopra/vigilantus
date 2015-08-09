@@ -5,7 +5,7 @@ namespace tests\unit\indicador;
 use Yii;
 use app\models\indicador\ResumoFocosReport;
 use Phactory;
-use fidelize\phactory\Test;
+use perspectiva\phactory\Test;
 
 class ResumoFocosReportTest extends Test
 {

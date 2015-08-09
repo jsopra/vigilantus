@@ -5,7 +5,7 @@ namespace tests\unit\models;
 use Phactory;
 use app\models\DepositoTipo;
 use app\models\Municipio;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 use yii\db\Expression;
 
 class DepositoTipoTest extends ActiveRecordTest

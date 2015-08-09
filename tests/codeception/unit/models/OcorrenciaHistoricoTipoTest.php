@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use app\models\OcorrenciaHistoricoTipo;
 use Phactory;
-use fidelize\phactory\Test;
+use perspectiva\phactory\Test;
 use yii\db\Expression;
 
 class OcorrenciaHistoricoTipoTest extends Test

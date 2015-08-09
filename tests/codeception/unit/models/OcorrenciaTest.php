@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use app\models\Ocorrencia;
 use Phactory;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 use yii\db\Expression;
 use app\models\OcorrenciaStatus;
 use app\models\OcorrenciaHistorico;

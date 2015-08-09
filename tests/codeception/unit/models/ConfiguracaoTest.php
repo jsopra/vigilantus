@@ -5,7 +5,7 @@ namespace tests\unit\models;
 use app\models\Configuracao;
 use app\models\ConfiguracaoTipo;
 use Phactory;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 use yii\db\Expression;
 
 class ConfiguracaoTest extends ActiveRecordTest

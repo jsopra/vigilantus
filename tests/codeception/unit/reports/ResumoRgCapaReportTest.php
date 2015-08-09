@@ -5,7 +5,7 @@ namespace tests\unit\reports;
 use app\models\ImovelTipo;
 use app\models\report\ResumoRgCapaReport;
 use Phactory;
-use fidelize\phactory\Test;
+use perspectiva\phactory\Test;
 
 class ResumoRgCapaReportTest extends Test
 {

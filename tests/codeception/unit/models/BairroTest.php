@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use app\models\Bairro;
 use Phactory;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 
 class BairroTest extends ActiveRecordTest
 {

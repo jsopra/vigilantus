@@ -3,7 +3,7 @@
 namespace tests\unit\models;
 
 use Phactory;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 use app\models\EspecieTransmissor;
 
 class EspecieTransmissorTest extends ActiveRecordTest

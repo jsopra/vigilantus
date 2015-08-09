@@ -31,7 +31,7 @@ class Action extends ViewAction
 
     /**
      * Classe do modelo que faz o upload do arquivo CSV
-     * @var string Por padrão usará fidelize.carga.FCargaUpload
+     * @var string Por padrão usará perspectiva.carga.FCargaUpload
      */
     public $uploadClass;
 

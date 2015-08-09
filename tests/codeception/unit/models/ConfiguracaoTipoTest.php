@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use app\models\ConfiguracaoTipo;
 use Phactory;
-use fidelize\phactory\Test;
+use perspectiva\phactory\Test;
 use yii\db\Expression;
 
 class ConfiguracaoTipoTest extends Test

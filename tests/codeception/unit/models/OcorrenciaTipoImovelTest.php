@@ -4,7 +4,7 @@ namespace tests\unit\models;
 
 use app\models\OcorrenciaTipoImovel;
 use Phactory;
-use fidelize\phactory\Test;
+use perspectiva\phactory\Test;
 use yii\db\Expression;
 
 class OcorrenciaTipoImovelTest extends Test

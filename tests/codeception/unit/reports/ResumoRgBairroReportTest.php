@@ -4,7 +4,7 @@ namespace tests\unit\reports;
 
 use app\models\report\ResumoRgBairroReport;
 use Phactory;
-use fidelize\phactory\Test;
+use perspectiva\phactory\Test;
 
 class ResumoRgBairroReportTest extends Test
 {

@@ -4,7 +4,7 @@ namespace tests;
 
 require_once __DIR__ . '/codeception/acceptance/AcceptanceTester.php';
 
-use fidelize\phactory\DbCleaner;
+use perspectiva\phactory\DbCleaner;
 use tests\codeception\_pages\LoginPage;
 use Yii;
 

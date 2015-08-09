@@ -5,7 +5,7 @@ namespace tests\unit\reports;
 use Yii;
 use app\models\report\AreaTratamentoReport;
 use Phactory;
-use fidelize\phactory\Test;
+use perspectiva\phactory\Test;
 
 class AreaTratamentoReportTest extends Test
 {

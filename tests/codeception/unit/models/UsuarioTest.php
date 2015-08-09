@@ -5,7 +5,7 @@ namespace tests\unit\models;
 use app\models\Usuario;
 use app\models\UsuarioRole;
 use Phactory;
-use fidelize\phactory\ActiveRecordTest;
+use perspectiva\phactory\ActiveRecordTest;
 use yii\db\Expression;
 
 class UsuarioTest extends ActiveRecordTest
