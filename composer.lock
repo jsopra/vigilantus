@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6c3c73e14c12d0b367aad66ff37aa917",
+    "hash": "a88fb3912a7ad56bba9443db980e0157",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -358,40 +358,6 @@
                 "markdown-extra"
             ],
             "time": "2015-03-06 05:28:07"
-        },
-        {
-            "name": "codeception/verify",
-            "version": "0.2.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Codeception/Verify.git",
-                "reference": "66e5074905f4d9590ddb805d123fe632f4baa488"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Verify/zipball/66e5074905f4d9590ddb805d123fe632f4baa488",
-                "reference": "66e5074905f4d9590ddb805d123fe632f4baa488",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/Codeception/function.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Michael Bodnarchuk",
-                    "email": "davert.php@mailican.com",
-                    "homepage": "http://codeception.com"
-                }
-            ],
-            "description": "BDD assertion library for PHPUnit",
-            "time": "2014-01-22 14:40:33"
         },
         {
             "name": "cosenary/instagram",
@@ -1553,9 +1519,9 @@
                 "bower-asset/jquery": ">=1.7"
             },
             "require-dev": {
-                "bower-asset/jasmine-ajax": ">=1.3.1,<1.4",
-                "bower-asset/jasmine-jquery": ">=1.5.2,<1.6",
-                "bower-asset/jquery": ">=1.7,<1.8"
+                "bower-asset/jasmine-ajax": "~1.3.1",
+                "bower-asset/jasmine-jquery": "~1.5.2",
+                "bower-asset/jquery": "~1.7"
             },
             "type": "bower-asset-library",
             "extra": {
@@ -1568,12 +1534,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "91dc004cb103fd7851c3b231c552f4ea477276dd"
+                "reference": "521adbb2ee34e9debdd8508a2c41ab2b5c2f042b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/91dc004cb103fd7851c3b231c552f4ea477276dd",
-                "reference": "91dc004cb103fd7851c3b231c552f4ea477276dd",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/521adbb2ee34e9debdd8508a2c41ab2b5c2f042b",
+                "reference": "521adbb2ee34e9debdd8508a2c41ab2b5c2f042b",
                 "shasum": ""
             },
             "require": {
@@ -1640,7 +1606,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2015-08-09 08:58:57"
+            "time": "2015-08-09 13:48:55"
         },
         {
             "name": "codeception/specify",
@@ -1679,6 +1645,40 @@
             ],
             "description": "BDD code blocks for PHPUnit and Codeception",
             "time": "2014-03-22 00:46:25"
+        },
+        {
+            "name": "codeception/verify",
+            "version": "0.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Codeception/Verify.git",
+                "reference": "66e5074905f4d9590ddb805d123fe632f4baa488"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Codeception/Verify/zipball/66e5074905f4d9590ddb805d123fe632f4baa488",
+                "reference": "66e5074905f4d9590ddb805d123fe632f4baa488",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Codeception/function.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Michael Bodnarchuk",
+                    "email": "davert.php@mailican.com",
+                    "homepage": "http://codeception.com"
+                }
+            ],
+            "description": "BDD assertion library for PHPUnit",
+            "time": "2014-01-22 14:40:33"
         },
         {
             "name": "doctrine/instantiator",
@@ -1776,38 +1776,6 @@
                 "webdriver"
             ],
             "time": "2015-07-16 19:31:12"
-        },
-        {
-            "name": "fidelize/yii2-phactory",
-            "version": "1.0.7",
-            "source": {
-                "type": "git",
-                "url": "git@gitlab.fidelize.com.br:desenvolvimento/yii2-phactory.git",
-                "reference": "88f562484e275276fe5df99a0299c1faae9a755a"
-            },
-            "require": {
-                "rbone/phactory": "*",
-                "yiisoft/yii2": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "fidelize\\phactory\\": ""
-                }
-            },
-            "authors": [
-                {
-                    "name": "Alan Willms",
-                    "email": "alan@fidelize.com.br"
-                }
-            ],
-            "description": "Integração da biblioteca Phactory com o Yii2 ",
-            "keywords": [
-                "phactory",
-                "test",
-                "yii"
-            ],
-            "time": "2015-03-22 19:49:56"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -2021,6 +1989,38 @@
                 "object graph"
             ],
             "time": "2015-07-19 19:57:13"
+        },
+        {
+            "name": "perspectiva/yii2-phactory",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:perspectivain/yii2-phactory.git",
+                "reference": "85f0685bd3ea6ec0d79ff48f908adf9a0f04024b"
+            },
+            "require": {
+                "rbone/phactory": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "perspectiva\\phactory\\": ""
+                }
+            },
+            "authors": [
+                {
+                    "name": "Alan Willms",
+                    "email": "alan@perspectiva.in"
+                }
+            ],
+            "description": "Integração da biblioteca Phactory com o Yii2 ",
+            "keywords": [
+                "phactory",
+                "test",
+                "yii"
+            ],
+            "time": "2015-08-09 14:32:48"
         },
         {
             "name": "phpdocumentor/reflection-docblock",

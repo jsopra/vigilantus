@@ -29,7 +29,7 @@
 		"codeception/codeception": "2.*",
         "codeception/verify": "0.2.*",
 		"codeception/specify": "0.3.*",
-        "fidelize/yii2-phactory": "*"
+        "perspectiva/yii2-phactory": "*"
 	},
     "suggest": {
         "ext-gearman": "This app needs Gearman",
@@ -59,7 +59,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@gitlab.fidelize.com.br:desenvolvimento/yii2-phactory.git"
+            "url": "git@bitbucket.org:perspectivain/yii2-phactory.git"
         }
     ]
 }
