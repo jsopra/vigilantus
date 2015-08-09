@@ -18,6 +18,7 @@ class UsuarioPhactory
             'usuario_role_id' => UsuarioRole::USUARIO,
             'email' => 'email#{sn}@vigilantus.com.br',
             'cliente' => Phactory::hasOne('cliente'),
+            'token_api' => uniqid(),
         ];
     }
 

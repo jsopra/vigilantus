@@ -11,6 +11,7 @@ class FocoTransmissorPhactory
             'tecnico' => 'Tecnico',
             'laboratorio' => 'Labz',
             'bairroQuarteirao' => Phactory::hasOne('bairroQuarteirao'),
+            'imovel' => Phactory::hasOne('imovel'),
             'quantidade_ovos' => 2,
             'quantidade_forma_adulta' => 2,
             'quantidade_forma_aquatica' => 2,
