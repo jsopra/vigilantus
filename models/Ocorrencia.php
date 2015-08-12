@@ -40,11 +40,14 @@ use yii\db\Expression;
  */
 class Ocorrencia extends ClienteActiveRecord
 {
-    CONST SCENARIO_CARGA = 'carga';
+    const SCENARIO_CARGA = 'carga';
     const SCENARIO_TROCA_STATUS = 'trocaStatus';
+    const SCENARIO_INSERCAO = 'insert';
+    const SCENARIO_APROVACAO = 'aprovacao';
 
 	public $file;
 	public $usuario_id;
+    public $observacoes;
 
 	/**
 	 * @inheritdoc
@@ -56,10 +59,11 @@ class Ocorrencia extends ClienteActiveRecord
 
     public function scenarios()
     {
-        return [
+        return array_merge(parent::scenarios(), [
             self::SCENARIO_CARGA => ['carga'],
-            SELF::SCENARIO_TROCA_STATUS => ['trocaStatus'],
-        ];
+            self::SCENARIO_TROCA_STATUS => ['trocaStatus'],
+            self::SCENARIO_APROVACAO => ['aprovacao'],
+        ]);
     }
 
 	/**
@@ -76,7 +80,7 @@ class Ocorrencia extends ClienteActiveRecord
             ['hash_acesso_publico', 'unique', 'when' => function($model, $attribute) {
                 return !empty($this->hash_acesso_publico);
             }],
-			[['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo'], 'string'],
+			[['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'observacoes'], 'string'],
 			['status', 'default', 'value' => OcorrenciaStatus::AVALIACAO],
 			['status', 'in', 'range' => OcorrenciaStatus::getIDs()],
 			['localizacao', 'in', 'range' => OcorrenciaTipoImovel::getIDs()],
@@ -115,6 +119,7 @@ class Ocorrencia extends ClienteActiveRecord
             'hash_acesso_publico' => 'Protocolo',
             'data_fechamento' => 'Data de Fechamento',
             'numero_controle' => 'Número de Controle',
+            'observacoes' => 'Observações',
 		];
 	}
 
@@ -125,6 +130,15 @@ class Ocorrencia extends ClienteActiveRecord
 	{
 		return $this->hasMany(OcorrenciaHistorico::className(), ['ocorrencia_id' => 'id']);
 	}
+
+    /**
+     * @return \yii\db\ActiveRelation
+     */
+    public function getHistoricoRejeicao()
+    {
+        return $this->hasOne(OcorrenciaHistorico::className(), ['ocorrencia_id' => 'id'])
+            ->andWhere(['status_novo' => OcorrenciaStatus::REPROVADA]);
+    }
 
 	/**
 	 * @return \yii\db\ActiveRelation
@@ -212,6 +226,10 @@ class Ocorrencia extends ClienteActiveRecord
 	            		$historico->status_antigo = $oldStatus;
 	            		$historico->status_novo = $this->status;
 	            		$historico->usuario_id = $this->usuario_id;
+
+                        if($this->observacoes) {
+                            $historico->observacoes = $this->observacoes;
+                        }
 
 	            		$salvouHistorico = $historico->save();
 
