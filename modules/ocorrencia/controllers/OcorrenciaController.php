@@ -37,11 +37,11 @@ class OcorrenciaController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch'],
+                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'reprovar'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch'],
+                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'reprovar'],
                         'roles' => ['Usuario'],
                     ],
                 ],
@@ -106,20 +106,23 @@ class OcorrenciaController extends CRUDController
 
     public function actionReprovar($id)
     {
-    	$model = is_object($id) ? $id : $this->findModel($id);
+        $ocorrencia = is_object($id) ? $id : $this->findModel($id);
 
-    	$model->scenario = 'trocaStatus';
-    	$model->status = OcorrenciaStatus::REPROVADA;
-    	$model->usuario_id = Yii::$app->user->id;
+        $model = new \app\forms\OcorrenciaRejeicaoForm;
+        $model->ocorrencia_id = $ocorrencia->id;
+        $model->usuario_id = Yii::$app->user->id;
 
-    	if($model->save()) {
-    		Yii::$app->session->setFlash('success', 'Atualização executada com sucesso');
-    	}
-    	else {
-    		Yii::$app->session->setFlash('error', 'Erro ao atualizar status do processo');
-    	}
+        if (!empty($_POST) && $model->load($_POST)) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Ocorrência reprovada!');
+                return $this->redirect(['ocorrencia/index']);
+            }
+        }
 
-    	$this->redirect(['ocorrencia/index']);
+        return $this->renderAjaxOrLayout('reprovar', [
+            'model' => $ocorrencia,
+            'modelForm' => $model
+        ]);
     }
 
     public function actionAprovar($id)
