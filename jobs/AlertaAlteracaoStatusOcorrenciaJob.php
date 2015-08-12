@@ -26,6 +26,11 @@ class AlertaAlteracaoStatusOcorrenciaJob implements \perspectivain\gearman\Inter
         $message = '<p><strong>Alteração de status em ocorrência</strong></p>';
         $message .= '<p>Olá, ' . ($model->nome ? $model->nome : '') . ',</p>';
         $message .= '<p>Informamos que sua ocorrência teve o status alterado para: <strong>' . OcorrenciaStatus::getDescricao($model->status) . '</strong>.</p>';
+
+        if($model->status == OcorrenciaStatus::REPROVADA && $model->historicoRejeicao && $model->historicoRejeicao->observacoes) {
+            $message .= '<p><strong>Detalhes:</strong> ' . $model->historicoRejeicao->observacoes . '.</p>';
+        }
+
         $message .= '<hr />';
         $message .= '<a href="' . getenv('VIGILANTUS_BASE_PATH') . 'cidade/acompanhar-ocorrencia?id=' . $model->cliente->id . '&hash=' . $model->hash_acesso_publico . '">Acompanhe aqui a sua ocorrência</a>';
 
