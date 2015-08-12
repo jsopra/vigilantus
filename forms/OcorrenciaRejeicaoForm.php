@@ -41,20 +41,18 @@ class OcorrenciaRejeicaoForm extends Model
      */
     public function save()
     {
+        $ocorrencia = Ocorrencia::find()->andWhere(['id' => $this->ocorrencia_id])->one();
+        if(!$ocorrencia) {
+            return false;
+        }
+
+        if(!$this->validate()) {
+            return false;
+        }
+
         $transaction = Ocorrencia::getDb()->beginTransaction();
 
         try {
-
-            if(!$this->validate()) {
-                $transaction->rollback();
-                return false;
-            }
-
-            $ocorrencia = Ocorrencia::find()->andWhere(['id' => $this->ocorrencia_id])->one();
-            if(!$ocorrencia) {
-                $transaction->rollback();
-                return false;
-            }
 
             $ocorrencia->scenario = Ocorrencia::SCENARIO_TROCA_STATUS;
             $ocorrencia->status = OcorrenciaStatus::REPROVADA;

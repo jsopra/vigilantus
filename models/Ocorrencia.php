@@ -217,7 +217,7 @@ class Ocorrencia extends ClienteActiveRecord
             	}
             	else {
 
-            		if($oldStatus != $this->status) {
+            		if ($oldStatus != $this->status) {
 
             			$historico = new OcorrenciaHistorico;
 	            		$historico->cliente_id = $this->cliente_id;
@@ -227,13 +227,13 @@ class Ocorrencia extends ClienteActiveRecord
 	            		$historico->status_novo = $this->status;
 	            		$historico->usuario_id = $this->usuario_id;
 
-                        if($this->observacoes) {
+                        if ($this->observacoes) {
                             $historico->observacoes = $this->observacoes;
                         }
 
 	            		$salvouHistorico = $historico->save();
 
-	            		if($salvouHistorico && $this->email) {
+	            		if ($salvouHistorico && $this->email) {
                             \perspectivain\gearman\BackgroundJob::register(
                                 'AlertaAlteracaoStatusOcorrenciaJob',
                                 [
