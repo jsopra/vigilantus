@@ -51,8 +51,6 @@ class OcorrenciaColumn extends YiiActionColumn
 
 			return Html::a('<i class="glyphicon glyphicon-remove"></i>', $url, [
 				'title' => Yii::t('yii', 'Reprovar'),
-				'data-confirm' => Yii::t('yii', 'Você quer realmente reprovar esta ocorrência?'),
-				'data-method' => 'post',
 			]);
 		};
 

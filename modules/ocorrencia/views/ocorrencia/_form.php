@@ -6,7 +6,7 @@ use yii\widgets\MaskedInput;
 use app\models\Bairro;
 use yii\helpers\ArrayHelper;
 use app\models\BairroQuarteirao;
-use kartik\widgets\Select2;
+use kartik\select2\Select2;
 use yii\web\JsExpression;
 use yii\helpers\Url;
 ?>
@@ -147,7 +147,7 @@ use yii\helpers\Url;
 
             echo Html::a(
                 'Cancelar',
-                array('/ocorrencia/index'),
+                array('/ocorrencia/ocorrencia/index'),
                 array('class'=>'link','rel'=>'tooltip','data-role'=>'cancel','data-title'=>'Ir à lista de Ocorrências')
             );
             ?>

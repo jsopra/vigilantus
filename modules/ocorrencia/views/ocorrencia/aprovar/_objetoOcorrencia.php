@@ -4,7 +4,7 @@ use app\models\Bairro;
 use app\models\BairroQuarteirao;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
-use kartik\widgets\Select2;
+use kartik\select2\Select2;
 use yii\web\JsExpression;
 ?>
 
