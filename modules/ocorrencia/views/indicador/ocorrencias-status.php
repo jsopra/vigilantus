@@ -7,7 +7,7 @@ use miloschuman\highcharts\Highcharts;
 use miloschuman\highcharts\HighchartsAsset;
 HighchartsAsset::register($this)->withScripts(['highstock', 'modules/exporting', 'modules/drilldown']);
 
-$this->title = 'Evolução de ocorrências por status';
+$this->title = 'Evolução de ocorrências por situação';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

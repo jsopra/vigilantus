@@ -14,7 +14,7 @@ echo Nav::widget([
             'options' => ['id' => 'evolucao-mes']
         ],
         [
-            'label' => 'Por Status',
+            'label' => 'Por Situação',
             'url' => ['/ocorrencia/indicador/ocorrencias-status'],
             'options' => ['id' => 'indicadores-gerais']
         ],
