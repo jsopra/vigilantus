@@ -107,7 +107,7 @@ class Ocorrencia extends ClienteActiveRecord
 			'anexo' => 'Anexo',
 			'tipo_imovel' => 'Tipo do Imóvel',
 			'localizacao' => 'Localização',
-			'status' => 'Status',
+			'status' => 'Situação',
 			'file' => 'Anexo',
 			'nome_original_anexo' => 'Nome Original do Anexo',
 			'ocorrencia_tipo_problema_id' => 'Tipo do Problema',
