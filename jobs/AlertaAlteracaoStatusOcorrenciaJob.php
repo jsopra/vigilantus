@@ -10,16 +10,16 @@ class AlertaAlteracaoStatusOcorrenciaJob implements \perspectivain\gearman\Inter
 {
     public function run($params = [])
     {
-        if(!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
+        if (!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
             return true;
         }
 
-        if(!isset($params['id'])) {
+        if (!isset($params['id'])) {
             return true;
         }
 
         $model = Ocorrencia::find()->andWhere(['id' => $params['id']])->one();
-        if(!$model) {
+        if (!$model) {
             return true;
         }
 
@@ -27,7 +27,7 @@ class AlertaAlteracaoStatusOcorrenciaJob implements \perspectivain\gearman\Inter
         $message .= '<p>Olá, ' . ($model->nome ? $model->nome : '') . ',</p>';
         $message .= '<p>Informamos que sua ocorrência teve o status alterado para: <strong>' . OcorrenciaStatus::getDescricao($model->status) . '</strong>.</p>';
 
-        if($model->status == OcorrenciaStatus::REPROVADA && $model->historicoRejeicao && $model->historicoRejeicao->observacoes) {
+        if ($model->status == OcorrenciaStatus::REPROVADA && $model->historicoRejeicao && $model->historicoRejeicao->observacoes) {
             $message .= '<p><strong>Detalhes:</strong> ' . $model->historicoRejeicao->observacoes . '.</p>';
         }
 
