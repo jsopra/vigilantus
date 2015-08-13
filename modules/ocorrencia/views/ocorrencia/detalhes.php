@@ -36,8 +36,8 @@ $descricaoTweet = 'Denunciei um foco de mosquitos da dengue. Caso você também 
     <?php
     $qtdeDias = $model->qtde_dias_em_aberto;
 
-    $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
-    $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
+    $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERDE, \Yii::$app->session->get('cliente')->id);
+    $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERMELHO, \Yii::$app->session->get('cliente')->id);
 
     if(!$model->data_fechamento) {
 

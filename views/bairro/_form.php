@@ -52,7 +52,7 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
 </div>
 
 <?php
-$municipio = \Yii::$app->session->get('user.cliente')->municipio;
+$municipio = \Yii::$app->session->get('cliente')->municipio;
 $municipio->loadCoordenadas();
 
 if($model->coordenadasJson) {

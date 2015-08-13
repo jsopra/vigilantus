@@ -138,7 +138,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
      */
     public function getClienteLogado()
     {
-        return \Yii::$app->session->get('user.cliente');
+        return \Yii::$app->session->get('cliente');
     }
 
     /**
@@ -264,17 +264,17 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
         if (YII_ENV_TEST) {
             return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
         }
-        if(!\Yii::$app->session->get('user.cliente')) {
+        if(!\Yii::$app->session->get('cliente')) {
 
             if(\Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
-                Yii::$app->session->set('user.cliente', Cliente::find()->one());
+                Yii::$app->session->set('cliente', Cliente::find()->one());
             }
             else {
-                Yii::$app->session->set('user.cliente',Cliente::find()->andWhere(['id' => \Yii::$app->user->identity->cliente_id])->one());
+                Yii::$app->session->set('cliente',Cliente::find()->andWhere(['id' => \Yii::$app->user->identity->cliente_id])->one());
             }
         }
 
-        return \Yii::$app->session->get('user.cliente');
+        return \Yii::$app->session->get('cliente');
     }
 
     public function moduloIsHabilitado($moduloId, $cliente = null)

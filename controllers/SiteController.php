@@ -89,7 +89,7 @@ class SiteController extends Controller
             'home',
             [
                 'modelRg' => new ResumoRgCapaReport,
-                'cliente' => \Yii::$app->session->get('user.cliente'),
+                'cliente' => \Yii::$app->session->get('cliente'),
             ]
         );
     }
@@ -100,15 +100,15 @@ class SiteController extends Controller
             'resumo-focos',
             [
                 'modelFoco' => new ResumoFocosCapaReport,
-                'cliente' => \Yii::$app->session->get('user.cliente'),
+                'cliente' => \Yii::$app->session->get('cliente'),
             ]
         );
     }
 
     public function actionResumoOcorrencias()
     {
-        $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERDE, \Yii::$app->session->get('user.cliente')->id);
-        $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERMELHO, \Yii::$app->session->get('user.cliente')->id);
+        $qtdeDiasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERDE, \Yii::$app->session->get('cliente')->id);
+        $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERMELHO, \Yii::$app->session->get('cliente')->id);
 
         $modelResumo = new OcorrenciasResumoReport;
         $modelResumo->ano = date('Y');
@@ -117,7 +117,7 @@ class SiteController extends Controller
             'resumo-ocorrencias',
             [
                 'modelOcorrencias' => new ResumoFocosCapaReport,
-                'cliente' => \Yii::$app->session->get('user.cliente'),
+                'cliente' => \Yii::$app->session->get('cliente'),
                 'diasVerde' => $qtdeDiasVerde,
                 'diasVermelho' => $qtdeDiasVermelho,
                 'qtdeVerde' => Ocorrencia::find()->aberta()->anteriorA($qtdeDiasVerde)->count(),
@@ -208,12 +208,10 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionSession($id) {
-
-        Yii::$app->session->set('user.cliente', Municipio::findOne($id)->cliente);
-
+    public function actionSession($id)
+    {
+        Yii::$app->session->set('cliente', Municipio::findOne($id)->cliente);
         Yii::$app->session->setFlash('success', 'Cliente alterado com sucesso');
-
         return $this->redirect(['home']);
     }
 

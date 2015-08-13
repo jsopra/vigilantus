@@ -5,7 +5,7 @@ use app\components\ActiveRecord;
 use app\models\Cliente;
 
 class ClienteActiveRecord extends ActiveRecord {
-    
+
     /**
      * @inheritdoc
      */
@@ -18,32 +18,32 @@ class ClienteActiveRecord extends ActiveRecord {
         $query = class_exists($queryClassName) ? new $queryClassName($className) : new ActiveQuery($className);
 
         if (self::temFiltroCliente()) {
-           
-            $idCliente = intval(\Yii::$app->session->get('user.cliente')->id);
+
+            $idCliente = intval(\Yii::$app->session->get('cliente')->id);
             $query->andWhere(
                 '[[' . $tableName . '.cliente_id]] IS NULL OR [[' . $tableName . '.cliente_id]] = ' . $idCliente
             );
         }
-        
+
         return $query;
     }
-    
+
     /**
      * @inheritdoc
      */
 	public function beforeValidate()
 	{
         if (self::temFiltroCliente()) {
-            $this->cliente_id = \Yii::$app->session->get('user.cliente')->id;
+            $this->cliente_id = \Yii::$app->session->get('cliente')->id;
 
             if(self::temFiltroMunicipio()) {
-                $this->municipio_id = \Yii::$app->session->get('user.cliente')->municipio->id;
+                $this->municipio_id = \Yii::$app->session->get('cliente')->municipio->id;
             }
         }
-        
+
 		return parent::beforeValidate();
     }
-    
+
     /**
      * @return Municipio
      */
@@ -51,7 +51,7 @@ class ClienteActiveRecord extends ActiveRecord {
     {
         return $this->hasOne(Municipio::className(), ['id' => 'municipio_id'])->via('cliente');
     }
-    
+
     /**
      * @return Cliente
      */
@@ -59,8 +59,8 @@ class ClienteActiveRecord extends ActiveRecord {
     {
         return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
-    
-    
+
+
     /**
      * @return boolean
      */
@@ -70,7 +70,7 @@ class ClienteActiveRecord extends ActiveRecord {
         return (
             php_sapi_name() != 'cli'
             && \Yii::$app->has('session')
-            && \Yii::$app->session->get('user.cliente') instanceof Cliente
+            && \Yii::$app->session->get('cliente') instanceof Cliente
             && isset(static::getTableSchema()->columns['cliente_id'])
         );
     }

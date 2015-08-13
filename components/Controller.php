@@ -35,12 +35,12 @@ class Controller extends YiiController
     {
         $this->feedbackModel = new FeedbackForm();
 
-        if(!\Yii::$app->user->isGuest && !\Yii::$app->session->get('user.cliente')) {
+        if(!\Yii::$app->user->isGuest && !\Yii::$app->session->get('cliente')) {
 
             if(\Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
 
                 Yii::$app->session->set('user.municipios', Municipio::find()->innerJoinWith('cliente')->all());
-                Yii::$app->session->set('user.cliente', Cliente::find()->one());
+                Yii::$app->session->set('cliente', Cliente::find()->one());
 
                 unset($municipios);
             }
@@ -49,14 +49,14 @@ class Controller extends YiiController
                 $municipios = null;
 
                 Yii::$app->session->set('municipios', $municipios);
-                Yii::$app->session->set('user.cliente',\Yii::$app->user->identity->cliente);
+                Yii::$app->session->set('cliente',\Yii::$app->user->identity->cliente);
 
                 unset($municipios);
             }
         }
 
         $this->municipiosDisponiveis = \Yii::$app->session->get('user.municipios') ? \Yii::$app->session->get('user.municipios') : null;
-        $this->municipioLogado = \Yii::$app->session->get('user.cliente') ? \Yii::$app->session->get('user.cliente')->municipio : null;
+        $this->municipioLogado = \Yii::$app->session->get('cliente') ? \Yii::$app->session->get('cliente')->municipio : null;
 
         Yii::$app->setTimeZone('America/Sao_Paulo');
     }
