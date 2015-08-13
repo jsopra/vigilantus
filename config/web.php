@@ -81,6 +81,9 @@ $config = [
             'database' => getenv('VIGILANTUS_REDIS_DB_NUMBER') ?: 0,
             'password' => getenv('VIGILANTUS_REDIS_DB_PASSWORD'),
         ],
+        'session' => [
+            'class' => 'yii\redis\Session',
+        ],
         'db' => $db,
         'errorHandler' => [
             'errorAction' => 'site/error',
