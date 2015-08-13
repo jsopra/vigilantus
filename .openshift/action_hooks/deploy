@@ -11,4 +11,4 @@ fi
 mkdir $OPENSHIFT_HOMEDIR/$VIGILANTUS_PUBLIC_FOLDER/brasao
 chmod 777 $OPENSHIFT_HOMEDIR/$VIGILANTUS_PUBLIC_FOLDER/brasao
 
-( unset GIT_DIR ; cd $OPENSHIFT_REPO_DIR ; php $OPENSHIFT_DATA_DIR/composer.phar global require "fxp/composer-asset-plugin:1.0.*@dev"; php $OPENSHIFT_DATA_DIR/composer.phar install )
+( unset GIT_DIR ; cd $OPENSHIFT_REPO_DIR ; php $OPENSHIFT_DATA_DIR/composer.phar global require "fxp/composer-asset-plugin:1.0.*@dev"; php $OPENSHIFT_DATA_DIR/composer.phar install --no-dev)
