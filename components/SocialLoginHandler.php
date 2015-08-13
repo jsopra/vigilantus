@@ -31,7 +31,7 @@ class SocialLoginHandler extends Object
         $connect = new ConnectForm([
             'user' => \Yii::$app->user->identity,
             'profile' => $profile,
-            'cliente' => \Yii::$app->session->get('user.cliente'),
+            'cliente' => \Yii::$app->session->get('cliente'),
             'usuario_id' => \Yii::$app->user->identity->id,
         ]);
 

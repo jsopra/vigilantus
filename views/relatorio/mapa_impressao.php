@@ -62,7 +62,7 @@ use yii\helpers\Json;
 </div>
 
 <?php
-$municipio = \Yii::$app->session->get('user.cliente')->municipio;
+$municipio = \Yii::$app->session->get('cliente')->municipio;
 $municipio->loadCoordenadas();
 
 ?>

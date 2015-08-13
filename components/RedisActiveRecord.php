@@ -21,7 +21,7 @@ class RedisActiveRecord extends \yii\redis\ActiveRecord
         }
 
         if(php_sapi_name() != 'cli' && \Yii::$app->has('session')) {
-            $query->andWhere(['cliente_id' => intval(\Yii::$app->session->get('user.cliente')->id)]);
+            $query->andWhere(['cliente_id' => intval(\Yii::$app->session->get('cliente')->id)]);
         }
 
         return $query;

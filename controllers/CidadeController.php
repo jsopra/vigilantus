@@ -28,7 +28,7 @@ class CidadeController extends Controller
             throw new \Exception('Município não utiliza ocorrências');
         }
 
-        Yii::$app->session->set('user.cliente', $cliente);
+        Yii::$app->session->set('cliente', $cliente);
 
         return $this->render(
             'index',
@@ -51,7 +51,7 @@ class CidadeController extends Controller
             throw new \Exception('Município não utiliza ocorrências');
         }
 
-        Yii::$app->session->set('user.cliente', $cliente);
+        Yii::$app->session->set('cliente', $cliente);
 
         $model = new Ocorrencia;
 
@@ -105,7 +105,7 @@ class CidadeController extends Controller
             throw new \yii\web\HttpException(400, 'Município não utiliza ocorrências', 405);
         }
 
-        Yii::$app->session->set('user.cliente', $cliente);
+        Yii::$app->session->set('cliente', $cliente);
 
         $model = Ocorrencia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
         if(!$model) {
@@ -138,7 +138,7 @@ class CidadeController extends Controller
             throw new \Exception('Município não utiliza ocorrências');
         }
 
-        Yii::$app->session->set('user.cliente', $cliente);
+        Yii::$app->session->set('cliente', $cliente);
 
         echo Json::encode(['isAreaTratamento' => FocoTransmissor::isAreaTratamento($cliente->id, $lat, $lon)]);
     }
@@ -154,7 +154,7 @@ class CidadeController extends Controller
             throw new \Exception('Município não utiliza ocorrências');
         }
 
-        Yii::$app->session->set('user.cliente', $cliente);
+        Yii::$app->session->set('cliente', $cliente);
 
         echo Json::encode(['coordenadaNaCidade' => $cliente->municipio->coordenadaNaCidade($lat, $lon)]);
     }
