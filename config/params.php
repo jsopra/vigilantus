@@ -4,7 +4,7 @@ return [
     'adminEmail' => 'admin@example.com',
     'emailContato' => 'tenha@perspectiva.in',
     'emailFeedback' => [
-        'julianobaggiodisopra+eytiwy7qw9cpdnten2an@boards.trello.com',
+        'julianobaggiodisopra+lxkw03zrqfb8dowhdjye@boards.trello.com',
         'tenha@perspectiva.in',
     ],
     'dataDir' => getenv('OPENSHIFT_DATA_DIR'),
