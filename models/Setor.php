@@ -1,0 +1,58 @@
+<?php
+
+namespace app\models;
+use app\components\ClienteActiveRecord;
+
+/**
+ * Este é a classe de modelo da tabela "setores".
+ *
+ * Estas são as colunas disponíveis na tabela "setores":
+ * @property integer $id
+ * @property string $nome
+ * @property integer $cliente_id
+ * @property integer $inserido_por
+ * @property string $data_cadastro
+ * @property integer $atualizado_por
+ * @property string $data_atualizacao
+ */
+class Setor extends ClienteActiveRecord
+{
+	/**
+	 * @inheritdoc
+	 */
+	public static function tableName()
+	{
+		return 'setores';
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function rules()
+	{
+        // AVISO: só defina regras dos atributos que receberão dados do usuário
+		return [
+			[['nome'], 'string'],
+			['nome', 'unique', 'compositeWith' => 'cliente_id'],
+			[['cliente_id', 'inserido_por'], 'required'],
+			[['cliente_id', 'inserido_por', 'atualizado_por'], 'integer'],
+			[['data_cadastro', 'data_atualizacao'], 'safe']
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels()
+	{
+		return [
+			'id' => 'ID',
+			'nome' => 'Nome',
+			'cliente_id' => 'Cliente',
+			'inserido_por' => 'Usuario Inseriu',
+			'data_cadastro' => 'Datahora Inseriu',
+			'atualizado_por' => 'Usuario Alterou',
+			'data_atualizacao' => 'Datahora Alterou',
+		];
+	}
+}

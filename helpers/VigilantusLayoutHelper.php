@@ -86,6 +86,7 @@ class VigilantusLayoutHelper {
                     ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/'], 'options' => ['id' => 'step-cadastro-tipos-imoveis']],
                     ['label' => 'Termos de Rede Social', 'url' => ['/ocorrencia/social-hashtag/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA), 'options' => ['id' => 'stepguide-ocorrencias-rs-hashtag']],
                     ['label' => 'Contas de Rede Social', 'url' => ['/ocorrencia/social-account/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA), 'options' => ['id' => 'stepguide-ocorrencias-rs-contas']],
+                    ['label' => 'Setores', 'url' => ['/setor/'], 'visible' => $user->can('Administrador')],
                     ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/'], 'options' => ['id' => 'step-cadastro-tipos-deposito']],
                     ['label' => 'Tipo de Problema em Ocorrência', 'url' => ['/ocorrencia/ocorrencia-tipo-problema/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)],
                 ],
