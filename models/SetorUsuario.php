@@ -30,7 +30,8 @@ class SetorUsuario extends ClienteActiveRecord
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
 			[['setor_id', 'usuario_id', 'cliente_id'], 'required'],
-			[['setor_id', 'usuario_id', 'cliente_id'], 'integer']
+			[['setor_id', 'usuario_id', 'cliente_id'], 'integer'],
+			['setor_id', 'unique', 'compositeWith' => 'usuario_id'],
 		];
 	}
 
