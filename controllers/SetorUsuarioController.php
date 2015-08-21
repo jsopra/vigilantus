@@ -26,30 +26,9 @@ class SetorUsuarioController extends DependentCRUDController
 
             $this->_init($model);
 
-            //$this->_setores = SetorUsuario::find()->daSetor($this->_setor->id);
+            $this->_setores = setorUsuario->find()
 
             return $this->renderAjaxOrLayout('create', [
-                'model' => $model,
-                'setor' => $this->_setor,
-                'setores' => $this->_setores
-            ]);
-        }
-    }
-
-    public function actionUpdate($id)
-    {
-        $model = is_object($id) ? $id : $this->findModel($id);
-
-        $parentField = $this->parentField;
-        $model->$parentField = $this->parentObject->id;
-
-        if (!$this->loadAndSaveModel($model, $_POST, ['index', 'parentID' => $this->dependentID])) {
-
-            $this->_init($model);
-
-            //$this->_setores = SetorUsuario::find()->queNao($model->id)->daSetor($this->_setor->id);
-
-            return $this->renderAjaxOrLayout('update', [
                 'model' => $model,
                 'setor' => $this->_setor,
                 'setores' => $this->_setores

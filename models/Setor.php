@@ -50,9 +50,9 @@ class Setor extends ClienteActiveRecord
 			'nome' => 'Nome',
 			'cliente_id' => 'Cliente',
 			'inserido_por' => 'Usuario Inseriu',
-			'data_cadastro' => 'Datahora Inseriu',
+			'data_cadastro' => 'Data hora Inseriu',
 			'atualizado_por' => 'Usuario Alterou',
-			'data_atualizacao' => 'Datahora Alterou',
+			'data_atualizacao' => 'Data hora Alterou',
 		];
 	}
 }
