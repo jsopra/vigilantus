@@ -43,8 +43,8 @@ class DateValidator extends YiiDateValidator
                     ]
                 );
             } else {
-                $dateFormat = 'Y-m-d';
-                $timeFormat = 'Y-m-d H:i:s';
+                $dateFormat = 'php:Y-m-d';
+                $timeFormat = 'php:Y-m-d H:i:s';
             }
 
             $this->format = ($this->time) ? $timeFormat : $dateFormat;
