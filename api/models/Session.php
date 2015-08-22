@@ -13,6 +13,7 @@ class Session extends Model
     public $auth_client_type;
     public $auth_client_id;
     public $access_token;
+    public $cliente_id;
 
     private $_user = false;
 
@@ -58,6 +59,7 @@ class Session extends Model
     {
         if ($this->validate() && Yii::$app->user->login($this->getUser())) {
             $this->access_token = Yii::$app->user->identity->token_api;
+            $this->cliente_id = Yii::$app->user->identity->cliente->id;
             return true;
         }
         return false;
@@ -68,7 +70,7 @@ class Session extends Model
      */
     public function fields()
     {
-        return ['access_token'];
+        return ['access_token', 'cliente_id'];
     }
 
     /**
