@@ -66,4 +66,29 @@ class AmostraTransmissor extends ActiveRecord
 			'quantidade_pupas' => 'Quantidade de Pupas',
 		];
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function extraFields()
+	{
+		return ['bairro'];
+	}
+
+	/**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getBairroQuarteirao()
+	{
+		return $this->hasOne(BairroQuarteirao::className(), ['id' => 'quarteirao_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getBairro()
+	{
+		return $this->hasOne(Bairro::className(), ['id' => 'bairro_id'])
+            ->via('bairroQuarteirao');
+	}
 }
