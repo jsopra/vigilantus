@@ -1,7 +1,7 @@
 <?php
-namespace app\modules\api\v1\controllers;
+namespace api\v1\controllers;
 
-use app\modules\api\models\Session;
+use api\models\Session;
 use Yii;
 use yii\filters\ContentNegotiator;
 use yii\rest\Controller;

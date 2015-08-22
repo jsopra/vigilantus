@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\api\rest;
+namespace api\rest;
 
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\ContentNegotiator;

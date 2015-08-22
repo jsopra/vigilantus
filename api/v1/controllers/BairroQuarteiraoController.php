@@ -1,14 +1,14 @@
 <?php
-namespace app\modules\api\v1\controllers;
+namespace api\v1\controllers;
 
-use app\modules\api\rest\ActiveController;
+use api\rest\ActiveController;
 
-class BairroController extends ActiveController
+class BairroQuarteiraoController extends ActiveController
 {
     /**
      * @inheritdoc
      */
-    public $modelClass = 'app\models\Bairro';
+    public $modelClass = 'app\models\BairroQuarteirao';
 
     /**
      * @inheritdoc

@@ -117,12 +117,6 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => ['api-v1/session'],
-                ],
-            ],
         ],
         'user' => [
             'class' => 'yii\web\User',
@@ -139,7 +133,6 @@ $config = [
     ],
     'modules' => [
         'ocorrencia' => ['class' => 'app\modules\ocorrencia\Module'],
-        'api-v1' => ['class' => 'app\modules\api\v1\Module'],
     ],
     'params' => $params,
 ];
