@@ -4,6 +4,7 @@ namespace api\v1\controllers;
 use api\models\Session;
 use Yii;
 use yii\filters\ContentNegotiator;
+use yii\filters\Cors;
 use yii\rest\Controller;
 use yii\web\Response;
 
@@ -19,6 +20,22 @@ class SessionController extends Controller
             ],
         ];
         unset($behaviors['authenticator']);
+
+        $behaviors['cors'] = [
+            'class' => Cors::className(),
+            'cors' => [
+                'Origin' => ['*'],
+                'Access-Control-Allow-Credentials' => true,
+                'Access-Control-Expose-Headers' => [
+                    'Link',
+                    'X-Pagination-Current-Page',
+                    'X-Pagination-Page-Count',
+                    'X-Pagination-Per-Page',
+                    'X-Pagination-Total-Count',
+                ],
+            ],
+        ];
+
         return $behaviors;
     }
 

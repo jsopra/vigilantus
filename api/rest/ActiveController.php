@@ -34,9 +34,7 @@ class ActiveController extends \yii\rest\ActiveController
         $behaviors['cors'] = [
             'class' => Cors::className(),
             'cors' => [
-                // 'Origin' => ['*'],
-                // 'Access-Control-Request-Headers' => ['Accept', 'Authorization', 'Content-Type', 'WWW-Authenticate'],
-                // 'Access-Control-Request-Method' => ['GET', 'HEAD', 'POST', 'OPTIONS'],
+                'Origin' => ['*'],
                 'Access-Control-Allow-Credentials' => true,
                 'Access-Control-Expose-Headers' => [
                     'Link',
