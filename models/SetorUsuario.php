@@ -43,7 +43,7 @@ class SetorUsuario extends ClienteActiveRecord
 		return [
 			'id' => 'ID',
 			'setor_id' => 'Setor',
-			'usuario_id' => 'Usuario',
+			'usuario_id' => 'Usuário',
 			'cliente_id' => 'Cliente',
 		];
 	}

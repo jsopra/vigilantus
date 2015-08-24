@@ -49,10 +49,14 @@ class Setor extends ClienteActiveRecord
 			'id' => 'ID',
 			'nome' => 'Nome',
 			'cliente_id' => 'Cliente',
-			'inserido_por' => 'Usuario Inseriu',
-			'data_cadastro' => 'Data hora Inseriu',
-			'atualizado_por' => 'Usuario Alterou',
-			'data_atualizacao' => 'Data hora Alterou',
+			'inserido_por' => 'Inserido por',
+			'data_cadastro' => 'Data do cadastro',
+			'atualizado_por' => 'Atualizado por',
+			'data_atualizacao' => 'Data da atualização',
 		];
 	}
+	public function getQuantidadeUsuarios()
+    {
+        return SetorUsuario::find()->where(['setor_id' => $this->id])->count();
+    }
 }

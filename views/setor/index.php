@@ -28,9 +28,26 @@ $this->params['breadcrumbs'][] = $this->title;
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
 			'nome',
+            [
+                'header' => 'Setores',
+                'format' => 'raw',
+                'value' => function ($model, $index, $widget) {
+
+                    $img = Html::tag('i', '', ['class' => 'glyphicon glyphicon-link']);
+
+                    $link = Html::a(
+                        'Gerenciar (' . $model->quantidadeUsuarios . ') &nbsp;' . $img,
+                        Yii::$app->urlManager->createUrl(['setor-usuario/index', 'parentID' => $model->id]),
+                        ['title' => 'Gerenciar Setores ' . $model->nome]
+                    );
+
+                    return Html::tag('p', $link, ['class' => 'text-center no-margin']);
+                },
+            ],
 			[
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
+
             ],
 		],
 	]); ?>

@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Setor;
 use app\models\SetorUsuario;
+use app\models\search\SetorUsuarioSearch;
 use app\components\DependentCRUDController;
 
 class SetorUsuarioController extends DependentCRUDController
@@ -26,7 +27,7 @@ class SetorUsuarioController extends DependentCRUDController
 
             $this->_init($model);
 
-            $this->_setores = setorUsuario->find()
+            $this->_setores = SetorUsuario::find();
 
             return $this->renderAjaxOrLayout('create', [
                 'model' => $model,
