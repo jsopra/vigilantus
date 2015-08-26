@@ -39,6 +39,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             'nome',
             'login',
+            /*[
+                'attribute' => 'bairro_quarteirao_id',
+                'filter' => false,
+                'value' => function ($model, $index, $widget) {
+                    return $model->bairroQuarteirao->numero_sequencia;
+                },
+                'options' => ['style' => 'width: 10%']
+            ],*/
             [
                 'class' => 'app\components\DependentCRUDActionColumn',
                 'template' => '{delete}',
