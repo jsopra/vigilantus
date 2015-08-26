@@ -32,7 +32,7 @@ class SetorUsuarioController extends DependentCRUDController
             return $this->renderAjaxOrLayout('create', [
                 'model' => $model,
                 'setor' => $this->_setor,
-                'setores' => $this->_setores
+                'setores' => $this->_setores,
             ]);
         }
     }
