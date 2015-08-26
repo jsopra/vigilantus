@@ -4,7 +4,7 @@ namespace app\models\search;
 
 use app\components\SearchModel;
 
-class EquipeAgenteSearch extends SearchModel
+class SetorUsuarioSearch extends SearchModel
 {
     public $id;
     public $setor_id;

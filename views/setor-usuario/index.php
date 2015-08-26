@@ -4,12 +4,12 @@ use app\models\EquipeAgente;
 use app\widgets\GridView;
 use yii\helpers\Html;
 
-$equipe = $parentObject;
+$setor = $parentObject;
 
-$this->title = 'Setores"' . $equipe->nome . '"';
+$this->title = 'Setor "' . $setor->nome . '"';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="***">
+<div>
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -24,10 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'exportable' => false,
         'buttons' => [
             'create' => Html::a(
-                'Cadastrar Setores',
-                Yii::$app->urlManager->createUrl(['setor-usuario/create', 'parentID' => $equipe->id]),
+                'Cadastrar Usuário',
+                Yii::$app->urlManager->createUrl(['setor-usuario/create', 'parentID' => $setor->id]),
                 [
                     'class' => 'btn btn-flat success',
                     'data-role' => 'create',
@@ -36,9 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'codigo',
             'nome',
-            'ativo:boolean',
+            'login',
             [
                 'class' => 'app\components\DependentCRUDActionColumn',
                 'template' => '{delete}',

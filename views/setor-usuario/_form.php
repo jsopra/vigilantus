@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
 
-<div class="***">
+<div>
 
     <?php $form = ActiveForm::begin(); ?>
 

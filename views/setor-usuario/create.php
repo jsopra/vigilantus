@@ -2,11 +2,11 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Cadastrar Setor nos Setores "' . $setor->nome . '"';
-$this->params['breadcrumbs'][] = ['label' => 'Agentes de Equipes', 'url' => ['index']];
+$this->title = 'Cadastrar Usuário no Setor "' . $setor->nome . '"';
+$this->params['breadcrumbs'][] = ['label' => 'Usuários dos Setores', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="****">
+<div>
 
     <h1><?= Html::encode($this->title) ?></h1>
 
