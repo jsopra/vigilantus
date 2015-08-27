@@ -8,7 +8,7 @@ use yii\helpers\Html;
  */
 
 $this->title = 'Atualizar Setor: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Setors', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Setores', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Atualizar';
 ?>
 <div class="setor-update">
