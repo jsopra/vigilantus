@@ -44,7 +44,7 @@ class MunicipioHelper extends YiiStringHelper
             return $internalPath;
         }
 
-        $externalPath = Yii::$app->params['publicDir'] . 'brasao/' . $municipio->sigla_estado . '/';
+        $externalPath = Yii::$app->params['publicDir'] . '/brasao/' . $municipio->sigla_estado . '/';
         if(!is_dir($externalPath)) {
             mkdir($externalPath);
         }
