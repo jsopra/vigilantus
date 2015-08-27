@@ -37,16 +37,19 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'nome',
-            'login',
-            /*[
-                'attribute' => 'bairro_quarteirao_id',
+            [
+                'header' => 'Nome',
+                'value' => function ($model, $index, $widget) {
+                    return $model->usuario->nome;
+                },
+            ],
+            [
+                'header' => 'Login',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return $model->bairroQuarteirao->numero_sequencia;
+                    return $model->usuario->login;
                 },
-                'options' => ['style' => 'width: 10%']
-            ],*/
+            ],
             [
                 'class' => 'app\components\DependentCRUDActionColumn',
                 'template' => '{delete}',

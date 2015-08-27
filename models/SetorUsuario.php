@@ -48,4 +48,12 @@ class SetorUsuario extends ClienteActiveRecord
 			'cliente_id' => 'Cliente',
 		];
 	}
+
+	/**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getUsuario()
+	{
+		return $this->hasOne(Usuario::className(), ['id' => 'usuario_id']);
+	}
 }

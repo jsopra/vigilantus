@@ -55,8 +55,29 @@ class Setor extends ClienteActiveRecord
 			'data_atualizacao' => 'Data da atualização',
 		];
 	}
+
 	public function getQuantidadeUsuarios()
     {
         return SetorUsuario::find()->where(['setor_id' => $this->id])->count();
+    }
+
+    public function beforeDelete()
+    {
+        $parent = parent::beforeDelete();
+
+        $this->_clearRelationships();
+
+        return $parent;
+    }
+
+    /**
+     * Apaga relações do boletim com imóveis e fechamento de RG
+     * @return void
+     */
+    private function _clearRelationships()
+    {
+        foreach (SetorUsuario::find()->where('setor_id = :setor', [':setor' => $this->id])->all() as $registro) {
+            $registro->delete();
+        }
     }
 }

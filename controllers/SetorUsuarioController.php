@@ -27,7 +27,7 @@ class SetorUsuarioController extends DependentCRUDController
 
             $this->_init($model);
 
-            $this->_setores = SetorUsuario::find();
+            $this->_setores = SetorUsuario::find()->doSetor($this->_setor->id);
 
             return $this->renderAjaxOrLayout('create', [
                 'model' => $model,
