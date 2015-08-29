@@ -14,8 +14,8 @@ class UsuarioTest extends ActiveRecordTest
     {
         // Tem um usuário pré-cadastrado como root e com o email correto
         Phactory::usuario('gerente');
-        Phactory::usuario('administrador');
-        Phactory::usuario('root', ['excluido' => 1]);
+        $usuarioAdministrador = Phactory::usuario('administrador');
+        $usuarioRoot = Phactory::usuario('root', ['excluido' => 1]);
 
         $this->assertEquals(4, Usuario::find()->count());
         $this->assertEquals(3, Usuario::find()->ativo()->count());
@@ -23,9 +23,6 @@ class UsuarioTest extends ActiveRecordTest
 
         $this->assertEquals(1, Usuario::find()->where(['email' => 'dengue@perspectiva.in'])->count());
         $this->assertEquals(0, Usuario::find()->where(['email' => 'dengueKKKK@perspectiva.in'])->count());
-
-        $usuarioRoot = Usuario::findOne(1);
-        $usuarioAdministrador = Usuario::findOne(2);
 
         $this->assertEquals(4, Usuario::find()->doNivelDoUsuario($usuarioRoot)->count());
         $this->assertEquals(1, Usuario::find()->doNivelDoUsuario($usuarioAdministrador)->count());
@@ -41,7 +38,6 @@ class UsuarioTest extends ActiveRecordTest
 
         $this->assertFalse($usuario->save());
 
-        $usuario->id = 5;
         $usuario->nome = 'teste';
         $usuario->login = 'teste';
         $usuario->senha = $senha;
@@ -49,10 +45,7 @@ class UsuarioTest extends ActiveRecordTest
         $usuario->sal = $sal;
         $usuario->email = 'teste@teste.com.br';
         $usuario->usuario_role_id = UsuarioRole::ADMINISTRADOR;
-
-        $this->assertFalse($usuario->save());
-
-        $usuario->usuario_role_id = UsuarioRole::ROOT;
+        $usuario->cliente_id = Phactory::cliente()->id;
 
         $this->assertTrue($usuario->save());
 

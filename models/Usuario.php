@@ -3,9 +3,6 @@
 namespace app\models;
 
 use app\components\ClienteActiveRecord;
-use app\models\Cliente;
-use app\models\UsuarioRole;
-use yii\validators\Validator;
 use yii\web\IdentityInterface;
 use Yii;
 
@@ -94,7 +91,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
      */
     public function rules()
     {
-        $temSenha = function($model) {
+        $temSenha = function ($model) {
             return ($model->isNewRecord || $model->senha != null);
         };
 
@@ -102,24 +99,64 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
             return jQuery("input[name=\'Usuario[senha]\']").val() != "";
         }';
 
-        return array(
-            [['senha', 'confirmacao_senha'], 'required',                    'when' => $temSenha, 'whenClient' => $temSenhaJavaScript],
-            [['senha', 'confirmacao_senha'], 'string', 'min' => 8,          'when' => $temSenha, 'whenClient' => $temSenhaJavaScript],
-            ['senha', 'compare', 'compareAttribute' => 'confirmacao_senha', 'when' => $temSenha, 'whenClient' => $temSenhaJavaScript],
-
-            ['cliente_id', 'required', 'when' => function($model) {
-                return $model->usuario_role_id != UsuarioRole::ROOT;
-            }],
-
-            [['nome', 'login', '!sal', '!senha_criptografada', 'usuario_role_id', 'email'], 'required'],
+        return [
+            [
+                ['senha', 'confirmacao_senha'],
+                'required',
+                'when' => $temSenha,
+                'whenClient' => $temSenhaJavaScript,
+            ],
+            [
+                ['senha', 'confirmacao_senha'],
+                'string',
+                'min' => 8,
+                'when' => $temSenha,
+                'whenClient' => $temSenhaJavaScript,
+            ],
+            [
+                'senha',
+                'compare',
+                'compareAttribute' => 'confirmacao_senha',
+                'when' => $temSenha,
+                'whenClient' => $temSenhaJavaScript,
+            ],
+            [
+                [
+                    'nome', 'login', 'sal', 'senha_criptografada',
+                    'usuario_role_id', 'email', 'cliente_id'
+                ],
+                'required'
+            ],
             [['cliente_id', 'usuario_role_id'], 'integer'],
             ['login', 'unique'],
             ['email', 'unique'],
+            ['token_api', 'unique', 'skipOnEmpty' => true],
+            ['token_recupera_senha', 'unique', 'skipOnEmpty' => true],
             ['email', 'email'],
+            [['ultimo_login', 'data_recupera_senha'], 'date', 'time' => true],
             [['senha', 'confirmacao_senha'], 'safe'],
-        );
+            ['excluido', 'boolean'],
+        ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_DEFAULT => [
+                'senha', 'confirmacao_senha', 'cliente_id', 'nome', 'login',
+                '!sal', '!senha_criptografada', 'usuario_role_id', 'email',
+                '!token_recupera_senha', '!ultimo_login', '!excluido',
+                '!token_api', '!data_recupera_senha',
+            ]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function beforeValidate()
     {
         if (!$this->sal) {
@@ -127,18 +164,17 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
         }
 
         if ($this->senha) {
-            $this->senha_criptografada = self::encryptPassword($this->sal, $this->senha);
+            $this->senha_criptografada = self::encryptPassword(
+                $this->sal,
+                $this->senha
+            );
+        }
+
+        if ($this->isNewRecord) {
+            $this->token_api = uniqid();
         }
 
         return parent::beforeValidate();
-    }
-
-    /**
-     * @return Cliente
-     */
-    public function getClienteLogado()
-    {
-        return \Yii::$app->session->get('cliente');
     }
 
     /**
@@ -146,7 +182,10 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
      */
     public function getRole()
     {
-        return $this->hasOne(UsuarioRole::className(), ['id' => 'usuario_role_id']);
+        return $this->hasOne(
+            UsuarioRole::className(),
+            ['id' => 'usuario_role_id']
+        );
     }
 
     /**
@@ -154,7 +193,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'nome' => 'Nome',
             'login' => 'Login',
@@ -169,14 +208,14 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
             'token_recupera_senha' => 'Token de Recuperação de Senha',
             'data_recupera_senha' => 'Data de Recuperação de Senha',
             'excluido' => 'Excluído',
-        );
+        ];
     }
 
     /**
      * Codificação de senha
      *
-     * @param string $sal
-     * @param string $senha
+     * @param  string $sal
+     * @param  string $senha
      * @return string
      */
     public static function encryptPassword($sal, $password)
@@ -186,8 +225,8 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
 
     /**
      * Autentica usuário
-     * @param string $login
-     * @param string $senha
+     * @param  string  $login
+     * @param  string  $senha
      * @return boolean
      */
     public function validatePassword($senha)
@@ -204,13 +243,13 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
     public function changePassword($password, $confirmation)
     {
         if (!$this->sal) {
-
-            if ($this->isNewRecord) {
-                $this->sal = uniqid();
-            } else {
-                // Se ele dá um find sem trazer a coluna sal, não deve recriar o sal - ele já existe!!!
-                throw new \Exception('Você deve construir o objeto trazendo o SAL para poder alterar a SENHA');
+            if (!$this->isNewRecord) {
+                // Se ele busca sem a coluna sal, não deve recriar o sal - ele já existe!!!
+                throw new \Exception(
+                    'Você precisa do objeto com o SAL para poder alterar a SENHA'
+                );
             }
+            $this->sal = uniqid();
         }
 
         $password = Usuario::encryptPassword($this->sal, $password);
@@ -230,6 +269,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
     public function delete()
     {
         $this->excluido = true;
+
         return (bool) $this->update(false, ['excluido']);
     }
 
@@ -251,7 +291,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
             case UsuarioRole::USUARIO:
                 return 'Usuario';
                 break;
-                case UsuarioRole::ANALISTA:
+            case UsuarioRole::ANALISTA:
                 return 'Analista';
                 break;
             default:
@@ -259,18 +299,28 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
         }
     }
 
+    /**
+     * @return Cliente
+     */
+    public function getClienteLogado()
+    {
+        return \Yii::$app->session->get('cliente');
+    }
+
     public function getCliente()
     {
         if (YII_ENV_TEST) {
             return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
         }
-        if(!\Yii::$app->session->get('cliente')) {
 
-            if(\Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
+        if (!\Yii::$app->session->get('cliente')) {
+            if (\Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
                 Yii::$app->session->set('cliente', Cliente::find()->one());
-            }
-            else {
-                Yii::$app->session->set('cliente',Cliente::find()->andWhere(['id' => \Yii::$app->user->identity->cliente_id])->one());
+            } else {
+                Yii::$app->session->set(
+                    'cliente',
+                    Cliente::findOne(\Yii::$app->user->identity->cliente_id)
+                );
             }
         }
 
@@ -280,7 +330,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
     public function moduloIsHabilitado($moduloId, $cliente = null)
     {
         $cliente = $cliente ? $cliente : $this->getCliente();
-        if(!$cliente) {
+        if (!$cliente) {
             return false;
         }
 
