@@ -242,6 +242,10 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
      */
     public function changePassword($password, $confirmation)
     {
+        if ($password != $confirmation) {
+            return $this->addError('senha', 'A confirmação de senha não confere');
+        }
+
         if (!$this->sal) {
             if (!$this->isNewRecord) {
                 // Se ele busca sem a coluna sal, não deve recriar o sal - ele já existe!!!
@@ -252,14 +256,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
             $this->sal = uniqid();
         }
 
-        $password = Usuario::encryptPassword($this->sal, $password);
-        $confirmation = Usuario::encryptPassword($this->sal, $confirmation);
-
-        if ($password != $confirmation) {
-            return $this->addError('senha', 'A confirmação de senha não confere');
-        }
-
-        $this->senha_criptografada = $password;
+        $this->senha_criptografada = Usuario::encryptPassword($this->sal, $password);
     }
 
     /**
@@ -278,60 +275,36 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
      */
     public function getRBACRole()
     {
-        switch ($this->usuario_role_id) {
-            case UsuarioRole::ROOT:
-                return 'Root';
-                break;
-            case UsuarioRole::ADMINISTRADOR:
-                return 'Administrador';
-                break;
-            case UsuarioRole::GERENTE:
-                return 'Gerente';
-                break;
-            case UsuarioRole::USUARIO:
-                return 'Usuario';
-                break;
-            case UsuarioRole::ANALISTA:
-                return 'Analista';
-                break;
-            default:
-                return null;
+        $nomesRoles = [
+            UsuarioRole::ROOT => 'Root',
+            UsuarioRole::ADMINISTRADOR => 'Administrador',
+            UsuarioRole::GERENTE => 'Gerente',
+            UsuarioRole::USUARIO => 'Usuario',
+            UsuarioRole::ANALISTA => 'Analista',
+        ];
+
+        if (isset($nomesRoles[$this->usuario_role_id])) {
+            return $nomesRoles[$this->usuario_role_id];
         }
     }
 
     /**
      * @return Cliente
      */
-    public function getClienteLogado()
-    {
-        return \Yii::$app->session->get('cliente');
-    }
-
     public function getCliente()
     {
-        if (YII_ENV_TEST) {
-            return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
-        }
-
-        if (!\Yii::$app->session->get('cliente')) {
-            if (\Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
-                Yii::$app->session->set('cliente', Cliente::find()->one());
-            } else {
-                Yii::$app->session->set(
-                    'cliente',
-                    Cliente::findOne(\Yii::$app->user->identity->cliente_id)
-                );
-            }
-        }
-
-        return \Yii::$app->session->get('cliente');
+        return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
 
+    /**
+     * @param string $moduloId
+     * @param  Cliente|null $cliente
+     * @return boolean
+     */
     public function moduloIsHabilitado($moduloId, $cliente = null)
     {
-        $cliente = $cliente ? $cliente : $this->getCliente();
         if (!$cliente) {
-            return false;
+            $cliente = $this->cliente;
         }
 
         return $cliente->moduloIsHabilitado($moduloId);

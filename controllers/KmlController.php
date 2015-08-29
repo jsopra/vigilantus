@@ -148,7 +148,7 @@ class KmlController extends Controller
 
     public function actionFocos($clienteId = null, $especieId = null, $bairroId = null, $lira = null, $informacaoPublica = null)
     {
-        $cliente = $clienteId ? Cliente::find()->andWhere(['id' => $clienteId])->one() : \Yii::$app->session->get('cliente');
+        $cliente = $clienteId ? Cliente::find()->andWhere(['id' => $clienteId])->one() : \Yii::$app->user->identity->cliente;
         if(!$cliente) {
             exit;
         }
