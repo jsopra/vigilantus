@@ -35,11 +35,14 @@ class Controller extends YiiController
     {
         $this->feedbackModel = new FeedbackForm();
 
-        if (!Yii::$app->user->isGuest && Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
-            $this->municipiosDisponiveis =  Municipio::find()->innerJoinWith('cliente')->all();
-        }
+        if (!Yii::$app->user->isGuest) {
 
-        $this->municipioLogado = Yii::$app->user->identity->cliente->municipio;
+            $this->municipioLogado = Yii::$app->user->identity->cliente->municipio;
+
+            if (Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
+                $this->municipiosDisponiveis =  Municipio::find()->innerJoinWith('cliente')->all();
+            }
+        }
 
         Yii::$app->setTimeZone('America/Sao_Paulo');
     }
