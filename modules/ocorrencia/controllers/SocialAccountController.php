@@ -31,7 +31,7 @@ class SocialAccountController extends Controller
     public function actionIndex()
     {
         return $this->render('index',[
-            'cliente' => Yii::$app->session->get('cliente')
+            'cliente' => Yii::$app->user->identity->cliente
         ]);
     }
 }

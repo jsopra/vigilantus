@@ -61,7 +61,7 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
 </div>
 
 <?php
-$municipio = \Yii::$app->session->get('cliente')->municipio;
+$municipio = \Yii::$app->user->identity->cliente->municipio;
 $municipio->loadCoordenadas();
 
 $bairro->loadCoordenadas();

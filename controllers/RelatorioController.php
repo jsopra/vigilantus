@@ -63,7 +63,7 @@ class RelatorioController extends Controller
 
         $model->load($_GET);
 
-        $model->loadAreasDeTratamento(\Yii::$app->session->get('cliente'));
+        $model->loadAreasDeTratamento(\Yii::$app->user->identity->cliente);
 
         return $this->render('area-tratamento', ['model' => $model]);
     }
@@ -110,7 +110,7 @@ class RelatorioController extends Controller
         $model = new FocosExcelReport;
 
         if ($model->load($_GET) && $model->validate()) {
-            $model->export(\Yii::$app->session->get('cliente'));
+            $model->export(\Yii::$app->user->identity->cliente);
         }
 
         return $this->render('focos-export', ['model' => $model]);

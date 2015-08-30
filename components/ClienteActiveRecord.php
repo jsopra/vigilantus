@@ -3,6 +3,7 @@ namespace app\components;
 
 use app\components\ActiveRecord;
 use app\models\Cliente;
+use Yii;
 
 class ClienteActiveRecord extends ActiveRecord {
 
@@ -19,7 +20,7 @@ class ClienteActiveRecord extends ActiveRecord {
 
         if (self::temFiltroCliente()) {
 
-            $idCliente = intval(\Yii::$app->session->get('cliente')->id);
+            $idCliente = intval(Yii::$app->user->identity->cliente->id);
             $query->andWhere(
                 '[[' . $tableName . '.cliente_id]] IS NULL OR [[' . $tableName . '.cliente_id]] = ' . $idCliente
             );
@@ -34,10 +35,10 @@ class ClienteActiveRecord extends ActiveRecord {
 	public function beforeValidate()
 	{
         if (self::temFiltroCliente()) {
-            $this->cliente_id = \Yii::$app->session->get('cliente')->id;
+            $this->cliente_id = Yii::$app->user->identity->cliente->id;
 
             if(self::temFiltroMunicipio()) {
-                $this->municipio_id = \Yii::$app->session->get('cliente')->municipio->id;
+                $this->municipio_id = Yii::$app->user->identity->cliente->municipio->id;
             }
         }
 
@@ -66,11 +67,11 @@ class ClienteActiveRecord extends ActiveRecord {
      */
     protected static function temFiltroCliente()
     {
-
         return (
             php_sapi_name() != 'cli'
-            && \Yii::$app->has('session')
-            && \Yii::$app->session->get('cliente') instanceof Cliente
+            && Yii::$app->has('session')
+            && !Yii::$app->user->getIsGuest()
+            && Yii::$app->user->identity->cliente instanceof Cliente
             && isset(static::getTableSchema()->columns['cliente_id'])
         );
     }

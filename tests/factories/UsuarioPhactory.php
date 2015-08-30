@@ -18,29 +18,27 @@ class UsuarioPhactory
             'usuario_role_id' => UsuarioRole::USUARIO,
             'email' => 'email#{sn}@vigilantus.com.br',
             'cliente' => Phactory::hasOne('cliente'),
-            'token_api' => uniqid(),
         ];
     }
 
     public function root()
     {
-        return array(
+        return [
             'usuario_role_id' => UsuarioRole::ROOT,
-            'cliente' => null,
-        );
+        ];
     }
 
     public function administrador()
     {
-        return array(
+        return [
             'usuario_role_id' => UsuarioRole::ADMINISTRADOR,
-        );
+        ];
     }
 
     public function gerente()
     {
-        return array(
+        return [
             'usuario_role_id' => UsuarioRole::GERENTE,
-        );
+        ];
     }
 }

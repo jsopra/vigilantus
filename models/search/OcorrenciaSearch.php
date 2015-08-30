@@ -63,8 +63,8 @@ class OcorrenciaSearch extends SearchModel
             ->andFilterWhere(['like', 'anexo', $this->anexo])
             ->andFilterWhere(['like', 'nome_original_anexo', $this->nome_original_anexo]);
 
-        $diasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERDE, \Yii::$app->session->get('cliente')->id);
-        $diasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERMELHO, \Yii::$app->session->get('cliente')->id);
+        $diasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERDE, \Yii::$app->user->identity->cliente->id);
+        $diasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERMELHO, \Yii::$app->user->identity->cliente->id);
 
         if($this->qtde_dias_aberto == 1) {
             $query->anteriorA($diasVerde);

@@ -19,7 +19,7 @@ MapBoxAPIHelper::registerScript($this, ['fullScreen', 'omnivore', 'markercluster
 </div>
 
 <?php
-$municipio = \Yii::$app->session->get('cliente')->municipio;
+$municipio = \Yii::$app->user->identity->cliente->municipio;
 $municipio->loadCoordenadas();
 ?>
 

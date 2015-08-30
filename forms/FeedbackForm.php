@@ -31,11 +31,10 @@ class FeedbackForm extends Model
         ];
     }
 
-
     public function sendFeedback(Usuario $user, $email)
     {
-        $municipio = $user->getCliente()->municipio;
-        
+        $municipio = $user->cliente->municipio;
+
         $message = '<p>Usuário: ' . $user->nome . ' (' . $user->login . ')</p>';
         if($user->email) {
             $message .= '<p>E-mail do usuário: ' . $user->email . '</p>';
@@ -53,8 +52,7 @@ class FeedbackForm extends Model
                 ->setHtmlBody($message)
                 ->send();
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }

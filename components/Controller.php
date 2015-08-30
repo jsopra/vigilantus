@@ -35,21 +35,14 @@ class Controller extends YiiController
     {
         $this->feedbackModel = new FeedbackForm();
 
-        if (!\Yii::$app->user->isGuest && !\Yii::$app->session->get('cliente')) {
+        if (!Yii::$app->user->isGuest) {
 
-            if (\Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
-                Yii::$app->session->set('municipios', Municipio::find()->innerJoinWith('cliente')->all());
-                Yii::$app->session->set('cliente', Cliente::find()->one());
+            $this->municipioLogado = Yii::$app->user->identity->cliente->municipio;
 
-                unset($municipios);
-            } else {
-                Yii::$app->session->set('municipios', null);
-                Yii::$app->session->set('cliente',\Yii::$app->user->identity->cliente);
+            if (Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
+                $this->municipiosDisponiveis =  Municipio::find()->innerJoinWith('cliente')->all();
             }
         }
-
-        $this->municipiosDisponiveis = \Yii::$app->session->get('municipios') ? \Yii::$app->session->get('municipios') : null;
-        $this->municipioLogado = \Yii::$app->session->get('cliente') ? \Yii::$app->session->get('cliente')->municipio : null;
 
         Yii::$app->setTimeZone('America/Sao_Paulo');
     }
