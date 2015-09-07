@@ -32,41 +32,66 @@ class CidadeController extends Controller
             return false;
         }
 
-        if ($action->id == 'comprovante-ocorrencia') {
-            return true;
-        }
-
-        $id = Yii::$app->request->get('id', 0);
-        $this->cliente = Cliente::findOne($id);
-
-        if (!$this->cliente) {
-            throw new HttpException(400, 'Município não localizado', 405);
-        }
-
-        if (!$this->cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
-            throw new HttpException(400, 'Município não utiliza ocorrências', 405);
-        }
-
         $usuario = Yii::$app->user->identity;
 
         if ($usuario && $usuario->usuario_role_id == UsuarioRole::ROOT) {
-            $usuario->cliente_id = $this->cliente->id;
+            $usuario->cliente_id = $this->getCliente()->id;
             $usuario->update(false, ['cliente_id']);
         }
 
         return true;
     }
 
-    public function actionIndex($id)
+    protected function getCliente()
     {
+        $cliente = Cliente::findOne(Yii::$app->request->get('id', 0));
+
+        if (!$cliente) {
+            throw new HttpException(400, 'Município não localizado', 405);
+        }
+
+        if (!$cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
+            throw new HttpException(400, 'Município não utiliza ocorrências', 405);
+        }
+
+        return $cliente;
+    }
+
+    public function actionView($rotulo)
+    {
+        $cliente = Cliente::find()->doRotulo($rotulo)->one();
+
+        if (!$cliente) {
+            throw new HttpException(404, 'Município não encontrado');
+        }
+
+        if (!$cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
+            throw new HttpException(404, 'Município não recebe ocorrências por este canal');
+        }
+
         return $this->render(
-            'index',
+            'view',
             [
-                'cliente' => $this->cliente,
-                'municipio' => $this->cliente->municipio,
+                'cliente' => $cliente,
+                'municipio' => $cliente->municipio,
                 'qtdeDias' => Configuracao::getValorConfiguracaoParaCliente(
                     Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA,
-                    $this->cliente->id
+                    $cliente->id
+                ),
+            ]
+        );
+    }
+
+    public function actionMapaFocos($id)
+    {
+        return $this->render(
+            'mapa-focos',
+            [
+                'cliente' => $this->getCliente(),
+                'municipio' => $this->getCliente()->municipio,
+                'qtdeDias' => Configuracao::getValorConfiguracaoParaCliente(
+                    Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA,
+                    $this->getCliente()->id
                 ),
             ]
         );
@@ -80,7 +105,7 @@ class CidadeController extends Controller
 
             $model->load(Yii::$app->request->post());
             $model->file = UploadedFile::getInstance($model, 'file');
-            $model->cliente_id = $this->cliente->id;
+            $model->cliente_id = $this->getCliente()->id;
 
             if ($model->validate()) {
 
@@ -108,43 +133,40 @@ class CidadeController extends Controller
         return $this->render(
             'ocorrencia',
             [
-                'cliente' => $this->cliente,
-                'municipio' => $this->cliente->municipio,
+                'cliente' => $this->getCliente(),
+                'municipio' => $this->getCliente()->municipio,
                 'model' => $model,
             ]
         );
     }
 
-    public function actionAcompanharOcorrencia($id, $hash)
+    public function actionAcompanharOcorrencia($id, $hash = null)
     {
         $model = Ocorrencia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
-        if(!$model) {
-            throw new HttpException(400, 'Ocorrência não localizada', 405);
-        }
-
         $dataProvider = new ActiveDataProvider([
-            'query' => OcorrenciaHistorico::find()->daOcorrencia($model->id),
+            'query' => OcorrenciaHistorico::find()->daOcorrencia($model ? $model->id : 0),
         ]);
 
         return $this->render(
             'acompanhar-ocorrencia',
             [
-                'cliente' => $this->cliente,
-                'municipio' => $this->cliente->municipio,
+                'cliente' => $this->getCliente(),
+                'municipio' => $this->getCliente()->municipio,
                 'model' => $model,
-                'dataProvider' => $dataProvider
+                'dataProvider' => $dataProvider,
+                'hash' => $hash,
             ]
         );
     }
 
     public function actionIsAreaTratamento($id, $lat, $lon)
     {
-        echo Json::encode(['isAreaTratamento' => FocoTransmissor::isAreaTratamento($this->cliente->id, $lat, $lon)]);
+        echo Json::encode(['isAreaTratamento' => FocoTransmissor::isAreaTratamento($this->getCliente()->id, $lat, $lon)]);
     }
 
     public function actionCoordenadaNaCidade($id, $lat, $lon)
     {
-        echo Json::encode(['coordenadaNaCidade' => $this->cliente->municipio->coordenadaNaCidade($lat, $lon)]);
+        echo Json::encode(['coordenadaNaCidade' => $this->getCliente()->municipio->coordenadaNaCidade($lat, $lon)]);
     }
 
     public function actionComprovanteOcorrencia($id, $hash)

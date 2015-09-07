@@ -8,16 +8,23 @@ use app\helpers\models\MunicipioHelper;
 use yii\bootstrap\Tabs;
 use yii\helpers\Url;
 
-$this->title = 'Detalhes de Ocorrência #' . $model->protocolo;
-$this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['index', 'id' => $cliente->id]];
+if ($model) {
+    $this->title = 'Detalhes de Ocorrência #' . $model->protocolo;
+} else {
+    $this->title = 'Acompanhar Ocorrência';
+}
+$this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['view', 'rotulo' => $cliente->rotulo]];
 $this->params['breadcrumbs'][] = 'Detalhes';
-$urlOcorrencia = Url::to('/' . $model->cliente->rotulo, true);
-$descricaoTweet = 'Denunciei um foco de mosquitos da dengue. Caso você também perceba algum, denuncie aqui: ';
 ?>
 <div class="row">
     <div class="col-md-6">
-        <h1><?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>&nbsp;&nbsp;<a href="<?= Url::to(['cidade/index', 'id' => $cliente->id]); ?>"><?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?></a></h1>
+        <h1>
+            <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
+            <a href="<?= Url::to(['cidade/view', 'id' => $cliente->id]); ?>"><?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
+            </a>
+        </h1>
     </div>
+    <?php if ($model) : ?>
     <div class="col-md-3 col-md-offset-3" style="margin-top: 1em;">
         <?= Html::a(
             '<i class="glyphicon glyphicon-download-alt"></i> Baixar Comprovante de Ocorrência',
@@ -26,7 +33,31 @@ $descricaoTweet = 'Denunciei um foco de mosquitos da dengue. Caso você também 
         );
         ?>
     </div>
+    <?php endif; ?>
 </div>
+<?php if (!$model) : ?>
+<form class="form-inline" action="/cidade/acompanhar-ocorrencia" method="get">
+    <p>
+        Digite o <strong>número do protocolo</strong> da ocorrência que você
+        recebeu ao registrá-la e clique em <strong>acompanhar</strong>.
+    </p>
+    <div class="form-group">
+        <input type="hidden" name="id" value="<?= $cliente->id; ?>" />
+        <input type="text" class="form-control input-lg" name="hash" placeholder="Nº do protocolo da ocorrência" value="<?= $hash ?>" />
+    <div class="form-group">
+    </div>
+        <button id="enviar" class="btn btn-primary btn-lg">Acompanhar</button>
+    </div>
+    <?php if ($hash) : ?>
+    <div class="alert alert-danger">Ocorrência inválida. Confira o número do protocolo digitado.</div>
+    <?php endif; ?>
+</form>
+<?php
+else :
+
+$urlOcorrencia = Url::to('/' . $model->cliente->rotulo, true);
+$descricaoTweet = 'Denunciei um foco de mosquitos da dengue. Caso você também perceba algum, denuncie aqui: ';
+?>
 <div class="ocorrencia-detalhes">
     <h1 style="padding-bottom: 0; margin-bottom: 0.3em;">Protocolo nº: <strong><?= $model->protocolo; ?></strong></h1>
     <p style="color: #797979;"><strong>Anote o seu número de protocolo. Com ele você poderá acompanhar o andamento da ocorrência a qualquer momento.</strong></p>
@@ -59,3 +90,4 @@ $descricaoTweet = 'Denunciei um foco de mosquitos da dengue. Caso você também 
     ]);
     ?>
 </div>
+<?php endif; ?>

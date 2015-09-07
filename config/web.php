@@ -41,7 +41,6 @@ $config = [
             //'authFile' => __DIR__ . '/../data/rbac.php',
             'defaultRoles' => ['Anonimo'],
         ],
-        // AuthClient - http://www.yiiframework.com/doc-2.0/ext-authclient-index.html
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
             'clients' => [
@@ -117,6 +116,15 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'rules' => [
+                // Regras personalizadas precisam vir aqui (antes):
+                // Regra padrão:
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                // Se todas falham, tenta ir pro município
+                '<rotulo:[a-zA-Z0-9\-]+>/' => 'cidade/view',
+            ],
         ],
         'user' => [
             'class' => 'yii\web\User',

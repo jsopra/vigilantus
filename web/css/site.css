@@ -456,3 +456,15 @@ span.introjs-helperNumberLayer {
     box-sizing: initial !important;
     -moz-box-sizing: initial !important;
 }
+
+.mapa-focos-chamada p:first-child {
+  color: #696d73;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.mapa-focos-chamada p:first-child strong {
+  color: #CC0000;
+  font-size: 1.2em;
+}
