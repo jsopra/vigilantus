@@ -49,10 +49,35 @@ class Setor extends ClienteActiveRecord
 			'id' => 'ID',
 			'nome' => 'Nome',
 			'cliente_id' => 'Cliente',
-			'inserido_por' => 'Usuario Inseriu',
-			'data_cadastro' => 'Datahora Inseriu',
-			'atualizado_por' => 'Usuario Alterou',
-			'data_atualizacao' => 'Datahora Alterou',
+			'inserido_por' => 'Inserido por',
+			'data_cadastro' => 'Data do cadastro',
+			'atualizado_por' => 'Atualizado por',
+			'data_atualizacao' => 'Data da atualização',
 		];
 	}
+
+	public function getQuantidadeUsuarios()
+    {
+        return SetorUsuario::find()->where(['setor_id' => $this->id])->count();
+    }
+
+    public function beforeDelete()
+    {
+        $parent = parent::beforeDelete();
+
+        $this->_clearRelationships();
+
+        return $parent;
+    }
+
+    /**
+     * Apaga relações do boletim com imóveis e fechamento de RG
+     * @return void
+     */
+    private function _clearRelationships()
+    {
+        foreach (SetorUsuario::find()->where('setor_id = :setor', [':setor' => $this->id])->all() as $registro) {
+            $registro->delete();
+        }
+    }
 }

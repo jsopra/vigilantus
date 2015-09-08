@@ -38,4 +38,12 @@ class UsuarioQuery extends ActiveQuery
 
         return $this;
     }
+
+    public function naoAssociadoAoSetor($id)
+    {
+        $this->andWhere('id NOT IN (
+            SELECT usuario_id from setor_usuarios where setor_id = ' . $id . '
+        )');
+        return $this;
+    }
 }
