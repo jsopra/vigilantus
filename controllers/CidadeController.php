@@ -82,6 +82,12 @@ class CidadeController extends Controller
         );
     }
 
+    public function actionIndex($id)
+    {
+        $cliente = $this->getCliente();
+        $this->redirect(['cidade/view', 'id' => $id, 'rotulo' => $cliente->rotulo]);
+    }
+
     public function actionMapaFocos($id)
     {
         return $this->render(
