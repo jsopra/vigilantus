@@ -97,6 +97,16 @@ class TentativaAveriguacaoForm extends Model
                     $ocorrencia->status = OcorrenciaStatus::FECHADO;
                     $saved = $ocorrencia->save();
                     $this->fechou_visita = true;
+                } else if ($ocorrencia->email) {
+                    \perspectivain\gearman\BackgroundJob::register(                        'AlertaVisitacaoOcorrenciaJob',
+                       [
+                           'id' => $ocorrencia->id,
+                           'historico_id' => $historico->id,
+                           'key' => getenv('GEARMAN_JOB_KEY')
+                       ],
+                       \perspectivain\gearman\BackgroundJob::NORMAL,
+                       \Yii::$app->params['gearmanQueueName']
+                    );
                 }
             } else {
                 $ocorrencia->scenario = Ocorrencia::SCENARIO_TROCA_STATUS;
