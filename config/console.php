@@ -64,6 +64,13 @@ $config = [
                 'encryption' => 'tls',
             ],
         ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'dateFormat' => 'medium',
+            'datetimeFormat' => 'medium',
+            'timeFormat' => 'medium',
+            'timeZone' => 'America/Sao_Paulo',
+        ],
     ],
     'params' => $params,
 ];
