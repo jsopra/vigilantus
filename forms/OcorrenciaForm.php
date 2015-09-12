@@ -118,7 +118,7 @@ class OcorrenciaForm extends Model
      */
     public function attributeLabels()
     {
-        return Ocorrencia::attributeLabels();
+        return (new Ocorrencia)->attributeLabels();
     }
 
     public function persistSession()
