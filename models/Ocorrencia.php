@@ -88,10 +88,24 @@ class Ocorrencia extends ClienteActiveRecord
 			[['file'], 'file'],
 			[['email'], 'email'],
 			['usuario_id', 'required', 'on' => ['aprovacao', 'trocaStatus']],
-            ['ocorrencia_tipo_problema_id', 'exist', 'skipOnEmpty' => true, 'targetClass' => OcorrenciaTipoProblema::className(), 'targetAttribute' => 'id'],
-            ['descricao_outro_tipo_problema', 'required', 'when' => function ($model) {
-                return is_null($model->ocorrencia_tipo_problema_id);
-            }, 'skipOnError' => true],
+            [
+                'ocorrencia_tipo_problema_id',
+                'exist',
+                'skipOnEmpty' => true,
+                'targetClass' => OcorrenciaTipoProblema::className(),
+                'targetAttribute' => 'id'
+            ],
+            [
+                'descricao_outro_tipo_problema',
+                'required',
+                'when' => function ($model) {
+                    return is_null($model->ocorrencia_tipo_problema_id);
+                },
+                'whenClient' => "function(attribute, value) {
+                    return \$('#ocorrencia-ocorrencia_tipo_problema_id').val() === '';
+                }",
+                'skipOnError' => true,
+            ],
 		];
 	}
 
