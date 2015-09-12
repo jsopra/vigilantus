@@ -11,7 +11,7 @@ use yii\helpers\Json;
 
 $this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
 $urlOcorrencia = Url::to('/' . $cliente->rotulo, true);
-$descricaoPagina = 'Acabei de registrar uma ocorrência de um foco da dengue para a Prefeitura de ' . $municipio->nome . ' - ' . $municipio->sigla_estado . '. Seja você também um cidadão e denuncie problemas de nossa cidade em ' .  $urlOcorrencia;
+$descricaoPagina = 'Abri uma ocorrência para a Secretaria de Saúde de ' . $municipio->nome . ' - ' . $municipio->sigla_estado . '. Denuncie problemas de nossa cidade em ' .  $urlOcorrencia;
 $this->registerMetaTag(['property' => 'og:image', 'content' => Url::to('/img/og-sharing-preview.jpg', true)]);
 $this->registerMetaTag(['property' => 'og:title', 'content' => 'Denuncie focos de mosquitos da dengue']);
 $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoPagina]);
