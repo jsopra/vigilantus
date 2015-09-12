@@ -29,7 +29,7 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
     Contamos com a sua ajuda para tornar o nosso município melhor.
 </p>
 <p class="text-center">
-    <a href="<?= Url::to(['cidade/registrar-ocorrencia', 'id' => $cliente->id]) ?>" class="btn btn-danger btn-lg">Registrar Ocorrência</a>
+    <a href="<?= Url::to(['registrar-ocorrencia/index', 'id' => $cliente->id]) ?>" class="btn btn-danger btn-lg">Registrar Ocorrência</a>
     <a href="<?= Url::to(['cidade/acompanhar-ocorrencia', 'id' => $cliente->id]) ?>" class="btn btn-success btn-lg">Acompanhar Ocorrência</a>
 </p>
 

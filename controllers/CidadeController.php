@@ -103,49 +103,6 @@ class CidadeController extends Controller
         );
     }
 
-    public function actionRegistrarOcorrencia($id)
-    {
-        $model = new Ocorrencia;
-
-        if (Yii::$app->request->post()) {
-
-            $model->load(Yii::$app->request->post());
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->cliente_id = $this->getCliente()->id;
-
-            if ($model->validate()) {
-
-                if($model->file) {
-                    $model->nome_original_anexo = $model->file->baseName . '.' . $model->file->extension;
-                    $model->anexo = time() . '.' . $model->file->extension;
-                }
-
-                if ($model->save()) {
-
-                    if($model->file) {
-                        $model->file->saveAs(OcorrenciaHelper::getUploadPath() . $model->anexo);
-                    }
-
-                    Yii::$app->session->setFlash('success', 'Ocorrência enviada com sucesso. Você será notificado quando ela for avaliada.');
-
-                    return $this->redirect(['cidade/acompanhar-ocorrencia', 'id' => $id, 'hash' => $model->hash_acesso_publico]);
-                }
-                else {
-                    Yii::$app->session->setFlash('error', 'Erro ao salvar a ocorrência.');
-                }
-            }
-        }
-
-        return $this->render(
-            'ocorrencia',
-            [
-                'cliente' => $this->getCliente(),
-                'municipio' => $this->getCliente()->municipio,
-                'model' => $model,
-            ]
-        );
-    }
-
     public function actionAcompanharOcorrencia($id, $hash = null)
     {
         $model = Ocorrencia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
