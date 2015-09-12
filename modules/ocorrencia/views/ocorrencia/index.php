@@ -75,7 +75,7 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                 'attribute' => 'ocorrencia_tipo_problema_id',
                 'filter' => OcorrenciaTipoProblema::listData('nome'),
                 'value' => function ($model, $index, $widget) {
-                    return $model->ocorrenciaTipoProblema ? $model->ocorrenciaTipoProblema->nome : null;
+                    return $model->getDescricaoTipoProblema();
                 }
             ],
 			[

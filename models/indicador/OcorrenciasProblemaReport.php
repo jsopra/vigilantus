@@ -46,6 +46,10 @@ class OcorrenciasProblemaReport extends Model
             $return[] = $problema->nome;
         }
 
+        if (!$this->problema_id) {
+            $return[] = 'Outros';
+        }
+
         return $return;
     }
 
@@ -59,6 +63,12 @@ class OcorrenciasProblemaReport extends Model
         foreach ($this->getProblemas(true) as $problema) {
             $series['recebidas'][] = (int) Ocorrencia::find()->criadaNoAno($this->ano)->doProblema($problema->id)->count();
             $series['finalizadas'][] = (int) Ocorrencia::find()->finalizadaNoAno($this->ano)->doProblema($problema->id)->count();
+        }
+
+        // Outros tipos
+        if (!$this->problema_id) {
+            $series['recebidas'][] = (int) Ocorrencia::find()->criadaNoAno($this->ano)->deProblemaDigitado()->count();
+            $series['finalizadas'][] = (int) Ocorrencia::find()->finalizadaNoAno($this->ano)->deProblemaDigitado()->count();
         }
 
         return $series;
