@@ -8,7 +8,6 @@ use yii\helpers\Html;
 <div class="col-md-12 text-center">
     <h1>
         <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
-        <br />
         <a href="<?= Url::to(['cidade/index', 'id' => $cliente->id]); ?>"><?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?></a>
     </h1>
 </div>
