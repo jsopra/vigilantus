@@ -115,15 +115,13 @@ class RegistrarOcorrenciaController extends Controller
             $model->scenario = OcorrenciaForm::SCENARIO_WIZARD_IDENTIFICACAO;
 
             if ($model->validate(OcorrenciaForm::SCENARIO_WIZARD_IDENTIFICACAO) && $model->persistSession()) {
-                if($ocorrencia = $model->save()) {
+                if ($ocorrencia = $model->save()) {
                     Yii::$app->session->setFlash('success', 'Ocorrência enviada com sucesso. Você será notificado quando ela for avaliada.');
                     return $this->redirect(['cidade/acompanhar-ocorrencia', 'id' => $id, 'hash' => $ocorrencia->hash_acesso_publico]);
                     Yii::app()->end();
                 } else {
                     Yii::$app->session->setFlash('error', 'Erro ao salvar a ocorrência.');
                 }
-            } else {
-                die(var_dump($model->errors));
             }
         }
 

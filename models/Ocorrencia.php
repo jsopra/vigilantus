@@ -33,6 +33,7 @@ use yii\db\Expression;
  * @property string $data_fechamento
  * @property string $numero_controle
  * @property string $coordenadas
+ * @property string $descricao_outro_tipo_problema
  *
  * @property OcorrenciaHistorico[] $ocorrenciaHistoricos
  * @property Cliente $cliente
@@ -84,10 +85,13 @@ class Ocorrencia extends ClienteActiveRecord
 			['status', 'default', 'value' => OcorrenciaStatus::AVALIACAO],
 			['status', 'in', 'range' => OcorrenciaStatus::getIDs()],
 			['localizacao', 'in', 'range' => OcorrenciaTipoImovel::getIDs()],
-			[['ocorrencia_tipo_problema_id'], 'required', 'on' => ['aprovacao']],
 			[['file'], 'file'],
 			[['email'], 'email'],
 			['usuario_id', 'required', 'on' => ['aprovacao', 'trocaStatus']],
+            ['ocorrencia_tipo_problema_id', 'exist', 'skipOnEmpty' => true, 'targetClass' => OcorrenciaTipoProblema::className(), 'targetAttribute' => 'id'],
+            ['descricao_outro_tipo_problema', 'required', 'when' => function ($model) {
+                return is_null($model->ocorrencia_tipo_problema_id);
+            }, 'skipOnError' => true],
 		];
 	}
 
@@ -121,6 +125,7 @@ class Ocorrencia extends ClienteActiveRecord
             'numero_controle' => 'Número de Controle',
             'observacoes' => 'Observações',
             'coordenadas' => 'Coordenadas',
+            'descricao_outro_tipo_problema' => 'Descrição do Problema',
 		];
 	}
 
@@ -195,6 +200,10 @@ class Ocorrencia extends ClienteActiveRecord
 
             if(!$this->isNewRecord && $oldStatus != $this->status && in_array($this->status, OcorrenciaStatus::getStatusTerminativos())) {
                 $this->data_fechamento = new Expression('NOW()');
+            }
+
+            if (!empty($this->ocorrencia_tipo_problema_id)) {
+                $this->descricao_outro_tipo_problema = null;
             }
 
             $result = parent::save($runValidation, $attributes);
@@ -293,6 +302,17 @@ class Ocorrencia extends ClienteActiveRecord
     public function getQuantidadeAveriguacoes()
     {
         return OcorrenciaHistorico::find()->where(['ocorrencia_id' => $this->id, 'tipo' => OcorrenciaHistoricoTipo::AVERIGUACAO])->count();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescricaoTipoProblema()
+    {
+        if ($tipoProblema = $this->ocorrenciaTipoProblema) {
+            return $tipoProblema->nome;
+        }
+        return $this->descricao_outro_tipo_problema;
     }
 
     /**

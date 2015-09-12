@@ -25,11 +25,11 @@ $this->params['breadcrumbs'][] = 'Detalhes';
         </h1>
     </div>
     <?php if ($model) : ?>
-    <div class="col-md-3 col-md-offset-3" style="margin-top: 1em;">
+    <div class="col-md-6" style="margin-top: 1em;">
         <?= Html::a(
-            '<i class="glyphicon glyphicon-download-alt"></i> Baixar Comprovante de Ocorrência',
+            '<i class="glyphicon glyphicon-download-alt"></i> baixar comprovante',
             Yii::$app->urlManager->createUrl(['cidade/comprovante-ocorrencia', 'id' => $cliente->id, 'hash' => $model->hash_acesso_publico]),
-            ['class' => 'btn btn-primary']
+            ['class' => 'btn btn-primary pull-right']
         );
         ?>
     </div>

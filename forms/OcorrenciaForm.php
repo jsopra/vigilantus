@@ -6,6 +6,7 @@ use yii\base\Model;
 use app\models\Ocorrencia;
 use app\models\OcorrenciaStatus;
 use app\models\OcorrenciaTipoImovel;
+use app\models\OcorrenciaTipoProblema;
 use app\helpers\models\OcorrenciaHelper;
 use perspectivain\postgis\PostgisTrait as postgisTrait;
 
@@ -37,6 +38,7 @@ class OcorrenciaForm extends Model
         'ocorrencia_tipo_problema_id',
         'mensagem',
         'cliente_id',
+        'descricao_outro_tipo_problema',
     ];
 
     /**
@@ -49,6 +51,7 @@ class OcorrenciaForm extends Model
 
     //w1
     public $ocorrencia_tipo_problema_id;
+    public $descricao_outro_tipo_problema;
     public $tipo_imovel;
     public $bairro_id;
     public $endereco;
@@ -84,10 +87,27 @@ class OcorrenciaForm extends Model
     public function rules()
     {
         return [
-            [['ocorrencia_tipo_problema_id', 'tipo_imovel', 'bairro_id', 'endereco'], 'required', 'on' => self::SCENARIO_WIZARD_LOCAL],
+            [['tipo_imovel', 'bairro_id', 'endereco'], 'required', 'on' => self::SCENARIO_WIZARD_LOCAL],
+            [
+                'ocorrencia_tipo_problema_id',
+                'exist',
+                'skipOnEmpty' => true,
+                'targetClass' => OcorrenciaTipoProblema::className(),
+                'targetAttribute' => 'id',
+                'on' => self::SCENARIO_WIZARD_LOCAL,
+            ],
+            [
+                'descricao_outro_tipo_problema',
+                'required',
+                'when' => function ($model) {
+                    return empty($model->ocorrencia_tipo_problema_id);
+                },
+                'skipOnError' => true,
+                'on' => self::SCENARIO_WIZARD_LOCAL,
+            ],
             [['cliente_id'], 'required', 'on' => self::SCENARIO_WIZARD_IDENTIFICACAO],
             [['ocorrencia_tipo_problema_id', 'tipo_imovel', 'bairro_id', 'cliente_id'], 'integer'],
-            [['pontos_referencia', 'coordenadas', 'telefone', 'coordenadasJson'], 'safe'],
+            [['pontos_referencia', 'coordenadas', 'telefone', 'coordenadasJson', 'descricao_outro_tipo_problema'], 'safe'],
             ['email', 'email'],
             [['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo'], 'string'],
         ];
@@ -152,6 +172,16 @@ class OcorrenciaForm extends Model
             $model->$field = $this->$field;
         }
 
-        return $model->validate() && $model->save() && $this->clearSession() ? $model : false;
+        if ($this->ocorrencia_tipo_problema_id) {
+            $model->descricao_outro_tipo_problema = null;
+        }
+
+        if (!$model->validate() || !$model->save()) {
+            foreach ($model->errors as $attribute => $errors) {
+                $this->addError($attribute, $errors);
+            }
+        }
+
+        return !$this->hasErrors() && $this->clearSession() ? $model : false;
     }
 }
