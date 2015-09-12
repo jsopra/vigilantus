@@ -8,6 +8,7 @@ use app\models\Cliente;
 use app\models\Configuracao;
 use app\models\Ocorrencia;
 use app\models\OcorrenciaHistorico;
+use app\models\OcorrenciaStatus;
 use app\models\Modulo;
 use app\models\FocoTransmissor;
 use app\models\UsuarioRole;
@@ -69,15 +70,31 @@ class CidadeController extends Controller
             throw new HttpException(404, 'Município não recebe ocorrências por este canal');
         }
 
+        $numeroOcorrenciasRecebidas = Ocorrencia::find()
+            ->doCliente($cliente)
+            ->count()
+        ;
+        $numeroOcorrenciasAtendidas = Ocorrencia::find()
+            ->doCliente($cliente)
+            ->andWhere('status <> ' . OcorrenciaStatus::AVALIACAO)
+            ->count()
+        ;
+        $primeiraOcorrencia = Ocorrencia::find()
+            ->doCliente($cliente)
+            ->orderBy('data_criacao ASC')
+            ->one()
+        ;
+
         return $this->render(
             'view',
             [
                 'cliente' => $cliente,
                 'municipio' => $cliente->municipio,
-                'qtdeDias' => Configuracao::getValorConfiguracaoParaCliente(
-                    Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA,
-                    $cliente->id
+                'numeroOcorrenciasRecebidas' => $numeroOcorrenciasRecebidas,
+                'percentualOcorrenciasAtendidas' => round(
+                    $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100
                 ),
+                'dataPrimeiraOcorrencia' => $primeiraOcorrencia->formatted_data_criacao,
             ]
         );
     }

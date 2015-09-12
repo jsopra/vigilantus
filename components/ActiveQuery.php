@@ -23,22 +23,26 @@ class ActiveQuery extends YiiActiveQuery
     }
 
     /**
-     * @param int $id
-     * @return \app\components\ActiveQuery 
+     * @param int|\app\models\Cliente $id Objeto do cliente ou ID do objeto
+     * @return \app\components\ActiveQuery
      */
-    public function doCliente($id)
+    public function doCliente($value)
     {
         $modelClass = $this->modelClass;
         $model = new $modelClass;
 
-        if(!isset($model->getTableSchema()->columns['cliente_id'])) {
+        if (!isset($model->getTableSchema()->columns['cliente_id'])) {
             return $this;
         }
-        
-        $this->andWhere($model::tableName() . '.cliente_id = :cliente_id', [':cliente_id' => $id]);
+
+        if (is_object($value)) {
+            $value = $value->id;
+        }
+
+        $this->andWhere($model::tableName() . '.cliente_id = :cliente_id', [':cliente_id' => $value]);
         return $this;
     }
-    
+
     /**
      * @return ActiveQuery
      */

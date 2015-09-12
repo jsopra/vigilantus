@@ -1,23 +1,9 @@
 <?php
-use app\helpers\MapHelper;
 use app\helpers\models\MunicipioHelper;
-use app\models\Bairro;
-use app\models\Municipio;
-use app\models\EspecieTransmissor;
-use app\models\redis\FocosAtivos;
-use perspectivain\mapbox\MapBoxAPIHelper;
 use yii\helpers\Html;
-use yii\helpers\Json;
 use yii\helpers\Url;
 
-$this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
-$urlOcorrencia = Url::to('/' . $cliente->rotulo, true);
-$descricaoPagina = 'Registrei uma ocorrência para a Secretaria de Saúde de ' . $municipio->nome . ' - ' . $municipio->sigla_estado . '. Seja a mudança na nossa cidade! Faça seu contato em ' .  $urlOcorrencia;
-$this->registerMetaTag(['property' => 'og:image', 'content' => Url::to('/img/og-sharing-preview.jpg', true)]);
-$this->registerMetaTag(['property' => 'og:title', 'content' => 'Denuncie focos de mosquitos da dengue']);
-$this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoPagina]);
-
-MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omnivore', 'markercluster']);
+$this->title = 'Ocorrências – ' . $municipio->nome . '/' . $municipio->sigla_estado;
 ?>
 <h1 class="text-center">
     <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
@@ -28,13 +14,21 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
 <p class="text-center">
     Contamos com a sua ajuda para tornar o nosso município melhor.
 </p>
-<p class="text-center">
-    <a href="<?= Url::to(['registrar-ocorrencia/index', 'id' => $cliente->id]) ?>" class="btn btn-danger btn-lg">Registrar Ocorrência</a>
-    <a href="<?= Url::to(['cidade/acompanhar-ocorrencia', 'id' => $cliente->id]) ?>" class="btn btn-success btn-lg">Acompanhar Ocorrência</a>
+<p class="text-center bloco-botoes-ocorrencias">
+    <a href="<?= Url::to(['registrar-ocorrencia/index', 'id' => $cliente->id]) ?>" class="btn btn-danger btn-lg">
+        <i class="fa fa-plus"></i>
+        registrar ocorrência
+    </a>
+    <a href="<?= Url::to(['cidade/acompanhar-ocorrencia', 'id' => $cliente->id]) ?>" class="btn btn-success btn-lg">
+        <i class="fa fa-eye"></i>
+        acompanhar ocorrência
+    </a>
 </p>
-
-<hr>
-
+<div class="bloco-numero-ocorrencias text-center">
+    <p><strong class="recebidas"><?= $numeroOcorrenciasRecebidas ?></strong> ocorrências recebidas,</p>
+    <p><strong class="atendidas"><?= $percentualOcorrenciasAtendidas ?>%</strong> já foram atendidas.</p>
+    <p class="fonte-informacao">(informações coletadas desde <?= $dataPrimeiraOcorrencia ?>)</p>
+</div>
 <div class="panel panel-default text-center">
     <div class="panel-heading mapa-focos-chamada">
         <p>
@@ -42,7 +36,7 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
             <strong>Chikungunya</strong> vivem perto de você?
         </p>
         <p>
-            <a href="<?= Url::to(['cidade/mapa-focos', 'id' => $cliente->id]) ?>" class="btn btn-success">
+            <a href="<?= Url::to(['cidade/mapa-focos', 'id' => $cliente->id]) ?>" class="btn btn-default">
                 <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
                 Confira no mapa
             </a>
