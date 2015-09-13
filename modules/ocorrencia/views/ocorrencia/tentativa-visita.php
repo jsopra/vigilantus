@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = 'Informar tentativa de averiguação';
 
             echo Html::a(
                 'Cancelar',
-                array('/ocorrencia/index'),
+                Yii::$app->request->referrer,
                 array('class'=>'link','rel'=>'tooltip','data-role'=>'cancel','data-title'=>'Ir à lista de Ocorrências')
             );
             ?>

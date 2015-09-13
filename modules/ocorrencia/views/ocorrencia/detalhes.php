@@ -15,7 +15,7 @@ $urlOcorrencia = Url::to('/' . $model->cliente->rotulo, true);
         <div class="col-sm-12 text-right">
             <?= Html::a(
                 '<i class="glyphicon glyphicon-circle-arrow-left"></i> Voltar às ocorrências',
-                Yii::$app->urlManager->createUrl('ocorrencia/ocorrencia/index'),
+                Yii::$app->request->referrer,
                 ['class' => 'btn btn-link']
             )
             ?>

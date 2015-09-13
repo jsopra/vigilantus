@@ -36,7 +36,7 @@ if ($model->email) {
 
                 echo Html::a(
                     'Cancelar',
-                    array('/ocorrencia/ocorrencia/index'),
+                    Yii::$app->request->referrer,
                     array('class'=>'link','rel'=>'tooltip','data-role'=>'cancel','data-title'=>'Ir à lista de Ocorrências')
                 );
                 ?>

@@ -60,9 +60,8 @@ $averiguacoes = $model->quantidadeAveriguacoes;
         <div class="row">
             <div class="col-xs-3 text-left">
                 <?php if($averiguacoes > 0) : ?>
-                    <?= Html::a('<i class="glyphicon glyphicon-user"></i>', '#', [
+                    <?= Html::a('<i class="glyphicon glyphicon-user"></i>', 'javascript:verAveriguacoes(' . $model->id . ')', [
                         'title' => Yii::t('yii', 'Ver averiguações'),
-                        'data-method' => 'post',
                         'class' => 'btn btn-default'
                     ]); ?>
                 <?php endif; ?>
@@ -75,6 +74,3 @@ $averiguacoes = $model->quantidadeAveriguacoes;
         </div>
     </div>
 </div>
-<!--
-return Url::toRoute(['ocorrencia/ver-averiguacoes', 'id' => $model->id]);
--->

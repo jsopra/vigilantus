@@ -49,6 +49,38 @@ class OcorrenciaController extends CRUDController
         ];
     }
 
+    public function actionIndex()
+    {
+        $searchModelClass = $this->getSearchModelClassName();
+        $searchModel = new $searchModelClass;
+        $dataProvider = $searchModel->search($_GET);
+
+        Yii::$app->user->returnUrl = Yii::$app->urlManager->createUrl('ocorrencia/ocorrencia/index');
+
+        return $this->renderAjaxOrLayout(
+            'index',
+            ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
+        );
+    }
+
+    public function actionAbertas()
+    {
+        $searchModelClass = $this->getSearchModelClassName();
+        $searchModel = new $searchModelClass;
+
+        $_GET['OcorrenciaSearch']['data_fechamento'] = '0';
+        $_GET['OcorrenciaSearch']['status_fechamento'] = null;
+
+        $dataProvider = $searchModel->search($_GET);
+
+        Yii::$app->user->returnUrl = Yii::$app->urlManager->createUrl('ocorrencia/ocorrencia/abertas');
+
+        return $this->renderAjaxOrLayout(
+            'abertas',
+            ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
+        );
+    }
+
     public function actionCreate()
     {
         $model = new Ocorrencia();
@@ -77,7 +109,7 @@ class OcorrenciaController extends CRUDController
 
                     Yii::$app->session->setFlash('success', 'Ocorrência cadastrada com sucesso.');
 
-                    return $this->redirect(['ocorrencia/index']);
+                    return $this->redirect(Yii::$app->user->returnUrl);
                 }
                 else {
                     Yii::$app->session->setFlash('error', 'Erro ao salvar a ocorrência.');
@@ -115,7 +147,7 @@ class OcorrenciaController extends CRUDController
         if (!empty($_POST) && $model->load($_POST)) {
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Ocorrência reprovada!');
-                return $this->redirect(['ocorrencia/index']);
+                return $this->redirect(Yii::$app->user->returnUrl);
             }
         }
 
@@ -141,7 +173,7 @@ class OcorrenciaController extends CRUDController
 
                 Yii::$app->session->setFlash('success', 'Ocorrência aprovada!');
 
-                return $this->redirect(['ocorrencia/index']);
+                return $this->redirect(Yii::$app->user->returnUrl);
             }
         }
 
@@ -175,7 +207,7 @@ class OcorrenciaController extends CRUDController
 
                 Yii::$app->session->setFlash('success', 'Ocorrência teve status alterado!');
 
-                return $this->redirect(['ocorrencia/index']);
+                return $this->redirect(Yii::$app->user->returnUrl);
             }
         }
 
@@ -202,7 +234,7 @@ class OcorrenciaController extends CRUDController
                     Yii::$app->session->setFlash('success', 'Ocorrência teve tentativa de visita registrada.');
                 }
 
-                return $this->redirect(['ocorrencia/index']);
+                return $this->redirect(Yii::$app->user->returnUrl);
             }
         }
 
@@ -228,18 +260,6 @@ class OcorrenciaController extends CRUDController
 
         return $this->renderPartial(
             '_averiguacoes',
-            ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
-        );
-    }
-
-    public function actionAbertas()
-    {
-        $searchModelClass = $this->getSearchModelClassName();
-        $searchModel = new $searchModelClass;
-        $dataProvider = $searchModel->search($_GET + ['data_fechamento' => 0]);
-
-        return $this->renderAjaxOrLayout(
-            'abertas',
             ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
         );
     }
