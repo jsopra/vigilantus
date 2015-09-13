@@ -45,7 +45,7 @@ use app\helpers\models\ImovelHelper;
 
 <p>
     <strong><?= Html::activeLabel($model, 'ocorrencia_tipo_problema_id') ?></strong><br />
-    <?= $model->ocorrencia_tipo_problema_id ? Html::encode($model->ocorrenciaTipoProblema->nome) : null ?>
+    <?= Html::encode($model->getDescricaoTipoProblema()) ?>
 </p>
 
 <?php if ($model->pontos_referencia) : ?>

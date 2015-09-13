@@ -8,6 +8,7 @@ use app\models\Cliente;
 use app\models\Configuracao;
 use app\models\Ocorrencia;
 use app\models\OcorrenciaHistorico;
+use app\models\OcorrenciaStatus;
 use app\models\Modulo;
 use app\models\FocoTransmissor;
 use app\models\UsuarioRole;
@@ -69,15 +70,31 @@ class CidadeController extends Controller
             throw new HttpException(404, 'Município não recebe ocorrências por este canal');
         }
 
+        $numeroOcorrenciasRecebidas = Ocorrencia::find()
+            ->doCliente($cliente)
+            ->count()
+        ;
+        $numeroOcorrenciasAtendidas = Ocorrencia::find()
+            ->doCliente($cliente)
+            ->fechada()
+            ->count()
+        ;
+        $primeiraOcorrencia = Ocorrencia::find()
+            ->doCliente($cliente)
+            ->orderBy('data_criacao ASC')
+            ->one()
+        ;
+
         return $this->render(
             'view',
             [
                 'cliente' => $cliente,
                 'municipio' => $cliente->municipio,
-                'qtdeDias' => Configuracao::getValorConfiguracaoParaCliente(
-                    Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA,
-                    $cliente->id
+                'numeroOcorrenciasRecebidas' => $numeroOcorrenciasRecebidas,
+                'percentualOcorrenciasAtendidas' => round(
+                    $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100
                 ),
+                'dataPrimeiraOcorrencia' => \Yii::$app->formatter->asDate($primeiraOcorrencia->data_criacao . ' ' . Yii::$app->timeZone),
             ]
         );
     }
@@ -99,49 +116,6 @@ class CidadeController extends Controller
                     Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA,
                     $this->getCliente()->id
                 ),
-            ]
-        );
-    }
-
-    public function actionRegistrarOcorrencia($id)
-    {
-        $model = new Ocorrencia;
-
-        if (Yii::$app->request->post()) {
-
-            $model->load(Yii::$app->request->post());
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->cliente_id = $this->getCliente()->id;
-
-            if ($model->validate()) {
-
-                if($model->file) {
-                    $model->nome_original_anexo = $model->file->baseName . '.' . $model->file->extension;
-                    $model->anexo = time() . '.' . $model->file->extension;
-                }
-
-                if ($model->save()) {
-
-                    if($model->file) {
-                        $model->file->saveAs(OcorrenciaHelper::getUploadPath() . $model->anexo);
-                    }
-
-                    Yii::$app->session->setFlash('success', 'Ocorrência enviada com sucesso. Você será notificado quando ela for avaliada.');
-
-                    return $this->redirect(['cidade/acompanhar-ocorrencia', 'id' => $id, 'hash' => $model->hash_acesso_publico]);
-                }
-                else {
-                    Yii::$app->session->setFlash('error', 'Erro ao salvar a ocorrência.');
-                }
-            }
-        }
-
-        return $this->render(
-            'ocorrencia',
-            [
-                'cliente' => $this->getCliente(),
-                'municipio' => $this->getCliente()->municipio,
-                'model' => $model,
             ]
         );
     }

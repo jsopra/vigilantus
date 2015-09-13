@@ -25,11 +25,11 @@ $this->params['breadcrumbs'][] = 'Detalhes';
         </h1>
     </div>
     <?php if ($model) : ?>
-    <div class="col-md-3 col-md-offset-3" style="margin-top: 1em;">
+    <div class="col-md-6" style="margin-top: 1em;">
         <?= Html::a(
-            '<i class="glyphicon glyphicon-download-alt"></i> Baixar Comprovante de Ocorrência',
+            '<i class="glyphicon glyphicon-download-alt"></i> baixar comprovante',
             Yii::$app->urlManager->createUrl(['cidade/comprovante-ocorrencia', 'id' => $cliente->id, 'hash' => $model->hash_acesso_publico]),
-            ['class' => 'btn btn-primary']
+            ['class' => 'btn btn-primary pull-right']
         );
         ?>
     </div>
@@ -56,7 +56,14 @@ $this->params['breadcrumbs'][] = 'Detalhes';
 else :
 
 $urlOcorrencia = Url::to('/' . $model->cliente->rotulo, true);
-$descricaoTweet = 'Denunciei um foco de mosquitos da dengue. Caso você também perceba algum, denuncie aqui: ';
+$municipio = Yii::$app->user->identity->cliente->municipio;
+$descricaoTweet = 'Registrei uma ocorrência para a Sec. de Saúde de ' . $municipio->nome . '. Seja a mudança da sua cidade! Faça seu contato em';
+
+$descricaoPagina = 'Registrei uma ocorrência para a Secretaria de Saúde de ' . $municipio->nome . '/' . $municipio->sigla_estado . '. Seja a mudança na nossa cidade! Faça seu contato em ' .  $urlOcorrencia;
+
+$this->registerMetaTag(['property' => 'og:image', 'content' => Url::to('/img/og-sharing-preview.jpg', true)]);
+$this->registerMetaTag(['property' => 'og:title', 'content' => 'Denuncie focos de mosquitos da dengue']);
+$this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoPagina]);
 ?>
 <div class="ocorrencia-detalhes">
     <h1 style="padding-bottom: 0; margin-bottom: 0.3em;">Protocolo nº: <strong><?= $model->protocolo; ?></strong></h1>

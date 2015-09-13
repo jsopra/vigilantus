@@ -61,8 +61,8 @@ class Bairro extends ClienteActiveRecord
         );
     }
 
-    public function beforeValidate() {
-
+    public function beforeValidate()
+    {
         $this->_validateAndLoadPostgisField();
 
         return parent::beforeValidate();

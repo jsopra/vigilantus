@@ -12,6 +12,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/resumo-rg-bairro.css',
         'css/index.css',
+        'css/cidade.css',
         'css/common.css',
         'css/blog.css',
         'js/jquery-toast-plugin-master/jquery.toast.min.css',
@@ -33,5 +34,6 @@ class AppAsset extends AssetBundle
         'app\components\themes\DetailwrapAsset',
         'app\batch\Asset',
         'app\components\IntroJsAsset',
+        '\rmrevin\yii\fontawesome\AssetBundle'
     ];
 }

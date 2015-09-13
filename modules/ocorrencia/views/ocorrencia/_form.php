@@ -37,7 +37,7 @@ use yii\helpers\Url;
             <div class="col-xs-4 bairro-hide">
                 <?php
                 $quarteiroes = BairroQuarteirao::find()->doBairro($model->bairro_id)->orderBy('numero_quarteirao')->all();
-                echo $form->field($model, 'bairro_quarteirao_id')->dropDownList(ArrayHelper::map($quarteiroes, 'id', 'numero_quarteirao'), ['prompt' => 'Selecione...']);
+                echo $form->field($model, 'bairro_quarteirao_id')->dropDownList(ArrayHelper::map($quarteiroes, 'id', 'numero_quarteirao'));
                 ?>
             </div>
         </div>
@@ -88,14 +88,17 @@ use yii\helpers\Url;
             <div class="col-xs-4">
                 <?php
                 $tipos = \app\models\OcorrenciaTipoProblema::find()->ativos()->orderBy('nome')->all();
-                echo $form->field($model, 'ocorrencia_tipo_problema_id')->dropDownList(ArrayHelper::map($tipos, 'id', 'nome'), ['prompt' => 'Selecione..']);
+                echo $form->field($model, 'ocorrencia_tipo_problema_id')->dropDownList(['0' => 'Selecione'] + ArrayHelper::map($tipos, 'id', 'nome') + ['' => 'Outros']);
                 ?>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-xs-8">
+            <div class="col-xs-4">
                 <?= $form->field($model, 'pontos_referencia') ?>
+            </div>
+            <div class="col-xs-4" id="bloco-outro-tipo-problema">
+                <?= $form->field($model, 'descricao_outro_tipo_problema') ?>
             </div>
         </div>
 
@@ -296,4 +299,16 @@ $script .= '
 });
 ';
 $view->registerJs($script);
-?>
+
+$this->registerJs('
+$(document).ready(function(){
+    var checarTipoProblema = function() {
+        if ($("#ocorrencia-ocorrencia_tipo_problema_id").val()) {
+            $("#bloco-outro-tipo-problema").hide();
+        } else {
+            $("#bloco-outro-tipo-problema").show();
+        }
+    };
+    $("#ocorrencia-ocorrencia_tipo_problema_id").change(checarTipoProblema);
+    checarTipoProblema();
+});');
