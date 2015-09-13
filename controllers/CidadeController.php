@@ -76,7 +76,7 @@ class CidadeController extends Controller
         ;
         $numeroOcorrenciasAtendidas = Ocorrencia::find()
             ->doCliente($cliente)
-            ->andWhere('status <> ' . OcorrenciaStatus::AVALIACAO)
+            ->fechada()
             ->count()
         ;
         $primeiraOcorrencia = Ocorrencia::find()
@@ -94,7 +94,7 @@ class CidadeController extends Controller
                 'percentualOcorrenciasAtendidas' => round(
                     $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100
                 ),
-                'dataPrimeiraOcorrencia' => $primeiraOcorrencia->formatted_data_criacao,
+                'dataPrimeiraOcorrencia' => \Yii::$app->formatter->asDate($primeiraOcorrencia->data_criacao . ' ' . Yii::$app->timeZone),
             ]
         );
     }

@@ -24,11 +24,11 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
         </div>
 
         <div class="row">
-            <div class="col-xs-7">
+            <div class="col-md-7 col-xs-12">
                 <?= $form->field($model, 'email')->textInput()->hint('<strong>Ajude a fiscalizar!</strong> Preenchendo o email, você receberá automaticamente as atualizações da ocorrência. ') ?>
             </div>
 
-            <div class="col-xs-5">
+            <div class="col-md-5 col-xs-12">
                 <?= Html::activeLabel($model, 'telefone') ?>
                 <?php
                 echo MaskedInput::widget([

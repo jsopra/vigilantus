@@ -29,8 +29,8 @@ class AlertaVisitacaoOcorrenciaJob implements \perspectivain\gearman\InterfaceJo
         }
 
         $message = '<p><strong>Alerta de visitação em ocorrência</strong></p>';
-        $message .= '<p>Olá, ' . ($model->nome ? $model->nome : '') . ',</p>';
-        $message .= '<p>Informamos que houve um visitação ao local de sua ocorrência em ' . $historico->getFormattedAttribute('data_associada') . '.</p>';
+        $message .= '<p>Olá' . ($model->nome ? ', ' . $model->nome : '') . ',</p>';
+        $message .= '<p>Houve um visitação ao local de sua ocorrência em ' . $historico->getFormattedAttribute('data_associada') . '.</p>';
 
         $message .= '<hr />';
         $message .= '<a href="' . getenv('VIGILANTUS_BASE_PATH') . 'cidade/acompanhar-ocorrencia?id=' . $model->cliente->id . '&hash=' . $model->hash_acesso_publico . '">Acompanhe aqui a sua ocorrência</a>';
