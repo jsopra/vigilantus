@@ -18,11 +18,11 @@ class VigilantusLayoutHelper
                 'icon' => 'fa fa-bullhorn',
                 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && !$user->can('Analista'),
                 'items' => [
-                    ['label' => 'Abertas', 'url' => ['/ocorrencia/ocorrencia/abertas'], 'options' => ['id' => 'stepguide-ocorrencias']],
-                    ['label' => 'Todas', 'url' => ['/ocorrencia/ocorrencia/index'], 'options' => ['id' => 'stepguide-ocorrencias']],
+                    ['label' => 'Abertas', 'url' => ['/ocorrencia/ocorrencia/abertas'], 'options' => ['id' => 'stepguide-ocorrencias-abertas']],
+                    ['label' => 'Todas', 'url' => ['/ocorrencia/ocorrencia/index'], 'options' => ['id' => 'stepguide-ocorrencias-todas']],
                     ['label' => 'Indicadores', 'url' => ['/ocorrencia/indicador/ocorrencias-mes'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-ocorrencias']],
                 ],
-                'options' => ['class' => 'step-mapas'],
+                'options' => ['id' => 'stepguide-ocorrencias', 'class' => 'step-ocorrencias'],
             ],
             [
                 'label' => 'Focos',
@@ -36,7 +36,7 @@ class VigilantusLayoutHelper
                     ['label' => 'Rel. de Focos', 'url' => ['/relatorio/focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos']],
                     ['label' => 'Rel. de Focos por Bairro', 'url' => ['/relatorio/focos-bairro'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos-bairro']],
                 ],
-                'options' => ['class' => 'stepguide-focos'],
+                'options' => ['id' => 'stepguide-focos', 'class' => 'stepguide-focos'],
             ],
             [
                 'label' => 'Localização',

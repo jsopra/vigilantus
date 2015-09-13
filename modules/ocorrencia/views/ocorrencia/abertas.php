@@ -132,19 +132,11 @@ if(isset($_GET['step'])) {
                 steps: [
                     {
                         element: "#stepguide-title",
-                        intro: "Este é o painel de gestão de Ocorrências. Uma ocorrência pode ser cadastrada por você, ou mesmo recebida através da página pública ou das redes sociais"
+                        intro: "Este é o painel de gestão de Ocorrências abertas. Todas as ocorrências abertas são listadas aqui, facilitando a sua gestão."
                     },
                     {
-                        element: "#stepguide-create-ocorrencia",
-                        intro: "Você pode transcrever uma ocorrência recebida por uma forma não automatizada"
-                    },
-                    {
-                        element: "#stepguide-create-carga-ocorrencias",
-                        intro: "Ou também fazer uma carga de ocorrências no sistema"
-                    },
-                    {
-                        element: "thead",
-                        intro: "Todas as ocorrências ficarão listadas abaixo. Você poderá filtrar por status, tipo de problema, bairro, ou acompanhar indicadores de atendimento da ocorrência. A última coluna traz alguns ícones que darão continuidade à uma ocorrência: ver detalhes, baixar anexo, aprovar, reprovar e informar alteração de status"
+                        element: "#dadosPrincipais",
+                        intro: "Você pode aplicar qualquer filtro nas ocorrências abertas, e vê-las abaixo listadas"
                     },
                 ],
             });

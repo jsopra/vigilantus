@@ -228,10 +228,18 @@ if(isset($_GET['step'])) {
                         element: "thead",
                         intro: "Todas as ocorrências ficarão listadas abaixo. Você poderá filtrar por status, tipo de problema, bairro, ou acompanhar indicadores de atendimento da ocorrência. A última coluna traz alguns ícones que darão continuidade à uma ocorrência: ver detalhes, baixar anexo, aprovar, reprovar e informar alteração de status"
                     },
+                    {
+                        element: "thead",
+                        intro: "Vamos conhecer agora a ferramenta que trata de ocorrências abertas"
+                    },
                 ],
+                doneLabel: "Ir para ferramenta!",
+                tooltipPosition: "auto"
             });
 
-            intro.start();
+            intro.start().oncomplete(function() {
+              window.location.href = stepOcorrenciasAbertasUrl;
+            });
         })
     ';
     $view->registerJs($script);
