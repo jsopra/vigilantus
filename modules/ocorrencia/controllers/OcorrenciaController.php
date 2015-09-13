@@ -37,11 +37,11 @@ class OcorrenciaController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'reprovar'],
+                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'reprovar', 'abertas'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'reprovar'],
+                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'reprovar', 'abertas'],
                         'roles' => ['Usuario'],
                     ],
                 ],
@@ -228,6 +228,18 @@ class OcorrenciaController extends CRUDController
 
         return $this->renderPartial(
             '_averiguacoes',
+            ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
+        );
+    }
+
+    public function actionAbertas()
+    {
+        $searchModelClass = $this->getSearchModelClassName();
+        $searchModel = new $searchModelClass;
+        $dataProvider = $searchModel->search($_GET + ['data_fechamento' => 0]);
+
+        return $this->renderAjaxOrLayout(
+            'abertas',
             ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
         );
     }

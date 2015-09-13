@@ -16,16 +16,27 @@ class VigilantusLayoutHelper {
             [
                 'label' => 'Ocorrências',
                 'icon' => 'bullhorn',
-                'url' => ['/ocorrencia/ocorrencia/index'],
                 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && !$user->can('Analista'),
-                'options' => ['id' => 'stepguide-ocorrencias'],
+                'items' => [
+                    ['label' => 'Abertas', 'url' => ['/ocorrencia/ocorrencia/abertas'], 'options' => ['id' => 'stepguide-ocorrencias']],
+                    ['label' => 'Todas', 'url' => ['/ocorrencia/ocorrencia/index'], 'options' => ['id' => 'stepguide-ocorrencias']],
+                    ['label' => 'Indicadores', 'url' => ['/ocorrencia/indicador/ocorrencias-mes'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-ocorrencias']],
+                ],
+                'options' => ['class' => 'step-mapas'],
             ],
             [
                 'label' => 'Focos',
                 'icon' => 'screenshot',
-                'url' => ['/foco-transmissor/'],
                 'visible' => !$user->can('Analista'),
-                'options' => ['id' => 'stepguide-focos'],
+                'items' => [
+                    ['label' => 'Gerir focos', 'url' => ['/foco-transmissor'], 'options' => ['id' => 'stepguide-ocorrencias']],
+                    ['label' => 'Indicadores', 'url' => ['/indicador/resumo-focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-indicadores-focos'], 'related' => ['/indicador/evolucao-focos','/indicador/focos-bairro','/indicador/focos-tipo-deposito']],
+                    ['label' => 'Mapa de Tratamento', 'url' => ['/mapa/tratamento-foco'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-mapa-tratamento-foco']],
+                    ['label' => 'Relatório de Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-areas-tratamento']],
+                    ['label' => 'Relatório de Focos', 'url' => ['/relatorio/focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos']],
+                    ['label' => 'Relatório de Focos por Bairro', 'url' => ['/relatorio/focos-bairro'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos-bairro']],
+                ],
+                'options' => ['class' => 'stepguide-focos'],
             ],
             [
                 'label' => 'Localização',

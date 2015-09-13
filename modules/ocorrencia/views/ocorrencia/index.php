@@ -46,7 +46,16 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
             }
         ],
 		'columns' => [
-			['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'ano',
+                'header' => 'Nº Controle',
+                'options' => [
+                    'width' => '8%',
+                ],
+                'value' => function ($model, $index, $widget) {
+                    return $model->numero_controle;
+                },
+            ],
 			[
                 'attribute' => 'data_criacao',
                 'options' => [
@@ -56,19 +65,19 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                     return $model->getFormattedAttribute('data_criacao');
                 },
             ],
-			[
-                'attribute' => 'status',
-                'filter' => OcorrenciaStatus::getDescricoes(),
-                'value' => function ($model, $index, $widget) {
-                    return OcorrenciaStatus::getDescricao($model->status);
-                }
-            ],
             [
                 'attribute' => 'data_fechamento',
                 'header' => 'Fechamento',
                 'filter' => ['0' => 'Aberto', '1' => 'Fechado'],
                 'value' => function ($model, $index, $widget) {
                     return $model->getFormattedAttribute('data_fechamento');
+                }
+            ],
+            [
+                'attribute' => 'status',
+                'filter' => OcorrenciaStatus::getDescricoes(),
+                'value' => function ($model, $index, $widget) {
+                    return OcorrenciaStatus::getDescricao($model->status);
                 }
             ],
             [
@@ -107,13 +116,9 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                 ]
             ],
             [
-                'header' => 'Qtde. Dias em aberto',
+                'header' => 'Qtde. Dias<br />em aberto',
                 'attribute' => 'qtde_dias_aberto',
-                'filter' => [
-                    1 => 'Até ' . $diasVerde . ' dias',
-                    2 => 'Entre ' . $diasVerde . ' e ' . $diasVemelho . ' dias',
-                    3 => 'Mais de ' . $diasVemelho . ' dias',
-                ],
+                'filter' => false,
                 'value' => function ($model, $index, $widget) {
                     return $model->qtde_dias_em_aberto;
                 },
@@ -135,6 +140,9 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
 
                     return [];
                 },
+                'options' => [
+                    'width' => '5%',
+                ]
             ],
 			[
 				'header' => 'Ações',

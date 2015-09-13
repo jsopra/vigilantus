@@ -30,12 +30,13 @@ class OcorrenciaSearch extends SearchModel
 	public $bairro_quarteirao_id;
     public $qtde_dias_aberto;
     public $data_fechamento;
+    public $ano;
 
 	public function rules()
 	{
 		return [
-			[['id', 'cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'ocorrencia_tipo_problema_id', 'bairro_quarteirao_id', 'qtde_dias_aberto'], 'integer'],
-			[['data_criacao', 'nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'data_fechamento'], 'safe'],
+			[['id', 'cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'ocorrencia_tipo_problema_id', 'bairro_quarteirao_id', 'qtde_dias_aberto', 'ano'], 'integer'],
+			[['data_criacao', 'nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'data_fechamento', 'status'], 'safe'],
 		];
 	}
 
@@ -79,5 +80,11 @@ class OcorrenciaSearch extends SearchModel
         } else if($this->data_fechamento == '0') {
             $query->aberta();
         }
+
+        if($this->ano) {
+            $query->andWhere('extract (year from data_criacao) = ' . $this->ano);
+        }
+
+        $query->orderBy('data_criacao asc');
 	}
 }
