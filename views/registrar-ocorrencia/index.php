@@ -22,7 +22,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
 
         <div class="row" style="margin-top: 3em;">
 
-            <div class="col-xs-4">
+            <div class="col-md-4 col-xs-12">
                 <?php
                 $tipos = \app\models\OcorrenciaTipoProblema::find()->doCliente($cliente->id)->ativos()->orderBy('nome')->all();
 
@@ -38,11 +38,11 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
                 ?>
             </div>
 
-            <div class="col-xs-4" id="bloco-outro-tipo-problema">
+            <div class="col-md-4 col-xs-12" id="bloco-outro-tipo-problema">
                 <?= $form->field($model, 'descricao_outro_tipo_problema') ?>
             </div>
 
-            <div class="col-xs-4">
+            <div class="col-md-4 col-xs-12">
                 <?= $form->field($model, 'tipo_imovel')->widget(
                     Select2::classname(),
                     [
@@ -57,7 +57,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
         </div>
 
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-md-4 col-xs-12">
                 <?php
                 $bairros = \app\models\Bairro::find()->doCliente($cliente->id)->comQuarteiroes()->orderBy('nome')->all();
                 echo $form->field($model, 'bairro_id')->widget(
@@ -72,13 +72,13 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
                 ?>
             </div>
 
-            <div class="col-xs-8">
+            <div class="col-md-8 col-xs-12">
                 <?= $form->field($model, 'endereco') ?>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-md-12 col-xs-12">
 
                 <?= $form->field($model, 'coordenadasJson')->hiddenInput()->label(false) ?>
                 <div id="map" style="height: 300px; width: 100%; margin-bottom: 1em;"></div>
@@ -86,7 +86,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
         </div>
 
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-md-12 col-xs-12">
                 <?= $form->field($model, 'pontos_referencia') ?>
             </div>
         </div>
@@ -176,8 +176,7 @@ if ($municipio->latitude && $municipio->longitude) : ?>
                     url: function(args) {
                         var uri = 'https://api.mapbox.com/v4/geocode/mapbox.places/';
                         uri += args;
-                        uri += ', " . $municipio->nome . "';
-                        uri += '.json?access_token=' + L.mapbox.accessToken;
+                        uri += '.json?proximity=" . $municipio->longitude . "," . $municipio->latitude . "&access_token=' + L.mapbox.accessToken;
                         return uri;
                     },
                     dataType: 'json',
