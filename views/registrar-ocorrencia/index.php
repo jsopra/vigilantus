@@ -22,14 +22,14 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
 
         <div class="row" style="margin-top: 3em;">
 
-            <div class="col-xs-6">
+            <div class="col-xs-4">
                 <?php
                 $tipos = \app\models\OcorrenciaTipoProblema::find()->doCliente($cliente->id)->ativos()->orderBy('nome')->all();
 
                 echo $form->field($model, 'ocorrencia_tipo_problema_id')->widget(
                     Select2::classname(),
                     [
-                        'data' => ['' => ''] + ArrayHelper::map($tipos, 'id', 'nome'),
+                        'data' => ['0' => ''] + ArrayHelper::map($tipos, 'id', 'nome') + ['' => 'Outros'],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
@@ -38,7 +38,11 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
                 ?>
             </div>
 
-            <div class="col-xs-6">
+            <div class="col-xs-4" id="bloco-outro-tipo-problema">
+                <?= $form->field($model, 'descricao_outro_tipo_problema') ?>
+            </div>
+
+            <div class="col-xs-4">
                 <?= $form->field($model, 'tipo_imovel')->widget(
                     Select2::classname(),
                     [
@@ -96,10 +100,21 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
 </div>
 
 <?php
-$municipio->loadCoordenadas();
-?>
+$this->registerJs('
+$(document).ready(function(){
+    var checarTipoProblema = function() {
+        if ($("#ocorrenciaform-ocorrencia_tipo_problema_id").val()) {
+            $("#bloco-outro-tipo-problema").hide();
+        } else {
+            $("#bloco-outro-tipo-problema").show();
+        }
+    };
+    $("#ocorrenciaform-ocorrencia_tipo_problema_id").change(checarTipoProblema);
+    checarTipoProblema();
+});');
 
-<?php if($municipio->latitude && $municipio->longitude) : ?>
+$municipio->loadCoordenadas();
+if ($municipio->latitude && $municipio->longitude) : ?>
 
     <?php
     $javascript = "

@@ -72,6 +72,12 @@ class OcorrenciaQuery extends ActiveQuery
         return $this;
     }
 
+    public function deProblemaDigitado()
+    {
+        $this->andWhere('ocorrencia_tipo_problema_id IS NULL');
+        return $this;
+    }
+
     public function doStatus($id)
     {
         $this->andWhere('status = :idStatus', [':idStatus' => $id]);
