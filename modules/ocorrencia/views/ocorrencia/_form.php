@@ -37,7 +37,7 @@ use yii\helpers\Url;
             <div class="col-xs-4 bairro-hide">
                 <?php
                 $quarteiroes = BairroQuarteirao::find()->doBairro($model->bairro_id)->orderBy('numero_quarteirao')->all();
-                echo $form->field($model, 'bairro_quarteirao_id')->dropDownList(ArrayHelper::map($quarteiroes, 'id', 'numero_quarteirao'), ['prompt' => 'Selecione...']);
+                echo $form->field($model, 'bairro_quarteirao_id')->dropDownList(ArrayHelper::map($quarteiroes, 'id', 'numero_quarteirao'));
                 ?>
             </div>
         </div>
