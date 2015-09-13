@@ -8,16 +8,11 @@ $this->title = 'Ocorrência' . ($model->protocolo ? ' #' . $model->protocolo : '
 $this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Detalhes';
 $urlOcorrencia = Url::to('/' . $model->cliente->rotulo, true);
-$descricaoTweet = 'Denunciei um foco de mosquitos da dengue. Caso você também perceba algum, denuncie aqui: ';
 ?>
 <div class="ocorrencia-detalhes">
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="row">
-        <div class="col-sm-6">
-            <div class="fb-share-button" data-href="<?= $urlOcorrencia ?>" data-layout="button_count"></div>
-            <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?= $urlOcorrencia ?>" data-text="<?= $descricaoTweet ?>" data-lang="pt">Tweetar</a>
-        </div>
-        <div class="col-sm-6 text-right">
+        <div class="col-sm-12 text-right">
             <?= Html::a(
                 '<i class="glyphicon glyphicon-circle-arrow-left"></i> Voltar às ocorrências',
                 Yii::$app->urlManager->createUrl('ocorrencia/ocorrencia/index'),
