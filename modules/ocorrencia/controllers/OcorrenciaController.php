@@ -37,11 +37,11 @@ class OcorrenciaController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'reprovar'],
+                'only' => ['create', 'index', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'reprovar'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'reprovar'],
+                        'actions' => ['create', 'index',  'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'reprovar'],
                         'roles' => ['Usuario'],
                     ],
                 ],
@@ -97,7 +97,7 @@ class OcorrenciaController extends CRUDController
     {
     	$model = is_object($id) ? $id : $this->findModel($id);
 
-    	$response = new yii\web\Response;
+    	$response = new \yii\web\Response;
 
     	$response->sendFile(OcorrenciaHelper::getUploadPath() . $model->anexo, $model->nome_original_anexo);
 
