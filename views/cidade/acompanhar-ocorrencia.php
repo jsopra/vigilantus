@@ -56,7 +56,6 @@ $this->params['breadcrumbs'][] = 'Detalhes';
 else :
 
 $urlOcorrencia = Url::to('/' . $model->cliente->rotulo, true);
-$municipio = Yii::$app->user->identity->cliente->municipio;
 $descricaoTweet = 'Registrei uma ocorrência para a Sec. de Saúde de ' . $municipio->nome . '. Seja a mudança da sua cidade! Faça seu contato em';
 
 $descricaoPagina = 'Registrei uma ocorrência para a Secretaria de Saúde de ' . $municipio->nome . '/' . $municipio->sigla_estado . '. Seja a mudança na nossa cidade! Faça seu contato em ' .  $urlOcorrencia;
