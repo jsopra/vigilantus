@@ -97,6 +97,21 @@ $municipio->loadCoordenadas();
         .addTo(map);
         addLayer(bairrosLayer, 'Pontos Estratégicos', 4);
 
+        var ocorrenciasLayer = omnivore.kml('" . Url::to(['kml/ocorrencias']) . "')
+        .on('ready', function() {
+            this.eachLayer(function(marker) {
+
+                marker.setIcon(L.mapbox.marker.icon({
+                    'marker-color': '#fc6a6a',
+                    'marker-size': 'small',
+                    'marker-symbol': 'embassy'
+                }));
+
+            });
+        })
+        .addTo(map);
+        addLayer(ocorrenciasLayer, 'Ocorrências', 5);
+
         function addLayer(layer, name, zIndex) {
             layer
                 .setZIndex(zIndex)
