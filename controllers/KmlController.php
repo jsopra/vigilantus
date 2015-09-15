@@ -9,6 +9,7 @@ use app\models\BairroQuarteirao;
 use app\models\FocoTransmissor;
 use app\models\Armadilha;
 use app\models\PontoEstrategico;
+use app\models\Ocorrencia;
 use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use Yii;
 use yii\filters\AccessControl;
@@ -27,11 +28,11 @@ class KmlController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['cidade', 'bairro', 'area-tratamento-foco', 'armadilha', 'ponto-estrategico'],
+                'only' => ['cidade', 'bairro', 'area-tratamento-foco', 'armadilha', 'ponto-estrategico', 'ocorrencias'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['area-tratamento-foco', 'cidade', 'bairro', 'armadilha', 'ponto-estrategico'],
+                        'actions' => ['area-tratamento-foco', 'cidade', 'bairro', 'armadilha', 'ponto-estrategico', 'ocorrencias'],
                         'roles' => ['Gerente', 'Analista'],
                     ],
                 ],
@@ -237,6 +238,36 @@ class KmlController extends Controller
             $point->extendedData = [
                 'numero_quarteirao' => $ponto->bairro_quarteirao_id ? $ponto->bairroQuarteirao->numero_quarteirao : null,
                 'bairro' => $ponto->bairro_quarteirao_id ? $ponto->bairroQuarteirao->bairro->nome : null,
+            ];
+
+            $model->add($point);
+            unset($point);
+        }
+
+        return $model->output();
+    }
+
+    public function actionOcorrencias($except = null)
+    {
+        $model = new Kml;
+        $model->id = 'ocorrencia';
+
+        $pontos = $except ? Ocorrencia::find()->queNao($except)->all() : Ocorrencia::find()->all();
+        foreach($pontos as $ponto) {
+
+            if(!$ponto->bairro_quarteirao_id) {
+                continue;
+            }
+
+            $quarteirao = $ponto->bairroQuarteirao;
+            $quarteirao->loadCoordenadas();
+
+            $point = new Point;
+            $point->value = $quarteirao->getCentro();
+
+            $point->extendedData = [
+                'numero_quarteirao' => $ponto->bairro_quarteirao_id ? $quarteirao->numero_quarteirao : null,
+                'bairro' => $ponto->bairro_quarteirao_id ? $quarteirao->bairro->nome : null,
             ];
 
             $model->add($point);
