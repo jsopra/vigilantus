@@ -8,6 +8,7 @@ use app\helpers\MapHelper;
 use perspectivain\mapbox\MapBoxAPIHelper;
 use app\models\redis\FocosAtivos;
 use yii\helpers\Json;
+use app\helpers\models\MunicipioHelper;
 
 $this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
 $urlOcorrencia = Url::to('/' . $cliente->rotulo, true);
@@ -15,26 +16,36 @@ $urlOcorrencia = Url::to('/' . $cliente->rotulo, true);
 MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omnivore', 'markercluster']);
 ?>
 
-<?= $this->render('_cidadeHeader', ['municipio' => $municipio, 'cliente' => $cliente, 'button' => '_buttonDenunciar']); ?>
+<h1 class="text-center">
+    <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
+    <a href="<?= Url::to(['cidade/index', 'id' => $cliente->id]); ?>">
+        <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
+    </a>
+</h1>
 
-<div class="panel panel-default" style="margin-top: 2.5em;">
+<p class="text-center bloco-botoes-ocorrencias">
+    <a href="<?= Url::to(['registrar-ocorrencia/index', 'id' => $cliente->id]) ?>" class="btn btn-danger btn-lg">
+        <i class="fa fa-plus"></i>
+        registrar ocorrência
+    </a>
+    <a href="<?= Url::to(['cidade/acompanhar-ocorrencia', 'id' => $cliente->id]) ?>" class="btn btn-success btn-lg">
+        <i class="fa fa-eye"></i>
+        acompanhar ocorrência
+    </a>
+</p>
 
-    <div class="panel-heading focos">
-        <h4 class="text-center" style="font-weight: bold; margin-top: 1em; font-size: 2.5em; margin-top: 0;">
-            Os transmissores da <span style="color: #CC0000; font-size: 1.2em;">Dengue e da Chikungunya</span> vivem perto de você?
-        </h4>
-    </div>
+<p class="text-center" style="line-height: 1.8em; color: #585858; font-size: 2em;">
+    Os transmissores da <span style="color: #CC0000; font-size: 1.2em;">Dengue e da Chikungunya</span> vivem perto de você?
+</p>
 
-    <div class="row">
-      	<div class="col-md-12">
+<div class="row">
+  	<div class="col-md-12">
 
-            <p class="bg-info text-center" style="padding: 0.5em 0; margin: 1em 0 0 0;"><strong>Focos dos últimos <?= $qtdeDias; ?> dias</strong></p>
-    		<div id="map" style="height: 500px; width: 100%;">
-                <nav id='menu-ui' class='menu-ui'></nav>
-            </div>
-    	</div>
-    </div>
-
+        <p class="bg-info text-center" style="padding: 0.5em 0; margin: 1em 0 0 0;"><strong>Focos dos últimos <?= $qtdeDias; ?> dias</strong></p>
+		<div id="map" style="height: 500px; width: 100%;">
+            <nav id='menu-ui' class='menu-ui'></nav>
+        </div>
+	</div>
 </div>
 
 <?php

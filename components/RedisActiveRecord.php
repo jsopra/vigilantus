@@ -2,6 +2,7 @@
 namespace app\components;
 
 use app\models\Municipio;
+use Yii;
 
 class RedisActiveRecord extends \yii\redis\ActiveRecord
 {
@@ -20,10 +21,24 @@ class RedisActiveRecord extends \yii\redis\ActiveRecord
             $query = new \yii\redis\ActiveQuery($className);
         }
 
-        if(php_sapi_name() != 'cli' && \Yii::$app->has('session')) {
+        if (self::temFiltroCliente()) {
             $query->andWhere(['cliente_id' => intval(\Yii::$app->user->identity->cliente->id)]);
         }
 
         return $query;
+    }
+
+    /**
+     * @return boolean
+     */
+    protected static function temFiltroCliente()
+    {
+        return (
+            php_sapi_name() != 'cli'
+            && Yii::$app->has('session')
+            && !Yii::$app->user->getIsGuest()
+            && Yii::$app->user->identity->cliente instanceof Cliente
+            && isset(static::getTableSchema()->columns['cliente_id'])
+        );
     }
 }

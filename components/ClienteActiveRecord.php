@@ -61,7 +61,6 @@ class ClienteActiveRecord extends ActiveRecord {
         return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
 
-
     /**
      * @return boolean
      */

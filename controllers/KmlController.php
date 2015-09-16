@@ -153,47 +153,60 @@ class KmlController extends Controller
             exit;
         }
 
-        $model = new Kml;
+        $cacheName = 'focos_c' . $clienteId . '_e' . $especieId . '_b' . $bairroId . '_l' . $lira . '_ip' . $informacaoPublica;
+        $data = Yii::$app->cache->get($cacheName);
 
-        $modelFocos = FocoTransmissorRedis::find();
+        if($data === false || $data === null) {
 
-        $modelFocos->doCliente($cliente->id);
+            $model = new Kml;
 
-        if(is_numeric($bairroId)) {
-            $modelFocos->doBairro($bairroId);
+            $modelFocos = FocoTransmissorRedis::find();
+
+            $modelFocos->doCliente($cliente->id);
+
+            if(is_numeric($bairroId)) {
+                $modelFocos->doBairro($bairroId);
+            }
+
+            if($lira == '1' || $lira == '0') {
+                $modelFocos->doImovelLira(($lira ? true : false));
+            }
+
+            if(is_numeric($especieId)) {
+                $modelFocos->daEspecieDeTransmissor($especieId);
+            }
+
+            if($informacaoPublica == '1') {
+                $modelFocos->informacaoPublica();
+            }
+
+            $focos = $modelFocos->all();
+            foreach($focos as $foco) {
+
+                $quarteirao = $foco->bairroQuarteirao;
+                $quarteirao->loadCoordenadas();
+
+                $point = new Point;
+                $point->value = $quarteirao->getCentro();
+
+                $point->extendedData = [
+                    'metros_tratamento' => $foco->especieTransmissor->qtde_metros_area_foco,
+                    'numero_quarteirao' => $quarteirao->numero_quarteirao,
+                ];
+
+                $model->add($point);
+                unset($point);
+            }
+
+            $data = $model;
+
+            Yii::$app->cache->set($cacheName, serialize($data), (60 * 60)); //1h de cache
+
+        } else {
+            $data = unserialize($data);
         }
 
-        if($lira == '1' || $lira == '0') {
-            $modelFocos->doImovelLira(($lira ? true : false));
-        }
-
-        if(is_numeric($especieId)) {
-            $modelFocos->daEspecieDeTransmissor($especieId);
-        }
-
-        if($informacaoPublica == '1') {
-            $modelFocos->informacaoPublica();
-        }
-
-        $focos = $modelFocos->all();
-        foreach($focos as $foco) {
-
-            $quarteirao = $foco->bairroQuarteirao;
-            $quarteirao->loadCoordenadas();
-
-            $point = new Point;
-            $point->value = $quarteirao->getCentro();
-
-            $point->extendedData = [
-                'metros_tratamento' => $foco->especieTransmissor->qtde_metros_area_foco,
-                'numero_quarteirao' => $quarteirao->numero_quarteirao,
-            ];
-
-            $model->add($point);
-            unset($point);
-        }
-
-        return $model->output();
+        return $data->output();
     }
 
     public function actionArmadilha($except = null)
