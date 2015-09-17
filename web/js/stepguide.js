@@ -195,15 +195,6 @@ $(document).ready(function(){
             }
         ];
 
-        if(moduloOcorrenciaIsHabilitado == '1') {
-            arrayOpcoes.push(
-                {
-                    element: "#stepguide-ocorrencias",
-                    intro: "Você também poderá gerenciar ocorrências e configurar sua integração com redes sociais"
-                }
-            );
-        }
-
         arrayOpcoes.push(
             {
                 element: ".navbar-brand",
@@ -301,6 +292,7 @@ $(document).ready(function(){
 
         $('#stepguideModal').modal('hide');
         $('li.step-indicadores').children('a').trigger('click');
+        $('li.step-ocorrencias').children('a').trigger('click');
 
         intro.setOptions({
             steps: [
@@ -313,8 +305,12 @@ $(document).ready(function(){
                     intro: "Um conjunto de gráficos que detalham a situação de Ocorrências em seu Município"
                 },
                 {
-                    element: "#stepguide-ocorrencias",
+                    element: "#stepguide-ocorrencias-todas",
                     intro: "Você pode gerenciar todas as ocorrências recebidas ou cadastradas no sistema"
+                },
+                {
+                    element: "#stepguide-ocorrencias-abertas",
+                    intro: "Ou mesmo controlar rapidamente as ocorrências abertas"
                 },
             ],
             doneLabel: 'Ir para ferramenta!',

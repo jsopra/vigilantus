@@ -43,11 +43,6 @@ use yii\widgets\ActiveForm;
                     <?php if(!\Yii::$app->user->can('Analista') && \Yii::$app->user->getIdentity()->moduloIsHabilitado(\app\models\Modulo::MODULO_OCORRENCIA)) : ?>
                         <li>
                             <a href="#" data-step-type="ocorrencias">Ocorrências</a>
-                            <?php if(\Yii::$app->user->can('Gerente')) : ?>
-                                <ul>
-                                    <li><a href="#" data-step-type="ocorrencias-social">Ocorrências em Redes Sociais</a></li>
-                                </ul>
-                            <?php endif; ?>
                         </li>
                     <?php endif; ?>
                     <?php if(!\Yii::$app->user->can('Analista')) : ?>

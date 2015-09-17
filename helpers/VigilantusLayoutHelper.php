@@ -3,33 +3,44 @@ namespace app\helpers;
 use \yii\web\User;
 use app\models\Modulo;
 
-class VigilantusLayoutHelper {
-
+class VigilantusLayoutHelper
+{
     /**
      * Menu de usuário logado
      * @param User $user
      * @return array
      */
-    public static function getMenuUsuarioLogado(User $user) {
-
+    public static function getMenuUsuarioLogado(User $user)
+    {
         return [
             [
                 'label' => 'Ocorrências',
-                'icon' => 'bullhorn',
-                'url' => ['/ocorrencia/ocorrencia/index'],
+                'icon' => 'fa fa-bullhorn',
                 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && !$user->can('Analista'),
-                'options' => ['id' => 'stepguide-ocorrencias'],
+                'items' => [
+                    ['label' => 'Abertas', 'url' => ['/ocorrencia/ocorrencia/abertas'], 'options' => ['id' => 'stepguide-ocorrencias-abertas']],
+                    ['label' => 'Todas', 'url' => ['/ocorrencia/ocorrencia/index'], 'options' => ['id' => 'stepguide-ocorrencias-todas']],
+                    ['label' => 'Indicadores', 'url' => ['/ocorrencia/indicador/ocorrencias-mes'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-ocorrencias']],
+                ],
+                'options' => ['id' => 'stepguide-ocorrencias', 'class' => 'step-ocorrencias'],
             ],
             [
                 'label' => 'Focos',
-                'icon' => 'screenshot',
-                'url' => ['/foco-transmissor/'],
+                'icon' => 'fa fa-crosshairs',
                 'visible' => !$user->can('Analista'),
-                'options' => ['id' => 'stepguide-focos'],
+                'items' => [
+                    ['label' => 'Gerir focos', 'url' => ['/foco-transmissor'], 'options' => ['id' => 'stepguide-ocorrencias']],
+                    ['label' => 'Indicadores', 'url' => ['/indicador/resumo-focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-indicadores-focos'], 'related' => ['/indicador/evolucao-focos','/indicador/focos-bairro','/indicador/focos-tipo-deposito']],
+                    ['label' => 'Mapa de Tratamento', 'url' => ['/mapa/tratamento-foco'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-mapa-tratamento-foco']],
+                    ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-areas-tratamento']],
+                    ['label' => 'Rel. de Focos', 'url' => ['/relatorio/focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos']],
+                    ['label' => 'Rel. de Focos por Bairro', 'url' => ['/relatorio/focos-bairro'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos-bairro']],
+                ],
+                'options' => ['id' => 'stepguide-focos', 'class' => 'stepguide-focos'],
             ],
             [
                 'label' => 'Localização',
-                'icon' => 'globe',
+                'icon' => 'fa fa-globe',
                 'visible' => !$user->can('Analista'),
                 'items' => [
                     ['label' => 'Bairros e Quarteirões', 'url' => ['/bairro/'], 'options' => ['id' => 'step-cadastro-bairros']],
@@ -39,7 +50,7 @@ class VigilantusLayoutHelper {
             ],
             [
                 'label' => 'Mapas',
-                'icon' => 'map-marker',
+                'icon' => 'fa fa-map',
                 'visible' => $user->can('Gerente') || $user->can('Analista'),
                 'items' => [
                     ['label' => 'Armadilhas', 'url' => ['/mapa/armadilha'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'step-mapa-armadilhas']],
@@ -52,7 +63,7 @@ class VigilantusLayoutHelper {
             ],
             [
                 'label' => 'Relatórios',
-                'icon' => 'bar-chart',
+                'icon' => 'fa fa-bar-chart',
                 'items' => [
                     ['label' => 'Resumo de RG por Bairro', 'url' => ['/relatorio/resumo-rg-bairro'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-resumo-rg']],
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-areas-tratamento']],
@@ -64,7 +75,7 @@ class VigilantusLayoutHelper {
             ],
             [
                 'label' => 'Indicadores',
-                'icon' => 'bar-chart',
+                'icon' => 'fa fa-dashboard',
                 'visible' => $user->can('Gerente') || $user->can('Analista'),
                 'items' => [
                     ['label' => 'Focos', 'url' => ['/indicador/resumo-focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-indicadores-focos'], 'related' => ['/indicador/evolucao-focos','/indicador/focos-bairro','/indicador/focos-tipo-deposito']],
@@ -74,7 +85,7 @@ class VigilantusLayoutHelper {
             ],
             [
                 'label' => 'Cadastros',
-                'icon' => 'edit',
+                'icon' => 'fa fa-pencil-square-o',
                 'visible' => !$user->can('Analista'),
                 'items' => [
                     ['label' => 'Armadilhas', 'url' => ['/armadilha/'], 'options' => ['id' => 'step-armadilhas']],
@@ -94,7 +105,7 @@ class VigilantusLayoutHelper {
             ],
             [
                 'label' => 'Sistema',
-                'icon' => 'cog',
+                'icon' => 'fa fa-gears',
                 'visible' => !$user->can('Analista'),
                 'items' => [
                     ['label' => 'Clientes', 'url' => ['/cliente/'], 'visible' => $user->can('Root'),],
@@ -108,11 +119,11 @@ class VigilantusLayoutHelper {
             ],
             [
                 'label' => 'Blog Posts',
-                'icon' => 'pencil',
+                'icon' => 'fa fa-pencil',
                 'url' => ['/blog-post/'],
                 'visible' => $user->can('Root'),
             ],
-            ['label' => 'Contato', 'url' => ['/site/contato'], 'icon' => 'envelope-alt'],
+            ['label' => 'Contato', 'url' => ['/site/contato'], 'icon' => 'fa fa-envelope-o'],
             [
                 'label' => 'Sair',
                 'url' => ['/site/logout'],
@@ -127,14 +138,14 @@ class VigilantusLayoutHelper {
      * @param User $user
      * @return array
      */
-    public static function getMenuComum(User $user) {
-
+    public static function getMenuComum(User $user)
+    {
         return [
             ['label' => 'Blog', 'url' => ['/blog']],
-            ['label' => '', 'url' => ['/site/contato'], 'icon' => 'envelope'],
+            ['label' => '', 'url' => ['/site/contato'], 'icon' => 'fa fa-envelope-o'],
             [
                 'visible' => !$user->isGuest,
-                'icon' => 'cog',
+                'icon' => 'fa fa-gears',
                 'options' => [
                     'class' => 'dropdown'
                 ],
@@ -149,20 +160,20 @@ class VigilantusLayoutHelper {
                 'visible' => $user->isGuest,
                 'url' => ['/site/login'],
                 'label' => ' Login' ,
-                'icon' => 'off',
+                'icon' => 'fa fa-power-off',
             ],
             [
                 'visible' => !$user->isGuest,
                 'url' => ['#'],
                 'label' => 'Guias' ,
-                'icon' => 'info-sign',
+                'icon' => 'fa fa-info',
                 'linkOptions' => ['data-toggle' => 'modal', 'data-target' => '#stepguideModal']
             ],
             [
                 'visible' => !$user->isGuest,
                 'url' => ['/site/logout'],
                 'label' => ' Logout (' . ($user->isGuest ? '' : $user->identity->login) . ')' ,
-                'icon' => 'off',
+                'icon' => 'fa fa-power-off',
                 'linkOptions' => ['data-method' => 'post']
             ],
         ];

@@ -43,7 +43,8 @@ AppAsset::register($this);
             var stepPEMapaUrl = '<?= Url::to(['/mapa/ponto-estrategico', 'step' => true]); ?>';
             var stepGeolocalizacaoUrl = '<?= Url::to(['/bairro', 'step' => true]); ?>';
             var stepRGUrl = '<?= Url::to(['/boletim-rg', 'step' => true]); ?>';
-            var stepOcorrenciasUrl  = '<?= Url::to(['/ocorrencia/ocorrencia/index', 'step' => true]); ?>';
+            var stepOcorrenciasUrl = '<?= Url::to(['/ocorrencia/ocorrencia/index', 'step' => true]); ?>';
+            var stepOcorrenciasAbertasUrl = '<?= Url::to(['/ocorrencia/ocorrencia/abertas', 'step' => true]); ?>';
 
             var moduloOcorrenciaIsHabilitado = '<?= \Yii::$app->user->getIdentity() && \Yii::$app->user->getIdentity()->moduloIsHabilitado(\app\models\Modulo::MODULO_OCORRENCIA) ? '1' : '0'; ?>';
 

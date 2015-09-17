@@ -65,7 +65,7 @@ use miloschuman\highcharts\Highcharts;
                 'cursor' => 'pointer',
                 'point' => [
                     'events' => [
-                        'click' => new yii\web\JsExpression('function () { window.location.href="' . yii\helpers\Url::to(['OcorrenciaSearch[data_fechamento]' => '0', 'ocorrencia/ocorrencia/index', 'OcorrenciaSearch[qtde_dias_aberto]' => '']) . '" + this.range; }'),
+                        'click' => new yii\web\JsExpression('function () { window.location.href="' . yii\helpers\Url::to(['OcorrenciaSearch[data_fechamento]' => '0', 'ocorrencia/ocorrencia/abertas', 'OcorrenciaSearch[qtde_dias_aberto]' => '']) . '" + this.range; }'),
                     ]
                 ],
             ]

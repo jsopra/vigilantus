@@ -136,7 +136,7 @@ class Ocorrencia extends ClienteActiveRecord
 			'bairro_quarteirao_id' => 'Quarteirão',
             'hash_acesso_publico' => 'Protocolo',
             'data_fechamento' => 'Data de Fechamento',
-            'numero_controle' => 'Número de Controle',
+            'numero_controle' => 'Nº Controle',
             'observacoes' => 'Observações',
             'coordenadas' => 'Coordenadas',
             'descricao_outro_tipo_problema' => 'Descrição do Problema',

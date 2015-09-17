@@ -30,12 +30,15 @@ class OcorrenciaSearch extends SearchModel
 	public $bairro_quarteirao_id;
     public $qtde_dias_aberto;
     public $data_fechamento;
+    public $ano;
+    public $numero_controle;
+    public $status_fechamento;
 
 	public function rules()
 	{
 		return [
-			[['id', 'cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'ocorrencia_tipo_problema_id', 'bairro_quarteirao_id', 'qtde_dias_aberto'], 'integer'],
-			[['data_criacao', 'nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'data_fechamento'], 'safe'],
+			[['id', 'cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'ocorrencia_tipo_problema_id', 'bairro_quarteirao_id', 'qtde_dias_aberto', 'ano', 'status_fechamento'], 'integer'],
+			[['data_criacao', 'nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'data_fechamento', 'status', 'numero_controle'], 'safe'],
 		];
 	}
 
@@ -61,7 +64,8 @@ class OcorrenciaSearch extends SearchModel
             ->andFilterWhere(['like', 'pontos_referencia', $this->pontos_referencia])
             ->andFilterWhere(['like', 'mensagem', $this->mensagem])
             ->andFilterWhere(['like', 'anexo', $this->anexo])
-            ->andFilterWhere(['like', 'nome_original_anexo', $this->nome_original_anexo]);
+            ->andFilterWhere(['like', 'nome_original_anexo', $this->nome_original_anexo])
+            ->andFilterWhere(['like', 'numero_controle', $this->numero_controle]);
 
         $diasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERDE, \Yii::$app->user->identity->cliente->id);
         $diasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERMELHO, \Yii::$app->user->identity->cliente->id);
@@ -74,10 +78,16 @@ class OcorrenciaSearch extends SearchModel
             $query->posteriorA($diasVermelho);
         }
 
-        if($this->data_fechamento == '1') {
+        if($this->data_fechamento == '1' || $this->status_fechamento == '1') {
             $query->fechada();
-        } else if($this->data_fechamento == '0') {
+        } else if($this->data_fechamento == '0' || $this->status_fechamento == '0') {
             $query->aberta();
         }
+
+        if($this->ano) {
+            $query->andWhere('extract (year from data_criacao) = ' . $this->ano);
+        }
+
+        $query->orderBy('data_criacao asc');
 	}
 }

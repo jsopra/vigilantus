@@ -8,6 +8,7 @@ use app\models\OcorrenciaTipoProblema;
 use app\helpers\models\OcorrenciaHelper;
 use app\models\Configuracao;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 $this->title = 'Ocorrências';
 $this->params['breadcrumbs'][] = $this->title;
@@ -19,9 +20,54 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
 
 	<h1 id="stepguide-title"><?= Html::encode($this->title) ?></h1>
 
+    <div class="form well">
+        <?php $form = ActiveForm::begin([
+            'method' => 'get',
+        ]); ?>
+
+            <div class="row" id="dadosPrincipais">
+                <div class="col-xs-2">
+                    <?= $form->field($searchModel, 'numero_controle') ?>
+                </div>
+
+                <div class="col-xs-2">
+                    <?= $form->field($searchModel, 'bairro_id')->dropDownList(Bairro::listData('nome'), ['prompt' => 'Todos']) ?>
+                </div>
+
+                <div class="col-xs-2">
+                    <?= $form->field($searchModel, 'ano')->input('number') ?>
+                </div>
+
+                <div class="col-xs-3">
+                    <?= $form->field($searchModel, 'status')->dropDownList(OcorrenciaStatus::getDescricoes(), ['prompt' => 'Todas']) ?>
+                </div>
+
+                <div class="col-xs-3">
+                    <?= $form->field($searchModel, 'ocorrencia_tipo_problema_id')->dropDownList(OcorrenciaTipoProblema::listData('nome'), ['prompt' => 'Todas']) ?>
+                </div>
+
+                <div class="col-xs-2">
+                    <?= $form->field($searchModel, 'status_fechamento')->dropDownList(['0' => 'Aberto', '1' => 'Fechado'], ['prompt' => 'Todas']) ?>
+                </div>
+
+                <div class="col-xs-2">
+                    <?= $form->field($searchModel, 'qtde_dias_aberto')->dropDownList([
+                     1 => 'Até ' . $diasVerde . ' dias',
+                     2 => 'Entre ' . $diasVerde . ' e ' . $diasVemelho . ' dias',
+                     3 => 'Mais de ' . $diasVemelho . ' dias',
+                 ], ['prompt' => 'Todas']) ?>
+                </div>
+
+                <div class="col-xs-1" style="padding-top: 20px;">
+                    <?= Html::submitButton('Filtrar', ['class' => 'btn btn-primary']) ?>
+                </div>
+            </div>
+
+        <?php ActiveForm::end(); ?>
+    </div>
+
 	<?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
-		'filterModel' => $searchModel,
         'buttons' => [
             'create' => function() {
                 return Html::a(
@@ -46,7 +92,16 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
             }
         ],
 		'columns' => [
-			['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'ano',
+                'header' => 'Nº Controle',
+                'options' => [
+                    'width' => '8%',
+                ],
+                'value' => function ($model, $index, $widget) {
+                    return $model->numero_controle;
+                },
+            ],
 			[
                 'attribute' => 'data_criacao',
                 'options' => [
@@ -56,31 +111,27 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                     return $model->getFormattedAttribute('data_criacao');
                 },
             ],
-			[
-                'attribute' => 'status',
-                'filter' => OcorrenciaStatus::getDescricoes(),
-                'value' => function ($model, $index, $widget) {
-                    return OcorrenciaStatus::getDescricao($model->status);
-                }
-            ],
             [
                 'attribute' => 'data_fechamento',
                 'header' => 'Fechamento',
-                'filter' => ['0' => 'Aberto', '1' => 'Fechado'],
                 'value' => function ($model, $index, $widget) {
                     return $model->getFormattedAttribute('data_fechamento');
                 }
             ],
             [
+                'attribute' => 'status',
+                'value' => function ($model, $index, $widget) {
+                    return OcorrenciaStatus::getDescricao($model->status);
+                }
+            ],
+            [
                 'attribute' => 'ocorrencia_tipo_problema_id',
-                'filter' => OcorrenciaTipoProblema::listData('nome'),
                 'value' => function ($model, $index, $widget) {
                     return $model->getDescricaoTipoProblema();
                 }
             ],
 			[
                 'attribute' => 'bairro_id',
-                'filter' => Bairro::listData('nome'),
                 'value' => function ($model, $index, $widget) {
                     return $model->bairro ? $model->bairro->nome : null;
                 }
@@ -107,13 +158,8 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                 ]
             ],
             [
-                'header' => 'Qtde. Dias em aberto',
+                'header' => 'Qtde. Dias<br />em aberto',
                 'attribute' => 'qtde_dias_aberto',
-                'filter' => [
-                    1 => 'Até ' . $diasVerde . ' dias',
-                    2 => 'Entre ' . $diasVerde . ' e ' . $diasVemelho . ' dias',
-                    3 => 'Mais de ' . $diasVemelho . ' dias',
-                ],
                 'value' => function ($model, $index, $widget) {
                     return $model->qtde_dias_em_aberto;
                 },
@@ -135,6 +181,9 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
 
                     return [];
                 },
+                'options' => [
+                    'width' => '5%',
+                ]
             ],
 			[
 				'header' => 'Ações',
@@ -179,10 +228,18 @@ if(isset($_GET['step'])) {
                         element: "thead",
                         intro: "Todas as ocorrências ficarão listadas abaixo. Você poderá filtrar por status, tipo de problema, bairro, ou acompanhar indicadores de atendimento da ocorrência. A última coluna traz alguns ícones que darão continuidade à uma ocorrência: ver detalhes, baixar anexo, aprovar, reprovar e informar alteração de status"
                     },
+                    {
+                        element: "thead",
+                        intro: "Vamos conhecer agora a ferramenta que trata de ocorrências abertas"
+                    },
                 ],
+                doneLabel: "Ir para ferramenta!",
+                tooltipPosition: "auto"
             });
 
-            intro.start();
+            intro.start().oncomplete(function() {
+              window.location.href = stepOcorrenciasAbertasUrl;
+            });
         })
     ';
     $view->registerJs($script);
