@@ -62,7 +62,7 @@ use app\helpers\models\ImovelHelper;
 
 <?php if ($model->anexo) : ?>
 <p>
-    <a href="<?= Url::to(['ocorrencia/anexo', 'id' => $model->id]); ?>">
+    <a href="<?= Url::to(['/ocorrencia/ocorrencia/anexo', 'id' => $model->id]); ?>">
         <i class="glyphicon glyphicon-paperclip"></i> Download do anexo
     </a>
 </p>
