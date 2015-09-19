@@ -23,16 +23,22 @@ class Alert extends \yii\bootstrap\Alert
 {
     private $_doNotRender = false;
 
+    private $messageType;
+
     public function init()
     {
         if ($this->body = \Yii::$app->getSession()->getFlash('error', null, true)) {
             Html::addCssClass($this->options, 'alert-danger');
+            $this->messageType = 'error';
         } elseif ($this->body = \Yii::$app->getSession()->getFlash('success', null, true)) {
             Html::addCssClass($this->options, 'alert-success');
+            $this->messageType = 'success';
         } elseif ($this->body = \Yii::$app->getSession()->getFlash('info', null, true)) {
             Html::addCssClass($this->options, 'alert-info');
+            $this->messageType = 'info';
         } elseif ($this->body = \Yii::$app->getSession()->getFlash('warning', null, true)) {
             Html::addCssClass($this->options, 'alert-warning');
+            $this->messageType = 'warning';
         } else {
             $this->_doNotRender = true;
             return;
@@ -46,5 +52,25 @@ class Alert extends \yii\bootstrap\Alert
         if (!$this->_doNotRender) {
             parent::run();
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function renderBodyBegin()
+    {
+        $html = parent::renderBodyBegin();
+
+        if ($this->messageType == 'error') {
+            $html .= '<i class="icon-remove-sign"></i>';
+        } elseif ($this->messageType == 'success') {
+            $html .= '<i class="icon-ok-sign"></i>';
+        } elseif ($this->messageType == 'info') {
+            $html .= '<i class="icon-exclamation-sign"></i>';
+        } elseif ($this->messageType == 'warning') {
+            $html .= '<i class="icon-warning-sign"></i>';
+        }
+
+        return $html;
     }
 }
