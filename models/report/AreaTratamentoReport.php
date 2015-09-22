@@ -17,6 +17,8 @@ class AreaTratamentoReport extends Model
     public $bairro_id;
     public $lira;
     public $especie_transmissor_id;
+    public $inicio_periodo;
+    public $fim_periodo;
 
     /*
      * resultados
@@ -30,12 +32,15 @@ class AreaTratamentoReport extends Model
             ['especie_transmissor_id', 'exist', 'targetClass' => EspecieTransmissor::className(), 'targetAttribute' => 'id'],
             ['bairro_id', 'exist', 'targetClass' => Bairro::className(), 'targetAttribute' => 'id'],
             ['lira', 'boolean'],
+            [['inicio_periodo', 'fim_periodo'], 'safe'],
         ];
     }
 
     public function attributeLabels()
     {
         return [
+            'inicio_periodo' => 'Início Período',
+            'fim_periodo' => 'Fim Período',
             'bairro_id' => 'Bairro',
             'lira' => 'LIRA',
             'especie_transmissor_id' => 'Espécie de Transmissor'
@@ -79,6 +84,10 @@ class AreaTratamentoReport extends Model
             $quarteiroes->doBairro($this->bairro_id);
         }
 
+        if($this->inicio_periodo && $this->fim_periodo)
+        $focos->dataEntradaEntre($this->inicio_periodo, $this->fim_periodo);
+        die (var_dump($this->inicio_periodo, $this->fim_periodo));
+
         $this->dataProviderAreasTratamento = new ActiveDataProvider(['query' => $quarteiroes]);
     }
 
@@ -104,4 +113,5 @@ class AreaTratamentoReport extends Model
 
         return $url;
     }
+
 }

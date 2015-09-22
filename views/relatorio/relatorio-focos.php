@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-xs-2">
                     <?= $form->field($model, 'ano')->input('number') ?>
                 </div>
-                
+
                 <div class="col-xs-3">
                     <?= $form->field($model, 'especie_transmissor_id')->dropDownList(EspecieTransmissor::listData('nome'), ['prompt' => 'Todas']) ?>
                 </div>
@@ -93,4 +93,4 @@ echo GridView::widget([
             'options' => ['style' => 'width: 30%']
         ],
     ],
-]); 
+]);
