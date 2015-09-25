@@ -147,14 +147,14 @@ class KmlController extends Controller
         return $model->output();
     }
 
-    public function actionFocos($clienteId = null, $especieId = null, $bairroId = null, $lira = null, $informacaoPublica = null)
+    public function actionFocos($clienteId = null, $especieId = null, $bairroId = null, $lira = null, $informacaoPublica = null, $inicio = null, $fim = null)
     {
         $cliente = $clienteId ? Cliente::find()->andWhere(['id' => $clienteId])->one() : \Yii::$app->user->identity->cliente;
         if(!$cliente) {
             exit;
         }
 
-        $cacheName = 'focos_c' . $clienteId . '_e' . $especieId . '_b' . $bairroId . '_l' . $lira . '_ip' . $informacaoPublica;
+        $cacheName = 'focos_c' . $clienteId . '_e' . $especieId . '_b' . $bairroId . '_l' . $lira . '_ip' . $informacaoPublica . '_i' . $inicio . '_f' . $fim;
         $data = Yii::$app->cache->get($cacheName);
 
         if($data === false || $data === null) {
@@ -179,6 +179,10 @@ class KmlController extends Controller
 
             if($informacaoPublica == '1') {
                 $modelFocos->informacaoPublica();
+            }
+
+            if($inicio && $fim) {
+                $modelFocos->dataEntradaEntre($inicio, $fim);
             }
 
             $focos = $modelFocos->all();

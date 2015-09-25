@@ -19,6 +19,7 @@ class AreaTratamentoReport extends Model
     public $especie_transmissor_id;
     public $inicio_periodo;
     public $fim_periodo;
+    public $focos;
 
     /*
      * resultados
@@ -84,10 +85,6 @@ class AreaTratamentoReport extends Model
             $quarteiroes->doBairro($this->bairro_id);
         }
 
-        if($this->inicio_periodo && $this->fim_periodo)
-        $focos->dataEntradaEntre($this->inicio_periodo, $this->fim_periodo);
-        die (var_dump($this->inicio_periodo, $this->fim_periodo));
-
         $this->dataProviderAreasTratamento = new ActiveDataProvider(['query' => $quarteiroes]);
     }
 
@@ -109,6 +106,11 @@ class AreaTratamentoReport extends Model
 
         if(is_numeric($this->especie_transmissor_id)) {
             $url['especieId'] = $this->especie_transmissor_id;
+        }
+
+        if($this->inicio_periodo && $this->fim_periodo) {
+            $url['inicio'] = $this->inicio_periodo;
+            $url['fim'] = $this->fim_periodo;
         }
 
         return $url;

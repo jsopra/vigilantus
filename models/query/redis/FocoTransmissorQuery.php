@@ -6,19 +6,19 @@ use Yii;
 use app\components\RedisActiveQuery;
 
 class FocoTransmissorQuery extends RedisActiveQuery
-{      
+{
     public function doBairro($id)
     {
         $this->andWhere(['bairro_id' => $id]);
         return $this;
     }
-    
+
     public function doImovelLira($status)
     {
         $this->andWhere(['imovel_lira' => $status === true ? 1 : 0]);
         return $this;
     }
-    
+
     public function daEspecieDeTransmissor($id)
     {
         $this->andWhere(['especie_transmissor_id' => $id]);
@@ -29,6 +29,12 @@ class FocoTransmissorQuery extends RedisActiveQuery
     {
         $this->andWhere(['informacao_publica' => 1]);
 
+        return $this;
+    }
+
+    public function dataEntradaEntre($inicio, $fim)
+    {
+        $this->andWhere('data_entrada BETWEEN :inicio AND :fim', [':inicio' => $inicio, ':fim' => $fim]);
         return $this;
     }
 }
