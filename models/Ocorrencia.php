@@ -4,6 +4,8 @@ namespace app\models;
 
 use app\components\ClienteActiveRecord;
 use Hashids\Hashids;
+use perspectivain\gearman\BackgroundJob;
+use Yii;
 use yii\web\UploadedFile;
 use yii\db\Expression;
 
@@ -208,11 +210,11 @@ class Ocorrencia extends ClienteActiveRecord
         $transaction = $this->getDb()->beginTransaction();
 
         try {
-
         	$oldStatus = isset($this->oldAttributes['status']) ? $this->oldAttributes['status'] : null;
         	$isNewRecord = $this->isNewRecord;
+            $statusMudou = $oldStatus != $this->status;
 
-            if(!$this->isNewRecord && $oldStatus != $this->status && in_array($this->status, OcorrenciaStatus::getStatusTerminativos())) {
+            if (!$isNewRecord && $statusMudou && in_array($this->status, OcorrenciaStatus::getStatusTerminativos())) {
                 $this->data_fechamento = new Expression('NOW()');
             }
 
@@ -220,75 +222,59 @@ class Ocorrencia extends ClienteActiveRecord
                 $this->descricao_outro_tipo_problema = null;
             }
 
-            $result = parent::save($runValidation, $attributes);
-
-            if ($result) {
-
-            	$salvouHistorico = true;
-
-            	if($isNewRecord) {
-
-                    $this->hash_acesso_publico = $this->_createHashAcessoPublico();
-                    $this->update(false, ['hash_acesso_publico']);
-
-            		$historico = new OcorrenciaHistorico;
-            		$historico->cliente_id = $this->cliente_id;
-            		$historico->ocorrencia_id = $this->id;
-            		$historico->tipo = OcorrenciaHistoricoTipo::INCLUSAO;
-            		$historico->status_novo = OcorrenciaStatus::AVALIACAO;
-
-            		$salvouHistorico = $historico->save();
-            	}
-            	else {
-
-            		if ($oldStatus != $this->status) {
-
-            			$historico = new OcorrenciaHistorico;
-	            		$historico->cliente_id = $this->cliente_id;
-	            		$historico->ocorrencia_id = $this->id;
-	            		$historico->tipo = $this->status == OcorrenciaStatus::REPROVADA ? OcorrenciaHistoricoTipo::REPROVACAO : OcorrenciaHistoricoTipo::INFORMACAO;
-	            		$historico->status_antigo = $oldStatus;
-	            		$historico->status_novo = $this->status;
-	            		$historico->usuario_id = $this->usuario_id;
-
-                        if ($this->observacoes) {
-                            $historico->observacoes = $this->observacoes;
-                        }
-
-	            		$salvouHistorico = $historico->save();
-
-	            		if ($salvouHistorico && $this->email) {
-                            \perspectivain\gearman\BackgroundJob::register(
-                                'AlertaAlteracaoStatusOcorrenciaJob',
-                                [
-                                    'id' => $this->id,
-                                    'key' => getenv('GEARMAN_JOB_KEY')
-                                ],
-                                \perspectivain\gearman\BackgroundJob::NORMAL,
-                                \Yii::$app->params['gearmanQueueName']
-                            );
-	            		}
-            		}
-
-            	}
-
-                if($salvouHistorico) {
-                    $transaction->commit();
-                } else {
-                    $transaction->rollback();
-                    $result = false;
-                }
-            } else {
+            if (!parent::save($runValidation, $attributes)) {
                 $transaction->rollback();
-                $result = false;
+                return false;
             }
-        }
-        catch (\Exception $e) {
+
+            $historico = new OcorrenciaHistorico;
+            $historico->cliente_id = $this->cliente_id;
+            $historico->usuario_id = $this->usuario_id;
+            $historico->ocorrencia_id = $this->id;
+
+        	if ($isNewRecord) {
+                $historico->tipo = OcorrenciaHistoricoTipo::INCLUSAO;
+                $historico->status_novo = OcorrenciaStatus::AVALIACAO;
+
+                $this->hash_acesso_publico = $this->_createHashAcessoPublico();
+                $this->update(false, ['hash_acesso_publico']);
+
+        	} elseif ($statusMudou) {
+        		$historico->tipo = OcorrenciaHistoricoTipo::INFORMACAO;
+        		$historico->status_antigo = $oldStatus;
+        		$historico->status_novo = $this->status;
+                $historico->observacoes = $this->observacoes ?: null;
+
+                if ($this->status == OcorrenciaStatus::REPROVADA) {
+                    $historico->tipo = OcorrenciaHistoricoTipo::REPROVACAO;
+                } elseif ($this->status == OcorrenciaStatus::APROVADA) {
+                    $historico->tipo = OcorrenciaHistoricoTipo::APROVACAO;
+                }
+        	}
+
+            if ($historico->save()) {
+                if ($isNewRecord && $this->email) {
+                    BackgroundJob::register(
+                        'AlertaAlteracaoStatusOcorrenciaJob',
+                        [
+                            'id' => $this->id,
+                            'key' => getenv('GEARMAN_JOB_KEY')
+                        ],
+                        BackgroundJob::NORMAL,
+                        Yii::$app->params['gearmanQueueName']
+                    );
+                }
+
+                $transaction->commit();
+                return true;
+            }
+        } catch (\Exception $e) {
             $transaction->rollback();
             throw $e;
         }
 
-        return $result;
+        $transaction->rollback();
+        return false;
     }
 
     /**

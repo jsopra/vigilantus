@@ -15,6 +15,8 @@ class AppAsset extends AssetBundle
         'css/cidade.css',
         'css/common.css',
         'css/blog.css',
+        'css/ocorrencias.css',
+        'css/timeline.css',
         'js/jquery-toast-plugin-master/jquery.toast.min.css',
     ];
     public $js = [

@@ -125,9 +125,10 @@ class CidadeController extends Controller
     public function actionAcompanharOcorrencia($id, $hash = null)
     {
         $model = Ocorrencia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
-        $dataProvider = new ActiveDataProvider([
-            'query' => OcorrenciaHistorico::find()->daOcorrencia($model ? $model->id : 0),
-        ]);
+
+        if (!$model) {
+            throw new HttpException(404, 'Ocorrência não encontrada');
+        }
 
         return $this->render(
             'acompanhar-ocorrencia',
@@ -135,7 +136,8 @@ class CidadeController extends Controller
                 'cliente' => $this->getCliente(),
                 'municipio' => $this->getCliente()->municipio,
                 'model' => $model,
-                'dataProvider' => $dataProvider,
+                'dataProvider' => new ActiveDataProvider(['query' => $model->getOcorrenciaHistoricos()]),
+                'historicos' => $model->getOcorrenciaHistoricos()->all(),
                 'hash' => $hash,
             ]
         );

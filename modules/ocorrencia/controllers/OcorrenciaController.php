@@ -188,7 +188,14 @@ class OcorrenciaController extends CRUDController
             'query' => OcorrenciaHistorico::find()->daOcorrencia($model->id),
         ]);
 
-        echo $this->render('detalhes', ['model' => $model, 'dataProvider' => $dataProvider]);
+        return $this->render(
+            'detalhes',
+            [
+                'model' => $model,
+                'dataProvider' => $dataProvider,
+                'historicos' => $model->getOcorrenciaHistoricos()->all(),
+            ]
+        );
     }
 
     public function actionMudarStatus($id)
@@ -204,11 +211,10 @@ class OcorrenciaController extends CRUDController
             $saveMethodName = $this->getModelSaveMethodName();
 
             if ($model->$saveMethodName()) {
-
                 Yii::$app->session->setFlash('success', 'Ocorrência teve status alterado!');
-
                 return $this->redirect(Yii::$app->user->returnUrl);
             }
+            Yii::$app->session->setFlash('error', 'Ocorreu um erro ao alterar o status da ocorrência.');
         }
 
         return $this->renderAjaxOrLayout('mudar-status', ['model' => $model]);

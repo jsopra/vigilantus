@@ -34,5 +34,4 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
         </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>

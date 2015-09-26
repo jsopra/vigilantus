@@ -7,3 +7,4 @@ tests/_log/**
 /web/denuncias/**
 web/brasao/**
 /api/runtime/
+.editor-settings
