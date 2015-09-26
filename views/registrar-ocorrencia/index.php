@@ -1,4 +1,5 @@
 <?php
+use app\models\Bairro;
 use yii\widgets\ActiveForm;
 use yii\widgets\MaskedInput;
 use yii\helpers\ArrayHelper;
@@ -14,85 +15,73 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
 
 <?php MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen']); ?>
 
-<div style="margin-top: 2em;">
-
-    <p class="text-center" style="color: #000; font-size: 1.3em;">Descreva o <strong>local da ocorrência</strong></p>
+<div class="bloco-etapa-registro-ocorrencia">
+    <h2>Descreva o <strong>local da ocorrência</strong></h2>
 
     <?php $form = ActiveForm::begin(['options' => []]); ?>
-
-        <div class="row" style="margin-top: 3em;">
-
-            <div class="col-md-4 col-xs-12">
-                <?php
-                $tipos = \app\models\OcorrenciaTipoProblema::find()->doCliente($cliente->id)->ativos()->orderBy('nome')->all();
-
-                echo $form->field($model, 'ocorrencia_tipo_problema_id')->widget(
-                    Select2::classname(),
-                    [
-                        'data' => ['0' => ''] + ArrayHelper::map($tipos, 'id', 'nome') + ['' => 'Outros'],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]
-                );
-                ?>
-            </div>
-
-            <div class="col-md-4 col-xs-12" id="bloco-outro-tipo-problema">
-                <?= $form->field($model, 'descricao_outro_tipo_problema') ?>
-            </div>
-
-            <div class="col-md-4 col-xs-12">
-                <?= $form->field($model, 'tipo_imovel')->widget(
-                    Select2::classname(),
-                    [
-                        'data' => ['' => ''] + \app\models\OcorrenciaTipoImovel::getDescricoes(),
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]
-                );
-                ?>
-            </div>
+        <div class="row">
+            <?= $form->field($model, 'endereco') ?>
         </div>
 
         <div class="row">
-            <div class="col-md-4 col-xs-12">
-                <?php
-                $bairros = \app\models\Bairro::find()->doCliente($cliente->id)->comQuarteiroes()->orderBy('nome')->all();
-                echo $form->field($model, 'bairro_id')->widget(
-                    Select2::classname(),
-                    [
-                        'data' => ['' => ''] + ArrayHelper::map($bairros, 'id', 'nome'),
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]
-                );
-                ?>
-            </div>
-
-            <div class="col-md-8 col-xs-12">
-                <?= $form->field($model, 'endereco') ?>
-            </div>
+            <?= $form->field($model, 'tipo_imovel')->widget(
+                Select2::classname(),
+                [
+                    'data' => ['' => ''] + \app\models\OcorrenciaTipoImovel::getDescricoes(),
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]
+            );
+            ?>
         </div>
 
         <div class="row">
-            <div class="col-md-12 col-xs-12">
-
-                <?= $form->field($model, 'coordenadasJson')->hiddenInput()->label(false) ?>
-                <div id="map" style="height: 300px; width: 100%; margin-bottom: 1em;"></div>
-            </div>
+            <?php
+            $bairros = Bairro::find()->doCliente($cliente->id)->comQuarteiroes()->orderBy('nome')->all();
+            echo $form->field($model, 'bairro_id')->widget(
+                Select2::classname(),
+                [
+                    'data' => ['' => ''] + ArrayHelper::map($bairros, 'id', 'nome'),
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]
+            );
+            ?>
         </div>
 
         <div class="row">
-            <div class="col-md-12 col-xs-12">
-                <?= $form->field($model, 'pontos_referencia') ?>
-            </div>
+            <?php
+            $tipos = \app\models\OcorrenciaTipoProblema::find()->doCliente($cliente->id)->ativos()->orderBy('nome')->all();
+
+            echo $form->field($model, 'ocorrencia_tipo_problema_id')->widget(
+                Select2::classname(),
+                [
+                    'data' => ['0' => ''] + ArrayHelper::map($tipos, 'id', 'nome') + ['' => 'Outros'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]
+            );
+            ?>
         </div>
 
-        <div class="form-group text-right">
-            <?= Html::submitButton('Próximo', ['class' => 'btn btn-primary']) ?>
+        <div class="row" id="bloco-outro-tipo-problema">
+            <?= $form->field($model, 'descricao_outro_tipo_problema') ?>
+        </div>
+
+        <div class="row">
+            <?= $form->field($model, 'pontos_referencia') ?>
+        </div>
+
+        <div class="row">
+            <?= $form->field($model, 'coordenadasJson')->hiddenInput()->label(false) ?>
+            <div id="map" style="height: 300px; width: 100%; margin-bottom: 1em;"></div>
+        </div>
+
+        <div class="form-group text-center">
+            <?= Html::submitButton('Próximo passo', ['class' => 'btn btn-primary btn-lg']) ?>
         </div>
 
     <?php ActiveForm::end(); ?>
