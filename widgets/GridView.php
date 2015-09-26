@@ -44,6 +44,11 @@ class GridView extends YiiGridView
     public $buttons;
 
     /**
+     * @var string label do botão de exportar
+     */
+    public $exportButtonLabel = 'Exportar';
+
+    /**
      * @inheritdoc
      */
     public function run()
@@ -105,7 +110,7 @@ class GridView extends YiiGridView
     protected function getExportableColumns()
     {
         $columns = [];
-        
+
         foreach ($this->columns as $column) {
 
             if ($column instanceof ActionColumn || $column instanceof SerialColumn) {
@@ -127,11 +132,11 @@ class GridView extends YiiGridView
     protected function _getHeader()
     {
         $header = [];
-        
+
         foreach ($this->getExportableColumns() as $column) {
-            
+
             $name = null;
-            
+
             if ($column->header) {
                 $name = $column->header;
             }
@@ -143,10 +148,10 @@ class GridView extends YiiGridView
             elseif ($column->attribute) {
                 $name = $column->attribute;
             }
-            
+
             $header[] = $name;
         }
-        
+
         // Corrige bug com o Excel quando a primeira coluna se chama ID
         if (isset($header[0]) && strtoupper($header[0]) == 'ID') {
             $header[0] = ' ' . $header[0];
@@ -161,11 +166,11 @@ class GridView extends YiiGridView
     protected function _getFooter()
     {
         $footer = array();
-        
+
         $qtde = 0;
-        
+
         foreach ($this->getExportableColumns() as $column) {
-            
+
             $name = null;
             if ($column->footer) {
                 $name = $column->footer;
@@ -174,7 +179,7 @@ class GridView extends YiiGridView
             else {
                 $name = ' ';
             }
-            
+
             $footer[] = $name;
         }
 
@@ -203,35 +208,35 @@ class GridView extends YiiGridView
                     $route->enabled = false;
             }
         }
-        
+
         // Abre pra escrever na tela
         $handle = fopen('php://output', 'w');
-        
+
         if (Yii::$app->charset == 'UTF-8') {
 
             // BOM
             fputs($handle, chr(0xEF) . chr(0xBB) . chr(0xBF));
         }
-        
+
         // Imprime cabeçalho
         fputcsv($handle, $header, ';');
-        
+
         // Seta em quantos registros por vez ele carrega (pra não estourar a memória)
         $pagination = $this->dataProvider->getPagination();
         $pagination->pageSize = $this->recordsLoadingStep;
-        
+
         $this->dataProvider->prepare();
-        
-        $steps = $pagination->getPageCount();      
+
+        $steps = $pagination->getPageCount();
 
         for ($currentStep = 0; $currentStep < $steps; $currentStep++) {
-            
+
             // Muda bloco atual
             $pagination->setPage($currentStep);
              $this->dataProvider->prepare(true);
             // Obtém dados
             $rows = $this->dataProvider->getModels();
-        
+
             // Monta o CSV
             foreach ($rows as $index => $model) {
 
@@ -260,7 +265,7 @@ class GridView extends YiiGridView
                 fputcsv($handle, $row, ';');
             }
         }
-        
+
         // Monta footer, se houver
         if ($footer = $this->_getFooter()) {
             fputcsv($handle, $footer, ';');
@@ -292,7 +297,7 @@ class GridView extends YiiGridView
             }
 
             if (!isset($this->buttons['export'])) {
-                
+
                 $this->buttons['export'] = function() {
 
                     $url = $_SERVER['REQUEST_URI'];
@@ -304,7 +309,7 @@ class GridView extends YiiGridView
                     }
 
                     return Html::a(
-                        'Exportar',
+                        $this->exportButtonLabel,
                         $url . 'export=csv',
                         [
                             'class' => 'btn btn-flat default',

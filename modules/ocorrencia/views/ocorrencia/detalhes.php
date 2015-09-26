@@ -61,7 +61,7 @@ $urlOcorrencia = Url::to('/' . $model->cliente->rotulo, true);
             ],
             [
                 'label' => 'Histórico',
-                'content' => $this->render('detalhe/_detalheHistorico', ['model' => $model, 'dataProvider' => $dataProvider, 'isExportable' => true]),
+                'content' => $this->render('detalhe/_detalheHistorico', ['model' => $model, 'dataProvider' => $dataProvider, 'isExportable' => true, 'historicos' => $historicos]),
                 'active' => false
             ],
             [

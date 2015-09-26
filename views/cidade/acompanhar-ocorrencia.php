@@ -78,7 +78,15 @@ $descricaoTweet = 'Registrei uma ocorrência para a Sec. de Saúde de ' . $munic
             ],
             [
                 'label' => 'Histórico',
-                'content' => $this->render('//../modules/ocorrencia/views/ocorrencia/detalhe/_detalheHistorico', ['model' => $model, 'dataProvider' => $dataProvider, 'isExportable' => false]),
+                'content' => $this->render(
+                    '//../modules/ocorrencia/views/ocorrencia/detalhe/_detalheHistorico',
+                    [
+                        'model' => $model,
+                        'dataProvider' => $dataProvider,
+                        'isExportable' => false,
+                        'historicos' => $historicos,
+                    ]
+                ),
                 'active' => true
             ],
             [
