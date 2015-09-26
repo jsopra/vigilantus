@@ -94,7 +94,9 @@ class CidadeController extends Controller
                 'percentualOcorrenciasAtendidas' => round(
                     $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100
                 ),
-                'dataPrimeiraOcorrencia' => \Yii::$app->formatter->asDate($primeiraOcorrencia->data_criacao . ' ' . Yii::$app->timeZone),
+                'dataPrimeiraOcorrencia' => Yii::$app->formatter->asDate(
+                    $primeiraOcorrencia->data_criacao . ' ' . Yii::$app->timeZone
+                ),
             ]
         );
     }
