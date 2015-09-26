@@ -126,9 +126,6 @@ class CidadeController extends Controller
     {
         $model = Ocorrencia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
 
-        if (!$model) {
-            throw new HttpException(404, 'Ocorrência não encontrada');
-        }
 
         return $this->render(
             'acompanhar-ocorrencia',
@@ -136,8 +133,8 @@ class CidadeController extends Controller
                 'cliente' => $this->getCliente(),
                 'municipio' => $this->getCliente()->municipio,
                 'model' => $model,
-                'dataProvider' => new ActiveDataProvider(['query' => $model->getOcorrenciaHistoricos()]),
-                'historicos' => $model->getOcorrenciaHistoricos()->all(),
+                'dataProvider' => $model ? new ActiveDataProvider(['query' => $model->getOcorrenciaHistoricos()]) : null,
+                'historicos' => $model ? $model->getOcorrenciaHistoricos()->all() : null,
                 'hash' => $hash,
             ]
         );

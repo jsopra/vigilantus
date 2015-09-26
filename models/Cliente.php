@@ -93,7 +93,7 @@ class Cliente extends ActiveRecord
      */
     public function moduloIsHabilitado($moduloId)
     {
-        return $this->getModulos()->andWhere(['id' => $moduloId])->count() > 0;
+        return $this->getModulos()->andWhere(['modulo_id' => $moduloId])->count() > 0;
     }
 
     public function beforeDelete()
