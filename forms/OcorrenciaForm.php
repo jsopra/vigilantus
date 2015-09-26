@@ -94,7 +94,7 @@ class OcorrenciaForm extends Model
                 'skipOnEmpty' => true,
                 'targetClass' => OcorrenciaTipoProblema::className(),
                 'targetAttribute' => 'id',
-                'on' => self::SCENARIO_WIZARD_LOCAL,
+                'on' => self::SCENARIO_WIZARD_DETALHES,
             ],
             [
                 'descricao_outro_tipo_problema',
@@ -103,7 +103,7 @@ class OcorrenciaForm extends Model
                     return empty($model->ocorrencia_tipo_problema_id);
                 },
                 'skipOnError' => true,
-                'on' => self::SCENARIO_WIZARD_LOCAL,
+                'on' => self::SCENARIO_WIZARD_DETALHES,
             ],
             [['cliente_id'], 'required', 'on' => self::SCENARIO_WIZARD_IDENTIFICACAO],
             [['ocorrencia_tipo_problema_id', 'tipo_imovel', 'bairro_id', 'cliente_id'], 'integer'],

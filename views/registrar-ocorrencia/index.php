@@ -52,26 +52,6 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
         </div>
 
         <div class="row">
-            <?php
-            $tipos = \app\models\OcorrenciaTipoProblema::find()->doCliente($cliente->id)->ativos()->orderBy('nome')->all();
-
-            echo $form->field($model, 'ocorrencia_tipo_problema_id')->widget(
-                Select2::classname(),
-                [
-                    'data' => ['0' => ''] + ArrayHelper::map($tipos, 'id', 'nome') + ['' => 'Outros'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]
-            );
-            ?>
-        </div>
-
-        <div class="row" id="bloco-outro-tipo-problema">
-            <?= $form->field($model, 'descricao_outro_tipo_problema') ?>
-        </div>
-
-        <div class="row">
             <?= $form->field($model, 'pontos_referencia') ?>
         </div>
 
@@ -89,19 +69,6 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
 </div>
 
 <?php
-$this->registerJs('
-$(document).ready(function(){
-    var checarTipoProblema = function() {
-        if ($("#ocorrenciaform-ocorrencia_tipo_problema_id").val()) {
-            $("#bloco-outro-tipo-problema").hide();
-        } else {
-            $("#bloco-outro-tipo-problema").show();
-        }
-    };
-    $("#ocorrenciaform-ocorrencia_tipo_problema_id").change(checarTipoProblema);
-    checarTipoProblema();
-});');
-
 $municipio->loadCoordenadas();
 if ($municipio->latitude && $municipio->longitude) : ?>
 
