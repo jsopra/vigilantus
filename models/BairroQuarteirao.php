@@ -250,11 +250,6 @@ class BairroQuarteirao extends ClienteActiveRecord
     {
         $cacheKey = 'quarteirao_centro_' . $this->id;
         $data = Yii::$app->cache->get($cacheKey);
-/*
-        if($data !== false) {
-            return $data;
-        }
-*/
         $object = self::find()
             ->select('ST_asText(ST_Centroid(coordenadas_area)) as centro')
             ->where(['id' => $this->id])

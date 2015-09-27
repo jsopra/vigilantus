@@ -8,11 +8,11 @@ use app\models\OcorrenciaStatus;
 use app\models\OcorrenciaTipoImovel;
 use app\models\OcorrenciaTipoProblema;
 use app\helpers\models\OcorrenciaHelper;
-use perspectivain\postgis\PostgisTrait as postgisTrait;
+use perspectivain\postgis\PostgisTrait;
 
 class OcorrenciaForm extends Model
 {
-    use postgisTrait;
+    use PostgisTrait;
 
     const SCENARIO_WIZARD_LOCAL = 'wizard-local';
     const SCENARIO_WIZARD_DETALHES = 'wizard-detalhes';
@@ -88,13 +88,14 @@ class OcorrenciaForm extends Model
     {
         return [
             [['tipo_imovel', 'bairro_id', 'endereco'], 'required', 'on' => self::SCENARIO_WIZARD_LOCAL],
+            [['mensagem'], 'required', 'on' => self::SCENARIO_WIZARD_DETALHES],
             [
                 'ocorrencia_tipo_problema_id',
                 'exist',
                 'skipOnEmpty' => true,
                 'targetClass' => OcorrenciaTipoProblema::className(),
                 'targetAttribute' => 'id',
-                'on' => self::SCENARIO_WIZARD_LOCAL,
+                'on' => self::SCENARIO_WIZARD_DETALHES,
             ],
             [
                 'descricao_outro_tipo_problema',
@@ -103,7 +104,7 @@ class OcorrenciaForm extends Model
                     return empty($model->ocorrencia_tipo_problema_id);
                 },
                 'skipOnError' => true,
-                'on' => self::SCENARIO_WIZARD_LOCAL,
+                'on' => self::SCENARIO_WIZARD_DETALHES,
             ],
             [['cliente_id'], 'required', 'on' => self::SCENARIO_WIZARD_IDENTIFICACAO],
             [['ocorrencia_tipo_problema_id', 'tipo_imovel', 'bairro_id', 'cliente_id'], 'integer'],

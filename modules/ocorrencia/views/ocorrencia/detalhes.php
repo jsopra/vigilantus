@@ -67,7 +67,8 @@ $urlOcorrencia = Url::to('/' . $model->cliente->rotulo, true);
             [
                 'label' => 'Mapa',
                 'content' => $this->render('detalhe/_detalheMapa', ['model' => $model]),
-                'active' => false
+                'active' => false,
+                'options' => ['id' => 'aba-mapa'],
             ],
         ]
     ]);

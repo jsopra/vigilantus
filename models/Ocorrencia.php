@@ -5,6 +5,7 @@ namespace app\models;
 use app\components\ClienteActiveRecord;
 use Hashids\Hashids;
 use perspectivain\gearman\BackgroundJob;
+use perspectivain\postgis\PostgisTrait;
 use Yii;
 use yii\web\UploadedFile;
 use yii\db\Expression;
@@ -44,6 +45,8 @@ use yii\db\Expression;
  */
 class Ocorrencia extends ClienteActiveRecord
 {
+    use PostgisTrait;
+
     const SCENARIO_CARGA = 'carga';
     const SCENARIO_TROCA_STATUS = 'trocaStatus';
     const SCENARIO_INSERCAO = 'insert';
@@ -52,6 +55,11 @@ class Ocorrencia extends ClienteActiveRecord
 	public $file;
 	public $usuario_id;
     public $observacoes;
+
+    /**
+     * @var array cache das coordenadas convertidas para um array (lat, long).
+     */
+    protected $array_coordenadas;
 
 	/**
 	 * @inheritdoc
@@ -326,5 +334,43 @@ class Ocorrencia extends ClienteActiveRecord
         $hashids = new Hashids($sal, $tamanhoMinimo, $alfabeto);
 
         return $hashids->encode($this->id);
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getLatitude()
+    {
+        if ($coordenadas = $this->getArrayCoordenadas()) {
+            return $coordenadas[1];
+        }
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getLongitude()
+    {
+        if ($coordenadas = $this->getArrayCoordenadas()) {
+            return $coordenadas[0];
+        }
+    }
+
+    /**
+     * Converte coordenadas do Postgres
+     * @return array|false
+     */
+    protected function getArrayCoordenadas()
+    {
+        if (null === $this->array_coordenadas) {
+            $this->array_coordenadas = false;
+
+            $coordenadas = $this->wktToArray('Point', 'coordenadas');
+            if (is_array($coordenadas) && count($coordenadas) == 2) {
+                $this->array_coordenadas = $coordenadas;
+            }
+        }
+
+        return $this->array_coordenadas;
     }
 }
