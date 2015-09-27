@@ -92,7 +92,8 @@ $descricaoTweet = 'Registrei uma ocorrência para a Sec. de Saúde de ' . $munic
             [
                 'label' => 'Mapa',
                 'content' => $this->render('//../modules/ocorrencia/views/ocorrencia/detalhe/_detalheMapa', ['model' => $model]),
-                'active' => false
+                'active' => false,
+                'options' => ['id' => 'aba-mapa'],
             ],
         ]
     ]);

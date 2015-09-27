@@ -14,37 +14,41 @@ MapBoxAPIHelper::registerScript($this, ['fullScreen']);
 <br />
 
 <?php
-$municipio = $model->cliente->municipio;
-$municipio->loadCoordenadas();
+if ($model->bairroQuarteirao || ($model->latitude !== null && $model->longitude !== null)) :
+
 ?>
-
-<?php
-if($model->bairroQuarteirao) :
-
-    $model->bairroQuarteirao->loadCoordenadas();
-    $centroQuarteirao = $model->bairroQuarteirao->getCentro();
-?>
-
     <div id="map" style="height: 300px; width: 100%;"></div>
 
 <script>
-    function initialize() {
-        var line_points = <?= MapHelper::getArrayCoordenadas($model->bairroQuarteirao->coordenadas); ?>;
-        var polyline_options = {
-            color: '#000'
-        };
+    function initialize()
+    {
+        var polyline_options = { color: '#000' };
+        var polyline_related_options = { color: '#797979' }
 
-        var polyline_related_options = {
-            color: '#797979'
-        }
-
-        var quarteiraoPoligono = L.polygon(line_points, polyline_options);
-        var quarteiraoCenter = quarteiraoPoligono.getBounds().getCenter();
-
+        <?php
+        if ($model->bairroQuarteirao) :
+            $model->bairroQuarteirao->loadCoordenadas();
+            ?>
+            var line_points = <?= MapHelper::getArrayCoordenadas($model->bairroQuarteirao->coordenadas); ?>;
+            var quarteiraoPoligono = L.polygon(line_points, polyline_options);
+            var coordenadas = quarteiraoPoligono.getBounds().getCenter();
+            var title = '<?= $model->bairroQuarteirao->numero_quarteirao; ?>';
+            <?php
+        elseif ($model->latitude !== null && $model->longitude !== null) :
+            ?>
+            var coordenadas = {
+                lng: <?= $model->longitude ?>,
+                lat: <?= $model->latitude ?>
+            };
+            var title = 'Posição informada pela pessoa que registrou a ocorrência.';
+            <?php
+        endif;
+        ?>
+        console.log(coordenadas);
         L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
         var map = L.mapbox
             .map('map', 'vigilantus.kjkb4j0a')
-            .setView(quarteiraoCenter, 15);
+            .setView(coordenadas, 17);
 
         L.control.fullscreen().addTo(map);
         L.featureGroup().addTo(map);
@@ -53,10 +57,10 @@ if($model->bairroQuarteirao) :
             type: 'Feature',
             geometry: {
                 type: 'Point',
-                coordinates: [quarteiraoCenter.lng, quarteiraoCenter.lat]
+                coordinates: [coordenadas.lng, coordenadas.lat]
             },
             properties: {
-                title: '<?= $model->bairroQuarteirao->numero_quarteirao; ?>',
+                title: title,
                 'marker-color': '#fc6a6a',
                 'marker-symbol': 'hospital'
             }
@@ -67,17 +71,20 @@ if($model->bairroQuarteirao) :
 </script>
 
 <?php
-    $view = Yii::$app->getView();
-    $script = '
-        $("a[href=#w1-tab2]").on("click", function(){
-            initialize();
-        });
-    ';
-    $view->registerJs($script);
-    ?>
+$view = Yii::$app->getView();
+$script = '
+    $("a[href=#aba-mapa]").on("click", function() {
+        initialize();
+    });
+';
+$view->registerJs($script);
+?>
 
 <?php else : ?>
-
-    <p><strong>Quarteirão não definido!</strong></p>
-
+    <div class="alert alert-warning">
+        <i class="icon-warning-sign"></i>
+        Nenhum quarteirão foi definido para esta ocorrência, e a pessoa que
+        registrou a ocorrência também não apontou no mapa o lugar onde aconteceu
+        o problema.
+    </div>
 <?php endif; ?>

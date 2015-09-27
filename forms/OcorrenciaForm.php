@@ -8,11 +8,11 @@ use app\models\OcorrenciaStatus;
 use app\models\OcorrenciaTipoImovel;
 use app\models\OcorrenciaTipoProblema;
 use app\helpers\models\OcorrenciaHelper;
-use perspectivain\postgis\PostgisTrait as postgisTrait;
+use perspectivain\postgis\PostgisTrait;
 
 class OcorrenciaForm extends Model
 {
-    use postgisTrait;
+    use PostgisTrait;
 
     const SCENARIO_WIZARD_LOCAL = 'wizard-local';
     const SCENARIO_WIZARD_DETALHES = 'wizard-detalhes';
