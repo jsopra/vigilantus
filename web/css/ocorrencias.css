@@ -38,9 +38,29 @@
 
 .bloco-etapa-registro-ocorrencia form {
   margin: 3em auto 3em;
+}
+
+.bloco-etapa-registro-ocorrencia form .row {
+  margin-left: auto;
+  margin-right: auto;
   max-width: 550px;
+}
+
+.bloco-etapa-registro-ocorrencia form .row.mapa {
+  max-width: 850px;
+}
+
+.bloco-etapa-registro-ocorrencia form .row.mapa label {
+  display: block;
+  text-align: center;
 }
 
 .bloco-etapa-registro-ocorrencia form label {
   font-size: 22px;
+}
+
+#map {
+  height: 300px;
+  margin-bottom: 1em;
+  width: 100%;
 }

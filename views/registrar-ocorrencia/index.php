@@ -20,10 +20,6 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
 
     <?php $form = ActiveForm::begin(['options' => []]); ?>
         <div class="row">
-            <?= $form->field($model, 'endereco') ?>
-        </div>
-
-        <div class="row">
             <?= $form->field($model, 'tipo_imovel')->widget(
                 Select2::classname(),
                 [
@@ -52,12 +48,16 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
         </div>
 
         <div class="row">
-            <?= $form->field($model, 'pontos_referencia') ?>
+            <?= $form->field($model, 'endereco')->textInput(['placeholder' => 'Exemplo: Rua dos Alfeneiros 4']) ?>
         </div>
 
         <div class="row">
-            <?= $form->field($model, 'coordenadasJson')->hiddenInput()->label(false) ?>
-            <div id="map" style="height: 300px; width: 100%; margin-bottom: 1em;"></div>
+            <?= $form->field($model, 'pontos_referencia')->textInput(['placeholder' => 'Exemplo: próximo ao bar do caldeirão furado']) ?>
+        </div>
+
+        <div class="row mapa">
+            <?= $form->field($model, 'coordenadasJson')->hiddenInput()->label('Posicione o marcador abaixo no local exato onde ocorreu o problema:') ?>
+            <div id="map"></div>
         </div>
 
         <div class="form-group text-center">
@@ -74,28 +74,17 @@ if ($municipio->latitude && $municipio->longitude) : ?>
 
     <?php
     $javascript = "
+        var distanciaMapa = 13;
+
         L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
         var map = L.mapbox
             .map('map', 'vigilantus.kjkb4j0a')
-            .setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13);
+            .setView([" . $municipio->latitude . " , " . $municipio->longitude . "], distanciaMapa);
 
+        var marker;
         var featureGroup = L.featureGroup().addTo(map);
 
-        var drawControl = new L.Control.Draw({
-            edit: {
-                featureGroup: featureGroup
-            },
-            draw: {
-                polygon: false,
-                polyline: false,
-                rectangle: false,
-                circle: false,
-                marker: true
-            }
-        }).addTo(map);
-
         L.control.fullscreen().addTo(map);
-
         L.control.scale().addTo(map);
 
         map.on('draw:created', showPolygonArea);
@@ -117,73 +106,87 @@ if ($municipio->latitude && $municipio->longitude) : ?>
             $('#ocorrenciaform-coordenadasjson').val(coordinates.join());
         }
 
+        var setMarkerPositionFromMapBoxApiResult = function(apiResult) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            var coordinates = apiResult.features[0].center;
+            marker = L.marker(new L.LatLng(coordinates[1], coordinates[0])).addTo(featureGroup);
+            map.setView([coordinates[1], coordinates[0]], distanciaMapa + 2);
+        };
+
+        var ajaxPosicaoMapa = function(string, successCallback, errorCallback) {
+            var url = 'https://api.mapbox.com/v4/geocode/mapbox.places/';
+            url += string;
+            url += ', " . $municipio->nome . ',' . $municipio->sigla_estado . "';
+            url += '.json?proximity=" . $municipio->longitude . "," . $municipio->latitude . "';
+            url += '&access_token=' + L.mapbox.accessToken;
+
+            if (undefined == successCallback || null == successCallback) {
+                successCallback = function() { };
+            }
+
+            if (undefined == errorCallback || null == errorCallback) {
+                errorCallback = function() { };
+            }
+
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                success: successCallback,
+                error: errorCallback
+            });
+        };
+
+        var buscarBairro = function(bairro) {
+            if (bairro) {
+                ajaxPosicaoMapa(bairro, setMarkerPositionFromMapBoxApiResult);
+            }
+        };
+
+        var buscarEndereco = function(endereco, bairro) {
+            var string = endereco;
+
+            if (endereco && bairro) {
+                string += ', ' + bairro;
+                ajaxPosicaoMapa(string, setMarkerPositionFromMapBoxApiResult, function() { buscarBairro(bairro); });
+            } else if (endereco) {
+                ajaxPosicaoMapa(string, setMarkerPositionFromMapBoxApiResult);
+            }
+        };
+
+        var buscarPosicaoMapa = function(e) {
+            var bairro = null;
+            var id_bairro = $('#ocorrenciaform-bairro_id').val();
+            var endereco = $('#ocorrenciaform-endereco').val();
+
+            if (id_bairro) {
+                bairro = $('#ocorrenciaform-bairro_id option[value=\"' + id_bairro + '\"]').text();
+            }
+
+            if (endereco) {
+                return buscarEndereco(endereco, bairro);
+            } else if (bairro) {
+                return buscarBairro(bairro);
+            }
+        };
+
         $(document).ready(function(){
+            var coordenadas = '" . ($model->coordenadasJson ?: '') . "';
+            var coordinates = coordenadas.split(',');
 
-            $('#map')." . ($model->endereco ? 'show' : 'hide') . "();
+            if (coordinates.length != 2) {
+                coordinates = [" . $municipio->longitude . " , " . $municipio->latitude . "];
+            }
 
-            var marker;
+            marker = L.marker(
+                new L.LatLng(coordinates[1], coordinates[0]),
+                {draggable: true}
+            ).addTo(featureGroup);
+            map.setView([coordinates[1], coordinates[0]], distanciaMapa);
 
-            $('#ocorrenciaform-endereco').select2({
-                multiple: false,
-                placeholder: 'Digite o endereço...',
-                allowClear: true,
-                ajax: {
-                    multiple: false,
-                    url: function(args) {
-                        var uri = 'https://api.mapbox.com/v4/geocode/mapbox.places/';
-                        uri += args;
-                        uri += '.json?proximity=" . $municipio->longitude . "," . $municipio->latitude . "&access_token=' + L.mapbox.accessToken;
-                        return uri;
-                    },
-                    dataType: 'json',
-                    data: function (term, page) {
-                        return {};
-                    },
-                    results: function (data, page) {
-                        return {
-                            results : $.map(data.features, function (item) {
-                                return {
-                                    text:item.place_name, slug:item.place_name, id:item.center.join()
-                                }
-                            })
-                        };
-                    }
-                },
-                initSelection: function(element, callback) {
-                    var id = '" . ($model->coordenadasJson ? $model->coordenadasJson  : 'null') . "';
-                    var text = '" . ($model->endereco ? $model->endereco : 'null') . "';
-                    var data = {id: id, text: text, slug: text};
-                    if(marker) {
-                        map.removeLayer(marker);
-                    }
-                    var coordinates = id.split(',');
-                    marker = L.marker(new L.LatLng(coordinates[1], coordinates[0])).addTo(featureGroup);
-                    map.setView([coordinates[1], coordinates[0]], 15);
-
-                    callback(data);
-                }
-            });
-
-            $('#ocorrenciaform-endereco').on('change', function(e) {
-                if($(this).val() != '') {
-                    if(marker) {
-                        map.removeLayer(marker);
-                    }
-                    var coordinates = $(this).val().split(',');
-                    marker = L.marker(new L.LatLng(coordinates[1], coordinates[0])).addTo(featureGroup);
-                    map.setView([coordinates[1], coordinates[0]], 15);
-                    $('#map').show();
-                    $('#ocorrenciaform-coordenadasjson').val($('#ocorrenciaform-endereco').select2('data').id);
-                } else {
-                    $('#map').hide();
-                    featureGroup.removeLayer(marker);
-                    map.setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13);
-                }
-            });
-
-            $('form').submit(function() {
-                $('#ocorrenciaform-endereco').val($('#ocorrenciaform-endereco').select2('data').text);
-            });
+            $('#ocorrenciaform-bairro_id').on('change', buscarPosicaoMapa);
+            $('#ocorrenciaform-endereco').on('change', buscarPosicaoMapa);
         });
     ";
 
