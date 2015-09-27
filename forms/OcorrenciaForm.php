@@ -88,6 +88,7 @@ class OcorrenciaForm extends Model
     {
         return [
             [['tipo_imovel', 'bairro_id', 'endereco'], 'required', 'on' => self::SCENARIO_WIZARD_LOCAL],
+            [['mensagem'], 'required', 'on' => self::SCENARIO_WIZARD_DETALHES],
             [
                 'ocorrencia_tipo_problema_id',
                 'exist',
