@@ -22,7 +22,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
         $tipos = OcorrenciaTipoProblema::find()->doCliente($cliente->id)->ativos()->orderBy('nome')->all();
 
         echo $form->field($model, 'ocorrencia_tipo_problema_id')
-            ->label('Está tendo problemas com:')
+            ->label('Problema:')
             ->widget(
             Select2::classname(),
             [
