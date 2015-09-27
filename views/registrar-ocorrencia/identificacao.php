@@ -31,13 +31,10 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
             </div>
 
             <div class="col-md-5 col-xs-12">
-                <?= Html::activeLabel($model, 'telefone') ?>
-                <?php
-                echo MaskedInput::widget([
-                    'model' => $model,
-                    'name' => "Ocorrencia[telefone]",
-                    'mask' => ['(99) 9999-9999', '(99) 99999-9999'],
-                ]);
+                <?= $form->field($model, 'telefone')->widget(
+                    MaskedInput::className(),
+                    ['mask' => ['(99) 9999-9999', '(99) 99999-9999']]
+                )
                 ?>
             </div>
         </div>
