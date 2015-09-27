@@ -132,4 +132,19 @@ class RegistrarOcorrenciaController extends Controller
             ]
         );
     }
+
+    /**
+     * @FIXME Isso deveria vir da https://api.vigilantus.com.br/v1/bairros/:id
+     * mas infelizmente a Getup não possui Vhosts para isso.
+     */
+    public function actionCoordenadasBairro($id, $bairro_id)
+    {
+        $bairro = $this->cliente->getBairros()->andWhere(['id' => $bairro_id])->one();
+
+        if (!$bairro) {
+            throw new HttpException(404, 'Bairro não encontrado.');
+        }
+
+        return Json::encode($bairro->getCentro());
+    }
 }

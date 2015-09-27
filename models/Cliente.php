@@ -80,6 +80,14 @@ class Cliente extends ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveRelation
+     */
+    public function getBairros()
+    {
+        return $this->hasMany(Bairro::className(), ['cliente_id' => 'id']);
+    }
+
+    /**
      * @return int
      */
     public function getQuantidadeModulos()

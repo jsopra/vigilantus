@@ -106,21 +106,18 @@ if ($municipio->latitude && $municipio->longitude) : ?>
             $('#ocorrenciaform-coordenadasjson').val(coordinates.join());
         }
 
-        var setMarkerPositionFromMapBoxApiResult = function(apiResult) {
+        var setMarkerPositionFromMapBoxApiResult = function(coordinates) {
             if (marker) {
                 map.removeLayer(marker);
             }
-            var coordinates = apiResult.features[0].center;
             marker = L.marker(new L.LatLng(coordinates[1], coordinates[0])).addTo(featureGroup);
             map.setView([coordinates[1], coordinates[0]], distanciaMapa + 2);
         };
 
-        var ajaxPosicaoMapa = function(string, successCallback, errorCallback) {
-            var url = 'https://api.mapbox.com/v4/geocode/mapbox.places/';
-            url += string;
-            url += ', " . $municipio->nome . ',' . $municipio->sigla_estado . "';
-            url += '.json?proximity=" . $municipio->longitude . "," . $municipio->latitude . "';
-            url += '&access_token=' + L.mapbox.accessToken;
+        var ajaxPosicaoMapa = function(id_bairro, successCallback, errorCallback) {
+            var url = '" . Url::to(['registrar-ocorrencia/coordenadas-bairro']) . "/';
+            url += '?id=" . $municipio->id . "';
+            url += '&bairro_id=' + id_bairro;
 
             if (undefined == successCallback || null == successCallback) {
                 successCallback = function() { };
@@ -138,36 +135,10 @@ if ($municipio->latitude && $municipio->longitude) : ?>
             });
         };
 
-        var buscarBairro = function(bairro) {
-            if (bairro) {
-                ajaxPosicaoMapa(bairro, setMarkerPositionFromMapBoxApiResult);
-            }
-        };
-
-        var buscarEndereco = function(endereco, bairro) {
-            var string = endereco;
-
-            if (endereco && bairro) {
-                string += ', ' + bairro;
-                ajaxPosicaoMapa(string, setMarkerPositionFromMapBoxApiResult, function() { buscarBairro(bairro); });
-            } else if (endereco) {
-                ajaxPosicaoMapa(string, setMarkerPositionFromMapBoxApiResult);
-            }
-        };
-
         var buscarPosicaoMapa = function(e) {
-            var bairro = null;
             var id_bairro = $('#ocorrenciaform-bairro_id').val();
-            var endereco = $('#ocorrenciaform-endereco').val();
-
             if (id_bairro) {
-                bairro = $('#ocorrenciaform-bairro_id option[value=\"' + id_bairro + '\"]').text();
-            }
-
-            if (endereco) {
-                return buscarEndereco(endereco, bairro);
-            } else if (bairro) {
-                return buscarBairro(bairro);
+                return ajaxPosicaoMapa(id_bairro, setMarkerPositionFromMapBoxApiResult);
             }
         };
 
@@ -186,7 +157,6 @@ if ($municipio->latitude && $municipio->longitude) : ?>
             map.setView([coordinates[1], coordinates[0]], distanciaMapa);
 
             $('#ocorrenciaform-bairro_id').on('change', buscarPosicaoMapa);
-            $('#ocorrenciaform-endereco').on('change', buscarPosicaoMapa);
         });
     ";
 
