@@ -42,7 +42,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
             </div>
         </div>
 
-        <div class="form-group text-centr">
+        <div class="form-group text-center">
             <?= Html::submitButton('Registrar Ocorrência', ['class' => 'btn btn-primary btn-lg']) ?>
         </div>
 

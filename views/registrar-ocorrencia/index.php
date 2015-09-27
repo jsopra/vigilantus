@@ -107,11 +107,19 @@ if ($municipio->latitude && $municipio->longitude) : ?>
         }
 
         var setMarkerPositionFromMapBoxApiResult = function(coordinates) {
+            setMarker(coordinates[1], coordinates[0], distanciaMapa + 2)
+        };
+
+        var setMarker = function(latitude, longitude, altitude) {
             if (marker) {
                 map.removeLayer(marker);
             }
-            marker = L.marker(new L.LatLng(coordinates[1], coordinates[0])).addTo(featureGroup);
-            map.setView([coordinates[1], coordinates[0]], distanciaMapa + 2);
+            marker = L.marker(
+                new L.LatLng(latitude, longitude),
+                {draggable: true}
+            ).addTo(featureGroup);
+            map.setView([latitude, longitude], altitude);
+            coordinatesToInput([longitude, latitude]);
         };
 
         var ajaxPosicaoMapa = function(id_bairro, successCallback, errorCallback) {
@@ -150,11 +158,7 @@ if ($municipio->latitude && $municipio->longitude) : ?>
                 coordinates = [" . $municipio->longitude . " , " . $municipio->latitude . "];
             }
 
-            marker = L.marker(
-                new L.LatLng(coordinates[1], coordinates[0]),
-                {draggable: true}
-            ).addTo(featureGroup);
-            map.setView([coordinates[1], coordinates[0]], distanciaMapa);
+            setMarker(coordinates[1], coordinates[0], distanciaMapa);
 
             $('#ocorrenciaform-bairro_id').on('change', buscarPosicaoMapa);
         });
