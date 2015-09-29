@@ -87,21 +87,6 @@ if ($municipio->latitude && $municipio->longitude) : ?>
         L.control.fullscreen().addTo(map);
         L.control.scale().addTo(map);
 
-        map.on('draw:created', showPolygonArea);
-        map.on('draw:edited', showPolygonAreaEdited);
-
-        function showPolygonAreaEdited(e) {
-            e.layers.eachLayer(function(layer) {
-                showPolygonArea({ layer: layer });
-            });
-        }
-
-        function showPolygonArea(e) {
-            featureGroup.clearLayers();
-            featureGroup.addLayer(e.layer);
-            coordinatesToInput(e.layer.toGeoJSON().geometry.coordinates);
-        }
-
         function coordinatesToInput(coordinates) {
             $('#ocorrenciaform-coordenadasjson').val(coordinates.join());
         }
@@ -120,6 +105,12 @@ if ($municipio->latitude && $municipio->longitude) : ?>
             ).addTo(featureGroup);
             map.setView([latitude, longitude], altitude);
             coordinatesToInput([longitude, latitude]);
+
+            marker.on('dragend', function(e) {
+                var coordinates = marker.getLatLng();
+                coordinatesToInput([coordinates.lng, coordinates.lat]);
+            });
+
         };
 
         var ajaxPosicaoMapa = function(id_bairro, successCallback, errorCallback) {
