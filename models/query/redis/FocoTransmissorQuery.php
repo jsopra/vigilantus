@@ -32,9 +32,4 @@ class FocoTransmissorQuery extends RedisActiveQuery
         return $this;
     }
 
-    public function dataEntradaEntre($inicio, $fim)
-    {
-        $this->andWhere('data_entrada BETWEEN :inicio AND :fim', [':inicio' => $inicio, ':fim' => $fim]);
-        return $this;
-    }
 }

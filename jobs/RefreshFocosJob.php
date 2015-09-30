@@ -47,7 +47,7 @@ class RefreshFocosJob implements \perspectivain\gearman\InterfaceJob
                 $focoRedis->cor_foco =  $foco->especieTransmissor->cor;
                 $focoRedis->setCentroQuarteirao($quarteirao->getCentro());
                 $focoRedis->qtde_metros_area_foco = $foco->especieTransmissor->qtde_metros_area_foco;
-                $focosRedis->timestamp_entrada = time();
+                $focoRedis->timestamp_entrada = Yii::$app->formatter->asTimestamp($foco->data_entrada);
 
                	$focoRedis->informacao_publica = $foco->isInformacaoPublica() ? '1' : '0';
 

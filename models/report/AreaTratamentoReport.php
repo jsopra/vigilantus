@@ -85,6 +85,7 @@ class AreaTratamentoReport extends Model
             $quarteiroes->doBairro($this->bairro_id);
         }
 
+
         $this->dataProviderAreasTratamento = new ActiveDataProvider(['query' => $quarteiroes]);
     }
 
