@@ -14,7 +14,7 @@ $this->title = 'Áreas de Tratamento';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<?php echo $this->render('_filtroRelatorioAreaTratamento', ['model' => $model]); ?>
+<?php echo $this->render('_filtroRelatorioAreaTratamento', ['model' => $model, 'usaData' => true]); ?>
 
 <?php echo $this->render('_menuRelatorioAreaTratamento', []); ?>
 
@@ -99,6 +99,11 @@ function gmapPrint() {
         inseriuParametro = true;
         url += (inseriuParametro ? '&' : '?') + 'especie_transmissor_id=' + $('#areatratamentoreport-especie_transmissor_id').val();
     }
+
+    /*if($('#areatratamentoreport-inicio_perido', '#areatratamentoreport-fim_perido').val()) {
+        inseriuParametro = true;
+        url += (inseriuParametro ? '&' : '?') + 'inicio_periodo=' && 'fim_periodo=' + $(['#areatratamentoreport-inicio_perido', '#areatratamentoreport-fim_perido']).val();
+    }*/
 
     window.open(url,'_blank');
 }

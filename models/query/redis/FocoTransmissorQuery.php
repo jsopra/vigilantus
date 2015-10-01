@@ -32,4 +32,14 @@ class FocoTransmissorQuery extends RedisActiveQuery
         return $this;
     }
 
+    public function dataEntradaEntre($inicio, $fim)
+    {
+        $timestamp_inicio = Yii::$app->formatter->asTimestamp($inicio);
+        $timestamp_fim = Yii::$app->formatter->asTimestamp($fim);
+
+        $this->andWhere(['between', 'timestamp_entrada', $timestamp_inicio, $timestamp_fim]);
+
+        return $this;
+    }
+
 }

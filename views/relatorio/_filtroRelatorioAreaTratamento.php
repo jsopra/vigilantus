@@ -30,15 +30,18 @@ use dosamigos\datepicker\DatePicker;
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-xs-3">
-                    <?= $form->field($model, 'inicio_periodo')->input('date', ['class' => 'form-control input-datepicker']) ?>
-                </div>
+            <?php if($usaData) : ?>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <?= $form->field($model, 'inicio_periodo')->input('date', ['class' => 'form-control input-datepicker']) ?>
+                    </div>
 
-                <div class="col-xs-3">
-                    <?= $form->field($model, 'fim_periodo')->input('date', ['class' => 'form-control input-datepicker']) ?>
+                    <div class="col-xs-3">
+                        <?= $form->field($model, 'fim_periodo')->input('date', ['class' => 'form-control input-datepicker']) ?>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
+
             <div class="row">
                 <div class="col-xs-2" style="padding-top: 20px;">
                     <?= Html::submitButton('Gerar', ['class' => 'btn btn-primary']) ?>
