@@ -84,6 +84,7 @@ class CidadeController extends Controller
             ->orderBy('data_criacao ASC')
             ->one()
         ;
+        $percentualOcorrencias = $numeroOcorrenciasRecebidas ? $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100 : 0;
 
         return $this->render(
             'view',
@@ -91,9 +92,7 @@ class CidadeController extends Controller
                 'cliente' => $cliente,
                 'municipio' => $cliente->municipio,
                 'numeroOcorrenciasRecebidas' => $numeroOcorrenciasRecebidas,
-                'percentualOcorrenciasAtendidas' => round(
-                    $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100
-                ),
+                'percentualOcorrenciasAtendidas' => round($percentualOcorrencias),
                 'dataPrimeiraOcorrencia' => Yii::$app->formatter->asDate(
                     $primeiraOcorrencia->data_criacao . ' ' . Yii::$app->timeZone
                 ),
