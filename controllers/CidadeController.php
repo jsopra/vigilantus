@@ -122,10 +122,29 @@ class CidadeController extends Controller
         );
     }
 
-    public function actionAcompanharOcorrencia($id, $hash = null)
+    public function actionBuscarOcorrencia($id, $hash = null)
     {
-        $model = Ocorrencia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
+        if ($this->getOcorrencia($hash, false)) {
+            return $this->redirect([
+                'acompanhar-ocorrencia',
+                'id' => $id,
+                'hash' => $hash
+            ]);
+        }
 
+        return $this->render(
+            'buscar-ocorrencia',
+            [
+                'cliente' => $this->getCliente(),
+                'municipio' => $this->getCliente()->municipio,
+                'hash' => $hash,
+            ]
+        );
+    }
+
+    public function actionAcompanharOcorrencia($id, $hash)
+    {
+        $model = $this->getOcorrencia($hash);
 
         return $this->render(
             'acompanhar-ocorrencia',
@@ -133,9 +152,8 @@ class CidadeController extends Controller
                 'cliente' => $this->getCliente(),
                 'municipio' => $this->getCliente()->municipio,
                 'model' => $model,
-                'dataProvider' => $model ? new ActiveDataProvider(['query' => $model->getOcorrenciaHistoricos()]) : null,
-                'historicos' => $model ? $model->getOcorrenciaHistoricos()->all() : null,
-                'hash' => $hash,
+                'dataProvider' => new ActiveDataProvider(['query' => $model->getOcorrenciaHistoricos()]),
+                'historicos' => $model->getOcorrenciaHistoricos()->all(),
             ]
         );
     }
@@ -152,15 +170,20 @@ class CidadeController extends Controller
 
     public function actionComprovanteOcorrencia($id, $hash)
     {
-        $model = Ocorrencia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
-        if(!$model) {
-            throw new HttpException(400, 'Ôcorrência não localizada', 405);
-        }
-
+        $model = $this->getOcorrencia($hash);
         Yii::$app->response->format = 'pdf';
         $this->layout = '//print';
         return $this->render('//shared/comprovante-ocorrencia', [
             'model' => $model,
         ]);
+    }
+
+    protected function getOcorrencia($hash, $throwException = true)
+    {
+        $model = Ocorrencia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
+        if (!$model && $throwException) {
+            throw new HttpException(400, 'Ôcorrência não localizada', 405);
+        }
+        return $model;
     }
 }

@@ -31,7 +31,7 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
         <i class="fa fa-plus"></i>
         registrar ocorrência
     </a>
-    <a href="<?= Url::to(['cidade/acompanhar-ocorrencia', 'id' => $cliente->id]) ?>" class="btn btn-success btn-lg">
+    <a href="<?= Url::to(['cidade/buscar-ocorrencia', 'id' => $cliente->id]) ?>" class="btn btn-success btn-lg">
         <i class="fa fa-eye"></i>
         acompanhar ocorrência
     </a>
