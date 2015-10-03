@@ -261,11 +261,12 @@ class Ocorrencia extends ClienteActiveRecord
         	}
 
             if ($historico->save()) {
-                if ($isNewRecord && $this->email) {
+                if (($isNewRecord || $statusMudou) && $this->email) {
                     BackgroundJob::register(
                         'AlertaAlteracaoStatusOcorrenciaJob',
                         [
                             'id' => $this->id,
+                            'isNewRecord' => $isNewRecord,
                             'key' => getenv('GEARMAN_JOB_KEY')
                         ],
                         BackgroundJob::NORMAL,
