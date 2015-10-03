@@ -24,6 +24,7 @@ class FocoTransmissor extends RedisActiveRecord
             'cor_foco',
             'qtde_metros_area_foco',
             'informacao_publica',
+            'timestamp_entrada',
         ];
     }
 

@@ -10,7 +10,7 @@ $this->title = 'Áreas de Tratamento';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<?php echo $this->render('_filtroRelatorioAreaTratamento', ['model' => $model]); ?>
+<?php echo $this->render('_filtroRelatorioAreaTratamento', ['model' => $model, 'usaData' => false]); ?>
 
 <?php echo $this->render('_menuRelatorioAreaTratamento', []); ?>
 
@@ -81,4 +81,4 @@ echo GridView::widget([
             'options' => ['style' => 'width: 20%;']
         ],
     ],
-]); 
+]);

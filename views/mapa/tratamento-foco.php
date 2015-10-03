@@ -26,7 +26,7 @@ MapBoxAPIHelper::registerScript($this, ['fullScreen', 'omnivore']);
             <div class="row">
 
                 <div class="col-xs-10">
-                    <?
+                    <?php
                     $url = \yii\helpers\Url::to(['mapa/focos']);
 
                     $initScript = '
