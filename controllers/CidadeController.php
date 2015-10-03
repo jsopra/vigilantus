@@ -135,12 +135,17 @@ class CidadeController extends Controller
 
         echo (microtime(true) - $start) . ' - PEGOU NUMERO ATENDIDAS<br />';
         $primeiraOcorrencia = Ocorrencia::find()
-            ->doCliente($cliente)
-            ->orderBy('data_criacao ASC')
+        //    ->doCliente($cliente)
+        //    ->orderBy('data_criacao ASC')
             ->one()
         ;
 
         echo (microtime(true) - $start) . ' - PEGOU PRIMEIRA OCORRENCIA<br />';
+
+        var_dump(Ocorrencia::find()
+            ->doCliente($cliente)
+            ->orderBy('data_criacao ASC')->createCommand()->getSql());
+
         $percentualOcorrencias = $numeroOcorrenciasRecebidas ? $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100 : 0;
 
         echo (microtime(true) - $start) . ' - CALCULOU PERCENTUAL<br />';
