@@ -71,6 +71,13 @@ $config = [
             'timeFormat' => 'medium',
             'timeZone' => 'America/Sao_Paulo',
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'hostInfo' => getenv('VIGILANTUS_BASE_PATH'),
+            'scriptUrl' => getenv('VIGILANTUS_BASE_PATH') . '/index.php',
+            'baseUrl' => '',
+        ],
     ],
     'params' => $params,
 ];
