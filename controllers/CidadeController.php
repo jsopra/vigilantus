@@ -145,6 +145,8 @@ class CidadeController extends Controller
 
         var_dump(Ocorrencia::find()->doCliente($cliente)->orderBy('data_criacao ASC')->limit(1)->createCommand()->getSql());
 
+        echo '<br />';
+
         $percentualOcorrencias = $numeroOcorrenciasRecebidas ? $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100 : 0;
 
         echo (microtime(true) - $start) . ' - CALCULOU PERCENTUAL<br />';
