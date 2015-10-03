@@ -1,35 +1,18 @@
 # Vigilantus
 
-[ ![Codeship Status for perspectivain/vigilantus](https://codeship.com/projects/258d1ae0-20ce-0133-f5de-5ae45cb2c8e5/status?branch=master)](https://codeship.com/projects/95726)
+## Softwares necessários
 
-## REQUISITOS DE TECNOLOGIA
+* Apache 2
+* PHP 5.6 (com as extensões que o Composer irá exigir quando rodar)
+* Composer
+* Postgres 9.4 (com a extensão Postgis)
+* Redis
 
-* **PHP 5.6**, com as extensões:
-** **PHP Redis**
-** **PHP PDO Postgres**
-* **Postgres 9.4**, com as extensões:
-** **Postgis**
-* **Redis**
-* **Composer**
-* **Codeception**
+## Configurando o ambiente de desenvolvimento
 
-## SOBRE OS AMBIENTES
-
-A variável `VIGILANTUS_ENV` indica qual é o ambiente atual.
-
-Ao programar, a URL `http://vigilantus.dev` aponta para o ambiente de
-desenvolvimento e a URL `http://vigilantus.test.dev` aponta para o ambiente de testes.
-
-Desta forma, ao rodar os testes estaremos utilizando um banco de dados diferente,
-porém a partir do mesmo diretório.
-
-
-## CONFIGURANDO O AMBIENTE DE DESENVOLVIMENTO
-
-Instale o [Composer](http://getcomposer.org/) e rode `composer install` na
-   raiz do projeto.
-
-Configure o Apache com as variáveis de ambiente necessárias:
+Adicione um novo virtual host ao Apache, com as variáveis de ambiente necessárias.
+As configurações do apache geralmente se encontram no arquivo
+`/etc/apache2/httpd.conf`.
 
 ```apache
 <VirtualHost vigilantus.dev>
@@ -51,30 +34,8 @@ Configure o Apache com as variáveis de ambiente necessárias:
 </VirtualHost>
 ```
 
-Adicione também o caminho para a API:
-
-```apache
-<VirtualHost api.vigilantus.dev:80>
-    ServerName api.vigilantus.dev
-    DocumentRoot /var/www/vigilantus/api/web
-    SetEnv VIGILANTUS_ENV development
-    SetEnv VIGILANTUS_DB_DSN_HOST "pgsql:host=localhost"
-    SetEnv VIGILANTUS_DB_DSN_DBNAME "dbname=vigilantus_development"
-    SetEnv VIGILANTUS_DB_USERNAME postgres
-    SetEnv VIGILANTUS_DB_PASSWORD postgres
-    SetEnv VIGILANTUS_COOKIES_KEY umastringsecreta
-    SetEnv VIGILANTUS_REDIS_DB_DATABASE 'ASDF'
-    SetEnv VIGILANTUS_REDIS_DB_PASSWORD 'ASDF'
-    SetEnv VIGILANTUS_REDIS_DB_PORT 'QWER'
-    SetEnv VIGILANTUS_REDIS_HOST 'XyZ-vigilantus.getup.io'
-    SetEnv OPENSHIFT_GEARMAN_IP 'localhost'
-    SetEnv OPENSHIFT_GEARMAN_PORT '4730'
-    SetEnv GEARMAN_JOB_KEY 'n2398n289fn2nf'
-</VirtualHost>
-```
-
-Configure o seu arquivo `.profile` ou equivalente com as variáveis de ambiente
-necessárias:
+Adicione ao seu arquivo `~/.profile` (ou equivalente) as seguintes variáveis de
+ambiente do terminal:
 
 ```bash
 export VIGILANTUS_DB_DSN='pgsql:host=localhost;dbname=vigilantus_development'
@@ -92,17 +53,32 @@ export OPENSHIFT_GEARMAN_PORT='4730'
 export GEARMAN_JOB_KEY='n2398n289fn2nf'
 ```
 
-Configure o seu arquivo `hosts`:
+Para que o host `vigilantus.dev` funcione, adicione a seguinte linha ao seu
+arquivo `/etc/hosts`:
 
 ```
 127.0.0.1 vigilantus.dev vigilantus.test.dev api.vigilantus.dev
 ```
 
-IMPORTANTE: Reinicie o Apache e recarregue as variáveis de ambiente `source ~/.profile`.
+**Importante**: para aplicar as configurações acima, reinicie o Apache e
+recarregue as variáveis de ambiente:
 
-Rode as migrations com `php yii migrate`.
+```bash
+sudo service apache2 reload # recarrega o Apache
+source ~/.profile # carrega variáveis do terminal
+```
 
-## CONFIGURANDO O AMBIENTE DE PRODUÇÃO
+Por fim, rode `./bin/setup` para preparar o ambiente:
+
+```
+👾 Verificando composer...
+👾 Verificando composer-asset-plugin...
+👾 Instalando pacotes do composer...
+👾 Rodando migrations...
+👾 Feito!
+```
+
+## Configurando o ambiente de produção
 
 Usando o [OpenShift RHC](https://www.openshift.com/developers/rhc-client-tools-install) faça:
 
@@ -129,15 +105,13 @@ rhc env list vigilantus
 # VIGILANTUS_REDIS_HOST=XyZ-vigilantus.getup.io
 ```
 
-CONFIGURANDO O AMBIENTE DE TESTES
----------------------------------
+## Configurando o ambiente de testes
 
 Consulte as instruções completas no [README.md](tests/README.md) do diretório `tests`.
 
-DEPLOY
-------
+## Deploy
 
-Veja uma [Introdução de deploy da getup](https://getupcloud.com/blog/deploy-e-rollback).
+Consulte o texto de [introdução ao deploy da Getup](https://getupcloud.com/blog/deploy-e-rollback).
 
 Para fazer deploy manualmente, siga os seguintes passos:
 
