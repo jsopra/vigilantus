@@ -8,12 +8,8 @@ use app\helpers\models\MunicipioHelper;
 use yii\bootstrap\Tabs;
 use yii\helpers\Url;
 
-if ($model) {
-    $this->title = 'Detalhes de Ocorrência #' . $model->protocolo;
-} else {
-    $this->title = 'Acompanhar Ocorrência';
-}
-$this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['view', 'rotulo' => $cliente->rotulo]];
+$this->title = 'Detalhes de Ocorrência #' . $model->protocolo;
+$this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['view', 'id' => $cliente->id, 'rotulo' => $cliente->rotulo]];
 $this->params['breadcrumbs'][] = 'Detalhes';
 ?>
 <div class="row">
@@ -24,7 +20,6 @@ $this->params['breadcrumbs'][] = 'Detalhes';
             </a>
         </h1>
     </div>
-    <?php if ($model) : ?>
     <div class="col-md-6" style="margin-top: 1em;">
         <?= Html::a(
             '<i class="glyphicon glyphicon-download-alt"></i> baixar comprovante',
@@ -33,28 +28,8 @@ $this->params['breadcrumbs'][] = 'Detalhes';
         );
         ?>
     </div>
-    <?php endif; ?>
 </div>
-<?php if (!$model) : ?>
-<form class="form-inline" action="/cidade/acompanhar-ocorrencia" method="get">
-    <p>
-        Digite o <strong>número do protocolo</strong> da ocorrência que você
-        recebeu ao registrá-la e clique em <strong>acompanhar</strong>.
-    </p>
-    <div class="form-group">
-        <input type="hidden" name="id" value="<?= $cliente->id; ?>" />
-        <input type="text" class="form-control input-lg" name="hash" placeholder="Nº do protocolo da ocorrência" value="<?= $hash ?>" />
-    <div class="form-group">
-    </div>
-        <button id="enviar" class="btn btn-primary btn-lg">Acompanhar</button>
-    </div>
-    <?php if ($hash) : ?>
-    <div class="alert alert-danger">Ocorrência inválida. Confira o número do protocolo digitado.</div>
-    <?php endif; ?>
-</form>
 <?php
-else :
-
 $urlOcorrencia = Url::to('/' . $model->cliente->rotulo, true);
 $descricaoTweet = 'Registrei uma ocorrência para a Sec. de Saúde de ' . $municipio->nome . '. Seja a mudança da sua cidade! Faça seu contato em';
 ?>
@@ -99,4 +74,3 @@ $descricaoTweet = 'Registrei uma ocorrência para a Sec. de Saúde de ' . $munic
     ]);
     ?>
 </div>
-<?php endif; ?>
