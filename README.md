@@ -18,18 +18,18 @@ As configurações do apache geralmente se encontram no arquivo
 <VirtualHost vigilantus.dev>
     ServerName vigilantus.dev
     DocumentRoot /var/www/vigilantus/web
-    SetEnv VIGILANTUS_ENV development
-    SetEnv VIGILANTUS_DB_DSN_HOST "pgsql:host=localhost"
-    SetEnv VIGILANTUS_DB_DSN_DBNAME "dbname=vigilantus_development"
-    SetEnv VIGILANTUS_DB_USERNAME postgres
-    SetEnv VIGILANTUS_DB_PASSWORD postgres
-    SetEnv VIGILANTUS_COOKIES_KEY umastringsecreta
-    SetEnv VIGILANTUS_REDIS_DB_DATABASE 'ASDF'
-    SetEnv VIGILANTUS_REDIS_DB_PASSWORD 'ASDF'
-    SetEnv VIGILANTUS_REDIS_DB_PORT 'QWER'
-    SetEnv VIGILANTUS_REDIS_HOST 'XyZ-vigilantus.getup.io'
-    SetEnv OPENSHIFT_GEARMAN_IP 'localhost'
-    SetEnv OPENSHIFT_GEARMAN_PORT '4730'
+    SetEnv ENVIRONMENT development
+    SetEnv DB_DSN_HOST "pgsql:host=localhost"
+    SetEnv DB_DSN_DBNAME "dbname=vigilantus_development"
+    SetEnv DB_USERNAME postgres
+    SetEnv DB_PASSWORD postgres
+    SetEnv COOKIES_KEY umastringsecreta
+    SetEnv REDIS_DATABASE 'ASDF'
+    SetEnv REDIS_PASSWORD 'ASDF'
+    SetEnv REDIS_PORT 'QWER'
+    SetEnv REDIS_HOST 'XyZ-vigilantus.getup.io'
+    SetEnv GEARMAN_IP 'localhost'
+    SetEnv GEARMAN_PORT '4730'
     SetEnv GEARMAN_JOB_KEY 'n2398n289fn2nf'
 </VirtualHost>
 ```
@@ -39,17 +39,17 @@ ambiente do terminal:
 
 ```bash
 export VIGILANTUS_DB_DSN='pgsql:host=localhost;dbname=vigilantus_development'
-export VIGILANTUS_DB_USERNAME='postgres'
-export VIGILANTUS_DB_PASSWORD='qwerty'
-export VIGILANTUS_DB_DSN_HOST="pgsql:host=localhost"
-export VIGILANTUS_DB_DSN_DBNAME="dbname=vigilantus_development"
-export VIGILANTUS_REDIS_DB_DATABASE='ASDF'
-export VIGILANTUS_REDIS_DB_PASSWORD='ASDF'
-export VIGILANTUS_REDIS_DB_PORT='QWER'
-export VIGILANTUS_REDIS_HOST='XyZ-vigilantus.getup.io'
-export VIGILANTUS_BASE_PATH='http://vigilantus/'
-export OPENSHIFT_GEARMAN_IP='localhost'
-export OPENSHIFT_GEARMAN_PORT='4730'
+export DB_USERNAME='postgres'
+export DB_PASSWORD='qwerty'
+export DB_DSN_HOST="pgsql:host=localhost"
+export DB_DSN_DBNAME="dbname=vigilantus_development"
+export REDIS_DATABASE='ASDF'
+export REDIS_PASSWORD='ASDF'
+export REDIS_PORT='QWER'
+export REDIS_HOST='XyZ-vigilantus.getup.io'
+export ABSOLUTE_URL='http://vigilantus/'
+export GEARMAN_IP='localhost'
+export GEARMAN_PORT='4730'
 export GEARMAN_JOB_KEY='n2398n289fn2nf'
 ```
 
@@ -85,7 +85,7 @@ Usando o [OpenShift RHC](https://www.openshift.com/developers/rhc-client-tools-i
 Adicionar variável de ambiente:
 
 ```bash
-rhc set-env VIGILANTUS_REDIS_DB_PASSWORD="XXXXXXXX" -a vigilantus
+rhc set-env REDIS_PASSWORD="XXXXXXXX" -a vigilantus
 # Setting environment variable(s) ... done
 ```
 
@@ -93,16 +93,16 @@ Listar as variáveis existentes:
 
 ```bash
 rhc env list vigilantus
-# VIGILANTUS_DB_DSN_HOST="pgsql:host=123-vigilantus.getup.io"
-# VIGILANTUS_DB_DSN_DBNAME="dbname=vigilantus"
-# VIGILANTUS_COOKIES_KEY=ASDF
-# VIGILANTUS_DB_PASSWORD=ASDF
-# VIGILANTUS_DB_USERNAME=ASDF
-# VIGILANTUS_ENV=production
-# VIGILANTUS_REDIS_DB_DATABASE=ASDF
-# VIGILANTUS_REDIS_DB_PASSWORD=ASDF
-# VIGILANTUS_REDIS_DB_PORT=QWER
-# VIGILANTUS_REDIS_HOST=XyZ-vigilantus.getup.io
+# DB_DSN_HOST="pgsql:host=123-vigilantus.getup.io"
+# DB_DSN_DBNAME="dbname=vigilantus"
+# COOKIES_KEY=ASDF
+# DB_PASSWORD=ASDF
+# DB_USERNAME=ASDF
+# ENVIRONMENT=production
+# REDIS_DATABASE=ASDF
+# REDIS_PASSWORD=ASDF
+# REDIS_PORT=QWER
+# REDIS_HOST=XyZ-vigilantus.getup.io
 ```
 
 ## Configurando o ambiente de testes

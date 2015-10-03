@@ -17,9 +17,9 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => getenv('VIGILANTUS_DB_DSN_HOST') . ';' . getenv('VIGILANTUS_DB_DSN_DBNAME'),
-            'username' => getenv('VIGILANTUS_DB_USERNAME'),
-            'password' => getenv('VIGILANTUS_DB_PASSWORD'),
+            'dsn' => getenv('DB_DSN_HOST') . ';' . getenv('DB_DSN_DBNAME'),
+            'username' => getenv('DB_USERNAME'),
+            'password' => getenv('DB_PASSWORD'),
             'charset' => 'utf8',
         ],
         'log' => [

@@ -24,7 +24,8 @@
         "miloschuman/yii2-highcharts-widget": "*",
         "hashids/hashids": "~1.0",
         "robregonm/yii2-pdf": "dev-master",
-        "rmrevin/yii2-fontawesome": "2.12.*"
+        "rmrevin/yii2-fontawesome": "2.12.*",
+        "vlucas/phpdotenv": "~2.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
