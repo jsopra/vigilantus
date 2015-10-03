@@ -82,6 +82,7 @@ class CidadeController extends Controller
         $primeiraOcorrencia = Ocorrencia::find()
             ->doCliente($cliente)
             ->orderBy('data_criacao ASC')
+            ->limit(1)
             ->one()
         ;
         $percentualOcorrencias = $numeroOcorrenciasRecebidas ? $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100 : 0;
@@ -98,75 +99,6 @@ class CidadeController extends Controller
                 ),
             ]
         );
-    }
-
-    public function actionViewDebug($rotulo)
-    {
-        $start = microtime(true);
-        echo $start . '<br />';
-        echo '0<br />';
-        $cliente = Cliente::find()->doRotulo($rotulo)->one();
-
-        echo (microtime(true) - $start) . ' - PEGOU CLIENTE<br />';
-
-        if (!$cliente) {
-            throw new HttpException(404, 'Município não encontrado');
-        }
-
-        echo (microtime(true) - $start) . ' - VERIFICOU CLIENTE<br />';
-
-        if (!$cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
-            throw new HttpException(404, 'Município não recebe ocorrências por este canal');
-        }
-
-        echo (microtime(true) - $start) . ' - VERIFICOU MODULOS CLIENTE<br />';
-
-        $numeroOcorrenciasRecebidas = Ocorrencia::find()
-            ->doCliente($cliente)
-            ->count()
-        ;
-
-        echo (microtime(true) - $start) . ' - PEGOU NUMERO OCORRENCIAS<br />';
-        $numeroOcorrenciasAtendidas = Ocorrencia::find()
-            ->doCliente($cliente)
-            ->fechada()
-            ->count()
-        ;
-
-        echo (microtime(true) - $start) . ' - PEGOU NUMERO ATENDIDAS<br />';
-        $primeiraOcorrencia = Ocorrencia::find()
-            ->doCliente($cliente)
-            ->orderBy('data_criacao ASC')
-            ->limit(1)
-            ->one()
-        ;
-
-        echo (microtime(true) - $start) . ' - PEGOU PRIMEIRA OCORRENCIA<br />';
-
-        var_dump(Ocorrencia::find()->doCliente($cliente)->orderBy('data_criacao ASC')->limit(1)->createCommand()->getSql());
-
-        echo '<br />';
-
-        $percentualOcorrencias = $numeroOcorrenciasRecebidas ? $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100 : 0;
-
-        echo (microtime(true) - $start) . ' - CALCULOU PERCENTUAL<br />';
-
-        $retorno = $this->render(
-            'view',
-            [
-                'cliente' => $cliente,
-                'municipio' => $cliente->municipio,
-                'numeroOcorrenciasRecebidas' => $numeroOcorrenciasRecebidas,
-                'percentualOcorrenciasAtendidas' => round($percentualOcorrencias),
-                'dataPrimeiraOcorrencia' => Yii::$app->formatter->asDate(
-                    $primeiraOcorrencia->data_criacao . ' ' . Yii::$app->timeZone
-                ),
-            ]
-        );
-
-        echo (microtime(true) - $start) . ' - RENDERIZOU VIEW<br />';
-
-        echo microtime(true) . ' - FIM';
     }
 
     public function actionIndex($id)
