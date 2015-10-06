@@ -17,7 +17,7 @@ before_install:
 
 before_script:
   - pecl install redis
-  - pecl install xdebug
+  # - pecl install xdebug
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
 
@@ -39,7 +39,7 @@ script:
   - export VIGILANTUS_REDIS_DB_NUMBER="0"
   - psql -c 'DROP DATABASE IF EXISTS vigilantus_test;' -U postgres
   - psql -c 'CREATE DATABASE vigilantus_test;' -U postgres
-  - "cd tests && ../codeception/bin/yii migrate --interactive=0"
+  - "cd tests && ./codeception/bin/yii migrate --interactive=0"
   - "cd tests && ../vendor/bin/codecept run unit --xml='../../../shippable/testresults/report.xml' --coverage-xml='../../../shippable/codecoverage/coverage.xml'"
   - ./vendor/bin/php-hound .
 
