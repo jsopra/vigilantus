@@ -10,10 +10,10 @@ addons:
   postgresql: "9.3"
 
 before_install:
-  - sudo apt-get update
+  # - sudo apt-get update
   - composer self-update
   - composer install --prefer-source --no-interaction --optimize-autoloader
-  - composer require "alanwillms/php-hound"
+  # - composer require "alanwillms/php-hound"
 
 before_script:
   - pecl install redis
@@ -39,9 +39,9 @@ script:
   - export VIGILANTUS_REDIS_DB_NUMBER="0"
   - psql -c 'DROP DATABASE IF EXISTS vigilantus_test;' -U postgres
   - psql -c 'CREATE DATABASE vigilantus_test;' -U postgres
-  - "cd tests && ./codeception/bin/yii migrate --interactive=0"
+  - ./tests/codeception/bin/yii migrate --interactive=0
   - "cd tests && ../vendor/bin/codecept run unit --xml='../../../shippable/testresults/report.xml' --coverage-xml='../../../shippable/codecoverage/coverage.xml'"
-  - ./vendor/bin/php-hound .
+  # - ./vendor/bin/php-hound .
 
 notifications:
   email: true
