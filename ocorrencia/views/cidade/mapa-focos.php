@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
+use app\models\Configuracao;
 use app\models\Bairro;
 use app\models\Municipio;
 use app\models\EspecieTransmissor;
@@ -12,6 +13,8 @@ use app\helpers\models\MunicipioHelper;
 
 $this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
 
+$setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_SETOR_UTILIZA_FERRAMENTA, \Yii::$app->user->identity->cliente->id);
+
 MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omnivore', 'markercluster']);
 ?>
 
@@ -21,6 +24,10 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
         <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
     </a>
 </h1>
+
+<p class="text-center" style="font-weight: bold; font-size: 1.5em; color: #000;">
+    <?= Html::encode($setorUtiliza) ?>
+</p>
 
 <p class="text-center bloco-botoes-ocorrencias">
     <a href="<?= Url::to(['registrar-ocorrencia/index', 'slug' => $municipio->slug]) ?>" class="btn btn-danger btn-lg">

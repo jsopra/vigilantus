@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use app\models\Configuracao;
 use app\widgets\GridView;
 use app\models\OcorrenciaHistoricoTipo;
 use app\models\OcorrenciaStatus;
@@ -11,6 +12,8 @@ use yii\helpers\Url;
 $this->title = 'Detalhes de Ocorrência #' . $model->protocolo;
 $this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['view', 'slug' => $municipio->slug]];
 $this->params['breadcrumbs'][] = 'Detalhes';
+
+$setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_SETOR_UTILIZA_FERRAMENTA, \Yii::$app->user->identity->cliente->id);
 ?>
 <div class="row">
     <div class="col-md-6">
@@ -20,6 +23,9 @@ $this->params['breadcrumbs'][] = 'Detalhes';
                 <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
             </a>
         </h1>
+        <p class="col-md-6" style="font-weight: bold; font-size: 1.5em; color: #000;">
+            <?= Html::encode($setorUtiliza) ?>
+        </p>
     </div>
     <div class="col-md-6" style="margin-top: 1em;">
         <?= Html::a(

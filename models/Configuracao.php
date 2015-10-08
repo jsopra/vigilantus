@@ -20,6 +20,7 @@ class Configuracao extends ActiveRecord
     const ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERDE = 2;
     const ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERMELHO = 3;
     const ID_TENTATIVAS_VISITACAO = 4;
+    const ID_SETOR_UTILIZA_FERRAMENTA = 5;
 
 	/**
 	 * @inheritdoc
