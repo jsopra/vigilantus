@@ -4,7 +4,7 @@ $dotenv->overload();
 
 try {
     $dotenv->required([
-        'COOKIES_KEY', 'ABSOLUTE_URL',
+        'COOKIES_KEY', 'ABSOLUTE_URL', 'UPLOADS_DIR',
         'DB_DSN', 'DB_USERNAME',
         'REDIS_HOST', 'REDIS_DATABASE', 'REDIS_PORT',
         'GEARMAN_IP', 'GEARMAN_PORT', 'GEARMAN_JOB_KEY',

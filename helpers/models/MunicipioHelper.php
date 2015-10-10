@@ -14,18 +14,18 @@ class MunicipioHelper extends YiiStringHelper
      * Retorna brasão de município em tag html, se houver brasão
      * @param Municipio $municipio
      * @param string $tipo (mini, normal, large)
-     * @return string
+     * @return string tag HTML ou string vazia.
      */
     public static function getBrasaoAsImageTag(Municipio $municipio, $tipo = 'normal')
     {
         if (!$municipio->brasao) {
-            return '-';
+            return '';
         }
 
         $externalPath = self::getBrasaoPath($municipio);
 
         if (!$externalPath) {
-            return '-';
+            return '';
         }
 
         return Html::img($externalPath . $tipo . '/' . $municipio->brasao);
@@ -34,35 +34,40 @@ class MunicipioHelper extends YiiStringHelper
     /**
      * Retorna path de brasão
      * @param Municipio $municipio
-     * @param boolean $diretorio Se quer o diretório ou a URL do diretório
+     * @param boolean $diretorioUpload Se quer o diretório do upload ou a URL da pasta publicada
      * @return string
      */
-    public static function getBrasaoPath(Municipio $municipio, $diretorio = false)
+    public static function getBrasaoPath(Municipio $municipio, $diretorioUpload = false)
     {
-        $internalPath = Yii::$app->params['publicDir'] . '/img/brasao/' . $municipio->sigla_estado . '/';
-        $externalPath = Yii::$app->params['publicDir'] . '/brasao/' . $municipio->sigla_estado . '/';
+        $diretorioBrasoes = Yii::$app->params['diretorioUploadBrasoes'];
+        $diretorioBrasoesEstado = $diretorioBrasoes . $municipio->sigla_estado . '/';
 
-        if ($diretorio) {
-            return $internalPath;
+        if (!is_dir($diretorioBrasoes)) {
+            mkdir($diretorioBrasoes);
         }
-
-        if (!is_dir($externalPath)) {
-            mkdir($externalPath);
+        if (!is_dir($diretorioBrasoesEstado)) {
+            mkdir($diretorioBrasoesEstado);
         }
-
-        foreach ($municipio->brasaoSizes as $size) {
-            $internalFile = $internalPath . $size[0] . '/' . $municipio->brasao;
-            $externalFile = $externalPath . $size[0] . '/' . $municipio->brasao;
-
-            if (!is_dir($externalPath . $size[0])) {
-                mkdir($externalPath . $size[0]);
+        $tamanhos = array_map(
+            function($item) { return $item[0]; },
+            $municipio->brasaoSizes
+        );
+        $tamanhos[] = 'original';
+        foreach ($tamanhos as $tamanho) {
+            $diretorioTamanho = $diretorioBrasoesEstado . '/' . $tamanho;
+            if (!is_dir($diretorioTamanho)) {
+                mkdir($diretorioTamanho);
             }
-            if (!is_file($externalFile) && is_file($internalFile)) {
-                copy($internalFile, $externalFile);
-            }
-
         }
 
-        return Url::base() . '/brasao/' . $municipio->sigla_estado . '/';
+        if ($diretorioUpload) {
+            return $diretorioBrasoesEstado;
+        }
+
+        $assetManager = Yii::$app->assetManager;
+
+        list($diretorio, $url) = $assetManager->publish($diretorioBrasoesEstado);
+
+        return $url . '/';
     }
 }

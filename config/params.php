@@ -16,4 +16,5 @@ return [
     'postgisSRID' => 4326, /* Spatial Reference System Identifier (SRID). Usamos o WGS84 */
     'maximoTermosMonitoramentoRedesSociaisPorCliente' => 3,
     'gearmanQueueName' => 'vigilantus', /* também referenciado estaticamente por .openshift/cron/minutely/queue.sh */
+    'diretorioUploadBrasoes' => getenv('UPLOADS_DIR') . '/brasao/',
 ];
