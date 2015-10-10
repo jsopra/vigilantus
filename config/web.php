@@ -10,13 +10,7 @@ $logTargets = [
     ]
 ];
 
-$cookieValidationKey = getenv('VIGILANTUS_DB_DSN_HOST') . ';' . getenv('VIGILANTUS_DB_DSN_DBNAME');
-
-if (getenv('VIGILANTUS_COOKIES_KEY')) {
-    $cookieValidationKey = getenv('VIGILANTUS_COOKIES_KEY');
-}
-
-if (getenv('VIGILANTUS_ENV') == 'prod') {
+if (getenv('ENVIRONMENT') == 'production') {
     $logTargets[] = [
         'class' => 'yii\log\EmailTarget',
         'mailer' => 'mail',
@@ -46,19 +40,19 @@ $config = [
             'clients' => [
                 'twitter' => [
                     'class' => 'yii\authclient\clients\Twitter',
-                    'consumerKey' => $params['twitter']['app_key'],
-                    'consumerSecret' => $params['twitter']['app_secret'],
+                    'consumerKey' => getenv('TWITTER_KEY'),
+                    'consumerSecret' => getenv('TWITTER_SECRET'),
                 ],
                 'facebook' => [
                     'class' => 'yii\authclient\clients\Facebook',
-                    'clientId' => $params['facebook']['app_key'],
-                    'clientSecret' => $params['facebook']['app_secret'],
+                    'clientId' => getenv('FACEBOOK_KEY'),
+                    'clientSecret' => getenv('FACEBOOK_SECRET'),
                     'scope' => 'email, publish_actions, user_friends'
                 ],
                 'instagram' => [
                     'class' => 'app\components\clients\Instagram',
-                    'clientId' => $params['instagram']['app_key'],
-                    'clientSecret' => $params['instagram']['app_secret'],
+                    'clientId' => getenv('INSTAGRAM_KEY'),
+                    'clientSecret' => getenv('INSTAGRAM_SECRET'),
                     'scope' => 'likes relationships',
                 ],
             ]
@@ -67,7 +61,7 @@ $config = [
             'class' => 'perspectivain\gearman\Gearman',
             'jobsNamespace' => '\app\jobs\\',
             'servers' => [
-                ['host' => getenv('OPENSHIFT_GEARMAN_IP'), 'port' => getenv('OPENSHIFT_GEARMAN_PORT')],
+                ['host' => getenv('GEARMAN_IP'), 'port' => getenv('GEARMAN_PORT')],
             ],
         ],
         'cache' => [
@@ -75,10 +69,10 @@ $config = [
         ],
         'redis' => [
             'class' => 'yii\redis\Connection',
-            'hostname' => getenv('VIGILANTUS_REDIS_HOST'),
-            'port' => getenv('VIGILANTUS_REDIS_DB_PORT'),
-            'database' => getenv('VIGILANTUS_REDIS_DB_NUMBER') ?: 0,
-            'password' => getenv('VIGILANTUS_REDIS_DB_PASSWORD'),
+            'hostname' => getenv('REDIS_HOST'),
+            'port' => getenv('REDIS_PORT'),
+            'database' => getenv('REDIS_DATABASE'),
+            'password' => getenv('REDIS_PASSWORD'),
         ],
         'session' => [
             'class' => 'yii\redis\Session',
@@ -103,15 +97,15 @@ $config = [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.mandrillapp.com',
-                'username' => 'jsopra@gmail.com',
-                'password' => 'KzL9E8rMpAd6Ux0pv7Lmbg',
-                'port' => '587',
-                'encryption' => 'tls',
+                'host' => getenv('SMTP_HOST'),
+                'username' => getenv('SMTP_USERNAME'),
+                'password' => getenv('SMTP_PASSWORD'),
+                'port' => getenv('SMTP_PORT'),
+                'encryption' => getenv('SMTP_ENCRYPTION'),
             ],
         ],
         'request' => [
-            'cookieValidationKey' => $cookieValidationKey,
+            'cookieValidationKey' => getenv('COOKIES_KEY'),
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

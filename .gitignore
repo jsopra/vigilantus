@@ -8,3 +8,4 @@ tests/_log/**
 web/brasao/**
 /api/runtime/
 .editor-settings
+.env
