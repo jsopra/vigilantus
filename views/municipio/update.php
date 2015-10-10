@@ -8,7 +8,7 @@ use yii\helpers\Html;
  */
 
 $this->title = 'Atualizar Município: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Municipios', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Municípios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Atualizar';
 ?>
 <div class="municipio-update">

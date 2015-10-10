@@ -1,11 +1,13 @@
 <?php
 
-namespace app\modules\ocorrencia\controllers;
+namespace app\ocorrencia\controllers;
 
 use app\components\CRUDController;
+
+use Yii;
 use yii\filters\AccessControl;
 
-class SocialHashtagController extends CRUDController
+class OcorrenciaTipoProblemaController extends CRUDController
 {
     /**
      * @return array

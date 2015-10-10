@@ -8,7 +8,9 @@ use yii\helpers\Html;
 <header class="header-registro-ocorrencia">
     <h1>
         <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
-        <a href="<?= Url::to(['cidade/index', 'id' => $cliente->id]); ?>"><?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?></a>
+        <a href="<?= Url::to(['cidade/view', 'slug' => $municipio->slug]); ?>">
+            <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
+        </a>
     </h1>
     <p>
         A ocorrência será avaliada pela <strong>Prefeitura</strong>
@@ -18,17 +20,17 @@ use yii\helpers\Html;
         'tabs' => [
             [
                 'move' => false,
-                'url' => ['registrar-ocorrencia/index', 'id' => $municipio->id],
+                'url' => ['registrar-ocorrencia/index', 'slug' => $municipio->slug],
                 'desc' => 'Local'
             ],
             [
                 'move' => false,
-                'url' => ['registrar-ocorrencia/detalhes', 'id' => $municipio->id],
+                'url' => ['registrar-ocorrencia/detalhes', 'slug' => $municipio->slug],
                 'desc' => 'Detalhes'
             ],
             [
                 'move' => false,
-                'url' => ['registrar-ocorrencia/identificacao', 'id' => $municipio->id],
+                'url' => ['registrar-ocorrencia/identificacao', 'slug' => $municipio->slug],
                 'desc' => 'Identificação'
             ],
         ],

@@ -219,26 +219,13 @@ class SiteController extends Controller
 
     public function actionError()
     {
-         $municipio = str_replace('/', '', Yii::$app->getRequest()->getUrl());
-         if($municipio) {
-
-             $objeto = Cliente::find()->doRotulo($municipio)->one();
-             if($objeto) {
-
-                 if($objeto->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
-                     $this->redirect(['cidade/index', 'id' => $objeto->id]);
-                 }
-             }
-         }
-
         if (($exception = Yii::$app->getErrorHandler()->exception) === null) {
             return '';
         }
 
         if ($exception instanceof HttpException) {
             $code = $exception->statusCode;
-        }
-        else {
+        } else {
             $code = $exception->getCode();
         }
 
@@ -255,12 +242,11 @@ class SiteController extends Controller
 
         if ($exception instanceof UserException) {
             $message = $exception->getMessage();
-        }
-        else {
+        } else {
             $message = Yii::t('yii', 'An internal server error occurred.');
         }
 
-        if (Yii::$app->getRequest()->getIsAjax()) {
+        if (Yii::$app->request->isAjax) {
             return "$name: $message";
         }
         else {

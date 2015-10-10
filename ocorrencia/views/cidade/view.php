@@ -5,10 +5,8 @@ use yii\helpers\Url;
 
 $this->title = 'Ocorrências – ' . $municipio->nome . '/' . $municipio->sigla_estado;
 
-
-$urlOcorrencia = Url::to('/' . $cliente->rotulo, true);
-
-$descricaoPagina = 'Registrei uma ocorrência para a Secretaria de Saúde de ' . $municipio->nome . '/' . $municipio->sigla_estado . '. Seja a mudança na nossa cidade! Faça seu contato em ' .  $urlOcorrencia;
+$urlMunicipio = Url::to(['cidade/view', 'slug' => $municipio->slug], true);
+$descricaoPagina = 'Registrei uma ocorrência para a Secretaria de Saúde de ' . $municipio->nome . '/' . $municipio->sigla_estado . '. Seja a mudança na nossa cidade! Faça seu contato em ' .  $urlMunicipio;
 
 $this->registerMetaTag(['property' => 'og:image', 'content' => Url::to('/img/og-sharing-preview.jpg', true)]);
 $this->registerMetaTag(['property' => 'og:title', 'content' => 'Denuncie focos de mosquitos da dengue']);
@@ -17,7 +15,7 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
 
 <h1 class="text-center">
     <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
-    <a href="<?= Url::to(['cidade/index', 'id' => $cliente->id]); ?>">
+    <a href="<?= Url::to(['view', 'slug' => $municipio->slug]); ?>">
         <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
     </a>
 </h1>
@@ -27,11 +25,11 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
 </p>
 
 <p class="text-center bloco-botoes-ocorrencias">
-    <a href="<?= Url::to(['registrar-ocorrencia/index', 'id' => $cliente->id]) ?>" class="btn btn-danger btn-lg">
+    <a href="<?= Url::to(['registrar-ocorrencia/index', 'slug' => $municipio->slug]) ?>" class="btn btn-danger btn-lg">
         <i class="fa fa-plus"></i>
         registrar ocorrência
     </a>
-    <a href="<?= Url::to(['cidade/buscar-ocorrencia', 'id' => $cliente->id]) ?>" class="btn btn-success btn-lg">
+    <a href="<?= Url::to(['buscar-ocorrencia', 'slug' => $municipio->slug]) ?>" class="btn btn-success btn-lg">
         <i class="fa fa-eye"></i>
         acompanhar ocorrência
     </a>
@@ -50,7 +48,7 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
             <strong>Chikungunya</strong> vivem perto de você?
         </p>
         <p>
-            <a href="<?= Url::to(['cidade/mapa-focos', 'id' => $cliente->id]) ?>" class="btn btn-default">
+            <a href="<?= Url::to(['mapa-focos', 'slug' => $municipio->slug]) ?>" class="btn btn-default">
                 <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
                 Confira no mapa
             </a>

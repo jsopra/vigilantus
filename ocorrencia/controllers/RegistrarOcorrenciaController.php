@@ -1,5 +1,5 @@
 <?php
-namespace app\controllers;
+namespace app\ocorrencia\controllers;
 
 use Yii;
 use app\components\Controller;
@@ -16,42 +16,7 @@ use yii\web\UploadedFile;
 
 class RegistrarOcorrenciaController extends Controller
 {
-    /**
-     * @var Cliente
-     */
-    protected $cliente;
-
-    /**
-     * @inheritdoc
-     */
-    public function beforeAction($action)
-    {
-        if (!parent::beforeAction($action)) {
-            return false;
-        }
-
-        $id = Yii::$app->request->get('id', 0);
-        $this->cliente = Cliente::findOne($id);
-
-        if (!$this->cliente) {
-            throw new HttpException(400, 'Município não localizado', 405);
-        }
-
-        if (!$this->cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
-            throw new HttpException(400, 'Município não utiliza ocorrências', 405);
-        }
-
-        $usuario = Yii::$app->user->identity;
-
-        if ($usuario && $usuario->usuario_role_id == UsuarioRole::ROOT) {
-            $usuario->cliente_id = $this->cliente->id;
-            $usuario->update(false, ['cliente_id']);
-        }
-
-        return true;
-    }
-
-    public function actionIndex($id)
+    public function actionIndex($slug)
     {
         $model = new OcorrenciaForm;
         $model->clearSession();
@@ -61,22 +26,22 @@ class RegistrarOcorrenciaController extends Controller
             $model->scenario = OcorrenciaForm::SCENARIO_WIZARD_LOCAL;
 
             if ($model->validate(OcorrenciaForm::SCENARIO_WIZARD_LOCAL) && $model->persistSession()) {
-                return $this->redirect(['registrar-ocorrencia/detalhes', 'id' => $id]);
+                return $this->redirect(['registrar-ocorrencia/detalhes', 'slug' => $slug]);
             }
         }
 
         return $this->render(
             'index',
             [
-                'cliente' => $this->cliente,
-                'municipio' => $this->cliente->municipio,
+                'cliente' => $this->module->cliente,
+                'municipio' => $this->module->municipio,
                 'model' => $model,
                 'activeTab' => 0
             ]
         );
     }
 
-    public function actionDetalhes($id)
+    public function actionDetalhes($slug)
     {
         $model = new OcorrenciaForm;
         $model->loadFromSession();
@@ -87,35 +52,35 @@ class RegistrarOcorrenciaController extends Controller
             $model->scenario = OcorrenciaForm::SCENARIO_WIZARD_DETALHES;
 
             if ($model->validate(OcorrenciaForm::SCENARIO_WIZARD_DETALHES) && $model->persistSession()) {
-                return $this->redirect(['registrar-ocorrencia/identificacao', 'id' => $id]);
+                return $this->redirect(['registrar-ocorrencia/identificacao', 'slug' => $slug]);
             }
         }
 
         return $this->render(
             'detalhes',
             [
-                'cliente' => $this->cliente,
-                'municipio' => $this->cliente->municipio,
+                'cliente' => $this->module->cliente,
+                'municipio' => $this->module->municipio,
                 'model' => $model,
                 'activeTab' => 1
             ]
         );
     }
 
-    public function actionIdentificacao($id)
+    public function actionIdentificacao($slug)
     {
         $model = new OcorrenciaForm;
         $model->loadFromSession();
 
         if (Yii::$app->request->post()) {
             $model->load(Yii::$app->request->post());
-            $model->cliente_id = $id;
+            $model->cliente_id = $this->module->cliente->id;
             $model->scenario = OcorrenciaForm::SCENARIO_WIZARD_IDENTIFICACAO;
 
             if ($model->validate(OcorrenciaForm::SCENARIO_WIZARD_IDENTIFICACAO) && $model->persistSession()) {
                 if ($ocorrencia = $model->save()) {
                     Yii::$app->session->setFlash('success', 'Ocorrência enviada com sucesso. Você será notificado quando ela for avaliada.');
-                    return $this->redirect(['cidade/acompanhar-ocorrencia', 'id' => $id, 'hash' => $ocorrencia->hash_acesso_publico]);
+                    return $this->redirect(['cidade/acompanhar-ocorrencia', 'slug' => $slug, 'hash' => $ocorrencia->hash_acesso_publico]);
                 } else {
                     Yii::$app->session->setFlash('error', 'Erro ao salvar a ocorrência.');
                 }
@@ -125,8 +90,8 @@ class RegistrarOcorrenciaController extends Controller
         return $this->render(
             'identificacao',
             [
-                'cliente' => $this->cliente,
-                'municipio' => $this->cliente->municipio,
+                'cliente' => $this->module->cliente,
+                'municipio' => $this->module->municipio,
                 'model' => $model,
                 'activeTab' => 2
             ]
@@ -137,9 +102,9 @@ class RegistrarOcorrenciaController extends Controller
      * @FIXME Isso deveria vir da https://api.vigilantus.com.br/v1/bairros/:id
      * mas infelizmente a Getup não possui Vhosts para isso.
      */
-    public function actionCoordenadasBairro($id, $bairro_id)
+    public function actionCoordenadasBairro($slug, $bairro_id)
     {
-        $bairro = $this->cliente->getBairros()->andWhere(['id' => $bairro_id])->one();
+        $bairro = $this->module->cliente->getBairros()->andWhere(['id' => $bairro_id])->one();
 
         if (!$bairro) {
             throw new HttpException(404, 'Bairro não encontrado.');
