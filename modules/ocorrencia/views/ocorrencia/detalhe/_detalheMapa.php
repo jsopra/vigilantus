@@ -44,10 +44,9 @@ if ($model->bairroQuarteirao || ($model->latitude !== null && $model->longitude 
             <?php
         endif;
         ?>
-        console.log(coordenadas);
-        L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
+        L.mapbox.accessToken = '<?= Yii::$app->params['mapBoxAccessToken'] ?>';
         var map = L.mapbox
-            .map('map', 'vigilantus.kjkb4j0a')
+            .map('map', '<?= Yii::$app->params['mapBoxMapID'] ?>')
             .setView(coordenadas, 17);
 
         L.control.fullscreen().addTo(map);

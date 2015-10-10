@@ -11,6 +11,8 @@ return [
     'publicDir' => __DIR__ . '/../web/',
     //geolocalização
     'googleMapsAPIKey' => getenv('GOOGLE_MAPS_KEY'),
+    'mapBoxAccessToken' => getenv('MAP_BOX_ACCESS_TOKEN'),
+    'mapBoxMapID' => getenv('MAP_BOX_MAP_ID'),
     'postgisSRID' => 4326, /* Spatial Reference System Identifier (SRID). Usamos o WGS84 */
     'maximoTermosMonitoramentoRedesSociaisPorCliente' => 3,
     'gearmanQueueName' => 'vigilantus', /* também referenciado estaticamente por .openshift/cron/minutely/queue.sh */

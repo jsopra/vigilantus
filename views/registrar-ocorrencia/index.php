@@ -76,9 +76,9 @@ if ($municipio->latitude && $municipio->longitude) : ?>
     $javascript = "
         var distanciaMapa = 13;
 
-        L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
+        L.mapbox.accessToken = '" . Yii::$app->params['mapBoxAccessToken'] . "';
         var map = L.mapbox
-            .map('map', 'vigilantus.kjkb4j0a')
+            .map('map', '" . Yii::$app->params['mapBoxMapID'] . "')
             .setView([" . $municipio->latitude . " , " . $municipio->longitude . "], distanciaMapa);
 
         var marker;

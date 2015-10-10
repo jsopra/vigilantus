@@ -12,7 +12,7 @@ try {
         'TWITTER_KEY', 'TWITTER_SECRET',
         'FACEBOOK_KEY', 'FACEBOOK_SECRET',
         'INSTAGRAM_KEY', 'INSTAGRAM_SECRET',
-        'GOOGLE_MAPS_KEY',
+        'GOOGLE_MAPS_KEY', 'MAP_BOX_ACCESS_TOKEN', 'MAP_BOX_MAP_ID',
     ])->notEmpty();
 
     // É obrigatória, mas pode estar vazia: ""

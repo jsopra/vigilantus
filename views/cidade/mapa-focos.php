@@ -61,8 +61,8 @@ if($municipio->latitude && $municipio->longitude) {
             color: '#000'
         };
 
-        L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
-        var map = L.mapbox.map('map', 'vigilantus.kjkb4j0a');
+        L.mapbox.accessToken = '" . Yii::$app->params['mapBoxAccessToken'] . "';
+        var map = L.mapbox.map('map', '" . Yii::$app->params['mapBoxMapID'] . "');
 
 		var featureGroup = L.featureGroup().addTo(map);
 
