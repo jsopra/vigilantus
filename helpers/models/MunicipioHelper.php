@@ -18,13 +18,13 @@ class MunicipioHelper extends YiiStringHelper
      */
     public static function getBrasaoAsImageTag(Municipio $municipio, $tipo = 'normal')
     {
-        if(!$municipio->brasao) {
+        if (!$municipio->brasao) {
             return '-';
         }
 
         $externalPath = self::getBrasaoPath($municipio);
 
-        if(!$externalPath) {
+        if (!$externalPath) {
             return '-';
         }
 
@@ -34,34 +34,31 @@ class MunicipioHelper extends YiiStringHelper
     /**
      * Retorna path de brasão
      * @param Municipio $municipio
-     * @param boolean $base Default is false
+     * @param boolean $diretorio Se quer o diretório ou a URL do diretório
      * @return string
      */
-    public static function getBrasaoPath(Municipio $municipio, $internal = false)
+    public static function getBrasaoPath(Municipio $municipio, $diretorio = false)
     {
-        $internalPath = Yii::$app->params['dataDir'] . '/brasao/' . $municipio->sigla_estado . '/';
-        if($internal) {
+        $internalPath = Yii::$app->params['publicDir'] . '/img/brasao/' . $municipio->sigla_estado . '/';
+        $externalPath = Yii::$app->params['publicDir'] . '/brasao/' . $municipio->sigla_estado . '/';
+
+        if ($diretorio) {
             return $internalPath;
         }
 
-        $externalPath = Yii::$app->params['publicDir'] . '/brasao/' . $municipio->sigla_estado . '/';
-        if(!is_dir($externalPath)) {
+        if (!is_dir($externalPath)) {
             mkdir($externalPath);
         }
 
-        foreach($municipio->brasaoSizes as $size) {
-
+        foreach ($municipio->brasaoSizes as $size) {
             $internalFile = $internalPath . $size[0] . '/' . $municipio->brasao;
+            $externalFile = $externalPath . $size[0] . '/' . $municipio->brasao;
 
-            if(!is_dir($externalPath . $size[0])) {
+            if (!is_dir($externalPath . $size[0])) {
                 mkdir($externalPath . $size[0]);
             }
-
-            $externalFile = $externalPath . $size[0] . '/' . $municipio->brasao;
-            if(!is_file($externalFile)) {
-                if(is_file($internalFile)) {
-                    copy($internalFile, $externalFile);
-                }
+            if (!is_file($externalFile) && is_file($internalFile)) {
+                copy($internalFile, $externalFile);
             }
 
         }
