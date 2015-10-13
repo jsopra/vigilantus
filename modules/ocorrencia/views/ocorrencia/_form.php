@@ -103,6 +103,12 @@ use yii\helpers\Url;
         </div>
 
         <div class="row">
+            <div class="col-xs-4">
+                <?= $form->field($model, 'tipo_registro')->dropDownList(Ocorrencia::getTiposRegistros()) ?>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-xs-8">
                 <?= $form->field($model, 'mensagem')->textArea() ?>
             </div>

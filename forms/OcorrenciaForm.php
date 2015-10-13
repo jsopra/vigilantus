@@ -39,6 +39,7 @@ class OcorrenciaForm extends Model
         'mensagem',
         'cliente_id',
         'descricao_outro_tipo_problema',
+        'tipo_registro',
     ];
 
     /**
@@ -63,6 +64,7 @@ class OcorrenciaForm extends Model
     public $anexo;
     public $nome_original_anexo;
     public $mensagem;
+    public $tipo_registro;
 
     //w3
     public $nome;
@@ -88,7 +90,7 @@ class OcorrenciaForm extends Model
     {
         return [
             [['tipo_imovel', 'bairro_id', 'endereco'], 'required', 'on' => self::SCENARIO_WIZARD_LOCAL],
-            [['mensagem'], 'required', 'on' => self::SCENARIO_WIZARD_DETALHES],
+            [['mensagem', 'tipo_registro'], 'required', 'on' => self::SCENARIO_WIZARD_DETALHES],
             [
                 'ocorrencia_tipo_problema_id',
                 'exist',
@@ -110,7 +112,7 @@ class OcorrenciaForm extends Model
             [['ocorrencia_tipo_problema_id', 'tipo_imovel', 'bairro_id', 'cliente_id'], 'integer'],
             [['pontos_referencia', 'coordenadas', 'telefone', 'coordenadasJson', 'descricao_outro_tipo_problema'], 'safe'],
             ['email', 'email'],
-            [['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo'], 'string'],
+            [['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'tipo_registro'], 'string'],
         ];
     }
 

@@ -37,6 +37,9 @@ use app\helpers\models\ImovelHelper;
     <dt><?= Html::activeLabel($model, 'ocorrencia_tipo_problema_id') ?></dt>
     <dd><?= Html::encode($model->getDescricaoTipoProblema()) ?></dd>
 
+    <dt><?= Html::activeLabel($model, 'tipo_registro') ?></dt>
+    <dd><?= Html::encode(\app\models\Ocorrencia::getTiposRegistros()[$model->tipo_registro]) ?></dd>
+
     <?php if ($model->pontos_referencia) : ?>
     <dt><?= Html::activeLabel($model, 'pontos_referencia') ?></dt>
     <dd><?= Html::encode($model->pontos_referencia) ?></dd>
