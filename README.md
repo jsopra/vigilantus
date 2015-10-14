@@ -1,5 +1,7 @@
 # Vigilantus
 
+[![Build Status](http://phpci.perspectiva.in/build-status/image/1)](http://phpci.perspectiva.in/build-status/view/1)
+
 ## Softwares necessários
 
 * Apache 2
