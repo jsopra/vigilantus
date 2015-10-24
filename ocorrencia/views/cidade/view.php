@@ -35,11 +35,18 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
     </a>
 </p>
 
+<?php if ($percentualOcorrenciasAtendidas > 0) : ?>
 <div class="bloco-numero-ocorrencias text-center">
     <p><strong class="recebidas"><?= $numeroOcorrenciasRecebidas ?></strong> ocorrências recebidas,</p>
     <p><strong class="atendidas"><?= $percentualOcorrenciasAtendidas ?>%</strong> já foram finalizadas.</p>
     <p class="fonte-informacao">(informações coletadas desde <?= $dataPrimeiraOcorrencia ?>)</p>
 </div>
+<?php elseif ($numeroOcorrenciasRecebidas > 0) : ?>
+<div class="bloco-numero-ocorrencias text-center">
+    <p><strong class="recebidas"><?= $numeroOcorrenciasRecebidas ?></strong> ocorrências recebidas.</p>
+    <p class="fonte-informacao">(informações coletadas desde <?= $dataPrimeiraOcorrencia ?>)</p>
+</div>
+<?php endif; ?>
 
 <div class="panel panel-default text-center">
     <div class="panel-heading mapa-focos-chamada">

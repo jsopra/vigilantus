@@ -20,6 +20,14 @@ use yii\web\UploadedFile;
 
 class CidadeController extends Controller
 {
+    public function actionIndex()
+    {
+        return $this->render(
+            'index',
+            ['query' => Municipio::find()->clientes()->porEstado()->ordemAlfabetica()]
+        );
+    }
+
     public function actionView($slug)
     {
         $municipio = Municipio::find()->where(['slug' => $slug])->one();
@@ -53,6 +61,7 @@ class CidadeController extends Controller
             ->one()
         ;
         $percentualOcorrencias = $numeroOcorrenciasRecebidas ? $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100 : 0;
+        $dataPrimeiraOcorrencia = $primeiraOcorrencia ? $primeiraOcorrencia->data_criacao : $cliente->data_cadastro;
 
         return $this->render(
             'view',
@@ -62,7 +71,7 @@ class CidadeController extends Controller
                 'numeroOcorrenciasRecebidas' => $numeroOcorrenciasRecebidas,
                 'percentualOcorrenciasAtendidas' => round($percentualOcorrencias),
                 'dataPrimeiraOcorrencia' => Yii::$app->formatter->asDate(
-                    $primeiraOcorrencia->data_criacao . ' ' . Yii::$app->timeZone
+                    $dataPrimeiraOcorrencia . ' ' . Yii::$app->timeZone
                 ),
             ]
         );
