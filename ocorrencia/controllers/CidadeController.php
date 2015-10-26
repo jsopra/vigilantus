@@ -1,11 +1,12 @@
 <?php
-namespace app\controllers;
+namespace app\ocorrencia\controllers;
 
 use Yii;
 use app\components\Controller;
 use app\helpers\models\OcorrenciaHelper;
 use app\models\Cliente;
 use app\models\Configuracao;
+use app\models\Municipio;
 use app\models\Ocorrencia;
 use app\models\OcorrenciaHistorico;
 use app\models\OcorrenciaStatus;
@@ -19,51 +20,25 @@ use yii\web\UploadedFile;
 
 class CidadeController extends Controller
 {
-    /**
-     * @var Cliente
-     */
-    protected $cliente;
-
-    /**
-     * @inheritdoc
-     */
-    public function beforeAction($action)
+    public function actionIndex()
     {
-        if (!parent::beforeAction($action)) {
-            return false;
-        }
-
-        $usuario = Yii::$app->user->identity;
-
-        if ($usuario && $usuario->usuario_role_id == UsuarioRole::ROOT) {
-            $usuario->cliente_id = $this->getCliente()->id;
-            $usuario->update(false, ['cliente_id']);
-        }
-
-        return true;
+        return $this->render(
+            'index',
+            ['query' => Municipio::find()->clientes()->porEstado()->ordemAlfabetica()]
+        );
     }
 
-    protected function getCliente()
+    public function actionView($slug)
     {
-        $cliente = Cliente::findOne(Yii::$app->request->get('id', 0));
+        $municipio = Municipio::find()->where(['slug' => $slug])->one();
+        $cliente = Cliente::find()->doMunicipio($municipio->id)->one();
 
-        if (!$cliente) {
-            throw new HttpException(400, 'Município não localizado', 405);
-        }
-
-        if (!$cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
-            throw new HttpException(400, 'Município não utiliza ocorrências', 405);
-        }
-
-        return $cliente;
-    }
-
-    public function actionView($rotulo)
-    {
-        $cliente = Cliente::find()->doRotulo($rotulo)->one();
-
-        if (!$cliente) {
+        if (!$municipio) {
             throw new HttpException(404, 'Município não encontrado');
+        }
+
+        if (!$cliente) {
+            throw new HttpException(404, 'Município não utiliza o software');
         }
 
         if (!$cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
@@ -86,6 +61,7 @@ class CidadeController extends Controller
             ->one()
         ;
         $percentualOcorrencias = $numeroOcorrenciasRecebidas ? $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100 : 0;
+        $dataPrimeiraOcorrencia = $primeiraOcorrencia ? $primeiraOcorrencia->data_criacao : $cliente->data_cadastro;
 
         return $this->render(
             'view',
@@ -95,39 +71,33 @@ class CidadeController extends Controller
                 'numeroOcorrenciasRecebidas' => $numeroOcorrenciasRecebidas,
                 'percentualOcorrenciasAtendidas' => round($percentualOcorrencias),
                 'dataPrimeiraOcorrencia' => Yii::$app->formatter->asDate(
-                    $primeiraOcorrencia->data_criacao . ' ' . Yii::$app->timeZone
+                    $dataPrimeiraOcorrencia . ' ' . Yii::$app->timeZone
                 ),
             ]
         );
     }
 
-    public function actionIndex($id)
-    {
-        $cliente = $this->getCliente();
-        $this->redirect(['cidade/view', 'id' => $id, 'rotulo' => $cliente->rotulo]);
-    }
-
-    public function actionMapaFocos($id)
+    public function actionMapaFocos($slug)
     {
         return $this->render(
             'mapa-focos',
             [
-                'cliente' => $this->getCliente(),
-                'municipio' => $this->getCliente()->municipio,
+                'cliente' => $this->module->cliente,
+                'municipio' => $this->module->municipio,
                 'qtdeDias' => Configuracao::getValorConfiguracaoParaCliente(
                     Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA,
-                    $this->getCliente()->id
+                    $this->module->cliente->id
                 ),
             ]
         );
     }
 
-    public function actionBuscarOcorrencia($id, $hash = null)
+    public function actionBuscarOcorrencia($slug, $hash = null)
     {
         if ($this->getOcorrencia($hash, false)) {
             return $this->redirect([
                 'acompanhar-ocorrencia',
-                'id' => $id,
+                'slug' => $slug,
                 'hash' => $hash
             ]);
         }
@@ -135,22 +105,22 @@ class CidadeController extends Controller
         return $this->render(
             'buscar-ocorrencia',
             [
-                'cliente' => $this->getCliente(),
-                'municipio' => $this->getCliente()->municipio,
+                'cliente' => $this->module->cliente,
+                'municipio' => $this->module->municipio,
                 'hash' => $hash,
             ]
         );
     }
 
-    public function actionAcompanharOcorrencia($id, $hash)
+    public function actionAcompanharOcorrencia($slug, $hash)
     {
         $model = $this->getOcorrencia($hash);
 
         return $this->render(
             'acompanhar-ocorrencia',
             [
-                'cliente' => $this->getCliente(),
-                'municipio' => $this->getCliente()->municipio,
+                'cliente' => $this->module->cliente,
+                'municipio' => $this->module->municipio,
                 'model' => $model,
                 'dataProvider' => new ActiveDataProvider(['query' => $model->getOcorrenciaHistoricos()]),
                 'historicos' => $model->getOcorrenciaHistoricos()->all(),
@@ -168,7 +138,7 @@ class CidadeController extends Controller
         echo Json::encode(['coordenadaNaCidade' => $this->getCliente()->municipio->coordenadaNaCidade($lat, $lon)]);
     }
 
-    public function actionComprovanteOcorrencia($id, $hash)
+    public function actionComprovanteOcorrencia($slug, $hash)
     {
         $model = $this->getOcorrencia($hash);
         Yii::$app->response->format = 'pdf';
@@ -182,7 +152,7 @@ class CidadeController extends Controller
     {
         $model = Ocorrencia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
         if (!$model && $throwException) {
-            throw new HttpException(400, 'Ôcorrência não localizada', 405);
+            throw new HttpException(400, 'Ôcorrência não localizada');
         }
         return $model;
     }

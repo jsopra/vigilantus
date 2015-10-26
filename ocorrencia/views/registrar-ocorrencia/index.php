@@ -115,7 +115,7 @@ if ($municipio->latitude && $municipio->longitude) : ?>
 
         var ajaxPosicaoMapa = function(id_bairro, successCallback, errorCallback) {
             var url = '" . Url::to(['registrar-ocorrencia/coordenadas-bairro']) . "/';
-            url += '?id=" . $municipio->id . "';
+            url += '?slug=" . $municipio->slug . "';
             url += '&bairro_id=' + id_bairro;
 
             if (undefined == successCallback || null == successCallback) {

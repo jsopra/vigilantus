@@ -41,9 +41,12 @@ $averiguacoes = $model->quantidadeAveriguacoes;
             <?php endif; ?>
             <div class="row">
                 <div class="col-xs-12">
-                    <p><strong>Endereço:</strong> <?= $model->endereco; ?>, <?= $model->bairro->nome; ?></p>
+                    <p>
+                        <strong>Endereço:</strong> <?= $model->endereco ?>,
+                        <?= $model->bairro->nome ?>
+                    </p>
                     <?php if($model->pontos_referencia) : ?>
-                        <p><strong>Referência:</strong> <?= $model->pontos_referencia ?>; ?></p>
+                        <p><strong>Referência:</strong> <?= $model->pontos_referencia ?></p>
                     <?php endif; ?>
                 </div>
             </div>

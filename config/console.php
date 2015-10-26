@@ -21,6 +21,12 @@ $config = [
             'templateFile' => '@app/data/migrationsTemplate.php',
         ],
     ],
+    'bootstrap' => [
+        'app\ocorrencia\Bootstrap',
+    ],
+    'modules' => [
+        'ocorrencia' => ['class' => 'app\ocorrencia\Module'],
+    ],
     'components' => [
         'cache' => [
             'class' => 'yii\redis\Cache',

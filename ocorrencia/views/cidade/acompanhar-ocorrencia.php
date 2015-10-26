@@ -9,28 +9,29 @@ use yii\bootstrap\Tabs;
 use yii\helpers\Url;
 
 $this->title = 'Detalhes de Ocorrência #' . $model->protocolo;
-$this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['view', 'id' => $cliente->id, 'rotulo' => $cliente->rotulo]];
+$this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['view', 'slug' => $municipio->slug]];
 $this->params['breadcrumbs'][] = 'Detalhes';
 ?>
 <div class="row">
     <div class="col-md-6">
         <h1>
             <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
-            <a href="<?= Url::to(['cidade/view', 'id' => $cliente->id]); ?>"><?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
+            <a href="<?= Url::to(['view', 'slug' => $municipio->slug]); ?>">
+                <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
             </a>
         </h1>
     </div>
     <div class="col-md-6" style="margin-top: 1em;">
         <?= Html::a(
             '<i class="glyphicon glyphicon-download-alt"></i> baixar comprovante',
-            Yii::$app->urlManager->createUrl(['cidade/comprovante-ocorrencia', 'id' => $cliente->id, 'hash' => $model->hash_acesso_publico]),
+            Url::to(['comprovante-ocorrencia', 'slug' => $municipio->slug, 'hash' => $model->hash_acesso_publico]),
             ['class' => 'btn btn-primary pull-right']
         );
         ?>
     </div>
 </div>
 <?php
-$urlOcorrencia = Url::to('/' . $model->cliente->rotulo, true);
+$urlOcorrencia = Url::to(['view', 'slug' => $municipio->slug], true);
 $descricaoTweet = 'Registrei uma ocorrência para a Sec. de Saúde de ' . $municipio->nome . '. Seja a mudança da sua cidade! Faça seu contato em';
 ?>
 <div class="ocorrencia-detalhes">
@@ -48,13 +49,13 @@ $descricaoTweet = 'Registrei uma ocorrência para a Sec. de Saúde de ' . $munic
         'items' => [
             [
                 'label' => 'Objeto da ocorrência',
-                'content' => $this->render('//../modules/ocorrencia/views/ocorrencia/detalhe/_detalheObjetoOcorrencia', ['model' => $model]),
+                'content' => $this->render('//../ocorrencia/views/ocorrencia/detalhe/_detalheObjetoOcorrencia', ['model' => $model]),
                 'active' => false,
             ],
             [
                 'label' => 'Histórico',
                 'content' => $this->render(
-                    '//../modules/ocorrencia/views/ocorrencia/detalhe/_detalheHistorico',
+                    '//../ocorrencia/views/ocorrencia/detalhe/_detalheHistorico',
                     [
                         'model' => $model,
                         'dataProvider' => $dataProvider,
@@ -66,7 +67,7 @@ $descricaoTweet = 'Registrei uma ocorrência para a Sec. de Saúde de ' . $munic
             ],
             [
                 'label' => 'Mapa',
-                'content' => $this->render('//../modules/ocorrencia/views/ocorrencia/detalhe/_detalheMapa', ['model' => $model]),
+                'content' => $this->render('//../ocorrencia/views/ocorrencia/detalhe/_detalheMapa', ['model' => $model]),
                 'active' => false,
                 'options' => ['id' => 'aba-mapa'],
             ],

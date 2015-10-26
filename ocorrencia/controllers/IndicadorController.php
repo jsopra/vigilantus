@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\ocorrencia\controllers;
+namespace app\ocorrencia\controllers;
 
 use app\components\Controller;
 use Yii;

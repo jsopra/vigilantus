@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\ocorrencia\controllers;
+namespace app\ocorrencia\controllers;
 
 use Yii;
 use yii\filters\AccessControl;

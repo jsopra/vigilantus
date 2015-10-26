@@ -11,24 +11,23 @@ use yii\helpers\Json;
 use app\helpers\models\MunicipioHelper;
 
 $this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
-$urlOcorrencia = Url::to('/' . $cliente->rotulo, true);
 
 MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omnivore', 'markercluster']);
 ?>
 
 <h1 class="text-center">
     <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
-    <a href="<?= Url::to(['cidade/index', 'id' => $cliente->id]); ?>">
+    <a href="<?= Url::to(['view', 'slug' => $municipio->slug]); ?>">
         <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
     </a>
 </h1>
 
 <p class="text-center bloco-botoes-ocorrencias">
-    <a href="<?= Url::to(['registrar-ocorrencia/index', 'id' => $cliente->id]) ?>" class="btn btn-danger btn-lg">
+    <a href="<?= Url::to(['registrar-ocorrencia/index', 'slug' => $municipio->slug]) ?>" class="btn btn-danger btn-lg">
         <i class="fa fa-plus"></i>
         registrar ocorrência
     </a>
-    <a href="<?= Url::to(['cidade/acompanhar-ocorrencia', 'id' => $cliente->id]) ?>" class="btn btn-success btn-lg">
+    <a href="<?= Url::to(['buscar-ocorrencia', 'slug' => $municipio->slug]) ?>" class="btn btn-success btn-lg">
         <i class="fa fa-eye"></i>
         acompanhar ocorrência
     </a>
@@ -51,7 +50,7 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
 <?php
 $municipio->loadCoordenadas();
 
-if($municipio->latitude && $municipio->longitude) {
+if ($municipio->latitude && $municipio->longitude) {
 
     $javascript = "
         var layers = document.getElementById('menu-ui');

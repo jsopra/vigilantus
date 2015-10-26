@@ -4,19 +4,20 @@ use app\helpers\models\MunicipioHelper;
 use yii\helpers\Url;
 
 $this->title = 'Acompanhar Ocorrência';
-$this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['view', 'id' => $cliente->id, 'rotulo' => $cliente->rotulo]];
+$this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['view', 'slug' => $municipio->slug]];
 $this->params['breadcrumbs'][] = 'Detalhes';
 ?>
 <div class="row">
     <div class="col-md-6">
         <h1>
             <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
-            <a href="<?= Url::to(['cidade/view', 'id' => $cliente->id]); ?>"><?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
+            <a href="<?= Url::to(['view', 'slug' => $municipio->slug]); ?>">
+                <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
             </a>
         </h1>
     </div>
 </div>
-<form class="form-inline" action="/cidade/buscar-ocorrencia" method="get">
+<form class="form-inline" action="<?= Url::to(['buscar-ocorrencia']) ?>" method="get">
     <p>
         Digite o <strong>número do protocolo</strong> que você recebeu
         ao registrar a ocorrência e clique em <strong>acompanhar</strong>.
@@ -25,7 +26,7 @@ $this->params['breadcrumbs'][] = 'Detalhes';
     <div class="alert alert-danger">Ocorrência inválida. Confira o número do protocolo digitado.</div>
     <?php endif; ?>
     <div class="form-group">
-        <input type="hidden" name="id" value="<?= $cliente->id; ?>" />
+        <input type="hidden" name="slug" value="<?= $municipio->slug ?>" />
         <input type="text" class="form-control input-lg" name="hash" placeholder="Nº do protocolo da ocorrência" value="<?= $hash ?>" />
     <div class="form-group">
     </div>
