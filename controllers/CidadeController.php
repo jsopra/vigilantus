@@ -107,7 +107,7 @@ class CidadeController extends Controller
         $this->redirect(['cidade/view', 'id' => $id, 'rotulo' => $cliente->rotulo]);
     }
 
-    public function actionMapaFocos($id)
+    public function actionMapaFocos($id, $lat = null , $lon = null)
     {
         return $this->render(
             'mapa-focos',
@@ -118,6 +118,8 @@ class CidadeController extends Controller
                     Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA,
                     $this->getCliente()->id
                 ),
+                'lat' => $lat,
+                'lon' => $lon,
             ]
         );
     }
