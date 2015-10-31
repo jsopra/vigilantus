@@ -1,5 +1,5 @@
 <?php
-namespace app\components;
+namespace app\assets;
 use yii\web\AssetBundle;
 
 class IntroJSAsset extends AssetBundle

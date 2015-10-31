@@ -64,3 +64,37 @@
   margin-bottom: 1em;
   width: 100%;
 }
+
+/* Acompanhamento d eocorrência */
+.ocorrencia-detalhes h1 a {
+  margin-right: 15px;
+}
+
+.ocorrencia-detalhes h1 small {
+  margin-left: 0;
+  white-space: nowrap;
+}
+
+/* Bloco para compartilhar ocorrência criada */
+.bloco-compartilhar-ocorrencia {
+  margin-top: 10px;
+}
+
+.bloco-compartilhar-ocorrencia p {
+  font-size: 14px;
+  line-height: 1.4em;
+  margin: 20px 0;
+}
+
+.bloco-compartilhar-ocorrencia p:first-child {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.2em;
+  margin: 0;
+}
+
+.bloco-compartilhar-ocorrencia .bloco-botoes-compartilhar {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
