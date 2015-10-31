@@ -1,5 +1,6 @@
 <?php
 use app\models\OcorrenciaTipoProblema;
+use app\models\Ocorrencia;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -37,6 +38,10 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
 
     <div class="row" id="bloco-outro-tipo-problema">
         <?= $form->field($model, 'descricao_outro_tipo_problema')->label('Descreva o problema') ?>
+    </div>
+
+    <div class="row">
+        <?= $form->field($model, 'tipo_registro')->dropDownList(Ocorrencia::getTiposRegistros()) ?>
     </div>
 
     <div class="row">
