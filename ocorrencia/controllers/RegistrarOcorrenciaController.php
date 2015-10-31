@@ -33,7 +33,6 @@ class RegistrarOcorrenciaController extends Controller
         return $this->render(
             'index',
             [
-                'cliente' => $this->module->cliente,
                 'municipio' => $this->module->municipio,
                 'model' => $model,
                 'activeTab' => 0

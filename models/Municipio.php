@@ -94,6 +94,22 @@ class Municipio extends ActiveRecord
     }
 
     /**
+     * @return AtiveQuery
+     */
+    public function getOcorrencias()
+    {
+        return $this->hasMany(Ocorrencia::className(), ['municipio_id' => 'id']);
+    }
+
+    /**
+     * @return AtiveQuery
+     */
+    public function getBairros()
+    {
+        return $this->hasMany(Bairro::className(), ['municipio_id' => 'id']);
+    }
+
+    /**
      * Busca municípios
      * @param int $id Default is null
      * @return Cliente[]

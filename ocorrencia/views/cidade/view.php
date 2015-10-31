@@ -23,11 +23,10 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
     <a href="<?= Url::to(['view', 'slug' => $municipio->slug]); ?>">
         <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
     </a>
+    <?php if ($setorUtiliza) : ?>
+    <small><?= Html::encode($setorUtiliza) ?></small>
+    <?php endif; ?>
 </h1>
-
-<p class="text-center" style="font-weight: bold; font-size: 1.5em; color: #000;">
-   <?= Html::encode($setorUtiliza) ?>
-</p>
 
 <p class="text-center" style="line-height: 1.5em; color: #585858; font-size: 1.6em;">
     Contamos com a <font style="font-weight: bold; font-size: 1.05em; color: #000;">sua ajuda</font> para tornar o nosso <font style="font-weight: bold; font-size: 1.05em; color: #000;">município melhor!</font>

@@ -11,7 +11,7 @@ use perspectivain\mapbox\MapBoxAPIHelper;
 $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $municipio->nome . '/' . $municipio->sigla_estado;
 ?>
 
-<?= $this->render('_header', ['municipio' => $municipio, 'cliente' => $cliente, 'activeTab' => $activeTab]); ?>
+<?= $this->render('_header', ['municipio' => $municipio, 'activeTab' => $activeTab]); ?>
 
 <?php MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen']); ?>
 
@@ -34,7 +34,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
 
         <div class="row">
             <?php
-            $bairros = Bairro::find()->doCliente($cliente->id)->comQuarteiroes()->orderBy('nome')->all();
+            $bairros = $municipio->getBairros()->comQuarteiroes()->orderBy('nome')->all();
             echo $form->field($model, 'bairro_id')->widget(
                 Select2::classname(),
                 [
