@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+echo "👾 Verificando composer..."
+command -v composer > /dev/null 2>&1 || echo >&2 "🚫 O composer não está instalado ou não está no \$PATH."
+
+echo "👾 Verificando composer-asset-plugin..."
+(composer global show --installed 2> /dev/null | grep "fxp/composer-asset-plugin" > /dev/null 2>&1) || (echo "Não encontrado, instalando..." && composer global require "fxp/composer-asset-plugin:~1.0")
+
+echo "👾 Verificando arquivo de configuração..."
+if [ ! -f .env ]; then
+    echo "🚫 Crie um arquivo \".env\" a partir do \".env.example\" e altere suas configurações"
+    exit 1
+fi
+
+echo "👾 Instalando pacotes do composer..."
+composer install -q || echo "🚫 Ocorreu um erro ao instalar os pacotes. Rode manualmente para ver o problema."
+
+echo "👾 Rodando migrations..."
+php yii migrate --interactive=0 > /dev/null 2>&1 || echo "🚫 Ocorreu um erro ao rodar as migrations. Rode manualmente para ver o problema."
+
+echo "👾 Feito!"
