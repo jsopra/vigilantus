@@ -11,9 +11,9 @@ $config = [
         ],
         'redis' => [
             'class' => 'yii\redis\Connection',
-            'hostname' => getenv('VIGILANTUS_REDIS_HOST'),
-            'port' => getenv('VIGILANTUS_REDIS_DB_PORT'),
-            'database' => getenv('VIGILANTUS_REDIS_DB_NUMBER') ?: 1,
+            'hostname' => getenv('REDIS_HOST'),
+            'port' => getenv('REDIS_PORT'),
+            'database' => getenv('REDIS_DATABASE') ?: 1,
         ],
         'mailer' => [
             'useFileTransport' => true,
@@ -25,7 +25,7 @@ $config = [
     ],
 ];
 
-if ($redisPassword = getenv('VIGILANTUS_REDIS_DB_PASSWORD')) {
+if ($redisPassword = getenv('REDIS_PASSWORD')) {
     $config['components']['redis']['password'] = $redisPassword;
 } elseif (array_key_exists('password', $config['components']['redis'])) {
     unset($config['components']['redis']['password']);

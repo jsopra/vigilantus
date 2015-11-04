@@ -75,9 +75,9 @@ if($model->coordenadasJson) {
 
 <?php
 $javascript = "
-L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
+L.mapbox.accessToken = '" . Yii::$app->params['mapBoxAccessToken'] . "';
 var map = L.mapbox
-    .map('map', 'vigilantus.kjkb4j0a')
+    .map('map', '" . Yii::$app->params['mapBoxMapID'] . "')
 ";
 
 if($model->coordenadasJson) {
@@ -89,7 +89,7 @@ else {
 
 $javascript .= "
     .on('ready', function() {
-        new L.Control.MiniMap(L.mapbox.tileLayer('vigilantus.kjkb4j0a'))
+        new L.Control.MiniMap(L.mapbox.tileLayer('" . Yii::$app->params['mapBoxMapID'] . "'))
             .addTo(map);
     });
 

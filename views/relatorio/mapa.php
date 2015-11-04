@@ -42,12 +42,12 @@ $municipio->loadCoordenadas();
             color: '#000'
         };
 
-        L.mapbox.accessToken = 'pk.eyJ1IjoidmlnaWxhbnR1cyIsImEiOiJXVEZJM1RFIn0.PWHuvfBY6oegZu3R65tWGA';
+        L.mapbox.accessToken = '" . Yii::$app->params['mapBoxAccessToken'] . "';
         var map = L.mapbox
-            .map('map', 'vigilantus.kjkb4j0a')
+            .map('map', '" . Yii::$app->params['mapBoxMapID'] . "')
             .setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13)
             .on('ready', function() {
-                new L.Control.MiniMap(L.mapbox.tileLayer('vigilantus.kjkb4j0a'))
+                new L.Control.MiniMap(L.mapbox.tileLayer('" . Yii::$app->params['mapBoxMapID'] . "'))
                     .addTo(map);
             });
 
@@ -81,9 +81,10 @@ $municipio->loadCoordenadas();
 
 <script>
 
-function gmapPrint() {
+function gmapPrint()
+{
     var inseriuParametro = false;
-    var url = '<?= Url::toRoute(array("relatorio/download-mapa")); ?>?';
+    var url = '<?= Url::toRoute(["relatorio/download-mapa"]); ?>?';
 
     if($('#areatratamentoreport-bairro_id').val()) {
         inseriuParametro = true;
@@ -100,10 +101,11 @@ function gmapPrint() {
         url += (inseriuParametro ? '&' : '?') + 'especie_transmissor_id=' + $('#areatratamentoreport-especie_transmissor_id').val();
     }
 
-    /*if($('#areatratamentoreport-inicio_perido', '#areatratamentoreport-fim_perido').val()) {
+    if($('#areatratamentoreport-inicio_periodo').val() && $('#areatratamentoreport-fim_periodo').val()) {
         inseriuParametro = true;
-        url += (inseriuParametro ? '&' : '?') + 'inicio_periodo=' && 'fim_periodo=' + $(['#areatratamentoreport-inicio_perido', '#areatratamentoreport-fim_perido']).val();
-    }*/
+        url += (inseriuParametro ? '&' : '?') + 'inicio=' + $('#areatratamentoreport-inicio_periodo').val();
+        url += (inseriuParametro ? '&' : '?') + 'fim=' + $('#areatratamentoreport-fim_periodo').val();
+    }
 
     window.open(url,'_blank');
 }

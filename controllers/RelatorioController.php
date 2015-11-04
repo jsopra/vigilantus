@@ -162,13 +162,15 @@ class RelatorioController extends Controller
         );
     }
 
-    public function actionDownloadMapa($bairro_id = null, $lira = null, $especie_transmissor_id = null) {
-
+    public function actionDownloadMapa($bairro_id = null, $lira = null, $especie_transmissor_id = null, $inicio = null, $fim = null)
+    {
         $model = new AreaTratamentoReport;
 
         $model->bairro_id = $bairro_id;
         $model->lira = $lira;
         $model->especie_transmissor_id = $especie_transmissor_id;
+        $model->inicio_periodo = $inicio;
+        $model->fim_periodo = $fim;
 
         $this->layout = 'ajax';
 
