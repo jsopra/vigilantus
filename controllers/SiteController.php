@@ -219,33 +219,46 @@ class SiteController extends Controller
 
     public function actionError()
     {
-         $municipio = str_replace('/', '', Yii::$app->getRequest()->getUrl());
-         if($municipio) {
-
-             $objeto = Cliente::find()->doRotulo($municipio)->one();
-             if($objeto) {
-
-                 if($objeto->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
-                     $this->redirect(['cidade/index', 'id' => $objeto->id]);
-                 }
-             }
-         }
-
         if (($exception = Yii::$app->getErrorHandler()->exception) === null) {
             return '';
         }
 
         if ($exception instanceof HttpException) {
             $code = $exception->statusCode;
-        }
-        else {
+        } else {
             $code = $exception->getCode();
         }
 
+        // @FIXME remover este bloco de redirecionamentos após 31/dez/2015
+        // 301 = movido permanentemente, então o Google nunca mais apontará
+        // para a URL antiga
+        switch (Yii::$app->request->url) {
+            case '/blumenau' :
+                return $this->redirect('/blumenau-sc', 301);
+            case '/cananeia' :
+                return $this->redirect('/cananeia-sp', 301);
+            case '/chapeco':
+                return $this->redirect('/chapeco-sc', 301);
+            case '/floripa':
+                return $this->redirect('/florianopolis-sc', 301);
+            case '/itajai':
+                return $this->redirect('/itajai-sc', 301);
+            case '/maravilha':
+                return $this->redirect('/maravilha-sc', 301);
+            case '/rondonopolis':
+                return $this->redirect('/rondonopolis-mt', 301);
+            case '/smo':
+                return $this->redirect('/sao-miguel-do-oeste-sc', 301);
+            case '/to':
+                return $this->redirect('/teofilo-otoni-mg', 301);
+            case '/ubirajara' :
+                return $this->redirect('/ubirajara-sp', 301);
+        }
+        // @FIXME fim do bloco a ser removido
+
         if ($exception instanceof Exception) {
             $name = $exception->getName();
-        }
-        else {
+        } else {
             $name = $this->defaultName ?: Yii::t('yii', 'Error');
         }
 
@@ -255,15 +268,13 @@ class SiteController extends Controller
 
         if ($exception instanceof UserException) {
             $message = $exception->getMessage();
-        }
-        else {
+        } else {
             $message = Yii::t('yii', 'An internal server error occurred.');
         }
 
-        if (Yii::$app->getRequest()->getIsAjax()) {
+        if (Yii::$app->request->isAjax) {
             return "$name: $message";
-        }
-        else {
+        } else {
             return $this->render('error', [
                 'name' => $name,
                 'message' => $message,

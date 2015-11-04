@@ -85,7 +85,7 @@ class Ocorrencia extends ClienteActiveRecord
 	{
 		return [
 			[['data_criacao', 'data_fechamento', 'telefone', 'numero_controle', 'coordenadas'], 'safe'],
-			[['cliente_id', 'endereco', 'mensagem'], 'required'],
+			[['cliente_id', 'endereco', 'mensagem', 'tipo_registro'], 'required'],
             [['tipo_imovel', 'bairro_id'], 'required', 'on' => 'insert'],
 			[['cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'ocorrencia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
             ['hash_acesso_publico', 'unique', 'when' => function($model, $attribute) {
@@ -150,9 +150,19 @@ class Ocorrencia extends ClienteActiveRecord
             'observacoes' => 'Observações',
             'coordenadas' => 'Coordenadas',
             'descricao_outro_tipo_problema' => 'Descrição do Problema',
+            'tipo_registro' => 'Tipo de Registro',
 		];
 	}
 
+    public static function getTiposRegistros(){
+        return [
+            'denuncia' => 'Denúncia',
+            'solicitacoes' => 'Solicitações',
+            'relato' => 'Relato',
+            'sugestoes' => 'Sugestões',
+            'elogios' => 'Elogios',
+        ];
+    }
 	/**
 	 * @return \yii\db\ActiveRelation
 	 */
@@ -261,11 +271,12 @@ class Ocorrencia extends ClienteActiveRecord
         	}
 
             if ($historico->save()) {
-                if ($isNewRecord && $this->email) {
+                if (($isNewRecord || $statusMudou) && $this->email) {
                     BackgroundJob::register(
                         'AlertaAlteracaoStatusOcorrenciaJob',
                         [
                             'id' => $this->id,
+                            'isNewRecord' => $isNewRecord,
                             'key' => getenv('GEARMAN_JOB_KEY')
                         ],
                         BackgroundJob::NORMAL,

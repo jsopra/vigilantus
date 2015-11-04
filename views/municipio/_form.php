@@ -19,6 +19,11 @@ use app\helpers\models\MunicipioHelper;
         </div>
         <div class="row">
             <div class="col-xs-6">
+                <?= $form->field($model, 'slug') ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
                 <?= $form->field($model, 'coordenadas_area')->textInput() ?>
             </div>
         </div>
@@ -32,12 +37,12 @@ use app\helpers\models\MunicipioHelper;
             </div>
         </div>
         <div class="form-group form-actions">
-			<?php 
+			<?php
             echo Html::submitButton(
-                $model->isNewRecord ? 'Cadastrar' : 'Atualizar', 
+                $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
                 ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
             );
-		
+
             echo Html::a(
                 'Cancelar',
                 array('/municipio/index'),

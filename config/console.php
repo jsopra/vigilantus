@@ -21,6 +21,12 @@ $config = [
             'templateFile' => '@app/data/migrationsTemplate.php',
         ],
     ],
+    'bootstrap' => [
+        'app\ocorrencia\Bootstrap',
+    ],
+    'modules' => [
+        'ocorrencia' => ['class' => 'app\ocorrencia\Module'],
+    ],
     'components' => [
         'cache' => [
             'class' => 'yii\redis\Cache',
@@ -29,15 +35,15 @@ $config = [
             'class' => 'perspectivain\gearman\Gearman',
             'jobsNamespace' => '\app\jobs\\',
             'servers' => [
-                ['host' => getenv('OPENSHIFT_GEARMAN_IP'), 'port' => getenv('OPENSHIFT_GEARMAN_PORT')],
+                ['host' => getenv('GEARMAN_IP'), 'port' => getenv('GEARMAN_PORT')],
             ],
         ],
         'redis' => [
             'class' => 'yii\redis\Connection',
-            'hostname' => getenv('VIGILANTUS_REDIS_HOST'),
-            'port' => getenv('VIGILANTUS_REDIS_DB_PORT'),
-            'database' => 0,
-            'password' => getenv('VIGILANTUS_REDIS_DB_PASSWORD'),
+            'hostname' => getenv('REDIS_HOST'),
+            'port' => getenv('REDIS_PORT'),
+            'database' => getenv('REDIS_DATABASE'),
+            'password' => getenv('REDIS_PASSWORD'),
         ],
         'log' => [
             'targets' => [
@@ -57,11 +63,11 @@ $config = [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.mandrillapp.com',
-                'username' => 'jsopra@gmail.com',
-                'password' => 'KzL9E8rMpAd6Ux0pv7Lmbg',
-                'port' => '587',
-                'encryption' => 'tls',
+                'host' => getenv('SMTP_HOST'),
+                'username' => getenv('SMTP_USERNAME'),
+                'password' => getenv('SMTP_PASSWORD'),
+                'port' => getenv('SMTP_PORT'),
+                'encryption' => getenv('SMTP_ENCRYPTION'),
             ],
         ],
         'formatter' => [
@@ -71,19 +77,16 @@ $config = [
             'timeFormat' => 'medium',
             'timeZone' => 'America/Sao_Paulo',
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'hostInfo' => getenv('VIGILANTUS_BASE_PATH'),
+            'scriptUrl' => getenv('VIGILANTUS_BASE_PATH') . '/index.php',
+            'baseUrl' => '',
+        ],
     ],
     'params' => $params,
 ];
-
-if (file_exists(__DIR__ . '/test_db.php')) {
-    $config['components']['testDb'] = [
-        'class' => 'yii\db\Connection',
-        'dsn' => getenv('VIGILANTUS_DB_DSN_HOST') . ';' . getenv('VIGILANTUS_DB_DSN_DBNAME'),
-        'username' => getenv('VIGILANTUS_TEST_DB_USERNAME'),
-        'password' => getenv('VIGILANTUS_TEST_DB_PASSWORD'),
-        'charset' => 'utf8',
-    ];
-}
 
 if (empty($config['components']['redis']['password'])) {
     unset($config['components']['redis']['password']);

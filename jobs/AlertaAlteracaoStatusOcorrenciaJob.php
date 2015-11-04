@@ -1,12 +1,14 @@
 <?php
 namespace app\jobs;
 
-use Yii;
-use yii\helpers\Url;
 use app\models\Ocorrencia;
 use app\models\OcorrenciaStatus;
+use perspectivain\gearman\InterfaceJob;
+use Yii;
+use yii\helpers\Url;
+use yii\swiftmailer\Message;
 
-class AlertaAlteracaoStatusOcorrenciaJob implements \perspectivain\gearman\InterfaceJob
+class AlertaAlteracaoStatusOcorrenciaJob implements InterfaceJob
 {
     public function run($params = [])
     {
@@ -18,29 +20,76 @@ class AlertaAlteracaoStatusOcorrenciaJob implements \perspectivain\gearman\Inter
             return true;
         }
 
+        $isNewRecord = !empty($params['isNewRecord']);
+
         $model = Ocorrencia::find()->andWhere(['id' => $params['id']])->one();
         if (!$model) {
             return true;
         }
 
-        $message = '<p><strong>Alteração de status em ocorrência</strong></p>';
-        $message .= '<p>Olá, ' . ($model->nome ? $model->nome : '') . ',</p>';
-        $message .= '<p>Informamos que sua ocorrência teve o status alterado para: <strong>' . OcorrenciaStatus::getDescricao($model->status) . '</strong>.</p>';
-
-        if ($model->status == OcorrenciaStatus::REPROVADA && $model->historicoRejeicao && $model->historicoRejeicao->observacoes) {
-            $message .= '<p><strong>Detalhes:</strong> ' . $model->historicoRejeicao->observacoes . '.</p>';
-        }
-
-        $message .= '<hr />';
-        $message .= '<a href="' . getenv('VIGILANTUS_BASE_PATH') . 'cidade/acompanhar-ocorrencia?id=' . $model->cliente->id . '&hash=' . $model->hash_acesso_publico . '">Acompanhe aqui a sua ocorrência</a>';
-
-        Yii::$app->mail->compose()
+        $message = Yii::$app->mail->compose()
             ->setTo($model->email)
             ->setFrom([Yii::$app->params['emailContato'] => 'Vigilantus'])
-            ->setSubject('Alteração de status de Ocorrência')
-            ->setHtmlBody($message)
-            ->send();
+        ;
+
+        if ($isNewRecord) {
+            $this->criarMensagemNovaOcorrencia($message, $model);
+        } else {
+            $this->criarMensagemStatusAlterado($message, $model);
+        }
+
+        $message->send();
 
         return true;
+    }
+
+    protected function criarMensagemNovaOcorrencia(Message $message, Ocorrencia $model)
+    {
+        $body = '<h1>Ocorrência registrada com sucesso</h1>';
+        $body .= '<p>Olá' . ($model->nome ? ', ' . $model->nome : '') . ',</p>';
+        $body .= '<p>Informamos que sua ocorrência foi registrada com sucesso.</p>';
+        $body .= '<p>Você será informado quando houver alguma atualização sobre'
+               . ' o andamento da avaliação da sua ocorrência, ou se preferir, '
+               . 'você poderá acompanhar diretamente na <a href="'
+               . Url::to(
+                    [
+                        '/ocorrencia/cidade/acompanhar-ocorrencia',
+                        'slug' => $model->cliente->municipio->slug,
+                        'hash' => $model->hash_acesso_publico,
+                    ],
+                    true
+                ) . '">página da Prefeitura</a> através do protocolo.</p>'
+        ;
+        $body .= '<p><big><big>Protocolo: ' . $model->hash_acesso_publico . '</big></big></p>';
+
+        $message->setSubject('Ocorrência registrada com sucesso');
+        $message->setHtmlBody($body);
+    }
+
+    protected function criarMensagemStatusAlterado(Message $message, Ocorrencia $model)
+    {
+        $body = '<h1>Alteração de status da ocorrência #' . $model->hash_acesso_publico . '</h1>';
+        $body .= '<p>Olá' . ($model->nome ? ', ' . $model->nome : '') . ',</p>';
+        $body .= '<p>Informamos que sua ocorrência teve o status alterado para: '
+               . '<strong>' . OcorrenciaStatus::getDescricao($model->status)
+               . '</strong>.</p>'
+        ;
+
+        if ($model->status == OcorrenciaStatus::REPROVADA && $model->historicoRejeicao && $model->historicoRejeicao->observacoes) {
+            $body .= '<p><strong>Detalhes:</strong> ' . $model->historicoRejeicao->observacoes . '.</p>';
+        }
+
+        $body .= '<hr />';
+        $body .= '<p><a href="' . Url::to(
+             [
+                 '/ocorrencia/cidade/acompanhar-ocorrencia',
+                 'slug' => $model->cliente->municipio->slug,
+                 'hash' => $model->hash_acesso_publico,
+             ],
+             true
+         ) . '">Acompanhe aqui a sua ocorrência</a></p>';
+
+        $message->setSubject('Alteração de status da ocorrência #' . $model->hash_acesso_publico);
+        $message->setHtmlBody($body);
     }
 }

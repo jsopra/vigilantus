@@ -1,8 +1,8 @@
-#SetEnv VIGILANTUS_ENV production
+#SetEnv ENVIRONMENT production
 #SetEnv VIGILANTUS_DB_DSN "pgsql:host=536a928499fc770a6800015f-vigilantus.getup.io;dbname=vigilantus"
-#SetEnv VIGILANTUS_DB_USERNAME admina3lx44q
-#SetEnv VIGILANTUS_DB_PASSWORD 4Q7ewI9dq7YX
-#SetEnv VIGILANTUS_COOKIES_KEY umastringsecreta
+#SetEnv DB_USERNAME admina3lx44q
+#SetEnv DB_PASSWORD 4Q7ewI9dq7YX
+#SetEnv COOKIES_KEY umastringsecreta
 
 # Urls amigáveis
 RewriteEngine on

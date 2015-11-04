@@ -1,5 +1,5 @@
 <?php
-$env = getenv('VIGILANTUS_ENV');
+$env = getenv('ENVIRONMENT');
 
 if ($env == 'test') {
     defined('YII_DEBUG') or define('YII_DEBUG', true);
