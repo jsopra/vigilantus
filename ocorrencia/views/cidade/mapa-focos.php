@@ -193,7 +193,27 @@ if ($municipio->latitude && $municipio->longitude) {
     $this->registerJs($javascript);
 }
 ?>
-
+<div class="well">
+    <p style="line-height: 1.8em; color: #585858; font-size: 1.4em;">Legenda</p>
+    <table class="table table-hover">
+        <tr>
+            <td style="width: 90px" align="center"><img src="/img/estouaqui.png"></td>
+            <td>Aonde estou</td>
+            <td align="center"><img src="/img/focotratamento.png"></td>
+            <td >Foco em tratamento</td>
+            <td align="center"><img src="/img/areaselecionada.png"></td>
+            <td>Área selecionada</td>
+        </tr>
+        <tr>
+            <td  align="center"><img src="/img/menor.png"></td>
+            <td>Agrupamento de poucos focos</td>
+            <td align="center"><img src="/img/medio.png"></td>
+            <td>Agrupamento de alguns focos</td>
+            <td align="center"><img src="/img/maior.png"></td>
+            <td>Agrupamento de muitos focos/td>
+        </tr>
+    </table>
+</div>
 <style>
 .controls {
     margin-top: 16px;
