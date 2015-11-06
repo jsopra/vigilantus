@@ -30,12 +30,13 @@ class AppAsset extends AssetBundle
         'js/stepguide.js',
         'js/jquery.geolocation.js',
         'js/jquery-toast-plugin-master/jquery.toast.min.js',
+        'js/jquery.balancetext.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'app\components\themes\DetailwrapAsset',
         'app\batch\Asset',
-        'app\components\IntroJsAsset',
+        'app\assets\IntroJsAsset',
         '\rmrevin\yii\fontawesome\AssetBundle'
     ];
 }
