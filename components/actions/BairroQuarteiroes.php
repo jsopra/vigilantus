@@ -25,18 +25,18 @@ class BairroQuarteiroes extends Action
 
         $array = [];
 
-        $query = BairroQuarteirao::find()->doBairro($oBairro->id)->orderBy("numero_quarteirao ASC");
+        $query = BairroQuarteirao::find()->doBairro($oBairro->id)->orderBy("numero_quarteirao ASC, numero_quarteirao_2 ASC");
 
         if($queryString) {
-            $query->andWhere('numero_quarteirao ILIKE \'' . $queryString . '%\'');
+            $query->andWhere('numero_quarteirao ILIKE \'' . $queryString . '%\' OR numero_quarteirao_2 ILIKE \'' . $queryString . '%\'');
         }
 
         $quarteiroes = $query->all();
         foreach($quarteiroes as $quarteirao) {
             if(!$onlyName) {
-                $array[$quarteirao->id] = $quarteirao->numero_sequencia;
+                $array[$quarteirao->id] = $quarteirao->numero_sequencia . ' (' . $quarteirao->numero_sequencia_alternativo . ')';
             } else {
-                $array[] = (string) $quarteirao->numero_sequencia;
+                $array[] = (string) $quarteirao->numero_sequencia . ' (' . $quarteirao->numero_sequencia_alternativo . ')';
             }
         }
 

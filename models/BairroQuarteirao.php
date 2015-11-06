@@ -178,6 +178,11 @@ class BairroQuarteirao extends ClienteActiveRecord
         return $this->numero_quarteirao . ($this->seq ? '-' . $this->seq : '');
     }
 
+    public function getNumero_sequencia_alternativo()
+    {
+        return $this->numero_quarteirao_2 . ($this->seq ? '-' . $this->seq : '');
+    }
+
     /**
      * Define coordenadas para modelo
      * @return boolean (false em caso de não popular e true em caso de popular)
