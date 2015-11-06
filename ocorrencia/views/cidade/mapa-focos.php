@@ -72,7 +72,7 @@ if ($municipio->latitude && $municipio->longitude) {
         $.geolocation(
             function (lat, lng) {
 
-                $.getJSON('" . Url::to(['cidade/coordenada-na-cidade', 'id' => $cliente->id]) . "&lat=' + lat + '&lon=' + lng, function(data) {
+                $.getJSON('" . Url::to(['/cidade/coordenada-na-cidade', 'id' => $cliente->id]) . "&lat=' + lat + '&lon=' + lng, function(data) {
                     if(data.coordenadaNaCidade) {
 
                         map.setView([lat , lng], 15);
@@ -128,7 +128,7 @@ if ($municipio->latitude && $municipio->longitude) {
 
         var markers = new L.MarkerClusterGroup();
 
-        var runLayer = omnivore.kml('" . Url::to(['kml/focos', 'clienteId' => $cliente->id, 'informacaoPublica' => true]) . "')
+        var runLayer = omnivore.kml('" . Url::to(['/kml/focos', 'clienteId' => $cliente->id, 'informacaoPublica' => true]) . "')
         .on('ready', function() {
             this.eachLayer(function(marker) {
 
@@ -148,7 +148,7 @@ if ($municipio->latitude && $municipio->longitude) {
 
         function verificaAreaTratamento(lat, lon) {
 
-            $.getJSON('" . Url::to(['cidade/is-area-tratamento', 'id' => $cliente->id]) . "&lat=' + lat + '&lon=' + lon, function(data) {
+            $.getJSON('" . Url::to(['/cidade/is-area-tratamento', 'id' => $cliente->id]) . "&lat=' + lat + '&lon=' + lon, function(data) {
 
                 if(data.isAreaTratamento == true) {
                     $.toast({
