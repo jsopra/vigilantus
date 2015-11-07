@@ -1,4 +1,5 @@
 <?php
+use app\models\Configuracao;
 use app\helpers\models\MunicipioHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -8,7 +9,14 @@ $this->title = 'Ocorrências – ' . $municipio->nome . '/' . $municipio->sigla_
 $urlMunicipio = Url::to(['cidade/view', 'slug' => $municipio->slug], true);
 $descricaoPagina = 'Registrei uma ocorrência para a Secretaria de Saúde de ' . $municipio->nome . '/' . $municipio->sigla_estado . '. Seja a mudança na nossa cidade! Faça seu contato em ' .  $urlMunicipio;
 
-$this->registerMetaTag(['property' => 'og:image', 'content' => Url::to('/img/og-sharing-preview.jpg', true)]);
+
+$urlOcorrencia = Url::to('/' . $cliente->rotulo, true);
+
+$descricaoPagina = 'O ponto está em área de tratamento, denuncie qualquer irregularidade!. Seja a mudança na nossa cidade! Faça seu contato em ' .  $urlOcorrencia;
+
+$setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_SETOR_UTILIZA_FERRAMENTA, \Yii::$app->user->identity->cliente->id);
+
+$this->registerMetaTag(['property' => 'og:image', 'content' => Url::to('/img/og-sharing-map.jpg', true)]);
 $this->registerMetaTag(['property' => 'og:title', 'content' => 'Denuncie focos de mosquitos da dengue']);
 $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoPagina]);
 ?>
@@ -19,6 +27,10 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
         <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
     </a>
 </h1>
+
+<p class="text-center" style="font-weight: bold; font-size: 1.5em; color: #000;">
+   <?= Html::encode($setorUtiliza) ?>
+</p>
 
 <p class="text-center" style="line-height: 1.5em; color: #585858; font-size: 1.6em;">
     Contamos com a <font style="font-weight: bold; font-size: 1.05em; color: #000;">sua ajuda</font> para tornar o nosso <font style="font-weight: bold; font-size: 1.05em; color: #000;">município melhor!</font>

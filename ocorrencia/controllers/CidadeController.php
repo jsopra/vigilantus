@@ -77,8 +77,14 @@ class CidadeController extends Controller
         );
     }
 
-    public function actionMapaFocos($slug)
+    public function actionMapaFocos($slug, $lat = null , $lon = null)
     {
+        $emAreaTratamento = null;
+
+        if($lat && $lon) {
+            $emAreaTratamento = FocoTransmissor::isAreaTratamento($this->module->cliente->id, $lat, $lon);
+        }
+
         return $this->render(
             'mapa-focos',
             [
@@ -88,6 +94,9 @@ class CidadeController extends Controller
                     Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA,
                     $this->module->cliente->id
                 ),
+                'lat' => $lat,
+                'lon' => $lon,
+                'emAreaTratamento' => $emAreaTratamento,
             ]
         );
     }
@@ -128,14 +137,14 @@ class CidadeController extends Controller
         );
     }
 
-    public function actionIsAreaTratamento($id, $lat, $lon)
+    public function actionIsAreaTratamento($slug, $lat, $lon)
     {
-        echo Json::encode(['isAreaTratamento' => FocoTransmissor::isAreaTratamento($this->getCliente()->id, $lat, $lon)]);
+        echo Json::encode(['isAreaTratamento' => FocoTransmissor::isAreaTratamento($this->module->cliente->id, $lat, $lon)]);
     }
 
-    public function actionCoordenadaNaCidade($id, $lat, $lon)
+    public function actionCoordenadaNaCidade($slug, $lat, $lon)
     {
-        echo Json::encode(['coordenadaNaCidade' => $this->getCliente()->municipio->coordenadaNaCidade($lat, $lon)]);
+        echo Json::encode(['coordenadaNaCidade' => $this->module->municipio->coordenadaNaCidade($lat, $lon)]);
     }
 
     public function actionComprovanteOcorrencia($slug, $hash)
