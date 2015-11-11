@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'bairro_quarteirao_id',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return $model->bairroQuarteirao->numero_sequencia;
+                    return Html::encode($model->bairroQuarteirao->numero_sequencia);
                 },
                 'options' => ['style' => 'width: 10%']
             ],
@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Bairro',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return $model->bairroQuarteirao->bairro->nome;
+                    return Html::encode($model->bairroQuarteirao->bairro->nome);
                 },
                 'options' => ['style' => 'width: 10%']
             ],
@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'imovel_id',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return $model->imovel ? ImovelHelper::getEnderecoCompleto($model->imovel) : 'Vinculado à Quarteirão';
+                    return $model->imovel ? Html::encode(ImovelHelper::getEnderecoCompleto($model->imovel)) : 'Vinculado à Quarteirão';
                 },
                 'options' => ['style' => 'width: 15%']
             ],
@@ -70,14 +70,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'tipo_deposito_id',
                 'filter' => DepositoTipo::listData('descricao'),
                 'value' => function ($model, $index, $widget) {
-                    return $model->tipoDeposito->sigla ? $model->tipoDeposito->sigla : $model->tipoDeposito->descricao;
+                    return $model->tipoDeposito->sigla ? Html::encode($model->tipoDeposito->sigla) : Html::encode($model->tipoDeposito->descricao);
                 }
             ],
             [
                 'attribute' => 'especie_transmissor_id',
                 'filter' => EspecieTransmissor::listData('nome'),
                 'value' => function ($model, $index, $widget) {
-                    return $model->especieTransmissor->nome;
+                    return Html::encode($model->especieTransmissor->nome);
                 }
             ],
             [
@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model, $index, $widget) {
                     $str = '';
                     foreach(['data_entrada', 'data_exame', 'data_coleta'] as $item) {
-                        $str .= Html::tag('p', '<strong>' . $model->getAttributeLabel($item) . ':</strong> ' . $model->getFormattedAttribute($item));
+                        $str .= Html::tag('p', '<strong>' . Html::encode($model->getAttributeLabel($item)) . ':</strong> ' . Html::encode($model->getFormattedAttribute($item)));
                     }
                     return $str;
                 },
@@ -100,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model, $index, $widget) {
                     $str = '';
                     foreach(['quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'] as $item) {
-                        $str .= Html::tag('p', '<strong>' . $model->getAttributeLabel($item) . ':</strong> ' . $model->$item);
+                        $str .= Html::tag('p', '<strong>' . Html::encode($model->getAttributeLabel($item)) . ':</strong> ' . Html::encode($model->$item));
                     }
                     return $str;
                 },

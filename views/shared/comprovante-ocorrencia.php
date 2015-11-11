@@ -30,12 +30,12 @@ $municipio = $model->cliente->municipio;
     </tr>
     <tr>
         <td><strong><?= Html::activeLabel($model, 'bairro_id'); ?></strong>: <?php echo $model->bairro->nome; ?></td>
-        <td><strong><?= Html::activeLabel($model, 'bairro_quarteirao_id'); ?></strong>: <?= $model->bairro_quarteirao_id ? $model->bairroQuarteirao->numero_quarteirao : null; ?></td>
+        <td><strong><?= Html::activeLabel($model, 'bairro_quarteirao_id'); ?></strong>: <?= $model->bairro_quarteirao_id ? Html::encode($model->bairroQuarteirao->numero_quarteirao) : Html::encode(null); ?></td>
     </tr>
     <tr>
         <td><strong><?= Html::activeLabel($model, 'tipo_imovel'); ?></strong>: <?= \app\models\OcorrenciaTipoImovel::getDescricao($model->tipo_imovel); ?></td>
 
-        <td><strong><?= Html::activeLabel($model, 'ocorrencia_tipo_problema_id'); ?></strong>: <?= $model->ocorrencia_tipo_problema_id ? $model->ocorrenciaTipoProblema->nome : null; ?></td>
+        <td><strong><?= Html::activeLabel($model, 'ocorrencia_tipo_problema_id'); ?></strong>: <?= $model->ocorrencia_tipo_problema_id ? Html::encode($model->ocorrenciaTipoProblema->nome) : Html::encode(null); ?></td>
     </tr>
 
     <?php if($model->pontos_referencia) : ?>
@@ -55,7 +55,7 @@ $municipio = $model->cliente->municipio;
 
     <tr>
         <td colspan="2">
-            <strong>Anexo</strong>: <?= $model->anexo ? 'Sim' : 'Não'; ?>
+            <strong>Anexo</strong>: <?= $model->anexo ? Html::encode('Sim') : Html::encode('Não'); ?>
         </td>
     </tr>
 

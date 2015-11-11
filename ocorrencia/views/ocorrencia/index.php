@@ -133,7 +133,7 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
 			[
                 'attribute' => 'bairro_id',
                 'value' => function ($model, $index, $widget) {
-                    return $model->bairro ? $model->bairro->nome : null;
+                    return $model->bairro ? Html::encode($model->bairro->nome) : null;
                 }
             ],
             [

@@ -10,7 +10,7 @@ $this->title = 'Municípios';
     <?php foreach ($batch as $municipio) : ?>
     <div class="col-sm-6">
         <?= Html::a(
-            $municipio->nome . ' - ' . $municipio->sigla_estado,
+            Html::encode($municipio->nome . ' - ' . $municipio->sigla_estado),
             Url::to(['/ocorrencia/cidade/view', 'slug' => $municipio->slug])
         ) ?>
     </div>

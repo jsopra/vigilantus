@@ -54,13 +54,13 @@ use app\models\OcorrenciaStatus;
         [
             'attribute' => 'agente_id',
             'value' => function ($model, $index, $widget) {
-                return $model->agente_id ? $model->agente->nome : null;
+                return $model->agente_id ? Html::encode($model->agente->nome) : null;
             }
         ],
         [
             'attribute' => 'usuario_id',
             'value' => function ($model, $index, $widget) {
-                return $model->usuario_id ? $model->usuario->nome : null;
+                return $model->usuario_id ? Html::encode($model->usuario->nome) : null;
             }
         ],
     ],

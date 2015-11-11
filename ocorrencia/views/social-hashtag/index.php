@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'termo',
                 'value' => function ($model, $index, $widget) {
-                    return '#' . $model->termo;
+                    return '#' . Html::encode($model->termo);
                 },
             ],
 			'ativo:boolean',

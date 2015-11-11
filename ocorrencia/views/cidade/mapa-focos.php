@@ -11,7 +11,7 @@ use app\models\redis\FocosAtivos;
 use yii\helpers\Json;
 use app\helpers\models\MunicipioHelper;
 
-$this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
+$this->title = 'Focos em ' . Html::encode($municipio->nome . '/' . $municipio->sigla_estado);
 
 $setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_SETOR_UTILIZA_FERRAMENTA, \Yii::$app->user->identity->cliente->id);
 

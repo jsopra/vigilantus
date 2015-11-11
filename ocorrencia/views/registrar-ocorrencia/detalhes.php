@@ -8,7 +8,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\widgets\MaskedInput;
 
-$this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $municipio->nome . '/' . $municipio->sigla_estado;
+$this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . Html::encode($municipio->nome . '/' . $municipio->sigla_estado);
 ?>
 
 <?= $this->render('_header', ['municipio' => $municipio, 'cliente' => $cliente, 'activeTab' => $activeTab]); ?>

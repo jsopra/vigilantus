@@ -23,7 +23,7 @@ echo GridView::widget([
         [
             'header' => 'Bairro',
             'value' => function ($model, $index, $widget) {
-                return $model->bairro->nome;
+                return Html::encode($model->bairro->nome);
             },
         ],
         'numero_quarteirao',
@@ -33,7 +33,7 @@ echo GridView::widget([
             'iconClass' => 'icon-search opacity50',
             'modalId' => 'focos-detalhes',
             'modalAjaxContent' => function ($model, $index, $widget) {
-                return Url::toRoute(array('relatorio/focos-area-tratamento', 'idQuarteirao' => $model->id));
+                return Url::toRoute(array('relatorio/focos-area-tratamento', 'idQuarteirao' => Html::encode($model->id)));
             },
             'requestType' => 'GET',
             'header' => 'Focos relacionados ao Quarteirão',

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\select2\Select2;
 
-$this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $municipio->nome . '/' . $municipio->sigla_estado;
+$this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . Html::encode($municipio->nome . '/' . $municipio->sigla_estado);
 ?>
 
 <?= $this->render('_header', ['municipio' => $municipio, 'cliente' => $cliente, 'activeTab' => $activeTab]); ?>
