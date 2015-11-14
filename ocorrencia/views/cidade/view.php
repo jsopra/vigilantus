@@ -9,10 +9,7 @@ $this->title = 'Ocorrências – ' . $municipio->nome . '/' . $municipio->sigla_
 $urlMunicipio = Url::to(['cidade/view', 'slug' => $municipio->slug], true);
 $descricaoPagina = 'Registrei uma ocorrência para a Secretaria de Saúde de ' . $municipio->nome . '/' . $municipio->sigla_estado . '. Seja a mudança na nossa cidade! Faça seu contato em ' .  $urlMunicipio;
 
-
-$urlOcorrencia = Url::to('/' . $cliente->rotulo, true);
-
-$descricaoPagina = 'O ponto está em área de tratamento, denuncie qualquer irregularidade!. Seja a mudança na nossa cidade! Faça seu contato em ' .  $urlOcorrencia;
+$descricaoPagina = 'O ponto está em área de tratamento, denuncie qualquer irregularidade!. Seja a mudança na nossa cidade! Faça seu contato em ' .  $urlMunicipio;
 
 $setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_SETOR_UTILIZA_FERRAMENTA, \Yii::$app->user->identity->cliente->id);
 
