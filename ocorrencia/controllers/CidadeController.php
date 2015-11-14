@@ -33,6 +33,7 @@ class CidadeController extends Controller
         $municipio = $this->module->municipio;
         $cliente = Cliente::find()->doMunicipio($municipio->id)->one();
         $dataPrimeiraOcorrencia = null;
+        $setor = null;
         $percentualOcorrencias = 0;
 
         if ($cliente) {

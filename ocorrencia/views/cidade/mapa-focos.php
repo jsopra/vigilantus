@@ -16,8 +16,6 @@ $this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
 $urlOcorrencia = Url::to('/' . $municipio->slug . '/mapa-focos-dengue', true);
 $urlCompartilhar = Url::to('/' . $municipio->slug . '/mapa-focos-dengue', true);
 
-$setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_SETOR_UTILIZA_FERRAMENTA, $cliente->id);
-
 MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omnivore', 'markercluster']);
 
 $this->registerMetaTag(['property' => 'og:image', 'content' => Url::to('/img/og-sharing-map.jpg', true)]);
@@ -40,9 +38,11 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $tratamento
     </a>
 </h1>
 
+<?php if ($setor = $municipio->getSetorResponsavel()) : ?>
 <p class="text-center" style="font-weight: bold; font-size: 1.5em; color: #000;">
-    <?= Html::encode($setorUtiliza) ?>
+    <?= Html::encode($setor) ?>
 </p>
+<?php endif; ?>
 
 <a name="sharetext"></a>
 

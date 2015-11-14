@@ -11,8 +11,6 @@ $descricaoPagina = 'Registrei uma ocorrência para a Secretaria de Saúde de ' .
 
 $descricaoPagina = 'O ponto está em área de tratamento, denuncie qualquer irregularidade!. Seja a mudança na nossa cidade! Faça seu contato em ' .  $urlMunicipio;
 
-$setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_SETOR_UTILIZA_FERRAMENTA, \Yii::$app->user->identity->cliente->id);
-
 $this->registerMetaTag(['property' => 'og:image', 'content' => Url::to('/img/og-sharing-map.jpg', true)]);
 $this->registerMetaTag(['property' => 'og:title', 'content' => 'Denuncie focos de mosquitos da dengue']);
 $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoPagina]);
@@ -23,8 +21,8 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
     <a href="<?= Url::to(['view', 'slug' => $municipio->slug]); ?>">
         <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
     </a>
-    <?php if ($setorUtiliza) : ?>
-    <small><?= Html::encode($setorUtiliza) ?></small>
+    <?php if ($setor = $municipio->getSetorResponsavel()) : ?>
+    <small><?= Html::encode($setor) ?></small>
     <?php endif; ?>
 </h1>
 

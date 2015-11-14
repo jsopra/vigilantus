@@ -258,6 +258,20 @@ class Municipio extends ActiveRecord
         return $result;
     }
 
+    /**
+     * Nome do setor responsável pelo uso do sistema.
+     * @return string|null nome do setor.
+     */
+    public function getSetorResponsavel()
+    {
+        if ($this->cliente) {
+            return Configuracao::getValorConfiguracaoParaCliente(
+                Configuracao::ID_SETOR_UTILIZA_FERRAMENTA,
+                $this->cliente->id
+            );
+        }
+    }
+
     public function coordenadaNaCidade($lat, $lon)
     {
         $query = "
