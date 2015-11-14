@@ -17,6 +17,7 @@ $setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(
         <a href="<?= Url::to(['cidade/view', 'slug' => $municipio->slug]); ?>">
             <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
         </a>
+
         <?php if ($setorUtiliza) : ?>
         <small><?= Html::encode($setorUtiliza) ?></small>
         <?php endif; ?>

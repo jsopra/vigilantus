@@ -13,9 +13,24 @@ use app\helpers\models\MunicipioHelper;
 
 $this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
 
-$setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_SETOR_UTILIZA_FERRAMENTA, \Yii::$app->user->identity->cliente->id);
+$urlOcorrencia = Url::to('/' . $municipio->slug . '/mapa-focos-dengue', true);
+$urlCompartilhar = Url::to('/' . $municipio->slug . '/mapa-focos-dengue', true);
+
+$setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_SETOR_UTILIZA_FERRAMENTA, $cliente->id);
 
 MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omnivore', 'markercluster']);
+
+$this->registerMetaTag(['property' => 'og:image', 'content' => Url::to('/img/og-sharing-map.jpg', true)]);
+$this->registerMetaTag(['property' => 'og:title', 'content' => 'Denuncie focos de mosquitos da dengue']);
+
+$tratamentoMessage = 'Verifique se o local onde você mora';
+if($emAreaTratamento === false) {
+    $tratamentoMessage = 'Meu local não';
+} else if ($emAreaTratamento === true) {
+    $tratamentoMessage = 'Meu local';
+}
+
+$this->registerMetaTag(['property' => 'og:description', 'content' => $tratamentoMessage . ' está em área de tratamento de Dengue. Denuncie qualquer irregularidade! Seja a mudança na nossa cidade! Faça seu contato em ' . $urlOcorrencia]);
 ?>
 
 <h1 class="text-center">
@@ -29,6 +44,8 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
     <?= Html::encode($setorUtiliza) ?>
 </p>
 
+<a name="sharetext"></a>
+
 <p class="text-center bloco-botoes-ocorrencias">
     <a href="<?= Url::to(['registrar-ocorrencia/index', 'slug' => $municipio->slug]) ?>" class="btn btn-danger btn-lg">
         <i class="fa fa-plus"></i>
@@ -39,6 +56,18 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
         acompanhar ocorrência
     </a>
 </p>
+
+
+
+<div class="texto-compartilhar alert alert-info" style="display:none">
+    <p class="text-center" style="line-height: 1.8em; color: #CC0000; font-size: 2em;">
+        <span id="texto-compartilhar-frase"> O ponto está em área de tratamento! Denuncie qualquer irregularidade!</span>
+        <div class="text-center">
+            <div class="fb-share-button" data-href="<?= $urlOcorrencia ?>" data-layout="button"></div>
+            <div id="tweetButton" style="display: inline"></div>
+        </div>
+    </p>
+</div>
 
 <p class="text-center" style="line-height: 1.8em; color: #585858; font-size: 2em;">
     Os transmissores da <span style="color: #CC0000; font-size: 1.2em;">Dengue e da Chikungunya</span> vivem perto de você?
@@ -60,6 +89,7 @@ $municipio->loadCoordenadas();
 if ($municipio->latitude && $municipio->longitude) {
 
     $javascript = "
+
         var layers = document.getElementById('menu-ui');
 
         var line_points = " . Json::encode([]) . ";
@@ -75,37 +105,27 @@ if ($municipio->latitude && $municipio->longitude) {
 		var search;
 
         map.setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13);
+    ";
 
-        $.geolocation(
-            function (lat, lng) {
+    if(!$lat || !$lon) {
+        $javascript .= "
 
-                $.getJSON('" . Url::to(['cidade/coordenada-na-cidade', 'id' => $cliente->id]) . "&lat=' + lat + '&lon=' + lng, function(data) {
-                    if(data.coordenadaNaCidade) {
+            $.geolocation(
+                function (lat, lng) {
+                    verificaCoordenadaCidade(lat, lng);
+                },
+                function (error) {
+                    map.setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13);
+                }
+            );
+        ";
+    } else {
+        $javascript .= "
+            verificaCoordenadaCidade(" . $lat . ", " . $lon . ");
+        ";
+    }
 
-                        map.setView([lat , lng], 15);
-                        search = L.marker([lat, lng]).addTo(featureGroup);
-                        verificaAreaTratamento(lat, lng);
-
-                    } else {
-                        map.setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13);
-
-                        $.toast({
-                            heading: 'Fora da cidade',
-                            text: 'Você não está nesta cidade. Sua localização foi descartada.',
-                            position: 'top-right',
-                            stack: false,
-                            icon: 'info'
-                        });
-                    }
-                });
-
-
-            },
-            function (error) {
-                map.setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13);
-            }
-        );
-
+    $javascript .= "
 		var drawControl = new L.Control.Draw({
             position: 'topright',
 		    edit: false,
@@ -118,7 +138,7 @@ if ($municipio->latitude && $municipio->longitude) {
 		    }
 		}).addTo(map);
 
-        L.drawLocal.draw.handlers.marker.tooltip.start = 'Selecione um local e saiba se ele está em área de risco';
+        L.drawLocal.draw.handlers.marker.tooltip.start = 'Selecione um local e saiba se ele está em área de tratamento da Dengue';
 
         var markerDrawer = new L.Draw.Marker(map, drawControl.options.marker);
 
@@ -135,7 +155,7 @@ if ($municipio->latitude && $municipio->longitude) {
 
         var markers = new L.MarkerClusterGroup();
 
-        var runLayer = omnivore.kml('" . Url::to(['kml/focos', 'clienteId' => $cliente->id, 'informacaoPublica' => true]) . "')
+        var runLayer = omnivore.kml('" . Url::to(['/kml/focos', 'clienteId' => $cliente->id, 'informacaoPublica' => true]) . "')
         .on('ready', function() {
             this.eachLayer(function(marker) {
 
@@ -155,24 +175,12 @@ if ($municipio->latitude && $municipio->longitude) {
 
         function verificaAreaTratamento(lat, lon) {
 
-            $.getJSON('" . Url::to(['cidade/is-area-tratamento', 'id' => $cliente->id]) . "&lat=' + lat + '&lon=' + lon, function(data) {
+            $.getJSON('" . Url::to(['/' . $municipio->slug . '/is-area-tratamento']) . "/' + lat + '/' + lon, function(data) {
 
                 if(data.isAreaTratamento == true) {
-                    $.toast({
-                        heading: 'Em área de risco!',
-                        text: 'O ponto está em área de tratamento! Denuncie qualquer irregularidade!',
-                        position: 'top-right',
-                        stack: false,
-                        icon: 'error'
-                    });
+                    mostraDivCompartilhar('O ponto está em área de tratamento! Denuncie qualquer irregularidade!', 'Achei um local em área de tratamento de Dengue. Denuncie em', lat, lon);
                 } else {
-                    $.toast({
-                        heading: 'Fora de área de risco',
-                        text: 'O ponto não está em área de tratamento!',
-                        position: 'top-right',
-                        stack: false,
-                        icon: 'info'
-                    });
+                    mostraDivCompartilhar('O ponto não está em área de tratamento!', 'Achei um local que não está em área de tratamento de Dengue. Denuncie em', lat, lon);
                 }
             });
         }
@@ -195,8 +203,44 @@ if ($municipio->latitude && $municipio->longitude) {
 
             layers.appendChild(link);
         }
-    ";
 
+        function mostraDivCompartilhar(texto, textoTwitter, lat, lon) {
+            var urlCompartilhar = '" . $urlCompartilhar . "/' + parseFloat(lat).toFixed(4) + '/' + parseFloat(lon).toFixed(4);
+            tweetButton(urlCompartilhar, textoTwitter);
+            $('fb-share-button').attr('data-href', urlCompartilhar);
+
+            $('#texto-compartilhar-frase').text(texto);
+            $('.texto-compartilhar').show();
+            window.location.href = '#sharetext';
+        }
+
+        function tweetButton(url, text) {
+            $('#tweetButton').html('<a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-url=\"'+url+'\" data-text=\"'+text+'\" data-count=\"none\" data-lang=\"pt\">Tweet</a>');
+            twttr.widgets.load();
+        }
+
+        function verificaCoordenadaCidade(lat, lng) {
+
+            $.getJSON('" . Url::to(['/' . $municipio->slug . '/coordenada-na-cidade']) . "/' + lat + '/' + lng, function(data) {
+                    if(data.coordenadaNaCidade) {
+
+                        map.setView([lat , lng], 15);
+                        search = L.marker([lat, lng]).addTo(featureGroup);
+                        verificaAreaTratamento(lat, lng);
+
+                    } else {
+                        map.setView([" . $municipio->latitude . " , " . $municipio->longitude . "], 13);
+                        $.toast({
+                            heading: 'Fora da cidade',
+                            text: 'Você não está nesta cidade. Sua localização foi descartada.',
+                            position: 'top-right',
+                            stack: false,
+                            icon: 'info'
+                        });
+                    }
+            });
+        }
+    ";
     $this->registerJs($javascript);
 }
 ?>

@@ -19,7 +19,10 @@ class Bootstrap implements BootstrapInterface
             "{$slug}/ocorrencias/<hash>/comprovante" => 'ocorrencia/cidade/comprovante-ocorrencia',
             "{$slug}/ocorrencias/<hash>" => 'ocorrencia/cidade/acompanhar-ocorrencia',
             "{$slug}/ocorrencias/acompanhar" => 'ocorrencia/cidade/acompanhar-ocorrencia',
+            "{$slug}/mapa-focos-dengue/<lat>/<lon>" => 'ocorrencia/cidade/mapa-focos',
             "{$slug}/mapa-focos-dengue" => 'ocorrencia/cidade/mapa-focos',
+            "{$slug}/is-area-tratamento/<lat>/<lon>" => 'ocorrencia/cidade/is-area-tratamento',
+            "{$slug}/coordenada-na-cidade/<lat>/<lon>" => 'ocorrencia/cidade/coordenada-na-cidade',
         ];
         $append = false;
         $app->getUrlManager()->addRules($rules, $append);

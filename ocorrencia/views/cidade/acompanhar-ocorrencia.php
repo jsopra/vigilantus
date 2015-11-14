@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\Html;
-use app\models\Configuracao;
 use app\widgets\GridView;
 use app\models\OcorrenciaHistoricoTipo;
 use app\models\OcorrenciaStatus;
@@ -12,47 +11,39 @@ use yii\helpers\Url;
 $this->title = 'Detalhes de Ocorrência #' . $model->protocolo;
 $this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['view', 'slug' => $municipio->slug]];
 $this->params['breadcrumbs'][] = 'Detalhes';
-
-$setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_SETOR_UTILIZA_FERRAMENTA, \Yii::$app->user->identity->cliente->id);
+?>
+<div class="row">
+    <div class="col-md-6">
+        <h1>
+            <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
+            <a href="<?= Url::to(['view', 'slug' => $municipio->slug]); ?>">
+                <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
+            </a>
+        </h1>
+    </div>
+    <div class="col-md-6" style="margin-top: 1em;">
+        <?= Html::a(
+            '<i class="glyphicon glyphicon-download-alt"></i> baixar comprovante',
+            Url::to(['comprovante-ocorrencia', 'slug' => $municipio->slug, 'hash' => $model->hash_acesso_publico]),
+            ['class' => 'btn btn-primary pull-right']
+        );
+        ?>
+    </div>
+</div>
+<?php
+$urlOcorrencia = Url::to(['view', 'slug' => $municipio->slug], true);
+$descricaoTweet = 'Registrei uma ocorrência para a Sec. de Saúde de ' . $municipio->nome . '. Seja a mudança da sua cidade! Faça seu contato em';
 ?>
 <div class="ocorrencia-detalhes">
-    <div class="row">
-        <div class="col-md-6 col-lg-8">
-            <h1>
-                <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
-                <a href="<?= Url::to(['view', 'slug' => $municipio->slug]); ?>">
-                    <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
-                </a>
-                <?php if ($setorUtiliza) : ?>
-                <small><?= Html::encode($setorUtiliza) ?></small>
-                <?php endif; ?>
-            </h1>
-            <?php
-            $urlOcorrencia = Url::to(['view', 'slug' => $municipio->slug], true);
-            $descricaoTweet = 'Registrei uma ocorrência para a Sec. de Saúde de ' . $municipio->nome . '. Seja a mudança da sua cidade! Faça seu contato em';
-            ?>
-            <h1 style="padding-bottom: 0; margin-bottom: 0.3em;">
-                Protocolo nº: <strong><?= $model->protocolo; ?></strong>
-                <?= Html::a(
-                    '<i class="glyphicon glyphicon-download-alt"></i> baixar comprovante',
-                    Url::to(['comprovante-ocorrencia', 'slug' => $municipio->slug, 'hash' => $model->hash_acesso_publico]),
-                    ['class' => 'btn btn-primary']
-                );
-                ?>
-            </h1>
-            <p class="muted">Anote o seu número de protocolo. Com ele você poderá acompanhar o andamento da ocorrência a qualquer momento.</p>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="text-center bloco-compartilhar-ocorrencia alert alert-info">
-                <p class="balance-text">Será que o seu vizinho também enfrenta algum problema?</p>
-                <p class="balance-text"><strong>Compartilhe</strong> e ajude-nos a divulgar, assim outras pessoas também podem contribuir para tornar a cidade melhor.</p>
-                <div class="bloco-botoes-compartilhar">
-                    <div class="fb-share-button" data-href="<?= $urlOcorrencia ?>" data-layout="button_count"></div>
-                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?= $urlOcorrencia ?>" data-text="<?= $descricaoTweet ?>" data-lang="pt">Tweetar</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1 style="padding-bottom: 0; margin-bottom: 0.3em;">Protocolo nº: <strong><?= $model->protocolo; ?></strong></h1>
+    <p style="color: #797979;"><strong>Anote o seu número de protocolo. Com ele você poderá acompanhar o andamento da ocorrência a qualquer momento.</strong></p>
+    <p>
+        <div class="fb-share-button" data-href="<?= $urlOcorrencia ?>" data-layout="button_count"></div>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?= $urlOcorrencia ?>" data-text="<?= $descricaoTweet ?>" data-lang="pt">Tweetar</a>
+    </p>
+
+    <br />
+
     <?php
     echo Tabs::widget([
         'items' => [
