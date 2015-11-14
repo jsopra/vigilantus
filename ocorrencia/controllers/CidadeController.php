@@ -68,19 +68,25 @@ class CidadeController extends Controller
     {
         $emAreaTratamento = null;
 
-        if($lat && $lon) {
+        if ($lat && $lon) {
             $emAreaTratamento = FocoTransmissor::isAreaTratamento($this->module->cliente->id, $lat, $lon);
+        }
+
+        $qtdeDias = 360;
+
+        if ($this->module->municipio->cliente) {
+            $qtdeDias = Configuracao::getValorConfiguracaoParaCliente(
+                Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA,
+                $this->module->cliente->id
+            );
         }
 
         return $this->render(
             'mapa-focos',
             [
-                'cliente' => $this->module->cliente,
+                'cliente' => $this->module->municipio->cliente,
                 'municipio' => $this->module->municipio,
-                'qtdeDias' => Configuracao::getValorConfiguracaoParaCliente(
-                    Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA,
-                    $this->module->cliente->id
-                ),
+                'qtdeDias' => $qtdeDias,
                 'lat' => $lat,
                 'lon' => $lon,
                 'emAreaTratamento' => $emAreaTratamento,

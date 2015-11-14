@@ -54,6 +54,7 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
 </div>
 <?php endif; ?>
 
+<?php if ($municipio->cliente) : ?>
 <div class="panel panel-default text-center">
     <div class="panel-heading mapa-focos-chamada">
         <p>
@@ -68,3 +69,4 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
         </p>
     </div>
 </div>
+<?php endif; ?>
