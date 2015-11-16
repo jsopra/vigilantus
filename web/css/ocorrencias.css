@@ -59,6 +59,12 @@
   font-size: 22px;
 }
 
+.bloco-legenda-mapa {
+  line-height: 1.8em;
+  color: #585858;
+  font-size: 1.4em;
+}
+
 #map {
   height: 300px;
   margin-bottom: 1em;

@@ -194,7 +194,7 @@ if ($municipio->latitude && $municipio->longitude) {
 }
 ?>
 <div class="well">
-    <p style="line-height: 1.8em; color: #585858; font-size: 1.4em;">Legenda</p>
+    <p class="bloco-legenda-mapa">Legenda</p>
     <table class="table table-hover">
         <tr>
             <td style="width: 90px" align="center"><img src="/img/estouaqui.png"></td>
