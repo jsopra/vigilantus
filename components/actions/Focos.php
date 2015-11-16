@@ -25,7 +25,8 @@ class Focos extends Action
 
         if($queryString) {
             $strFoco = "b.nome || ' - Quarteirão nº ' || bq.numero_quarteirao";
-            $query->andWhere($strFoco . ' ILIKE \'' . $queryString . '%\'');
+            $query->andWhere('numero_quarteirao ILIKE :focos_string');
+            $query->addParams([':focos_string' => $queryString . '%']);
         }
 
         if($id) {

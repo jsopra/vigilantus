@@ -28,7 +28,8 @@ class BairroQuarteiroes extends Action
         $query = BairroQuarteirao::find()->doBairro($oBairro->id)->orderBy("numero_quarteirao ASC");
 
         if($queryString) {
-            $query->andWhere('numero_quarteirao ILIKE \'' . $queryString . '%\'');
+            $query->andWhere('numero_quarteirao ILIKE :bairroquarteirao_string OR numero_quarteirao_2 ILIKE :bairroquarteirao_string');
+            $query->addParams([':bairroquarteirao_string' => $queryString . '%']);
         }
 
         $quarteiroes = $query->all();
