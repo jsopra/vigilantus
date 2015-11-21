@@ -129,6 +129,7 @@ class Bairro extends ClienteActiveRecord
             'ultimo_mes_rg' => 'Último Mês com informações de RG',
             'ultimo_ano_rg' => 'Último Ano com informações de RG',
             'coordenadas_area' => 'Área',
+            'coordenadas_centro' => 'Coordenadas',
             'coordenadas' => 'Área',
             'coordenadasJson' => 'Área',
             'cliente_id' => 'Cliente',
@@ -203,35 +204,18 @@ class Bairro extends ClienteActiveRecord
         }
     }
 
+    /**
+     * Retorna o ponto central deste bairro, ou caso não haja a informação,
+     * retorna o ponto central do município.
+     * @return float[] longitude, latitude
+     */
     public function getCentro()
     {
-        $cacheKey = 'bairro_centro_' . $this->id;
-        $data = Yii::$app->cache->get($cacheKey);
-
-        if($data !== false) {
-            return $data;
+        if ($this->coordenadas_centro) {
+            return $this->wktToArray('Point', 'coordenadas_centro');
         }
-
-        $object = self::find()
-            ->select('ST_asText(ST_Centroid(coordenadas_area)) as centro')
-            ->where(['id' => $this->id])
-            ->one();
-
-        if(!$object instanceof self) {
-            return false;
-        }
-
-        if(strstr($object->centro, 'POINT') === false) {
-            return false;
-        }
-
-        $coordenadas = explode(" ", str_replace(['POINT(', ')'], '', $object->centro));
-        if(count($coordenadas) == 0) {
-            return false;
-        }
-
-        Yii::$app->cache->set($cacheKey, $coordenadas, null);
-
-        return $coordenadas;
+        $municipio = $this->municipio;
+        $municipio->loadCoordenadas();
+        return [$municipio->longitude, $municipio->latitude];
     }
 }

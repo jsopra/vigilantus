@@ -34,7 +34,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
 
         <div class="row">
             <?php
-            $bairros = $municipio->getBairros()->comQuarteiroes()->orderBy('nome')->all();
+            $bairros = $municipio->getBairros()->orderBy('nome')->all();
             echo $form->field($model, 'bairro_id')->widget(
                 Select2::classname(),
                 [

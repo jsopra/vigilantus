@@ -11,7 +11,7 @@ use yii\widgets\MaskedInput;
 $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $municipio->nome . '/' . $municipio->sigla_estado;
 ?>
 
-<?= $this->render('_header', ['municipio' => $municipio, 'cliente' => $cliente, 'activeTab' => $activeTab]); ?>
+<?= $this->render('_header', ['municipio' => $municipio, 'activeTab' => $activeTab]); ?>
 
 <div class="bloco-etapa-registro-ocorrencia">
     <h2>Dê <strong>detalhes</strong> que ajudem a <strong>entender</strong> a situação</h2>
@@ -20,7 +20,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
 
     <div class="row">
         <?php
-        $tipos = OcorrenciaTipoProblema::find()->doCliente($cliente->id)->ativos()->orderBy('nome')->all();
+        $tipos = OcorrenciaTipoProblema::find()->doCliente($municipio->cliente->id)->ativos()->orderBy('nome')->all();
 
         echo $form->field($model, 'ocorrencia_tipo_problema_id')
             ->label('Problema:')
