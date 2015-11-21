@@ -128,8 +128,6 @@ class m151031_172938_importa_latitude_longitude_municipios_brasileiros extends M
     protected function findMunicipio($nome, $uf)
     {
         $command = $this->db->createCommand(
-            // "SELECT * FROM municipios WHERE nome = :nome AND sigla_estado = :uf",
-            // [':nome' => $nome, ':uf' => $uf]
             "SELECT * FROM municipios WHERE slug = :slug",
             [':slug' => Inflector::slug($nome . ' ' . $uf)]
         );

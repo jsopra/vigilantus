@@ -55,7 +55,7 @@ class Bairro extends ClienteActiveRecord
             [['ultimo_mes_rg', 'ultimo_ano_rg'], 'required', 'on' => 'setAtualizacaoRG'],
             ['nome', 'unique', 'compositeWith' => 'municipio_id'],
             [['municipio_id', 'bairro_categoria_id', 'ultimo_mes_rg', 'ultimo_ano_rg', 'cliente_id'], 'integer'],
-            ['coordenadas', 'required', 'on' => ['insert','update']],
+            ['coordenadas', 'required', 'on' => ['insert', 'update']],
             [['coordenadasJson'], 'string'],
             ['coordenadas_area', 'safe'],
         );
