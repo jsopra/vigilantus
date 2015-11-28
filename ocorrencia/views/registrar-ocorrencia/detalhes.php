@@ -18,6 +18,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
 
     <?php $form = ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data']]); ?>
 
+    <?php if ($municipio->cliente) : ?>
     <div class="row">
         <?php
         $tipos = OcorrenciaTipoProblema::find()->doCliente($municipio->cliente->id)->ativos()->orderBy('nome')->all();
@@ -28,9 +29,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
             Select2::classname(),
             [
                 'data' => ['0' => ''] + ArrayHelper::map($tipos, 'id', 'nome') + ['' => 'Outros'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
+                'pluginOptions' => ['allowClear' => true],
             ]
         );
         ?>
@@ -39,6 +38,20 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $munic
     <div class="row" id="bloco-outro-tipo-problema">
         <?= $form->field($model, 'descricao_outro_tipo_problema')->label('Descreva o problema') ?>
     </div>
+
+    <?php else : ?>
+    <div class="row" id="bloco-outro-tipo-problema">
+        <?= $form->field($model, 'descricao_outro_tipo_problema')
+            ->label('Problema:')
+            ->widget(
+            Select2::classname(),
+            [
+                'data' => ['' => ''] + OcorrenciaTipoProblema::getTiposPadrao(),
+                'pluginOptions' => ['allowClear' => true],
+            ]
+        ) ?>
+    </div>
+    <?php endif; ?>
 
     <div class="row">
         <?= $form->field($model, 'tipo_registro')->dropDownList(Ocorrencia::getTiposRegistros()) ?>

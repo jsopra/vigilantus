@@ -105,4 +105,41 @@ class OcorrenciaTipoProblema extends ClienteActiveRecord
 	{
 		return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
 	}
+
+	/**
+	 * Tipos de problemas padrão para municípios que não cadastraram seus
+	 * próprios tipos personalizados na tabela. Esses valores são preenchido
+	 * no campo "outro_tipo_problema" das ocorrências.
+	 * @return string[]
+	 */
+	public static function getTiposPadrao()
+	{
+		return [
+			'abelhas_vespas' => 'Abelhas e vespas',
+			'animais_perimetro_urbano' => 'Animais em perímetro urbano',
+			'aranhas_escorpioes_chilopodos' => 'Aranhas, escorpiões e Chilopodos',
+			'boca_lobo' => 'Boca de lobo',
+			'caixa_agua_tanque' => 'Caixas de água, tanques ...',
+			'calhas' => 'Calhas',
+			'canos_parabolica' => 'Canos de parabólica',
+			'construcoes_abandonadas' => 'Construções abandonadas',
+			'corujas' => 'Corujas',
+			'formigas' => 'Formigas',
+			'lages_com_agua' => 'Lages com água',
+			'lesmas_caracois' => 'Lesmas e caracóis',
+			'lixo' => 'Lixo',
+			'morcegos' => 'Morcegos',
+			'moscas_mosquitos' => 'Moscas e mosquitos',
+			'percevejos' => 'Percevejos',
+			'piscina_lago_artificial' => 'Piscina, lago artificial ...',
+			'pneus' => 'Pneus',
+			'pulgas_piolhos_bichos_de_pe' => 'Pulgas, piolhos e bichos-de-pé',
+			'roedores' => 'Roedores',
+			'saneamento' => 'Saneamento (fossa aberta, riacho ...)',
+			'serpentes' => 'Serpentes',
+			'sucatas_pecas' => 'Sucatas, peças, ...',
+			'taturanas_lagartas' => 'Taturanas e outras lagartas',
+			'terreno_abandonado' => 'Terreno abandonado',
+		];
+	}
 }

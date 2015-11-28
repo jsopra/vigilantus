@@ -37,6 +37,7 @@ class OcorrenciaForm extends Model
         'nome_original_anexo',
         'ocorrencia_tipo_problema_id',
         'mensagem',
+        'municipio_id',
         'cliente_id',
         'descricao_outro_tipo_problema',
         'tipo_registro',
@@ -47,6 +48,7 @@ class OcorrenciaForm extends Model
      */
     private $session_name = 'form-ocorrencia';
 
+    public $municipio_id;
     public $cliente_id;
     public $coordenadasJson;
 
@@ -108,8 +110,8 @@ class OcorrenciaForm extends Model
                 'skipOnError' => true,
                 'on' => self::SCENARIO_WIZARD_DETALHES,
             ],
-            [['cliente_id'], 'required', 'on' => self::SCENARIO_WIZARD_IDENTIFICACAO],
-            [['ocorrencia_tipo_problema_id', 'tipo_imovel', 'bairro_id', 'cliente_id'], 'integer'],
+            [['municipio_id'], 'required', 'on' => self::SCENARIO_WIZARD_IDENTIFICACAO],
+            [['ocorrencia_tipo_problema_id', 'tipo_imovel', 'bairro_id', 'cliente_id', 'municipio_id'], 'integer'],
             [['pontos_referencia', 'coordenadas', 'telefone', 'coordenadasJson', 'descricao_outro_tipo_problema'], 'safe'],
             ['email', 'email'],
             [['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'tipo_registro'], 'string'],
