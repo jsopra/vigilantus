@@ -110,7 +110,7 @@ class OcorrenciaForm extends Model
                 'skipOnError' => true,
                 'on' => self::SCENARIO_WIZARD_DETALHES,
             ],
-            [['municipio_id'], 'required', 'on' => self::SCENARIO_WIZARD_IDENTIFICACAO],
+            [['municipio_id', 'cliente_id'], 'required', 'on' => self::SCENARIO_WIZARD_IDENTIFICACAO],
             [['ocorrencia_tipo_problema_id', 'tipo_imovel', 'bairro_id', 'cliente_id', 'municipio_id'], 'integer'],
             [['pontos_referencia', 'coordenadas', 'telefone', 'coordenadasJson', 'descricao_outro_tipo_problema'], 'safe'],
             ['email', 'email'],

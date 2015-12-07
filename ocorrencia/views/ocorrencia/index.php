@@ -13,8 +13,8 @@ use yii\widgets\ActiveForm;
 $this->title = 'Ocorrências';
 $this->params['breadcrumbs'][] = $this->title;
 
-$diasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERDE, \Yii::$app->user->identity->cliente->id);
-$diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERMELHO, \Yii::$app->user->identity->cliente->id);
+$diasVerde = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERDE, Yii::$app->user->identity->cliente->id);
+$diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QUANTIDADE_DIAS_PINTAR_OCORRENCIA_VERMELHO, Yii::$app->user->identity->cliente->id);
 ?>
 <div class="ocorrencia-index">
 
@@ -31,7 +31,7 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                 </div>
 
                 <div class="col-xs-2">
-                    <?= $form->field($searchModel, 'bairro_id')->dropDownList(Bairro::listData('nome'), ['prompt' => 'Todos']) ?>
+                    <?= $form->field($searchModel, 'bairro_id')->dropDownList(Yii::$app->user->identity->cliente->getBairros()->listData('nome'), ['prompt' => 'Todos']) ?>
                 </div>
 
                 <div class="col-xs-2">
