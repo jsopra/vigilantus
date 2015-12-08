@@ -33,7 +33,6 @@ class RegistrarOcorrenciaController extends Controller
         return $this->render(
             'index',
             [
-                'cliente' => $this->module->cliente,
                 'municipio' => $this->module->municipio,
                 'model' => $model,
                 'activeTab' => 0
@@ -59,7 +58,6 @@ class RegistrarOcorrenciaController extends Controller
         return $this->render(
             'detalhes',
             [
-                'cliente' => $this->module->cliente,
                 'municipio' => $this->module->municipio,
                 'model' => $model,
                 'activeTab' => 1
@@ -74,7 +72,8 @@ class RegistrarOcorrenciaController extends Controller
 
         if (Yii::$app->request->post()) {
             $model->load(Yii::$app->request->post());
-            $model->cliente_id = $this->module->cliente->id;
+            $model->municipio_id = $this->module->municipio->id;
+            $model->cliente_id = $this->module->municipio->cliente ? $this->module->municipio->cliente->id : null;
             $model->scenario = OcorrenciaForm::SCENARIO_WIZARD_IDENTIFICACAO;
 
             if ($model->validate(OcorrenciaForm::SCENARIO_WIZARD_IDENTIFICACAO) && $model->persistSession()) {
@@ -90,7 +89,6 @@ class RegistrarOcorrenciaController extends Controller
         return $this->render(
             'identificacao',
             [
-                'cliente' => $this->module->cliente,
                 'municipio' => $this->module->municipio,
                 'model' => $model,
                 'activeTab' => 2
@@ -104,7 +102,7 @@ class RegistrarOcorrenciaController extends Controller
      */
     public function actionCoordenadasBairro($slug, $bairro_id)
     {
-        $bairro = $this->module->cliente->getBairros()->andWhere(['id' => $bairro_id])->one();
+        $bairro = $this->module->municipio->getBairros()->andWhere(['id' => $bairro_id])->one();
 
         if (!$bairro) {
             throw new HttpException(404, 'Bairro não encontrado.');

@@ -5,10 +5,10 @@ use yii\helpers\Url;
 $this->title = 'Municípios';
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
-<?php foreach ($query->batch(2) as $batch) : ?>
+<?php foreach ($query->batch(3) as $batch) : ?>
 <div class="row">
     <?php foreach ($batch as $municipio) : ?>
-    <div class="col-sm-6">
+    <div class="col-sm-4">
         <?= Html::a(
             $municipio->nome . ' - ' . $municipio->sigla_estado,
             Url::to(['/ocorrencia/cidade/view', 'slug' => $municipio->slug])

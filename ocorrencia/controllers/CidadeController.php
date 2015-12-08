@@ -24,50 +24,37 @@ class CidadeController extends Controller
     {
         return $this->render(
             'index',
-            ['query' => Municipio::find()->clientes()->porEstado()->ordemAlfabetica()]
+            ['query' => Municipio::find()->orderBy('sigla_estado, nome')]
         );
     }
 
     public function actionView($slug)
     {
-        $municipio = Municipio::find()->where(['slug' => $slug])->one();
+        $municipio = $this->module->municipio;
         $cliente = Cliente::find()->doMunicipio($municipio->id)->one();
+        $dataPrimeiraOcorrencia = null;
+        $setor = null;
+        $percentualOcorrencias = 0;
 
-        if (!$municipio) {
-            throw new HttpException(404, 'Município não encontrado');
+        if ($cliente) {
+            $dataPrimeiraOcorrencia = $cliente->data_cadastro;
         }
 
-        if (!$cliente) {
-            throw new HttpException(404, 'Município não utiliza o software');
-        }
+        $numeroOcorrenciasRecebidas = $municipio->getOcorrencias()->count();
+        $numeroOcorrenciasAtendidas = $municipio->getOcorrencias()->fechada()->count();
+        $primeiraOcorrencia = $municipio->getOcorrencias()->orderBy('data_criacao ASC')->limit(1)->one();
 
-        if (!$cliente->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
-            throw new HttpException(404, 'Município não recebe ocorrências por este canal');
+        if ($numeroOcorrenciasRecebidas) {
+            $percentualOcorrencias = $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100;
         }
-
-        $numeroOcorrenciasRecebidas = Ocorrencia::find()
-            ->doCliente($cliente)
-            ->count()
-        ;
-        $numeroOcorrenciasAtendidas = Ocorrencia::find()
-            ->doCliente($cliente)
-            ->fechada()
-            ->count()
-        ;
-        $primeiraOcorrencia = Ocorrencia::find()
-            ->doCliente($cliente)
-            ->orderBy('data_criacao ASC')
-            ->limit(1)
-            ->one()
-        ;
-        $percentualOcorrencias = $numeroOcorrenciasRecebidas ? $numeroOcorrenciasAtendidas / $numeroOcorrenciasRecebidas * 100 : 0;
-        $dataPrimeiraOcorrencia = $primeiraOcorrencia ? $primeiraOcorrencia->data_criacao : $cliente->data_cadastro;
+        if ($primeiraOcorrencia) {
+            $dataPrimeiraOcorrencia = $primeiraOcorrencia->data_criacao;
+        }
 
         return $this->render(
             'view',
             [
-                'cliente' => $cliente,
-                'municipio' => $cliente->municipio,
+                'municipio' => $municipio,
                 'numeroOcorrenciasRecebidas' => $numeroOcorrenciasRecebidas,
                 'percentualOcorrenciasAtendidas' => round($percentualOcorrencias),
                 'dataPrimeiraOcorrencia' => Yii::$app->formatter->asDate(
@@ -81,19 +68,25 @@ class CidadeController extends Controller
     {
         $emAreaTratamento = null;
 
-        if($lat && $lon) {
+        if ($lat && $lon) {
             $emAreaTratamento = FocoTransmissor::isAreaTratamento($this->module->cliente->id, $lat, $lon);
+        }
+
+        $qtdeDias = 360;
+
+        if ($this->module->municipio->cliente) {
+            $qtdeDias = Configuracao::getValorConfiguracaoParaCliente(
+                Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA,
+                $this->module->cliente->id
+            );
         }
 
         return $this->render(
             'mapa-focos',
             [
-                'cliente' => $this->module->cliente,
+                'cliente' => $this->module->municipio->cliente,
                 'municipio' => $this->module->municipio,
-                'qtdeDias' => Configuracao::getValorConfiguracaoParaCliente(
-                    Configuracao::ID_QUANTIDADE_DIAS_INFORMACAO_PUBLICA,
-                    $this->module->cliente->id
-                ),
+                'qtdeDias' => $qtdeDias,
                 'lat' => $lat,
                 'lon' => $lon,
                 'emAreaTratamento' => $emAreaTratamento,
@@ -103,7 +96,9 @@ class CidadeController extends Controller
 
     public function actionBuscarOcorrencia($slug, $hash = null)
     {
-        if ($this->getOcorrencia($hash, false)) {
+        $municipio = $this->module->municipio;
+        $ocorrencia = $this->getOcorrencia($hash, false);
+        if ($ocorrencia && $ocorrencia->municipio_id == $municipio->id) {
             return $this->redirect([
                 'acompanhar-ocorrencia',
                 'slug' => $slug,
@@ -114,8 +109,7 @@ class CidadeController extends Controller
         return $this->render(
             'buscar-ocorrencia',
             [
-                'cliente' => $this->module->cliente,
-                'municipio' => $this->module->municipio,
+                'municipio' => $municipio,
                 'hash' => $hash,
             ]
         );
@@ -124,12 +118,16 @@ class CidadeController extends Controller
     public function actionAcompanharOcorrencia($slug, $hash)
     {
         $model = $this->getOcorrencia($hash);
+        $municipio = $this->module->municipio;
+
+        if ($model->municipio_id != $municipio->id) {
+            throw new HttpException(404, 'Ocorrência não encontrada');
+        }
 
         return $this->render(
             'acompanhar-ocorrencia',
             [
-                'cliente' => $this->module->cliente,
-                'municipio' => $this->module->municipio,
+                'municipio' => $municipio,
                 'model' => $model,
                 'dataProvider' => new ActiveDataProvider(['query' => $model->getOcorrenciaHistoricos()]),
                 'historicos' => $model->getOcorrenciaHistoricos()->all(),

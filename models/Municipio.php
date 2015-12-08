@@ -94,6 +94,22 @@ class Municipio extends ActiveRecord
     }
 
     /**
+     * @return AtiveQuery
+     */
+    public function getOcorrencias()
+    {
+        return $this->hasMany(Ocorrencia::className(), ['municipio_id' => 'id']);
+    }
+
+    /**
+     * @return AtiveQuery
+     */
+    public function getBairros()
+    {
+        return $this->hasMany(Bairro::className(), ['municipio_id' => 'id']);
+    }
+
+    /**
      * Busca municípios
      * @param int $id Default is null
      * @return Cliente[]
@@ -240,6 +256,20 @@ class Municipio extends ActiveRecord
         }
 
         return $result;
+    }
+
+    /**
+     * Nome do setor responsável pelo uso do sistema.
+     * @return string|null nome do setor.
+     */
+    public function getSetorResponsavel()
+    {
+        if ($this->cliente) {
+            return Configuracao::getValorConfiguracaoParaCliente(
+                Configuracao::ID_SETOR_UTILIZA_FERRAMENTA,
+                $this->cliente->id
+            );
+        }
     }
 
     public function coordenadaNaCidade($lat, $lon)

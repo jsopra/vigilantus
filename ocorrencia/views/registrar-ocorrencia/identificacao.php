@@ -9,7 +9,7 @@ use kartik\select2\Select2;
 $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . $municipio->nome . '/' . $municipio->sigla_estado;
 ?>
 
-<?= $this->render('_header', ['municipio' => $municipio, 'cliente' => $cliente, 'activeTab' => $activeTab]); ?>
+<?= $this->render('_header', ['municipio' => $municipio, 'activeTab' => $activeTab]); ?>
 
 <div class="bloco-etapa-registro-ocorrencia">
     <h2>

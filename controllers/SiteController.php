@@ -146,14 +146,12 @@ class SiteController extends Controller
         $model = new LoginForm;
 
         if ($model->load($_POST) && $model->login()) {
-
             $model->user->ultimo_login = new Expression('NOW()');
             $model->user->update(false, ['ultimo_login']);
 
             return $this->goBack();
 
         } else {
-
             return $this->render('login', [
                     'model' => $model,
             ]);

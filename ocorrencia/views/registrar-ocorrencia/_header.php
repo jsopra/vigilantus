@@ -4,11 +4,6 @@ use app\models\Configuracao;
 use app\widgets\wizard\Wizard;
 use yii\helpers\Url;
 use yii\helpers\Html;
-
-$setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(
-    Configuracao::ID_SETOR_UTILIZA_FERRAMENTA,
-    Yii::$app->user->identity->cliente->id
-);
 ?>
 
 <header class="header-registro-ocorrencia">
@@ -18,8 +13,8 @@ $setorUtiliza = Configuracao::getValorConfiguracaoParaCliente(
             <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
         </a>
 
-        <?php if ($setorUtiliza) : ?>
-        <small><?= Html::encode($setorUtiliza) ?></small>
+        <?php if ($setor = $municipio->getSetorResponsavel()) : ?>
+        <small><?= Html::encode($setor) ?></small>
         <?php endif; ?>
     </h1>
     <p>

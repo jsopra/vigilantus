@@ -39,7 +39,7 @@ class OcorrenciaHistorico extends ClienteActiveRecord
 	{
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
-			[['cliente_id', 'ocorrencia_id', 'tipo'], 'required'],
+			[['ocorrencia_id', 'cliente_id', 'tipo'], 'required'],
 			[['cliente_id', 'ocorrencia_id', 'tipo', 'status_antigo', 'status_novo', 'usuario_id', 'agente_id'], 'integer'],
 			[['data_hora', 'data_associada'], 'safe'],
 			[['observacoes'], 'string'],
