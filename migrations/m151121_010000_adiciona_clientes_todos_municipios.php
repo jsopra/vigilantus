@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m151205_160857_adiciona_clientes_todos_municipios extends Migration
+class m151121_010000_adiciona_clientes_todos_municipios extends Migration
 {
     public function safeUp()
     {

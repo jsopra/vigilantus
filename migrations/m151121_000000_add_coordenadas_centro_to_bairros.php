@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m151121_155252_add_coordenadas_centro_to_bairros extends Migration
+class m151121_000000_add_coordenadas_centro_to_bairros extends Migration
 {
     public function safeUp()
     {
