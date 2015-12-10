@@ -6,6 +6,7 @@ use app\components\Controller;
 use app\helpers\models\OcorrenciaHelper;
 use app\models\Cliente;
 use app\models\Configuracao;
+use app\models\Estado;
 use app\models\Municipio;
 use app\models\Ocorrencia;
 use app\models\OcorrenciaHistorico;
@@ -20,11 +21,22 @@ use yii\web\UploadedFile;
 
 class CidadeController extends Controller
 {
-    public function actionIndex()
+    public function actionIndex($uf)
     {
+        $estado = Estado::findOne(['uf' => strtoupper($uf)]);
+
+        if (empty($estado)) {
+            throw new HttpException(404, 'Estado não encontrado.');
+        }
+
         return $this->render(
             'index',
-            ['query' => Municipio::find()->orderBy('sigla_estado, nome')]
+            [
+                'estado' => $estado,
+                'query' => Municipio::find()
+                    ->where(['sigla_estado' => strtoupper($uf)])
+                    ->orderBy('slug')
+            ]
         );
     }
 

@@ -10,8 +10,11 @@ class Bootstrap implements BootstrapInterface
     {
         $slug = '<slug:([a-z\-]{1,})+\-\w{2}>';
         $rules = [
-            'municipios' => 'ocorrencia/cidade/index',
+            'estados' => 'ocorrencia/estado/index',
+            'municipios/<uf:\w{2}>' => 'ocorrencia/cidade/index',
             'boletim-rg' => 'boletim-rg',
+
+            // Página da cidade
             $slug => 'ocorrencia/cidade/view',
             "{$slug}/ocorrencias/buscar" => 'ocorrencia/cidade/buscar-ocorrencia',
             "{$slug}/ocorrencias/nova/identificacao" => 'ocorrencia/registrar-ocorrencia/identificacao',
