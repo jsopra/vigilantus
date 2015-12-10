@@ -1,13 +1,13 @@
 <?php
 
-use perspectivain\postgis\postgisTrait;
+use perspectivain\postgis\PostgisTrait;
 use yii\db\Expression;
 use yii\db\Migration;
 use yii\helpers\Inflector;
 
 class m151121_125024_importa_bairros_municipios extends Migration
 {
-    use postgisTrait;
+    use PostgisTrait;
 
     public function safeUp()
     {

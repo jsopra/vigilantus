@@ -12,11 +12,11 @@ use yii\behaviors\TimestampBehavior;
 use yii\validators\Validator;
 use app\models\UsuarioRole;
 use app\models\Cliente;
-use perspectivain\postgis\PostgisTrait as postgisTrait;
+use perspectivain\postgis\PostgisTrait as PostgisTrait;
 
 class ActiveRecord extends YiiActiveRecord
 {
-    use postgisTrait;
+    use PostgisTrait;
 
     const SAVE_OBJECT = 1;
     const DONT_SAVE_OBJECT = 0;

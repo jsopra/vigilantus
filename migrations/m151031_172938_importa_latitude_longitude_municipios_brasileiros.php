@@ -1,13 +1,13 @@
 <?php
 
-use perspectivain\postgis\postgisTrait;
+use perspectivain\postgis\PostgisTrait;
 use yii\db\Expression;
 use yii\db\Migration;
 use yii\helpers\Inflector;
 
 class m151031_172938_importa_latitude_longitude_municipios_brasileiros extends Migration
 {
-    use postgisTrait;
+    use PostgisTrait;
 
     public function safeUp()
     {
