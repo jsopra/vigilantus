@@ -55,7 +55,12 @@ class Controller extends YiiController
     {
         $municipios = Yii::$app->cache->get('municipios_menu_admin');
         if (false === $municipios) {
-            $municipios = Municipio::find()->innerJoinWith('cliente')->orderBy('sigla_estado, nome')->all();
+            $municipios = Municipio::find()
+                ->innerJoinWith('cliente')
+                ->orderBy('sigla_estado, nome')
+                ->andWhere('clientes.id IN (SELECT cliente_id FROM usuarios)')
+                ->all()
+            ;
             Yii::$app->cache->set('municipios_menu_admin', $municipios);
         }
         return $municipios;
