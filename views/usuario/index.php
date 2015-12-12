@@ -43,14 +43,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'usuario_role_id',
                 'filter' => UsuarioRole::listData('nome'),
                 'value' => function ($model, $index, $widget) {
-                    return $model->role ? $model->role->nome : null;
+                    return $model->role ? Html::encode($model->role->nome) : Html::encode(null);
                 }
             ],
             [
                 'attribute' => 'ultimo_login',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return $model->formatted_ultimo_login;
+                    return Html::encode($model->formatted_ultimo_login);
                 }
             ],
             'email:email',

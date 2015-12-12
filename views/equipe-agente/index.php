@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'app\components\DependentCRUDActionColumn',
                 'template' => '{update} {delete}',
-                'parentID' => $equipe->id,
+                'parentID' => Html::encode($equipe->id),
                 'options' => ['class' => 'vigilantus-grid-buttons-ud'],
             ],
         ],

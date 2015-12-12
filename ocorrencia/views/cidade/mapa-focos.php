@@ -11,7 +11,7 @@ use app\models\redis\FocosAtivos;
 use yii\helpers\Json;
 use app\helpers\models\MunicipioHelper;
 
-$this->title = 'Focos em ' . $municipio->nome . '/' . $municipio->sigla_estado;
+$this->title = 'Focos em ' . Html::encode($municipio->nome . '/' . $municipio->sigla_estado);
 
 $urlOcorrencia = Url::to('/' . $municipio->slug . '/mapa-focos-dengue', true);
 $urlCompartilhar = Url::to('/' . $municipio->slug . '/mapa-focos-dengue', true);

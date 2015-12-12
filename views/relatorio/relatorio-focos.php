@@ -62,20 +62,20 @@ echo GridView::widget([
         [
             'header' => 'Bairro',
             'value' => function ($model, $index, $widget) {
-                return $model->bairroQuarteirao->bairro->nome;
+                return Html::encode($model->bairroQuarteirao->bairro->nome);
             },
         ],
         [
             'format' => 'raw',
             'header' => 'Data da Coleta',
             'value' => function ($model, $index, $widget) {
-                return $model->getFormattedAttribute('data_coleta');
+                return Html::encode($model->getFormattedAttribute('data_coleta'));
             },
         ],
         [
             'attribute' => 'tipo_deposito_id',
             'value' => function ($model, $index, $widget) {
-                return $model->tipoDeposito->sigla ? $model->tipoDeposito->sigla : $model->tipoDeposito->descricao;
+                return $model->tipoDeposito->sigla ? Html::encode($model->tipoDeposito->sigla) : Html::encode($model->tipoDeposito->descricao);
             }
         ],
         [
@@ -88,7 +88,7 @@ echo GridView::widget([
         [
             'attribute' => 'imovel_id',
             'value' => function ($model, $index, $widget) {
-                return $model->imovel ? ImovelHelper::getEndereco($model->imovel) : 'Vinculado à Quarteirão';
+                return $model->imovel ? ImovelHelper::getEndereco($model->imovel) : Html::encode('Vinculado à Quarteirão');
             },
             'options' => ['style' => 'width: 30%']
         ],

@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'coordenadas_area',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return $model->coordenadas_area ? 'Sim' : 'Não';
+                    return $model->coordenadas_area ? Html::encode('Sim') : Html::encode('Não');
                 }
             ],
             [

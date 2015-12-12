@@ -17,7 +17,10 @@ class Ruas extends Action
         $query = Rua::find();
 
         if($queryString) {
-            $query->andWhere('nome ILIKE \'%' . $queryString . '%\'');
+            //$query->andWhere('nome ILIKE \'%' . $queryString . '%\'');
+
+            $query->andWhere('nome ILIKE :ruas_string');
+            $query->addParams([':ruas_string' => $queryString . '%']);
         }
 
         $ruas = $query->all();

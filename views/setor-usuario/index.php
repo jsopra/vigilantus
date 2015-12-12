@@ -40,20 +40,20 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'header' => 'Nome',
                 'value' => function ($model, $index, $widget) {
-                    return $model->usuario->nome;
+                    return Html::encode($model->usuario->nome);
                 },
             ],
             [
                 'header' => 'Login',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return $model->usuario->login;
+                    return Html::encode($model->usuario->login);
                 },
             ],
             [
                 'class' => 'app\components\DependentCRUDActionColumn',
                 'template' => '{delete}',
-                'parentID' => $setor->id,
+                'parentID' => Html::encode($setor->id),
                 'options' => ['class' => 'vigilantus-grid-buttons-ud'],
             ],
         ],

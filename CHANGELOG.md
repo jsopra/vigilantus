@@ -7,6 +7,7 @@
 * Página pública dos municípios, [Alan][alan].
 * Lista de estados e cidades, [Alan][alan].
 * Legenda para o mapa público, [Gabriel][gabriel].
+* Feedback de que está carregando os pontos no mapa público, [Gabriel][gabriel].
 
 ### Correções
 * Não busca quarteirões pelo número alternativo, [Juliano][juliano].

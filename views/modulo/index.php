@@ -16,8 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
-	<?php //echo $this->render('_search', ['model' => $searchModel]); ?>
-
 	<?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
@@ -45,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model, $index, $widget) {
                     return $model->getFormattedAttribute('data_cadastro');
                 },
-            ], 
+            ],
 			[
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',

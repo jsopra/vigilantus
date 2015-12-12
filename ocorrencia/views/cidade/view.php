@@ -4,7 +4,7 @@ use app\helpers\models\MunicipioHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = 'Ocorrências – ' . $municipio->nome . '/' . $municipio->sigla_estado;
+$this->title = 'Ocorrências – ' . Html::encode($municipio->nome . '/' . $municipio->sigla_estado);
 
 $urlMunicipio = Url::to(['cidade/view', 'slug' => $municipio->slug], true);
 $descricaoPagina = 'Registrei uma ocorrência para a Secretaria de Saúde de ' . $municipio->nome . '/' . $municipio->sigla_estado . '. Seja a mudança na nossa cidade! Faça seu contato em ' .  $urlMunicipio;

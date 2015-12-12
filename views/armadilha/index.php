@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'bairro_quarteirao_id',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return $model->bairro_quarteirao_id ? $model->bairroQuarteirao->numero_quarteirao : null;
+                    return $model->bairro_quarteirao_id ? Html::encode($model->bairroQuarteirao->numero_quarteirao) : null;
                 }
             ],
             [
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Bairro',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return $model->bairro_quarteirao_id ? $model->bairroQuarteirao->bairro->nome : null;
+                    return $model->bairro_quarteirao_id ? Html::encode($model->bairroQuarteirao->bairro->nome) : null;
                 }
             ],
             [

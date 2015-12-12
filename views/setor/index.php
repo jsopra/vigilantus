@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $link = Html::a(
                         'Gerenciar (' . $model->quantidadeUsuarios . ') &nbsp;' . $img,
                         Yii::$app->urlManager->createUrl(['setor-usuario/index', 'parentID' => $model->id]),
-                        ['title' => 'Gerenciar Usuários ' . $model->nome]
+                        ['title' => Html::encode('Gerenciar Usuários ') . Html::encode($model->nome)]
                     );
 
                     return Html::tag('p', $link, ['class' => 'text-center no-margin']);
