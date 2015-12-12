@@ -10,6 +10,8 @@
 * Feedback de que está carregando os pontos no mapa público, [Gabriel][gabriel].
 
 ### Correções
+* Correção de vulnerabilidades a ataques XSS, [Gabriel][gabriel].
+* Correção de problemas de SQL Injection, [Gabriel][gabriel].
 * Não busca quarteirões pelo número alternativo, [Juliano][juliano].
 * Alguns lugares ainda usam Google Maps ao invés de Mapbox, [Juliano][juliano].
 
