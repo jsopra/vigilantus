@@ -270,7 +270,7 @@ if ($municipio->latitude && $municipio->longitude) {
             <td align="center"><img src="/img/medio.png"></td>
             <td>Agrupamento de alguns focos</td>
             <td align="center"><img src="/img/maior.png"></td>
-            <td>Agrupamento de muitos focos/td>
+            <td>Agrupamento de muitos focos</td>
         </tr>
     </table>
 </div>
