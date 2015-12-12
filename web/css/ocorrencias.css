@@ -66,7 +66,7 @@
 }
 
 #map {
-  height: 300px;
+  height: 500px;
   margin-bottom: 1em;
   width: 100%;
 }
@@ -103,4 +103,16 @@
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+#map-loader {
+  position: absolute;
+  height: 500px;
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+#centro {
+  text-align: center;
+  padding-top: 250px;
 }

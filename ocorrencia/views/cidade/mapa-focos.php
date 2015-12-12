@@ -75,13 +75,18 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $tratamento
 
 <div class="row">
   	<div class="col-md-12">
-
         <p class="bg-info text-center" style="padding: 0.5em 0; margin: 1em 0 0 0;"><strong>Focos dos últimos <?= $qtdeDias; ?> dias</strong></p>
+        <div id="map-loader">
+            <div id="centro">
+                <button class="btn btn-default"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Carregando...</button>
+            </div>
+        </div>
 		<div id="map" style="height: 500px; width: 100%;">
             <nav id='menu-ui' class='menu-ui'></nav>
         </div>
 	</div>
 </div>
+
 
 <?php
 $municipio->loadCoordenadas();
@@ -89,6 +94,8 @@ $municipio->loadCoordenadas();
 if ($municipio->latitude && $municipio->longitude) {
 
     $javascript = "
+
+        $('#map-loader').show();
 
         var layers = document.getElementById('menu-ui');
 
@@ -157,6 +164,8 @@ if ($municipio->latitude && $municipio->longitude) {
 
         var runLayer = omnivore.kml('" . Url::to(['/kml/focos', 'clienteId' => $cliente->id, 'informacaoPublica' => true]) . "')
         .on('ready', function() {
+            $('#map').show();
+            $('#map-loader').hide();
             this.eachLayer(function(marker) {
 
                 var marker = L.marker(new L.LatLng(marker.feature.geometry.coordinates[1], marker.feature.geometry.coordinates[0]), {
