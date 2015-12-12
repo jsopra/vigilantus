@@ -6,7 +6,7 @@ use Yii;
 use app\models\Bairro;
 use app\models\BairroQuarteirao;
 use app\components\DependentCRUDController;
-use app\helpers\GoogleMapsAPIHelper;
+use app\helpers\MapHelper;
 
 class BairroQuarteiraoController extends DependentCRUDController
 {
@@ -20,7 +20,7 @@ class BairroQuarteiraoController extends DependentCRUDController
     public function actionIndex()
     {
         $municipio = $this->parentObject->municipio;
-        if(!$municipio->loadCoordenadas()) {
+        if (!$municipio->loadCoordenadas()) {
             Yii::$app->session->setFlash('error', 'Município não tem coordenadas geográficas definidas');
             $this->redirect(['bairro/index']);
         }
@@ -39,6 +39,10 @@ class BairroQuarteiraoController extends DependentCRUDController
             $this->_init($model);
             $this->_quarteiroes = BairroQuarteirao::find()->doBairro($this->_bairro->id)->comCoordenadas();
 
+            if ($model->coordenadasJson && !$model->coordenadas) {
+                $model->coordenadas = MapHelper::jsonToCoordinatesArray($model->coordenadasJson);
+            }
+
             return $this->renderAjaxOrLayout('create', [
                 'model' => $model,
                 'municipio' => $this->_municipio,
@@ -51,7 +55,6 @@ class BairroQuarteiraoController extends DependentCRUDController
 
     public function actionUpdate($id)
     {
-
         $model = is_object($id) ? $id : $this->findModel($id);
 
         $parentField = $this->parentField;
@@ -62,8 +65,10 @@ class BairroQuarteiraoController extends DependentCRUDController
             $this->_init($model);
             $this->_quarteiroes = BairroQuarteirao::find()->queNao($model->id)->doBairro($this->_bairro->id)->comCoordenadas();
             $model->loadCoordenadas();
-            if(!$model->getIsNewRecord() && !$model->coordenadasJson && $model->coordenadas) {
-                $model->coordenadasJson = GoogleMapsAPIHelper::arrayToCoordinatesJson($model->coordenadas);
+            if (!$model->getIsNewRecord() && !$model->coordenadasJson && $model->coordenadas) {
+                $model->coordenadasJson = MapHelper::getArrayCoordenadas($model->coordenadas);
+            } else if ($model->coordenadasJson) {
+                $model->coordenadas = MapHelper::jsonToCoordinatesArray($model->coordenadasJson);
             }
 
             return $this->renderAjaxOrLayout('update', [
@@ -76,8 +81,8 @@ class BairroQuarteiraoController extends DependentCRUDController
         }
     }
 
-    private function _init($model) {
-
+    private function _init($model)
+    {
         $this->_bairro = $this->parentObject;
         $this->_bairro->loadCoordenadas();
 

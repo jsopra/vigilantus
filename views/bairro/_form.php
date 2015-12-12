@@ -55,6 +55,7 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
 $municipio = \Yii::$app->user->identity->cliente->municipio;
 $municipio->loadCoordenadas();
 
+$centro = null;
 if($model->coordenadasJson) {
     $model->loadCoordenadas();
     $centro = $model->getCentro();
@@ -68,10 +69,9 @@ var map = L.mapbox
     .map('map', '" . Yii::$app->params['mapBoxMapID'] . "')
 ";
 
-if($model->coordenadasJson) {
+if ($centro) {
     $javascript .= ".setView([" . $centro[1] . ", " . $centro[0] . "], 14)";
-}
-else {
+} else {
     $javascript .= ".setView([" . $municipio->latitude . ", " . $municipio->longitude . "], 12)";
 }
 
@@ -131,6 +131,7 @@ var bairrosLayer = L.geoJson(null, {
 var runLayer = omnivore.kml('" . Url::to(['kml/cidade', 'except' => $model->isNewRecord ? null : $model->id]) . "')
 .on('ready', function() {
     this.eachLayer(function(layer) {
+
     });
 })
 .addTo(map);
@@ -141,6 +142,7 @@ function coordinatesToInput(coordinates) {
 ";
 
 if ($model->coordenadasJson) :
+
     $javascript .= "
 
         var polygon_options = {
@@ -153,7 +155,7 @@ if ($model->coordenadasJson) :
 
         var bairro = L.polygon([" . MapHelper::getArrayCoordenadas($model->coordenadas) ."], polygon_options).addTo(featureGroup);
 
-        coordinatesToInput(" . MapHelper::getArrayCoordenadas($model->coordenadas) .");
+        coordinatesToInput(bairro.toGeoJSON().geometry.coordinates[0]);
 
         bairro.editing.enable();
     ";
