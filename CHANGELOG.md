@@ -1,5 +1,20 @@
 # Changelog
 
+## Versão 0.7
+
+### Novidades
+
+* Página pública dos municípios, [Alan][alan]
+* Lista de estados e cidades, [Alan][alan]
+
+### Correções
+* Não busca quarteirões pelo número alternativo, [Juliano][juliano]
+
+## Versão 0.6
+
+* Página do município com mapa e registro de ocorrências, [Juliano][juliano]
+* ?
+
 ## Versão 0.5
 * Vinculação de relatórios de RG à fechamento
 * Formulário de fechamento de RG
@@ -41,3 +56,7 @@
 * Cadastro de condições de imóveis
 * Cadastro de bairros
 * Opção de alterar a senha
+
+[alan]: https://bitbucket.org/alanwillms/
+[gabriel]: https://bitbucket.org/gabrielmocelin/
+[juliano]: https://bitbucket.org/jsopra/
