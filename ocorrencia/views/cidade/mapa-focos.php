@@ -249,7 +249,7 @@ if ($municipio->latitude && $municipio->longitude) {
     <table class="table table-hover">
         <tr>
             <td style="width: 90px" align="center"><img src="/img/estouaqui.png"></td>
-            <td>Aonde estou</td>
+            <td>Onde estou</td>
             <td align="center"><img src="/img/focotratamento.png"></td>
             <td>Foco em tratamento</td>
             <td align="center"><img src="/img/areaselecionada.png"></td>

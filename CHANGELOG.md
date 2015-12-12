@@ -2,13 +2,15 @@
 
 ## Versão 0.7
 
-### Novidades
+### Melhorias
 
-* Página pública dos municípios, [Alan][alan]
-* Lista de estados e cidades, [Alan][alan]
+* Página pública dos municípios, [Alan][alan].
+* Lista de estados e cidades, [Alan][alan].
+* Legenda para o mapa público, [Gabriel][gabriel].
 
 ### Correções
-* Não busca quarteirões pelo número alternativo, [Juliano][juliano]
+* Não busca quarteirões pelo número alternativo, [Juliano][juliano].
+* Alguns lugares ainda usam Google Maps ao invés de Mapbox, [Juliano][juliano].
 
 ## Versão 0.6
 
