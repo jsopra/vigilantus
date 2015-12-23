@@ -10,7 +10,7 @@ use app\models\DepositoTipo;
  * @var app\models\search\AmostraTransmissorSearch $searchModel
  */
 
-$this->title = 'Amostra Transmissors';
+$this->title = 'Amostra Transmissores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="amostra-transmissor-index" data-role="modal-grid">
@@ -67,7 +67,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 			[
                 'class' => 'app\components\ActionColumn',
-                'template' => '{update} {delete}',
+                'buttons' => [
+                    'ver' => function ($url, $model, $key) {
+                        if (!Yii::$app->user->can('Administrador') && !Yii::$app->user->can('Tecnico Laboratorial')){
+                            return null;
+                        }
+                        return Html::a(
+                            '<i class="table-view"></i>',
+                            \yii\helpers\Url::to(['amostra-transmissor/view', 'id' => $model->id]),
+                            ['title' => 'Análise Laboratorial']
+                        );
+                    },
+                ],
+                'template' => '{ver} {update} {delete}',
             ],
 		],
 	]); ?>

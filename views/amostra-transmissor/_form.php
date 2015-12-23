@@ -59,12 +59,12 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
         <div class="form-group form-actions">
-			<?php 
+			<?php
             echo Html::submitButton(
-                $model->isNewRecord ? 'Cadastrar' : 'Atualizar', 
+                $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
                 ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
             );
-		
+
             echo Html::a(
                 'Cancelar',
                 array('/amostra-transmissor/index'),

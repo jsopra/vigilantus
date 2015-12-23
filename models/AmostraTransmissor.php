@@ -39,7 +39,7 @@ class AmostraTransmissor extends ActiveRecord
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
 			[['data_coleta'], 'date', 'time' => true],
-			[['cliente_id', 'tipo_deposito_id', 'quarteirao_id'], 'required'],
+			[['cliente_id', 'tipo_deposito_id', 'quarteirao_id', 'observacoes'], 'required'],
 			[['cliente_id', 'tipo_deposito_id', 'quarteirao_id', 'numero_casa', 'numero_amostra', 'quantidade_larvas', 'quantidade_pupas'], 'integer'],
 			[['endereco', 'observacoes'], 'string']
 		];
