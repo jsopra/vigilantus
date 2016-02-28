@@ -40,16 +40,7 @@ quaisquer passos adicionais necessários.
 
 ## Configurando o ambiente de produção
 
-Instale e configure o RHC, seguindo a [introdução ao deploy da Getup](https://getupcloud.com/blog/deploy-e-rollback).
-
-Para fazer o deploy manualmente, siga os seguintes passos:
-
-```bash
-git clone ssh://536a900a99fc77c093000257@vigilantus-vigilantus.getup.io/~/git/vigilantus.git/ vigilantus-deploy
-git git remote add upstream git@git.perspectiva.in:perspectiva/vigilantus.git
-git pull upstream master
-git push
-```
+Para fazer deploy, logue-se via SSH no servidor na amazon, vá até /var/www/ e dê um git pull (branch master)
 
 ## Configurando o ambiente de testes
 
