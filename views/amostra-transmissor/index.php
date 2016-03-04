@@ -23,9 +23,17 @@ $this->params['breadcrumbs'][] = $this->title;
 		'columns' => [
 
 			['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'foco',
+                'value' => function ($model, $index, $widget) {
+                   return $model->foco ? 'Sim' : 'Não';
+                },
+                'filter' => [0 => 'Não', 1 => 'Sim'],
+            ],
             'numero_amostra',
             'data_criacao',
 			'data_coleta',
+
             [
                 'attribute' => 'tipo_deposito_id',
                 'filter' => DepositoTipo::listData('descricao'),

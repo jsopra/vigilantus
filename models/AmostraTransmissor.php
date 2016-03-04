@@ -2,6 +2,8 @@
 
 namespace app\models;
 use app\components\ActiveRecord;
+use yii\db\Expression;
+use \IntlDateFormatter;
 
 /**
  * Este é a classe de modelo da tabela "amostras_transmissores".
@@ -41,7 +43,8 @@ class AmostraTransmissor extends ActiveRecord
 			[['data_coleta'], 'date', 'time' => true],
 			[['cliente_id', 'tipo_deposito_id', 'quarteirao_id', 'observacoes'], 'required'],
 			[['cliente_id', 'tipo_deposito_id', 'quarteirao_id', 'numero_casa', 'numero_amostra', 'quantidade_larvas', 'quantidade_pupas'], 'integer'],
-			[['endereco', 'observacoes'], 'string']
+			[['endereco', 'observacoes'], 'string'],
+			[['foco'], 'boolean'],
 		];
 	}
 
@@ -64,6 +67,7 @@ class AmostraTransmissor extends ActiveRecord
 			'numero_amostra' => 'Número da Amostra',
 			'quantidade_larvas' => 'Quantidade de Larvas',
 			'quantidade_pupas' => 'Quantidade de Pupas',
+			'foco' => 'Foco',
 		];
 	}
 
@@ -97,5 +101,66 @@ class AmostraTransmissor extends ActiveRecord
         return $this->hasOne(DepositoTipo::className(), ['id' => 'tipo_deposito_id']);
     }
 
+	public function save($runValidation = true, $attributes = NULL)
+	{
+		$formatter = new IntlDateFormatter(
+            \Yii::$app->language,
+            IntlDateFormatter::MEDIUM,
+            IntlDateFormatter::NONE
+        );
+
+		$transaction = $this->getDb()->beginTransaction();
+
+		try {
+
+			$mudouValor = $this->isAttributeChanged('foco');
+		    $result = parent::save($runValidation, $attributes);
+
+		    if ($result) {
+		    	if ($mudouValor && $this->foco == true) {
+		    		$focosTransmissores = new FocoTransmissor;
+		    		$focosTransmissores->data_coleta = date('Y-m-d', $formatter->parse($row->getValue('data_coleta')));
+		    		$focosTransmissores->data_entrada = $this->data_criacao;
+		    		$focosTransmissores->tipo_deposito_id = $this->tipo_deposito_id;
+		    		$focosTransmissores->quantidade_forma_aquatica = $this->quantidade_larvas;
+		    		$focosTransmissores->quantidade_forma_adulta = $this->quantidade_pupas;
+		    		$focosTransmissores->bairro_quarteirao_id = $this->quarteirao_id;
+		    		$focosTransmissores->cliente_id = $this->cliente_id;
+		    		$focosTransmissores->planilha_endereco = $this->endereco . $this->numero_casa;
+		    		$focosTransmissores->data_exame = date('d/m/Y');
+		    		$focosTransmissores->inserido_por = \Yii::$app->user->identity->id;
+		    		$focosTransmissores->atualizado_por = NULL;
+		    		$focosTransmissores->especie_transmissor_id = NULL;
+		    		$focosTransmissores->quantidade_ovos = NULL;
+		    		$focosTransmissores->laboratorio = NULL;
+		    		$focosTransmissores->tecnico = NULL;
+		    		$focosTransmissores->imovel_id = NULL;
+		    		$focosTransmissores->planilha_imovel_tipo_id = NULL;
+
+		    		if($result = $focosTransmissores->save()) {
+
+		    			$this->foco_transmissor_id = $model->id;
+		    			$result = $this->save();
+		    		} else {
+die(var_dump($focosTransmissores->errors));
+		    		}
+		    	}
+
+		    	if ($result) {
+		        	$transaction->commit();
+		        	return true;
+		        }
+
+		    }else {
+die(var_dump($this->errors));
+		    		}
+		} catch (\Exception $e) {
+		    $transaction->rollback();
+		    throw $e;
+		}
+die(var_dump('hh'));
+		$transaction->rollback();
+		return false;
+	}
 }
 

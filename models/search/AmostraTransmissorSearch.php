@@ -22,12 +22,14 @@ class AmostraTransmissorSearch extends SearchModel
 	public $numero_amostra;
 	public $quantidade_larvas;
 	public $quantidade_pupas;
+    public $foco;
 
 	public function rules()
 	{
 		return [
 			[['id', 'cliente_id', 'tipo_deposito_id', 'quarteirao_id', 'numero_casa', 'numero_amostra', 'quantidade_larvas', 'quantidade_pupas'], 'integer'],
 			[['data_criacao', 'data_atualizacao', 'data_coleta', 'endereco', 'observacoes'], 'safe'],
+            [['foco'], 'boolean'],
 		];
 	}
 
@@ -45,10 +47,10 @@ class AmostraTransmissorSearch extends SearchModel
             'numero_amostra' => $this->numero_amostra,
             'quantidade_larvas' => $this->quantidade_larvas,
             'quantidade_pupas' => $this->quantidade_pupas,
+            'foco' => $this->foco,
         ]);
 
 		$query->andFilterWhere(['like', 'endereco', $this->endereco])
             ->andFilterWhere(['like', 'observacoes', $this->observacoes]);
-        
 	}
 }

@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         [
             'attribute' => 'data_atualizacao',
-            'value' => $model->getFormattedAttribute('data_atualizacao'),
+            //'value' => $model->getFormattedAttribute('data_atualizacao'),
         ],
         [
             'attribute' => 'data_coleta',
@@ -47,17 +47,37 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
 
 ]) ?>
-<?php $form = ActiveForm::begin(); ?>
 
+
+<?php if($model->foco === null) : ?>
+<?php $form = ActiveForm::begin(); ?>
     <div class="row">
-        <div class="col-xs-3">
-            <?= $form->field($model, 'observacoes')->textarea(['rows' => 6]) ?>
+        <div class="col-xs-2">
+            <?= $form->field($model, 'foco')->dropDownList([0 => 'Não', 1 => 'Sim'], ['prompt' => 'Selecione…']) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <?= $form->field($model, 'observacoes')->textarea(['rows' => 5]) ?>
         </div>
     </div>
     <div class="form-group form-actions">
-        <?php
+    <?php
         echo Html::submitButton(
             $model->isNewRecord ? 'Salvar' : 'Concluir Análise',
             ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
+    );
+?>
+<?php else : ?>
+    <?php
+        echo Html::a(
+            'Voltar',
+            array('/amostra-transmissor/index'),
+            array('class'=>'btn btn-flat success','rel'=>'tooltip','data-role'=>'cancel','data-title'=>'Ir à lista de Amostra Transmissors')
         );
-        ?>
+    ?>
+<?php endif; ?>
+
+
+
+
