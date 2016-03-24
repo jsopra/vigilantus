@@ -47,13 +47,13 @@ class CasoDoenca extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'cliente_id' => 'Cliente ID',
-            'doenca_id' => 'Doenca ID',
+            'doenca_id' => 'Doença ID',
             'inserido_por' => 'Inserido Por',
             'data_cadastro' => 'Data Cadastro',
             'atualizado_por' => 'Atualizado Por',
-            'data_atualizacao' => 'Data Atualizacao',
+            'data_atualizacao' => 'Data Atualização',
             'coordenadas_area' => 'Coordenadas Area',
-            'bairro_quarteirao_id' => 'Bairro Quarteirao ID',
+            'bairro_quarteirao_id' => 'Bairro Quarteirão ID',
             'nome_paciente' => 'Nome Paciente',
             'data_sintomas' => 'Data Sintomas',
         ];

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use app\widgets\GridView;
+use yii\helpers\Url;
 
 /**
  * @var yii\web\View $this
@@ -9,7 +10,7 @@ use app\widgets\GridView;
  * @var app\models\search\CasoDoencaSearch $searchModel
  */
 
-$this->title = 'Caso Doencas';
+$this->title = 'Casos Doenças';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="caso-doenca-index" data-role="modal-grid">
@@ -31,6 +32,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         'data-role' => 'create',
                     ]
                 );
+            },
+            'batch' => function() {
+                return Html::a(
+                    'Importar Arquivo de Casos',
+                    Url::to(['batch']),
+                    [
+                        'class' => 'btn btn-flat default',
+                    ]
+                );
             }
         ],
 		'columns' => [
@@ -43,9 +53,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'doenca_id',
             //'cliente_id',
             //'inserido_por',
-			// 'atualizado_por',
-			// 'data_atualizacao',
-			// 'coordenadas_area',
+			//'atualizado_por',
+			//'data_atualizacao',
+			//'coordenadas_area',
 			[
                 'class' => 'app\components\ActionColumn',
                 'template' => '{delete}',
