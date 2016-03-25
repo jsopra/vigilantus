@@ -21,6 +21,15 @@ use yii\web\UploadedFile;
 
 class CidadeController extends Controller
 {
+    public function init()
+    {
+        parent::init();
+
+        if (Yii::$app->user->isGuest) {
+            $this->layout = '//website';
+        }
+    }
+
     public function actionIndex($uf)
     {
         $estado = Estado::findOne(['uf' => strtoupper($uf)]);

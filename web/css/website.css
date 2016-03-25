@@ -1,0 +1,190 @@
+/* Shared */
+html,
+input,
+button,
+textarea {
+  font-size: 16px;
+}
+
+a {
+  color: #401f41;
+}
+
+section h1 {
+  font-size: 3.57rem;
+  margin: 0;
+  padding: 40px 0;
+  text-transform: uppercase;
+}
+
+section h1,
+section h2 {
+  font-family: "Bebas Neue", "Arial Narrow", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #4c2653;
+  border-color: #4c2653;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #74c6c6;
+  border-color: #74c6c6;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #6d2b79;
+  border-color: #6d2b79;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #3c9d9d;
+  border-color: #3c9d9d;
+  color: #fff;
+}
+
+.balance-text {
+  text-wrap: balanced;
+}
+
+/* Navigation */
+.navbar {
+  padding-bottom: 1.69rem;
+  padding-top: 1.56rem;
+  -webkit-transition:all .2s ease-in-out;
+  -moz-transition:all .2s ease-in-out;
+  -ms-transition:all .2s ease-in-out;
+  -o-transition:all .2s ease-in-out;
+  transition:all .2s ease-in-out;
+}
+
+.collapsing {
+  left: 0;
+  width: 100%;
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+.navbar-toggler {
+  margin-top: 0.4rem;
+}
+
+.nav .nav-link {
+  font-size: 0.75rem;
+  font-family: "OpenSans", Helvetica, Arial, sans-serif;
+  line-height: 2.56rem;
+  text-transform: uppercase;
+}
+
+.nav .nav-link .fa {
+  font-size: 1.5rem;
+  margin-top: -0.25rem;
+  vertical-align: middle;
+}
+
+/* Middle */
+main {
+  margin-top: 110px;
+}
+
+/* Partners */
+#parceiros {
+  background: #cfcfcf;
+  padding-bottom: 40px;
+}
+
+#parceiros,
+#parceiros a {
+  color: #fff;
+}
+
+#parceiros .partner {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+#parceiros .partner img {
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+/* Contact */
+#contato {
+  background: #333 url("../img/website/footer-background.jpg") no-repeat;
+  background-position: center;
+  background-size: cover;
+  font-size: 16px;
+  padding: 2.5rem 0 0;
+}
+
+#contato .address,
+#contato .contact-form {
+  margin-bottom: 2.5rem;
+}
+
+#contato,
+#contato a {
+  color: #fff;
+}
+
+#contato h3 {
+  color: #fff;
+  font-size: 147%;
+}
+
+#contato .address p {
+  line-height: 200%;
+}
+
+#contato .contact-form input,
+#contato .contact-form textarea {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+}
+
+#contato .contact-form input:active,
+#contato .contact-form textarea:active,
+#contato .contact-form input:focus,
+#contato .contact-form textarea:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#contato .copyright-notice {
+  font-size: 14px;
+}
+
+#contato .copyright-notice img {
+  vertical-align: text-top;
+}
+
+/* Fonts */
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url('../fonts/bebas/bebasneue_bold-webfont.eot');
+    src: url('../fonts/bebas/bebasneue_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/bebas/bebasneue_bold-webfont.woff2') format('woff2'),
+         url('../fonts/bebas/bebasneue_bold-webfont.woff') format('woff'),
+         url('../fonts/bebas/bebasneue_bold-webfont.ttf') format('truetype'),
+         url('../fonts/bebas/bebasneue_bold-webfont.svg#bebas_neuebold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url('../fonts/bebas/bebasneue_regular-webfont.eot');
+    src: url('../fonts/bebas/bebasneue_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/bebas/bebasneue_regular-webfont.woff2') format('woff2'),
+         url('../fonts/bebas/bebasneue_regular-webfont.woff') format('woff'),
+         url('../fonts/bebas/bebasneue_regular-webfont.ttf') format('truetype'),
+         url('../fonts/bebas/bebasneue_regular-webfont.svg#bebas_neue_regularregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

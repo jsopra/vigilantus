@@ -1,0 +1,33 @@
+.ocorrencia-cidade-view {
+  padding: 100px 0 85px;
+}
+
+.ocorrencia-cidade-view h1 {
+  color: #d1d1d0;
+  font-family: "Bebas Neue", "Arial Narrow", Helvetica, Arial, sans-serif;
+  font-size: 70px;
+  font-weight: bold;
+  line-height: 120%;
+}
+
+.ocorrencia-cidade-view h1 a {
+  color: #74c6c6;
+}
+
+.ocorrencia-cidade-view h1 img {
+  vertical-align: middle;
+}
+
+.ocorrencia-cidade-view p {
+  color: #a4a4a2;
+  font-size: 22px;
+  line-height: 120%;
+}
+
+.ocorrencia-cidade-view .bloco-botoes-ocorrencias {
+  margin-top: 50px;
+}
+
+.ocorrencia-cidade-view .bloco-botoes-ocorrencias a {
+  margin-bottom: 10px;
+}
