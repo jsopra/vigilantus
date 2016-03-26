@@ -34,8 +34,9 @@ class EquipeAgente extends ClienteActiveRecord
 	{
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
-			[['cliente_id', 'equipe_id', 'nome', 'codigo'], 'required'],
+			[['cliente_id', 'equipe_id', 'nome'], 'required'],
 			[['cliente_id', 'equipe_id'], 'integer'],
+			['codigo', 'safe'],
 			[['nome', 'codigo'], 'string'],
 			[['ativo'], 'boolean'],
             ['codigo', 'unique', 'compositeWith' => ['cliente_id']],
