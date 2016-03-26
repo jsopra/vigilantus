@@ -40,7 +40,7 @@ $this->beginPage() ?>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
-        <link rel="icon" href="favicon.ico">
+        <link rel="icon" href="<?= Url::base() ?>/favicon.ico">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
 
         <?php $this->head() ?>

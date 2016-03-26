@@ -17,6 +17,7 @@ section h1 {
   text-transform: uppercase;
 }
 
+main h1,
 section h1,
 section h2 {
   font-family: "Bebas Neue", "Arial Narrow", Helvetica, Arial, sans-serif;
@@ -68,7 +69,7 @@ section h2 {
 }
 
 .bg-white {
-  background-color: #fff;
+  background-color: #f2f2f2;
 }
 
 .navbar-toggler {
@@ -90,16 +91,29 @@ section h2 {
 
 /* Middle */
 main {
-  margin-top: 110px;
+  margin-top: 130px;
+}
+
+main h1 {
+  color: #d1d1d0;
+  font-size: 60px;
+  line-height: 120%;
+  margin-bottom: 40px;
+}
+
+main h1 a {
+  color: #74c6c6;
 }
 
 /* Partners */
 #parceiros {
   background: #cfcfcf;
+  margin-top: 40px;
   padding-bottom: 40px;
 }
 
 #parceiros,
+#parceiros h1,
 #parceiros a {
   color: #fff;
 }

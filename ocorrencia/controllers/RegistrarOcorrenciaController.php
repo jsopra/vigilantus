@@ -16,6 +16,15 @@ use yii\web\UploadedFile;
 
 class RegistrarOcorrenciaController extends Controller
 {
+    public function init()
+    {
+        parent::init();
+
+        if (Yii::$app->user->isGuest) {
+            $this->layout = '//website';
+        }
+    }
+
     public function actionIndex($slug)
     {
         $model = new OcorrenciaForm;

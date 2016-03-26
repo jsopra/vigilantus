@@ -10,11 +10,11 @@ use yii\helpers\Html;
     <h1>
         <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
         <a href="<?= Url::to(['cidade/view', 'slug' => $municipio->slug]); ?>">
-            <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
+            <?= Html::encode($municipio->nome . ' / ' . $municipio->sigla_estado) ?>
         </a>
 
         <?php if ($setor = $municipio->getSetorResponsavel()) : ?>
-        <small><?= Html::encode($setor) ?></small>
+        <span><?= Html::encode($setor) ?></span>
         <?php endif; ?>
     </h1>
     <p>

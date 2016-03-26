@@ -44,8 +44,8 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
 
 <?php if ($percentualOcorrenciasAtendidas > 0) : ?>
 <div class="bloco-numero-ocorrencias text-xs-center">
-    <p><strong class="recebidas"><?= $numeroOcorrenciasRecebidas ?></strong> ocorrências recebidas,</p>
-    <p><strong class="atendidas"><?= $percentualOcorrenciasAtendidas ?>%</strong> já foram finalizadas.</p>
+    <p><strong class="recebidas"><?= $numeroOcorrenciasRecebidas ?></strong> ocorrências recebidas</p>
+    <p><strong class="atendidas"><?= $percentualOcorrenciasAtendidas ?>%</strong> já foram finalizadas</p>
     <p class="fonte-informacao">(informações coletadas desde <?= $dataPrimeiraOcorrencia ?>)</p>
 </div>
 <?php elseif ($numeroOcorrenciasRecebidas > 0) : ?>
@@ -59,11 +59,11 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
 <div class="panel panel-default text-xs-center">
     <div class="panel-heading mapa-focos-chamada">
         <p>
-            Será que os transmissores da <strong>Dengue</strong> e da
-            <strong>Chikungunya</strong> vivem perto de você?
+            Será que o mosquito da <strong>Dengue</strong> e do
+            <strong>Zika Vírus</strong> vive perto de você?
         </p>
         <p>
-            <a href="<?= Url::to(['mapa-focos', 'slug' => $municipio->slug]) ?>" class="btn btn-default">
+            <a href="<?= Url::to(['mapa-focos', 'slug' => $municipio->slug]) ?>" class="btn btn-default btn-secondary">
                 <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
                 Confira no mapa
             </a>

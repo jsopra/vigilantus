@@ -50,7 +50,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . Html::
         <?= $form->field($model, 'mensagem')->textArea(['rows' => 5, 'placeholder' => 'Quaisquer informações relevantes sobre o problema.']) ?>
     </div>
 
-    <div class="form-group text-center">
+    <div class="form-group text-center text-xs-center">
         <?= Html::submitButton('Próximo passo', ['class' => 'btn btn-primary btn-lg']) ?>
     </div>
 
