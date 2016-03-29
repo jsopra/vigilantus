@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\components\ClienteActiveRecord;
 
 /**
  * This is the model class for table "casos_doencas".
@@ -25,7 +26,7 @@ use Yii;
  * @property Usuarios $inseridoPor
  * @property Usuarios $atualizadoPor
  */
-class CasoDoenca extends \yii\db\ActiveRecord
+class CasoDoenca extends ClienteActiveRecord
 {
     public static function tableName()
     {
@@ -59,28 +60,32 @@ class CasoDoenca extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getBairroQuarteirao()
+    /*public function getBairroQuarteirao()
     {
         return $this->hasOne(BairroQuarteiroes::className(), ['id' => 'bairro_quarteirao_id']);
+    }*/
+    public function getBairroQuarteirao()
+    {
+        return $this->hasOne(BairroQuarteirao::className(), ['id' => 'bairro_quarteirao_id']);
     }
 
     public function getCliente()
     {
-        return $this->hasOne(Clientes::className(), ['id' => 'cliente_id']);
+        return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
 
     public function getDoenca()
     {
-        return $this->hasOne(Doencas::className(), ['id' => 'doenca_id']);
+        return $this->hasOne(Doenca::className(), ['id' => 'doenca_id']);
     }
 
     public function getInseridoPor()
     {
-        return $this->hasOne(Usuarios::className(), ['id' => 'inserido_por']);
+        return $this->hasOne(Usuario::className(), ['id' => 'inserido_por']);
     }
 
     public function getAtualizadoPor()
     {
-        return $this->hasOne(Usuarios::className(), ['id' => 'atualizado_por']);
+        return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
     }
 }

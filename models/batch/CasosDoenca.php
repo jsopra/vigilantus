@@ -49,12 +49,17 @@ class CasosDoenca extends Model
 
         $caso = new CasoDoenca;
 
+        if($clienteId) {
+            $caso->cliente_id = $clienteId;
+        }
+
         $formatter = new IntlDateFormatter(
             \Yii::$app->language,
             IntlDateFormatter::MEDIUM,
             IntlDateFormatter::NONE
         );
 
+        $caso->doenca_id = $doenca->id;
         $caso->nome_paciente = $row->GetValue('nome_paciente');
         $caso->data_sintomas = $row->GetValue('data_sintomas');
         $caso->data_cadastro = date('Y-m-d', $formatter->parse($row->getValue('data_cadastro')));
