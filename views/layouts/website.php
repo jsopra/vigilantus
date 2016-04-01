@@ -24,7 +24,8 @@ $this->beginPage() ?>
 
         <title><?= Html::encode($this->title) ?></title>
 
-        <!-- <meta name="description" content="A Perspectiva é uma empresa de desenvolvimento de softwares para computadores, dispostivos móveis e Internet.">
+        <?php /*
+        <meta name="description" content="A Perspectiva é uma empresa de desenvolvimento de softwares para computadores, dispostivos móveis e Internet.">
         <meta name="keywords" content="perspectiva, sistema, software, empresa, internet, computador, desenvolvimento, chapecó">
 
         <meta property="og:locale" content="pt_BR">
@@ -34,7 +35,8 @@ $this->beginPage() ?>
         <meta property="og:description" content="A Perspectiva é uma empresa de desenvolvimento de softwares para computadores, dispostivos móveis e Internet.">
         <meta property="og:image" content="//www.vigilantus.com.br/facebook-image.jpg">
         <meta property="og:image:width" content="1200">
-        <meta property="og:image:height" content="630"> -->
+        <meta property="og:image:height" content="630">
+        */ ?>
 
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -46,25 +48,6 @@ $this->beginPage() ?>
         <?php $this->head() ?>
 
         <?= Html::csrfMetaTags() ?>
-
-        <script>
-            // var socialHandlerUrl = '<?= Url::to(['/site/auth']); ?>';
-            // var stepFocosUrl = '<?= Url::to(['/foco-transmissor', 'step' => true]); ?>';
-            // var stepVisaoGeralUrl= '<?= Url::to(['/site/home', 'step' => true]); ?>';
-            // var stepArmadilhasCadastroUrl = '<?= Url::to(['/armadilha', 'step' => true]); ?>';
-            // var stepArmadilhasMapaUrl = '<?= Url::to(['/mapa/armadilha', 'step' => true]); ?>';
-            // var stepPECadastroUrl = '<?= Url::to(['/ponto-estrategico', 'step' => true]); ?>';
-            // var stepPEMapaUrl = '<?= Url::to(['/mapa/ponto-estrategico', 'step' => true]); ?>';
-            // var stepGeolocalizacaoUrl = '<?= Url::to(['/bairro', 'step' => true]); ?>';
-            // var stepRGUrl = '<?= Url::to(['/boletim-rg', 'step' => true]); ?>';
-            // var stepOcorrenciasUrl = '<?= Url::to(['/ocorrencia/ocorrencia/index', 'step' => true]); ?>';
-            // var stepOcorrenciasAbertasUrl = '<?= Url::to(['/ocorrencia/ocorrencia/abertas', 'step' => true]); ?>';
-            //
-            // var moduloOcorrenciaIsHabilitado = '<?= \Yii::$app->user->getIdentity() && \Yii::$app->user->getIdentity()->moduloIsHabilitado(\app\models\Modulo::MODULO_OCORRENCIA) ? '1' : '0'; ?>';
-            //
-            // var isAnalista = '<?= \Yii::$app->user->can("Analista") ? "1" : "0"; ?>';
-            // var isGerente = '<?= \Yii::$app->user->can("Gerente") ? "1" : "0"; ?>';
-        </script>
     </head>
     <body>
         <nav class="navbar navbar-light navbar-fixed-top bg-faded bg-white">

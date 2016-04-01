@@ -134,7 +134,7 @@ class SiteController extends Controller
             $this->redirect(['home']);
         }
 
-        $this->layout = 'website';
+        // $this->layout = 'website';
 
         return $this->render('index');
     }
