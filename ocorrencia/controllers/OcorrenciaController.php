@@ -16,7 +16,6 @@ use app\models\OcorrenciaHistoricoTipo;
 
 class OcorrenciaController extends CRUDController
 {
-
     public function actions()
     {
         return [

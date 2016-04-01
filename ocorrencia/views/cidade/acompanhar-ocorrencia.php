@@ -12,12 +12,12 @@ $this->title = 'Detalhes de Ocorrência #' . $model->protocolo;
 $this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['view', 'slug' => $municipio->slug]];
 $this->params['breadcrumbs'][] = 'Detalhes';
 ?>
-<div class="row">
+<div class="row header-detalhes-ocorrencia">
     <div class="col-md-6">
         <h1>
             <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
             <a href="<?= Url::to(['view', 'slug' => $municipio->slug]); ?>">
-                <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
+                <?= Html::encode($municipio->nome . ' / ' . $municipio->sigla_estado) ?>
             </a>
         </h1>
     </div>
@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = 'Detalhes';
         <?= Html::a(
             '<i class="glyphicon glyphicon-download-alt"></i> baixar comprovante',
             Url::to(['comprovante-ocorrencia', 'slug' => $municipio->slug, 'hash' => $model->hash_acesso_publico]),
-            ['class' => 'btn btn-primary pull-right']
+            ['class' => 'btn btn-primary btn-lg pull-right']
         );
         ?>
     </div>

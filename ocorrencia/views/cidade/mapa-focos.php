@@ -31,36 +31,31 @@ if($emAreaTratamento === false) {
 $this->registerMetaTag(['property' => 'og:description', 'content' => $tratamentoMessage . ' está em área de tratamento de Dengue. Denuncie qualquer irregularidade! Seja a mudança na nossa cidade! Faça seu contato em ' . $urlOcorrencia]);
 ?>
 
-<h1 class="text-center">
+<h1 class="text-xs-center">
     <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
     <a href="<?= Url::to(['view', 'slug' => $municipio->slug]); ?>">
-        <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
+        <?= Html::encode($municipio->nome . ' / ' . $municipio->sigla_estado) ?>
     </a>
-</h1>
-
-<?php if ($setor = $municipio->getSetorResponsavel()) : ?>
-<p class="text-center" style="font-weight: bold; font-size: 1.5em; color: #000;">
+    <?php if ($setor = $municipio->getSetorResponsavel()) : ?>
     <?= Html::encode($setor) ?>
-</p>
-<?php endif; ?>
+    <?php endif; ?>
+</h1>
 
 <a name="sharetext"></a>
 
-<p class="text-center bloco-botoes-ocorrencias">
-    <a href="<?= Url::to(['registrar-ocorrencia/index', 'slug' => $municipio->slug]) ?>" class="btn btn-danger btn-lg">
+<p class="text-xs-center bloco-botoes-ocorrencias">
+    <a href="<?= Url::to(['registrar-ocorrencia/index', 'slug' => $municipio->slug]) ?>" class="btn btn-primary btn-lg">
         <i class="fa fa-plus"></i>
         registrar ocorrência
     </a>
-    <a href="<?= Url::to(['buscar-ocorrencia', 'slug' => $municipio->slug]) ?>" class="btn btn-success btn-lg">
+    <a href="<?= Url::to(['buscar-ocorrencia', 'slug' => $municipio->slug]) ?>" class="btn btn-default btn-secondary btn-lg">
         <i class="fa fa-eye"></i>
         acompanhar ocorrência
     </a>
 </p>
 
-
-
 <div class="texto-compartilhar alert alert-info" style="display:none">
-    <p class="text-center" style="line-height: 1.8em; color: #CC0000; font-size: 2em;">
+    <p class="text-xs-center" style="line-height: 1.8em; color: #CC0000; font-size: 2em;">
         <span id="texto-compartilhar-frase"> O ponto está em área de tratamento! Denuncie qualquer irregularidade!</span>
         <div class="text-center">
             <div class="fb-share-button" data-href="<?= $urlOcorrencia ?>" data-layout="button"></div>
@@ -69,16 +64,22 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $tratamento
     </p>
 </div>
 
-<p class="text-center" style="line-height: 1.8em; color: #585858; font-size: 2em;">
-    Os transmissores da <span style="color: #CC0000; font-size: 1.2em;">Dengue e da Chikungunya</span> vivem perto de você?
+<p class="text-xs-center">
+    Os transmissores da <strong>Dengue</strong> e do
+    <strong>Zika Vírus</strong> vivem perto de você?
 </p>
 
 <div class="row">
   	<div class="col-md-12">
-        <p class="bg-info text-center" style="padding: 0.5em 0; margin: 1em 0 0 0;"><strong>Focos dos últimos <?= $qtdeDias; ?> dias</strong></p>
+        <p class="bg-info text-xs-center" style="padding: 0.5em 0; margin: 1em 0 0 0;">
+            <strong>Focos dos últimos <?= $qtdeDias; ?> dias</strong>
+        </p>
         <div id="map-loader">
             <div id="centro">
-                <button class="btn btn-default"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Carregando...</button>
+                <button class="btn btn-default btn-secondary">
+                    <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+                    Carregando...
+                </button>
             </div>
         </div>
 		<div id="map" style="height: 500px; width: 100%;">

@@ -15,54 +15,55 @@ $this->registerMetaTag(['property' => 'og:image', 'content' => Url::to('/img/og-
 $this->registerMetaTag(['property' => 'og:title', 'content' => 'Denuncie focos de mosquitos da dengue']);
 $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoPagina]);
 ?>
-
-<h1 class="text-center">
+<div class="ocorrencia-cidade-view">
+<h1 class="text-xs-center">
     <?= MunicipioHelper::getBrasaoAsImageTag($municipio, 'small'); ?>
     <a href="<?= Url::to(['view', 'slug' => $municipio->slug]); ?>">
-        <?= Html::encode($municipio->nome . '/' . $municipio->sigla_estado) ?>
+        <?= Html::encode($municipio->nome . ' / ' . $municipio->sigla_estado) ?>
     </a>
     <?php if ($setor = $municipio->getSetorResponsavel()) : ?>
-    <small><?= Html::encode($setor) ?></small>
+    <?= Html::encode($setor) ?>
     <?php endif; ?>
 </h1>
 
-<p class="text-center" style="line-height: 1.5em; color: #585858; font-size: 1.6em;">
-    Contamos com a <font style="font-weight: bold; font-size: 1.05em; color: #000;">sua ajuda</font> para tornar o nosso <font style="font-weight: bold; font-size: 1.05em; color: #000;">município melhor!</font>
+<p class="text-xs-center">
+    Contamos com a <strong>sua ajuda</strong> para tornar o nosso
+    <strong>município melhor</strong>!
 </p>
 
-<p class="text-center bloco-botoes-ocorrencias">
-    <a href="<?= Url::to(['registrar-ocorrencia/index', 'slug' => $municipio->slug]) ?>" class="btn btn-danger btn-lg">
+<p class="text-xs-center bloco-botoes-ocorrencias">
+    <a href="<?= Url::to(['registrar-ocorrencia/index', 'slug' => $municipio->slug]) ?>" class="btn btn-primary btn-lg">
         <i class="fa fa-plus"></i>
         registrar ocorrência
     </a>
-    <a href="<?= Url::to(['buscar-ocorrencia', 'slug' => $municipio->slug]) ?>" class="btn btn-success btn-lg">
+    <a href="<?= Url::to(['buscar-ocorrencia', 'slug' => $municipio->slug]) ?>" class="btn btn-default btn-secondary btn-lg">
         <i class="fa fa-eye"></i>
         acompanhar ocorrência
     </a>
 </p>
 
 <?php if ($percentualOcorrenciasAtendidas > 0) : ?>
-<div class="bloco-numero-ocorrencias text-center">
-    <p><strong class="recebidas"><?= $numeroOcorrenciasRecebidas ?></strong> ocorrências recebidas,</p>
-    <p><strong class="atendidas"><?= $percentualOcorrenciasAtendidas ?>%</strong> já foram finalizadas.</p>
+<div class="bloco-numero-ocorrencias text-xs-center">
+    <p><strong class="recebidas"><?= $numeroOcorrenciasRecebidas ?></strong> ocorrências recebidas</p>
+    <p><strong class="atendidas"><?= $percentualOcorrenciasAtendidas ?>%</strong> já foram finalizadas</p>
     <p class="fonte-informacao">(informações coletadas desde <?= $dataPrimeiraOcorrencia ?>)</p>
 </div>
 <?php elseif ($numeroOcorrenciasRecebidas > 0) : ?>
-<div class="bloco-numero-ocorrencias text-center">
+<div class="bloco-numero-ocorrencias text-xs-center">
     <p><strong class="recebidas"><?= $numeroOcorrenciasRecebidas ?></strong> ocorrências recebidas.</p>
     <p class="fonte-informacao">(informações coletadas desde <?= $dataPrimeiraOcorrencia ?>)</p>
 </div>
 <?php endif; ?>
 
 <?php if ($percentualOcorrenciasAtendidas > 0) : ?>
-<div class="panel panel-default text-center">
+<div class="panel panel-default text-xs-center">
     <div class="panel-heading mapa-focos-chamada">
         <p>
-            Será que os transmissores da <strong>Dengue</strong> e da
-            <strong>Chikungunya</strong> vivem perto de você?
+            Será que o mosquito da <strong>Dengue</strong> e do
+            <strong>Zika Vírus</strong> vive perto de você?
         </p>
         <p>
-            <a href="<?= Url::to(['mapa-focos', 'slug' => $municipio->slug]) ?>" class="btn btn-default">
+            <a href="<?= Url::to(['mapa-focos', 'slug' => $municipio->slug]) ?>" class="btn btn-default btn-secondary">
                 <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
                 Confira no mapa
             </a>
@@ -70,3 +71,5 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
     </div>
 </div>
 <?php endif; ?>
+
+</div>

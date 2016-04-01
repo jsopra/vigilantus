@@ -60,7 +60,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . Html::
             <div id="map"></div>
         </div>
 
-        <div class="form-group text-center">
+        <div class="form-group text-center text-xs-center">
             <?= Html::submitButton('Próximo passo', ['class' => 'btn btn-primary btn-lg']) ?>
         </div>
 

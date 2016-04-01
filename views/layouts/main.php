@@ -62,7 +62,7 @@ AppAsset::register($this);
         <?php $this->beginBody() ?>
         <?php
         DetailwrapNavBar::begin([
-            'brandLabel' => 'Vigilantus',
+            'brandLabel' => '<img src="' . Url::base() . '/img/nav-brand-image.png" alt="Vigilantus" />',
             'brandUrl' => Yii::$app->homeUrl,
             'municipios' => $this->context->municipiosDisponiveis,
             'municipioLogado' => $this->context->municipioLogado,
@@ -127,12 +127,14 @@ AppAsset::register($this);
 
                             <p class="text-center perspectiva">
                                 <a href="http://perspectiva.in" target="_blank">
-                                    perspectiva<span class="domain">.in</span>
+                                    <img src="<?= Url::base() ?>/img/footer-perspectiva.png" alt="Perspectiva" />
                                 </a>
                             </p>
 
                             <p class="text-center">
-                                Perspectiva Negócios Digitais &copy; <?= date('Y') ?>
+                                Tecnologia para viver melhor.
+                                <br />
+                                &copy; 2014-<?= date('Y') ?>
                             </p>
                         </div>
 
