@@ -7,7 +7,6 @@ use app\models\Configuracao;
 $this->title = 'Ocorrência' . ($model->protocolo ? ' #' . $model->protocolo : '');
 $this->params['breadcrumbs'][] = ['label' => 'Ocorrências', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Detalhes';
-$urlOcorrencia = Url::to('/' . $municipio->rotulo, true);
 ?>
 <div class="ocorrencia-detalhes">
     <h1><?= Html::encode($this->title) ?></h1>
