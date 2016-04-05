@@ -47,7 +47,7 @@ class AlertaAlteracaoStatusOcorrenciaJob implements InterfaceJob
     {
         $body = '<h1>Ocorrência registrada com sucesso</h1>';
         $body .= '<p>Olá' . ($model->nome ? ', ' . $model->nome : '') . ',</p>';
-        $body .= '<p>Informamos que sua ocorrência foi registrada com sucesso.</p>';
+        $body .= '<p>Sua ocorrência foi registrada com sucesso. Agradecemos pela sua contribuição para melhorar a nossa cidade!</p>';
         $body .= '<p>Você será informado quando houver alguma atualização sobre'
                . ' o andamento da avaliação da sua ocorrência, ou se preferir, '
                . 'você poderá acompanhar diretamente na <a href="'
