@@ -74,11 +74,6 @@ class AlertaAlteracaoStatusOcorrenciaJob implements InterfaceJob
                . '<strong>' . OcorrenciaStatus::getDescricao($model->status)
                . '</strong>.</p>'
         ;
-
-        if ($model->status == OcorrenciaStatus::REPROVADA && $model->historicoRejeicao && $model->historicoRejeicao->observacoes) {
-            $body .= '<p><strong>Detalhes:</strong> ' . $model->historicoRejeicao->observacoes . '.</p>';
-        }
-
         $body .= '<hr />';
         $body .= '<p><a href="' . Url::to(
              [
