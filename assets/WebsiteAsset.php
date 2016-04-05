@@ -16,6 +16,7 @@ class WebsiteAsset extends AssetBundle
     ];
     public $js = [
         'js/jquery.balancetext.min.js',
+        'js/jquery.geolocation.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
