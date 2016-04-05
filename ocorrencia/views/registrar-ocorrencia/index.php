@@ -48,7 +48,16 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . Html::
         </div>
 
         <div class="row">
-            <?= $form->field($model, 'endereco')->textInput(['placeholder' => 'Exemplo: Rua dos Alfeneiros 4']) ?>
+            <?= $form->field($model, 'rua')->textInput(['placeholder' => 'Exemplo: Rua dos Alfeneiros']) ?>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <?= $form->field($model, 'numero')->textInput(['placeholder' => 'Exemplo: 280']) ?>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <?= $form->field($model, 'complemento')->textInput(['placeholder' => 'Exemplo: AP 201']) ?>
+            </div>
         </div>
 
         <div class="row">

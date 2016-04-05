@@ -39,11 +39,11 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . Html::
     </div>
 
     <div class="row">
-        <?= $form->field($model, 'tipo_registro')->dropDownList(Ocorrencia::getTiposRegistros()) ?>
+        <?= $form->field($model, 'tipo_registro')->dropDownList(Ocorrencia::getTiposRegistros(), ['prompt' => 'Selecione...']) ?>
     </div>
 
     <div class="row">
-        <?= $form->field($model, 'file')->fileInput()->hint('Adicione <strong>uma foto</strong> ou qualquer outro arquivo que possa ser útil') ?>
+        <?= $form->field($model, 'file')->fileInput()->hint('Adicione <strong>uma foto</strong> ou qualquer outro arquivo que considere ser útil') ?>
     </div>
 
     <div class="row">
