@@ -8,6 +8,7 @@ use app\models\report\AreaTratamentoReport;
 use app\models\report\FocosReport;
 use app\models\report\FocosExcelReport;
 use app\models\report\FocosBairroReport;
+use app\models\report\OcorrenciaAbertasReport;
 use app\models\search\FocoTransmissorSearch;
 use app\models\BairroQuarteirao;
 use app\models\FocoTransmissor;
@@ -36,6 +37,11 @@ class RelatorioController extends Controller
                         'allow' => true,
                         'actions' => ['focos-export', 'update-rg', 'update-focos'],
                         'roles' => ['Usuario', 'Analista'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['ocorrencias-abertas'],
+                        'roles' => ['Administrador'],
                     ],
                 ],
             ],
@@ -128,6 +134,14 @@ class RelatorioController extends Controller
 
         return $this->render('relatorio-focos', ['model' => $model]);
     }
+
+    public function actionOcorrenciasAbertas()
+    {
+        $model = new OcorrenciaAbertasReport;
+
+        return $this->render('ocorrencias-abertas', ['model' => $model]);
+    }
+
 
     public function actionFocosBairro()
     {
