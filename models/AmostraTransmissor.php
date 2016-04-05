@@ -92,8 +92,7 @@ class AmostraTransmissor extends ActiveRecord
 	 */
 	public function getBairro()
 	{
-		return $this->hasOne(Bairro::className(), ['id' => 'bairro_id'])
-            ->via('bairroQuarteirao');
+		return $this->hasOne(Bairro::className(), ['id' => 'bairro_id']);
 	}
 
 	public function getTipoDeposito()

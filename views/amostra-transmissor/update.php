@@ -7,8 +7,8 @@ use yii\helpers\Html;
  * @var app\models\AmostraTransmissor $model
  */
 
-$this->title = 'Atualizar Amostra Transmissor: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Amostra Transmissors', 'url' => ['index']];
+$this->title = 'Atualizar Amostra de Transmissor: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Amostra Transmissores', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Atualizar';
 ?>
 <div class="amostra-transmissor-update">

@@ -8,7 +8,7 @@ use yii\helpers\Html;
  */
 
 $this->title = 'Cadastrar Amostra Transmissor';
-$this->params['breadcrumbs'][] = ['label' => 'Amostra Transmissors', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Amostra Transmissores', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="amostra-transmissor-create">

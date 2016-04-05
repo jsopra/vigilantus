@@ -68,7 +68,7 @@ use yii\widgets\ActiveForm;
             echo Html::a(
                 'Cancelar',
                 array('/amostra-transmissor/index'),
-                array('class'=>'link','rel'=>'tooltip','data-role'=>'cancel','data-title'=>'Ir à lista de Amostra Transmissors')
+                array('class'=>'link','rel'=>'tooltip','data-role'=>'cancel','data-title'=>'Ir à lista de Amostra Transmissores')
             );
             ?>
         </div>
