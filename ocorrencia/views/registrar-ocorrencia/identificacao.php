@@ -13,8 +13,11 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . Html::
 
 <div class="bloco-etapa-registro-ocorrencia">
     <h2>
-        <strong>Identifique-se</strong> e receba atualizações da ocorrência
-        <strong>em seu email</strong>. A informação é <strong>sigilosa</strong>!
+        <strong><span style="font-size: 1.6em;">Identifique-se</span></strong> e receba atualizações da ocorrência.
+
+        <br /><br />
+
+        A informação é <strong><span style="font-size: 1.6em;">sigilosa!</span></strong>
     </h2>
 
     <?php $form = ActiveForm::begin(['options' => []]); ?>

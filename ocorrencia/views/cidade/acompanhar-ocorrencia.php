@@ -75,3 +75,9 @@ $descricaoTweet = 'Registrei uma ocorrência para a Sec. de Saúde de ' . $munic
     ]);
     ?>
 </div>
+
+<style>
+.alert {
+    font-size: 1.5em;
+}
+</style>
