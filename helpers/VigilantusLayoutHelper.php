@@ -69,6 +69,7 @@ class VigilantusLayoutHelper
                 'items' => [
                     ['label' => 'Resumo de RG por Bairro', 'url' => ['/relatorio/resumo-rg-bairro'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-resumo-rg']],
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-areas-tratamento']],
+                    ['label' => 'Ocorrências Abertas', 'url' => ['/relatorio/ocorrencias-abertas'], 'visible' => $user->can('Administrador')],
                     ['label' => 'Focos', 'url' => ['/relatorio/focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos']],
                     ['label' => 'Focos por Bairro', 'url' => ['/relatorio/focos-bairro'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos-bairro']],
                     ['label' => 'Exportação de Focos', 'url' => ['/relatorio/focos-export'], 'options' => ['id' => 'stepguide-relatorio-focos-exportacao']],

@@ -1,6 +1,7 @@
 <?php
 use app\widgets\GridView;
 use app\models\OcorrenciaStatus;
+use yii\helpers\Html;
 
 echo GridView::widget([
     'dataProvider' => $dataProvider,
