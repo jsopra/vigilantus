@@ -45,6 +45,14 @@ function verAveriguacoes(id)
                 </div>
 
                 <div class="col-xs-2">
+                    <?= $form->field($searchModel, 'endereco') ?>
+                </div>
+
+                <div class="col-xs-2">
+                    <?= $form->field($searchModel, 'hash_acesso_publico') ?>
+                </div>
+
+                <div class="col-xs-2">
                     <?= $form->field($searchModel, 'ano')->input('number') ?>
                 </div>
 
