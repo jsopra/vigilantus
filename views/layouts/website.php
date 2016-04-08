@@ -25,14 +25,10 @@ $this->beginPage() ?>
         <title><?= Html::encode($this->title) ?></title>
 
         <?php /*
-        <meta name="description" content="A Perspectiva é uma empresa de desenvolvimento de softwares para computadores, dispostivos móveis e Internet.">
-        <meta name="keywords" content="perspectiva, sistema, software, empresa, internet, computador, desenvolvimento, chapecó">
-
         <meta property="og:locale" content="pt_BR">
-        <meta property="og:url" content="//vigilantus.com.br">
         <meta property="og:type" content="website">
-        <meta property="og:title" content="Perspectiva: tecnologia para viver melhor">
-        <meta property="og:description" content="A Perspectiva é uma empresa de desenvolvimento de softwares para computadores, dispostivos móveis e Internet.">
+        <meta property="og:title" content="<?= Html::encode($this->title) ?>">
+        <meta property="og:description" content="Gestão da Vigilância em Saúde.">
         <meta property="og:image" content="//www.vigilantus.com.br/facebook-image.jpg">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
@@ -184,6 +180,8 @@ $this->beginPage() ?>
         }
         ?>
     </body>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
     <script>
     window.fbAsyncInit = function() {
         FB.init({
