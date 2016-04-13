@@ -6,7 +6,7 @@ class m160211_180342_adicionar_coluna_foco extends Migration
 {
     public function safeUp()
     {
-        $this->addColumn('amostras_transmissores', 'foco', 'boolean');
+        //$this->addColumn('amostras_transmissores', 'foco', 'boolean');
     }
 
     public function safeDown()
