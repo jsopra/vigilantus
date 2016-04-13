@@ -31,6 +31,7 @@ class VigilantusLayoutHelper
                 'visible' => !$user->can('Analista'),
                 'items' => [
                     ['label' => 'Gerir focos', 'url' => ['/foco-transmissor'], 'options' => ['id' => 'stepguide-ocorrencias']],
+                    ['label' => 'Gerir casos de doenças', 'url' => ['/caso-doenca'], 'options' => ['id' => 'stepguide-casosdoencas']],
                     ['label' => 'Indicadores', 'url' => ['/indicador/resumo-focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-indicadores-focos'], 'related' => ['/indicador/evolucao-focos','/indicador/focos-bairro','/indicador/focos-tipo-deposito']],
                     ['label' => 'Mapa de Tratamento', 'url' => ['/mapa/tratamento-foco'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-mapa-tratamento-foco']],
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-areas-tratamento']],
