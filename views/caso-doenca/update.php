@@ -7,8 +7,8 @@ use yii\helpers\Html;
  * @var app\models\CasoDoenca $model
  */
 
-$this->title = 'Atualizar Caso Doenca: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Caso Doencas', 'url' => ['index']];
+$this->title = 'Atualizar Caso de Doença: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Caso de Doença', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Atualizar';
 ?>
 <div class="caso-doenca-update">

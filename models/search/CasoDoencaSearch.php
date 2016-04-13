@@ -36,15 +36,18 @@ class CasoDoencaSearch extends SearchModel
             'cliente_id' => $this->cliente_id,
             'doenca_id' => $this->doenca_id,
             'inserido_por' => $this->inserido_por,
-            'data_cadastro' => $this->data_cadastro,
             'atualizado_por' => $this->atualizado_por,
             'data_atualizacao' => $this->data_atualizacao,
             'bairro_quarteirao_id' => $this->bairro_quarteirao_id,
             'data_sintomas' => $this->data_sintomas,
         ]);
 
+        if($this->data_cadastro) {
+            $query->andWhere("data_cadastro::date = '" . $this->data_cadastro . "'");
+        }
+
 		$query->andFilterWhere(['like', 'coordenadas_area', $this->coordenadas_area])
             ->andFilterWhere(['like', 'nome_paciente', $this->nome_paciente]);
-        
+
 	}
 }

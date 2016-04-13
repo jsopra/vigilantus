@@ -7,8 +7,8 @@ use yii\helpers\Html;
  * @var app\models\CasoDoenca $model
  */
 
-$this->title = 'Cadastrar Caso Doenca';
-$this->params['breadcrumbs'][] = ['label' => 'Caso Doencas', 'url' => ['index']];
+$this->title = 'Cadastrar Caso de Doença';
+$this->params['breadcrumbs'][] = ['label' => 'Caso de Doença', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="caso-doenca-create">

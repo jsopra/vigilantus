@@ -37,9 +37,7 @@ class AmostraTransmissorSearch extends SearchModel
 	{
 		$query->andFilterWhere([
             'id' => $this->id,
-            'data_criacao' => $this->data_criacao,
             'data_atualizacao' => $this->data_atualizacao,
-            'data_coleta' => $this->data_coleta,
             'cliente_id' => $this->cliente_id,
             'tipo_deposito_id' => $this->tipo_deposito_id,
             'quarteirao_id' => $this->quarteirao_id,
@@ -49,6 +47,14 @@ class AmostraTransmissorSearch extends SearchModel
             'quantidade_pupas' => $this->quantidade_pupas,
             'foco' => $this->foco,
         ]);
+
+        if($this->data_coleta) {
+            $query->andWhere("data_coleta::date = '" . $this->data_coleta . "'");
+        }
+
+        if($this->data_criacao) {
+            $query->andWhere("data_criacao::date = '" . $this->data_criacao . "'");
+        }
 
 		$query->andFilterWhere(['like', 'endereco', $this->endereco])
             ->andFilterWhere(['like', 'observacoes', $this->observacoes]);

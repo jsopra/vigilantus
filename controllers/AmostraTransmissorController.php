@@ -17,11 +17,11 @@ class AmostraTransmissorController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'delete', 'index', 'update'],
+                'only' => ['index'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'update', 'delete', 'index'],
+                        'actions' => ['index'],
                         'roles' => ['Usuario','Tecnico Laboratorial'],
                     ],
                     [
@@ -39,21 +39,24 @@ class AmostraTransmissorController extends CRUDController
             ],
         ];
     }
+
     public function actionView($id)
     {
         $model = is_object($id) ? $id : $this->findModel($id);
 
         if (!$this->loadAndSaveModelAnalise($model, $_POST)) {
-            return $this->renderAjaxOrLayout('view', ['model' => $model]);
+
+            return $this->renderAjaxOrLayout('view', [
+                'model' => $model,
+                'submitting' => isset($_POST['AmostraTransmissor']),
+            ]);
         }
     }
     protected function loadAndSaveModelAnalise($model, $data = null)
     {
         if (!empty($data) && $model->load($data)) {
 
-            if ($model->hasAttribute('atualizado_por')) {
-                $model->atualizado_por = Yii::$app->user->identity->id;
-            }
+            $model->atualizado_por = Yii::$app->user->identity->id;
 
             $saveMethodName = $this->getModelSaveMethodName();
 

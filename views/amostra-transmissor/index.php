@@ -21,19 +21,28 @@ $this->params['breadcrumbs'][] = $this->title;
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
 		'columns' => [
-
-			['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'foco',
                 'value' => function ($model, $index, $widget) {
-                   return $model->foco ? 'Sim' : 'Não';
+                   return $model->foco ? 'Sim' : ($model->foco === false ? 'Não' : 'Pendente');
                 },
-                'filter' => [0 => 'Não', 1 => 'Sim'],
+                'filter' => [false => 'Não', true => 'Sim'],
             ],
             'numero_amostra',
-            'data_criacao',
-			'data_coleta',
-
+            [
+                'attribute' => 'data_criacao',
+                'filter' => Html::input('date', 'AmostraTransmissorSearch[data_criacao]', $searchModel->data_criacao, ['class' => 'form-control input-datepicker']),
+                'value' => function ($model, $index, $widget) {
+                    return $model->data_criacao;
+                }
+            ],
+            [
+                'attribute' => 'data_coleta',
+                'filter' => Html::input('date', 'AmostraTransmissorSearch[data_coleta]', $searchModel->data_coleta, ['class' => 'form-control input-datepicker']),
+                'value' => function ($model, $index, $widget) {
+                    return $model->data_coleta;
+                }
+            ],
             [
                 'attribute' => 'tipo_deposito_id',
                 'filter' => DepositoTipo::listData('descricao'),
@@ -75,19 +84,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 			[
                 'class' => 'app\components\ActionColumn',
+                'template' => '{ver}',
                 'buttons' => [
                     'ver' => function ($url, $model, $key) {
                         if (!Yii::$app->user->can('Administrador') && !Yii::$app->user->can('Tecnico Laboratorial')){
                             return null;
                         }
                         return Html::a(
-                            '<i class="table-view"></i>',
+                            $model->foco !== null ? '<i class="table-view"></i>' : '<i class="glyphicon glyphicon-check"></i>',
                             \yii\helpers\Url::to(['amostra-transmissor/view', 'id' => $model->id]),
                             ['title' => 'Análise Laboratorial']
                         );
                     },
                 ],
-                'template' => '{ver} {update} {delete}',
             ],
 		],
 	]); ?>
