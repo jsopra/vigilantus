@@ -18,6 +18,7 @@ class UsuarioRole extends ActiveRecord
     const GERENTE = 3;
     const USUARIO = 4;
     const ANALISTA = 5;
+    const TECNICO_LABORATORIAL = 6;
 
     /**
      * @return string nome da tabela do banco de dados
