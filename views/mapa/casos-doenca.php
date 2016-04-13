@@ -6,7 +6,7 @@ use yii\web\JsExpression;
 use Yii\helpers\Url;
 use yii\helpers\Json;
 
-$this->title = 'Casos de DoenÃ§a';
+$this->title = 'Casos de Doença';
 $this->params['breadcrumbs'][] = $this->title;
 
 MapBoxAPIHelper::registerScript($this, ['fullScreen', 'omnivore', 'markercluster']);
