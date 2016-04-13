@@ -232,6 +232,7 @@ if ($municipio->latitude && $municipio->longitude) {
         function verificaCoordenadaCidade(lat, lng) {
 
             $.getJSON('" . Url::to(['/' . $municipio->slug . '/coordenada-na-cidade']) . "/' + lat + '/' + lng, function(data) {
+
                     if(data.coordenadaNaCidade) {
 
                         map.setView([lat , lng], 15);

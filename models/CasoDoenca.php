@@ -47,23 +47,19 @@ class CasoDoenca extends ClienteActiveRecord
     {
         return [
             'id' => 'ID',
-            'cliente_id' => 'Cliente ID',
-            'doenca_id' => 'Doença ID',
+            'cliente_id' => 'Cliente',
+            'doenca_id' => 'Doença',
             'inserido_por' => 'Inserido Por',
             'data_cadastro' => 'Data Cadastro',
             'atualizado_por' => 'Atualizado Por',
             'data_atualizacao' => 'Data Atualização',
             'coordenadas_area' => 'Coordenadas Area',
-            'bairro_quarteirao_id' => 'Bairro Quarteirão ID',
+            'bairro_quarteirao_id' => 'Quarteirão',
             'nome_paciente' => 'Nome Paciente',
             'data_sintomas' => 'Data Sintomas',
         ];
     }
 
-    /*public function getBairroQuarteirao()
-    {
-        return $this->hasOne(BairroQuarteiroes::className(), ['id' => 'bairro_quarteirao_id']);
-    }*/
     public function getBairroQuarteirao()
     {
         return $this->hasOne(BairroQuarteirao::className(), ['id' => 'bairro_quarteirao_id']);

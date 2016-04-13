@@ -278,7 +278,8 @@ class Municipio extends ActiveRecord
             id IN (
                 SELECT DISTINCT b.id
                 FROM bairros b
-                WHERE ST_Contains(b.coordenadas_area, ST_SetSRID(ST_Point(" . $lon . ", " . $lat . "),4326))
+                JOIN municipios m ON m.id = b.municipio_id
+                WHERE m.id = " . $this->id . " AND ST_Contains(b.coordenadas_area, ST_SetSRID(ST_Point(" . $lon . ", " . $lat . "),4326))
             )
         ";
 
