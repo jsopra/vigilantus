@@ -54,7 +54,7 @@ $this->beginPage() ?>
                 <a class="navbar-brand" href="<?= Url::base() ?>/" title="Perspectiva">
                     <img
                         src="<?= Url::base() ?>/img/website/logotipo-vigilantus-grande.png"
-                        srcset="<?= Url::base() ?>/img/website/logotipo-vigilantus-grande.png 1x, <?= Url::base() ?>/img/website/logotipo-vigilantus-grande@2x.png 2x, <?= Url::base() ?>/img/website/logotipo-vigilantus-grande@3x.png 3x"
+                        srcset="<?= Url::base() ?>/img/website/logotipo-vigilantus-grande.png 1x, <?= Url::base() ?>/img/website/logotipo-vigilantus-pequeno@2x.png 2x, <?= Url::base() ?>/img/website/logotipo-vigilantus-grande@3x.png 3x"
                         alt="Vigilantus"
                         width="258"
                         height="50">

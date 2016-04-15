@@ -10,6 +10,7 @@ use app\models\OcorrenciaHistorico;
 use app\models\OcorrenciaStatus;
 use yii\data\ActiveDataProvider;
 use app\models\Ocorrencia;
+use app\forms\OcorrenciaImpressaoForm;
 use yii\web\UploadedFile;
 use app\models\search\OcorrenciaHistoricoSearch;
 use app\models\OcorrenciaHistoricoTipo;
@@ -36,11 +37,11 @@ class OcorrenciaController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'abertas'],
+                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'abertas', 'impressao'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'abertas'],
+                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'abertas', 'impressao'],
                         'roles' => ['Usuario'],
                     ],
                 ],
@@ -268,5 +269,17 @@ class OcorrenciaController extends CRUDController
             '_averiguacoes',
             ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
         );
+    }
+
+    public function actionImpressao($id)
+    {
+        $model = is_object($id) ? $id : $this->findModel($id);$searchModel = new OcorrenciaHistoricoSearch;
+
+        $dataProvider = $searchModel->search(['ocorrencia_id' => $id]);
+
+        $this->layout = '//printweb';
+        return $this->render('_print', [
+            'model' => $model, 'dataProvider' => $dataProvider
+        ]);
     }
 }
