@@ -72,7 +72,7 @@ if ($model->bairroQuarteirao || ($model->latitude !== null && $model->longitude 
 <?php
 $view = Yii::$app->getView();
 $script = '
-    $("a[href=#aba-mapa]").on("click", function() {
+    $(\'a[href="#aba-mapa"]\').on("click", function() {
         initialize();
     });
 ';
