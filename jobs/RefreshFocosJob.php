@@ -10,7 +10,7 @@ class RefreshFocosJob implements \perspectivain\gearman\InterfaceJob
 {
     public function run($params = [])
     {
-        if(!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
+        if (!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
             return true;
         }
 
@@ -18,21 +18,20 @@ class RefreshFocosJob implements \perspectivain\gearman\InterfaceJob
 
         Yii::$app->cache->set('ultima_atualizacao_resumo_focos', null, (60*60*24*7*4));
 
-        $clientes = Cliente::find()->all();
-        foreach($clientes as $cliente) {
+        $clientes = Cliente::find()->ativo()->all();
+        foreach ($clientes as $cliente) {
 
-            $focos = FocoTransmissor::find()
+            foreach (\app\models\FocoTransmissor::find()
                 ->select(['distinct on (especie_transmissor_id, imovel_id, bairro_quarteirao_id) focos_transmissores.*'])
                 ->doCliente($cliente->id)
                 ->ativo()
-                ->all();
-
-            foreach($focos as $foco) {
+                ->each(10) as $foco
+            ) {
 
                 $quarteirao = $foco->bairroQuarteirao;
 
                 $quarteirao->loadCoordenadas();
-                if(!$quarteirao->coordenadas) {
+                if (!$quarteirao->coordenadas) {
                     continue;
                 }
 

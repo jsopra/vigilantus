@@ -72,8 +72,8 @@ class BairroQuarteiraoQuery extends ActiveQuery
         return $this;
     }
 
-    public function emAreaDeTratamento($cliente, $lira = null, $especieTransmissor = null) {
-
+    public function emAreaDeTratamento($cliente, $lira = null, $especieTransmissor = null)
+    {
         $idsAreaTratamento = BairroQuarteirao::getIDsAreaTratamento($cliente->id, $especieTransmissor, $lira);
 
         $query = $idsAreaTratamento ? "id IN (" . implode(',', $idsAreaTratamento) . ")" : '1=2';
