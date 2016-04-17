@@ -71,6 +71,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             [
+                'attribute' => 'ativo',
+                'value' => function ($model, $index, $widget) {
+                   return $model->ativo ? 'Sim' : 'Não';
+                },
+                'filter' => [false => 'Não', true => 'Sim'],
+            ],
+            [
                 'class' => 'app\extensions\grid\ModalColumn',
                 'iconClass' => 'icon-search opacity50',
                 'modalId' => 'dados-contato-detalhes',

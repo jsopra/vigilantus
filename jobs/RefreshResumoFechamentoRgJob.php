@@ -23,7 +23,7 @@ class RefreshResumoFechamentoRgJob implements \perspectivain\gearman\InterfaceJo
 
         Yii::$app->cache->set('ultima_atualizacao_resumo_cache_rg', null, (60*60*24*7*4));
 
-        foreach(Cliente::find()->each(10) as $cliente) {
+        foreach(Cliente::find()->ativo()->all() as $cliente) {
 
             foreach(Bairro::find()->doCliente($cliente->id)->each(10) as $bairro) {
 
