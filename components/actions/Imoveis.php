@@ -25,18 +25,19 @@ class Imoveis extends Action
 
         $strImovelRuaBairro = "rua.nome || ', ' || (CASE WHEN imoveis.numero IS NOT NULL AND imoveis.sequencia != '' THEN '-' || imoveis.numero ELSE 'S/N' END) || (CASE WHEN imoveis.sequencia IS NOT NULL AND imoveis.sequencia != '' THEN '-' || imoveis.sequencia ELSE '' END) || (CASE WHEN imoveis.sequencia IS NOT NULL AND imoveis.sequencia != '' THEN '-' || imoveis.sequencia ELSE '' END) || (CASE WHEN imoveis.sequencia IS NOT NULL AND imoveis.sequencia != '' THEN '-' || imoveis.sequencia ELSE '' END) || (CASE WHEN imoveis.complemento IS NOT NULL AND imoveis.complemento != '' THEN ', ' || imoveis.complemento ELSE '' END) || (CASE WHEN bairro.nome IS NOT NULL AND imoveis.complemento != '' THEN ', Bairro ' || bairro.nome ELSE '' END)";
 
-        if($queryString)
-            $query->andWhere($strImovelRuaBairro . ' ILIKE :imoveis_string');
-            $query->addParams([':imoveis_strings' => $queryString . '%']);
+        if ($queryString) {
+            $query->andWhere($strImovelRuaBairro . ' ILIKE \'' . $queryString . '%\'');
+        }
 
-            //$query->andWhere($strImovelRuaBairro . ' ILIKE \'' . $queryString . '%\'');
-        if($bairroID)
+        if ($bairroID) {
             $query->andWhere('bairro.id = ' . $bairroID);
+        }
 
         $imoveis = $query->all();
 
-        foreach($imoveis as $imovel)
+        foreach($imoveis as $imovel) {
             $array[] = ['id' => $imovel->id, 'name' => ImovelHelper::getEnderecoCompleto($imovel)];
+        }
 
 		echo Json::encode($array);
     }
