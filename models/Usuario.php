@@ -133,8 +133,8 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
             ['token_api', 'unique', 'skipOnEmpty' => true],
             ['token_recupera_senha', 'unique', 'skipOnEmpty' => true],
             ['email', 'email'],
-            [['ultimo_login', 'data_recupera_senha'], 'date', 'time' => true],
-            [['senha', 'confirmacao_senha'], 'safe'],
+            [['data_recupera_senha'], 'date', 'time' => true],
+            [['senha', 'confirmacao_senha', 'ultimo_login'], 'safe'],
             ['excluido', 'boolean'],
         ];
     }
