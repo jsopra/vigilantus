@@ -17,7 +17,7 @@ $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::
 </div>
 
 <div style="text-align: center;">
-    <p style="padding: 0; margin: 1em 0 0.3em 0;">SECRETARIA MUNICIPAL DE SAÚDE</p>
+    <p style="padding: 0; margin: 1em 0 0.3em 0; font-weight: bold; font-size: 1.5em;">SECRETARIA MUNICIPAL DE SAÚDE</p>
 </div>
 
 <br />
