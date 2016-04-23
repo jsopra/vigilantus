@@ -1,6 +1,8 @@
 <?php
 use yii\console\controllers\MigrateController;
 
+Yii::setAlias('@webroot', __DIR__ . '/../web');
+Yii::setAlias('@web', '/');
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
 
 $params = require(__DIR__ . '/params.php');
