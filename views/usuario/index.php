@@ -54,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'email:email',
+            'recebe_email_ocorrencia:boolean',
             [
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',
