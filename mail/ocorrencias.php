@@ -13,7 +13,7 @@ $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::
 ?>
 
 <div style="text-align: center;">
-    <?php //echo MunicipioHelper::getBrasaoAsImageTag($cliente->municipio, 'small'); ?>
+    <?php echo MunicipioHelper::getBrasaoAsImageTag($cliente->municipio, 'small'); ?>
 </div>
 
 <div style="text-align: center;">
