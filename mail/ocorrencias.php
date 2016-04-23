@@ -84,18 +84,18 @@ $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::
 <p style="font-size: 1.3em; font-weight: bold;">Links relacionados</p>
 <ul>
     <li>
-        <?= Html::a(Html::encode("Acesse o dashboard de ocorrências"), Url::to(['/site/resumo-ocorrencias'], true)); ?>
+        <a href="<?= getenv('ABSOLUTE_URL'); ?>site/resumo-ocorrencias">Acesse o dashboard de ocorrências</a>
     </li>
 
     <li>
-        <?= Html::a(Html::encode("Acesse indicadores de ocorrências por mês"), Url::to(['/ocorrencia/indicador/ocorrencias-mes'], true)); ?>
+        <a href="<?= getenv('ABSOLUTE_URL'); ?>ocorrencia/indicador/ocorrencias-mes">Acesse indicadores de ocorrências por mês</a>
     </li>
 
     <li>
-        <?= Html::a(Html::encode("Acesse indicadores de ocorrências por situação"), Url::to(['/ocorrencia/indicador/ocorrencias-status'], true)); ?>
+        <a href="<?= getenv('ABSOLUTE_URL'); ?>ocorrencia/indicador/ocorrencias-status">Acesse indicadores de ocorrências por situação</a>
     </li>
 
     <li>
-        <?= Html::a(Html::encode("Acesse indicadores de ocorrências por tipo de problema"), Url::to(['/ocorrencia/indicador/ocorrencias-problema'], true)); ?>
+        <a href="<?= getenv('ABSOLUTE_URL'); ?>ocorrencia/indicador/ocorrencias-problema">Acesse indicadores de ocorrências por tipo de problema</a>
     </li>
 </ul>
