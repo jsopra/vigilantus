@@ -27,11 +27,8 @@ class MunicipioHelper extends YiiStringHelper
         if (!$externalPath) {
             return '';
         }
-        
-        $fullUrl = '';
-        if ($external) {
-            $fullUrl = Url::to(['/'], true);
-        }
+
+        $fullUrl = $external ? getenv('ABSOLUTE_URL') : '';
 
         return Html::img($fullUrl . $externalPath . $tipo . '/' . $municipio->brasao);
     }
