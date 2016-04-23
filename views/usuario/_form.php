@@ -42,6 +42,8 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
 
+        <?= $form->field($model, 'recebe_email_ocorrencia')->checkbox() ?>
+
 		<div class="form-group">
 			<?php
             echo Html::submitButton(

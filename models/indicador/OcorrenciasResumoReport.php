@@ -53,4 +53,14 @@ class OcorrenciasResumoReport extends Model
 
         return $qtdeOcorrencias > 0 ? round(($tempoTotal / $qtdeOcorrencias), 2) : 0;
     }
+
+    public function getTotalDenunciasAbertasDia($data)
+    {
+        return Ocorrencia::find()->criadaNoDia($data)->aberta()->count();
+    }
+
+    public function getTotalDenunciasFechadasDia($data)
+    {
+        return Ocorrencia::find()->fechadaNoDia($data)->fechada()->count();
+    }
 }
