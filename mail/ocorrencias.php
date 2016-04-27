@@ -22,7 +22,7 @@ $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::
 
 <br />
 
-<p style="font-size: 1.3em; font-weight: bold;">Denuncias em <?= date('Y'); ?></p>
+<p style="font-size: 1.3em; font-weight: bold;">Denúncias em <?= date('Y'); ?></p>
 
 <table style="border-left: 1px solid #ccc; padding-left: .5em;">
 
@@ -45,11 +45,11 @@ $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::
 
 <br />
 
-<p style="font-size: 1.3em; font-weight: bold;">Denuncias em <?= date('d/m/Y',strtotime("-1 days")); ?></p>
+<p style="font-size: 1.3em; font-weight: bold;">Denúncias em <?= date('d/m/Y',strtotime("-1 days")); ?></p>
 <table style="border-left: 1px solid #ccc; padding-left: .5em;">
 
     <tr>
-        <td><strong>Denuncias abertas</strong>:</td>
+        <td><strong>Denúncias abertas</strong>:</td>
         <td><?= $resumo->getTotalDenunciasAbertasDia($diaAnterior); ?></td>
     </tr>
 
@@ -61,11 +61,11 @@ $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::
 </table>
 <br />
 
-<p style="font-size: 1.3em; font-weight: bold;">Denuncias pendentes</p>
+<p style="font-size: 1.3em; font-weight: bold;">Denúncias pendentes</p>
 <table style="border-left: 1px solid #ccc; padding-left: .5em;">
 
     <tr>
-        <td><strong>Denuncias abertas até 8 dias</strong>:</td>
+        <td><strong>Denúncias abertas até 8 dias</strong>:</td>
         <td><?= Ocorrencia::find()->aberta()->anteriorA($qtdeDiasVerde)->count(); ?></td>
     </tr>
 
@@ -85,6 +85,10 @@ $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::
 <ul>
     <li>
         <a href="<?= getenv('ABSOLUTE_URL'); ?>site/resumo-ocorrencias">Acesse o dashboard de ocorrências</a>
+    </li>
+
+    <li>
+        <a href="<?= getenv('ABSOLUTE_URL'); ?>ocorrencia/ocorrencia/abertas">Acesse a lista de ocorrências abertas</a>
     </li>
 
     <li>
