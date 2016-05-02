@@ -118,6 +118,7 @@ $this->title = Yii::$app->name;
             </div>
             <div class="col-md-6">
                 <ul>
+                    <li><a href="http://g1.globo.com/sc/santa-catarina/jornal-do-almoco/videos/t/chapeco/v/prefeitura-de-chapeco-lanca-ferramenta-online-para-denuncias-de-cunho-ambiental/4965298/">Prefeitura de Chapecó lança ferramenta online para denúncias de cunho ambiental</a></li>
                     <li><a href="http://www.radiopiratuba.com.br/noticias/noticia/id:1495;software-de-combate-a-dengue-desenvolvido-em-sc-e-apresentado-no-ministerio-da-saude.html" target="_blank">Software de combate a dengue desenvolvido em SC é apresentado no Ministério da Saúde</a></li>
                     <li><a href="https://www.youtube.com/watch?v=ab0c_LQCb2w" target="_blank">Aplicativo "Vigilantus" desenvolvido em Chapecó ajuda no combate à dengue</a></li>
                     <li><a href="http://agenciaal.alesc.sc.gov.br/index.php/noticia_single/estudantes-de-chapeco-desenvolvem-aplicativo-voltado-ao-combate-da-dengue" target="_blank">Estudantes de Chapecó criam software voltado ao combate da dengue</a></li>
