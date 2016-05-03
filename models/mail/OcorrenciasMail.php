@@ -28,6 +28,7 @@ class OcorrenciasMail
 
             $modelResumo = new OcorrenciasResumoReport;
             $modelResumo->ano = date('Y');
+            $modelResumo->cliente_id = $cliente->id;
 
             Yii::$app->mail
                 ->compose('ocorrencias', ['cliente' => $cliente, 'resumo' => $modelResumo])
