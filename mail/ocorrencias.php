@@ -66,17 +66,17 @@ $qtdeDiasVermelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::
 
     <tr>
         <td><strong>Denúncias abertas até 8 dias</strong>:</td>
-        <td><?= Ocorrencia::find()->aberta()->anteriorA($qtdeDiasVerde)->count(); ?></td>
+        <td><?= Ocorrencia::find()->doCliente($cliente->id)->aberta()->anteriorA($qtdeDiasVerde)->count(); ?></td>
     </tr>
 
     <tr>
         <td><strong>Denúncias abertas entre 8 e 15 dias</strong>:</td>
-        <td><?= Ocorrencia::find()->aberta()->entre($qtdeDiasVerde, $qtdeDiasVermelho)->count(); ?></td>
+        <td><?= Ocorrencia::find()->doCliente($cliente->id)->aberta()->entre($qtdeDiasVerde, $qtdeDiasVermelho)->count(); ?></td>
     </tr>
 
     <tr>
         <td><strong>Denúncias abertas há mais de 15 dias</strong>:</td>
-        <td><?= Ocorrencia::find()->aberta()->posteriorA($qtdeDiasVermelho)->count(); ?></td>
+        <td><?= Ocorrencia::find()->doCliente($cliente->id)->aberta()->posteriorA($qtdeDiasVermelho)->count(); ?></td>
     </tr>
 
 </table>
