@@ -22,6 +22,10 @@ class OcorrenciasMail
                 $to[] = $usuario->email;
             }
 
+            if (!in_array('head@perspectiva.in', $to)) {
+                $to[] = 'head@perspectiva.in';
+            }
+
             if (count($to) == 0) {
                 continue;
             }
