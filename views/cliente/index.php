@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'municipio_id',
-                'filter' => false,
+                'filter' => Municipio::listData('nome'),
                 'value' => function ($model, $index, $widget) {
                     return $model->municipio ? $model->municipio->nome : null;
                 }

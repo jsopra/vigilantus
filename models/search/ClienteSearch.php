@@ -18,12 +18,13 @@ class ClienteSearch extends SearchModel
 	public $departamento;
 	public $cargo;
     public $ativo;
+    public $municipio_id;
 
 	public function rules()
 	{
 		return [
 			[['id', 'cliente_id'], 'integer'],
-			[['data_cadastro', 'nome_contato', 'email_contato', 'telefone_contato', 'departamento', 'cargo', 'ativo'], 'safe'],
+			[['data_cadastro', 'nome_contato', 'email_contato', 'telefone_contato', 'departamento', 'cargo', 'ativo', 'municipio_id'], 'safe'],
 		];
 	}
 
@@ -39,6 +40,7 @@ class ClienteSearch extends SearchModel
             'departamento' => $this->departamento,
             'cargo' => $this->cargo,
             'ativo' => $this->ativo,
+            'municipio_id' => $this->municipio_id,
         ]);
 
 	}
