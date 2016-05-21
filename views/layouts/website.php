@@ -62,10 +62,7 @@ $this->beginPage() ?>
                 <div class="collapse navbar-toggleable-sm" id="exCollapsingNavbar">
                     <ul class="nav navbar-nav pull-md-right">
                         <li class="nav-item">
-                            <a class="nav-link" href="<?= Url::to('/blog') ?>">Blog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= Url::to('/site/contato') ?>">Contato</a>
+                            <a class="nav-link" href="#contact">Contato</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<?= Url::to('/site/login') ?>">Login</a>
@@ -125,6 +122,7 @@ $this->beginPage() ?>
 
         <footer>
             <section id="contato">
+                <a name="contact"></a>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-5 address">
@@ -144,16 +142,16 @@ $this->beginPage() ?>
                         </div>
 
                         <div class="col-md-7 contact-form">
-                          <h3>Entre em Contato</h3>
-                          <form accept-charset="UTF-8" action="//formspree.io/tenha@perspectiva.in" method="POST" target="_blank">
-                            <fieldset class="form-group">
-                              <input type="email" required name="email" class="form-control" id="user-email" placeholder="Seu e-mail">
-                            </fieldset>
-                            <fieldset class="form-group">
-                              <textarea class="form-control" required name="text" id="user-message" placeholder="Sua mensagem" rows="5"></textarea>
-                            </fieldset>
-                            <button type="submit" class="btn btn-primary">Enviar</button>
-                          </form>
+                            <h3>Entre em Contato</h3>
+                            <form accept-charset="UTF-8" action="//formspree.io/tenha@perspectiva.in" method="POST" target="_blank">
+                                <fieldset class="form-group">
+                                    <input type="email" required name="email" class="form-control" id="user-email" placeholder="Seu e-mail">
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    <textarea class="form-control" required name="text" id="user-message" placeholder="Sua mensagem" rows="5"></textarea>
+                                </fieldset>
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                            </form>
                         </div>
                     </div>
                     <p class="text-xs-center copyright-notice">
