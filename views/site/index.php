@@ -12,11 +12,11 @@ $this->title = Yii::$app->name;
         <div class="row">
             <div class="col-md-8">
                 <h1 class="display-3 text-xs-center balance-text">
-                    Software para Gestão da Vigilância em Saúde
+                    A melhor experiência de prevenção em saúde para sua cidade
                 </h1>
                 <p class="lead text-xs-center balance-text">
-                Apoio e gestão de prevenção da Dengue, Zika vírus,
-                Chikunguya e outras zoonoses.
+                Ferramenta para controle sustentável de Dengue, Zika,
+                Chikunguya e outras Zoonoses
                 </p>
             </div>
             <div class="col-md-4 hidden-sm-down">
@@ -28,12 +28,12 @@ $this->title = Yii::$app->name;
 
 <section class="request-demo">
     <h1>Solicite uma demonstração gratuita</h1>
-    <p>Preencha seu endereço de e-mail e solicite uma demonstração gratuita do software:</p>
+    <p>Preencha seu endereço de e-mail e solicite uma demonstração do software:</p>
     <form class="form-inline" accept-charset="UTF-8" action="//formspree.io/tenha@perspectiva.in" method="POST" target="_blank">
         <div class="form-group">
-            <input type="email" class="form-control" placeholder="Seu e-mail" name="email">
+            <input type="email" class="form-control" placeholder="Seu e-mail" name="email" style="width: 190px">
+            <button class="btn btn-primary">Solicitar</button>
         </div>
-        <button class="btn btn-primary">Solicitar</button>
     </form>
 </section>
 
@@ -41,7 +41,7 @@ $this->title = Yii::$app->name;
     <div class="container">
         <div class="row">
             <div class="col-sm-5">
-                <img src="<?= Url::base() ?>/img/funcionalidade-conformidade-pncd.jpg" alt="Ilustração">
+                <img src="<?= Url::base() ?>/img/funcionalidade-conformidade-pncd.jpg" alt="Ilustração" class="img-thumbnail">
             </div>
             <div class="col-sm-7">
                 <h1 class="balance-text">Conformidade com o PNCD</h1>
@@ -64,7 +64,7 @@ $this->title = Yii::$app->name;
     <div class="container">
         <div class="row">
             <div class="col-sm-5">
-                <img src="<?= Url::base() ?>/img/funcionalidade-georreferenciamento.jpg" alt="Ilustração">
+                <img src="<?= Url::base() ?>/img/funcionalidade-georreferenciamento.jpg" alt="Ilustração" class="img-thumbnail">
             </div>
             <div class="col-sm-7">
                 <h1 class="balance-text">Georreferenciamento</h1>
@@ -75,9 +75,8 @@ $this->title = Yii::$app->name;
                     infestação.
                 <p>
                 <p class="balance-text">
-                    É possível consultar pontos de focos e pontos de casos
-                    confirmados, aplicando diversos filtros para ter a informação
-                    exata.
+                    Consulte facilmente as áreas de risco da cidade e os locais
+                    que possuem casos confirmados das doenças.
                 <p>
             </div>
         </div>
@@ -88,20 +87,42 @@ $this->title = Yii::$app->name;
     <div class="container">
         <div class="row">
             <div class="col-sm-5">
-                <img src="<?= Url::base() ?>/img/funcionalidade-ocorrencias-denuncias.jpg" alt="Ilustração">
+                <img src="<?= Url::base() ?>/img/funcionalidade-ocorrencias-denuncias.jpg" alt="Ilustração" class="img-thumbnail">
             </div>
             <div class="col-sm-7">
                 <h1 class="balance-text">Ocorrências e denúncias</h1>
                 <p class="balance-text">
                     Um portal público completo para que <strong>o cidadão possa
-                    registrar ocorrências</strong> que envolvem a Vigilância em
-                    Saúde.
+                    registrar ocorrências</strong> para a Secretaria de Saúde.
                 <p>
                 <p class="balance-text">
-                    O gestor poderá acompanhar o tempo de resposta de sua equipe,
-                    enquanto o cidadão receberá um número de protocolo e poderá
-                    acompanhar o andamento do atendimento da ocorrência.
+                    Acompanhe o tempo de resposta da sua equipe,
+                    enquanto o cidadão recebe um número de protocolo para
+                    acompanhar o andamento do atendimento da sua ocorrência.
                 <p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="feature feature-last ocorrencias-denuncias">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-5">
+                <img src="<?= Url::base() ?>/img/funcionalidade-analise.jpg" alt="Ilustração" class="img-thumbnail">
+            </div>
+            <div class="col-sm-7">
+                <h1 class="balance-text">Inteligência em Prevenção</h1>
+                <p class="balance-text">
+                    Análises via mapa que orientam ações coletivas.
+                <p>
+                <p class="balance-text">
+                    <strong>Avalie</strong> indicadores através de mapas, <strong>entenda</strong> as lacunas no seu
+                    processo preventivo e <strong>execute ações orientadas</strong> à necessidades de cada local.
+                <p>
+                <p class="balance-text">
+                    <strong>Faça a mudança acontecer!</strong>
+                </p>
             </div>
         </div>
     </div>

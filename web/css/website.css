@@ -146,7 +146,7 @@ section h2 {
 
 .jumbotron p {
   color: #ffc600;
-  font-size: 18px;
+  font-size: 21px;
   font-family: OpenSans, Helvetica, Arial, sans-serif;
   font-weight: normal;
   line-height: 120%;
@@ -187,7 +187,13 @@ section h2 {
 }
 
 .feature {
-  margin-bottom: 100px;
+  border-bottom: 1px dashed #F2F2F2;
+  padding-bottom: 50px;
+  margin-bottom: 50px;
+}
+
+.feature-last {
+  border: 0 !important;
 }
 
 .feature h1 {

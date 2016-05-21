@@ -148,7 +148,7 @@ class VigilantusLayoutHelper
     public static function getMenuComum(User $user)
     {
         return [
-            ['label' => 'Blog', 'url' => ['/blog']],
+            //['label' => 'Blog', 'url' => ['/blog']],
             ['label' => '', 'url' => ['/site/contato'], 'icon' => 'fa fa-envelope-o'],
             [
                 'visible' => !$user->isGuest,
