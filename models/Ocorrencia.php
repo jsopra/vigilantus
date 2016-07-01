@@ -151,6 +151,7 @@ class Ocorrencia extends ClienteActiveRecord
             'coordenadas' => 'Coordenadas',
             'descricao_outro_tipo_problema' => 'Descrição do Problema',
             'tipo_registro' => 'Tipo de Registro',
+            'detalhes_publicos' => 'Detalhes Públicos'
 		];
 	}
 

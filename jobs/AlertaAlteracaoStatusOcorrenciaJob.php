@@ -74,6 +74,7 @@ class AlertaAlteracaoStatusOcorrenciaJob implements InterfaceJob
                . '<strong>' . OcorrenciaStatus::getDescricao($model->status)
                . '</strong>.</p>'
         ;
+        $body .= '<p><strong>Observações: </strong>' . $model->detalhes_publicos . '</p>';
         $body .= '<hr />';
         $body .= '<p><a href="' . Url::to(
              [
