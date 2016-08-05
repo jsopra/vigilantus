@@ -48,8 +48,8 @@ php ./codeception/bin/yii migrate
 ../vendor/bin/codecept run unit
 ```
 
-2. Para rodar os testes de aceitação, você precisa ter o selenium instalado e
-rodando em outra janela do terminal:
+-2. Para rodar os testes de aceitação, você precisa ter o selenium instalado e
+rodando em outra janela do terminal:-
 
 ```bash
 selenium-server -p 4444
