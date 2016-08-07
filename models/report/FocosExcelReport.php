@@ -88,10 +88,9 @@ class FocosExcelReport extends Model
 
         //cabeçalho: logo, texto prefeitura
         if($municipio->brasao) {
-            $path = MunicipioHelper::getBrasaoPath($municipio, true);
             $objDrawing = new \PHPExcel_Worksheet_MemoryDrawing();
             $objDrawing->setName('Brasão de ' . $municipio->nome);
-            $objDrawing->setImageResource(imagecreatefromjpeg($path . '/mini/' . $municipio->brasao));
+            $objDrawing->setImageResource(imagecreatefrompng(MunicipioHelper::getBrasaoUrl($municipio, 'mini')));
             $objDrawing->setRenderingFunction(\PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
             $objDrawing->setMimeType(\PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
             $objDrawing->setCoordinates('A2');

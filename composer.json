@@ -25,7 +25,8 @@
         "hashids/hashids": "~1.0",
         "robregonm/yii2-pdf": "dev-master",
         "rmrevin/yii2-fontawesome": "2.12.*",
-        "vlucas/phpdotenv": "~2.0"
+        "vlucas/phpdotenv": "~2.0",
+        "frostealth/yii2-aws-s3" : "1.0.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

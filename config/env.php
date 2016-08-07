@@ -13,6 +13,7 @@ try {
         'FACEBOOK_KEY', 'FACEBOOK_SECRET',
         'INSTAGRAM_KEY', 'INSTAGRAM_SECRET',
         'GOOGLE_MAPS_KEY', 'MAP_BOX_ACCESS_TOKEN', 'MAP_BOX_MAP_ID',
+        'S3_KEY', 'S3_SECRET', 'S3_REGION', 'S3_BUCKET', 'S3_ACL'
     ])->notEmpty();
 
     // É obrigatória, mas pode estar vazia: ""

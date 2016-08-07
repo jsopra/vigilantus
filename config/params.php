@@ -7,8 +7,6 @@ return [
         'julianobaggiodisopra+lxkw03zrqfb8dowhdjye@boards.trello.com',
         'tenha@perspectiva.in',
     ],
-    'dataDir' => __DIR__ . '/../data/',
-    'publicDir' => __DIR__ . '/../web/',
     //geolocalização
     'googleMapsAPIKey' => getenv('GOOGLE_MAPS_KEY'),
     'mapBoxAccessToken' => getenv('MAP_BOX_ACCESS_TOKEN'),
@@ -16,5 +14,4 @@ return [
     'postgisSRID' => 4326, /* Spatial Reference System Identifier (SRID). Usamos o WGS84 */
     'maximoTermosMonitoramentoRedesSociaisPorCliente' => 3,
     'gearmanQueueName' => 'vigilantus', /* também referenciado estaticamente por .openshift/cron/minutely/queue.sh */
-    'diretorioUploadBrasoes' => getenv('UPLOADS_DIR') . '/brasao/',
 ];
