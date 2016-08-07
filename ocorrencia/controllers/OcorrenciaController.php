@@ -105,7 +105,22 @@ class OcorrenciaController extends CRUDController
                 if ($model->save()) {
 
                     if($model->file) {
-                        $model->file->saveAs(OcorrenciaHelper::getUploadPath() . $model->anexo);
+
+                        $s3 = Yii::$app->get('s3');
+
+                        $pathToFile = getenv('UPLOADS_DIR') . $model->anexo;
+
+                        if (!$model->file->saveAs($pathToFile, false)) {
+                            throw new \Exception('Erro ao salvar arquivo em disco');
+                        }
+
+                        if (!$s3->put('ocorrencias/' . $model->anexo, file_get_contents($pathToFile))) {
+                            throw new \Exception('Erro ao salvar arquivo original no S3');
+                        }
+
+                        if (is_file($pathToFile)) {
+                            unset($pathToFile);
+                        }
                     }
 
                     Yii::$app->session->setFlash('success', 'Ocorrência cadastrada com sucesso.');
@@ -130,11 +145,7 @@ class OcorrenciaController extends CRUDController
     {
     	$model = is_object($id) ? $id : $this->findModel($id);
 
-    	$response = new \yii\web\Response;
-
-    	$response->sendFile(OcorrenciaHelper::getUploadPath() . $model->anexo, $model->nome_original_anexo);
-
-    	$response->send();
+        $this->redirect(Yii::$app->get('s3')->getUrl('ocorrencias/' . $model->anexo));
     }
 
     public function actionReprovar($id)

@@ -13,16 +13,6 @@ use app\models\Configuracao;
 
 class OcorrenciaHelper extends YiiStringHelper
 {
-    /**
-     * Retorna path de brasão
-     * @param boolean $base Default is false
-     * @return string
-     */
-    public static function getUploadPath()
-    {
-        return Yii::$app->params['dataDir'] . '/ocorrencias/';
-    }
-
     public static function getDadosContato($model)
     {
         $html = '<ul>';

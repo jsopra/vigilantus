@@ -123,6 +123,18 @@ $config = [
                 ],
             ]
         ],
+        's3' => [
+            'class' => \frostealth\yii2\aws\s3\Storage::className(),
+            'credentials' => [ // Aws\Credentials\CredentialsInterface|array|callable
+                'key' => getenv('S3_KEY'),
+                'secret' => getenv('S3_SECRET'),
+            ],
+            'region' => getenv('S3_REGION'),
+            'bucket' => getenv('S3_BUCKET'),
+            'defaultAcl' => getenv('S3_ACL'),
+            //'cdnHostname' => 'http://example.cloudfront.net',
+            'debug' => false, // bool|array
+        ],
     ],
     'bootstrap' => [
         'app\ocorrencia\Bootstrap',

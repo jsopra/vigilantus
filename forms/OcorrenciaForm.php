@@ -159,7 +159,22 @@ class OcorrenciaForm extends Model
         if($this->file) {
             $this->nome_original_anexo = $this->file->baseName . '.' . $this->file->extension;
             $this->anexo = time() . '.' . $this->file->extension;
-            $this->file->saveAs(OcorrenciaHelper::getUploadPath() . $this->anexo);
+
+            $s3 = Yii::$app->get('s3');
+
+            $pathToFile = getenv('UPLOADS_DIR') . $this->anexo;
+
+            if (!$this->file->saveAs($pathToFile, false)) {
+                throw new \Exception('Erro ao salvar arquivo em disco');
+            }
+
+            if (!$s3->put('ocorrencias/' . $this->anexo, file_get_contents($pathToFile))) {
+                throw new \Exception('Erro ao salvar arquivo original no S3');
+            }
+
+            if (is_file($pathToFile)) {
+                unset($pathToFile);
+            }
         }
 
         Yii::$app->session->set($this->session_name, serialize($this->attributes));
