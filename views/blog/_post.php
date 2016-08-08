@@ -2,14 +2,14 @@
 use yii\helpers\Html;
 ?>
 <a name="n-<?= $model->id; ?>"></a>
-<article>  
+<article>
     <div class="">
 
         <div class="page-header">
             <p class="data-post">
                 <time pubdate="pubdate">
                     <i class="icon-calendar"></i>
-                    <?= Yii::$app->formatter->asDate($model->data); ?>
+                    <?= Html::encode(Yii::$app->formatter->asDate($model->data)); ?>
                 </time>
             </p>
             <h1><?= $model->titulo; ?></h1>
@@ -17,13 +17,13 @@ use yii\helpers\Html;
                 <h2><?= Html::encode($model->descricao); ?></h2>
             <?php endif; ?>
         </div>
-    
+
         <div class="post-body">
             <?= $model->texto; ?>
         </div>
-        
+
         <div class="panel-share bs-callout bs-callout-danger">
-            <?php 
+            <?php
             $url = Yii::$app->urlManager->createAbsoluteUrl(['/blog/index']);
             ?>
             <ul>
@@ -33,13 +33,13 @@ use yii\helpers\Html;
                 </li>
                 <li>
                     <div class="g-plusone" data-size="tall" data-annotation="none" data-href="<?= $url . '#id-' . $model->id; ?>"></div>
-                </li>                
+                </li>
                 <li>
-                    <iframe 
-                        src="http://www.facebook.com/plugins/like.php?href=<?= $url . '%23id-' . $model->id; ?>&layout=button&action=like&show_faces=false&share=false&height=35&locale=pt_BR" 
-                        scrolling="no" 
-                        frameborder="0" 
-                        style="border:none; overflow:hidden; width: 150px; height:20px;" 
+                    <iframe
+                        src="http://www.facebook.com/plugins/like.php?href=<?= $url . '%23id-' . $model->id; ?>&layout=button&action=like&show_faces=false&share=false&height=35&locale=pt_BR"
+                        scrolling="no"
+                        frameborder="0"
+                        style="border:none; overflow:hidden; width: 150px; height:20px;"
                         allowTransparency="true"
                     ></iframe>
                 </li>

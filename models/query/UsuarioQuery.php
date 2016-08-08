@@ -8,7 +8,8 @@ use app\components\ActiveQuery;
 class UsuarioQuery extends ActiveQuery
 {
 
-    public function ativo() {
+    public function ativo()
+    {
         $this->andWhere('excluido IS FALSE');
         return $this;
     }
@@ -16,8 +17,18 @@ class UsuarioQuery extends ActiveQuery
     /**
      * @param ActiveQuery $query
      */
-    public function excluido() {
+    public function excluido()
+    {
         $this->andWhere('excluido IS TRUE');
+        return $this;
+    }
+
+    /**
+     * @param ActiveQuery $query
+     */
+    public function recebeEmailOcorrencias()
+    {
+        $this->andWhere('recebe_email_ocorrencia IS TRUE');
         return $this;
     }
 

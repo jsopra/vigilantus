@@ -33,12 +33,13 @@ class OcorrenciaSearch extends SearchModel
     public $ano;
     public $numero_controle;
     public $status_fechamento;
+    public $hash_acesso_publico;
 
 	public function rules()
 	{
 		return [
 			[['id', 'cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'ocorrencia_tipo_problema_id', 'bairro_quarteirao_id', 'qtde_dias_aberto', 'ano', 'status_fechamento'], 'integer'],
-			[['data_criacao', 'nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'data_fechamento', 'status', 'numero_controle'], 'safe'],
+			[['data_criacao', 'nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'data_fechamento', 'status', 'numero_controle', 'hash_acesso_publico'], 'safe'],
 		];
 	}
 
@@ -54,12 +55,13 @@ class OcorrenciaSearch extends SearchModel
             'localizacao' => $this->localizacao,
             'status' => $this->status,
             'ocorrencia_tipo_problema_id' => $this->ocorrencia_tipo_problema_id,
-            'bairro_quarteirao_id' => $this->bairro_quarteirao_id
+            'bairro_quarteirao_id' => $this->bairro_quarteirao_id,
+            'hash_acesso_publico' => $this->hash_acesso_publico,
         ]);
 
 		$query->andFilterWhere(['like', 'nome', $this->nome])
+            ->andFilterWhere(['like', 'hash_acesso_publico', $this->hash_acesso_publico])
             ->andFilterWhere(['like', 'telefone', $this->telefone])
-            ->andFilterWhere(['like', 'endereco', $this->endereco])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'pontos_referencia', $this->pontos_referencia])
             ->andFilterWhere(['like', 'mensagem', $this->mensagem])
@@ -89,5 +91,10 @@ class OcorrenciaSearch extends SearchModel
         }
 
         $query->orderBy('data_criacao asc');
+        $queryString = $this->endereco;
+        if($queryString) {
+            $query->andWhere('endereco ILIKE :ruas_string');
+            $query->addParams([':ruas_string' => '%' . $queryString . '%']);
+        }
 	}
 }

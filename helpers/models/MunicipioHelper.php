@@ -16,7 +16,7 @@ class MunicipioHelper extends YiiStringHelper
      * @param string $tipo (mini, normal, large)
      * @return string tag HTML ou string vazia.
      */
-    public static function getBrasaoAsImageTag(Municipio $municipio, $tipo = 'normal')
+    public static function getBrasaoAsImageTag(Municipio $municipio, $tipo = 'normal', $external = false)
     {
         if (!$municipio->brasao) {
             return '';
@@ -28,7 +28,9 @@ class MunicipioHelper extends YiiStringHelper
             return '';
         }
 
-        return Html::img($externalPath . $tipo . '/' . $municipio->brasao);
+        $fullUrl = $external ? getenv('ABSOLUTE_URL') : '';
+
+        return Html::img($fullUrl . $externalPath . $tipo . '/' . $municipio->brasao);
     }
 
     /**

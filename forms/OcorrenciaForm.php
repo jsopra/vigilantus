@@ -26,7 +26,6 @@ class OcorrenciaForm extends Model
         'nome',
         'telefone',
         'bairro_id',
-        'endereco',
         'email',
         'pontos_referencia',
         'mensagem',
@@ -37,8 +36,10 @@ class OcorrenciaForm extends Model
         'nome_original_anexo',
         'ocorrencia_tipo_problema_id',
         'mensagem',
+        'municipio_id',
         'cliente_id',
         'descricao_outro_tipo_problema',
+        'tipo_registro',
     ];
 
     /**
@@ -46,6 +47,7 @@ class OcorrenciaForm extends Model
      */
     private $session_name = 'form-ocorrencia';
 
+    public $municipio_id;
     public $cliente_id;
     public $coordenadasJson;
 
@@ -54,7 +56,9 @@ class OcorrenciaForm extends Model
     public $descricao_outro_tipo_problema;
     public $tipo_imovel;
     public $bairro_id;
-    public $endereco;
+    public $rua;
+    public $numero;
+    public $complemento;
     public $pontos_referencia;
     public $coordenadas;
 
@@ -63,6 +67,7 @@ class OcorrenciaForm extends Model
     public $anexo;
     public $nome_original_anexo;
     public $mensagem;
+    public $tipo_registro;
 
     //w3
     public $nome;
@@ -87,8 +92,8 @@ class OcorrenciaForm extends Model
     public function rules()
     {
         return [
-            [['tipo_imovel', 'bairro_id', 'endereco'], 'required', 'on' => self::SCENARIO_WIZARD_LOCAL],
-            [['mensagem'], 'required', 'on' => self::SCENARIO_WIZARD_DETALHES],
+            [['tipo_imovel', 'bairro_id', 'rua'], 'required', 'on' => self::SCENARIO_WIZARD_LOCAL],
+            [['mensagem', 'tipo_registro'], 'required', 'on' => self::SCENARIO_WIZARD_DETALHES],
             [
                 'ocorrencia_tipo_problema_id',
                 'exist',
@@ -106,11 +111,11 @@ class OcorrenciaForm extends Model
                 'skipOnError' => true,
                 'on' => self::SCENARIO_WIZARD_DETALHES,
             ],
-            [['cliente_id'], 'required', 'on' => self::SCENARIO_WIZARD_IDENTIFICACAO],
-            [['ocorrencia_tipo_problema_id', 'tipo_imovel', 'bairro_id', 'cliente_id'], 'integer'],
+            [['municipio_id', 'cliente_id', 'telefone', 'nome'], 'required', 'on' => self::SCENARIO_WIZARD_IDENTIFICACAO],
+            [['ocorrencia_tipo_problema_id', 'tipo_imovel', 'bairro_id', 'cliente_id', 'municipio_id'], 'integer'],
             [['pontos_referencia', 'coordenadas', 'telefone', 'coordenadasJson', 'descricao_outro_tipo_problema'], 'safe'],
             ['email', 'email'],
-            [['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo'], 'string'],
+            [['nome', 'telefone', 'rua', 'numero', 'complemento', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'tipo_registro'], 'string'],
         ];
     }
 
@@ -139,7 +144,14 @@ class OcorrenciaForm extends Model
      */
     public function attributeLabels()
     {
-        return (new Ocorrencia)->attributeLabels();
+        return array_merge(
+            (new Ocorrencia)->attributeLabels(),
+            [
+                'rua' => 'Rua',
+                'numero' => 'Número',
+                'complemento' => 'Complemento',
+            ]
+        );
     }
 
     public function persistSession()
@@ -177,6 +189,8 @@ class OcorrenciaForm extends Model
             $model->descricao_outro_tipo_problema = null;
         }
 
+        $model->endereco = $this->getEndereco();
+
         if (!$model->validate() || !$model->save()) {
             foreach ($model->errors as $attribute => $errors) {
                 $this->addError($attribute, $errors);
@@ -184,5 +198,20 @@ class OcorrenciaForm extends Model
         }
 
         return !$this->hasErrors() && $this->clearSession() ? $model : false;
+    }
+
+    private function getEndereco()
+    {
+        $return = $this->rua;
+
+        if ($this->numero) {
+            $return .= ' , nº ' . $this->numero;
+        }
+
+        if ($this->complemento) {
+            $return .= ' - ' . $this->complemento;
+        }
+
+        return $return;
     }
 }

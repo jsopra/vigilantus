@@ -1,5 +1,25 @@
 # Changelog
 
+## Versão 0.7
+
+### Melhorias
+
+* Página pública dos municípios, [Alan][alan].
+* Lista de estados e cidades, [Alan][alan].
+* Legenda para o mapa público, [Gabriel][gabriel].
+* Feedback de que está carregando os pontos no mapa público, [Gabriel][gabriel].
+
+### Correções
+* Correção de vulnerabilidades a ataques XSS, [Gabriel][gabriel].
+* Correção de problemas de SQL Injection, [Gabriel][gabriel].
+* Não busca quarteirões pelo número alternativo, [Juliano][juliano].
+* Alguns lugares ainda usam Google Maps ao invés de Mapbox, [Juliano][juliano].
+
+## Versão 0.6
+
+* Página do município com mapa e registro de ocorrências, [Juliano][juliano]
+* ?
+
 ## Versão 0.5
 * Vinculação de relatórios de RG à fechamento
 * Formulário de fechamento de RG
@@ -41,3 +61,7 @@
 * Cadastro de condições de imóveis
 * Cadastro de bairros
 * Opção de alterar a senha
+
+[alan]: https://bitbucket.org/alanwillms/
+[gabriel]: https://bitbucket.org/gabrielmocelin/
+[juliano]: https://bitbucket.org/jsopra/

@@ -67,6 +67,7 @@ $municipio->loadCoordenadas();
 $bairro->loadCoordenadas();
 $bairroCentro = $bairro->getCentro();
 
+$centro = null;
 if($model->coordenadasJson) {
     $model->loadCoordenadas();
     $centro = $model->getCentro();
@@ -80,10 +81,9 @@ var map = L.mapbox
     .map('map', '" . Yii::$app->params['mapBoxMapID'] . "')
 ";
 
-if($model->coordenadasJson) {
+if ($centro) {
     $javascript .= ".setView([" . $centro[1] . ", " . $centro[0] . "], 17)";
-}
-else {
+} else {
     $javascript .= ".setView([" . $bairroCentro[1] . ", " . $bairroCentro[0] . "], 15)";
 }
 
@@ -177,7 +177,7 @@ if ($model->coordenadasJson) :
 
         var quarteirao = L.polygon([" . MapHelper::getArrayCoordenadas($model->coordenadas) ."], polygon_options).addTo(featureGroup);
 
-        coordinatesToInput(" . MapHelper::getArrayCoordenadas($model->coordenadas) .");
+        coordinatesToInput(quarteirao.toGeoJSON().geometry.coordinates[0]);
 
         quarteirao.editing.enable();
     ";

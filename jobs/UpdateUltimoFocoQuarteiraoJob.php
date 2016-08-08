@@ -7,15 +7,20 @@ class UpdateUltimoFocoQuarteiraoJob implements \perspectivain\gearman\InterfaceJ
 {
     public function run($params = [])
     {
-        if(!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
+        if (!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
             return true;
         }
 
         \app\models\BairroQuarteirao::updateAll(['data_ultimo_foco' => null]);
 
-        foreach(\app\models\Cliente::find()->each(10) as $cliente) {
+        foreach (\app\models\Cliente::find()->ativo()->all() as $cliente) {
 
-            foreach(\app\models\FocoTransmissor::find()->doCliente($cliente->id)->ativo()->orderBy('data_entrada ASC')->each(10) as $foco) {
+            foreach (\app\models\FocoTransmissor::find()
+                ->doCliente($cliente->id)
+                ->ativo()
+                ->orderBy('data_entrada ASC')
+                ->each(10) as $foco
+            ) {
 
                 $foco->bairroQuarteirao->data_ultimo_foco = $foco->data_entrada;
                 $foco->bairroQuarteirao->setScenario('updateAttributes');

@@ -25,5 +25,9 @@ return [
     'Root' => [
         'type' => Item::TYPE_ROLE,
         'children' => ['Administrador'],
-    ]
+    ],
+    'Tecnico Laboratorial' => [
+        'type' => Item::TYPE_ROLE,
+        'children' => ['Anonimo'],
+    ],
 ];

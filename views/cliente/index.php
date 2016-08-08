@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'municipio_id',
-                'filter' => false,
+                'filter' => Municipio::listData('nome'),
                 'value' => function ($model, $index, $widget) {
                     return $model->municipio ? $model->municipio->nome : null;
                 }
@@ -48,19 +48,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Módulos',
                 'format' => 'raw',
                 'value' => function ($model, $index, $widget) {
-                
+
                     $img = Html::tag('i', '', ['class' => 'glyphicon glyphicon-link']);
-                
+
                     $link = Html::a(
                         'Gerenciar (' . $model->quantidadeModulos . ') &nbsp;' . $img,
                         Yii::$app->urlManager->createUrl(['cliente-modulo/index', 'parentID' => $model->id]),
                         ['title' => 'Gerenciar Módulos do Cliente ' . $model->municipio->nome]
                     );
-                
-                    return Html::tag('p', $link, ['class' => 'text-center no-margin']); 
+
+                    return Html::tag('p', $link, ['class' => 'text-center no-margin']);
                 },
             ],
-            'rotulo',
 			[
                 'attribute' => 'data_cadastro',
                 'filter' => false,
@@ -70,8 +69,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model, $index, $widget) {
                     return $model->getFormattedAttribute('data_cadastro');
                 },
-            ], 
-            [   
+            ],
+            [
+                'attribute' => 'ativo',
+                'value' => function ($model, $index, $widget) {
+                   return $model->ativo ? 'Sim' : 'Não';
+                },
+                'filter' => [false => 'Não', true => 'Sim'],
+            ],
+            [
                 'class' => 'app\extensions\grid\ModalColumn',
                 'iconClass' => 'icon-search opacity50',
                 'modalId' => 'dados-contato-detalhes',
@@ -87,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => [
                     'width' => '15%',
                 ]
-            ],  
+            ],
 			[
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',

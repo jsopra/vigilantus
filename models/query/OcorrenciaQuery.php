@@ -66,6 +66,18 @@ class OcorrenciaQuery extends ActiveQuery
         return $this;
     }
 
+    public function criadaNoDia($data)
+    {
+        $this->andWhere("data_criacao::date = :dataCriadoEm", [':dataCriadoEm' => $data]);
+        return $this;
+    }
+
+    public function fechadaNoDia($data)
+    {
+        $this->andWhere("data_fechamento::date = :dataFechadoEm", [':dataFechadoEm' => $data]);
+        return $this;
+    }
+
     public function doProblema($id)
     {
         $this->andWhere('ocorrencia_tipo_problema_id = :idProblema', [':idProblema' => $id]);

@@ -15,7 +15,7 @@ use app\components\ActiveRecord;
  * @property string $telefone_contato
  * @property string $departamento
  * @property string $cargo
- * @property string $rotulo
+ * @property integer $ativo
  *
  * @property Municipios $municipio
  */
@@ -39,9 +39,8 @@ class Cliente extends ActiveRecord
         return [
 			[['municipio_id', 'nome_contato', 'telefone_contato', 'departamento'], 'required'],
             [['municipio_id'], 'unique'],
-            [['rotulo'], 'unique'],
             ['municipio_id', 'exist', 'targetClass' => Municipio::className(), 'targetAttribute' => 'id', 'skipOnEmpty' => true],
-            [['data_cadastro', 'brasao', 'email_contato', 'cargo'], 'safe']
+            [['data_cadastro', 'brasao', 'email_contato', 'cargo', 'ativo'], 'safe']
 		];
 	}
 
@@ -59,7 +58,7 @@ class Cliente extends ActiveRecord
             'telefone_contato' => 'Telefone do contato',
             'departamento' => 'Departamento do contato',
             'cargo' => 'Cargo do contato',
-            'rotulo' => 'Rótulo'
+            'ativo' => 'Ativo',
 		];
     }
 

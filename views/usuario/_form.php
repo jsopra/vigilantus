@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 <div class="usuario-form">
 
 	<?php $form = ActiveForm::begin(); ?>
-    
+
         <div class="row">
             <div class="col-xs-3">
                 <?= $form->field($model, 'nome') ?>
@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'login') ?>
             </div>
         </div>
-    
+
         <div class="row">
             <div class="col-xs-3">
                 <?= $form->field($model, 'email')->input('email') ?>
@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'usuario_role_id')->dropDownList(['' => 'Selecione...'] + UsuarioRole::listDataNivelUsuario(Yii::$app->user->identity)) ?>
             </div>
         </div>
-		
+
 		<div class="row">
             <div class="col-xs-3">
                 <?= $form->field($model, 'senha')->passwordInput() ?>
@@ -40,12 +40,14 @@ use yii\widgets\ActiveForm;
             <div class="col-xs-3">
                 <?= $form->field($model, 'confirmacao_senha')->passwordInput() ?>
             </div>
-        </div>	
+        </div>
+
+        <?= $form->field($model, 'recebe_email_ocorrencia')->checkbox() ?>
 
 		<div class="form-group">
 			<?php
             echo Html::submitButton(
-                $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
+                $model->isNewRecord ? Html::encode('Cadastrar') : Html::encode('Atualizar'),
                 ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']
             ) ?>
 		</div>

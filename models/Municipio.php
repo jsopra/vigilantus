@@ -3,10 +3,12 @@
 namespace app\models;
 
 use app\components\ActiveRecord;
-use app\helpers\models\MunicipioHelper;
-use yii\web\UploadedFile;
-use yii\imagine\Image;
 use app\helpers\ImageHelper;
+use app\helpers\models\MunicipioHelper;
+use Exception;
+use Yii;
+use yii\imagine\Image;
+use yii\web\UploadedFile;
 
 /**
  * Este é a classe de modelo da tabela "municipios".
@@ -17,6 +19,7 @@ use app\helpers\ImageHelper;
  * @property string $sigla_estado
  * @property string $coordenadas_area
  * @property string $brasao
+ * @property string $slug
  */
 class Municipio extends ActiveRecord
 {
@@ -25,7 +28,7 @@ class Municipio extends ActiveRecord
     public $file;
 
     public $brasaoSizes =[
-        /* folder, width, height */
+        // folder, width, height
         ['mini', 50, 50],
         ['small', 75, 75],
         ['normal', 150, 150],
@@ -46,24 +49,14 @@ class Municipio extends ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'sigla_estado', 'coordenadas_area'], 'required'],
+            [['nome', 'sigla_estado', 'coordenadas_area', 'slug'], 'required'],
             ['sigla_estado', 'string', 'max' => 2],
             ['nome', 'unique', 'compositeWith' => 'sigla_estado'],
             [['coordenadas_area'], 'string'],
             [['file'], 'file', 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png'],
             ['brasao', 'safe'],
+            ['slug', 'unique'],
         ];
-    }
-
-    /**
-     * @return array regras de relações
-     */
-    public function relations()
-    {
-        // AVISO: você talvez tenha de ajustar o nome da relação gerada.
-        return array(
-            'usuarios' => array(self::HAS_MANY, 'Usuarios', 'municipio_id'),
-        );
     }
 
     /**
@@ -71,14 +64,15 @@ class Municipio extends ActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'nome' => 'Nome',
-            'sigla_estado' => 'Estado Sigla',
+            'sigla_estado' => 'UF',
             'coordenadas_area' => 'Coordenadas',
             'brasao' => 'Brasão',
             'file' => 'Brasão',
-        );
+            'slug' => 'URL',
+        ];
     }
 
     /**
@@ -88,7 +82,7 @@ class Municipio extends ActiveRecord
      */
     public function delete()
     {
-        throw new \Exception(\Yii::t('Site', 'Exclusão não habilitada'), 500);
+        throw new Exception(Yii::t('Site', 'Exclusão desabilitada'), 500);
     }
 
     /**
@@ -97,6 +91,22 @@ class Municipio extends ActiveRecord
     public function getCliente()
     {
         return $this->hasOne(Cliente::className(), ['municipio_id' => 'id']);
+    }
+
+    /**
+     * @return AtiveQuery
+     */
+    public function getOcorrencias()
+    {
+        return $this->hasMany(Ocorrencia::className(), ['municipio_id' => 'id']);
+    }
+
+    /**
+     * @return AtiveQuery
+     */
+    public function getBairros()
+    {
+        return $this->hasMany(Bairro::className(), ['municipio_id' => 'id']);
     }
 
     /**
@@ -162,10 +172,10 @@ class Municipio extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function save($runValidation = true, $attributes = NULL) {
-
-        $currentTransaction = $this->getDb()->getTransaction();
-        $newTransaction = $currentTransaction ? null : $this->getDb()->beginTransaction();
+    public function save($runValidation = true, $attributes = null)
+    {
+        $currentTransaction = $this->db->getTransaction();
+        $newTransaction = $currentTransaction ? null : $this->db->beginTransaction();
 
         try {
 
@@ -248,15 +258,28 @@ class Municipio extends ActiveRecord
         return $result;
     }
 
+    /**
+     * Nome do setor responsável pelo uso do sistema.
+     * @return string|null nome do setor.
+     */
+    public function getSetorResponsavel()
+    {
+        if ($this->cliente) {
+            return Configuracao::getValorConfiguracaoParaCliente(
+                Configuracao::ID_SETOR_UTILIZA_FERRAMENTA,
+                $this->cliente->id
+            );
+        }
+    }
+
     public function coordenadaNaCidade($lat, $lon)
     {
-        $return = [];
-
         $query = "
             id IN (
                 SELECT DISTINCT b.id
                 FROM bairros b
-                WHERE ST_Contains(b.coordenadas_area, ST_SetSRID(ST_Point(" . $lon . ", " . $lat . "),4326))
+                JOIN municipios m ON m.id = b.municipio_id
+                WHERE m.id = " . $this->id . " AND ST_Contains(b.coordenadas_area, ST_SetSRID(ST_Point(" . $lon . ", " . $lat . "),4326))
             )
         ";
 

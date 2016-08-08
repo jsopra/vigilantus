@@ -124,8 +124,11 @@ $config = [
             ]
         ],
     ],
+    'bootstrap' => [
+        'app\ocorrencia\Bootstrap',
+    ],
     'modules' => [
-        'ocorrencia' => ['class' => 'app\modules\ocorrencia\Module'],
+        'ocorrencia' => ['class' => 'app\ocorrencia\Module'],
     ],
     'params' => $params,
 ];

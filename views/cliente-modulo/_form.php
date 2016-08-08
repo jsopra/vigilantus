@@ -25,14 +25,14 @@ use yii\bootstrap\ButtonGroup;
                 <?= $form->field($model, 'modulo_id')->dropDownList(Modulo::listData('nome'), ['prompt' => 'Selecione…']) ?>
             </div>
         </div>
-    
+
 		<div class="form-group form-actions">
 			<?php
             echo Html::submitButton(
                 $model->isNewRecord ? 'Cadastrar' : 'Atualizar',
                 ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
             );
-            
+
             echo Html::a(
                 'Cancelar',
                 array('/cliente-modulo/index'),
@@ -40,7 +40,7 @@ use yii\bootstrap\ButtonGroup;
             );
 
             ?>
-            
+
        </div>
 
 	<?php ActiveForm::end(); ?>

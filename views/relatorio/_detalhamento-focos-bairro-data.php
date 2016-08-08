@@ -21,27 +21,27 @@ echo GridView::widget([
         [
             'header' => 'Quarteirao',
             'value' => function ($model, $index, $widget) {
-                return $model->bairroQuarteirao->getNumero_sequencia();
+                return Html::encode($model->bairroQuarteirao->getNumero_sequencia());
             },
             'options' => ['style' => 'width: 30%']
         ],
         [
             'attribute' => 'imovel_id',
             'value' => function ($model, $index, $widget) {
-                return $model->imovel ? ImovelHelper::getEndereco($model->imovel) : 'Vinculado à Quarteirão';
+                return $model->imovel ? ImovelHelper::getEndereco($model->imovel) : Html::encode('Vinculado à Quarteirão');
             },
             'options' => ['style' => 'width: 30%']
         ],
         [
             'attribute' => 'tipo_deposito_id',
             'value' => function ($model, $index, $widget) {
-                return $model->tipoDeposito->sigla ? $model->tipoDeposito->sigla : $model->tipoDeposito->descricao;
+                return $model->tipoDeposito->sigla ? Html::encode($model->tipoDeposito->sigla) : Html::encode($model->tipoDeposito->descricao);
             }
         ],
         [
             'attribute' => 'especie_transmissor_id',
             'value' => function ($model, $index, $widget) {
-                return $model->especieTransmissor->nome;
+                return Html::encode($model->especieTransmissor->nome);
             }
         ],
         [
@@ -50,7 +50,7 @@ echo GridView::widget([
             'value' => function ($model, $index, $widget) {
                 $str = '';
                 foreach(['data_entrada', 'data_exame', 'data_coleta'] as $item)
-                    $str .= Html::tag('p', '<strong>' . $model->getAttributeLabel($item) . ':</strong> ' . $model->getFormattedAttribute($item));
+                    $str .= Html::tag('p', '<strong>' . Html::encode($model->getAttributeLabel($item)) . ':</strong> ' . Html::encode($model->getFormattedAttribute($item)));
 
                 return $str;
             },
@@ -62,13 +62,13 @@ echo GridView::widget([
             'value' => function ($model, $index, $widget) {
                 $str = '';
                 foreach(['quantidade_forma_aquatica', 'quantidade_forma_adulta', 'quantidade_ovos'] as $item)
-                    $str .= Html::tag('p', '<strong>' . $model->getAttributeLabel($item) . ':</strong> ' . $model->$item);
+                    $str .= Html::tag('p', '<strong>' . Html::encode($model->getAttributeLabel($item)) . ':</strong> ' . Html::encode($model->$item));
 
                 return $str;
             },
             'options' => ['style' => 'width: 20%;']
         ],
     ],
-]); 
+]);
 ?>
 <?php \yii\widgets\Pjax::end(); ?>

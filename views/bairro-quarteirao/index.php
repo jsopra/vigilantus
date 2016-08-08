@@ -4,14 +4,11 @@ use app\models\Municipio;
 use app\models\Bairro;
 use app\widgets\GridView;
 use yii\helpers\Html;
-use app\helpers\GoogleMapsAPIHelper;
 
 $bairro = $parentObject;
 
 $this->title = 'Quarteirões do Bairro "' . $bairro->nome . '"';
 $this->params['breadcrumbs'][] = $this->title;
-
-$this->registerJsFile(GoogleMapsAPIHelper::getAPIUrl(false, 'drawing'), ['yii\web\JqueryAsset']);
 ?>
 <div class="bairro-quarteirao-index">
 

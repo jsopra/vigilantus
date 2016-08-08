@@ -11,11 +11,13 @@ use Yii;
 class OcorrenciasResumoReport extends Model
 {
     public $ano;
+    public $cliente_id;
 
     public function rules()
     {
         return [
             ['ano', 'integer'],
+            ['cliente_id', 'safe']
         ];
     }
 
@@ -23,27 +25,51 @@ class OcorrenciasResumoReport extends Model
     {
         return [
             'ano' => 'Ano',
+            'cliente_id' => 'Cliente',
         ];
     }
 
     public function getTotalDenunciasRecebidas()
     {
-        return Ocorrencia::find()->criadaNoAno($this->ano)->count();
+        $query = Ocorrencia::find()->criadaNoAno($this->ano);
+
+        if ($this->cliente_id) {
+            $query->doCliente($this->cliente_id);
+        }
+
+        return $query->count();
     }
 
     public function getTotalDenunciasFinalizadas()
     {
-        return Ocorrencia::find()->criadaNoAno($this->ano)->fechada()->count();
+        $query = Ocorrencia::find()->criadaNoAno($this->ano)->fechada();
+
+        if ($this->cliente_id) {
+            $query->doCliente($this->cliente_id);
+        }
+
+        return $query->count();
     }
 
     public function getTotalDenunciasPendentes()
     {
-        return Ocorrencia::find()->criadaNoAno($this->ano)->aberta()->count();
+        $query = Ocorrencia::find()->criadaNoAno($this->ano)->aberta();
+
+        if ($this->cliente_id) {
+            $query->doCliente($this->cliente_id);
+        }
+
+        return $query->count();
     }
 
     public function getTempoAtendimentoMedio()
     {
-        $ocorrencias = Ocorrencia::find()->criadaNoAno($this->ano)->all();
+        $query = Ocorrencia::find()->criadaNoAno($this->ano);
+        if ($this->cliente_id) {
+            $query->doCliente($this->cliente_id);
+        }
+
+        $ocorrencias = $query->all();
         $qtdeOcorrencias = count($ocorrencias);
         $tempoTotal = 0;
 
@@ -52,5 +78,27 @@ class OcorrenciasResumoReport extends Model
         }
 
         return $qtdeOcorrencias > 0 ? round(($tempoTotal / $qtdeOcorrencias), 2) : 0;
+    }
+
+    public function getTotalDenunciasAbertasDia($data)
+    {
+        $query = Ocorrencia::find()->criadaNoDia($data)->aberta();
+
+        if ($this->cliente_id) {
+            $query->doCliente($this->cliente_id);
+        }
+
+        return $query->count();
+    }
+
+    public function getTotalDenunciasFechadasDia($data)
+    {
+        $query = Ocorrencia::find()->fechadaNoDia($data)->fechada();
+
+        if ($this->cliente_id) {
+            $query->doCliente($this->cliente_id);
+        }
+
+        return $query->count();
     }
 }

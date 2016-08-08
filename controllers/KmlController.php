@@ -10,6 +10,7 @@ use app\models\FocoTransmissor;
 use app\models\Armadilha;
 use app\models\PontoEstrategico;
 use app\models\Ocorrencia;
+use app\models\CasoDoenca;
 use app\models\redis\FocoTransmissor as FocoTransmissorRedis;
 use Yii;
 use yii\filters\AccessControl;
@@ -28,11 +29,11 @@ class KmlController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['cidade', 'bairro', 'area-tratamento-foco', 'armadilha', 'ponto-estrategico', 'ocorrencias'],
+                'only' => ['cidade', 'bairro', 'area-tratamento-foco', 'armadilha', 'ponto-estrategico', 'ocorrencias', 'casos-doenca'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['area-tratamento-foco', 'cidade', 'bairro', 'armadilha', 'ponto-estrategico', 'ocorrencias'],
+                        'actions' => ['area-tratamento-foco', 'cidade', 'bairro', 'armadilha', 'ponto-estrategico', 'ocorrencias', 'casos-doenca'],
                         'roles' => ['Gerente', 'Analista'],
                     ],
                 ],
@@ -154,10 +155,18 @@ class KmlController extends Controller
             exit;
         }
 
-        $cacheName = 'focos_c' . $clienteId . '_e' . $especieId . '_b' . $bairroId . '_l' . $lira . '_ip' . $informacaoPublica . '_i' . $inicio . '_f' . $fim;
+        $cacheName = 'focos' . implode(',', [
+            $clienteId,
+            $especieId,
+            $bairroId,
+            $lira,
+            $informacaoPublica,
+            $inicio,
+            $fim
+        ]);
         $data = Yii::$app->cache->get($cacheName);
 
-        if($data === false || $data === null) {
+        if ($data === false || $data === null) {
 
             $model = new Kml;
 
@@ -165,28 +174,28 @@ class KmlController extends Controller
 
             $modelFocos->doCliente($cliente->id);
 
-            if(is_numeric($bairroId)) {
+            if (is_numeric($bairroId)) {
                 $modelFocos->doBairro($bairroId);
             }
 
-            if($lira == '1' || $lira == '0') {
+            if ($lira == '1' || $lira == '0') {
                 $modelFocos->doImovelLira(($lira ? true : false));
             }
 
-            if(is_numeric($especieId)) {
+            if (is_numeric($especieId)) {
                 $modelFocos->daEspecieDeTransmissor($especieId);
             }
 
-            if($informacaoPublica == '1') {
+            if ($informacaoPublica == '1') {
                 $modelFocos->informacaoPublica();
             }
 
-            if($inicio && $fim) {
+            if ($inicio && $fim) {
                 $modelFocos->dataEntradaEntre($inicio, $fim);
             }
 
             $focos = $modelFocos->all();
-            foreach($focos as $foco) {
+            foreach ($focos as $foco) {
 
                 $quarteirao = $foco->bairroQuarteirao;
                 $quarteirao->loadCoordenadas();
@@ -285,6 +294,38 @@ class KmlController extends Controller
             $point->extendedData = [
                 'numero_quarteirao' => $ponto->bairro_quarteirao_id ? $quarteirao->numero_quarteirao : null,
                 'bairro' => $ponto->bairro_quarteirao_id ? $quarteirao->bairro->nome : null,
+            ];
+
+            $model->add($point);
+            unset($point);
+        }
+
+        return $model->output();
+    }
+
+    public function actionCasosDoenca()
+    {
+        $model = new Kml;
+        $model->id = 'casosdoenca';
+
+        $pontos = CasoDoenca::find()->all();
+        foreach($pontos as $ponto) {
+
+            if(!$ponto->bairro_quarteirao_id) {
+                continue;
+            }
+
+            $quarteirao = $ponto->bairroQuarteirao;
+            $quarteirao->loadCoordenadas();
+
+            $point = new Point;
+            $point->value = $quarteirao->getCentro();
+
+            $point->extendedData = [
+                'numero_quarteirao' => $ponto->bairro_quarteirao_id ? $quarteirao->numero_quarteirao : null,
+                'bairro' => $ponto->bairro_quarteirao_id ? $quarteirao->bairro->nome : null,
+                'nome_paciente' => $ponto->nome_paciente,
+                'data_sintomas' => $ponto->getFormattedAttribute('data_sintomas'),
             ];
 
             $model->add($point);

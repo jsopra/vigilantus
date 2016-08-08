@@ -40,11 +40,24 @@ class Controller extends YiiController
             $this->municipioLogado = Yii::$app->user->identity->cliente->municipio;
 
             if (Yii::$app->user->identity->usuario_role_id == UsuarioRole::ROOT) {
-                $this->municipiosDisponiveis =  Municipio::find()->innerJoinWith('cliente')->all();
+                $this->municipiosDisponiveis = $this->getMunicipiosDisponiveis();
             }
         }
 
         Yii::$app->setTimeZone('America/Sao_Paulo');
+    }
+
+    /**
+     * Retorna dados cacheados de todos os municípios.
+     * @return app\models\Municipio[]
+     */
+    protected function getMunicipiosDisponiveis()
+    {
+        return Municipio::find()
+            ->innerJoinWith('cliente')
+            ->orderBy('sigla_estado, nome')
+            ->andWhere('clientes.ativo IS TRUE')
+            ->all();
     }
 
     /**

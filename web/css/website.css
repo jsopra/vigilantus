@@ -1,0 +1,391 @@
+/* Shared */
+html,
+input,
+button,
+textarea {
+  font-size: 16px;
+}
+
+a {
+  color: #401f41;
+}
+
+section h1 {
+  font-size: 3.57rem;
+  margin: 0;
+  padding: 40px 0;
+  text-transform: uppercase;
+}
+
+main h1,
+section h1,
+section h2 {
+  font-family: "Bebas Neue", "Arial Narrow", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #4c2653;
+  border-color: #4c2653;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #74c6c6;
+  border-color: #74c6c6;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #6d2b79;
+  border-color: #6d2b79;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #3c9d9d;
+  border-color: #3c9d9d;
+  color: #fff;
+}
+
+.balance-text {
+  text-wrap: balanced;
+}
+
+.js-video {
+  height: 0;
+  padding-top: 25px;
+  padding-bottom: 67.5%;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.js-video.widescreen {
+  padding-bottom: 56.34%;
+}
+
+.js-video.vimeo {
+  padding-top: 0;
+}
+
+.js-video embed,
+.js-video iframe,
+.js-video object,
+.js-video video {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+/* Navigation */
+.navbar {
+  padding-bottom: 1.69rem;
+  padding-top: 1.56rem;
+  -webkit-transition:all .2s ease-in-out;
+  -moz-transition:all .2s ease-in-out;
+  -ms-transition:all .2s ease-in-out;
+  -o-transition:all .2s ease-in-out;
+  transition:all .2s ease-in-out;
+}
+
+.collapsing {
+  left: 0;
+  width: 100%;
+}
+
+.bg-white {
+  background-color: #f2f2f2;
+}
+
+.navbar-toggler {
+  margin-top: 0.4rem;
+}
+
+.nav .nav-link {
+  font-size: 0.75rem;
+  font-family: "OpenSans", Helvetica, Arial, sans-serif;
+  line-height: 2.56rem;
+  text-transform: uppercase;
+}
+
+.nav .nav-link .fa {
+  font-size: 1.5rem;
+  margin-top: -0.25rem;
+  vertical-align: middle;
+}
+
+/* Jumbotron */
+.jumbotron {
+  background: #7d5782 url("../img/jumbotron-background.jpg") no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 0;
+  margin: 0;
+  padding: 65px 0;
+}
+
+.jumbotron p {
+  font-family: "Bebas Neue", "Arial Narrow", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.jumbotron h1 {
+  color: #fff;
+  font-size: 62px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.jumbotron p {
+  color: #ffc600;
+  font-size: 21px;
+  font-family: OpenSans, Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  line-height: 120%;
+}
+
+.jumbotron img {
+  max-width: 100%;
+}
+
+/* Request demo */
+.request-demo {
+  background-color: #e9e9e9;
+  border-radius: 10px 0 0 10px;
+  margin-top: -45px;
+  max-width: 365px;
+  padding: 25px 35px;
+  float: right;
+}
+
+.request-demo h1 {
+  color: #401f41;
+  font-size: 22px;
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+.request-demo p {
+  color: #acabab;
+  font-family: OpenSans, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 120%;
+}
+
+/* Features */
+.conformidade-pncd {
+  margin-top: 220px;
+}
+
+.feature {
+  border-bottom: 1px dashed #F2F2F2;
+  padding-bottom: 50px;
+  margin-bottom: 50px;
+}
+
+.feature-last {
+  border: 0 !important;
+}
+
+.feature h1 {
+  color: #401f41;
+  font-size: 48px;
+  line-height: 120%;
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+.feature p {
+  color: #999;
+  font-family: OpenSans, Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 120%;
+}
+
+.feature img {
+  max-width: 100%;
+}
+
+/* News */
+.news {
+  background: url("../img/stripe.png");
+  padding-bottom: 40px;
+}
+
+.news ul {
+  margin: 0;
+  padding: 0;
+}
+
+.news li {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+}
+
+.news li a {
+  color: #512d4c;
+  font-family: OpenSans, Helvetica, Arial, sans-serif;
+  font-size: 26px;
+  line-height: 120%;
+}
+
+/* Middle */
+main {
+  margin-top: 110px;
+}
+
+main h1 {
+  color: #d1d1d0;
+  font-size: 60px;
+  line-height: 120%;
+  margin-bottom: 40px;
+}
+
+main h1 a {
+  color: #74c6c6;
+}
+
+.breadcrumb {
+  margin-top: 10px;
+}
+
+.breadcrumb a {
+  color: #751977;
+}
+
+/* Partners */
+#parceiros {
+  background: #cfcfcf;
+  padding-bottom: 40px;
+}
+
+div.container + #parceiros {
+  margin-top: 40px;
+}
+
+#parceiros,
+#parceiros h1,
+#parceiros a {
+  color: #fff;
+}
+
+#parceiros .partner {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+#parceiros .partner img {
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+/* Contact */
+#contato {
+  background: #333 url("../img/website/footer-background.jpg") no-repeat;
+  background-position: center;
+  background-size: cover;
+  font-size: 16px;
+  padding: 2.5rem 0 0;
+}
+
+#contato .address,
+#contato .contact-form {
+  margin-bottom: 2.5rem;
+}
+
+#contato,
+#contato a {
+  color: #fff;
+}
+
+#contato h3 {
+  color: #fff;
+  font-size: 147%;
+}
+
+#contato .address p {
+  line-height: 200%;
+}
+
+#contato .contact-form input,
+#contato .contact-form textarea {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+}
+
+#contato .contact-form input:active,
+#contato .contact-form textarea:active,
+#contato .contact-form input:focus,
+#contato .contact-form textarea:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#contato .copyright-notice {
+  font-size: 14px;
+}
+
+#contato .copyright-notice img {
+  vertical-align: text-top;
+}
+
+/* Extra-small (xs) e Small (sm) */
+@media (max-width: 767px) {
+  .nav {
+    margin-top: 20px;
+  }
+}
+
+/* Medium (md) */
+@media (min-width: 768px) {
+  .conformidade-pncd {
+    margin-top: 200px;
+  }
+}
+
+/* Large (lg) */
+@media (min-width: 992px) {
+  .jumbotron h1 {
+    margin-top: 90px;
+  }
+
+  .conformidade-pncd {
+    margin-top: 180px;
+  }
+}
+
+/* Fonts */
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url('../fonts/bebas/bebasneue_bold-webfont.eot');
+    src: url('../fonts/bebas/bebasneue_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/bebas/bebasneue_bold-webfont.woff2') format('woff2'),
+         url('../fonts/bebas/bebasneue_bold-webfont.woff') format('woff'),
+         url('../fonts/bebas/bebasneue_bold-webfont.ttf') format('truetype'),
+         url('../fonts/bebas/bebasneue_bold-webfont.svg#bebas_neuebold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url('../fonts/bebas/bebasneue_regular-webfont.eot');
+    src: url('../fonts/bebas/bebasneue_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/bebas/bebasneue_regular-webfont.woff2') format('woff2'),
+         url('../fonts/bebas/bebasneue_regular-webfont.woff') format('woff'),
+         url('../fonts/bebas/bebasneue_regular-webfont.ttf') format('truetype'),
+         url('../fonts/bebas/bebasneue_regular-webfont.svg#bebas_neue_regularregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

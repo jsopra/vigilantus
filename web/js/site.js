@@ -22,6 +22,8 @@ $(document).ready(function(){
             });
         });
     }
+
+		$(".balance-text").balanceText();
 });
 
 function fillModalElement(html)

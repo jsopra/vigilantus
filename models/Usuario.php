@@ -25,6 +25,7 @@ use Yii;
  * @property string $token_api
  * @property string $data_recupera_senha
  * @property boolean $excluido
+ * @property boolean $recebe_email_ocorrencia
  */
 class Usuario extends ClienteActiveRecord implements IdentityInterface
 {
@@ -130,11 +131,12 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
             [['cliente_id', 'usuario_role_id'], 'integer'],
             ['login', 'unique'],
             ['email', 'unique'],
+            ['recebe_email_ocorrencia', 'boolean'],
             ['token_api', 'unique', 'skipOnEmpty' => true],
             ['token_recupera_senha', 'unique', 'skipOnEmpty' => true],
             ['email', 'email'],
-            [['ultimo_login', 'data_recupera_senha'], 'date', 'time' => true],
-            [['senha', 'confirmacao_senha'], 'safe'],
+            [['data_recupera_senha'], 'date', 'time' => true],
+            [['senha', 'confirmacao_senha', 'ultimo_login', 'recebe_email_ocorrencia'], 'safe'],
             ['excluido', 'boolean'],
         ];
     }
@@ -149,7 +151,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
                 'senha', 'confirmacao_senha', 'cliente_id', 'nome', 'login',
                 '!sal', '!senha_criptografada', 'usuario_role_id', 'email',
                 '!token_recupera_senha', '!ultimo_login', '!excluido',
-                '!token_api', '!data_recupera_senha',
+                '!token_api', '!data_recupera_senha', 'recebe_email_ocorrencia'
             ]
         ];
     }
@@ -208,6 +210,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
             'token_recupera_senha' => 'Token de Recuperação de Senha',
             'data_recupera_senha' => 'Data de Recuperação de Senha',
             'excluido' => 'Excluído',
+            'recebe_email_ocorrencia' => 'Recebe resumo de ocorrências'
         ];
     }
 
@@ -281,6 +284,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
             UsuarioRole::GERENTE => 'Gerente',
             UsuarioRole::USUARIO => 'Usuario',
             UsuarioRole::ANALISTA => 'Analista',
+            UsuarioRole::TECNICO_LABORATORIAL => 'Tecnico Laboratorial',
         ];
 
         if (isset($nomesRoles[$this->usuario_role_id])) {

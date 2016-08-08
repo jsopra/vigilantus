@@ -178,6 +178,11 @@ class BairroQuarteirao extends ClienteActiveRecord
         return $this->numero_quarteirao . ($this->seq ? '-' . $this->seq : '');
     }
 
+    public function getNumero_sequencia_alternativo()
+    {
+        return $this->numero_quarteirao_2 . ($this->seq ? '-' . $this->seq : '');
+    }
+
     /**
      * Define coordenadas para modelo
      * @return boolean (false em caso de não popular e true em caso de popular)
@@ -284,11 +289,11 @@ class BairroQuarteirao extends ClienteActiveRecord
     {
         $cacheKey = 'quarteiroes_area_tratamento_' . $clienteId;
 
-        if($especieTransmissor !== null) {
+        if ($especieTransmissor !== null) {
             $cacheKey .= '_especie_' . $especieTransmissor;
         }
 
-        if($lira !== null) {
+        if ($lira !== null) {
             $cacheKey .= '_lira_' . ($lira === true ? 'true' : 'false');
         }
 

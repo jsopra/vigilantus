@@ -10,7 +10,7 @@ class RefreshFechamentoRgJob implements \perspectivain\gearman\InterfaceJob
 {
     public function run($params = [])
     {
-        if(!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
+        if (!isset($params['key']) || $params['key'] != getenv('GEARMAN_JOB_KEY')) {
             return true;
         }
 
@@ -18,7 +18,7 @@ class RefreshFechamentoRgJob implements \perspectivain\gearman\InterfaceJob
 
         Yii::$app->cache->set('ultima_atualizacao_cache_rg', null, (60*60*24*7*4));
 
-        foreach(\app\models\Cliente::find()->each(10) as $cliente) {
+        foreach (\app\models\Cliente::find()->ativo()->all() as $cliente) {
 
             $query = BoletimRgFechamento::find()->doCliente($cliente->id)->doTipoLira(false);
 
@@ -31,7 +31,7 @@ class RefreshFechamentoRgJob implements \perspectivain\gearman\InterfaceJob
                 )
             ');
 
-            foreach($query->each(10) as $boletimFechamento) {
+            foreach ($query->each(10) as $boletimFechamento) {
 
                 $fechamento = new FechamentoRgRedis;
                 $fechamento->cliente_id = $cliente->id;

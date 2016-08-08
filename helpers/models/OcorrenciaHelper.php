@@ -180,6 +180,13 @@ class OcorrenciaHelper extends YiiStringHelper
             ] + $options);
         };
 
+        $buttons['impressao'] = function ($model, $options = []) {
+            return Html::a('<i class="glyphicon glyphicon-print"></i>', ['impressao', 'id' => $model->id], [
+                'title' => Yii::t('yii', 'Imprimir resumo da ocorrência'),
+                'target' => '_blank'
+            ] + $options);
+        };
+
         return $buttons;
     }
 }

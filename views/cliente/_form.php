@@ -28,7 +28,7 @@ use yii\widgets\MaskedInput;
 
         <div class="row">
             <div class="col-xs-6">
-                <?= $form->field($model, 'rotulo')->textInput() ?>
+                <?= $form->field($model, 'ativo')->checkbox() ?>
             </div>
         </div>
 

@@ -31,10 +31,13 @@ class VigilantusLayoutHelper
                 'visible' => !$user->can('Analista'),
                 'items' => [
                     ['label' => 'Gerir focos', 'url' => ['/foco-transmissor'], 'options' => ['id' => 'stepguide-ocorrencias']],
+                    ['label' => 'Gerir casos de doenças', 'url' => ['/caso-doenca'], 'options' => ['id' => 'stepguide-casosdoencas']],
                     ['label' => 'Indicadores', 'url' => ['/indicador/resumo-focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-indicadores-focos'], 'related' => ['/indicador/evolucao-focos','/indicador/focos-bairro','/indicador/focos-tipo-deposito']],
                     ['label' => 'Mapa de Tratamento', 'url' => ['/mapa/tratamento-foco'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-mapa-tratamento-foco']],
+                    ['label' => 'Mapa de Casos de Doenças', 'url' => ['/mapa/casos-doenca'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-mapa-casos-doenca']],
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-areas-tratamento']],
                     ['label' => 'Rel. de Focos', 'url' => ['/relatorio/focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos']],
+                    ['label' => 'Amostra de Transmissores', 'url' => ['/amostra-transmissor'], 'visible' => $user->can('Gerente') || $user->can('Analista') || $user->can('Tecnico Laboratorial') || $user->can('Usuario')],
                     ['label' => 'Rel. de Focos por Bairro', 'url' => ['/relatorio/focos-bairro'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos-bairro']],
                 ],
                 'options' => ['id' => 'stepguide-focos', 'class' => 'stepguide-focos'],
@@ -56,6 +59,7 @@ class VigilantusLayoutHelper
                 'items' => [
                     ['label' => 'Armadilhas', 'url' => ['/mapa/armadilha'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'step-mapa-armadilhas']],
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento-mapa'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-mapa-area-tratamento']],
+                    ['label' => 'Casos de Doenças', 'url' => ['/mapa/casos-doenca'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-mapa-casos-doenca']],
                     ['label' => 'Pontos Estratégicos', 'url' => ['/mapa/ponto-estrategico'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'step-mapa-pes']],
                     ['label' => 'Tratamento de Foco', 'url' => ['/mapa/tratamento-foco'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-mapa-tratamento-foco']],
                     ['label' => 'Visão Geral', 'url' => ['/mapa/visao-geral'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-mapa-visao-geral']],
@@ -69,6 +73,7 @@ class VigilantusLayoutHelper
                 'items' => [
                     ['label' => 'Resumo de RG por Bairro', 'url' => ['/relatorio/resumo-rg-bairro'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-resumo-rg']],
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-areas-tratamento']],
+                    ['label' => 'Ocorrências Abertas', 'url' => ['/relatorio/ocorrencias-abertas'], 'visible' => $user->can('Administrador')],
                     ['label' => 'Focos', 'url' => ['/relatorio/focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos']],
                     ['label' => 'Focos por Bairro', 'url' => ['/relatorio/focos-bairro'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos-bairro']],
                     ['label' => 'Exportação de Focos', 'url' => ['/relatorio/focos-export'], 'options' => ['id' => 'stepguide-relatorio-focos-exportacao']],
@@ -143,7 +148,7 @@ class VigilantusLayoutHelper
     public static function getMenuComum(User $user)
     {
         return [
-            ['label' => 'Blog', 'url' => ['/blog']],
+            //['label' => 'Blog', 'url' => ['/blog']],
             ['label' => '', 'url' => ['/site/contato'], 'icon' => 'fa fa-envelope-o'],
             [
                 'visible' => !$user->isGuest,

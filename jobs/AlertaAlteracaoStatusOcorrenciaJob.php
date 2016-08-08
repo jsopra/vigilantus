@@ -47,14 +47,14 @@ class AlertaAlteracaoStatusOcorrenciaJob implements InterfaceJob
     {
         $body = '<h1>Ocorrência registrada com sucesso</h1>';
         $body .= '<p>Olá' . ($model->nome ? ', ' . $model->nome : '') . ',</p>';
-        $body .= '<p>Informamos que sua ocorrência foi registrada com sucesso.</p>';
+        $body .= '<p>Sua ocorrência foi registrada com sucesso. Agradecemos pela sua contribuição para melhorar a nossa cidade!</p>';
         $body .= '<p>Você será informado quando houver alguma atualização sobre'
                . ' o andamento da avaliação da sua ocorrência, ou se preferir, '
                . 'você poderá acompanhar diretamente na <a href="'
                . Url::to(
                     [
-                        '/cidade/acompanhar-ocorrencia',
-                        'id' => $model->cliente_id,
+                        '/ocorrencia/cidade/acompanhar-ocorrencia',
+                        'slug' => $model->cliente->municipio->slug,
                         'hash' => $model->hash_acesso_publico,
                     ],
                     true
@@ -74,16 +74,12 @@ class AlertaAlteracaoStatusOcorrenciaJob implements InterfaceJob
                . '<strong>' . OcorrenciaStatus::getDescricao($model->status)
                . '</strong>.</p>'
         ;
-
-        if ($model->status == OcorrenciaStatus::REPROVADA && $model->historicoRejeicao && $model->historicoRejeicao->observacoes) {
-            $body .= '<p><strong>Detalhes:</strong> ' . $model->historicoRejeicao->observacoes . '.</p>';
-        }
-
+        $body .= '<p><strong>Observações: </strong>' . $model->detalhes_publicos . '</p>';
         $body .= '<hr />';
         $body .= '<p><a href="' . Url::to(
              [
-                 '/cidade/acompanhar-ocorrencia',
-                 'id' => $model->cliente_id,
+                 '/ocorrencia/cidade/acompanhar-ocorrencia',
+                 'slug' => $model->cliente->municipio->slug,
                  'hash' => $model->hash_acesso_publico,
              ],
              true

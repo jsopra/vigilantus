@@ -14,7 +14,7 @@ class RefreshAreaTratamentoJob implements \perspectivain\gearman\InterfaceJob
             return true;
         }
 
-        $clientes = Cliente::find()->all();
+        $clientes = Cliente::find()->ativo()->all();
         foreach($clientes as $cliente) {
 
             $especiesTransmissor = [null] + EspecieTransmissor::find()->doCliente($cliente->id)->all();

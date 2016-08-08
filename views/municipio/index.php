@@ -1,8 +1,9 @@
 <?php
 
-use yii\helpers\Html;
-use app\widgets\GridView;
 use app\helpers\models\MunicipioHelper;
+use app\widgets\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /**
  * @var yii\web\View $this
@@ -36,12 +37,22 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
 			'nome',
 			'sigla_estado',
+			[
+				'attribute' => 'slug',
+				'format' => 'raw',
+				'value' => function ($model, $index, $widget) {
+                    return Html::a(
+						$model->slug,
+						Url::to(['cidade/view', 'slug' => $model->slug]
+					));
+                },
+			],
             [
                 'header' => 'Tem coordenadas?',
                 'attribute' => 'coordenadas_area',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return $model->coordenadas_area ? 'Sim' : 'Não';
+                    return $model->coordenadas_area ? Html::encode('Sim') : Html::encode('Não');
                 }
             ],
             [

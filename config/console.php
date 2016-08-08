@@ -1,6 +1,8 @@
 <?php
 use yii\console\controllers\MigrateController;
 
+Yii::setAlias('@webroot', __DIR__ . '/../web');
+Yii::setAlias('@web', '/');
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
 
 $params = require(__DIR__ . '/params.php');
@@ -20,6 +22,12 @@ $config = [
             'migrationTable' => 'tbl_migration',
             'templateFile' => '@app/data/migrationsTemplate.php',
         ],
+    ],
+    'bootstrap' => [
+        'app\ocorrencia\Bootstrap',
+    ],
+    'modules' => [
+        'ocorrencia' => ['class' => 'app\ocorrencia\Module'],
     ],
     'components' => [
         'cache' => [

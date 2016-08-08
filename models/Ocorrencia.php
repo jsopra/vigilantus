@@ -85,13 +85,13 @@ class Ocorrencia extends ClienteActiveRecord
 	{
 		return [
 			[['data_criacao', 'data_fechamento', 'telefone', 'numero_controle', 'coordenadas'], 'safe'],
-			[['cliente_id', 'endereco', 'mensagem'], 'required'],
+			[['cliente_id', 'endereco', 'mensagem', 'municipio_id', 'tipo_registro'], 'required'],
             [['tipo_imovel', 'bairro_id'], 'required', 'on' => 'insert'],
 			[['cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'ocorrencia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
             ['hash_acesso_publico', 'unique', 'when' => function($model, $attribute) {
                 return !empty($this->hash_acesso_publico);
             }],
-			[['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'observacoes'], 'string'],
+			[['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'observacoes', 'detalhes_publicos'], 'string'],
 			['status', 'default', 'value' => OcorrenciaStatus::AVALIACAO],
 			['status', 'in', 'range' => OcorrenciaStatus::getIDs()],
 			['localizacao', 'in', 'range' => OcorrenciaTipoImovel::getIDs()],
@@ -150,9 +150,20 @@ class Ocorrencia extends ClienteActiveRecord
             'observacoes' => 'Observações',
             'coordenadas' => 'Coordenadas',
             'descricao_outro_tipo_problema' => 'Descrição do Problema',
+            'tipo_registro' => 'Tipo de Registro',
+            'detalhes_publicos' => 'Detalhes Públicos'
 		];
 	}
 
+    public static function getTiposRegistros(){
+        return [
+            'denuncia' => 'Denúncia',
+            'solicitacoes' => 'Solicitações',
+            'relato' => 'Relato',
+            'sugestoes' => 'Sugestões',
+            'elogios' => 'Elogios',
+        ];
+    }
 	/**
 	 * @return \yii\db\ActiveRelation
 	 */

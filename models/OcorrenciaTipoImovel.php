@@ -11,6 +11,8 @@ class OcorrenciaTipoImovel
 	const JARDIM_PRACA = 6;
 	const RUA = 7;
 	const OUTRO = 8;
+	const INDUSTRIA = 9;
+	const EMPRESA = 10;
 
 	public static function getDescricoes()
 	{
@@ -22,6 +24,8 @@ class OcorrenciaTipoImovel
 			self::ESPACO_COMERCIAL => 'Edifício Comercial',
 			self::JARDIM_PRACA => 'Jardim/Praça',
 			self::RUA => 'Rua',
+			self::INDUSTRIA => 'Indústria',
+			self::EMPRESA => 'Empresa',
 			self::OUTRO => 'Outro',
 		];
 	}
