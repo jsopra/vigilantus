@@ -91,7 +91,7 @@ class Ocorrencia extends ClienteActiveRecord
             ['hash_acesso_publico', 'unique', 'when' => function($model, $attribute) {
                 return !empty($this->hash_acesso_publico);
             }],
-			[['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'observacoes'], 'string'],
+			[['nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'observacoes', 'detalhes_publicos'], 'string'],
 			['status', 'default', 'value' => OcorrenciaStatus::AVALIACAO],
 			['status', 'in', 'range' => OcorrenciaStatus::getIDs()],
 			['localizacao', 'in', 'range' => OcorrenciaTipoImovel::getIDs()],
@@ -151,6 +151,7 @@ class Ocorrencia extends ClienteActiveRecord
             'coordenadas' => 'Coordenadas',
             'descricao_outro_tipo_problema' => 'Descrição do Problema',
             'tipo_registro' => 'Tipo de Registro',
+            'detalhes_publicos' => 'Detalhes Públicos'
 		];
 	}
 
