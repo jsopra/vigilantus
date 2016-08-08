@@ -43,7 +43,9 @@ $averiguacoes = $model->quantidadeAveriguacoes;
                 <div class="col-xs-12">
                     <p>
                         <strong>Endereço:</strong> <?= $model->endereco ?>,
-                        <?= $model->bairro->nome ?>
+                        <?php if($model->bairro) : ?>
+                            <?= $model->bairro->nome ?>
+                        <?php endif; ?>
                     </p>
                     <?php if($model->pontos_referencia) : ?>
                         <p><strong>Referência:</strong> <?= $model->pontos_referencia ?></p>
