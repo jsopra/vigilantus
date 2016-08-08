@@ -28,6 +28,14 @@ if ($model->email) {
 
     <div class="row">
         <div class="col-xs-12">
+            <?= $form->field($model, 'detalhes_publicos')
+                ->hint('Use este campo para enviar detalhes importantes para o cidadão, como por exemplo: telefone, contato, setor que foi encaminhada a denúncia.')
+                ->textArea() ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
             <?= $form->field($model, 'observacoes')
                 ->hint('Descreva a situação atual do problema para a pessoa que registrou essa ocorrência.')
                 ->textArea() ?>
