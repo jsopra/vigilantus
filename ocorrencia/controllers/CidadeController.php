@@ -18,6 +18,7 @@ use yii\data\ActiveDataProvider;
 use yii\helpers\Json;
 use yii\web\HttpException;
 use yii\web\UploadedFile;
+use yii\db\Expression;
 
 class CidadeController extends Controller
 {
@@ -176,11 +177,51 @@ class CidadeController extends Controller
         ]);
     }
 
+
+    public function actionAvaliarOcorrencia($slug, $hash)
+    {
+        $model = $this->getOcorrencia($hash);
+        $municipio = $this->module->municipio;
+
+        if ($model->municipio_id != $municipio->id) {
+            throw new HttpException(404, 'Ocorrência não encontrada');
+        }
+
+        if (!OcorrenciaStatus::isStatusTerminativo($model->status)) {
+            throw new HttpException(400, 'Ocorrência não pode ser avaliada neste momento');
+        }
+
+        if (!empty($_POST) && $model->load($_POST)) {
+
+            $model->scenario = Ocorrencia::SCENARIO_AVALIACAO;
+            $model->rating = $_POST['Ocorrencia']['rating'];
+            $model->comentario_avaliacao = $_POST['Ocorrencia']['comentario_avaliacao'];
+            $model->avaliado_em = new Expression('NOW()');
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Ocorrência avaliada com sucesso!');
+                return $this->redirect(Yii::$app->user->returnUrl);
+            }
+            Yii::$app->session->setFlash('error', 'Selecione o indicador de avaliação.');
+        }
+
+
+
+
+        return $this->render(
+            'avaliar-ocorrencia',
+            [
+                'municipio' => $municipio,
+                'model' => $model,
+            ]
+        );
+    }
+
     protected function getOcorrencia($hash, $throwException = true)
     {
         $model = Ocorrencia::find()->andWhere(['hash_acesso_publico' => $hash])->one();
         if (!$model && $throwException) {
-            throw new HttpException(400, 'Ôcorrência não localizada');
+            throw new HttpException(400, 'Ocorrência não localizada');
         }
         return $model;
     }

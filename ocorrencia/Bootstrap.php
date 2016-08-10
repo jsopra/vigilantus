@@ -22,6 +22,7 @@ class Bootstrap implements BootstrapInterface
             "{$slug}/ocorrencias/nova" => 'ocorrencia/registrar-ocorrencia/index',
             "{$slug}/ocorrencias/<hash>/comprovante" => 'ocorrencia/cidade/comprovante-ocorrencia',
             "{$slug}/ocorrencias/<hash>" => 'ocorrencia/cidade/acompanhar-ocorrencia',
+            "{$slug}/ocorrencias/<hash>/avaliar" => 'ocorrencia/cidade/avaliar-ocorrencia',
             "{$slug}/ocorrencias/acompanhar" => 'ocorrencia/cidade/acompanhar-ocorrencia',
             "{$slug}/mapa-focos-dengue/<lat>/<lon>" => 'ocorrencia/cidade/mapa-focos',
             "{$slug}/mapa-focos-dengue" => 'ocorrencia/cidade/mapa-focos',

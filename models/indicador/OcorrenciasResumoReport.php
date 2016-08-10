@@ -101,4 +101,22 @@ class OcorrenciasResumoReport extends Model
 
         return $query->count();
     }
+
+    public function getAvaliacaoMedia()
+    {
+        $query = Ocorrencia::find()->criadaNoAno($this->ano);
+        if ($this->cliente_id) {
+            $query->doCliente($this->cliente_id);
+        }
+
+        $ocorrencias = $query->all();
+        $qtdeOcorrencias = count($ocorrencias);
+        $rating = 0;
+
+        foreach($ocorrencias as $ocorrencia) {
+            $rating != null;
+        }
+
+        return $qtdeOcorrencias > 0 ? round(($rating / $qtdeOcorrencias), 2) : 0;
+    }
 }

@@ -5,6 +5,7 @@ use app\models\BairroQuarteirao;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use app\helpers\models\ImovelHelper;
+use kartik\rating\StarRating;
 ?>
 
 <br />
@@ -47,6 +48,18 @@ use app\helpers\models\ImovelHelper;
 
     <dt><?= Html::activeLabel($model, 'mensagem') ?></dt>
     <dd><?= Html::encode($model->mensagem) ?></dd>
+
+    <?php if($model->rating != null) : ?>
+    <dt><?= Html::activeLabel($model, 'rating') ?></dt>
+    <dd><?= StarRating::widget([
+        'name' => 'rating',
+        'value' => $model->rating,
+        'pluginOptions' => [
+            'displayOnly' => true,
+            'size' => 'g',
+        ]
+    ]); ?></dd>
+    <?php endif; ?>
 </dl>
 
 <?php if ($model->anexo) : ?>

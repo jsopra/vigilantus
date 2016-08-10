@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use miloschuman\highcharts\Highcharts;
+use kartik\rating\StarRating;
 ?>
 
 <br />
@@ -34,6 +35,21 @@ use miloschuman\highcharts\Highcharts;
                 tempo médio
             </div>
             <span class="date">de atendimento em dias</span>
+        </div>
+         <div class="col-md-3 col-sm-3 stat last">
+            <div class="data">
+                <span class="number">
+                <?= StarRating::widget([
+                  'name' => 'rating',
+                  'value' => $resumo->getAvaliacaoMedia(),
+                  'pluginOptions' => [
+                      'displayOnly' => true,
+                      'size' => 'g',
+                  ]
+                ]);  ?></span>
+                Avaliação Média
+            </div>
+            <span class="date">Em <?= date('Y'); ?></span>
         </div>
     </div>
 </div>
