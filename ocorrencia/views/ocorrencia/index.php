@@ -58,6 +58,10 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                  ], ['prompt' => 'Todas']) ?>
                 </div>
 
+                <div class="col-xs-3">
+                    <?= $form->field($searchModel, 'endereco') ?>
+                </div>
+
                 <div class="col-xs-1" style="padding-top: 20px;">
                     <?= Html::submitButton('Filtrar', ['class' => 'btn btn-primary']) ?>
                 </div>
