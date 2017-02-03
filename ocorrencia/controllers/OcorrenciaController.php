@@ -132,7 +132,7 @@ class OcorrenciaController extends CRUDController
                 }
             }
         }
-
+        $model->data_criacao = date('Y-m-d');
          return $this->render(
             'create',
             [

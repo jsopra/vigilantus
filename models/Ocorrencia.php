@@ -85,7 +85,7 @@ class Ocorrencia extends ClienteActiveRecord
 	{
 		return [
 			[['data_criacao', 'data_fechamento', 'telefone', 'numero_controle', 'coordenadas'], 'safe'],
-			[['cliente_id', 'endereco', 'mensagem', 'municipio_id', 'tipo_registro'], 'required'],
+			[['cliente_id', 'endereco', 'mensagem', 'municipio_id', 'tipo_registro', 'data_criacao'], 'required'],
             [['tipo_imovel', 'bairro_id'], 'required', 'on' => 'insert'],
 			[['cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'ocorrencia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
             ['hash_acesso_publico', 'unique', 'when' => function($model, $attribute) {
@@ -126,7 +126,7 @@ class Ocorrencia extends ClienteActiveRecord
 	{
 		return [
 			'id' => 'ID',
-			'data_criacao' => 'Data Criação',
+			'data_criacao' => 'Data de Criação',
 			'cliente_id' => 'Município Cliente',
 			'nome' => 'Nome',
 			'telefone' => 'Telefone',
