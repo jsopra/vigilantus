@@ -58,7 +58,7 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                  ], ['prompt' => 'Todas']) ?>
                 </div>
 
-                <div class="col-xs-3">
+                <div class="col-xs-6">
                     <?= $form->field($searchModel, 'endereco') ?>
                 </div>
 
