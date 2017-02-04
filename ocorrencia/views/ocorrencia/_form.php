@@ -106,6 +106,9 @@ use yii\helpers\Url;
             <div class="col-xs-4">
                 <?= $form->field($model, 'tipo_registro')->dropDownList(Ocorrencia::getTiposRegistros()) ?>
             </div>
+            <div class="col-xs-4">
+                <?= $form->field($model, 'data_criacao')->input('date', ['class' => 'form-control input-datepicker']) ?>
+            </div>
         </div>
 
         <div class="row">
