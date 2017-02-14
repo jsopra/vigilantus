@@ -53,7 +53,7 @@ class AlertaAlteracaoStatusOcorrenciaJob implements InterfaceJob
                . 'você poderá acompanhar diretamente na <a href="'
                . Url::to(
                     [
-                        '/ocorrencia/cidade/acompanhar-ocorrencia',
+                        getenv('ABSOLUTE_URL') . '/ocorrencia/cidade/acompanhar-ocorrencia',
                         'slug' => $model->cliente->municipio->slug,
                         'hash' => $model->hash_acesso_publico,
                     ],
@@ -78,7 +78,7 @@ class AlertaAlteracaoStatusOcorrenciaJob implements InterfaceJob
         $body .= '<hr />';
         $body .= '<p><a href="' . Url::to(
              [
-                 '/ocorrencia/cidade/acompanhar-ocorrencia',
+                 getenv('ABSOLUTE_URL') . '/ocorrencia/cidade/acompanhar-ocorrencia',
                  'slug' => $model->cliente->municipio->slug,
                  'hash' => $model->hash_acesso_publico,
              ],
