@@ -9,6 +9,7 @@ class OcorrenciaHistoricoTipo
     const INFORMACAO = 4;
     const AVERIGUACAO = 5;
     const ACAO_TOMADA = 6;
+    const AVALIADA = 7;
 
     public static function getDescricoes()
     {
@@ -19,6 +20,7 @@ class OcorrenciaHistoricoTipo
             self::INFORMACAO => 'Informação',
             self::AVERIGUACAO => 'Averiguação',
             self::ACAO_TOMADA => 'Ação tomada',
+            self::AVALIADA => 'Avaliada',
         ];
     }
 

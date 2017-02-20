@@ -74,7 +74,21 @@ class AlertaAlteracaoStatusOcorrenciaJob implements InterfaceJob
                . '<strong>' . OcorrenciaStatus::getDescricao($model->status)
                . '</strong>.</p>'
         ;
-        $body .= '<p><strong>Observações: </strong>' . $model->detalhes_publicos . '</p>';
+        if (OcorrenciaStatus::isStatusTerminativo($model->status)){
+            $body .= '<p><a href="' . Url::to(
+             [
+                 '/ocorrencia/cidade/avaliar-ocorrencia',
+                 'slug' => $model->cliente->municipio->slug,
+                 'hash' => $model->hash_acesso_publico,
+             ],
+             true
+         ) . '">Avalie aqui o atendimento desta ocorrência</a></p>';
+        }
+
+        if ($model->detalhes_publicos != ''){
+            $body .= '<p><strong>Observações: </strong>' . $model->detalhes_publicos . '</p>';
+        }
+
         $body .= '<hr />';
         $body .= '<p><a href="' . Url::to(
              [

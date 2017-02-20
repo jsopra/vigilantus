@@ -47,6 +47,7 @@ class OcorrenciaHistoricoHelper
             OcorrenciaHistoricoTipo::INFORMACAO => '<div class="timeline-badge info"><i class="glyphicon glyphicon-info-sign"></i></div>',
             OcorrenciaHistoricoTipo::AVERIGUACAO => '<div class="timeline-badge warning"><i class="glyphicon glyphicon-eye-open"></i></div>',
             OcorrenciaHistoricoTipo::ACAO_TOMADA => '<div class="timeline-badge warning"><i class="glyphicon glyphicon-alert"></i></div>',
+             OcorrenciaHistoricoTipo::AVALIADA => '<div class="timeline-badge success"><i class="glyphicon glyphicon-star"></i></div>',
         ];
     }
 
@@ -63,6 +64,7 @@ class OcorrenciaHistoricoHelper
             OcorrenciaHistoricoTipo::INFORMACAO => 'Houve uma atualização no status de sua ocorrência.',
             OcorrenciaHistoricoTipo::AVERIGUACAO => 'A ocorrência foi enviada para averiguação pelo setor responsável.',
             OcorrenciaHistoricoTipo::ACAO_TOMADA => 'Uma ação tomada para resolver a ocorrência. O município agradece pela sua colaboração!',
+             OcorrenciaHistoricoTipo::AVALIADA => 'A ocorrência foi avalidada pelo solicitante',
         ];
     }
 }

@@ -10,6 +10,7 @@
         "yiisoft/yii2-swiftmailer": "*",
         "kartik-v/yii2-widget-select2": "v1.0.1",
         "kartik-v/yii2-widget-colorinput": "dev-master",
+        "kartik-v/yii2-widget-rating": "*",
         "2amigos/yii2-ckeditor-widget" : "*",
         "phpoffice/phpexcel": "dev-master",
         "yiisoft/yii2-redis": "*",

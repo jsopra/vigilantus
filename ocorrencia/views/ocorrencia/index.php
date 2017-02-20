@@ -141,6 +141,12 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                 }
             ],
             [
+                'attribute' => 'rating',
+                'value' => function ($model, $index, $widget) {
+                    return $model->rating ? $model->rating . '/5' : '-';
+                }
+            ],
+            [
                 'class' => 'app\extensions\grid\ModalColumn',
                 'iconClass' => 'icon-search opacity50',
                 'modalId' => 'averiguacoes-detalhes',
