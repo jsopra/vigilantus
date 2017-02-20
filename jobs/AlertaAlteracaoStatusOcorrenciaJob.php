@@ -48,11 +48,11 @@ class AlertaAlteracaoStatusOcorrenciaJob implements InterfaceJob
         $body = '<h1>Ocorrência registrada com sucesso</h1>';
         $body .= '<p>Olá' . ($model->nome ? ', ' . $model->nome : '') . ',</p>';
         $body .= '<p>Sua ocorrência foi registrada com sucesso. Agradecemos pela sua contribuição para melhorar a nossa cidade!</p>';
+        
         $body .= '<p>Você será informado quando houver alguma atualização sobre'
                . ' o andamento da avaliação da sua ocorrência, ou se preferir, '
-               . 'você poderá acompanhar diretamente na <a href="'
-               .  getenv('ABSOLUTE_URL') . '/ocorrencia/cidade/acompanhar-ocorrencia/slug/' . $model->cliente->municipio->slug . '/hash/' . $model->hash_acesso_publico . '">página da Prefeitura</a> através do protocolo.</p>'
-        ;
+               . 'você poderá acompanhar diretamente na <a href="' .  getenv('ABSOLUTE_URL') . '/' . $model->cliente->municipio->slug . '/ocorrencias/' . $model->hash_acesso_publico . '">página da Prefeitura</a> através do protocolo.</p>';
+
         $body .= '<p><big><big>Protocolo: ' . $model->hash_acesso_publico . '</big></big></p>';
 
         $message->setSubject('Ocorrência registrada com sucesso');
@@ -70,7 +70,7 @@ class AlertaAlteracaoStatusOcorrenciaJob implements InterfaceJob
         ;
         if (OcorrenciaStatus::isStatusTerminativo($model->status)){
 
-            $body .= '<p><a href="' .  getenv('ABSOLUTE_URL') . '/ocorrencia/cidade/avaliar-ocorrencia/slug/' . $model->cliente->municipio->slug . '/hash/' . $model->hash_acesso_publico . '">Avalie aqui o atendimento desta ocorrência</a></p>';
+            $body .= '<p><a href="' . getenv('ABSOLUTE_URL') . '/' . $model->cliente->municipio->slug . '/ocorrencias/' . $model->hash_acesso_publico . '/avaliar">Avalie aqui o atendimento desta ocorrência</a></p>';
         }
 
         if ($model->detalhes_publicos != ''){
@@ -78,7 +78,7 @@ class AlertaAlteracaoStatusOcorrenciaJob implements InterfaceJob
         }
 
         $body .= '<hr />';
-        $body .= '<p><a href="' .  getenv('ABSOLUTE_URL') . '/ocorrencia/cidade/acompanhar-ocorrencia/slug/' . $model->cliente->municipio->slug . '/hash/' . $model->hash_acesso_publico . '">Acompanhe aqui a sua ocorrência</a></p>';
+        $body .= '<p><a href="' .  getenv('ABSOLUTE_URL') . '/' . $model->cliente->municipio->slug . '/ocorrencias/' . $model->hash_acesso_publico . '">Acompanhe aqui a sua ocorrência</a></p>';
 
         $message->setSubject('Alteração de status da ocorrência #' . $model->hash_acesso_publico);
         $message->setHtmlBody($body);

@@ -33,7 +33,7 @@ class AlertaVisitacaoOcorrenciaJob implements \perspectivain\gearman\InterfaceJo
         $message .= '<p>Houve um visitação ao local de sua ocorrência em ' . $historico->getFormattedAttribute('data_associada') . '.</p>';
 
         $message .= '<hr />';
-        $message .= '<a href="' . getenv('ABSOLUTE_URL') . 'cidade/acompanhar-ocorrencia?id=' . $model->cliente->id . '&hash=' . $model->hash_acesso_publico . '">Acompanhe aqui a sua ocorrência</a>';
+        $message .= '<a href="' . getenv('ABSOLUTE_URL') . '/' . $model->cliente->municipio->slug . '/ocorrencias/' . $model->hash_acesso_publico . '">Acompanhe aqui a sua ocorrência</a>';
 
         Yii::$app->mail->compose()
             ->setTo($model->email)
