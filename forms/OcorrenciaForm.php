@@ -9,6 +9,7 @@ use app\models\OcorrenciaTipoImovel;
 use app\models\OcorrenciaTipoProblema;
 use app\helpers\models\OcorrenciaHelper;
 use perspectivain\postgis\PostgisTrait;
+use yii\db\Expression;
 
 class OcorrenciaForm extends Model
 {
@@ -196,6 +197,7 @@ class OcorrenciaForm extends Model
     public function save()
     {
         $model = new Ocorrencia;
+        $model->data_criacao = new Expression('NOW()');
         foreach($this->ocorrenciaFields as $field) {
             $model->$field = $this->$field;
         }
