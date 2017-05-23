@@ -6,6 +6,9 @@ use app\components\Console;
 use app\models\Ocorrencia;
 use app\models\OcorrenciaHistorico;
 use yii\console\Controller;
+use app\models\Bairro;
+use app\models\BoletimRg;
+
 
 class LimpaBaseController extends Console
 {
