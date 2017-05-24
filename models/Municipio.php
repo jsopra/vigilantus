@@ -3,11 +3,9 @@
 namespace app\models;
 
 use app\components\ActiveRecord;
-use app\helpers\ImageHelper;
 use app\helpers\models\MunicipioHelper;
 use Exception;
 use Yii;
-use yii\imagine\Image;
 use yii\web\UploadedFile;
 
 /**
@@ -27,7 +25,7 @@ class Municipio extends ActiveRecord
     public $longitude;
     public $file;
 
-    public $brasaoSizes =[
+    public $brasaoSizes = [
         // folder, width, height
         ['mini', 50, 50],
         ['small', 75, 75],
@@ -53,7 +51,7 @@ class Municipio extends ActiveRecord
             ['sigla_estado', 'string', 'max' => 2],
             ['nome', 'unique', 'compositeWith' => 'sigla_estado'],
             [['coordenadas_area'], 'string'],
-            [['file'], 'file', 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png'],
+            [['file'], 'file', 'extensions' => 'png', 'mimeTypes' => 'image/png'],
             ['brasao', 'safe'],
             ['slug', 'unique'],
         ];
@@ -114,13 +112,12 @@ class Municipio extends ActiveRecord
      * @param int $id Default is null
      * @return Cliente[]
      */
-    public static function getMunicipios($id = null) {
-
+    public static function getMunicipios($id = null)
+    {
         $query = self::find();
-
         $query->joinWith('cliente');
 
-        if($id) {
+        if ($id) {
             $query->andWhere(['"municipios"."id"' => $id]);
         }
 
@@ -151,8 +148,8 @@ class Municipio extends ActiveRecord
      * @param array $except
      * @return array
      */
-    public function getCoordenadasBairros(array $except) {
-
+    public function getCoordenadasBairros(array $except)
+    {
         $return = [];
 
         $bairros = Bairro::find()->comCoordenadas()->all();
@@ -181,81 +178,26 @@ class Municipio extends ActiveRecord
 
             $this->file = UploadedFile::getInstance($this, 'file');
 
-            $salvouImagem = true;
-
-            $result = false;
-
-            if($this->file) {
-
-                $path = MunicipioHelper::getBrasaoPath($this, true);
-
-                if(!is_dir($path)) {
-                    mkdir($path);
-                    mkdir($path . 'original/');
-
-                    foreach($this->brasaoSizes as $size) {
-                        mkdir($path . $size[0]);
-                    }
-                }
-
-                $imagemOriginal = $this->file->saveAs($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, false);
-
-                list($originalWidth, $originalHeight) = getimagesize($path . 'original/' . $this->file->baseName . '.' . $this->file->extension);
-
-                foreach($this->brasaoSizes as $size) {
-
-                    $folder = $size[0];
-                    $width = $size[1];
-                    $height = $size[2];
-
-                    $size = ImageHelper::calculateDimensions($originalWidth, $originalHeight, $width, $height);
-                    $image = Image::thumbnail($path . 'original/' . $this->file->baseName . '.' . $this->file->extension, $size['width'], $size['height']);
-                    $thumb = $image->save($path . $folder . '/' . $this->file->baseName . '.' . $this->file->extension);
-
-                    if(!$thumb) {
-                        $salvouImagem = false;
-                        break;
-                    }
-                }
-
-                if($salvouImagem) {
-                    $this->brasao = $this->file->baseName . '.' . $this->file->extension;
-                }
-
+            if ($this->file) {
+                MunicipioHelper::saveBrasao($this, $this->file);
+                $this->brasao = $this->id . '.' . $this->file->extension;
             }
 
-            if ($salvouImagem) {
+            if (parent::save($runValidation, $attributes)) {
 
-                $result = parent::save($runValidation, $attributes);
-
-                if($result) {
-
-                    if($newTransaction) {
-                        $newTransaction->commit();
-                    }
+                if ($newTransaction) {
+                    $newTransaction->commit();
                 }
-                else {
-                    if($newTransaction) {
-                        $newTransaction->rollback();
-                    }
+                return true;
+            }
 
-                    $result = false;
-                }
-            }
-            else {
-                if($newTransaction) {
-                    $newTransaction->rollback();
-                }
-            }
-        }
-        catch (\Exception $e) {
-            if($newTransaction) {
-                $newTransaction->rollback();
-            }
-            throw $e;
+        } catch (\Exception $e) {}
+
+        if ($newTransaction) {
+            $newTransaction->rollback();
         }
 
-        return $result;
+        return false;
     }
 
     /**
@@ -270,6 +212,8 @@ class Municipio extends ActiveRecord
                 $this->cliente->id
             );
         }
+
+        return;
     }
 
     public function coordenadaNaCidade($lat, $lon)

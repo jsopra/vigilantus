@@ -58,6 +58,10 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                  ], ['prompt' => 'Todas']) ?>
                 </div>
 
+                <div class="col-xs-6">
+                    <?= $form->field($searchModel, 'endereco') ?>
+                </div>
+
                 <div class="col-xs-1" style="padding-top: 20px;">
                     <?= Html::submitButton('Filtrar', ['class' => 'btn btn-primary']) ?>
                 </div>
@@ -134,6 +138,12 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                 'attribute' => 'bairro_id',
                 'value' => function ($model, $index, $widget) {
                     return $model->bairro ? Html::encode($model->bairro->nome) : null;
+                }
+            ],
+            [
+                'attribute' => 'rating',
+                'value' => function ($model, $index, $widget) {
+                    return $model->rating ? $model->rating . '/5' : '-';
                 }
             ],
             [

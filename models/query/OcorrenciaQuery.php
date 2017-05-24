@@ -95,4 +95,10 @@ class OcorrenciaQuery extends ActiveQuery
         $this->andWhere('status = :idStatus', [':idStatus' => $id]);
         return $this;
     }
+
+    public function avaliada()
+    {
+        $this->andWhere('rating IS NOT NULL');
+        return $this;
+    }
 }

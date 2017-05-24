@@ -51,6 +51,7 @@ class Ocorrencia extends ClienteActiveRecord
     const SCENARIO_TROCA_STATUS = 'trocaStatus';
     const SCENARIO_INSERCAO = 'insert';
     const SCENARIO_APROVACAO = 'aprovacao';
+    const SCENARIO_AVALIACAO = 'avaliacao';
 
 	public $file;
 	public $usuario_id;
@@ -75,6 +76,7 @@ class Ocorrencia extends ClienteActiveRecord
             self::SCENARIO_CARGA => ['carga'],
             self::SCENARIO_TROCA_STATUS => ['trocaStatus'],
             self::SCENARIO_APROVACAO => ['aprovacao'],
+            self::SCENARIO_AVALIACAO => ['avaliacao'],
         ]);
     }
 
@@ -85,7 +87,7 @@ class Ocorrencia extends ClienteActiveRecord
 	{
 		return [
 			[['data_criacao', 'data_fechamento', 'telefone', 'numero_controle', 'coordenadas'], 'safe'],
-			[['cliente_id', 'endereco', 'mensagem', 'municipio_id', 'tipo_registro'], 'required'],
+			[['cliente_id', 'endereco', 'mensagem', 'municipio_id', 'tipo_registro', 'data_criacao'], 'required'],
             [['tipo_imovel', 'bairro_id'], 'required', 'on' => 'insert'],
 			[['cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'ocorrencia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
             ['hash_acesso_publico', 'unique', 'when' => function($model, $attribute) {
@@ -98,6 +100,7 @@ class Ocorrencia extends ClienteActiveRecord
 			[['file'], 'file'],
 			[['email'], 'email'],
 			['usuario_id', 'required', 'on' => ['aprovacao', 'trocaStatus']],
+            ['rating', 'required', 'on' => ['avaliacao']],
             [
                 'ocorrencia_tipo_problema_id',
                 'exist',
@@ -126,7 +129,7 @@ class Ocorrencia extends ClienteActiveRecord
 	{
 		return [
 			'id' => 'ID',
-			'data_criacao' => 'Data Criação',
+			'data_criacao' => 'Data de Criação',
 			'cliente_id' => 'Município Cliente',
 			'nome' => 'Nome',
 			'telefone' => 'Telefone',
@@ -151,7 +154,9 @@ class Ocorrencia extends ClienteActiveRecord
             'coordenadas' => 'Coordenadas',
             'descricao_outro_tipo_problema' => 'Descrição do Problema',
             'tipo_registro' => 'Tipo de Registro',
-            'detalhes_publicos' => 'Detalhes Públicos'
+            'detalhes_publicos' => 'Detalhes Públicos',
+            'rating' => 'Avaliação',
+            'comentario_avaliacao' => 'Observações'
 		];
 	}
 
@@ -246,6 +251,8 @@ class Ocorrencia extends ClienteActiveRecord
                 return false;
             }
 
+
+
             $historico = new OcorrenciaHistorico;
             $historico->cliente_id = $this->cliente_id;
             $historico->usuario_id = $this->usuario_id;
@@ -269,7 +276,10 @@ class Ocorrencia extends ClienteActiveRecord
                 } elseif ($this->status == OcorrenciaStatus::APROVADA) {
                     $historico->tipo = OcorrenciaHistoricoTipo::APROVACAO;
                 }
-        	}
+        	} elseif ($this->scenario == self::SCENARIO_AVALIACAO) {
+                $historico->tipo = OcorrenciaHistoricoTipo::AVALIADA;
+                $historico->observacoes = 'A avaliação foi ' . $this->rating . ' de 5!';
+            }
 
             if ($historico->save()) {
                 if (($isNewRecord || $statusMudou) && $this->email) {

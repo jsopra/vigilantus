@@ -21,6 +21,9 @@ use yii\helpers\Url;
             <div class="col-xs-4">
                 <?= $form->field($model, 'numero_controle'); ?>
             </div>
+            <div class="col-xs-4">
+                <?= $form->field($model, 'data_criacao')->input('date', ['class' => 'form-control input-datepicker']) ?>
+            </div>
         </div>
 
         <hr />

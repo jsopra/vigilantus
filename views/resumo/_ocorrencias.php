@@ -1,39 +1,55 @@
 <?php
 use yii\helpers\Html;
 use miloschuman\highcharts\Highcharts;
+use kartik\rating\StarRating;
 ?>
 
 <br />
 
 <div id="main-stats">
     <div class="row stats-row">
-        <div class="col-md-3 col-sm-3 stat">
-            <div class="data">
-                <span class="number"><?= $resumo->getTotalDenunciasRecebidas(); ?></span>
-                recebidas
+        <div class="col-md-10">
+          <div class="row stats-row">
+            <div class="col-md-3 col-sm-3 stat">
+                <div class="data">
+                    <span class="number"><?= $resumo->getTotalDenunciasRecebidas(); ?></span>
+                    recebidas
+                </div>
             </div>
-            <span class="date">Em <?= date('Y'); ?></span>
+            <div class="col-md-3 col-sm-3 stat">
+                <div class="data">
+                    <span class="number"><?= $resumo->getTotalDenunciasFinalizadas(); ?></span>
+                    finalizadas
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 stat">
+                <div class="data">
+                    <span class="number"><?= $resumo->getTotalDenunciasPendentes(); ?></span>
+                    pendentes
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 stat last">
+                <div class="data">
+                    <span class="number"><?= $resumo->getTempoAtendimentoMedio(); ?></span>
+                   media dias
+                </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-3 col-sm-3 stat">
+        <div class="col-md-2 col-sm-2 stat last" style="padding: 0;">
             <div class="data">
-                <span class="number"><?= $resumo->getTotalDenunciasFinalizadas(); ?></span>
-                finalizadas
+                <span class="number" style="font-size: .85em;">
+                  <?= StarRating::widget([
+                    'name' => 'rating',
+                    'value' => $resumo->getAvaliacaoMedia(),
+                    'pluginOptions' => [
+                        'displayOnly' => true,
+                        'size' => 'g',
+                    ]
+                  ]);  ?>
+                </span>
+                Aval. média
             </div>
-            <span class="date">Em <?= date('Y'); ?></span>
-        </div>
-        <div class="col-md-3 col-sm-3 stat">
-            <div class="data">
-                <span class="number"><?= $resumo->getTotalDenunciasPendentes(); ?></span>
-                pendentes
-            </div>
-            <span class="date">de finalização</span>
-        </div>
-        <div class="col-md-3 col-sm-3 stat last">
-            <div class="data">
-                <span class="number"><?= $resumo->getTempoAtendimentoMedio(); ?></span>
-                tempo médio
-            </div>
-            <span class="date">de atendimento em dias</span>
         </div>
     </div>
 </div>
