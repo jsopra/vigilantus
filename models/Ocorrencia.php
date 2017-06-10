@@ -395,4 +395,20 @@ class Ocorrencia extends ClienteActiveRecord
 
         return $this->array_coordenadas;
     }
+
+    public function beforeDelete()
+    {
+        $parent = parent::beforeDelete();
+
+        $this->_clearRelationships();
+
+        return $parent;
+    }
+
+    private function _clearRelationships()
+    {
+        foreach (OcorrenciaHistorico::find()->where('ocorrencia_id = :ocorrencia', [':ocorrencia' => $this->id])->all() as $registro) {
+            $registro->delete();
+        }
+    }
 }
