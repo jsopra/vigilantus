@@ -63,9 +63,9 @@ $this->registerMetaTag(['property' => 'og:description', 'content' => $descricaoP
             <strong>Zika Vírus</strong> vive perto de você?
         </p>
         <p>
-            <a href="<?= Url::to(['mapa-focos', 'slug' => $municipio->slug]) ?>" class="btn btn-default btn-secondary disabled">
+            <a href="<?= Url::to(['mapa-focos', 'slug' => $municipio->slug]) ?>" class="btn btn-default btn-secondary">
                 <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
-                Confira no mapa (em breve)
+                Confira no mapa
             </a>
         </p>
     </div>
