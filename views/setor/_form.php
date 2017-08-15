@@ -14,6 +14,12 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-xs-3">
+                <?= $form->field($model, 'padrao_ocorrencias')->checkbox() ?>
+            </div>
+        </div>
+        
         <div class="form-group form-actions">
 			<?php
             echo Html::submitButton(
