@@ -251,8 +251,6 @@ class Ocorrencia extends ClienteActiveRecord
                 return false;
             }
 
-
-
             $historico = new OcorrenciaHistorico;
             $historico->cliente_id = $this->cliente_id;
             $historico->usuario_id = $this->usuario_id;
@@ -282,12 +280,23 @@ class Ocorrencia extends ClienteActiveRecord
             }
 
             if ($historico->save()) {
+
                 if (($isNewRecord || $statusMudou) && $this->email) {
                     BackgroundJob::register(
                         'AlertaAlteracaoStatusOcorrenciaJob',
                         [
                             'id' => $this->id,
                             'isNewRecord' => $isNewRecord,
+                            'key' => getenv('GEARMAN_JOB_KEY')
+                        ],
+                        BackgroundJob::NORMAL,
+                        Yii::$app->params['gearmanQueueName']
+                    );
+                } else if ($setorMudou && $this->email) {
+                    BackgroundJob::register(
+                        'AlertaAlteracaoSetprOcorrenciaJob',
+                        [
+                            'id' => $this->id,
                             'key' => getenv('GEARMAN_JOB_KEY')
                         ],
                         BackgroundJob::NORMAL,
