@@ -300,6 +300,17 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
         return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
 
+
+    /**
+     * @return SetorUsuario[]
+     */
+    public function getSetores()
+    {
+        return $this
+            ->hasMany(Setor::className(), ['id' => 'setor_id'])
+            ->viaTable('setor_usuarios', ['usuario_id' => 'id']);
+    }
+
     /**
      * @param string $moduloId
      * @param  Cliente|null $cliente
@@ -312,5 +323,15 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
         }
 
         return $cliente->moduloIsHabilitado($moduloId);
+    }
+
+    public function getIdsSetores()
+    {
+        $ids = [];
+        foreach ($this->setores as $setor) {
+            $ids[] = $setor->id;
+        }
+
+        return $ids;
     }
 }

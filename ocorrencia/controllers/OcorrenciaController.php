@@ -54,6 +54,7 @@ class OcorrenciaController extends CRUDController
         $searchModelClass = $this->getSearchModelClassName();
         $searchModel = new $searchModelClass;
         $searchModel->cliente_id = Yii::$app->user->identity->cliente_id;
+        $searchModel->usuario = Yii::$app->user->identity;
         $dataProvider = $searchModel->search($_GET);
 
         Yii::$app->user->returnUrl = Yii::$app->urlManager->createUrl('ocorrencia/ocorrencia/index');
@@ -68,6 +69,7 @@ class OcorrenciaController extends CRUDController
     {
         $searchModelClass = $this->getSearchModelClassName();
         $searchModel = new $searchModelClass;
+        $searchModel->usuario = Yii::$app->user->identity;
 
         $_GET['OcorrenciaSearch']['data_fechamento'] = '0';
         $_GET['OcorrenciaSearch']['status_fechamento'] = null;

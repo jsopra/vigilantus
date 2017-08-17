@@ -51,9 +51,7 @@ abstract class SearchModel extends Model
             $params = [$searchClassName => $params];
         }
         
-        if (!($this->load($params) && $this->validate())) {
-            return $dataProvider;
-        }
+        $this->load($params);
 
         $this->searchConditions($query);
         
