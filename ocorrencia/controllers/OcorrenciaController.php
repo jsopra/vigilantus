@@ -37,11 +37,11 @@ class OcorrenciaController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'abertas', 'impressao'],
+                'only' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'mudar-setor', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'abertas', 'impressao'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'abertas', 'impressao'],
+                        'actions' => ['create', 'index', 'anexo', 'reprovar', 'aprovar', 'detalhes', 'imoveis', 'mudar-status', 'bairroQuarteiroes', 'mudar-setor', 'tentativa-averiguacao', 'comprovante', 'ver-averiguacoes', 'batch', 'abertas', 'impressao'],
                         'roles' => ['Usuario'],
                     ],
                 ],
@@ -230,6 +230,26 @@ class OcorrenciaController extends CRUDController
         }
 
         return $this->renderAjaxOrLayout('mudar-status', ['model' => $model]);
+    }
+
+    public function actionMudarSetor($id)
+    {
+        $model = is_object($id) ? $id : $this->findModel($id);
+        if (!empty($_POST) && $model->load($_POST)) {
+
+            $model->scenario = Ocorrencia::SCENARIO_TROCA_SETOR;
+            $model->usuario_id = Yii::$app->user->id;
+            $model->setor_id = $_POST['Ocorrencia']['setor_id'];
+
+            $saveMethodName = $this->getModelSaveMethodName();
+
+            if ($model->$saveMethodName()) {
+                Yii::$app->session->setFlash('success', 'Ocorrência teve setor alterado!');
+                return $this->redirect(Yii::$app->user->returnUrl);
+            } 
+            Yii::$app->session->setFlash('error', 'Ocorreu um erro ao alterar o setor da ocorrência.');
+        }
+        return $this->renderAjaxOrLayout('mudar-setor', ['model' => $model]);
     }
 
     public function actionTentativaAveriguacao($id)

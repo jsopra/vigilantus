@@ -27,8 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
             }
         ],
 		'columns' => [
-			['class' => 'yii\grid\SerialColumn'],
 			'nome',
+            'padrao_ocorrencias:boolean',
             [
                 'header' => 'Usuários',
                 'format' => 'raw',
