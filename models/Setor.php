@@ -14,6 +14,7 @@ use app\components\ClienteActiveRecord;
  * @property string $data_cadastro
  * @property integer $atualizado_por
  * @property string $data_atualizacao
+ * @property string $padrao_ocorrencias
  */
 class Setor extends ClienteActiveRecord
 {
@@ -33,12 +34,33 @@ class Setor extends ClienteActiveRecord
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
 			[['nome'], 'string'],
+			['padrao_ocorrencias', 'boolean'],
 			['nome', 'unique', 'compositeWith' => 'cliente_id'],
-			[['cliente_id', 'inserido_por'], 'required'],
+			[['cliente_id', 'inserido_por', 'nome'], 'required'],
 			[['cliente_id', 'inserido_por', 'atualizado_por'], 'integer'],
+            [['padrao_ocorrencias'], 'validatePadrao'],
 			[['data_cadastro', 'data_atualizacao'], 'safe']
 		];
 	}
+
+    public function validatePadrao()
+    {
+    	if ($this->padrao_ocorrencias == false) {
+    		return true;
+    	}
+    		
+        $padraoParaMunicipio = self::find()
+            ->padraoParaOcorrencias()
+            ->queNao($this->id)
+            ->count();
+
+        if($padraoParaMunicipio > 0) {
+            $this->addError('padrao_ocorrencias', 'Já existe um setor padrão para ocorrências no município');
+            return false;
+        }
+
+        return true;
+    }
 
 	/**
 	 * @inheritdoc
@@ -53,6 +75,7 @@ class Setor extends ClienteActiveRecord
 			'data_cadastro' => 'Data do cadastro',
 			'atualizado_por' => 'Atualizado por',
 			'data_atualizacao' => 'Data da atualização',
+			'padrao_ocorrencias' => 'Padrão de Novas Ocorrências'
 		];
 	}
 
