@@ -312,7 +312,7 @@ class Ocorrencia extends ClienteActiveRecord
 
                 $transaction->commit();
                 return true;
-            } die(var_dump($historico->errors));
+            }
         } catch (\Exception $e) {
             $transaction->rollback();
             throw $e;
