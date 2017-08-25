@@ -16,6 +16,9 @@ $averiguacoes = $model->quantidadeAveriguacoes;
                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> <?= \Yii::$app->formatter->asDate($model->data_criacao . ' ' . Yii::$app->timeZone); ?> <?= $tempoAberto ? " (" . $tempoAberto . ")" : ''; ?>
                 </div>
                 <div class="col-xs-6 text-right">
+                    <?php if($model->setor) : ?>
+                        <span class="label label-info"><strong><?= $model->setor->nome; ?></strong></span>&nbsp;
+                    <?php endif; ?>
                     <span class="label label-primary"><strong><?= OcorrenciaStatus::getDescricao($model->status); ?></strong></span>
                 </div>
             </div>

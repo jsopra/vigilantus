@@ -296,13 +296,23 @@ class Ocorrencia extends ClienteActiveRecord
                 $historico->observacoes = 'Setor alterado para ' . $this->setor->nome;
             }
 
-            if ($historico->save()) { 
+            if ($historico->save()) {
                 if (($isNewRecord || $statusMudou) && $this->email) {
                     BackgroundJob::register(
                         'AlertaAlteracaoStatusOcorrenciaJob',
                         [
                             'id' => $this->id,
                             'isNewRecord' => $isNewRecord,
+                            'key' => getenv('GEARMAN_JOB_KEY')
+                        ],
+                        BackgroundJob::NORMAL,
+                        Yii::$app->params['gearmanQueueName']
+                    );
+                } else if ($setorMudou && $this->email) {
+                    BackgroundJob::register(
+                        'AlertaAlteracaoSetorOcorrenciaJob',
+                        [
+                            'id' => $this->id,
                             'key' => getenv('GEARMAN_JOB_KEY')
                         ],
                         BackgroundJob::NORMAL,

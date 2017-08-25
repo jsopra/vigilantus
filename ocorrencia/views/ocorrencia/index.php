@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use app\widgets\GridView;
 use app\models\Bairro;
+use app\models\Setor;
+use yii\helpers\ArrayHelper;
 use app\models\OcorrenciaStatus;
 use app\models\OcorrenciaTipoProblema;
 use app\helpers\models\OcorrenciaHelper;
@@ -50,7 +52,7 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                     <?= $form->field($searchModel, 'status_fechamento')->dropDownList(['0' => 'Aberto', '1' => 'Fechado'], ['prompt' => 'Todas']) ?>
                 </div>
 
-                <div class="col-xs-2">
+                <div class="col-xs-3">
                     <?= $form->field($searchModel, 'qtde_dias_aberto')->dropDownList([
                      1 => 'Até ' . $diasVerde . ' dias',
                      2 => 'Entre ' . $diasVerde . ' e ' . $diasVemelho . ' dias',
@@ -58,8 +60,12 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                  ], ['prompt' => 'Todas']) ?>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                     <?= $form->field($searchModel, 'endereco') ?>
+                </div>
+
+                <div class="col-xs-2">
+                    <?= $form->field($searchModel, 'setor_id')->dropDownList(ArrayHelper::map(Setor::find()->doUsuario(Yii::$app->user->identity)->all(), 'id', 'nome'), ['prompt' => 'Todas']) ?>
                 </div>
 
                 <div class="col-xs-1" style="padding-top: 20px;">
@@ -126,6 +132,12 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
                 'attribute' => 'status',
                 'value' => function ($model, $index, $widget) {
                     return OcorrenciaStatus::getDescricao($model->status);
+                }
+            ],
+            [
+                'attribute' => 'setor_id',
+                'value' => function ($model, $index, $widget) {
+                    return $model->setor ? Html::encode($model->setor->nome) : null;
                 }
             ],
             [

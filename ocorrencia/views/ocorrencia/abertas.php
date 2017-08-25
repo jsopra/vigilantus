@@ -2,12 +2,14 @@
 use yii\helpers\Html;
 use yii\widgets\ListView;
 use app\models\Bairro;
+use app\models\Setor;
 use app\models\OcorrenciaStatus;
 use app\models\OcorrenciaTipoProblema;
 use app\helpers\models\OcorrenciaHelper;
 use app\models\Configuracao;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 $this->title = 'Ocorrências Abertas';
 $this->params['breadcrumbs'][] = $this->title;
@@ -70,6 +72,10 @@ function verAveriguacoes(id)
                      2 => 'Entre ' . $diasVerde . ' e ' . $diasVemelho . ' dias',
                      3 => 'Mais de ' . $diasVemelho . ' dias',
                  ], ['prompt' => 'Todas']) ?>
+                </div>
+
+                <div class="col-xs-2">
+                    <?= $form->field($searchModel, 'setor_id')->dropDownList(ArrayHelper::map(Setor::find()->doUsuario(Yii::$app->user->identity)->all(), 'id', 'nome'), ['prompt' => 'Todas']) ?>
                 </div>
 
                 <div class="col-xs-1" style="padding-top: 20px;">

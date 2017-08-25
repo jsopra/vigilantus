@@ -34,12 +34,14 @@ class OcorrenciaSearch extends SearchModel
     public $numero_controle;
     public $status_fechamento;
     public $hash_acesso_publico;
+    public $setor_id;
+    public $usuario;
 
 	public function rules()
 	{
 		return [
-			[['id', 'cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'ocorrencia_tipo_problema_id', 'bairro_quarteirao_id', 'qtde_dias_aberto', 'ano', 'status_fechamento'], 'integer'],
-			[['data_criacao', 'nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'data_fechamento', 'status', 'numero_controle', 'hash_acesso_publico'], 'safe'],
+			[['id', 'cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'ocorrencia_tipo_problema_id', 'bairro_quarteirao_id', 'qtde_dias_aberto', 'ano', 'status_fechamento', 'setor_id'], 'integer'],
+			[['data_criacao', 'nome', 'telefone', 'endereco', 'email', 'pontos_referencia', 'mensagem', 'anexo', 'nome_original_anexo', 'data_fechamento', 'status', 'numero_controle', 'hash_acesso_publico', 'usuario', 'setor_id'], 'safe'],
 		];
 	}
 
@@ -57,6 +59,7 @@ class OcorrenciaSearch extends SearchModel
             'ocorrencia_tipo_problema_id' => $this->ocorrencia_tipo_problema_id,
             'bairro_quarteirao_id' => $this->bairro_quarteirao_id,
             'hash_acesso_publico' => $this->hash_acesso_publico,
+            'setor_id' => $this->setor_id,
         ]);
 
 		$query->andFilterWhere(['like', 'nome', $this->nome])
@@ -88,6 +91,13 @@ class OcorrenciaSearch extends SearchModel
 
         if($this->ano) {
             $query->andWhere('extract (year from data_criacao) = ' . $this->ano);
+        }
+
+        if ($this->usuario) {
+            $setoresDoUsuario = $this->usuario->getIdsSetores();
+            if (count($setoresDoUsuario) > 0) {
+                $query->andWhere("setor_id IN (" . implode(',', $setoresDoUsuario) . ")");
+            }
         }
 
         $query->orderBy('data_criacao asc');
