@@ -137,6 +137,18 @@ class OcorrenciaHelper extends YiiStringHelper
             ] + $options);
         };
 
+        $buttons['mudar-setor'] = function ($model, $options = []) {
+
+            if(in_array($model->status, OcorrenciaStatus::getStatusTerminativos())) {
+                return;
+            }
+
+            return Html::a('<i class="glyphicon glyphicon-random"></i>', ['mudar-setor', 'id' => $model->id], [
+                'title' => Yii::t('yii', 'Mudar setor'),
+                'data-method' => 'post',
+            ] + $options);
+        };
+
         $buttons['tentativa-averiguacao'] = function ($model, $options = []) {
 
             if(in_array($model->status, OcorrenciaStatus::getStatusTerminativos())) {

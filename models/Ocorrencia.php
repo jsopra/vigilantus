@@ -42,6 +42,7 @@ use yii\db\Expression;
  * @property Cliente $cliente
  * @property Bairros $bairro
  * @property Imoveis $imovel
+ * @property integer $setor_id
  */
 class Ocorrencia extends ClienteActiveRecord
 {
@@ -52,6 +53,7 @@ class Ocorrencia extends ClienteActiveRecord
     const SCENARIO_INSERCAO = 'insert';
     const SCENARIO_APROVACAO = 'aprovacao';
     const SCENARIO_AVALIACAO = 'avaliacao';
+    const SCENARIO_TROCA_SETOR = 'trocaSetor';
 
 	public $file;
 	public $usuario_id;
@@ -77,6 +79,7 @@ class Ocorrencia extends ClienteActiveRecord
             self::SCENARIO_TROCA_STATUS => ['trocaStatus'],
             self::SCENARIO_APROVACAO => ['aprovacao'],
             self::SCENARIO_AVALIACAO => ['avaliacao'],
+            self::SCENARIO_TROCA_SETOR => ['trocaSetor'],
         ]);
     }
 
@@ -89,7 +92,7 @@ class Ocorrencia extends ClienteActiveRecord
 			[['data_criacao', 'data_fechamento', 'telefone', 'numero_controle', 'coordenadas'], 'safe'],
 			[['cliente_id', 'endereco', 'mensagem', 'municipio_id', 'tipo_registro', 'data_criacao'], 'required'],
             [['tipo_imovel', 'bairro_id'], 'required', 'on' => 'insert'],
-			[['cliente_id', 'bairro_id', 'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'ocorrencia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
+			[['cliente_id', 'bairro_id', 'setor_id',  'imovel_id', 'tipo_imovel', 'localizacao', 'status', 'ocorrencia_tipo_problema_id', 'usuario_id', 'bairro_quarteirao_id'], 'integer'],
             ['hash_acesso_publico', 'unique', 'when' => function($model, $attribute) {
                 return !empty($this->hash_acesso_publico);
             }],
@@ -99,7 +102,7 @@ class Ocorrencia extends ClienteActiveRecord
 			['localizacao', 'in', 'range' => OcorrenciaTipoImovel::getIDs()],
 			[['file'], 'file'],
 			[['email'], 'email'],
-			['usuario_id', 'required', 'on' => ['aprovacao', 'trocaStatus']],
+			['usuario_id', 'required', 'on' => ['aprovacao', 'trocaStatus', 'trocaSetor']],
             ['rating', 'required', 'on' => ['avaliacao']],
             [
                 'ocorrencia_tipo_problema_id',
@@ -156,7 +159,8 @@ class Ocorrencia extends ClienteActiveRecord
             'tipo_registro' => 'Tipo de Registro',
             'detalhes_publicos' => 'Detalhes Públicos',
             'rating' => 'Avaliação',
-            'comentario_avaliacao' => 'Observações'
+            'comentario_avaliacao' => 'Observações',
+            'setor_id' => 'Setor',
 		];
 	}
 
@@ -202,6 +206,14 @@ class Ocorrencia extends ClienteActiveRecord
 		return $this->hasOne(Bairro::className(), ['id' => 'bairro_id']);
 	}
 
+    /**
+     * @return \yii\db\ActiveRelation
+     */
+    public function getSetor()
+    {
+        return $this->hasOne(Setor::className(), ['id' => 'setor_id']);
+    }
+
 	/**
 	 * @return \yii\db\ActiveRelation
 	 */
@@ -235,8 +247,10 @@ class Ocorrencia extends ClienteActiveRecord
 
         try {
         	$oldStatus = isset($this->oldAttributes['status']) ? $this->oldAttributes['status'] : null;
+            $oldSetor = isset($this->oldAttributes['setor_id']) ? $this->oldAttributes['setor_id'] : null;
         	$isNewRecord = $this->isNewRecord;
             $statusMudou = $oldStatus != $this->status;
+            $setorMudou = $oldSetor != $this->setor_id;
 
             if (!$isNewRecord && $statusMudou && in_array($this->status, OcorrenciaStatus::getStatusTerminativos())) {
                 $this->data_fechamento = new Expression('NOW()');
@@ -250,8 +264,6 @@ class Ocorrencia extends ClienteActiveRecord
                 $transaction->rollback();
                 return false;
             }
-
-
 
             $historico = new OcorrenciaHistorico;
             $historico->cliente_id = $this->cliente_id;
@@ -279,9 +291,12 @@ class Ocorrencia extends ClienteActiveRecord
         	} elseif ($this->scenario == self::SCENARIO_AVALIACAO) {
                 $historico->tipo = OcorrenciaHistoricoTipo::AVALIADA;
                 $historico->observacoes = 'A avaliação foi ' . $this->rating . ' de 5!';
+            } else if ($setorMudou) {
+                $historico->tipo = OcorrenciaHistoricoTipo::INFORMACAO;
+                $historico->observacoes = 'Setor alterado para ' . $this->setor->nome;
             }
 
-            if ($historico->save()) {
+            if ($historico->save()) { 
                 if (($isNewRecord || $statusMudou) && $this->email) {
                     BackgroundJob::register(
                         'AlertaAlteracaoStatusOcorrenciaJob',
@@ -394,6 +409,28 @@ class Ocorrencia extends ClienteActiveRecord
         }
 
         return $this->array_coordenadas;
+    }
+
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+
+        if (!$this->isNewRecord) {
+            return true;
+        }
+
+        if ($this->setor_id != null) {
+            return true;
+        }
+
+        $setorPadrao = Setor::find()->padraoParaOcorrencias()->one();
+        if ($setorPadrao) {
+            $this->setor_id = $setorPadrao->id;
+        }
+
+        return true;
     }
 
     public function beforeDelete()

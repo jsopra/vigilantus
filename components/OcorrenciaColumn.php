@@ -70,6 +70,18 @@ class OcorrenciaColumn extends YiiActionColumn
 			]);
 		};
 
+		$this->buttons['mudar-setor'] = function ($url, $model) {
+
+			if(in_array($model->status, OcorrenciaStatus::getStatusTerminativos())) {
+				return;
+			}
+
+			return Html::a('<i class="glyphicon glyphicon-random"></i>', $url, [
+				'title' => Yii::t('yii', 'Mudar setor'),
+				'data-method' => 'post',
+			]);
+		};
+
 		$this->buttons['tentativa-averiguacao'] = function ($url, $model) {
 
 			if(in_array($model->status, OcorrenciaStatus::getStatusTerminativos())) {
