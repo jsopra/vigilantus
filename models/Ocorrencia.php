@@ -257,6 +257,7 @@ class Ocorrencia extends ClienteActiveRecord
             }
 
             if (!empty($this->ocorrencia_tipo_problema_id)) {
+                $this->setor_id = '1';
                 $this->descricao_outro_tipo_problema = null;
             }
 
@@ -311,6 +312,8 @@ class Ocorrencia extends ClienteActiveRecord
                 }
 
                 $transaction->commit();
+                //$query = Setor::find()->trazerSetorTipoProblema($this)->one();
+               // die(var_dump($query->id));
                 return true;
             }
         } catch (\Exception $e) {
@@ -421,13 +424,14 @@ class Ocorrencia extends ClienteActiveRecord
             return true;
         }
 
-        if ($this->setor_id != null) {
-            return true;
-        }
-
         $setorPadrao = Setor::find()->padraoParaOcorrencias()->one();
         if ($setorPadrao) {
             $this->setor_id = $setorPadrao->id;
+        }
+
+        $setorTipoProblema = Setor::find()->trazerSetorTipoProblema($this)->one();
+        if ($setorTipoProblema) {
+            $this->setor_id = $setorTipoProblema->id;
         }
 
         return true;

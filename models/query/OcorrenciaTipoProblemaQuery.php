@@ -17,4 +17,20 @@ class OcorrenciaTipoProblemaQuery extends ActiveQuery
         $this->andWhere("nome ILIKE '%" . trim($nome) . "%'");
         return $this;
     }
+
+    public function naoAssociadoAoSetor($id)
+    {
+        $this->andWhere('id NOT IN (
+            SELECT tipos_problemas_id from setor_tipos_ocorrencias WHERE setor_id = ' . $id . '
+        )');
+        return $this;
+    }
+
+    public function associadoUnicamenteAoSetor($id)
+    {
+        $this->andWhere('id NOT IN (
+            SELECT tipos_problemas_id from setor_tipos_ocorrencias
+        )');
+        return $this;
+    }
 }
