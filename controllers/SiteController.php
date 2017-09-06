@@ -112,6 +112,7 @@ class SiteController extends Controller
 
         $modelResumo = new OcorrenciasResumoReport;
         $modelResumo->ano = date('Y');
+        $modelResumo->usuario = Yii::$app->user->identity;
 
         return $this->render(
             'resumo-ocorrencias',
