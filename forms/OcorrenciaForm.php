@@ -93,7 +93,7 @@ class OcorrenciaForm extends Model
     public function rules()
     {
         return [
-            [['tipo_imovel', 'bairro_id', 'rua'], 'required', 'on' => self::SCENARIO_WIZARD_LOCAL],
+            [['tipo_imovel', 'bairro_id', 'rua', 'numero'], 'required', 'on' => self::SCENARIO_WIZARD_LOCAL],
             [['mensagem', 'tipo_registro'], 'required', 'on' => self::SCENARIO_WIZARD_DETALHES],
             [
                 'ocorrencia_tipo_problema_id',
