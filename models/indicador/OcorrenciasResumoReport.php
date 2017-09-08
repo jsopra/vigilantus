@@ -12,12 +12,13 @@ class OcorrenciasResumoReport extends Model
 {
     public $ano;
     public $cliente_id;
+    public $usuario;
 
     public function rules()
     {
         return [
             ['ano', 'integer'],
-            ['cliente_id', 'safe']
+            [['cliente_id', 'usuario'], 'safe']
         ];
     }
 
@@ -37,6 +38,13 @@ class OcorrenciasResumoReport extends Model
             $query->doCliente($this->cliente_id);
         }
 
+        if ($this->usuario) {
+            $setoresDoUsuario = $this->usuario->getIdsSetores();
+            if (count($setoresDoUsuario) > 0) {
+                $query->andWhere("setor_id IN (" . implode(',', $setoresDoUsuario) . ")");
+            }
+        }
+
         return $query->count();
     }
 
@@ -46,6 +54,13 @@ class OcorrenciasResumoReport extends Model
 
         if ($this->cliente_id) {
             $query->doCliente($this->cliente_id);
+        }
+
+        if ($this->usuario) {
+            $setoresDoUsuario = $this->usuario->getIdsSetores();
+            if (count($setoresDoUsuario) > 0) {
+                $query->andWhere("setor_id IN (" . implode(',', $setoresDoUsuario) . ")");
+            }
         }
 
         return $query->count();
@@ -59,6 +74,13 @@ class OcorrenciasResumoReport extends Model
             $query->doCliente($this->cliente_id);
         }
 
+        if ($this->usuario) {
+            $setoresDoUsuario = $this->usuario->getIdsSetores();
+            if (count($setoresDoUsuario) > 0) {
+                $query->andWhere("setor_id IN (" . implode(',', $setoresDoUsuario) . ")");
+            }
+        }
+
         return $query->count();
     }
 
@@ -67,6 +89,13 @@ class OcorrenciasResumoReport extends Model
         $query = Ocorrencia::find()->criadaNoAno($this->ano);
         if ($this->cliente_id) {
             $query->doCliente($this->cliente_id);
+        }
+
+        if ($this->usuario) {
+            $setoresDoUsuario = $this->usuario->getIdsSetores();
+            if (count($setoresDoUsuario) > 0) {
+                $query->andWhere("setor_id IN (" . implode(',', $setoresDoUsuario) . ")");
+            }
         }
 
         $ocorrencias = $query->all();
@@ -88,6 +117,13 @@ class OcorrenciasResumoReport extends Model
             $query->doCliente($this->cliente_id);
         }
 
+        if ($this->usuario) {
+            $setoresDoUsuario = $this->usuario->getIdsSetores();
+            if (count($setoresDoUsuario) > 0) {
+                $query->andWhere("setor_id IN (" . implode(',', $setoresDoUsuario) . ")");
+            }
+        }
+
         return $query->count();
     }
 
@@ -97,6 +133,13 @@ class OcorrenciasResumoReport extends Model
 
         if ($this->cliente_id) {
             $query->doCliente($this->cliente_id);
+        }
+
+        if ($this->usuario) {
+            $setoresDoUsuario = $this->usuario->getIdsSetores();
+            if (count($setoresDoUsuario) > 0) {
+                $query->andWhere("setor_id IN (" . implode(',', $setoresDoUsuario) . ")");
+            }
         }
 
         return $query->count();
@@ -109,7 +152,14 @@ class OcorrenciasResumoReport extends Model
             ->criadaNoAno($this->ano);
 
         if ($this->cliente_id) {
-            $query->doCliente($this->cliente_id);
+            $queryTotal->doCliente($this->cliente_id);
+        }
+
+        if ($this->usuario) {
+            $setoresDoUsuario = $this->usuario->getIdsSetores();
+            if (count($setoresDoUsuario) > 0) {
+                $queryTotal->andWhere("setor_id IN (" . implode(',', $setoresDoUsuario) . ")");
+            }
         }
 
         $queryRating = clone $queryTotal;
