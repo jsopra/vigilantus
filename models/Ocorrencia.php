@@ -312,8 +312,6 @@ class Ocorrencia extends ClienteActiveRecord
                 }
 
                 $transaction->commit();
-                //$query = Setor::find()->trazerSetorTipoProblema($this)->one();
-               // die(var_dump($query->id));
                 return true;
             }
         } catch (\Exception $e) {
