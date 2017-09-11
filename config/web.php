@@ -151,6 +151,7 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = 'yii\debug\Module';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+        'allowedIPs' => ['172.17.0.1'],
         'generators' => [
             'vigilantus-model' => ['class' => 'app\extensions\gii\generators\model\Generator'],
             'vigilantus-crud' => ['class' => 'app\extensions\gii\generators\crud\Generator'],

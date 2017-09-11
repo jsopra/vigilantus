@@ -45,6 +45,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::tag('p', $link, ['class' => 'text-center no-margin']);
                 },
             ],
+            [
+                'header' => 'Tipo de Ocorrências',
+                'format' => 'raw',
+                'value' => function ($model, $index, $widget) {
+
+                    $img = Html::tag('i', '', ['class' => 'glyphicon glyphicon-link']);
+
+                    $link = Html::a(
+                        'Gerenciar (' . $model->quantidadeTiposOcorrencia . ') &nbsp;' . $img,
+                        Yii::$app->urlManager->createUrl(['setor-tipo-ocorrencia/index', 'parentID' => $model->id]),
+                        ['title' => Html::encode('Gerenciar Tipo de Ocorrências ') . Html::encode($model->nome)]
+                    );
+
+                    return Html::tag('p', $link, ['class' => 'text-center no-margin']);
+                },
+            ],
 			[
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',

@@ -84,6 +84,11 @@ class Setor extends ClienteActiveRecord
         return SetorUsuario::find()->where(['setor_id' => $this->id])->count();
     }
 
+    public function getQuantidadeTiposOcorrencia()
+    {
+        return SetorTipoOcorrencia::find()->where(['setor_id' => $this->id])->count();
+    }
+
     public function beforeDelete()
     {
         $parent = parent::beforeDelete();
