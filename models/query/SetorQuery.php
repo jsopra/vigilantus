@@ -19,6 +19,18 @@ class SetorQuery extends ActiveQuery
         return $this;
     }
 
+    public function doUsuario($usuario)
+    {
+        $setoresDoUsuario = $usuario->getIdsSetores();
+        if (count($setoresDoUsuario) == 0) {
+            return $this;
+        }
+
+        $this->andWhere("id IN (" . implode(',', $setoresDoUsuario) . ")");
+
+        return $this;
+    }
+
     public function trazerSetorTipoProblema(Ocorrencia $model)
     {
         $this->andWhere('id IN (SELECT setor_id FROM setor_tipos_ocorrencias WHERE tipos_problemas_id = '. $model->ocorrencia_tipo_problema_id . ')');
