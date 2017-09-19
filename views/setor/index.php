@@ -61,6 +61,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::tag('p', $link, ['class' => 'text-center no-margin']);
                 },
             ],
+            [
+                'header' => 'Módulos',
+                'format' => 'raw',
+                'value' => function ($model, $index, $widget) {
+
+                    $img = Html::tag('i', '', ['class' => 'glyphicon glyphicon-link']);
+
+                    $link = Html::a(
+                        'Gerenciar (' . $model->quantidadeModulos . ') &nbsp;' . $img,
+                        Yii::$app->urlManager->createUrl(['setor-modulo/index', 'parentID' => $model->id]),
+                        ['title' => 'Gerenciar Módulos do Setor ' . $model->nome]
+                    );
+
+                    return Html::tag('p', $link, ['class' => 'text-center no-margin']);
+                },
+            ],
 			[
                 'class' => 'app\components\ActionColumn',
                 'template' => '{update} {delete}',

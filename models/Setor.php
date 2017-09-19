@@ -89,6 +89,21 @@ class Setor extends ClienteActiveRecord
         return SetorTipoOcorrencia::find()->where(['setor_id' => $this->id])->count();
     }
 
+    public function getQuantidadeModulos()
+    {
+        return SetorModulo::find()->where(['setor_id' => $this->id])->count();
+    }
+
+    public function getModulos()
+    {
+        return $this->hasMany(SetorModulo::className(), ['setor_id' => 'id']);
+    }
+
+    public function moduloIsHabilitado($moduloId)
+    {
+        return $this->getModulos()->andWhere(['modulo_id' => $moduloId])->count() > 0;
+    }
+
     public function beforeDelete()
     {
         $parent = parent::beforeDelete();
@@ -104,6 +119,7 @@ class Setor extends ClienteActiveRecord
      */
     private function _clearRelationships()
     {
+        SetorModulo::deleteAll('setor_id = :setor', [':setor' => $this->id]);
         foreach (SetorUsuario::find()->where('setor_id = :setor', [':setor' => $this->id])->all() as $registro) {
             $registro->delete();
         }
