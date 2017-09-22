@@ -49,6 +49,9 @@ use kartik\rating\StarRating;
     <dt><?= Html::activeLabel($model, 'mensagem') ?></dt>
     <dd><?= Html::encode($model->mensagem) ?></dd>
 
+    <dt><?= Html::activeLabel($model, 'setor_id') ?></dt>
+    <dd><?= $model->setor ? Html::encode($model->setor->nome) : null ?></dd>
+
     <?php if($model->rating != null) : ?>
     <dt><?= Html::activeLabel($model, 'rating') ?></dt>
     <dd><?= StarRating::widget([

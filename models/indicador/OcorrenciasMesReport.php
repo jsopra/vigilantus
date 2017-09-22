@@ -1,4 +1,5 @@
 <?php
+
 namespace app\models\indicador;
 
 use yii\base\Model;
@@ -9,13 +10,16 @@ use Yii;
 
 class OcorrenciasMesReport extends Model
 {
+
     public $ano;
     public $problema_id;
+    public $usuario;
 
     public function rules()
     {
         return [
             ['ano', 'integer'],
+            ['usuario', 'safe'],
             ['problema_id', 'exist', 'targetClass' => OcorrenciaTipoProblema::className(), 'targetAttribute' => 'id'],
         ];
     }
@@ -36,19 +40,25 @@ class OcorrenciasMesReport extends Model
         ];
 
         foreach ($this->getMeses() as $id => $mes) {
-
             $recebidas = Ocorrencia::find()->criadaEm($id, $this->ano);
             $finalizadas = Ocorrencia::find()->finalizadaEm($id, $this->ano);
+
             if($this->problema_id) {
                 $recebidas->doProblema($this->problema_id);
                 $finalizadas->doProblema($this->problema_id);
             }
 
+            if ($this->usuario) {
+            $setoresDoUsuario = $this->usuario->getIdsSetores();
+                if (count($setoresDoUsuario) > 0) {
+                    $recebidas->andWhere("setor_id IN (" . implode(',', $setoresDoUsuario) . ")");
+                    $finalizadas->andWhere("setor_id IN (" . implode(',', $setoresDoUsuario) . ")");
+                }
+            }
 
             $series['recebidas'][] = (int) $recebidas->count();
             $series['finalizadas'][] = (int) $finalizadas->count();
         }
-
         return $series;
     }
 

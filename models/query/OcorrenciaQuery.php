@@ -101,4 +101,16 @@ class OcorrenciaQuery extends ActiveQuery
         $this->andWhere('rating IS NOT NULL');
         return $this;
     }
+
+    public function doUsuario($usuario)
+    {
+        $setoresDoUsuario = $usuario->getIdsSetores();
+        if (count($setoresDoUsuario) == 0) {
+            return $this;
+        }
+
+        $this->andWhere("id IN (" . implode(',', $setoresDoUsuario) . ")");
+
+        return $this;
+    }
 }

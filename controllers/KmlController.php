@@ -278,7 +278,7 @@ class KmlController extends Controller
         $model = new Kml;
         $model->id = 'ocorrencia';
 
-        $pontos = $except ? Ocorrencia::find()->queNao($except)->all() : Ocorrencia::find()->all();
+        $pontos = $except ? Ocorrencia::find()->queNao($except)->doUsuario(Yii::$app->user->identity)->all() : Ocorrencia::find()->doUsuario(Yii::$app->user->identity)->all();
         foreach($pontos as $ponto) {
 
             if(!$ponto->bairro_quarteirao_id) {

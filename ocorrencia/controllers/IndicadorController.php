@@ -35,6 +35,7 @@ class IndicadorController extends Controller
     public function actionOcorrenciasMes()
     {
         $model = new OcorrenciasMesReport;
+        $model->usuario = Yii::$app->user->identity;
 
         if(isset($_GET['OcorrenciasMesReport'])) {
             $model->load($_GET);
