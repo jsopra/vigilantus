@@ -17,6 +17,8 @@ class Modulo extends ActiveRecord
 {
 	const MODULO_OCORRENCIA = 1;
 	const MODULO_VISITACAO = 2;
+	const MODULO_LOCALIZACAO = 3;
+	const MODULO_FOCOS = 4;
 
 	/**
 	 * @inheritdoc
