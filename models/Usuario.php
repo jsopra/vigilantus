@@ -334,7 +334,14 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
 
         $data['status'] = $moduloParaCliente && $moduloParaSetor;
 
-        Yii::$app->cache->set($cacheKey, $data);
+        $dependency = new \yii\caching\DbDependency;
+        $query = 'SELECT MAX(sm.id) FROM setor_modulos sm JOIN setores s ON s.id = sm.setor_id';
+        if ($this->cliente_id) {
+            $query .= ' WHERE s.cliente_id = ' . $this->cliente_id;
+        }
+        $dependency->sql = $query;
+
+        Yii::$app->cache->set($cacheKey, $data, null, $dependency);
 
         return $data['status'];
     }
