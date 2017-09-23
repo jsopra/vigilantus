@@ -85,6 +85,17 @@ class SiteController extends Controller
 
     public function actionHome()
     {
+        if (!\Yii::$app->user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_LOCALIZACAO)) {
+
+            if (\Yii::$app->user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)) {
+                $this->redirect(['site/resumo-ocorrencias']);
+            } else if (\Yii::$app->user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS)) {
+                $this->redirect(['site/resumo-focos']);
+            } else  {
+                $this->redirect(['site/contato']);
+            }
+        }
+
         return $this->render(
             'home',
             [

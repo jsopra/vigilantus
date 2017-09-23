@@ -28,7 +28,8 @@ echo Nav::widget([
         [
             'label' => 'RG',
             'url' => ['site/home'],
-            'options' => ['id' => 'rg']
+            'options' => ['id' => 'rg'],
+            'visible' => \Yii::$app->user->can('Gerente') && \Yii::$app->user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_LOCALIZACAO),
         ],
         [
             'label' => 'Ocorrências',
@@ -39,7 +40,8 @@ echo Nav::widget([
         [
             'label' => 'Focos',
             'url' => ['site/resumo-focos'],
-            'options' => ['id' => 'focos']
+            'options' => ['id' => 'focos'],
+            'visible' => \Yii::$app->user->can('Gerente') && \Yii::$app->user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS),
         ],
     ],
 ]);

@@ -322,7 +322,34 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
             $cliente = $this->cliente;
         }
 
-        return $cliente->moduloIsHabilitado($moduloId);
+        $cacheKey = 'moduloo_habilitado_usuario_' . $this->id . '_modulo_' . $moduloId . '_cliente_' . $cliente->id;
+        $data = Yii::$app->cache->get($cacheKey);
+
+        if($data !== false) {
+            return $data['status'];
+        }
+
+        $moduloParaCliente = $cliente->moduloIsHabilitado($moduloId);
+        $moduloParaSetor = $this->moduloIsHabilitadoParaSetores($moduloId, $cliente);
+
+        $data['status'] = $moduloParaCliente && $moduloParaSetor;
+
+        Yii::$app->cache->set($cacheKey, $data);
+
+        return $data['status'];
+    }
+
+    public function moduloIsHabilitadoParaSetores($moduloId, $cliente)
+    {
+        $setores = $this->getIdsSetores();
+        if (count($setores) == 0) {
+            return true;
+        }
+
+        return SetorModulo::find()
+            ->dosSetores($setores)
+            ->doModulo($moduloId)
+            ->count() > 0;
     }
 
     public function getIdsSetores()
