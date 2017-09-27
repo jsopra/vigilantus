@@ -11,7 +11,6 @@ class OcorrenciaStatus
 	const SOLICIONADO = 6;
 	const ABERTO_TERMO_RESPONSABILIDADE = 7;
 	const ENCAMINHADO_FISCALIZACAO_URBANA = 8;
-	const ENCAMINHADO_FISCALIZACAO_SANITARIA = 9;
 	const FECHADO = 10;
 	const AUTO_INTIMACAO = 11;
 	const ENCAMINHADO_PARA_SERVICO_URBANO = 12;
@@ -29,7 +28,6 @@ class OcorrenciaStatus
 			self::SOLICIONADO => 'Solucionado',
 			self::ABERTO_TERMO_RESPONSABILIDADE => 'Aberto TR',
 			self::ENCAMINHADO_FISCALIZACAO_URBANA => 'Enc. para fiscalização urbana',
-			self::ENCAMINHADO_FISCALIZACAO_SANITARIA => 'Enc. para fiscalização sanitária',
 			self::FECHADO => 'Fechado',
 			self::AUTO_INTIMACAO => 'Auto de intimação',
 			self::ENCAMINHADO_PARA_SERVICO_URBANO => 'Enc. para Serv. Urb.',
@@ -59,7 +57,6 @@ class OcorrenciaStatus
 			self::FECHADO,
 			self::REPROVADA,
 			self::ENCAMINHADO_FISCALIZACAO_URBANA,
-			self::ENCAMINHADO_FISCALIZACAO_SANITARIA,
 			self::ENCAMINHADO_PARA_SERVICO_URBANO,
 			self::AGRICULTURA,
 			self::ABERTO_TERMO_RESPONSABILIDADE,
@@ -84,7 +81,6 @@ class OcorrenciaStatus
 				$status = [
 					self::ABERTO_TERMO_RESPONSABILIDADE => self::getDescricao(self::ABERTO_TERMO_RESPONSABILIDADE),
 					self::ENCAMINHADO_FISCALIZACAO_URBANA => self::getDescricao(self::ENCAMINHADO_FISCALIZACAO_URBANA),
-					self::ENCAMINHADO_FISCALIZACAO_SANITARIA => self::getDescricao(self::ENCAMINHADO_FISCALIZACAO_SANITARIA),
 					self::AUTO_INTIMACAO => self::getDescricao(self::AUTO_INTIMACAO),
 					self::ENCAMINHADO_PARA_SERVICO_URBANO => self::getDescricao(self::ENCAMINHADO_PARA_SERVICO_URBANO),
 					self::FECHADO => self::getDescricao(self::FECHADO),
