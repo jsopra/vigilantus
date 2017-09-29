@@ -139,14 +139,11 @@ use yii\helpers\Url;
             </div>
 
             <div class="col-xs-4">
-                <?= Html::activeLabel($model, 'telefone') ?>
-                <?php
-                echo MaskedInput::widget([
-                    'model' => $model,
-                    'name' => 'telefone',
-                    'mask' => '(99) 9999-9999',
-                ]);
-                ?>
+                <?= $form->field($model, 'telefone')->widget(
+                    MaskedInput::className(),
+                    ['mask' => '(99) [9]9999-9999']
+                )
+                 ?>
             </div>
         </div>
 
