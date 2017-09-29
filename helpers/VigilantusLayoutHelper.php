@@ -234,6 +234,16 @@ class VigilantusLayoutHelper
                 'logo' => 'visaodesucesso.png',
                 'description' => 'Projeto Visão de Sucesso - Empreendedorismo de alto impacto na base da pirâmede',
             ],
+            [
+                'url' => 'https://www.unochapeco.edu.br/',
+                'logo' => 'unochapeco.png',
+                'description' => 'Unochapecó',
+            ],
+            [
+                'url' => 'https://www.unochapeco.edu.br/',
+                'logo' => 'inctech.png',
+                'description' => 'Inctech',
+            ],
         ];
     }
 }
