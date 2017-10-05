@@ -13,9 +13,14 @@ class SetorQuery extends ActiveQuery
         return $this;
     }
 
-     public function trazerSetorTipoProblema(Ocorrencia $model)
+    public function trazerSetorTipoProblema(Ocorrencia $model)
     {
-       $this->andWhere('id IN (SELECT setor_id FROM setor_tipos_ocorrencias WHERE tipos_problemas_id = '. $model->ocorrencia_tipo_problema_id . ')');
+        if ($model->ocorrencia_tipo_problema_id == null) {
+            $this->andWhere('padrao_ocorrencias = TRUE');
+        } else {
+            $this->andWhere('id IN (SELECT setor_id FROM setor_tipos_ocorrencias WHERE tipos_problemas_id = '. $model->ocorrencia_tipo_problema_id . ')');
+        }
+
         return $this;
     }
 
