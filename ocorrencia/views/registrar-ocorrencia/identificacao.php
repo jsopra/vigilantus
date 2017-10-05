@@ -36,7 +36,7 @@ $this->title = 'Registre uma ocorrência para Prefeitura Municipal de ' . Html::
             <div class="col-md-5 col-xs-12">
                 <?= $form->field($model, 'telefone')->widget(
                     MaskedInput::className(),
-                    ['mask' => ['(99) 9999-9999', '(99) 99999-9999']]
+                    ['mask' => '(99) [9]9999-9999']
                 )
                 ?>
             </div>
