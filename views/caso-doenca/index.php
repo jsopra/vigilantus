@@ -11,11 +11,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
-	<?php echo GridView::widget([
+        <?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
         'buttons' => [
-            'create' => false,
+            'create' => function() {
+                return Html::a(
+                    'Cadastrar novo caso de doença',
+                    Yii::$app->urlManager->createUrl('caso-doenca/create'),
+                    [
+                        'class' => 'btn btn-flat success',
+                        'data-role' => 'create',
+                        'id' => 'stepguide-caso-doenca',
+                    ]
+                );
+            },
             'batch' => function() {
                 return Html::a(
                     'Importar Arquivo de Casos',
@@ -40,14 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
                     return Html::encode($model->bairroQuarteirao->numero_sequencia);
-                },
-                'options' => ['style' => 'width: 10%']
-            ],
-            [
-                'header' => 'Bairro',
-                'filter' => false,
-                'value' => function ($model, $index, $widget) {
-                    return Html::encode($model->bairroQuarteirao->bairro->nome);
                 },
                 'options' => ['style' => 'width: 10%']
             ],

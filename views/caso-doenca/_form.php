@@ -1,5 +1,7 @@
 <?php
 use app\models\CasoDoenca;
+use app\models\Doenca;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
@@ -8,57 +10,30 @@ use yii\widgets\ActiveForm;
 
 	<?php $form = ActiveForm::begin(); ?>
 
-        <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'cliente_id')->textInput() ?>
+        <div>
+            <div class="row">
+                <div class="col-xs-3">
+                    <?php
+                    $doencas = Doenca::find()->orderBy('nome')->all();
+                    echo $form->field($model, 'doenca_id')->dropDownList(ArrayHelper::map($doencas, 'id', 'nome'), ['prompt' => 'Selecione..']); ?>
+                </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <?php
+                $bairros = Bairro::find()->comQuarteiroes()->orderBy('nome')->all();
+                echo $form->field($model, 'bairro_id')->dropDownList(ArrayHelper::map($bairros, 'id', 'nome'), ['prompt' => 'Selecione..']); ?>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'doenca_id')->textInput() ?>
+            <div class="row">
+                <div class="col-xs-3">
+                    <?= $form->field($model, 'data_sintomas')->textInput() ?>
+                </div>
+                <div class="col-xs-4">
+                    <?= $form->field($model, 'nome_paciente')->textInput() ?>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'inserido_por')->textInput() ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'atualizado_por')->textInput() ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'bairro_quarteirao_id')->textInput() ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'data_cadastro')->textInput() ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'data_atualizacao')->textInput() ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'data_sintomas')->textInput() ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'coordenadas_area')->textInput() ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <?= $form->field($model, 'nome_paciente')->textInput() ?>
-            </div>
-        </div>
-        <div class="form-group form-actions">
+            <div class="form-group form-actions">
 			<?php 
             echo Html::submitButton(
                 $model->isNewRecord ? 'Cadastrar' : 'Atualizar', 
