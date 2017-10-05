@@ -115,6 +115,16 @@ $this->beginPage() ?>
                                 <img src="<?= Url::base() ?>/img/website/partners/logotipo-fapesc.png" alt="Logotipo da FAPESC">
                             </a>
                         </div>
+                        <div class="col-xs-6 col-md-3 partner">
+                            <a href="https://www.unochapeco.edu.br/" title="Acessar website da Unochapecó">
+                                <img src="<?= Url::base() ?>/img/website/partners/logotipo-inctech.png" alt="Logotipo da Inctech">
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3 partner">
+                            <a href="https://www.unochapeco.edu.br/" title="Acessar website da Unochapecó">
+                                <img src="<?= Url::base() ?>/img/website/partners/logotipo-unochapeco.png" alt="Logotipo da Unochapeco">
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>
