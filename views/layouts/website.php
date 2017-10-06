@@ -97,32 +97,32 @@ $this->beginPage() ?>
                     <div class="row">
                         <div class="col-xs-6 col-md-3 partner">
                             <a href="http://www.projetovisaodesucesso.com.br/" title="Acessar website do Projeto Visão de Sucesso">
-                                <img src="<?= Url::base() ?>/img/website/partners/logotipo-visao-sucesso.png" alt="Logotipo do Visão de Sucesso">
+                                <img src="<?= Url::base() ?>/img/partners/visaodesucesso.png" alt="Logotipo do Visão de Sucesso">
                             </a>
                         </div>
                         <div class="col-xs-6 col-md-3 partner">
                             <a href="http://www.sinapsedainovacao.com.br/" title="Acessar website do Sinapse da Inovação">
-                                <img src="<?= Url::base() ?>/img/website/partners/logotipo-sinapse-inovacao.png" alt="Logotipo do Sinapse da Inovação">
+                                <img src="<?= Url::base() ?>/img/partners/sinapse.png" alt="Logotipo do Sinapse da Inovação">
                             </a>
                         </div>
                         <div class="col-xs-6 col-md-3 partner">
                             <a href="http://www.sebrae.com.br/" title="Acessar website do SEBRAE">
-                                <img src="<?= Url::base() ?>/img/website/partners/logotipo-sebrae.png" alt="Logotipo do SEBRAE">
+                                <img src="<?= Url::base() ?>/img/partners/sebrae.png" alt="Logotipo do SEBRAE">
                             </a>
                         </div>
                         <div class="col-xs-6 col-md-3 partner">
                             <a href="http://www.fapesc.sc.gov.br/" title="Acessar website da FAPESC">
-                                <img src="<?= Url::base() ?>/img/website/partners/logotipo-fapesc.png" alt="Logotipo da FAPESC">
+                                <img src="<?= Url::base() ?>/img/partners/fapesc.png" alt="Logotipo da FAPESC">
                             </a>
                         </div>
                         <div class="col-xs-6 col-md-3 partner">
                             <a href="https://www.unochapeco.edu.br/" title="Acessar website da Unochapecó">
-                                <img src="<?= Url::base() ?>/img/website/partners/logotipo-inctech.png" alt="Logotipo da Inctech">
+                                <img src="<?= Url::base() ?>/img/partners/inctech.png" alt="Logotipo da Inctech">
                             </a>
                         </div>
                         <div class="col-xs-6 col-md-3 partner">
                             <a href="https://www.unochapeco.edu.br/" title="Acessar website da Unochapecó">
-                                <img src="<?= Url::base() ?>/img/website/partners/logotipo-unochapeco.png" alt="Logotipo da Unochapeco">
+                                <img src="<?= Url::base() ?>/img/partners/unochapeco.png" alt="Logotipo da Unochapeco">
                             </a>
                         </div>
                     </div>
