@@ -7,7 +7,7 @@ use yii\helpers\Url;
 $this->title = 'Casos de Doenças';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="caso-doenca-index" data-role="modal-grid">
+<div class="caso-doenca-index">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'buttons' => [
             'create' => function() {
                 return Html::a(
-                    'Cadastrar novo caso de doença',
+                    'Cadastrar Caso de Doença',
                     Yii::$app->urlManager->createUrl('caso-doenca/create'),
                     [
                         'class' => 'btn btn-flat success',
@@ -37,12 +37,17 @@ $this->params['breadcrumbs'][] = $this->title;
             }
         ],
 		'columns' => [
-			'id',
+            'nome_paciente',
             [
-                'attribute' => 'data_cadastro',
-                'filter' => Html::input('date', 'CasoDoencaSearch[data_cadastro]', $searchModel->data_cadastro, ['class' => 'form-control input-datepicker']),
+                'attribute' => 'doenca_id',
                 'value' => function ($model, $index, $widget) {
-                    return $model->data_cadastro;
+                    return $model->doenca ? Html::encode($model->doenca->nome) : null;
+                }
+            ],
+            [
+                'attribute' => 'bairro_id',
+                'value' => function ($model, $index, $widget) {
+                    return $model->bairro ? Html::encode($model->bairro->nome) : null;
                 }
             ],
             [
@@ -60,11 +65,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->data_sintomas;
                 }
             ],
-            'doenca_id',
-            'nome_paciente',
+            [
+                'attribute' => 'data_cadastro',
+                'filter' => Html::input('date', 'CasoDoencaSearch[data_cadastro]', $searchModel->data_cadastro, ['class' => 'form-control input-datepicker']),
+                'value' => function ($model, $index, $widget) {
+                    return $model->data_cadastro;
+                }
+            ],
 			[
+                'header' => 'Opções',
                 'class' => 'app\components\ActionColumn',
-                'template' => '{delete}',
+                'template' => '{update} {delete}',
             ],
 		],
 	]); ?>

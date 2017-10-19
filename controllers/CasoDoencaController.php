@@ -13,12 +13,12 @@ class CasoDoencaController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'batch'],
+                'only' => ['index', 'batch', 'bairroQuarteiroes', 'create'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'batch'],
-                        'roles' => ['Usuario'],
+                        'actions' => ['index', 'batch', 'bairroQuarteiroes', 'create'],
+                        'roles' => ['Usuario', 'Analista', 'Tecnico Laboratorial'],
                     ],
                 ],
             ],
@@ -28,6 +28,7 @@ class CasoDoencaController extends CRUDController
     public function actions()
     {
         return [
+            'bairroQuarteiroes' => ['class' => 'app\components\actions\BairroQuarteiroes'],
             'batch' => [
                 'class' => 'app\\batch\\Action',
                 'modelClass' => 'app\\models\\batch\\CasosDoenca',
