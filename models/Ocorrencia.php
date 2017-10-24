@@ -251,14 +251,13 @@ class Ocorrencia extends ClienteActiveRecord
         	$isNewRecord = $this->isNewRecord;
             $statusMudou = $oldStatus != $this->status;
             $setorMudou = $oldSetor != $this->setor_id;
-            $setorPadrao = Setor::find()->padraoParaOcorrencias()->one()->id;
 
             if (!$isNewRecord && $statusMudou && in_array($this->status, OcorrenciaStatus::getStatusTerminativos())) {
                 $this->data_fechamento = new Expression('NOW()');
             }
 
             if (!empty($this->ocorrencia_tipo_problema_id)) {
-                $this->setor_id = $setorPadrao;
+                $this->setor_id = Setor::find()->padraoParaOcorrencias()->one()->id;
                 $this->descricao_outro_tipo_problema = null;
             }
 
