@@ -257,7 +257,7 @@ class Ocorrencia extends ClienteActiveRecord
             }
 
             if (!empty($this->ocorrencia_tipo_problema_id)) {
-                $this->setor_id = '1';
+                $this->setor_id = Setor::find()->padraoParaOcorrencias()->one()->id;
                 $this->descricao_outro_tipo_problema = null;
             }
 
