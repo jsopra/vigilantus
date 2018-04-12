@@ -53,6 +53,15 @@ class VigilantusLayoutHelper
                 'options' => ['class' => 'step-reconhecimento'],
             ],
             [
+                'label' => 'Visitação',
+                'icon' => 'fa fa-map-marker',
+                'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_VISITACAO) && $user->can('Gerente'),
+                'items' => [
+                    ['label' => 'Semanas Epidemiológicas', 'url' => ['/semana-epidemiologica/'], 'options' => ['id' => 'step-semanas-epidemiologicas']],
+                ],
+                'options' => ['class' => 'step-visitacao'],
+            ],
+            [
                 'label' => 'Mapas',
                 'icon' => 'fa fa-map',
                 'visible' => ($user->can('Gerente') || $user->can('Analista')),

@@ -389,7 +389,7 @@ class BoletimRg extends ClienteActiveRecord
         $stringLira = $lira ? 'lira' : 'nao_lira';
 
         if(isset($this->fechamentos[$tipo][$stringLira])) {
-            continue;
+            return;
         }
 
         $this->fechamentos[$tipo][$stringLira] = $quantidade;
