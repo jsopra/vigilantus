@@ -28,6 +28,20 @@ use app\components\ClienteActiveRecord;
  */
 class CasoDoenca extends ClienteActiveRecord
 {
+    /**
+     * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco
+     * é um array de arrays, sendo que cada "sub-array" é um array com latitude e longitude
+     * ex: [[-1,-2], [2, 3], [5, 5], [4, 6]]
+     * @var array
+     */
+    public $coordenadas;
+
+    /**
+     * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco
+     * @var array
+     */
+    public $coordenadasJson;
+
     public static function tableName()
     {
         return 'casos_doencas';
@@ -36,10 +50,10 @@ class CasoDoenca extends ClienteActiveRecord
     public function rules()
     {
         return [
-            [['cliente_id', 'doenca_id', 'inserido_por'], 'required'],
-            [['cliente_id', 'doenca_id', 'inserido_por', 'atualizado_por', 'bairro_quarteirao_id'], 'integer'],
-            [['data_cadastro', 'data_atualizacao', 'data_sintomas'], 'safe'],
-            [['coordenadas_area', 'nome_paciente'], 'string']
+            [['cliente_id', 'doenca_id', 'inserido_por', 'bairro_id'], 'required'],
+            [['cliente_id', 'doenca_id', 'inserido_por', 'atualizado_por', 'bairro_quarteirao_id', 'bairro_id'], 'integer'],
+            [['data_cadastro', 'coordenadasJson', 'data_atualizacao', 'data_sintomas'], 'safe'],
+            [['coordenadas_area', 'nome_paciente', 'coordenadasJson'], 'string'],
         ];
     }
 
@@ -57,7 +71,15 @@ class CasoDoenca extends ClienteActiveRecord
             'bairro_quarteirao_id' => 'Quarteirão',
             'nome_paciente' => 'Nome Paciente',
             'data_sintomas' => 'Data Sintomas',
+            'bairro_id' => 'Bairro',
         ];
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->_setQuarteirao();
+
+        return parent::beforeSave($insert);
     }
 
     public function getBairroQuarteirao()
@@ -75,6 +97,11 @@ class CasoDoenca extends ClienteActiveRecord
         return $this->hasOne(Doenca::className(), ['id' => 'doenca_id']);
     }
 
+    public function getBairro()
+    {
+        return $this->hasOne(Bairro::className(), ['id' => 'bairro_id']);
+    }
+
     public function getInseridoPor()
     {
         return $this->hasOne(Usuario::className(), ['id' => 'inserido_por']);
@@ -84,4 +111,47 @@ class CasoDoenca extends ClienteActiveRecord
     {
         return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
     }
+
+    private function _setQuarteirao()
+    {
+        $this->bairro_quarteirao_id = null;
+
+        if (!$this->coordenadas) {
+            return;
+        }
+
+        $coordenadas = $this->arrayToWkt('Point', $this->coordenadas);
+
+        $bairroQuarteirao = BairroQuarteirao::find()->pontoNaArea($coordenadas)->one();
+        if($bairroQuarteirao) {
+            $this->bairro_quarteirao_id = $bairroQuarteirao->id;
+        }
+
+        return;
+    }
+
+    public function loadCoordenadas()
+    {
+        if(!$this->coordenadas_area) {
+            return false;
+        }
+
+        if($this->longitude && $this->latitude) {
+            return true;
+        }
+
+        list($this->longitude, $this->latitude) = $this->wktToArray('Point', 'coordenadas_area');
+
+        return true;
+    }
+
+    private function _validateAndLoadPostgisField()
+        {
+            if(!$this->coordenadasJson) {
+                return true;
+            }
+
+            $this->coordenadas_area = new \yii\db\Expression($this->arrayToWkt('Point', explode(',',$this->coordenadasJson)));
+            return true;
+        }
 }
