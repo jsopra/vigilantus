@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'bairro_quarteirao_id',
                 'filter' => false,
                 'value' => function ($model, $index, $widget) {
-                    return Html::encode($model->bairroQuarteirao->numero_sequencia);
+                    return $model->bairroQuarteirao ? Html::encode($model->bairroQuarteirao->numero_sequencia) : null;
                 },
                 'options' => ['style' => 'width: 10%']
             ],

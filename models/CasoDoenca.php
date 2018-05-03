@@ -28,8 +28,18 @@ use app\components\ClienteActiveRecord;
  */
 class CasoDoenca extends ClienteActiveRecord
 {
-    public $latitude;
-    public $longitude;
+    /**
+     * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco
+     * é um array de arrays, sendo que cada "sub-array" é um array com latitude e longitude
+     * ex: [[-1,-2], [2, 3], [5, 5], [4, 6]]
+     * @var array
+     */
+    public $coordenadas;
+
+    /**
+     * Armazena cooordenadas geográficos vindas do mapa ou populadas do banco
+     * @var array
+     */
     public $coordenadasJson;
 
     public static function tableName()
@@ -43,9 +53,7 @@ class CasoDoenca extends ClienteActiveRecord
             [['cliente_id', 'doenca_id', 'inserido_por', 'bairro_id'], 'required'],
             [['cliente_id', 'doenca_id', 'inserido_por', 'atualizado_por', 'bairro_quarteirao_id', 'bairro_id'], 'integer'],
             [['data_cadastro', 'coordenadasJson', 'data_atualizacao', 'data_sintomas'], 'safe'],
-            [['coordenadas_area', 'nome_paciente'], 'string'],
-            [['latitude', 'longitude'], 'required', 'on' => ['insert','update']],
-            [['latitude', 'longitude'], 'string'],
+            [['coordenadas_area', 'nome_paciente', 'coordenadasJson'], 'string'],
         ];
     }
 
@@ -106,14 +114,17 @@ class CasoDoenca extends ClienteActiveRecord
 
     private function _setQuarteirao()
     {
-        $coordenadas = $this->arrayToWkt('Point', [$this->longitude, $this->latitude]);
+        $this->bairro_quarteirao_id = null;
+
+        if (!$this->coordenadas) {
+            return;
+        }
+
+        $coordenadas = $this->arrayToWkt('Point', $this->coordenadas);
 
         $bairroQuarteirao = BairroQuarteirao::find()->pontoNaArea($coordenadas)->one();
         if($bairroQuarteirao) {
             $this->bairro_quarteirao_id = $bairroQuarteirao->id;
-        }
-        else {
-            $this->bairro_quarteirao_id = null;
         }
 
         return;

@@ -41,7 +41,7 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
                     <div class="col-xs-4 bairro-hide">
                         <?php
                         $quarteiroes = BairroQuarteirao::find()->doBairro($model->bairro_id)->orderBy('numero_quarteirao')->all();
-                        echo $form->field($model, 'bairro_quarteirao_id')->dropDownList(ArrayHelper::map($quarteiroes, 'id', 'numero_quarteirao'));
+                        echo $form->field($model, 'bairro_quarteirao_id')->dropDownList(ArrayHelper::map($quarteiroes, 'id', 'numero_quarteirao'), ['prompt' => 'Selecione..']);
                         ?>
                     </div>
                 </div>
@@ -49,9 +49,9 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
         </div>
             <div class="row">
                 <div class="col-xs-3">
-                    <?= $form->field($model, 'data_sintomas')->textInput() ?>
+                    <?= $form->field($model, 'data_sintomas')->input('date', ['class' => 'form-control input-datepicker']) ?>
                 </div>
-                <div class="col-xs-4">
+                <div class="col-xs-9">
                     <?= $form->field($model, 'nome_paciente')->textInput() ?>
                 </div>
             </div>
@@ -61,7 +61,7 @@ MapBoxAPIHelper::registerScript($this, ['drawing', 'fullScreen', 'minimap', 'omn
         <?= Html::error($model, 'longitude',['class' => 'help-block']); ?>
 
         <div class="row mapa">
-            <?= $form->field($model, 'coordenadasJson')->hiddenInput()->label('Posicione o marcador abaixo no local exato onde ocorreu o problema:') ?>
+            <?= $form->field($model, 'coordenadasJson')->hiddenInput()->label('Posicione o marcador abaixo no local exato onde ocorreu o caso:') ?>
             <div id="map"></div>
         </div>
 
@@ -120,9 +120,14 @@ $script .= '
 
             if(quarteiraoID) {
                 jQuery("#casodoenca-bairro_quarteirao_id").val(quarteiraoID);
+                setaPontoQuarteirao(quarteiraoID);
             }
         });
     }
+
+    jQuery("#casodoenca-bairro_quarteirao_id").change(function() {
+        setaPontoQuarteirao($(this).val());
+    });
 
     jQuery("#casodoenca-bairro_id").change(function() {
 
@@ -181,11 +186,7 @@ $view->registerJs($script);
 $municipio = \Yii::$app->user->identity->cliente->municipio;
 $municipio->loadCoordenadas();
 
-if($model->latitude && $model->longitude) {
-    $model->loadCoordenadas();
-}
 if ($municipio->latitude && $municipio->longitude) : ?>
-?>
 
 <?php
     $javascript = "
@@ -209,6 +210,13 @@ if ($municipio->latitude && $municipio->longitude) : ?>
         var setMarkerPositionFromMapBoxApiResult = function(coordinates) {
             setMarker(coordinates[1], coordinates[0], distanciaMapa + 2)
         };
+
+        var setaPontoQuarteirao = function (quarteiraoID){
+            jQuery.getJSON('" . Url::toRoute(['caso-doenca/coordenadas-quarteirao', 'quarteirao_id' => '']) . "' + quarteiraoID, function(data) {
+
+                setMarker(data[1], data[0], distanciaMapa + 2);
+            });
+        }
 
         var setMarker = function(latitude, longitude, altitude) {
             if (marker) {
@@ -255,19 +263,6 @@ if ($municipio->latitude && $municipio->longitude) : ?>
                 return ajaxPosicaoMapa(id_bairro, setMarkerPositionFromMapBoxApiResult);
             }
         };
-
-        $(document).ready(function(){
-            var coordenadas = '" . ($model->coordenadasJson ?: '') . "';
-            var coordinates = coordenadas.split(',');
-
-            if (coordinates.length != 2) {
-                coordinates = [" . $municipio->longitude . " , " . $municipio->latitude . "];
-            }
-
-            setMarker(coordinates[1], coordinates[0], distanciaMapa);
-
-            $('#casodoenca-bairro_id').on('change', buscarPosicaoMapa);
-        });
     ";
 
     $this->registerJs($javascript);
