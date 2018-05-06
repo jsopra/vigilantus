@@ -13,17 +13,22 @@ class EquipeSearch extends SearchModel
 	public $data_criacao;
 	public $cliente_id;
 	public $nome;
+	public $usuario;
 
 	public function rules()
 	{
 		return [
 			[['id', 'cliente_id'], 'integer'],
-			[['data_criacao', 'nome'], 'safe'],
+			[['data_criacao', 'nome', 'usuario'], 'safe'],
 		];
 	}
 
 	public function searchConditions($query)
 	{
+		if (is_object($this->usuario) && $this->usuario->can('Supervisor')) {
+			$query->where("id IN (SELECT equipe_id FROM equipe_supervisores WHERE usuario_id = " . $this->usuario->identity->id . ")");
+		}
+
 		$query->andFilterWhere([
             'id' => $this->id,
             'data_criacao' => $this->data_criacao,

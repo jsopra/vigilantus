@@ -21,14 +21,16 @@ $this->params['breadcrumbs'][] = $this->title;
 		'filterModel' => $searchModel,
         'buttons' => [
             'create' => function() {
-                return Html::a(
-                    'Cadastrar Equipe',
-                    Yii::$app->urlManager->createUrl('equipe/create'),
-                    [
-                        'class' => 'btn btn-flat success',
-                        'data-role' => 'create',
-                    ]
-                );
+                if (!Yii::$app->user->can('Supervisor')) {
+                    return Html::a(
+                        'Cadastrar Equipe',
+                        Yii::$app->urlManager->createUrl('equipe/create'),
+                        [
+                            'class' => 'btn btn-flat success',
+                            'data-role' => 'create',
+                        ]
+                    );
+                }
             }
         ],
 		'columns' => [
@@ -49,6 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     return Html::tag('p', $link, ['class' => 'text-center no-margin']);
                 },
+                'visible' => !Yii::$app->user->can('Supervisor'),
             ],
             [
                 'header' => 'Agentes',
@@ -68,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 			[
                 'class' => 'app\components\ActionColumn',
-                'template' => '{update} {delete}',
+                'template' => !Yii::$app->user->can('Supervisor') ? '{update} {delete}' : '',
             ],
 		],
 	]); ?>

@@ -21,10 +21,23 @@ class EquipeController extends CRUDController
                     [
                         'allow' => true,
                         'actions' => ['create', 'update', 'delete', 'index'],
-                        'roles' => ['Gerente'],
+                        'roles' => ['Gerente', 'Supervisor'],
                     ],
                 ],
             ],
         ];
+    }
+
+    public function actionIndex()
+    {
+        $searchModelClass = $this->getSearchModelClassName();
+        $searchModel = new $searchModelClass;
+        $searchModel->usuario = Yii::$app->user;
+        $dataProvider = $searchModel->search($_GET);
+
+        return $this->renderAjaxOrLayout(
+            'index',
+            ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]
+        );
     }
 }
