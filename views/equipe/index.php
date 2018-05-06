@@ -35,6 +35,22 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
 			'nome',
             [
+                'header' => 'Supervisores',
+                'format' => 'raw',
+                'value' => function ($model, $index, $widget) {
+
+                    $img = Html::tag('i', '', ['class' => 'glyphicon glyphicon-link']);
+
+                    $link = Html::a(
+                        'Gerenciar (' . $model->quantidadeSupervisores . ') &nbsp;' . $img,
+                        Yii::$app->urlManager->createUrl(['equipe-supervisor/index', 'parentID' => $model->id]),
+                        ['title' => 'Gerenciar Supervisores da Equipe ' . Html::encode($model->nome)]
+                    );
+
+                    return Html::tag('p', $link, ['class' => 'text-center no-margin']);
+                },
+            ],
+            [
                 'header' => 'Agentes',
                 'format' => 'raw',
                 'value' => function ($model, $index, $widget) {

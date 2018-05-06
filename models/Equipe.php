@@ -67,11 +67,27 @@ class Equipe extends ClienteActiveRecord
         return $this->hasMany(EquipeAgente::className(), ['equipe_id' => 'id']);
     }
 
+	/**
+     * @return int
+     */
+    public function getSupervisores()
+    {
+        return $this->hasMany(EquipeSupervisor::className(), ['equipe_id' => 'id']);
+    }
+
     /**
      * @return int
      */
     public function getQuantidadeAgentes()
     {
         return EquipeAgente::find()->where(['equipe_id' => $this->id])->count();
+    }
+
+    /**
+     * @return int
+     */
+    public function getQuantidadeSupervisores()
+    {
+        return EquipeSupervisor::find()->where(['equipe_id' => $this->id])->count();
     }
 }
