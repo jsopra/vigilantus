@@ -30,4 +30,8 @@ return [
         'type' => Item::TYPE_ROLE,
         'children' => ['Anonimo'],
     ],
+    'Supervisor' => [
+        'type' => Item::TYPE_ROLE,
+        'children' => ['Anonimo'],
+    ],
 ];

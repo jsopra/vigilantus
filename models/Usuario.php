@@ -285,6 +285,7 @@ class Usuario extends ClienteActiveRecord implements IdentityInterface
             UsuarioRole::USUARIO => 'Usuario',
             UsuarioRole::ANALISTA => 'Analista',
             UsuarioRole::TECNICO_LABORATORIAL => 'Tecnico Laboratorial',
+            UsuarioRole::SUPERVISOR => 'Supervisor',
         ];
 
         if (isset($nomesRoles[$this->usuario_role_id])) {

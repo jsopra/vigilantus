@@ -16,7 +16,7 @@ class VigilantusLayoutHelper
             [
                 'label' => 'Ocorrências',
                 'icon' => 'fa fa-bullhorn',
-                'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && !$user->can('Analista'),
+                'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && !$user->can('Analista') && !$user->can('Supervisor'),
                 'items' => [
                     ['label' => 'Abertas', 'url' => ['/ocorrencia/ocorrencia/abertas'], 'options' => ['id' => 'stepguide-ocorrencias-abertas']],
                     ['label' => 'Todas', 'url' => ['/ocorrencia/ocorrencia/index'], 'options' => ['id' => 'stepguide-ocorrencias-todas']],
@@ -28,7 +28,7 @@ class VigilantusLayoutHelper
             [
                 'label' => 'Focos',
                 'icon' => 'fa fa-crosshairs',
-                'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS) && !$user->can('Analista'),
+                'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS) && !$user->can('Analista') && !$user->can('Supervisor'),
                 'items' => [
                     ['label' => 'Gerir focos', 'url' => ['/foco-transmissor'], 'options' => ['id' => 'stepguide-ocorrencias']],
                     ['label' => 'Gerir casos de doenças', 'url' => ['/caso-doenca'], 'options' => ['id' => 'stepguide-casosdoencas']],
@@ -45,7 +45,7 @@ class VigilantusLayoutHelper
             [
                 'label' => 'Localização',
                 'icon' => 'fa fa-globe',
-                'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_LOCALIZACAO) && !$user->can('Analista'),
+                'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_LOCALIZACAO) && !$user->can('Analista') && !$user->can('Supervisor'),
                 'items' => [
                     ['label' => 'Bairros e Quarteirões', 'url' => ['/bairro/'], 'options' => ['id' => 'step-cadastro-bairros']],
                     ['label' => 'Reconhecimento Geográfico', 'url' => ['/boletim-rg'], 'options' => ['id' => 'step-cadastro-rg']],
@@ -55,7 +55,7 @@ class VigilantusLayoutHelper
             [
                 'label' => 'Visitação',
                 'icon' => 'fa fa-map-marker',
-                'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_VISITACAO) && $user->can('Gerente'),
+                'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_VISITACAO) && ($user->can('Gerente') || $user->can('Supervisor')),
                 'items' => [
                     ['label' => 'Semanas Epidemiológicas', 'url' => ['/semana-epidemiologica/'], 'options' => ['id' => 'step-semanas-epidemiologicas']],
                 ],
@@ -64,7 +64,7 @@ class VigilantusLayoutHelper
             [
                 'label' => 'Mapas',
                 'icon' => 'fa fa-map',
-                'visible' => ($user->can('Gerente') || $user->can('Analista')),
+                'visible' => ($user->can('Gerente') || $user->can('Analista') || $user->can('Supervisor')),
                 'items' => [
                     ['label' => 'Armadilhas', 'url' => ['/mapa/armadilha'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_LOCALIZACAO) && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS) && ($user->can('Gerente') || $user->can('Analista')), 'options' => ['id' => 'step-mapa-armadilhas']],
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento-mapa'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_LOCALIZACAO) && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS) && ($user->can('Gerente') || $user->can('Analista')), 'options' => ['id' => 'stepguide-mapa-area-tratamento']],
@@ -79,6 +79,7 @@ class VigilantusLayoutHelper
             [
                 'label' => 'Relatórios',
                 'icon' => 'fa fa-bar-chart',
+                'visible' => !$user->can('Supervisor'),
                 'items' => [
                     ['label' => 'Resumo de RG por Bairro', 'url' => ['/relatorio/resumo-rg-bairro'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_LOCALIZACAO) && ($user->can('Gerente') || $user->can('Analista')), 'options' => ['id' => 'stepguide-relatorio-resumo-rg']],
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_LOCALIZACAO) && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS) && ($user->can('Gerente') || $user->can('Analista')), 'options' => ['id' => 'stepguide-relatorio-areas-tratamento']],
@@ -104,18 +105,18 @@ class VigilantusLayoutHelper
                 'icon' => 'fa fa-pencil-square-o',
                 'visible' => !$user->can('Analista'),
                 'items' => [
-                    ['label' => 'Armadilhas', 'url' => ['/armadilha/'], 'options' => ['id' => 'step-armadilhas'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS)],
-                    ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria/'], 'options' => ['id' => 'step-cadastro-categoria-bairros'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)],
-                    ['label' => 'Doenças', 'url' => ['/doenca/'], 'options' => ['id' => 'step-cadastro-doencas'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS)],
+                    ['label' => 'Armadilhas', 'url' => ['/armadilha/'], 'options' => ['id' => 'step-armadilhas'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS)  && !$user->can('Supervisor')],
+                    ['label' => 'Categoria de Bairros', 'url' => ['/bairro-categoria/'], 'options' => ['id' => 'step-cadastro-categoria-bairros'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && !$user->can('Supervisor')],
+                    ['label' => 'Doenças', 'url' => ['/doenca/'], 'options' => ['id' => 'step-cadastro-doencas'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS)  && !$user->can('Supervisor')],
                     ['label' => 'Equipes', 'url' => ['/equipe/'], 'visible' => $user->can('Gerente'), 'options' => ['id' => 'stepguide-equipe'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_VISITACAO)],
-                    ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/'], 'options' => ['id' => 'step-cadastro-especieis-transmissores'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS)],
-                    ['label' => 'Pontos Estratégicos', 'url' => ['/ponto-estrategico/'], 'options' => ['id' => 'step-pontos-estrategicos'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS)],
-                    ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/'], 'options' => ['id' => 'step-cadastro-tipos-imoveis'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_LOCALIZACAO)],
-                    ['label' => 'Termos de Rede Social', 'url' => ['/ocorrencia/social-hashtag/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA), 'options' => ['id' => 'stepguide-ocorrencias-rs-hashtag']],
-                    ['label' => 'Contas de Rede Social', 'url' => ['/ocorrencia/social-account/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA), 'options' => ['id' => 'stepguide-ocorrencias-rs-contas']],
+                    ['label' => 'Espécies de Transmissores', 'url' => ['/especie-transmissor/'], 'options' => ['id' => 'step-cadastro-especieis-transmissores'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS) && !$user->can('Supervisor')],
+                    ['label' => 'Pontos Estratégicos', 'url' => ['/ponto-estrategico/'], 'options' => ['id' => 'step-pontos-estrategicos'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS) && !$user->can('Supervisor')],
+                    ['label' => 'Tipos de Imóvel', 'url' => ['/imovel-tipo/'], 'options' => ['id' => 'step-cadastro-tipos-imoveis'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_LOCALIZACAO) && !$user->can('Supervisor')],
+                    ['label' => 'Termos de Rede Social', 'url' => ['/ocorrencia/social-hashtag/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && !$user->can('Supervisor'), 'options' => ['id' => 'stepguide-ocorrencias-rs-hashtag']],
+                    ['label' => 'Contas de Rede Social', 'url' => ['/ocorrencia/social-account/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && !$user->can('Supervisor'), 'options' => ['id' => 'stepguide-ocorrencias-rs-contas']],
                     ['label' => 'Setores', 'url' => ['/setor/'], 'visible' => $user->can('Administrador')],
-                    ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/'], 'options' => ['id' => 'step-cadastro-tipos-deposito'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS)],
-                    ['label' => 'Tipo de Problema em Ocorrência', 'url' => ['/ocorrencia/ocorrencia-tipo-problema/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA)],
+                    ['label' => 'Tipos de Depósitos', 'url' => ['/deposito-tipo/'], 'options' => ['id' => 'step-cadastro-tipos-deposito'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_FOCOS) && !$user->can('Supervisor')],
+                    ['label' => 'Tipo de Problema em Ocorrência', 'url' => ['/ocorrencia/ocorrencia-tipo-problema/'], 'visible' => $user->can('Gerente') && $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_OCORRENCIA) && !$user->can('Supervisor')],
                 ],
                 'options' => ['class' => 'step-cadastro'],
             ],
