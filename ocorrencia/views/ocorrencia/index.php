@@ -210,7 +210,7 @@ $diasVemelho = Configuracao::getValorConfiguracaoParaCliente(Configuracao::ID_QU
 			[
 				'header' => 'Ações',
                 'class' => 'app\components\OcorrenciaColumn',
-                'template' => '{detalhes} {aprovar} {reprovar} {mudar-status} {mudar-setor} {anexo} {tentativa-averiguacao} {comprovante} {delete}',
+                'template' => '{detalhes} {aprovar} {reprovar} {mudar-status} {mudar-setor} {anexo} {tentativa-averiguacao} {comprovante} {update} {delete}',
             ],
 		],
 	]); ?>

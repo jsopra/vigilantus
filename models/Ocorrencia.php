@@ -297,6 +297,11 @@ class Ocorrencia extends ClienteActiveRecord
                 $historico->observacoes = 'Setor alterado para ' . $this->setor->nome;
             }
 
+            if ($historico->tipo == false) {
+                $transaction->commit();
+                return true;
+            }
+
             if ($historico->save()) {
                 if (($isNewRecord || $statusMudou) && $this->email) {
                     BackgroundJob::register(

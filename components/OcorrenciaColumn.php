@@ -98,6 +98,12 @@ class OcorrenciaColumn extends YiiActionColumn
 			]);
 		};
 
+		$this->buttons['update'] = function ($url, $model) {
+			return Html::a('<i class="glyphicon glyphicon-edit"></i>', $url, [
+				'title' => Yii::t('yii', 'Atualizar'),
+			]);
+		};
+
 		$this->buttons['delete'] = function ($url, $model) {
 			return Html::a('<i class="glyphicon glyphicon-remove"></i>', $url, [
 					'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),

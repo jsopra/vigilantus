@@ -315,4 +315,15 @@ class OcorrenciaController extends CRUDController
             'model' => $model, 'dataProvider' => $dataProvider
         ]);
     }
+
+    public function actionUpdate($id)
+    {
+        $model = is_object($id) ? $id : $this->findModel($id);
+        $model->data_criacao = $model->data_criacao ? explode(' ', $model->data_criacao)[0] : null;
+        $model->data_fechamento = $model->data_fechamento ? explode(' ', $model->data_fechamento)[0] : null;
+
+        if (!$this->loadAndSaveModel($model, $_POST)) {
+            return $this->renderAjaxOrLayout('update', ['model' => $model]);
+        }
+    }
 }
