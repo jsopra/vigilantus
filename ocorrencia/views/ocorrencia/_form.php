@@ -18,11 +18,15 @@ use yii\helpers\Url;
         <p style="color: #797979;"><strong>Controle interno</strong></p>
 
         <div class="row" id="dadosPrincipais">
-            <div class="col-xs-4">
+            <div class="col-xs-2">
                 <?= $form->field($model, 'numero_controle'); ?>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-3">
                 <?= $form->field($model, 'data_criacao')->input('date', ['class' => 'form-control input-datepicker']) ?>
+            </div>
+
+            <div class="col-xs-3">
+                <?= $form->field($model, 'data_fechamento')->input('date', ['class' => 'form-control input-datepicker']) ?>
             </div>
         </div>
 
