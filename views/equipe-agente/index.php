@@ -38,6 +38,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             'codigo',
             'nome',
+            [
+                'attribute' => 'usuario_id',
+                'header' => 'Usuário',
+                'filter' => false,
+                'value' => function ($model, $index, $widget) {
+                    return $model->usuario_id ? Html::encode($model->usuario->nome) : null;
+                }
+            ],
             'ativo:boolean',
             [
                 'class' => 'app\components\DependentCRUDActionColumn',

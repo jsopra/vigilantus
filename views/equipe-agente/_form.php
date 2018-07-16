@@ -1,5 +1,6 @@
 <?php
 use app\models\Equipe;
+use app\models\Usuario;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
@@ -14,6 +15,12 @@ use yii\widgets\ActiveForm;
             </div>
             <div class="col-xs-5">
                 <?= $form->field($model, 'nome')->textInput() ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-8">
+                <?= $form->field($model, 'usuario_id')->dropDownList(['' => 'Selecione...'] + Usuario::listData('nome')) ?>
             </div>
         </div>
 

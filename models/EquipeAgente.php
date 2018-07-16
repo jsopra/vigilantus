@@ -13,6 +13,7 @@ use app\components\ClienteActiveRecord;
  * @property string $nome
  * @property boolean $ativo
  * @property string $codigo
+ * @property integer $usuario_id
  *
  * @property Clientes $cliente
  * @property Equipes $equipe
@@ -35,7 +36,7 @@ class EquipeAgente extends ClienteActiveRecord
         // AVISO: só defina regras dos atributos que receberão dados do usuário
 		return [
 			[['cliente_id', 'equipe_id', 'nome'], 'required'],
-			[['cliente_id', 'equipe_id'], 'integer'],
+			[['cliente_id', 'equipe_id', 'usuario_id'], 'integer'],
 			['codigo', 'safe'],
 			[['nome', 'codigo'], 'string'],
 			[['ativo'], 'boolean'],
@@ -55,6 +56,7 @@ class EquipeAgente extends ClienteActiveRecord
 			'nome' => 'Nome',
 			'ativo' => 'Ativo',
 			'codigo' => 'Código',
+			'usuario_id' => 'Usuário'
 		];
 	}
 
@@ -72,5 +74,13 @@ class EquipeAgente extends ClienteActiveRecord
 	public function getEquipe()
 	{
 		return $this->hasOne(Equipes::className(), ['id' => 'equipe_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getUsuario()
+	{
+		return $this->hasOne(Usuario::className(), ['id' => 'usuario_id']);
 	}
 }
