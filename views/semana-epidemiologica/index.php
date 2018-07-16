@@ -51,7 +51,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => 'app\components\ActionColumn',
-                'template' => '{update} {delete}',
+                'buttons' => [
+                    'agendar' => function ($url, $model, $key) {
+                        if (!Yii::$app->user->can('Administrador') && !Yii::$app->user->can('Supervisor')){
+                            return null;
+                        }
+                        return Html::a(
+                            '<i class="glyphicon glyphicon-calendar"></i>',
+                            \yii\helpers\Url::to(['semana-epidemiologica/agendar', 'id' => $model->id]),
+                            ['title' => 'Agendar Visitas']
+                        );
+                    },
+                ],
+                'template' => !Yii::$app->user->can('Supervisor') ? '{agendar} {update} {delete}' : '',
             ],
 		],
 	]);  ?>
