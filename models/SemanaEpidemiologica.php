@@ -19,6 +19,8 @@ use app\components\ClienteActiveRecord;
  */
 class SemanaEpidemiologica extends ClienteActiveRecord
 {
+    public $bairro_id;
+
 	/**
 	 * @inheritdoc
 	 */
@@ -37,10 +39,10 @@ class SemanaEpidemiologica extends ClienteActiveRecord
 			[['nome'], 'string'],
 			['nome', 'unique', 'compositeWith' => 'cliente_id'],
 			[['cliente_id', 'inserido_por', 'nome', 'inicio', 'fim'], 'required'],
-			[['cliente_id', 'inserido_por', 'atualizado_por'], 'integer'],
+			[['cliente_id', 'inserido_por', 'atualizado_por', 'bairro_id'], 'integer'],
             [['inicio', 'fim'], 'date'],
             ['inicio', 'compare', 'compareAttribute' => 'fim', 'operator' => '<', 'enableClientValidation' => false],
-			[['data_cadastro', 'data_atualizacao'], 'safe']
+			[['data_cadastro', 'data_atualizacao', 'bairro_id'], 'safe']
 		];
 	}
 
@@ -59,6 +61,7 @@ class SemanaEpidemiologica extends ClienteActiveRecord
 			'data_atualizacao' => 'Data da atualização',
 			'inicio' => 'Início',
 			'fim' => 'Fim',
+			'bairro_id' => 'Bairro',
 		];
 	}
 }

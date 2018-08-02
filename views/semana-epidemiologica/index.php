@@ -57,9 +57,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             return null;
                         }
                         return Html::a(
-                            '<i class="glyphicon glyphicon-calendar"></i>',
-                            \yii\helpers\Url::to(['semana-epidemiologica/agendar', 'id' => $model->id]),
-                            ['title' => 'Agendar Visitas']
+                            //'<i class="glyphicon glyphicon-calendar"></i>',
+                            '<i class="glyphicon glyphicon-user"></i>',
+                            \yii\helpers\Url::to(['semana-epidemiologica/agentes', 'cicloId' => $model->id]),
+                            ['title' => 'Gerenciar Visitas de Agentes']
                         );
                     },
                 ],

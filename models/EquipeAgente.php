@@ -60,6 +60,23 @@ class EquipeAgente extends ClienteActiveRecord
 		];
 	}
 
+	public function getVisitasAgendadas(SemanaEpidemiologica $semana)
+	{
+		return SemanaEpidemiologicaVisita::find()
+			->daSemanaEpidemiologica($semana->id)
+			->doAgente($this->id)
+			->count();
+	}
+
+	public function getVisitasRealizadas(SemanaEpidemiologica $semana)
+	{
+		return SemanaEpidemiologicaVisita::find()
+			->daSemanaEpidemiologica($semana->id)
+			->doAgente($this->id)
+			->realizada()
+			->count();
+	}
+
 	/**
 	 * @return \yii\db\ActiveRelation
 	 */
@@ -73,7 +90,7 @@ class EquipeAgente extends ClienteActiveRecord
 	 */
 	public function getEquipe()
 	{
-		return $this->hasOne(Equipes::className(), ['id' => 'equipe_id']);
+		return $this->hasOne(Equipe::className(), ['id' => 'equipe_id']);
 	}
 
 	/**

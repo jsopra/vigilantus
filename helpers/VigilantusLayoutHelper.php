@@ -37,7 +37,6 @@ class VigilantusLayoutHelper
                     ['label' => 'Mapa de Casos de Doenças', 'url' => ['/mapa/casos-doenca'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-mapa-casos-doenca']],
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-areas-tratamento']],
                     ['label' => 'Rel. de Focos', 'url' => ['/relatorio/focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos']],
-                    ['label' => 'Amostra de Transmissores', 'url' => ['/amostra-transmissor'], 'visible' => $user->can('Gerente') || $user->can('Analista') || $user->can('Tecnico Laboratorial') || $user->can('Usuario')],
                     ['label' => 'Rel. de Focos por Bairro', 'url' => ['/relatorio/focos-bairro'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos-bairro']],
                 ],
                 'options' => ['id' => 'stepguide-focos', 'class' => 'stepguide-focos'],
@@ -58,6 +57,7 @@ class VigilantusLayoutHelper
                 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_VISITACAO) && ($user->can('Gerente') || $user->can('Supervisor')),
                 'items' => [
                     ['label' => 'Semanas Epidemiológicas', 'url' => ['/semana-epidemiologica/'], 'options' => ['id' => 'step-semanas-epidemiologicas']],
+                    ['label' => 'Equipes', 'url' => ['/equipe/'], 'visible' => $user->can('Gerente'), 'options' => ['id' => 'stepguide-equipe'], 'visible' => $user->getIdentity()->moduloIsHabilitado(Modulo::MODULO_VISITACAO)],
                 ],
                 'options' => ['class' => 'step-visitacao'],
             ],

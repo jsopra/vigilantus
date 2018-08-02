@@ -6,6 +6,8 @@ use app\components\Controller;
 use app\models\Cliente;
 use app\models\Bairro;
 use app\models\BairroQuarteirao;
+use app\models\SemanaEpidemiologicaVisita;
+use app\models\VisitaStatus;
 use app\models\FocoTransmissor;
 use app\models\Armadilha;
 use app\models\PontoEstrategico;
@@ -33,7 +35,7 @@ class KmlController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['area-tratamento-foco', 'cidade', 'bairro', 'armadilha', 'ponto-estrategico', 'ocorrencias', 'casos-doenca'],
+                        'actions' => ['area-tratamento-foco', 'cidade', 'bairro', 'armadilha', 'ponto-estrategico', 'ocorrencias', 'casos-doenca', 'semana-epidemiologica-visitas'],
                         'roles' => ['Gerente', 'Analista'],
                     ],
                 ],
@@ -326,6 +328,41 @@ class KmlController extends Controller
                 'bairro' => $ponto->bairro_quarteirao_id ? $quarteirao->bairro->nome : null,
                 'nome_paciente' => $ponto->nome_paciente,
                 'data_sintomas' => $ponto->getFormattedAttribute('data_sintomas'),
+            ];
+
+            $model->add($point);
+            unset($point);
+        }
+
+        return $model->output();
+    }
+
+    public function actionSemanaEpidemiologicaVisitas($cicloId, $agenteId)
+    {
+        $model = new Kml;
+        $model->id = 'visitas';
+
+        $pontos = SemanaEpidemiologicaVisita::find()
+            ->daSemanaEpidemiologica($cicloId)
+            ->doAgente($agenteId)
+            ->all();
+
+        foreach($pontos as $ponto) {
+
+            if(!$ponto->quarteirao_id) {
+                continue;
+            }
+
+            $quarteirao = $ponto->quarteirao;
+            $quarteirao->loadCoordenadas();
+
+            $point = new Point;
+            $point->value = $quarteirao->getCentro();
+
+            $point->extendedData = [
+                'numero_quarteirao' => $ponto->quarteirao_id ? $quarteirao->numero_quarteirao : null,
+                'bairro' => $ponto->bairro_id ? $quarteirao->bairro->nome : null,
+                'status' => VisitaStatus::getDescricao($ponto->visita_status_id),
             ];
 
             $model->add($point);

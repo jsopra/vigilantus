@@ -57,7 +57,6 @@ class Generator extends YiiModelGenerator
 			[['tableName'], 'validateTableName'],
 			[['modelClass'], 'validateModelClass', 'skipOnEmpty' => false],
 			[['baseClass'], 'validateClass', 'params' => ['extends' => ActiveRecord::className()]],
-			[['generateRelations', 'generateLabelsFromComments', 'generateModelQuery', 'generateFixtures', 'generateUnit'], 'boolean'],
 		]);
 	}
 
