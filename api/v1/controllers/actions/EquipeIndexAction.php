@@ -34,16 +34,17 @@ class EquipeIndexAction extends Action
 
         $modelClass = $this->modelClass;
 
+        $query = $modelClass::find();
+
         $user = Yii::$app->user->identity;
         $agente = EquipeAgente::find()->doUsuario($user->id)->one();
         if ($agente instanceof EquipeAgente) {
-            //filtra
-            die(var_dump($agente));
+            $query->doAgente($agente->id);
         }
 
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
-            'query' => $modelClass::find(),
+            'query' => $query;
         ]);
     }
 }

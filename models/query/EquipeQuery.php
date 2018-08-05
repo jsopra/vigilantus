@@ -11,4 +11,9 @@ class EquipeQuery extends ActiveQuery
         $this->andWhere('nome = :nome', [':nome' => trim($nome)]);
         return $this;
     }
+    public function doAgente($id)
+    {
+        $this->andWhere('id IN (SELECT equipe_id FROM equipe_agentes WHERE id = ' . $id . ')');
+        return $this;
+    }
 }
