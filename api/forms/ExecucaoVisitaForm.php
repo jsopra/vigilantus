@@ -114,7 +114,7 @@ class ExecucaoVisitaForm extends Model
                 if ($depositos) {
                     foreach ($imovel['depositos'] as $deposito) {
                         $visitaDeposito = new VisitaImovelDeposito;
-                        $visitaDeposito->visita_id = $this->visita->id;
+                        $visitaDeposito->visita_id = $visitaImovel->id;
                         $visitaDeposito->tipo_deposito_id = $this->getValue($deposito, 'tipo_deposito_id');
                         $visitaDeposito->quantidade = $this->getValue($deposito, 'quantidade');
                     }
