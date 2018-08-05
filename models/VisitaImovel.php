@@ -73,7 +73,7 @@ class VisitaImovel extends ClienteActiveRecord
             [['semana_epidemiologica_visita_id'], 'exist', 'skipOnError' => true, 'targetClass' => SemanaEpidemiologicaVisita::className(), 'targetAttribute' => ['semana_epidemiologica_visita_id' => 'id']],
             [['inserido_por'], 'exist', 'skipOnError' => true, 'targetClass' => Usuario::className(), 'targetAttribute' => ['inserido_por' => 'id']],
             [['atualizado_por'], 'exist', 'skipOnError' => true, 'targetClass' => Usuario::className(), 'targetAttribute' => ['atualizado_por' => 'id']],
-            ['visita_tipo', 'in', 'range', => ['N', 'R']]
+            ['visita_tipo', 'in', 'range', => ['N', 'R']],
 
             ['visita_atividade_id', 'in', 'range' => VisitaAtividade::getIDs()],
 
