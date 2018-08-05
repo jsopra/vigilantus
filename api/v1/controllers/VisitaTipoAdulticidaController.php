@@ -1,7 +1,7 @@
 <?php
 namespace api\v1\controllers;
 
-use app\models\VisitaTipoLarvicida;
+use app\models\VisitaTipoAdulticida;
 use Yii;
 use yii\filters\ContentNegotiator;
 use yii\filters\Cors;
@@ -61,7 +61,7 @@ class VisitaTipoAdulticidaController extends Controller
 
     public function actionIndex()
     {
-        return VisitaTipoLarvicida::getDescricoes();
+        return VisitaTipoAdulticida::getDescricoes();
     }
 
     public function actionOptions()
