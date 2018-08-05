@@ -61,7 +61,8 @@ class VisitaAtividadeController extends Controller
 
     public function actionIndex()
     {
-        return VisitaAtividade::getDescricoes();
+        return ['a' => 1, 'b' => 2];
+        //return VisitaAtividade::getDescricoes();
     }
 
     public function actionOptions()
