@@ -74,6 +74,7 @@ class VisitaImovel extends ClienteActiveRecord
             [['inserido_por'], 'exist', 'skipOnError' => true, 'targetClass' => Usuario::className(), 'targetAttribute' => ['inserido_por' => 'id']],
             [['atualizado_por'], 'exist', 'skipOnError' => true, 'targetClass' => Usuario::className(), 'targetAttribute' => ['atualizado_por' => 'id']],
             ['visita_tipo', 'in', 'range' => VisitaTipo::getIDS()],
+            ['pendencia', 'in', 'range' => VisitaPendencia::getIDS()],
 
             ['visita_atividade_id', 'in', 'range' => VisitaAtividade::getIDs()],
 

@@ -52,6 +52,7 @@ return [
                         'v1/tipos-depositos' => 'v1/deposito-tipo',
                         'v1/tipos-imoveis' => 'v1/imovel-tipo',
                         'v1/tipos-visitas' => 'v1/visita-tipo',
+                        'v1/tipos-pendencias-visitas' => 'v1/visita-pendencia',
                         'v1/visita-atividades' => 'v1/visita-atividade',
                         'v1/equipes' => 'v1/equipe',
                         'v1/agentes' => 'v1/equipe-agente',
