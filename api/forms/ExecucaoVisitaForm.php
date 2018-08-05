@@ -5,6 +5,7 @@ namespace api\forms;
 use Yii;
 use yii\base\Model;
 use app\Models\SemanaEpidemiologicaVisita;
+use app\Models\VisitaImovel;
 
 class ExecucaoVisitaForm extends Model
 {
