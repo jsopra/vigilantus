@@ -6,7 +6,7 @@ use yii\data\ActiveDataProvider;
 use yii\rest\Action;
 use app\models\EquipeAgente;
 
-class EquipeIndexAction extends Action
+class EquipeAgenteIndexAction extends Action
 {
     public $prepareDataProvider;
 
