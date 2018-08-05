@@ -33,7 +33,7 @@ class EquipeIndexAction extends Action
 
         $modelClass = $this->modelClass;
 
-die(var_dump($this->id));
+die(var_dump(Yii::app()->user));
         //busca usuário
         //busca agente do usuário
         //tem? filtra por
