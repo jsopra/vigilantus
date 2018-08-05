@@ -44,7 +44,7 @@ class EquipeIndexAction extends Action
 
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
-            'query' => $query;
+            'query' => $query
         ]);
     }
 }
