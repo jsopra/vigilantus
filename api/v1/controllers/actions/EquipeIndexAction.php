@@ -41,7 +41,7 @@ class EquipeIndexAction extends Action
         if ($agente instanceof EquipeAgente) {
             $query->doAgente($agente->id);
         } else {
-            return false;
+            return [];
         }
 
         return Yii::createObject([
