@@ -52,6 +52,7 @@ return [
                         'v1/tipos-depositos' => 'v1/deposito-tipo',
                         'v1/tipos-imoveis' => 'v1/imovel-tipo',
                         'v1/visita-atividades' => 'v1/visita-atividade',
+                        'v1/equipes' => 'v1/equipe',
                         'v1/agentes' => 'v1/equipe-agente',
                         'v1/semanas-epidemiologicas' => 'v1/semana-epidemiologica',
                         'v1/visitas-semanas-epidemiologicas' => 'v1/semana-epidemiologica-visita',
