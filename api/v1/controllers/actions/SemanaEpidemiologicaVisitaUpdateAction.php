@@ -29,15 +29,13 @@ class SemanaEpidemiologicaVisitaUpdateAction extends Action
         if ($this->checkAccess) {
             call_user_func($this->checkAccess, $this->id, $model);
         }
-        $request = Yii::$app->request;
-die(var_dump(Yii::$app->getRequest()->getBodyParams()));
-        //$model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        $request = Yii::$app->getRequest()->getBodyParams();
         $form = new ExecucaoVisitaForm;
         $form->visita_id = $model->id;
         $form->usuario_id = Yii::$app->user->identity->id;
-        $form->visita_status_id = $request->post('visita_status_id');
-        $form->imoveis = $request->post('imoveis');
-        $form->data_atividade = $request->post('data_atividade');
+        $form->visita_status_id = isset($request['visita_status_id']) ? $request['visita_status_id'] : null;
+        $form->imoveis = isset($request['imoveis']) ? $request['imoveis'] : null;
+        $form->data_atividade = isset($request['data_atividade']) ? $request['data_atividade'] : null;
 
         if ($form->save() === false && !$form->hasErrors()) {
             throw new ServerErrorHttpException('Failed to update the object for unknown reason.');
