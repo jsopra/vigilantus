@@ -6,6 +6,7 @@ use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\web\ServerErrorHttpException;
 use api\forms\ExecucaoVisitaForm;
+use yii\rest\Action;
 
 class SemanaEpidemiologicaVisitaUpdateAction extends Action
 {
