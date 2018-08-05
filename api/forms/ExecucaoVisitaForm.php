@@ -109,6 +109,7 @@ class ExecucaoVisitaForm extends Model
                 }
             }
 
+            $transaction->commit();
             return true;
 
         } catch (\Exception $e) {
