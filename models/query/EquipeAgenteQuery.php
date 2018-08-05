@@ -27,4 +27,10 @@ class EquipeAgenteQuery extends ActiveQuery
         $this->andWhere('usuario_id = :usuarioId', [':usuarioId' => $id]);
         return $this;
     }
+
+    public function doId($id)
+    {
+        $this->andWhere('id = :agenteId', [':agenteId' => $id]);
+        return $this;
+    }
 }

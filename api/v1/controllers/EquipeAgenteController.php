@@ -17,8 +17,11 @@ class EquipeAgenteController extends ActiveController
     {
         $activeActions = parent::actions();
         return [
-            'index' => $activeActions['index'],
-            'view' => $activeActions['view'],
+            'index' => [
+                'class' => 'api\v1\controllers\actions\EquipeAgenteIndexAction',
+                'modelClass' => $this->modelClass,
+                'checkAccess' => [$this, 'checkAccess'],
+            ],
             'options' => $activeActions['options'],
         ];
     }
