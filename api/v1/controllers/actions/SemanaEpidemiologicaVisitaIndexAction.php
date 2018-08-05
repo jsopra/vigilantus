@@ -40,6 +40,8 @@ class SemanaEpidemiologicaVisitaIndexAction extends Action
         $agente = EquipeAgente::find()->doUsuario($user->id)->one();
         if ($agente instanceof EquipeAgente) {
             $query->doAgente($agente->id);
+        } else {
+            return false;
         }
 
         return Yii::createObject([
