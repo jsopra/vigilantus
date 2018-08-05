@@ -111,9 +111,8 @@ class ExecucaoVisitaForm extends Model
                 }
 
                 $depositos = isset($imovel['depositos']) && is_array($imovel['depositos']);
-                die(var_dump($depositos, $imovel));
                 if ($depositos) {
-                    foreach ($depositos as $deposito) {
+                    foreach ($imovel['depositos'] as $deposito) {
                         $visitaDeposito = new VisitaImovelDeposito;
                         $visitaDeposito->visita_id = $this->visita->id;
                         $visitaDeposito->tipo_deposito_id = $this->getValue($deposito, 'tipo_deposito_id');
