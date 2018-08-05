@@ -80,7 +80,7 @@ class ExecucaoVisitaForm extends Model
             //adiciona imóveis da visita
             foreach ($this->imoveis as $imovel)
             {
-                $visitaImovel = new VisitaImovel;
+                $visitaImovel = new /\app\Models\VisitaImovel;
                 $visitaImovel->semana_epidemiologica_visita_id = $this->visita->id;
                 $visitaImovel->visita_atividade_id = $this->getValue($imovel, 'visita_atividade_id');
                 $visitaImovel->quarteirao_id = $this->getValue($imovel, 'quarteirao_id');
