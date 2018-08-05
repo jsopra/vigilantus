@@ -33,7 +33,7 @@ class SemanaEpidemiologicaVisitaUpdateAction extends Action
 
         //$model->load(Yii::$app->getRequest()->getBodyParams(), '');
         $form = new ExecucaoVisitaForm;
-        $form->visita = $model->id;
+        $form->visita_id = $model->id;
         $form->usuario_id = Yii::$app->user->identity->id;
         $form->visita_status_id = $request->post('visita_status_id');
         $form->imoveis = $request->post('imoveis');
