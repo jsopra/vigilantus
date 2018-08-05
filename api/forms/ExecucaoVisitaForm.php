@@ -131,7 +131,6 @@ class ExecucaoVisitaForm extends Model
 
         } catch (\Exception $e) {
             $transaction->rollback();
-            die(var_dump($e));
             return false;
         }
     }
