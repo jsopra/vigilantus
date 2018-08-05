@@ -76,7 +76,7 @@ class VisitaImovel extends ClienteActiveRecord
 
             ['visita_atividade_id', 'in', 'range' => VisitaAtividade::getIDs()],
 
-            [['visita_atividade_id', 'hora_entrada', 'logradouro', 'numero', 'tipo_imovel_id', ''], 'required'],
+            [['visita_atividade_id', 'hora_entrada', 'logradouro', 'numero', 'tipo_imovel_id'], 'required'],
 
             [
                 ['numero_amostra_final', 'quantidade_tubitos'],
