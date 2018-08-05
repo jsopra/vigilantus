@@ -1,7 +1,7 @@
 <?php
 namespace api\v1\controllers;
 
-use api\models\VisitaAtividade;
+use app\models\VisitaAtividade;
 use Yii;
 use yii\filters\ContentNegotiator;
 use yii\filters\Cors;
