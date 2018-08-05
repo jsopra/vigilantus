@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use app\models\SemanaEpidemiologicaVisita;
 use app\models\VisitaImovel;
+use app\models\VisitaImovelDeposito;
 
 class ExecucaoVisitaForm extends Model
 {
@@ -81,6 +82,7 @@ class ExecucaoVisitaForm extends Model
             foreach ($this->imoveis as $imovel)
             {
                 $visitaImovel = new VisitaImovel;
+                $visitaImovel->inserido_por = $this->usuario_id;
                 $visitaImovel->semana_epidemiologica_visita_id = $this->visita->id;
                 $visitaImovel->visita_atividade_id = $this->getValue($imovel, 'visita_atividade_id');
                 $visitaImovel->quarteirao_id = $this->getValue($imovel, 'quarteirao_id');
@@ -106,6 +108,21 @@ class ExecucaoVisitaForm extends Model
                 if (!$visitaImovel->save()) {
                     $this->addError('imoveis', 'Erro ao salvar imóvel em visita: ' . print_r($visitaImovel->errors, true));
                     throw new \Exception('Erro ao salvar imóvel em visita');
+                }
+
+                $depositos = isset($imovel['depositos']) && is_array($imovel['depositos']);
+                if ($depositos) {
+                    foreach ($depositos as $deposito) {
+                        $visitaDeposito = new VisitaImovelDeposito;
+                        $visitaDeposito->visita_id = $this->visita->id;
+                        $visitaDeposito->tipo_deposito_id = $this->getValue($deposito, 'tipo_deposito_id');
+                        $visitaDeposito->quantidade = $this->getValue($deposito, 'quantidade');
+                    }
+
+                    if (!$visitaDeposito->save()) {
+                        $this->addError('imoveis', 'Erro ao salvar depósito de imóvel em visita: ' . print_r($visitaDeposito->errors, true));
+                        throw new \Exception('Erro ao salvar depósito de imóvel em visita');
+                    }
                 }
             }
 
