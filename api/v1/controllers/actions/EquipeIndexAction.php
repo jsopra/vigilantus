@@ -4,6 +4,7 @@ namespace api\v1\controllers\actions;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\rest\Action;
+use app\models\EquipeAgente;
 
 class EquipeIndexAction extends Action
 {
@@ -33,10 +34,12 @@ class EquipeIndexAction extends Action
 
         $modelClass = $this->modelClass;
 
-die(var_dump(Yii::$app->user->identity));
-        //busca usuário
-        //busca agente do usuário
-        //tem? filtra por
+        $user = Yii::$app->user->identity;
+        $agente = EquipeAgente::model()->doUsuario($user->id)->find();
+        if ($agente instanceof EquipeAgente) {
+            //filtra
+            die(va_dump($agente));
+        }
 
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),

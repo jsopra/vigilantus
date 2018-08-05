@@ -21,4 +21,10 @@ class EquipeAgenteQuery extends ActiveQuery
         $this->andWhere('nome = :nome', [':nome' => trim($nome)]);
         return $this;
     }
+
+    public function doUsuario($id)
+    {
+        $this->andWhere('usuario_id = :usuarioId', [':usuarioId' => $id]);
+        return $this;
+    }
 }
