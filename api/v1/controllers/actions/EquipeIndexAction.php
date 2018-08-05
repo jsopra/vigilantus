@@ -35,7 +35,7 @@ class EquipeIndexAction extends Action
         $modelClass = $this->modelClass;
 
         $user = Yii::$app->user->identity;
-        $agente = EquipeAgente::model()->doUsuario($user->id)->find();
+        $agente = EquipeAgente::find()->doUsuario($user->id)->find();
         if ($agente instanceof EquipeAgente) {
             //filtra
             die(va_dump($agente));
