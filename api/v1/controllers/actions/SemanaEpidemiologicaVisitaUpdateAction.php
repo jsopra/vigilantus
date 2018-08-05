@@ -37,7 +37,7 @@ class SemanaEpidemiologicaVisitaUpdateAction extends Action
         $form->visita_status_id = $request->post('visita_status_id');
         $form->imoveis = $request->post('imoveis');
         $form->data_atividade = $request->post('data_atividade');
-
+die(var_dump($form));
         if ($form->save() === false && !$form->hasErrors()) {
             throw new ServerErrorHttpException('Failed to update the object for unknown reason.');
         }
