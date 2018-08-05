@@ -30,7 +30,7 @@ class SemanaEpidemiologicaVisitaUpdateAction extends Action
             call_user_func($this->checkAccess, $this->id, $model);
         }
         $request = Yii::$app->request;
-
+die(var_dump($request));
         //$model->load(Yii::$app->getRequest()->getBodyParams(), '');
         $form = new ExecucaoVisitaForm;
         $form->visita_id = $model->id;
