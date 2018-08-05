@@ -104,7 +104,7 @@ class ExecucaoVisitaForm extends Model
                 $visitaImovel->perifocal_adulticida_qtde_cargas = $this->getValue($imovel, 'perifocal_adulticida_qtde_cargas');
 
                 if (!$visitaImovel->save()) {
-                    $this->addError('imoveis', 'Erro ao salvar imóvel em visita');
+                    $this->addError('imoveis', 'Erro ao salvar imóvel em visita: ' . print_r($visitaImovel->errors, true));
                     throw new \Exception('Erro ao salvar imóvel em visita');
                 }
             }
