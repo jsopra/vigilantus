@@ -15,11 +15,32 @@ class EquipeController extends ActiveController
      */
     public function actions()
     {
+        return [
+            'index' => [
+                'class' => 'api\v1\controllers\actions\EquipeIndexAction',
+                'modelClass' => $this->modelClass,
+                'checkAccess' => [$this, 'checkAccess'],
+            ],
+            'options' => [
+                'class' => 'yii\rest\OptionsAction',
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
         $activeActions = parent::actions();
         return [
             'index' => $activeActions['index'],
-            'view' => $activeActions['view'],
             'options' => $activeActions['options'],
         ];
+    }
+
+    public function actionIndex()
+    {
+
     }
 }
