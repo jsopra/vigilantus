@@ -15,14 +15,14 @@ class VisitaAtividade
 	public static function getDescricoes()
 	{
 		return [
-			self::RA => 'RA - Revisão de área';
-			self::LIT => 'LI+T - Levantamento de índice + Tratamento';
-			self::PE => 'PE - Ponto Estratégico';
-			self::T => 'T - Tratamento';
-			self::DF => 'DF - Delimitação de Foco';
-			self::PVE => 'PVE - Pesquisa Vetorial Especial';
-			self::ID => 'ID - Investigação de Denúncia';
-			self::BT => 'BT - Bloqueio de Transmissão';
+			self::RA => 'RA - Revisão de área',
+			self::LIT => 'LI+T - Levantamento de índice + Tratamento',
+			self::PE => 'PE - Ponto Estratégico',
+			self::T => 'T - Tratamento',
+			self::DF => 'DF - Delimitação de Foco',
+			self::PVE => 'PVE - Pesquisa Vetorial Especial',
+			self::ID => 'ID - Investigação de Denúncia',
+			self::BT => 'BT - Bloqueio de Transmissão'
 		];
 	}
 
