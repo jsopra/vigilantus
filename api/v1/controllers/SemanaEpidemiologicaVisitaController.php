@@ -22,6 +22,12 @@ class SemanaEpidemiologicaVisitaController extends ActiveController
                 'modelClass' => $this->modelClass,
                 'checkAccess' => [$this, 'checkAccess'],
             ],
+            'update' => [
+                'class' => 'api\v1\controllers\actions\SemanaEpidemiologicaVisitaUpdateAction',
+                'modelClass' => $this->modelClass,
+                'checkAccess' => [$this, 'checkAccess'],
+                'scenario' => $this->updateScenario,
+            ],
             'view' => $activeActions['view'],
             'options' => $activeActions['options'],
         ];

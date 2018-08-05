@@ -47,21 +47,12 @@ use Yii;
  */
 class VisitaImovel extends ClienteActiveRecord
 {
-    const SCENARIO_EXECUCAO_VISITA = 'execucaoVisita';
-
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return 'visita_imoveis';
-    }
-
-    public function scenarios()
-    {
-        return array_merge(parent::scenarios(), [
-            self::SCENARIO_EXECUCAO_VISITA => ['execucaoVisita'],
-        ]);
     }
 
     /**
@@ -75,21 +66,17 @@ class VisitaImovel extends ClienteActiveRecord
             [['data_cadastro', 'data_atualizacao', 'hora_entrada'], 'safe'],
             [['logradouro', 'numero', 'sequencia', 'complemento', 'numero_amostra_inicial', 'numero_amostra_final'], 'string'],
             [['focal_larvicida_qtde_gramas', 'perifocal_adulticida_qtde_cargas'], 'number'],
-            [['quarteirao_id'], 'exist', 'skipOnError' => true, 'targetClass' => BairroQuarteiroes::className(), 'targetAttribute' => ['quarteirao_id' => 'id']],
-            [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
-            [['tipo_imovel_id'], 'exist', 'skipOnError' => true, 'targetClass' => ImovelTipos::className(), 'targetAttribute' => ['tipo_imovel_id' => 'id']],
-            [['rua_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ruas::className(), 'targetAttribute' => ['rua_id' => 'id']],
-            [['semana_epidemiologica_visita_id'], 'exist', 'skipOnError' => true, 'targetClass' => SemanaEpidemiologicaVisitas::className(), 'targetAttribute' => ['semana_epidemiologica_visita_id' => 'id']],
-            [['inserido_por'], 'exist', 'skipOnError' => true, 'targetClass' => Usuarios::className(), 'targetAttribute' => ['inserido_por' => 'id']],
-            [['atualizado_por'], 'exist', 'skipOnError' => true, 'targetClass' => Usuarios::className(), 'targetAttribute' => ['atualizado_por' => 'id']],
-            /*
-            'rua_id' => 'integer references ruas(id)',
-            'quarteirao_id' => 'integer not null references bairro_quarteiroes(id)',
-            */
+            [['quarteirao_id'], 'exist', 'skipOnError' => true, 'targetClass' => BairroQuarteirao::className(), 'targetAttribute' => ['quarteirao_id' => 'id']],
+            [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::className(), 'targetAttribute' => ['cliente_id' => 'id']],
+            [['tipo_imovel_id'], 'exist', 'skipOnError' => true, 'targetClass' => ImovelTipo::className(), 'targetAttribute' => ['tipo_imovel_id' => 'id']],
+            [['rua_id'], 'exist', 'skipOnError' => true, 'targetClass' => Rua::className(), 'targetAttribute' => ['rua_id' => 'id']],
+            [['semana_epidemiologica_visita_id'], 'exist', 'skipOnError' => true, 'targetClass' => SemanaEpidemiologicaVisita::className(), 'targetAttribute' => ['semana_epidemiologica_visita_id' => 'id']],
+            [['inserido_por'], 'exist', 'skipOnError' => true, 'targetClass' => Usuario::className(), 'targetAttribute' => ['inserido_por' => 'id']],
+            [['atualizado_por'], 'exist', 'skipOnError' => true, 'targetClass' => Usuario::className(), 'targetAttribute' => ['atualizado_por' => 'id']],
 
             ['visita_atividade_id', 'in', 'range' => VisitaAtividade::getIDs()],
 
-            [['visita_atividade_id', 'hora_entrada', 'logradouro', 'numero', 'tipo_imovel_id', ''], 'required', 'on' => ['execucaoVisita']],
+            [['visita_atividade_id', 'hora_entrada', 'logradouro', 'numero', 'tipo_imovel_id', ''], 'required'],
 
             [
                 ['numero_amostra_final', 'quantidade_tubitos'],
@@ -97,9 +84,15 @@ class VisitaImovel extends ClienteActiveRecord
                 'when' => function ($model) {
                     return !is_null($model->numero_amostra_inicial);
                 },
-                'on' => ['execucaoVisita']
             ],
         ];
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->_setRua();
+
+        return parent::beforeSave($insert);
     }
 
     /**
@@ -144,7 +137,7 @@ class VisitaImovel extends ClienteActiveRecord
      */
     public function getQuarteirao()
     {
-        return $this->hasOne(BairroQuarteiroes::className(), ['id' => 'quarteirao_id']);
+        return $this->hasOne(BairroQuarteirao::className(), ['id' => 'quarteirao_id']);
     }
 
     /**
@@ -152,7 +145,7 @@ class VisitaImovel extends ClienteActiveRecord
      */
     public function getCliente()
     {
-        return $this->hasOne(Clientes::className(), ['id' => 'cliente_id']);
+        return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
 
     /**
@@ -160,7 +153,7 @@ class VisitaImovel extends ClienteActiveRecord
      */
     public function getTipoImovel()
     {
-        return $this->hasOne(ImovelTipos::className(), ['id' => 'tipo_imovel_id']);
+        return $this->hasOne(ImovelTipo::className(), ['id' => 'tipo_imovel_id']);
     }
 
     /**
@@ -168,7 +161,7 @@ class VisitaImovel extends ClienteActiveRecord
      */
     public function getRua()
     {
-        return $this->hasOne(Ruas::className(), ['id' => 'rua_id']);
+        return $this->hasOne(Rua::className(), ['id' => 'rua_id']);
     }
 
     /**
@@ -176,7 +169,7 @@ class VisitaImovel extends ClienteActiveRecord
      */
     public function getSemanaEpidemiologicaVisita()
     {
-        return $this->hasOne(SemanaEpidemiologicaVisitas::className(), ['id' => 'semana_epidemiologica_visita_id']);
+        return $this->hasOne(SemanaEpidemiologicaVisita::className(), ['id' => 'semana_epidemiologica_visita_id']);
     }
 
     /**
@@ -184,7 +177,7 @@ class VisitaImovel extends ClienteActiveRecord
      */
     public function getInseridoPor()
     {
-        return $this->hasOne(Usuarios::className(), ['id' => 'inserido_por']);
+        return $this->hasOne(Usuario::className(), ['id' => 'inserido_por']);
     }
 
     /**
@@ -192,7 +185,7 @@ class VisitaImovel extends ClienteActiveRecord
      */
     public function getAtualizadoPor()
     {
-        return $this->hasOne(Usuarios::className(), ['id' => 'atualizado_por']);
+        return $this->hasOne(Usuario::className(), ['id' => 'atualizado_por']);
     }
 
     /**
@@ -200,6 +193,31 @@ class VisitaImovel extends ClienteActiveRecord
      */
     public function getVisitaImovelDepositos()
     {
-        return $this->hasMany(VisitaImovelDepositos::className(), ['visita_id' => 'id']);
+        return $this->hasMany(VisitaImovelDeposito::className(), ['visita_id' => 'id']);
+    }
+
+    /**
+     * Busca ou cria um objeto Rua, e seta o $this->rua_id
+     * @return boolean
+     */
+    private function _setRua()
+    {
+        $rua = Rua::find()->daRua($this->logradouro)->one();
+
+        if (!$rua) {
+
+            $rua = new Rua;
+            $rua->cliente_id = $this->cliente_id;
+            $rua->municipio_id  = $this->cliente ? $this->cliente->municipio_id : null;
+            $rua->nome = $this->logradouro;
+
+            if (!$rua->save()) {
+                return false;
+            }
+        }
+
+        $this->rua_id = $rua->id;
+
+        return true;
     }
 }
