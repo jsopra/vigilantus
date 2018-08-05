@@ -74,7 +74,7 @@ class ExecucaoVisitaForm extends Model
             $this->visita->atualizado_por = $this->usuario_id;
             if (!$this->visita->save()) {
                 $this->addError('visita_id', 'Erro ao atualizar status da visita');
-                throw new Exception('Erro ao atualizar status da visita');
+                throw new \Exception('Erro ao atualizar status da visita');
             }
 
             //adiciona imóveis da visita
@@ -105,7 +105,7 @@ class ExecucaoVisitaForm extends Model
 
                 if (!$visitaImovel->save()) {
                     $this->addError('imoveis', 'Erro ao salvar imóvel em visita');
-                    throw new Exception('Erro ao salvar imóvel em visita');
+                    throw new \Exception('Erro ao salvar imóvel em visita');
                 }
             }
 
