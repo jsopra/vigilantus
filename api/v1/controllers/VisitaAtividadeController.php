@@ -7,6 +7,7 @@ use yii\filters\ContentNegotiator;
 use yii\filters\Cors;
 use yii\rest\Controller;
 use yii\web\Response;
+use yii\filters\auth\HttpBearerAuth;
 
 class VisitaAtividadeController extends Controller
 {
