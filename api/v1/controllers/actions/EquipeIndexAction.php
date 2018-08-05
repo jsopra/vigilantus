@@ -3,6 +3,7 @@ namespace api\v1\controllers\actions;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\rest\Action;
 
 class EquipeIndexAction extends Action
 {
