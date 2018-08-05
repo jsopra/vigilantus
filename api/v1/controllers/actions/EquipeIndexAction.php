@@ -38,7 +38,7 @@ class EquipeIndexAction extends Action
         $agente = EquipeAgente::find()->doUsuario($user->id)->one();
         if ($agente instanceof EquipeAgente) {
             //filtra
-            die(va_dump($agente));
+            die(var_dump($agente));
         }
 
         return Yii::createObject([
