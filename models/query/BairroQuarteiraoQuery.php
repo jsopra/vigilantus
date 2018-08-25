@@ -54,7 +54,7 @@ class BairroQuarteiraoQuery extends ActiveQuery
     public function comVisita(EquipeAgente $agente)
     {
         $this->andWhere("id IN (
-            SELECT quarteirao_id.bairro_quarteirao_id
+            SELECT quarteirao_id
             FROM semana_epidemiologica_visitas
             WHERE agente_id = " . $agente->id . "
         )");
