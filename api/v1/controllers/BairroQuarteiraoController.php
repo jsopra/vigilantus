@@ -17,7 +17,11 @@ class BairroQuarteiraoController extends ActiveController
     {
         $activeActions = parent::actions();
         return [
-            'index' => $activeActions['index'],
+            'index' => [
+                'class' => 'api\v1\controllers\actions\BairroQuarteiraoIndexAction',
+                'modelClass' => $this->modelClass,
+                'checkAccess' => [$this, 'checkAccess'],
+            ],
             'view' => $activeActions['view'],
             'options' => $activeActions['options'],
         ];
