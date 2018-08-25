@@ -38,7 +38,7 @@ class BairroQuarteiraoIndexAction extends Action
 
         $request = Yii::$app->getRequest()->getBodyParams();
         if (isset($request['comVisita'])) {
-
+die('ss');
             $user = Yii::$app->user->identity;
             $agente = EquipeAgente::find()->doUsuario($user->id)->one();
             if($agente instanceof EquipeAgente) {
