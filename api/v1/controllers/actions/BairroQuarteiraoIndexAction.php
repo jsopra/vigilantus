@@ -13,20 +13,20 @@ class BairroQuarteiraoIndexAction extends Action
     /**
      * @return ActiveDataProvider
      */
-    public function run()
+    public function run($comVisita = false)
     {
         if ($this->checkAccess) {
             call_user_func($this->checkAccess, $this->id);
         }
 
-        return $this->prepareDataProvider();
+        return $this->prepareDataProvider($comVisita);
     }
 
     /**
      * Prepares the data provider that should return the requested collection of the models.
      * @return ActiveDataProvider
      */
-    protected function prepareDataProvider()
+    protected function prepareDataProvider($comVisita = null)
     {
         if ($this->prepareDataProvider !== null) {
             return call_user_func($this->prepareDataProvider, $this);
@@ -36,9 +36,8 @@ class BairroQuarteiraoIndexAction extends Action
 
         $query = $modelClass::find();
 
-        $request = Yii::$app->getRequest();
-        die(var_dump($request));
-        if (isset($request['comVisita'])) {
+        die(var_dump($comVisita));
+        if ($comVisita) {
 die('ss');
             $user = Yii::$app->user->identity;
             $agente = EquipeAgente::find()->doUsuario($user->id)->one();
