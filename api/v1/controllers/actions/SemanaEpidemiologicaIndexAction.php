@@ -19,7 +19,7 @@ class SemanaEpidemiologicaIndexAction extends Action
             call_user_func($this->checkAccess, $this->id);
         }
 
-        return $this->prepareDataProvider();
+        return $this->prepareDataProvider($somenteAtual);
     }
 
     /**
