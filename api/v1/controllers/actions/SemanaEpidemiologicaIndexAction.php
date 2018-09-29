@@ -6,7 +6,7 @@ use yii\data\ActiveDataProvider;
 use yii\rest\Action;
 use app\models\EquipeAgente;
 
-class SemanaEpidemiologicaVisitaIndexAction extends Action
+class SemanaEpidemiologicaIndexAction extends Action
 {
     public $prepareDataProvider;
 
