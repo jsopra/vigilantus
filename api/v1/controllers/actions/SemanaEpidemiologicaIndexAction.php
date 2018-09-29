@@ -36,14 +36,6 @@ class SemanaEpidemiologicaIndexAction extends Action
 
         $query = $modelClass::find();
 
-        $user = Yii::$app->user->identity;
-        $agente = EquipeAgente::find()->doUsuario($user->id)->one();
-        if ($agente instanceof EquipeAgente) {
-            $query->doAgente($agente->id);
-        } else {
-            return [];
-        }
-
         if ($somenteAtual) {
             $query->atual();
         }
