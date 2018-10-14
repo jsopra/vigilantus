@@ -12,7 +12,7 @@ class FechamentoRgController extends ActiveController
 
     /**
      * @inheritdoc
-     */
+     
     public function actions()
     {
         $activeActions = parent::actions();
@@ -24,5 +24,5 @@ class FechamentoRgController extends ActiveController
             ],
             'options' => $activeActions['options'],
         ];
-    }
+    }*/
 }
