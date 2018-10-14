@@ -4,6 +4,7 @@ namespace app\models\query\redis;
 
 use Yii;
 use app\components\RedisActiveQuery;
+use app\models\EquipeAgente;
 use app\models\SemanaEpidemiologicaVisita;
 
 class FechamentoRgQuery extends RedisActiveQuery
