@@ -1,0 +1,28 @@
+<?php
+namespace api\v1\controllers;
+
+use api\rest\ActiveController;
+
+class FechamentoRgController extends ActiveController
+{
+    /**
+     * @inheritdoc
+     */
+    public $modelClass = 'app\models\redis\FechamentoRg';
+
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        $activeActions = parent::actions();
+        return [
+            'index' => [
+                'class' => 'api\v1\controllers\actions\BoletimRgFechamentoIndexAction',
+                'modelClass' => $this->modelClass,
+                'checkAccess' => [$this, 'checkAccess'],
+            ],
+            'options' => $activeActions['options'],
+        ];
+    }
+}

@@ -60,6 +60,7 @@ return [
                         'v1/agentes' => 'v1/equipe-agente',
                         'v1/semanas-epidemiologicas' => 'v1/semana-epidemiologica',
                         'v1/visitas-semanas-epidemiologicas' => 'v1/semana-epidemiologica-visita',
+                        'v1/fechamento' => 'v1/fechamento-rg,
                     ],
                 ]
             ],

@@ -36,4 +36,15 @@ class FechamentoRgQuery extends RedisActiveQuery
         $this->andWhere(['data' => $data]);
         return $this;
     }
+
+    public function comVisita(EquipeAgente $agente)
+    {
+        $this->andWhere("bairro_quarteirao_id IN (
+            SELECT quarteirao_id
+            FROM semana_epidemiologica_visitas
+            WHERE agente_id = " . $agente->id . "
+        )");
+
+        return $this;
+    }
 }
