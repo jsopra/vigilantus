@@ -2,7 +2,7 @@
 
 $baseDir = dirname(__DIR__);
 
-return [
+$config = [
     'id' => 'hadnu-backend',
     'name' => 'Hadnu API',
     'version' => '1.0',
@@ -83,3 +83,9 @@ return [
         ],
     ],
 ];
+
+if (empty($config['components']['redis']['password'])) {
+    unset($config['components']['redis']['password']);
+}
+
+return $config;
