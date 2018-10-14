@@ -3,8 +3,8 @@
 $baseDir = dirname(__DIR__);
 
 $config = [
-    'id' => 'hadnu-backend',
-    'name' => 'Hadnu API',
+    'id' => 'vigilantus',
+    'name' => 'Vigilantus API',
     'version' => '1.0',
     'sourceLanguage' => 'en',
     'language' => 'pt-BR',
