@@ -6,7 +6,7 @@ use yii\data\ActiveDataProvider;
 use yii\rest\Action;
 use app\models\EquipeAgente;
 
-class BoletimRgFechamentoIndexAction extends Action
+class FechamentoRgIndexAction extends Action
 {
     public $prepareDataProvider;
 

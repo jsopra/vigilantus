@@ -18,7 +18,7 @@ class FechamentoRgController extends ActiveController
         $activeActions = parent::actions();
         return [
             'index' => [
-                'class' => 'api\v1\controllers\actions\BoletimRgFechamentoIndexAction',
+                'class' => 'api\v1\controllers\actions\FechamentoRgIndexAction',
                 'modelClass' => $this->modelClass,
                 'checkAccess' => [$this, 'checkAccess'],
             ],
