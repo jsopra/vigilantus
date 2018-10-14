@@ -19,7 +19,8 @@ class FechamentoRg extends RedisActiveRecord
             'data',
             'quantidade', 
             'lira',
-            'imovel_tipo_id'
+            'imovel_tipo_id',
+            'quantidade_foco'
         ];
     }
     
