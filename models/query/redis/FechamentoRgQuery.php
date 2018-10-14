@@ -43,7 +43,7 @@ class FechamentoRgQuery extends RedisActiveQuery
     {   
         $records = SemanaEpidemiologicaVisita::find()
             ->doAgente($agente->id)
-            -all();
+            ->all();
 
         $ids = [];
         foreach ($records as $record)
