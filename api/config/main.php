@@ -38,6 +38,16 @@ return [
                 'application/json' => 'yii\web\JsonParser',
             ],
         ],
+        'cache' => [
+            'class' => 'yii\redis\Cache',
+        ],
+        'redis' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => getenv('REDIS_HOST'),
+            'port' => getenv('REDIS_PORT'),
+            'database' => getenv('REDIS_DATABASE'),
+            'password' => getenv('REDIS_PASSWORD'),
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'enableStrictParsing' => true,
