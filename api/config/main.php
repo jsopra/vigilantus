@@ -3,7 +3,7 @@
 $baseDir = dirname(__DIR__);
 
 $config = [
-    'id' => 'vigilantus',
+    'id' => 'vigilantus-api',
     'name' => 'Vigilantus API',
     'version' => '1.0',
     'sourceLanguage' => 'en',

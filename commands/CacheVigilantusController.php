@@ -43,6 +43,14 @@ class CacheVigilantusController extends Console
             \perspectivain\gearman\BackgroundJob::NORMAL,
             \Yii::$app->params['gearmanQueueName']
         );
+
+        \perspectivain\gearman\BackgroundJob::register(
+            'RefreshFechamentoRgJob',
+            ['key' => getenv('GEARMAN_JOB_KEY')],
+            \perspectivain\gearman\BackgroundJob::NORMAL,
+            \Yii::$app->params['gearmanQueueName']
+        );
+        
         return Controller::EXIT_CODE_NORMAL;
     }
 
