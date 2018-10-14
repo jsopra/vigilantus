@@ -42,7 +42,7 @@ class RefreshFechamentoRgJob implements \perspectivain\gearman\InterfaceJob
                 $fechamento->data = $boletimFechamento->boletimRg->data;
                 $fechamento->quantidade = $boletimFechamento->quantidade;
                 $fechamento->imovel_tipo_id = $boletimFechamento->imovel_tipo_id;
-                $fechamento->quantidade_foco = $boletimFechamento->boletimRg->bairroQuarteirao->data_ultimo_foco ? $boletimFechamento->quantidade : 0;
+                $fechamento->quantidade_foco = $boletimFechamento->boletimRg->quarteirao->data_ultimo_foco ? $boletimFechamento->quantidade : 0;
                 $fechamento->save();
             }
 
