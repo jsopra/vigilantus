@@ -8,7 +8,7 @@ class FechamentoRgController extends ActiveController
     /**
      * @inheritdoc
      */
-    public $modelClass = 'app\models\redis\FechamentoRg';
+    public $modelClass = 'app\models\redis\ResumoBairroFechamentoRg';
 
     /**
      * @inheritdoc
