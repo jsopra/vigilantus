@@ -4,7 +4,7 @@ namespace app\models\query\redis;
 
 use Yii;
 use app\components\RedisActiveQuery;
-use app\models\EquipeAgente;
+use app\models\SemanaEpidemiologicaVisita;
 
 class FechamentoRgQuery extends RedisActiveQuery
 {      
@@ -39,14 +39,18 @@ class FechamentoRgQuery extends RedisActiveQuery
     }
 
     public function comVisita(EquipeAgente $agente)
-    {   /*
-        $this->andWhere("bairro_quarteirao_id IN (
-            SELECT quarteirao_id
-            FROM semana_epidemiologica_visitas
-            WHERE agente_id = " . $agente->id . "
-        )");
-        */
-        $this->andWhere(['in', 'bairro_quarteirao_id', [1, 2, 3, 4, 5]]);
+    {   
+        $records = SemanaEpidemiologicaVisita::find()
+            ->doAgente($agente->id)
+            -all();
+
+        $ids = [];
+        foreach ($records as $record)
+        {
+            $ids[] = $record->quarteirao_id;
+        }
+
+        $this->andWhere(['in', 'bairro_quarteirao_id', $ids]);
         return $this;
     }
 }
