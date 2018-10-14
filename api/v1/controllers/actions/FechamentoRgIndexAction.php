@@ -42,7 +42,7 @@ class FechamentoRgIndexAction extends Action
             if($agente instanceof EquipeAgente) {
 
                 //visita do agente
-                //$query->comVisita($agente);
+                $query->comVisita($agente);
             }
         }
 
