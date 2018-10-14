@@ -46,9 +46,7 @@ class FechamentoRgQuery extends RedisActiveQuery
             WHERE agente_id = " . $agente->id . "
         )");
         */
-        $this->andWhere("bairro_quarteirao_id IN (
-           1,2,3,4,5
-        )");
+        $this->andWhere(['in', 'bairro_quarteirao_id', [1, 2, 3, 4, 5]);
         return $this;
     }
 }
