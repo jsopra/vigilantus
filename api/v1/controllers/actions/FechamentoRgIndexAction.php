@@ -35,14 +35,14 @@ class FechamentoRgIndexAction extends Action
         $modelClass = $this->modelClass;
 
         $query = $modelClass::find();
-        
+
         if ($comVisita) {
             $user = Yii::$app->user->identity;
             $agente = EquipeAgente::find()->doUsuario($user->id)->one();
             if($agente instanceof EquipeAgente) {
 
                 //visita do agente
-                $query->comVisita($agente);
+                //$query->comVisita($agente);
             }
         }
 
