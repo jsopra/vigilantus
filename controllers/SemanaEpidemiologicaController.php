@@ -75,6 +75,7 @@ class SemanaEpidemiologicaController extends CRUDController
         
         $searchModel = new SemanaEpidemiologicaVisitaSearch();
         $_GET['SemanaEpidemiologicaVisitaSearch']['agente_id'] = $agente->id;
+        $_GET['SemanaEpidemiologicaVisitaSearch']['semana_epidemiologica_id'] = $ciclo->id;
         $dataProvider = $searchModel->search($_GET);
 
         return $this->renderAjaxOrLayout(
