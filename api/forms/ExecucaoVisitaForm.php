@@ -82,7 +82,29 @@ class ExecucaoVisitaForm extends Model
             //adiciona imóveis da visita
             foreach ($this->imoveis as $imovel)
             {
-                
+                $visitaImovel = new VisitaImovel;
+                $visitaImovel->inserido_por = $this->usuario_id;
+                $visitaImovel->semana_epidemiologica_visita_id = $this->visita->id;
+                $visitaImovel->visita_atividade_id = $this->getValue($imovel, 'visita_atividade_id');
+                $visitaImovel->quarteirao_id = $this->getValue($imovel, 'quarteirao_id');
+                $visitaImovel->logradouro = $this->getValue($imovel, 'logradouro');
+                $visitaImovel->numero = $this->getValue($imovel, 'numero');
+                $visitaImovel->sequencia = $this->getValue($imovel, 'sequencia');
+                $visitaImovel->complemento = $this->getValue($imovel, 'complemento');
+                $visitaImovel->tipo_imovel_id = $this->getValue($imovel, 'tipo_imovel_id');
+                $visitaImovel->hora_entrada = $this->getValue($imovel, 'hora_entrada');
+                $visitaImovel->visita_tipo = $this->getValue($imovel, 'visita_tipo');
+                $visitaImovel->pendencia = $this->getValue($imovel, 'pendencia');
+                $visitaImovel->depositos_eliminados = $this->getValue($imovel, 'depositos_eliminados');
+                $visitaImovel->numero_amostra_inicial = $this->getValue($imovel, 'numero_amostra_inicial');
+                $visitaImovel->numero_amostra_final = $this->getValue($imovel, 'numero_amostra_final');
+                $visitaImovel->quantidade_tubitos = $this->getValue($imovel, 'quantidade_tubitos');
+
+                if (!$visitaImovel->save()) {
+                    $this->addError('imoveis', 'Erro ao salvar imóvel em visita: ' . print_r($visitaImovel->errors, true));
+                    throw new \Exception('Erro ao salvar imóvel em visita');
+                }
+
             }
 
             $transaction->commit();
