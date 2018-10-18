@@ -7,6 +7,7 @@ use yii\base\Model;
 use app\models\SemanaEpidemiologicaVisita;
 use app\models\VisitaImovel;
 use app\models\VisitaImovelDeposito;
+use app\models\VisitaImovelTratamento;
 
 class ExecucaoVisitaForm extends Model
 {
