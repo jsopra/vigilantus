@@ -82,7 +82,7 @@ class ExecucaoVisitaForm extends Model
             //adiciona imóveis da visita
             foreach ($this->imoveis as $imovel)
             {
-               $visitaImovel = new VisitaImovel;
+                $visitaImovel = new VisitaImovel;
                 $visitaImovel->inserido_por = $this->usuario_id;
                 $visitaImovel->semana_epidemiologica_visita_id = $this->visita->id;
                 $visitaImovel->visita_atividade_id = $this->getValue($imovel, 'visita_atividade_id');
@@ -104,7 +104,7 @@ class ExecucaoVisitaForm extends Model
                     $this->addError('imoveis', 'Erro ao salvar imóvel em visita: ' . print_r($visitaImovel->errors, true));
                     throw new \Exception('Erro ao salvar imóvel em visita');
                 }
-
+/*
                 $tratamentos = isset($imovel['tratamentos']) && is_array($imovel['tratamentos']);
                 if ($tratamentos) {
                     foreach ($imovel['tratamentos'] as $tratamento) {
@@ -117,11 +117,11 @@ class ExecucaoVisitaForm extends Model
                         $visitaTratamento->perifocal_adulticida_tipo = $this->getValue($tratamento, 'perifocal_adulticida_tipo');
                         $visitaTratamento->perifocal_adulticida_qtde_cargas = $this->getValue($tratamento, 'perifocal_adulticida_qtde_cargas');
                     }
-/* 
+
                     if (!$visitaTratamento->save()) {
                         $this->addError('imoveis', 'Erro ao salvar tratamento de imóvel em visita: ' . print_r($visitaTratamento->errors, true));
                         throw new \Exception('Erro ao salvar tratamento de imóvel em visita');
-                    }*/ 
+                    } 
                 }
 
                 $depositos = isset($imovel['depositos']) && is_array($imovel['depositos']);
@@ -138,6 +138,7 @@ class ExecucaoVisitaForm extends Model
                         throw new \Exception('Erro ao salvar depósito de imóvel em visita');
                     }
                 }
+                */
             }
 
             $transaction->commit();
