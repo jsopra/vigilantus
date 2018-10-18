@@ -103,7 +103,7 @@ class VisitaImovel extends ClienteActiveRecord
                 $transaction->rollback();
                 return false;
             }
-die('a');
+
             if ($this->numero_amostra_inicial || $this->numero_amostra_final) {
 
                 $inicial = $this->numero_amostra_inicial;
@@ -119,7 +119,7 @@ die('a');
                     $amostra->endereco = $this->logradouro;
                     $amostra->numero_casa = $this->numero;
                     $amostra->numero_amostra = $inicial;
-                    if (!$amostra->save()) {
+                    if (!$amostra->save()) { die('a');
                         $this->addError('id', 'Erro ao salvar amostras coletadas');
                         $transaction->rollback();
                         return false;
@@ -128,15 +128,15 @@ die('a');
                     $inicial++;
                 }
             }
-
+die('b');
             $transaction->commit();
             return true;
 
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { die('c');
             $transaction->rollback();
             throw $e;
         }
-
+die('d');
         $transaction->rollback();
         return false;
     }
