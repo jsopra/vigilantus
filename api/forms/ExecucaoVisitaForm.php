@@ -102,7 +102,7 @@ class ExecucaoVisitaForm extends Model
 
                 if (!$visitaImovel->save()) {
 
-                    die(var_dump($visitaImovel->errors);
+                    die(var_dump($visitaImovel->errors));
                     $this->addError('imoveis', 'Erro ao salvar imóvel em visita: ' . print_r($visitaImovel->errors, true));
                     throw new \Exception('Erro ao salvar imóvel em visita');
                 }
