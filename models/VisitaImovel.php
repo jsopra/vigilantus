@@ -56,7 +56,7 @@ class VisitaImovel extends ClienteActiveRecord
     {
         return [
             [['cliente_id', 'inserido_por', 'semana_epidemiologica_visita_id', 'quarteirao_id', 'visita_tipo'], 'required'],
-            [['cliente_id', 'inserido_por', 'atualizado_por', 'semana_epidemiologica_visita_id', 'visita_atividade_id', 'rua_id', 'quarteirao_id', 'tipo_imovel_id', 'visita_tipo', 'pendencia', 'depositos_eliminados', 'quantidade_tubitos', 'focal_imovel_tratamento', 'focal_larvicida_tipo', 'focal_larvicida_qtde_dep_tratado', 'perifocal_adulticida_tipo'], 'integer'],
+            [['cliente_id', 'inserido_por', 'atualizado_por', 'semana_epidemiologica_visita_id', 'visita_atividade_id', 'rua_id', 'quarteirao_id', 'tipo_imovel_id', 'visita_tipo', 'pendencia', 'depositos_eliminados', 'quantidade_tubitos'], 'integer'],
             [['data_cadastro', 'data_atualizacao', 'hora_entrada'], 'safe'],
             [['logradouro', 'numero', 'sequencia', 'complemento', 'numero_amostra_inicial', 'numero_amostra_final'], 'string'],
             [['quarteirao_id'], 'exist', 'skipOnError' => true, 'targetClass' => BairroQuarteirao::className(), 'targetAttribute' => ['quarteirao_id' => 'id']],
