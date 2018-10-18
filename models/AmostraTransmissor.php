@@ -22,6 +22,7 @@ use \IntlDateFormatter;
  * @property integer $numero_amostra
  * @property integer $quantidade_larvas
  * @property integer $quantidade_pupas
+ * @property integer $visita_id
  */
 class AmostraTransmissor extends ActiveRecord
 {
@@ -46,7 +47,8 @@ class AmostraTransmissor extends ActiveRecord
 		return [
 			[['data_coleta'], 'date', 'time' => true],
 			[['cliente_id', 'tipo_deposito_id', 'quarteirao_id', 'observacoes'], 'required'],
-			[['cliente_id', 'tipo_deposito_id', 'quarteirao_id', 'numero_casa', 'numero_amostra', 'quantidade_larvas', 'quantidade_pupas'], 'integer'],
+			[['cliente_id', 'tipo_deposito_id', 'quarteirao_id', 'numero_casa', 'numero_amostra', 'quantidade_larvas', 'quantidade_pupas', 'visita_id'], 'integer'],
+            [['visita_id'], 'exist', 'skipOnError' => true, 'targetClass' => VisitaImovel::className(), 'targetAttribute' => ['visita_id' => 'id']],
 			[['endereco', 'observacoes'], 'string'],
 			[['especie_transmissor_id', 'planilha_imovel_tipo_id', 'atualizado_por'], 'safe'],
 			[['foco'], 'boolean'],
@@ -82,6 +84,7 @@ class AmostraTransmissor extends ActiveRecord
 			'especie_transmissor_id' => 'Espécie de Transmissor',
 			'planilha_imovel_tipo_id' => 'Tipo de Imóvel',
 			'foco_transmissor_id' => 'Referência de Foco',
+			'visita_id' => 'Visita',
 		];
 	}
 
@@ -107,6 +110,14 @@ class AmostraTransmissor extends ActiveRecord
 	public function getBairro()
 	{
 		return $this->hasOne(Bairro::className(), ['id' => 'bairro_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveRelation
+	 */
+	public function getVisita()
+	{
+		return $this->hasOne(VisitaImovel::className(), ['id' => 'visita_id']);
 	}
 
 	public function getTipoDeposito()

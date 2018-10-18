@@ -32,5 +32,6 @@ class SemanaEpidemiologicaVisitaSearch extends SearchModel
         $this->addCondition($query, 'quarteirao_id');
         $this->addCondition($query, 'visita_status_id');
         $this->addCondition($query, 'agente_id');
+        $this->addCondition($query, 'semana_epidemiologica_id');
     }
 }
