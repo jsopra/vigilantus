@@ -137,7 +137,7 @@ class ExecucaoVisitaForm extends Model
                         $this->addError('imoveis', 'Erro ao salvar depósito de imóvel em visita: ' . print_r($visitaDeposito->errors, true));
                         throw new \Exception('Erro ao salvar depósito de imóvel em visita');
                     }
-                }*/
+                }
             }
 
             $transaction->commit();
