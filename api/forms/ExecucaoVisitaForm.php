@@ -99,14 +99,13 @@ class ExecucaoVisitaForm extends Model
                 $visitaImovel->numero_amostra_inicial = $this->getValue($imovel, 'numero_amostra_inicial');
                 $visitaImovel->numero_amostra_final = $this->getValue($imovel, 'numero_amostra_final');
                 $visitaImovel->quantidade_tubitos = $this->getValue($imovel, 'quantidade_tubitos');
-
+/*
                 if (!$visitaImovel->save()) {
-
-                    die(var_dump($visitaImovel->errors));
                     $this->addError('imoveis', 'Erro ao salvar imóvel em visita: ' . print_r($visitaImovel->errors, true));
                     throw new \Exception('Erro ao salvar imóvel em visita');
                 }
-/*
+
+                */
                 $tratamentos = isset($imovel['tratamentos']) && is_array($imovel['tratamentos']);
                 if ($tratamentos) {
                     foreach ($imovel['tratamentos'] as $tratamento) {
@@ -140,7 +139,6 @@ class ExecucaoVisitaForm extends Model
                         throw new \Exception('Erro ao salvar depósito de imóvel em visita');
                     }
                 }
-                */
             }
 
             $transaction->commit();
