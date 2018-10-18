@@ -94,7 +94,7 @@ class VisitaImovel extends ClienteActiveRecord
      * @inheritdoc
      */
     public function save($runValidation = true, $attributes = NULL)
-    {
+    {die('a');
         $transaction = $this->getDb()->beginTransaction();
 
         try {
