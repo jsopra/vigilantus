@@ -29,12 +29,6 @@ use Yii;
  * @property string $numero_amostra_inicial
  * @property string $numero_amostra_final
  * @property integer $quantidade_tubitos
- * @property integer $focal_imovel_tratamento
- * @property integer $focal_larvicida_tipo
- * @property double $focal_larvicida_qtde_gramas
- * @property integer $focal_larvicida_qtde_dep_tratado
- * @property integer $perifocal_adulticida_tipo
- * @property double $perifocal_adulticida_qtde_cargas
  *
  * @property BairroQuarteiroes $quarteirao
  * @property Clientes $cliente
@@ -65,7 +59,6 @@ class VisitaImovel extends ClienteActiveRecord
             [['cliente_id', 'inserido_por', 'atualizado_por', 'semana_epidemiologica_visita_id', 'visita_atividade_id', 'rua_id', 'quarteirao_id', 'tipo_imovel_id', 'visita_tipo', 'pendencia', 'depositos_eliminados', 'quantidade_tubitos', 'focal_imovel_tratamento', 'focal_larvicida_tipo', 'focal_larvicida_qtde_dep_tratado', 'perifocal_adulticida_tipo'], 'integer'],
             [['data_cadastro', 'data_atualizacao', 'hora_entrada'], 'safe'],
             [['logradouro', 'numero', 'sequencia', 'complemento', 'numero_amostra_inicial', 'numero_amostra_final'], 'string'],
-            [['focal_larvicida_qtde_gramas', 'perifocal_adulticida_qtde_cargas'], 'number'],
             [['quarteirao_id'], 'exist', 'skipOnError' => true, 'targetClass' => BairroQuarteirao::className(), 'targetAttribute' => ['quarteirao_id' => 'id']],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::className(), 'targetAttribute' => ['cliente_id' => 'id']],
             [['tipo_imovel_id'], 'exist', 'skipOnError' => true, 'targetClass' => ImovelTipo::className(), 'targetAttribute' => ['tipo_imovel_id' => 'id']],
@@ -75,8 +68,6 @@ class VisitaImovel extends ClienteActiveRecord
             [['atualizado_por'], 'exist', 'skipOnError' => true, 'targetClass' => Usuario::className(), 'targetAttribute' => ['atualizado_por' => 'id']],
             ['visita_tipo', 'in', 'range' => VisitaTipo::getIDS()],
             ['pendencia', 'in', 'range' => VisitaPendencia::getIDS()],
-            ['perifocal_adulticida_tipo', 'in', 'range' => VisitaTipoAdulticida::getIDS()],
-            ['focal_larvicida_tipo', 'in', 'range' => VisitaTipoLarvicida::getIDS()],
 
             ['visita_atividade_id', 'in', 'range' => VisitaAtividade::getIDs()],
 
@@ -97,6 +88,57 @@ class VisitaImovel extends ClienteActiveRecord
         $this->_setRua();
 
         return parent::beforeSave($insert);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function save($runValidation = true, $attributes = NULL)
+    {
+        $transaction = $this->getDb()->beginTransaction();
+
+        try {
+            
+            if (!parent::save($runValidation, $attributes)) {
+                $transaction->rollback();
+                return false;
+            }
+
+            if ($this->numero_amostra_inicial || $this->numero_amostra_final) {
+
+                $inicial = $this->numero_amostra_inicial;
+                $final = $this->numero_amostra_final;
+
+                while ($inicial <= $final) {
+
+                    $amostra = new AmostraTransmissor;
+                    $amostra->visita_id = $this->id;
+                    $amostra->data_coleta = $this->data_cadastro;
+                    $amostra->cliente_id = $this->cliente_id;
+                    $amostra->quarteirao_id = $this->quarteirao_id;
+                    $amostra->endereco = $this->logradouro;
+                    $amostra->numero_casa = $this->numero;
+                    $amostra->numero_amostra = $inicial;
+                    if (!$amostra->save()) {
+                        $this->addError('id', 'Erro ao salvar amostras coletadas');
+                        $transaction->rollback();
+                        return false;
+                    }
+
+                    $inicial++;
+                }
+            }
+
+            $transaction->commit();
+            return true;
+
+        } catch (\Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+
+        $transaction->rollback();
+        return false;
     }
 
     /**
@@ -127,12 +169,6 @@ class VisitaImovel extends ClienteActiveRecord
             'numero_amostra_inicial' => 'Número da Amostra Inicial',
             'numero_amostra_final' => 'Número da Amostra Final',
             'quantidade_tubitos' => 'Quantidade de Tubitos',
-            'focal_imovel_tratamento' => 'Focal Imovel Tratamento',
-            'focal_larvicida_tipo' => 'Focal Larvicida Tipo',
-            'focal_larvicida_qtde_gramas' => 'Focal Larvicida Qtde Gramas',
-            'focal_larvicida_qtde_dep_tratado' => 'Focal Larvicida Qtde Dep Tratado',
-            'perifocal_adulticida_tipo' => 'Perifocal Adulticida Tipo',
-            'perifocal_adulticida_qtde_cargas' => 'Perifocal Adulticida Qtde Cargas',
         ];
     }
 

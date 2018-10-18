@@ -98,16 +98,29 @@ class ExecucaoVisitaForm extends Model
                 $visitaImovel->numero_amostra_inicial = $this->getValue($imovel, 'numero_amostra_inicial');
                 $visitaImovel->numero_amostra_final = $this->getValue($imovel, 'numero_amostra_final');
                 $visitaImovel->quantidade_tubitos = $this->getValue($imovel, 'quantidade_tubitos');
-                $visitaImovel->focal_imovel_tratamento = $this->getValue($imovel, 'focal_imovel_tratamento');
-                $visitaImovel->focal_larvicida_tipo = $this->getValue($imovel, 'focal_larvicida_tipo');
-                $visitaImovel->focal_larvicida_qtde_gramas = $this->getValue($imovel, 'focal_larvicida_qtde_gramas');
-                $visitaImovel->focal_larvicida_qtde_dep_tratado = $this->getValue($imovel, 'focal_larvicida_qtde_dep_tratado');
-                $visitaImovel->perifocal_adulticida_tipo = $this->getValue($imovel, 'perifocal_adulticida_tipo');
-                $visitaImovel->perifocal_adulticida_qtde_cargas = $this->getValue($imovel, 'perifocal_adulticida_qtde_cargas');
 
                 if (!$visitaImovel->save()) {
                     $this->addError('imoveis', 'Erro ao salvar imóvel em visita: ' . print_r($visitaImovel->errors, true));
                     throw new \Exception('Erro ao salvar imóvel em visita');
+                }
+
+                $tratamentos = isset($imovel['tratamentos']) && is_array($imovel['tratamentos']);
+                if ($tratamentos) {
+                    foreach ($imovel['tratamentos'] as $tratamento) {
+                        $visitaTratamento = new VisitaImovelTratamento;
+                        $visitaTratamento->visita_id = $visitaImovel->id;
+                        $visitaTratamento->focal_imovel_tratamento = $this->getValue($imovel, 'focal_imovel_tratamento');
+                        $visitaTratamento->focal_larvicida_tipo = $this->getValue($imovel, 'focal_larvicida_tipo');
+                        $visitaTratamento->focal_larvicida_qtde_gramas = $this->getValue($imovel, 'focal_larvicida_qtde_gramas');
+                        $visitaTratamento->focal_larvicida_qtde_dep_tratado = $this->getValue($imovel, 'focal_larvicida_qtde_dep_tratado');
+                        $visitaTratamento->perifocal_adulticida_tipo = $this->getValue($imovel, 'perifocal_adulticida_tipo');
+                        $visitaTratamento->perifocal_adulticida_qtde_cargas = $this->getValue($imovel, 'perifocal_adulticida_qtde_cargas');
+                    }
+
+                    if (!$visitaTratamento->save()) {
+                        $this->addError('imoveis', 'Erro ao salvar tratamento de imóvel em visita: ' . print_r($visitaTratamento->errors, true));
+                        throw new \Exception('Erro ao salvar tratamento de imóvel em visita');
+                    }
                 }
 
                 $depositos = isset($imovel['depositos']) && is_array($imovel['depositos']);
