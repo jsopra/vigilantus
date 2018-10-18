@@ -113,7 +113,7 @@ class VisitaImovel extends ClienteActiveRecord
 
                     $amostra = new AmostraTransmissor;
                     $amostra->visita_id = $this->id;
-                    $amostra->data_coleta = $this->data_cadastro;
+                    $amostra->data_coleta = $this->semanaEpidemiologicaVisita->data_atividade;
                     $amostra->cliente_id = $this->cliente_id;
                     $amostra->quarteirao_id = $this->quarteirao_id;
                     $amostra->endereco = $this->logradouro;
