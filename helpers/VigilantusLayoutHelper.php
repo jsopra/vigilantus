@@ -38,6 +38,7 @@ class VigilantusLayoutHelper
                     ['label' => 'Áreas de Tratamento', 'url' => ['/relatorio/area-tratamento'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-areas-tratamento']],
                     ['label' => 'Rel. de Focos', 'url' => ['/relatorio/focos'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos']],
                     ['label' => 'Rel. de Focos por Bairro', 'url' => ['/relatorio/focos-bairro'], 'visible' => $user->can('Gerente') || $user->can('Analista'), 'options' => ['id' => 'stepguide-relatorio-focos-bairro']],
+                    ['label' => 'Amostra de Transmissores', 'url' => ['/amostra-transmissor'], 'visible' => $user->can('Gerente') || $user->can('Analista') || $user->can('Tecnico Laboratorial') || $user->can('Usuario')],
                 ],
                 'options' => ['id' => 'stepguide-focos', 'class' => 'stepguide-focos'],
             ],
