@@ -119,7 +119,7 @@ class VisitaImovel extends ClienteActiveRecord
                     $amostra->endereco = $this->logradouro;
                     $amostra->numero_casa = $this->numero;
                     $amostra->numero_amostra = $inicial;
-                    if (!$amostra->save()) { die('a');
+                    if (!$amostra->save()) {
                         $this->addError('id', 'Erro ao salvar amostras coletadas');
                         $transaction->rollback();
                         return false;
@@ -128,15 +128,16 @@ class VisitaImovel extends ClienteActiveRecord
                     $inicial++;
                 }
             }
-die('b');
+
             $transaction->commit();
             return true;
 
-        } catch (\Exception $e) { die('c');
+        } catch (\Exception $e) { die(var_dump($e));
             $transaction->rollback();
-            throw $e;
+            $this->addError('id', 'Erro ao salvar amostras coletadas');
+            return false;
         }
-die('d');
+
         $transaction->rollback();
         return false;
     }
