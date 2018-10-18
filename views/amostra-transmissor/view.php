@@ -29,11 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'value' => $model->getFormattedAttribute('data_coleta'),
         ],
         [
-            'attribute' => 'tipo_deposito_id',
-            'filter' => DepositoTipo::listData('descricao'),
-            'value' => $model->tipo_deposito_id && $model->tipoDeposito && $model->tipoDeposito->sigla ? $model->tipoDeposito->sigla : $model->tipoDeposito->descricao,
-        ],
-        [
             'attribute' => 'quarteirao_id',
             'value' => $model->bairroQuarteirao->numero_sequencia,
         ],
