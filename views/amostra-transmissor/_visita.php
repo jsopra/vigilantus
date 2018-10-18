@@ -23,6 +23,7 @@ use app\models\VisitaTipo;
             'value' => $model->quarteirao_id ? $model->quarteirao->numero_quarteirao : null,
         ],
         [
+            'attribute' => 'quarteirao_id',
             'header' => 'Bairro',
             'filter' => false,
             'value' => $model->quarteirao_id ? $model->quarteirao->bairro->nome : null,
@@ -48,5 +49,4 @@ use app\models\VisitaTipo;
         'numero_amostra_final',
         'quantidade_tubitos',
     ]
-
 ]) ?>
