@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'attribute' => 'tipo_deposito_id',
             'filter' => DepositoTipo::listData('descricao'),
-            'value' => $model->tipoDeposito && $model->tipoDeposito->sigla ? $model->tipoDeposito->sigla : $model->tipoDeposito->descricao,
+            'value' => $model->tipo_deposito_id && $model->tipoDeposito->sigla ? $model->tipoDeposito->sigla : $model->tipoDeposito->descricao,
         ],
         [
             'attribute' => 'quarteirao_id',
