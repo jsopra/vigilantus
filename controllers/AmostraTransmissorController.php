@@ -43,7 +43,7 @@ class AmostraTransmissorController extends CRUDController
 
     public function actionVisita($id)
     {
-        $visita = VisitaImovel::find()->one();
+        $visita = VisitaImovel::find()->andWhere(['id' => $id])->one();
         if ($visita === null) {
            throw new NotFoundHttpException('The requested page does not exist.');
         }

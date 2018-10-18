@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'iconClass' => 'icon-search opacity50',
                 'modalId' => 'visita-detalhes',
                 'modalAjaxContent' => function ($model, $index, $widget) {
-                    return Url::toRoute(['amostra-transmissor/visita', 'id' => $model->id]);
+                    return Url::toRoute(['amostra-transmissor/visita', 'id' => $model->visita_id]);
                 },
                 'requestType' => 'GET',
                 'header' => 'Visita',
