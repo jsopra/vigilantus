@@ -94,7 +94,7 @@ class VisitaImovel extends ClienteActiveRecord
      * @inheritdoc
      */
     public function save($runValidation = true, $attributes = NULL)
-    {die('a');
+    {
         $transaction = $this->getDb()->beginTransaction();
 
         try {
@@ -103,7 +103,7 @@ class VisitaImovel extends ClienteActiveRecord
                 $transaction->rollback();
                 return false;
             }
-
+die('a');
             if ($this->numero_amostra_inicial || $this->numero_amostra_final) {
 
                 $inicial = $this->numero_amostra_inicial;
