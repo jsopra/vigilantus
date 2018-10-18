@@ -119,6 +119,7 @@ class VisitaImovel extends ClienteActiveRecord
                     $amostra->endereco = $this->logradouro;
                     $amostra->numero_casa = $this->numero;
                     $amostra->numero_amostra = $inicial;
+                    $amostra->foco = null;
                     if (!$amostra->save()) {
                         $this->addError('id', 'Erro ao salvar amostras coletadas');
                         $transaction->rollback();
