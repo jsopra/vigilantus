@@ -12,6 +12,7 @@ use app\models\VisitaTipo;
 <?= DetailView::widget([
     'model' => $model,
     'attributes' => [
+        'id',
         [
             'attribute' => 'visita_atividade_id',
             'filter' => false,
