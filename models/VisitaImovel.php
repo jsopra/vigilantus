@@ -134,6 +134,7 @@ class VisitaImovel extends ClienteActiveRecord
             return true;
 
         } catch (\Exception $e) {
+                        var_dump($e);exit;
             $transaction->rollback();
             $this->addError('id', 'Erro ao salvar amostras coletadas');
             return false;
