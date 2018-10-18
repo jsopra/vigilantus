@@ -58,6 +58,9 @@ class AmostraTransmissor extends ActiveRecord
             ['especie_transmissor_id', 'required', 'when' => function($model) {
                 return $model->foco == true;
             }],
+            ['tipo_deposito_id', 'required', 'when' => function($model) {
+                return $model->foco == true;
+            }],
 		];
 	}
 

@@ -79,6 +79,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>
         </div>
         <div class="col-xs-3">
+            <?= $form->field($model, 'tipo_deposito_id')->widget(
+                Select2::classname(),
+                [
+                    'data' => ['' => ''] + DepositoTipo::listData('descricao'),
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]
+            );
+            ?>
+        </div>
+        <div class="col-xs-3">
             <?= $form->field($model, 'planilha_imovel_tipo_id')->widget(
                 Select2::classname(),
                 [
