@@ -26,7 +26,7 @@ class VisitaImovelTratamento extends ClienteActiveRecord
      */
     public static function tableName()
     {
-        return 'visita_imovel_depositos';
+        return 'visita_imovel_tratamentos';
     }
 
     /**

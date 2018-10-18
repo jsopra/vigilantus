@@ -237,6 +237,14 @@ class VisitaImovel extends ClienteActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVisitaImovelTratamentos()
+    {
+        return $this->hasMany(VisitaImovelTratamento::className(), ['visita_id' => 'id']);
+    }
+
+    /**
      * Busca ou cria um objeto Rua, e seta o $this->rua_id
      * @return boolean
      */
