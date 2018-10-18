@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]
 
-]) ?>
+]); ?>
 
 
 <?php if($model->foco === null || $submitting) : ?>
@@ -116,6 +116,9 @@ $this->params['breadcrumbs'][] = $this->title;
             $model->isNewRecord ? 'Salvar' : 'Concluir Análise',
             ['class' => $model->isNewRecord ? 'btn btn-flat success' : 'btn btn-flat primary']
     );
+    ?>
+    </div>
+    <?php ActiveForm::end();
 ?>
 <?php else : ?>
     <?php
