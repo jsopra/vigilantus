@@ -82,29 +82,40 @@ class ExecucaoVisitaForm extends Model
             //adiciona imóveis da visita
             foreach ($this->imoveis as $imovel)
             {
-                $visitaImovel = new VisitaImovel;
-                $visitaImovel->inserido_por = $this->usuario_id;
-                $visitaImovel->semana_epidemiologica_visita_id = $this->visita->id;
-                $visitaImovel->visita_atividade_id = $this->getValue($imovel, 'visita_atividade_id');
-                $visitaImovel->quarteirao_id = $this->getValue($imovel, 'quarteirao_id');
-                $visitaImovel->logradouro = $this->getValue($imovel, 'logradouro');
-                $visitaImovel->numero = $this->getValue($imovel, 'numero');
-                $visitaImovel->sequencia = $this->getValue($imovel, 'sequencia');
-                $visitaImovel->complemento = $this->getValue($imovel, 'complemento');
-                $visitaImovel->tipo_imovel_id = $this->getValue($imovel, 'tipo_imovel_id');
-                $visitaImovel->hora_entrada = $this->getValue($imovel, 'hora_entrada');
-                $visitaImovel->visita_tipo = $this->getValue($imovel, 'visita_tipo');
-                $visitaImovel->pendencia = $this->getValue($imovel, 'pendencia');
-                $visitaImovel->depositos_eliminados = $this->getValue($imovel, 'depositos_eliminados');
-                $visitaImovel->numero_amostra_inicial = $this->getValue($imovel, 'numero_amostra_inicial');
-                $visitaImovel->numero_amostra_final = $this->getValue($imovel, 'numero_amostra_final');
-                $visitaImovel->quantidade_tubitos = $this->getValue($imovel, 'quantidade_tubitos');
+                
+                $tratamentos = isset($imovel['tratamentos']) && is_array($imovel['tratamentos']);
+                if ($tratamentos) {
+                    foreach ($imovel['tratamentos'] as $tratamento) {
+                        $visitaTratamento = new VisitaImovelTratamento;
+                        $visitaTratamento->visita_id = $visitaImovel->id;
+                        $visitaTratamento->focal_imovel_tratamento = $this->getValue($imovel, 'focal_imovel_tratamento');
+                        $visitaTratamento->focal_larvicida_tipo = $this->getValue($imovel, 'focal_larvicida_tipo');
+                        $visitaTratamento->focal_larvicida_qtde_gramas = $this->getValue($imovel, 'focal_larvicida_qtde_gramas');
+                        $visitaTratamento->focal_larvicida_qtde_dep_tratado = $this->getValue($imovel, 'focal_larvicida_qtde_dep_tratado');
+                        $visitaTratamento->perifocal_adulticida_tipo = $this->getValue($imovel, 'perifocal_adulticida_tipo');
+                        $visitaTratamento->perifocal_adulticida_qtde_cargas = $this->getValue($imovel, 'perifocal_adulticida_qtde_cargas');
+                    }
 
-                if (!$visitaImovel->save()) {
-                    $this->addError('imoveis', 'Erro ao salvar imóvel em visita: ' . print_r($visitaImovel->errors, true));
-                    throw new \Exception('Erro ao salvar imóvel em visita');
+                    if (!$visitaTratamento->save()) {
+                        $this->addError('imoveis', 'Erro ao salvar tratamento de imóvel em visita: ' . print_r($visitaTratamento->errors, true));
+                        throw new \Exception('Erro ao salvar tratamento de imóvel em visita');
+                    }
                 }
 
+                $depositos = isset($imovel['depositos']) && is_array($imovel['depositos']);
+                if ($depositos) {
+                    foreach ($imovel['depositos'] as $deposito) {
+                        $visitaDeposito = new VisitaImovelDeposito;
+                        $visitaDeposito->visita_id = $visitaImovel->id;
+                        $visitaDeposito->tipo_deposito_id = $this->getValue($deposito, 'tipo_deposito_id');
+                        $visitaDeposito->quantidade = $this->getValue($deposito, 'quantidade');
+                    }
+
+                    if (!$visitaDeposito->save()) {
+                        $this->addError('imoveis', 'Erro ao salvar depósito de imóvel em visita: ' . print_r($visitaDeposito->errors, true));
+                        throw new \Exception('Erro ao salvar depósito de imóvel em visita');
+                    }
+                }
             }
 
             $transaction->commit();
