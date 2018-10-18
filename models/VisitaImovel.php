@@ -110,7 +110,7 @@ class VisitaImovel extends ClienteActiveRecord
                 $final = $this->numero_amostra_final;
 
                 while ($inicial <= $final) {
-
+/*
                     $amostra = new AmostraTransmissor;
                     $amostra->visita_id = $this->id;
                     $amostra->data_coleta = $this->data_cadastro;
@@ -124,7 +124,7 @@ class VisitaImovel extends ClienteActiveRecord
                         $transaction->rollback();
                         return false;
                     }
-
+*/
                     $inicial++;
                 }
             }
@@ -132,7 +132,7 @@ class VisitaImovel extends ClienteActiveRecord
             $transaction->commit();
             return true;
 
-        } catch (\Exception $e) { die(var_dump($e));
+        } catch (\Exception $e) {
             $transaction->rollback();
             $this->addError('id', 'Erro ao salvar amostras coletadas');
             return false;
