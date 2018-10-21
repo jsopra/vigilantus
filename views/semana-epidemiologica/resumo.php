@@ -8,7 +8,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="mapa-area-tratamento-index" data-role="modal-grid">
 
-    <h1><?= Html::encode($this->title) ?> para ciclo <span style="color: #797979;"><?= Html::encode($ciclo->nome) ?></span> </h1>
+    <h1><?= Html::encode($this->title) ?><h1>
+    <h2><span style="color: #797979;"><?= Html::encode($ciclo->nome) ?></span> </h2>
 
 </div>
 
