@@ -33,7 +33,7 @@ class SemanaEpidemiologicaController extends CRUDController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'delete', 'index', 'update'],
+                'only' => ['create', 'update', 'delete', 'index', 'visitas', 'agendar', 'agentes', 'bairroQuarteiroes', 'deleteVisita', 'mapa', 'resumo'],
                 'rules' => [
                     [
                         'allow' => true,
