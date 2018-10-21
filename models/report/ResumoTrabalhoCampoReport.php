@@ -2,6 +2,7 @@
 
 namespace app\models\report;
 use app\models\EquipeAgente;
+use app\models\SemanaEpidemiologicaVisita;
 use yii\base\Model;
 
 
@@ -30,6 +31,50 @@ class ResumoTrabalhoCampoReport extends Model
 
     public function getData()
     {
-        return true;
+        $visitasAgente = SemanaEpidemiologicaVisita::find()
+            ->doAgente($this->agente_id)->all();
+
+        if (count($visitasAgente) == 0) {
+            return null;
+        }
+
+        return [
+            'trabalho_campo' => [
+                'imoveis_por_tipo' => [
+
+                ],
+                'imoveis' => [
+
+                ],
+                'tubitos' => [
+
+                ],
+                'pendencias' => [
+
+                ],
+                'depositos_inspecionados' => [
+
+                ],
+                'depositos_tratamento' => [
+
+                ],
+                'adulticida' => [
+
+                ],
+                'quarteiroes_trabalhados' => [
+
+                ],
+                'quarteiroes_concluidos' => [
+
+                ],
+            ],
+            'resumo_laboratorio' => [
+                'aegypti' => [],
+                'albopictus' => [],
+                'depositos_com_especimes' => [],
+                'imoveis_com_especimes' => [],
+                'numero_exemplares' => [],
+            ],
+        ];
     }
 }

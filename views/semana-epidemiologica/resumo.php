@@ -16,3 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <br />
+
+<?php if ($data === null) : ?>
+
+	<p>Nenhuma informação de visita localizada</p>
+
+<?php else : ?>
+
+	report
+
+<?php endif; ?>
