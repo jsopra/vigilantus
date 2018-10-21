@@ -4,8 +4,6 @@ use yii\helpers\Url;
 
 $this->title = 'Resumo de Trabalho de Campo do agente';
 $this->params['breadcrumbs'][] = $this->title;
-
-$modelForm = $model;
 ?>
 
 <div class="mapa-area-tratamento-index" data-role="modal-grid">
