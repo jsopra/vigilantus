@@ -13,6 +13,7 @@ use app\models\search\EquipeAgenteSearch;
 use app\models\search\SemanaEpidemiologicaVisitaSearch;
 use app\forms\SemanaEpidemiologicaVisitaAgendamentoForm;
 use app\models\report\ResumoTrabalhoCampoReport;
+use yii\web\NotFoundHttpException;
 
 class SemanaEpidemiologicaController extends CRUDController
 {
