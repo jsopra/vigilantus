@@ -28,7 +28,7 @@ class ResumoTrabalhoCampoReport extends Model
         ];
     }
 
-    public function load()
+    public function getData()
     {
         return true;
     }

@@ -161,14 +161,13 @@ class SemanaEpidemiologicaController extends CRUDController
         $report = new ResumoTrabalhoCampoReport;
         $report->agente_id = $agente->id;
         $report->semana_id = $ciclo->id;
-        $report->load();
 
         return $this->renderAjaxOrLayout(
             'resumo',
             [
                 'ciclo' => $ciclo,
                 'agente' => $agente,
-                'report' => $report,
+                'data' => $report->getData(),
             ]
         );
     }
