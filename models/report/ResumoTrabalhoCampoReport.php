@@ -2,6 +2,7 @@
 
 namespace app\models\report;
 use app\models\EquipeAgente;
+use yii\base\Model;
 
 
 class ResumoTrabalhoCampoReport extends Model
