@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
 
                         return '&nbsp;' . Html::a(
-                            '<i class="icon-fa fa-file-alt"></i>',
+                            '<i class="icon-fa fa-file-o"></i>',
                             \yii\helpers\Url::to(['semana-epidemiologica/resumo', 'cicloId' => $ciclo->id, 'agenteId' => $model->id]),
                             ['title' => 'Ver Resumo do Trabalho de Campo']
                         );
