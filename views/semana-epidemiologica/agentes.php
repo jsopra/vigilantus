@@ -73,8 +73,23 @@ $this->params['breadcrumbs'][] = $this->title;
                             ['title' => 'Ver Mapa de Visitas do Agente']
                         );
                     },
+                    'resumo' => function ($url, $model, $key) use ($ciclo) {
+                        if (!Yii::$app->user->can('Administrador') && !Yii::$app->user->can('Supervisor')){
+                            return null;
+                        }
+
+                        if ($model->getVisitasAgendadas($ciclo) == 0){
+                            return null;
+                        }
+
+                        return '&nbsp;' . Html::a(
+                            '<i class="icon-fa fa-file-alt"></i>',
+                            \yii\helpers\Url::to(['semana-epidemiologica/resumo', 'cicloId' => $ciclo->id, 'agenteId' => $model->id]),
+                            ['title' => 'Ver Resumo do Trabalho de Campo']
+                        );
+                    },
                 ],
-                'template' => !Yii::$app->user->can('Supervisor') ? '{agendar} {mapa}' : '{mapa}',
+                'template' => !Yii::$app->user->can('Supervisor') ? '{agendar} {resumo} {mapa}' : '{mapa}',
             ],
 		],
 	]);  ?>

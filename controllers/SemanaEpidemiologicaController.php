@@ -12,6 +12,7 @@ use app\models\EquipeAgente;
 use app\models\search\EquipeAgenteSearch;
 use app\models\search\SemanaEpidemiologicaVisitaSearch;
 use app\forms\SemanaEpidemiologicaVisitaAgendamentoForm;
+use app\models\report\ResumoTrabalhoCampoReport;
 
 class SemanaEpidemiologicaController extends CRUDController
 {
@@ -35,7 +36,7 @@ class SemanaEpidemiologicaController extends CRUDController
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'update', 'delete', 'index', 'visitas', 'agendar', 'agentes', 'bairroQuarteiroes', 'deleteVisita', 'mapa'],
+                        'actions' => ['create', 'update', 'delete', 'index', 'visitas', 'agendar', 'agentes', 'bairroQuarteiroes', 'deleteVisita', 'mapa', 'resumo'],
                         'roles' => ['Usuario', 'Supervisor'],
                     ],
                 ],
@@ -146,6 +147,28 @@ class SemanaEpidemiologicaController extends CRUDController
             [
                 'ciclo' => $ciclo,
                 'agente' => $agente
+            ]
+        );
+    }
+
+    public function actionResumo($cicloId, $agenteId)
+    {
+        $ciclo = $this->findModel($cicloId);
+        if (($agente = EquipeAgente::findOne(intval($agenteId))) === null) {
+           throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $report = new ResumoTrabalhoCampoReport;
+        $report->agente_id = $agente->id;
+        $report->semana_id = $ciclo->id;
+        $report->load();
+
+        return $this->renderAjaxOrLayout(
+            'resumo',
+            [
+                'ciclo' => $ciclo,
+                'agente' => $agente,
+                'report' => $report,
             ]
         );
     }
