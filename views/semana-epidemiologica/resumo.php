@@ -3,6 +3,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = 'Resumo de Trabalho de Campo do agente';
+$this->params['breadcrumbs'][] = ['label' => 'Semanas Epidemiológicas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Visitas de Agentes', 'url' => ['agentes', 'cicloId' => $ciclo->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
