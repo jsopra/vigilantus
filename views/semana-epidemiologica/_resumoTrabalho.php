@@ -170,9 +170,9 @@
 								<tr>
 									<?php foreach ($data['depositos_tratamento'] as $label => $value) : ?>
 										<?php if ($label == 'Eliminados') : ?>
-											<td><?= $value; ?></td>
+											<th><?= $value; ?></th>
 										<?php else : ?>
-											<td>
+											<th>
 												<table class="table table-striped table-bordered">
 													<thead>
 														<tr>
@@ -189,7 +189,7 @@
 														</tr>
 													</tbody>
 												</table>
-											</td>
+											</th>
 										<?php endif; ?>
 									<?php endforeach; ?>
 								</tr>
