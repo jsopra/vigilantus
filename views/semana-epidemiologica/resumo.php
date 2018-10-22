@@ -38,9 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	echo Tabs::widget([
 	    'items' => $items
 	]);
-
-	var_dump($data);
-
 	?>
 
 <?php endif; ?>
