@@ -166,7 +166,7 @@ class ResumoTrabalhoCampoReport extends Model
 
                         /* adulticida */
                         if ($tratamento->perifocal_adulticida_qtde_cargas) {
-                            $descricaoAdulticida = VisitaTipoAdulticida::getDescricao($tratamento->tipoImovel->perifocal_adulticida_tipo);
+                            $descricaoAdulticida = VisitaTipoAdulticida::getDescricao($tratamento->perifocal_adulticida_tipo);
                             if (!isset($data['_resumoTrabalho']['data']['adulticida'][$descricaoAdulticida])) {
                                 $data['_resumoTrabalho']['data']['adulticida'][$descricaoAdulticida] = 0;
                             }
