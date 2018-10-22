@@ -151,7 +151,7 @@
 						<tbody>
 							<tr>
 								<?php foreach ($data['depositos_tratamento'] as $label => $value) : ?>
-									<?php if ($label == 'Eliminado') : ?>
+									<?php if ($label == 'Eliminados') : ?>
 										<?= $value; ?>
 									<?php else : ?>
 										<?php var_dump($value); ?>
