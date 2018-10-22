@@ -151,7 +151,7 @@
 						<tbody>
 							<tr>
 								<?php foreach ($data['depositos_tratamento'] as $label => $value) : ?>
-									<th><?= $value; ?></th>
+									<th><?= 'asd'; ?></th>
 								<?php endforeach; ?>
 							</tr>
 						</tbody>
