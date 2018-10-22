@@ -146,7 +146,7 @@ class ResumoTrabalhoCampoReport extends Model
 
                     /* imoveis */
                     if ($tratamento->focal_larvicida_tipo != null) {
-                        $data['trabalho_campo']['data']['imoveis_por_tipo']['Tratamento Focal'] += 1;
+                        $data['trabalho_campo']['data']['imoveis']['Tratamento Focal'] += 1;
 
                         /* depositos_tratamento */
                         $descricaoTratamento = VisitaTipoLarvicida::getDescricao($tratamento->focal_larvicida_tipo);
@@ -161,7 +161,7 @@ class ResumoTrabalhoCampoReport extends Model
 
                     }
                     if ($tratamento->perifocal_adulticida_tipo != null) {
-                        $data['trabalho_campo']['data']['imoveis_por_tipo']['Tratamento Perifocal'] += 1;
+                        $data['trabalho_campo']['data']['imoveis']['Tratamento Perifocal'] += 1;
 
                         /* adulticida */
                         if ($tratamento->perifocal_adulticida_qtde_cargas) {
