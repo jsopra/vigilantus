@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-xs-3">
+    <div class="col-xs-5">
     	<table class="table table-striped">
 			<thead>
 				<tr>
@@ -28,7 +28,7 @@
 			</tbody>
 		</table>
     </div>
-    <div class="col-xs-3">
+    <div class="col-xs-5">
     	<table class="table table-striped">
 			<thead>
 				<tr>
@@ -57,7 +57,7 @@
 			</tbody>
 		</table>
     </div>
-    <div class="col-xs-1">
+    <div class="col-xs-2">
     	<table class="table table-striped">
 			<thead>
 				<tr>
@@ -71,7 +71,10 @@
 			</tbody>
 		</table>
     </div>
-    <div class="col-xs-2">
+</div>
+
+<div class="row">
+    <div class="col-xs-5">
     	<table class="table table-striped">
 			<thead>
 				<tr>
@@ -100,7 +103,7 @@
 			</tbody>
 		</table>
     </div>
-    <div class="col-xs-3">
+    <div class="col-xs-7">
     	<table class="table table-striped">
 			<thead>
 				<tr>
@@ -130,6 +133,7 @@
 		</table>
     </div>
 </div>
+
 <div class="row">
     <div class="col-xs-5">
     	<table class="table table-striped">
