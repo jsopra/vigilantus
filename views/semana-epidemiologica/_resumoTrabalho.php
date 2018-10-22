@@ -1,7 +1,7 @@
 <br />
 <div class="row">
     <div class="col-xs-5">
-    	<table class="table table-bordered">
+    	<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
 					<th>Nº Imóveis Trabalhados por Tipo</th>
@@ -9,7 +9,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<table class="table table-bordered">
+					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
 								<?php foreach ($data['imoveis_por_tipo'] as $label => $value) : ?>
@@ -30,7 +30,7 @@
 		</table>
     </div>
     <div class="col-xs-5">
-    	<table class="table table-bordered">
+    	<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
 					<th>Nº Imóveis</th>
@@ -38,7 +38,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<table class="table table-bordered">
+					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
 								<?php foreach ($data['imoveis'] as $label => $value) : ?>
@@ -59,7 +59,7 @@
 		</table>
     </div>
     <div class="col-xs-2">
-    	<table class="table table-bordered">
+    	<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
 					<th>Nº Tubitos Amostras Coletadas</th>
@@ -78,7 +78,7 @@
 
 <div class="row">
     <div class="col-xs-5">
-    	<table class="table table-bordered">
+    	<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
 					<th>Pendências</th>
@@ -86,7 +86,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<table class="table table-bordered">
+					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
 								<?php foreach ($data['pendencias'] as $label => $value) : ?>
@@ -107,7 +107,7 @@
 		</table>
     </div>
     <div class="col-xs-7">
-    	<table class="table table-bordered">
+    	<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
 					<th>Nº Depósitos inspecionados por tipo</th>
@@ -115,7 +115,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<table class="table table-bordered">
+					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
 								<?php foreach ($data['depositos_inspecionados'] as $label => $value) : ?>
@@ -141,7 +141,7 @@
 
 <div class="row">
     <div class="col-xs-5">
-    	<table class="table table-bordered">
+    	<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
 					<th>Número de Depósitos</th>
@@ -149,7 +149,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<table class="table table-bordered">
+					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
 								<?php foreach ($data['depositos_tratamento'] as $label => $value) : ?>
@@ -163,7 +163,7 @@
 									<?php if ($label == 'Eliminados') : ?>
 										<?= $value; ?>
 									<?php else : ?>
-										<table class="table table-bordered">
+										<table class="table table-striped table-bordered">
 											<thead>
 												<tr>
 													<?php foreach ($value as $sublabel => $subvalue) : ?>
@@ -189,7 +189,7 @@
 		</table>
     </div>
     <div class="col-xs-1">
-    	<table class="table table-bordered">
+    	<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
 					<th>Adulticida</th>
@@ -197,7 +197,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<table class="table table-bordered">
+					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
 								<?php foreach ($data['adulticida'] as $label => $value) : ?>
@@ -218,7 +218,7 @@
 		</table>
     </div>
     <div class="col-xs-6">
-    	<table class="table table-bordered">
+    	<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
 					<th>Nº dos quarteirões trabalhados</th>
@@ -231,7 +231,7 @@
 			</tbody>
 		</table>
 		<br />
-		<table class="table table-bordered">
+		<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
 					<th>Nº dos quarteirões concluídos</th>
