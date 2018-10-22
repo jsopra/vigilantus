@@ -157,48 +157,50 @@
 			</thead>
 			<tbody>
 				<tr>
-					<table class="table table-striped table-bordered">
-						<thead>
-							<tr>
-								<?php foreach ($data['depositos_tratamento'] as $label => $value) : ?>
-									<th><?= $label; ?></th>
-								<?php endforeach; ?>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
+					<td>
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
 									<?php foreach ($data['depositos_tratamento'] as $label => $value) : ?>
-										<?php if ($label == 'Eliminados') : ?>
-											<?= $value; ?>
-										<?php else : ?>
-											<table class="table table-striped table-bordered">
-												<thead>
-													<tr>
-														<?php foreach ($value as $sublabel => $subvalue) : ?>
-															<th><?= $sublabel; ?></th>
-														<?php endforeach; ?>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<?php foreach ($value as $sublabel => $subvalue) : ?>
-															<th><?= $subvalue; ?></th>
-														<?php endforeach; ?>
-													</tr>
-												</tbody>
-											</table>
-										<?php endif; ?>
+										<th><?= $label; ?></th>
 									<?php endforeach; ?>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<?php foreach ($data['depositos_tratamento'] as $label => $value) : ?>
+											<?php if ($label == 'Eliminados') : ?>
+												<?= $value; ?>
+											<?php else : ?>
+												<table class="table table-striped table-bordered">
+													<thead>
+														<tr>
+															<?php foreach ($value as $sublabel => $subvalue) : ?>
+																<th><?= $sublabel; ?></th>
+															<?php endforeach; ?>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<?php foreach ($value as $sublabel => $subvalue) : ?>
+																<th><?= $subvalue; ?></th>
+															<?php endforeach; ?>
+														</tr>
+													</tbody>
+												</table>
+											<?php endif; ?>
+										<?php endforeach; ?>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
 				</tr>
 			</tbody>
 		</table>
     </div>
-    <div class="col-xs-1">
+    <div class="col-xs-3">
     	<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
@@ -229,7 +231,7 @@
 			</tbody>
 		</table>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-4">
     	<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
