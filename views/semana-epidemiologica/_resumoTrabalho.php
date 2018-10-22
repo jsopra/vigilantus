@@ -90,22 +90,24 @@
 			</thead>
 			<tbody>
 				<tr>
-					<table class="table table-striped table-bordered">
-						<thead>
-							<tr>
-								<?php foreach ($data['pendencias'] as $label => $value) : ?>
-									<th><?= $label; ?></th>
-								<?php endforeach; ?>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<?php foreach ($data['pendencias'] as $label => $value) : ?>
-									<th><?= $value; ?></th>
-								<?php endforeach; ?>
-							</tr>
-						</tbody>
-					</table>
+					<td>
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<?php foreach ($data['pendencias'] as $label => $value) : ?>
+										<th><?= $label; ?></th>
+									<?php endforeach; ?>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<?php foreach ($data['pendencias'] as $label => $value) : ?>
+										<th><?= $value; ?></th>
+									<?php endforeach; ?>
+								</tr>
+							</tbody>
+						</table>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -119,22 +121,24 @@
 			</thead>
 			<tbody>
 				<tr>
-					<table class="table table-striped table-bordered">
-						<thead>
-							<tr>
-								<?php foreach ($data['depositos_inspecionados'] as $label => $value) : ?>
-									<th><?= $label; ?></th>
-								<?php endforeach; ?>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<?php foreach ($data['depositos_inspecionados'] as $label => $value) : ?>
-									<th><?= $value; ?></th>
-								<?php endforeach; ?>
-							</tr>
-						</tbody>
-					</table>
+					<td>
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<?php foreach ($data['depositos_inspecionados'] as $label => $value) : ?>
+										<th><?= $label; ?></th>
+									<?php endforeach; ?>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<?php foreach ($data['depositos_inspecionados'] as $label => $value) : ?>
+										<th><?= $value; ?></th>
+									<?php endforeach; ?>
+								</tr>
+							</tbody>
+						</table>
+					</td>
 				</tr>
 			</tbody>
 		</table>
