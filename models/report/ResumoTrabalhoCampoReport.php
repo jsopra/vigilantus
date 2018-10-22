@@ -157,8 +157,8 @@ class ResumoTrabalhoCampoReport extends Model
                                 'Qtde. dep. trat.' => 0,
                             ];
                         }
-                        $data['_resumoTrabalho']['data']['depositos_tratamento'][$descricaoTratamento]['Qtde. (gramas)'] += 1;
-                        $data['_resumoTrabalho']['data']['depositos_tratamento'][$descricaoTratamento]['Qtde. dep. trat.'] += 1;
+                        $data['_resumoTrabalho']['data']['depositos_tratamento'][$descricaoTratamento]['Qtde. (gramas)'] += $tratamento->focal_larvicida_qtde_gramas;
+                        $data['_resumoTrabalho']['data']['depositos_tratamento'][$descricaoTratamento]['Qtde. dep. trat.'] += $tratamento->focal_larvicida_qtde_dep_tratado;
 
                     }
                     if ($tratamento->perifocal_adulticida_tipo != null) {
