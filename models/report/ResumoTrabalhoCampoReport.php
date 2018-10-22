@@ -133,7 +133,7 @@ class ResumoTrabalhoCampoReport extends Model
                 foreach ($imovel->visitaImovelDepositos as $deposito) {
 
                     /* depositos_inspecionados */
-                    $descricaoDeposito = $deposito->tipoDeposito->descricao;
+                    $descricaoDeposito = $deposito->tipoDeposito->sigla;
                     if (!isset($data['_resumoTrabalho']['data']['depositos_inspecionados'][$descricaoDeposito])) {
                         $data['_resumoTrabalho']['data']['depositos_inspecionados'][$descricaoDeposito] = 0;
                     }

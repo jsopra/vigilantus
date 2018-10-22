@@ -135,9 +135,55 @@
     	5
     </div>
     <div class="col-xs-1">
-    	1
+    	<table class="table">
+			<thead>
+				<tr>
+					<th>Adulticida</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<table class="table">
+						<thead>
+							<tr>
+								<?php foreach ($data['adulticida'] as $label => $value) : ?>
+									<th><?= $label; ?></th>
+								<?php endforeach; ?>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<?php foreach ($data['adulticida'] as $label => $value) : ?>
+									<th><?= $value; ?></th>
+								<?php endforeach; ?>
+							</tr>
+						</tbody>
+					</table>
+				</tr>
+			</tbody>
+		</table>
     </div>
     <div class="col-xs-6">
-    	6
+    	<table class="table">
+			<thead>
+				<tr>
+					<th>Nº dos quarteirões trabalhados</th>
+				</tr>
+			</thead>
+			<tbody>
+				X
+			</tbody>
+		</table>
+		<br />
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Nº dos quarteirões concluídos</th>
+				</tr>
+			</thead>
+			<tbody>
+				X
+			</tbody>
+		</table>
     </div>
  </div>
