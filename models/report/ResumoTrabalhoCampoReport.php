@@ -107,7 +107,7 @@ class ResumoTrabalhoCampoReport extends Model
                     $data['trabalho_campo']['data']['imoveis_por_tipo'][$descricaoImovel] = 0;
                 }
                 $data['trabalho_campo']['data']['imoveis_por_tipo'][$descricaoImovel] += 1;
-                $data['trabalho_campo']['data']['imoveis']['Total'] += 1;
+                $data['trabalho_campo']['data']['imoveis_por_tipo']['Total'] += 1;
 
                 /* imoveis */
                 $data['trabalho_campo']['data']['imoveis_por_tipo']['Inspecionados'] += 1;
