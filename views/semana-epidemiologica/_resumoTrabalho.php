@@ -1,3 +1,4 @@
+<br />
 <div class="row">
     <div class="col-xs-5">
     	<table class="table table-striped">
@@ -73,6 +74,8 @@
     </div>
 </div>
 
+<hr/>
+
 <div class="row">
     <div class="col-xs-5">
     	<table class="table table-striped">
@@ -133,6 +136,8 @@
 		</table>
     </div>
 </div>
+
+<hr/>
 
 <div class="row">
     <div class="col-xs-5">
