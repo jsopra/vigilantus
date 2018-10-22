@@ -1,6 +1,32 @@
 <div class="row">
     <div class="col-xs-3">
-    	3
+    	<table class="table">
+			<thead>
+				<tr>
+					<th>Nº Imóveis Trabalhados por Tipo</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<table class="table">
+						<thead>
+							<tr>
+								<?php foreach ($data['imoveis_por_tipo'] as $label => $value) : ?>
+									<th><?= $label; ?></th>
+								<?php endforeach; ?>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<?php foreach ($data['imoveis_por_tipo'] as $label => $value) : ?>
+									<th><?= $value; ?></th>
+								<?php endforeach; ?>
+							</tr>
+						</tbody>
+					</table>
+				</tr>
+			</tbody>
+		</table>
     </div>
     <div class="col-xs-3">
     	<table class="table">
