@@ -45,7 +45,7 @@ class ResumoTrabalhoCampoReport extends Model
         }
 
         $data = [
-            'trabalho_campo' => [
+            '_resumoTrabalho' => [
                 'label' => 'Trabalho do Campo',
                 'data' => [
                     'imoveis_por_tipo' => [
@@ -70,7 +70,7 @@ class ResumoTrabalhoCampoReport extends Model
                     'quarteiroes_concluidos' => [],
                 ],
             ],
-            'resumo_laboratorio' => [
+            '_resumoLaboratorio' => [
                 'label' => 'Trabalho do Laboratório',
                 'data' => [
                     /*

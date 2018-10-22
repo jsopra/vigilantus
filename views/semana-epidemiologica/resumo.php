@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	foreach ($data as $tipo => $dados) {
 		$items[] = [
 			'label' => $dados['label'],
-            'content' => 'Anim pariatur cliche...',
+            'content' => $this->renderPartial($tipo, ['data' => $dados]),
             'active' => count($items) == 0
 		];
 	}
