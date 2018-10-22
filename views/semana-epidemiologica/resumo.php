@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	foreach ($data as $tipo => $dados) {
 		$items[] = [
 			'label' => $dados['label'],
-            'content' => $this->render($tipo, ['data' => $dados]),
+            'content' => $this->render($tipo, ['data' => $dados['data']]),
             'active' => count($items) == 0
 		];
 	}
