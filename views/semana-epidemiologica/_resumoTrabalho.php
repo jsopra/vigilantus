@@ -132,7 +132,33 @@
 </div>
 <div class="row">
     <div class="col-xs-5">
-    	5
+    	<table class="table">
+			<thead>
+				<tr>
+					<th>Número de Depósitos</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<table class="table">
+						<thead>
+							<tr>
+								<?php foreach ($data['depositos_tratamento'] as $label => $value) : ?>
+									<th><?= $label; ?></th>
+								<?php endforeach; ?>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<?php foreach ($data['depositos_tratamento'] as $label => $value) : ?>
+									<th><?= $value; ?></th>
+								<?php endforeach; ?>
+							</tr>
+						</tbody>
+					</table>
+				</tr>
+			</tbody>
+		</table>
     </div>
     <div class="col-xs-1">
     	<table class="table">
