@@ -23,6 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php else : ?>
 
-	report
+	<?php var_dump($data); ?>
 
 <?php endif; ?>
