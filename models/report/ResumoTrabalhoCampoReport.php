@@ -128,7 +128,7 @@ class ResumoTrabalhoCampoReport extends Model
                 }
 
                 /* depositos_tratamento */
-                $data['trabalho_campo']['data']['depositos_tratamento']['Eliminados'] += $visita->depositos_eliminados;
+                $data['trabalho_campo']['data']['depositos_tratamento']['Eliminados'] += $imovel->depositos_eliminados;
 
                 foreach ($imovel->visitaImovelDepositos as $deposito) {
 
