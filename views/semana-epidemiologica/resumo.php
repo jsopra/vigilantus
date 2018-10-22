@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		]
 	}
 
-	echo Nav::widget([
+	echo Tabs::widget([
 	    'items' => $items
 	]);
 
