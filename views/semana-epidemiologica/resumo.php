@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\bootstrap\Tabs;
 
 $this->title = 'Resumo de Trabalho de Campo do agente';
 $this->params['breadcrumbs'][] = ['label' => 'Semanas Epidemiológicas', 'url' => ['index']];
@@ -23,6 +24,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php else : ?>
 
-	<?php var_dump($data); ?>
+	<?php
+
+	$items = [];
+	foreach ($data as $tipo => $dados) {
+		$items[] = [
+			'label' => $dados['label'],
+            'content' => 'Anim pariatur cliche...',
+            'active' => count($items) == 0
+		]
+	}
+
+	echo Nav::widget([
+	    'items' => $items
+	]);
+
+	var_dump($data);
+
+	?>
 
 <?php endif; ?>
