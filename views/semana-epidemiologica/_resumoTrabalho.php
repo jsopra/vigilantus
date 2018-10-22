@@ -154,7 +154,22 @@
 									<?php if ($label == 'Eliminados') : ?>
 										<?= $value; ?>
 									<?php else : ?>
-										<?php var_dump($value); ?>
+										<table class="table">
+											<thead>
+												<tr>
+													<?php foreach ($value as $sublabel => $subvalue) : ?>
+														<th><?= $sublabel; ?></th>
+													<?php endforeach; ?>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<?php foreach ($value as $sublabel => $subvalue) : ?>
+														<th><?= $subvalue; ?></th>
+													<?php endforeach; ?>
+												</tr>
+											</tbody>
+										</table>
 									<?php endif; ?>
 								<?php endforeach; ?>
 							</tr>
