@@ -166,10 +166,10 @@ class ResumoTrabalhoCampoReport extends Model
                         /* adulticida */
                         if ($tratamento->perifocal_adulticida_qtde_cargas) {
                             $descricaoAdulticida = $imovel->tipoImovel->nome;
-                            if (!isset($data['_resumoTrabalho']['data']['adulticida']['Tipo'][$descricaoAdulticida])) {
-                                $data['_resumoTrabalho']['data']['adulticida']['Tipo'][$descricaoAdulticida] = 0;
+                            if (!isset($data['_resumoTrabalho']['data']['adulticida'][$descricaoAdulticida])) {
+                                $data['_resumoTrabalho']['data']['adulticida'][$descricaoAdulticida] = 0;
                             }
-                            $data['_resumoTrabalho']['data']['adulticida']['Tipo'][$descricaoAdulticida] += $tratamento->perifocal_adulticida_qtde_cargas;
+                            $data['_resumoTrabalho']['data']['adulticida'][$descricaoAdulticida] += $tratamento->perifocal_adulticida_qtde_cargas;
                         }
                     }
 
