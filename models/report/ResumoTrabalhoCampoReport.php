@@ -7,6 +7,7 @@ use app\models\VisitaTipo;
 use app\models\VisitaPendencia;
 use app\models\VisitaStatus;
 use app\models\VisitaTipoLarvicida;
+use app\models\VisitaTipoAdulticida;
 use yii\base\Model;
 
 
@@ -165,7 +166,7 @@ class ResumoTrabalhoCampoReport extends Model
 
                         /* adulticida */
                         if ($tratamento->perifocal_adulticida_qtde_cargas) {
-                            $descricaoAdulticida = $imovel->tipoImovel->nome;
+                            $descricaoAdulticida = VisitaTipoAdulticida::getDescricao($tratamento->tipoImovel->perifocal_adulticida_tipo);
                             if (!isset($data['_resumoTrabalho']['data']['adulticida'][$descricaoAdulticida])) {
                                 $data['_resumoTrabalho']['data']['adulticida'][$descricaoAdulticida] = 0;
                             }
