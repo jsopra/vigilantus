@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'label' => $dados['label'],
             'content' => 'Anim pariatur cliche...',
             'active' => count($items) == 0
-		]
+		];
 	}
 
 	echo Tabs::widget([
