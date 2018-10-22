@@ -167,28 +167,30 @@
 						</thead>
 						<tbody>
 							<tr>
-								<?php foreach ($data['depositos_tratamento'] as $label => $value) : ?>
-									<?php if ($label == 'Eliminados') : ?>
-										<?= $value; ?>
-									<?php else : ?>
-										<table class="table table-striped table-bordered">
-											<thead>
-												<tr>
-													<?php foreach ($value as $sublabel => $subvalue) : ?>
-														<th><?= $sublabel; ?></th>
-													<?php endforeach; ?>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<?php foreach ($value as $sublabel => $subvalue) : ?>
-														<th><?= $subvalue; ?></th>
-													<?php endforeach; ?>
-												</tr>
-											</tbody>
-										</table>
-									<?php endif; ?>
-								<?php endforeach; ?>
+								<td>
+									<?php foreach ($data['depositos_tratamento'] as $label => $value) : ?>
+										<?php if ($label == 'Eliminados') : ?>
+											<?= $value; ?>
+										<?php else : ?>
+											<table class="table table-striped table-bordered">
+												<thead>
+													<tr>
+														<?php foreach ($value as $sublabel => $subvalue) : ?>
+															<th><?= $sublabel; ?></th>
+														<?php endforeach; ?>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<?php foreach ($value as $sublabel => $subvalue) : ?>
+															<th><?= $subvalue; ?></th>
+														<?php endforeach; ?>
+													</tr>
+												</tbody>
+											</table>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -205,22 +207,24 @@
 			</thead>
 			<tbody>
 				<tr>
-					<table class="table table-striped table-bordered">
-						<thead>
-							<tr>
-								<?php foreach ($data['adulticida'] as $label => $value) : ?>
-									<th><?= $label; ?></th>
-								<?php endforeach; ?>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<?php foreach ($data['adulticida'] as $label => $value) : ?>
-									<th><?= $value; ?></th>
-								<?php endforeach; ?>
-							</tr>
-						</tbody>
-					</table>
+					<td>
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<?php foreach ($data['adulticida'] as $label => $value) : ?>
+										<th><?= $label; ?></th>
+									<?php endforeach; ?>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<?php foreach ($data['adulticida'] as $label => $value) : ?>
+										<th><?= $value; ?></th>
+									<?php endforeach; ?>
+								</tr>
+							</tbody>
+						</table>
+					</td>
 				</tr>
 			</tbody>
 		</table>
