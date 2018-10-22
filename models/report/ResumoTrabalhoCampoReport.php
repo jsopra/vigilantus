@@ -88,14 +88,14 @@ class ResumoTrabalhoCampoReport extends Model
 
             /* quarteiroes_trabalhados */
             $descricaoQuarteirao = $visita->quarteirao->numero_quarteirao;
-            if (!in_array($descricaoQuarteirao, $data['trabalho_campo']['data']['quarteiroes_trabalhados'])) {
-                $data['trabalho_campo']['data']['quarteiroes_trabalhados'][] = $descricaoQuarteirao;
+            if (!in_array($descricaoQuarteirao, $data['_resumoTrabalho']['data']['quarteiroes_trabalhados'])) {
+                $data['_resumoTrabalho']['data']['quarteiroes_trabalhados'][] = $descricaoQuarteirao;
             }
 
             /* quarteiroes_concluidos */
             if ($visita->visita_status_id == VisitaStatus::CONCLUIDA) {
-                if (!in_array($descricaoQuarteirao, $data['trabalho_campo']['data']['quarteiroes_trabalhados'])) {
-                    $data['trabalho_campo']['data']['quarteiroes_concluidos'][] = $descricaoQuarteirao;
+                if (!in_array($descricaoQuarteirao, $data['_resumoTrabalho']['data']['quarteiroes_trabalhados'])) {
+                    $data['_resumoTrabalho']['data']['quarteiroes_concluidos'][] = $descricaoQuarteirao;
                 }
             }
 
@@ -103,42 +103,42 @@ class ResumoTrabalhoCampoReport extends Model
 
                 /* imoveis_por_tipo */
                 $descricaoImovel = $imovel->tipoImovel->nome;
-                if (!isset($data['trabalho_campo']['data']['imoveis_por_tipo'][$descricaoImovel])) {
-                    $data['trabalho_campo']['data']['imoveis_por_tipo'][$descricaoImovel] = 0;
+                if (!isset($data['_resumoTrabalho']['data']['imoveis_por_tipo'][$descricaoImovel])) {
+                    $data['_resumoTrabalho']['data']['imoveis_por_tipo'][$descricaoImovel] = 0;
                 }
-                $data['trabalho_campo']['data']['imoveis_por_tipo'][$descricaoImovel] += 1;
-                $data['trabalho_campo']['data']['imoveis_por_tipo']['Total'] += 1;
+                $data['_resumoTrabalho']['data']['imoveis_por_tipo'][$descricaoImovel] += 1;
+                $data['_resumoTrabalho']['data']['imoveis_por_tipo']['Total'] += 1;
 
                 /* imoveis */
-                $data['trabalho_campo']['data']['imoveis']['Inspecionados'] += 1;
+                $data['_resumoTrabalho']['data']['imoveis']['Inspecionados'] += 1;
                 if ($imovel->visita_tipo == VisitaTipo::RECUPERADA) {
-                    $data['trabalho_campo']['data']['imoveis']['Recuperados'] += 1;
+                    $data['_resumoTrabalho']['data']['imoveis']['Recuperados'] += 1;
                 }
 
                 /* tubitos */
-                $data['trabalho_campo']['data']['tubitos'] += $imovel->quantidade_tubitos ? $imovel->quantidade_tubitos : 0;
+                $data['_resumoTrabalho']['data']['tubitos'] += $imovel->quantidade_tubitos ? $imovel->quantidade_tubitos : 0;
 
                 /* pendencia */
                 if ($imovel->pendencia) {
                     $descricaoPendencia = VisitaPendencia::getDescricao($imovel->pendencia);
-                    if (!isset($data['trabalho_campo']['data']['pendencias'][$descricaoPendencia])) {
-                        $data['trabalho_campo']['data']['pendencias'][$descricaoPendencia] = 0;
+                    if (!isset($data['_resumoTrabalho']['data']['pendencias'][$descricaoPendencia])) {
+                        $data['_resumoTrabalho']['data']['pendencias'][$descricaoPendencia] = 0;
                     }
-                    $data['trabalho_campo']['data']['pendencias'][$descricaoPendencia] += 1;
+                    $data['_resumoTrabalho']['data']['pendencias'][$descricaoPendencia] += 1;
                 }
 
                 /* depositos_tratamento */
-                $data['trabalho_campo']['data']['depositos_tratamento']['Eliminados'] += $imovel->depositos_eliminados;
+                $data['_resumoTrabalho']['data']['depositos_tratamento']['Eliminados'] += $imovel->depositos_eliminados;
 
                 foreach ($imovel->visitaImovelDepositos as $deposito) {
 
                     /* depositos_inspecionados */
                     $descricaoDeposito = $deposito->tipoDeposito->descricao;
-                    if (!isset($data['trabalho_campo']['data']['depositos_inspecionados'][$descricaoDeposito])) {
-                        $data['trabalho_campo']['data']['depositos_inspecionados'][$descricaoDeposito] = 0;
+                    if (!isset($data['_resumoTrabalho']['data']['depositos_inspecionados'][$descricaoDeposito])) {
+                        $data['_resumoTrabalho']['data']['depositos_inspecionados'][$descricaoDeposito] = 0;
                     }
-                    $data['trabalho_campo']['data']['depositos_inspecionados'][$descricaoDeposito] += 1;
-                    $data['trabalho_campo']['data']['depositos_inspecionados']['Total'] += 1;
+                    $data['_resumoTrabalho']['data']['depositos_inspecionados'][$descricaoDeposito] += 1;
+                    $data['_resumoTrabalho']['data']['depositos_inspecionados']['Total'] += 1;
 
                 }
 
@@ -146,30 +146,30 @@ class ResumoTrabalhoCampoReport extends Model
 
                     /* imoveis */
                     if ($tratamento->focal_larvicida_tipo != null) {
-                        $data['trabalho_campo']['data']['imoveis']['Tratamento Focal'] += 1;
+                        $data['_resumoTrabalho']['data']['imoveis']['Tratamento Focal'] += 1;
 
                         /* depositos_tratamento */
                         $descricaoTratamento = VisitaTipoLarvicida::getDescricao($tratamento->focal_larvicida_tipo);
-                        if (!isset($data['trabalho_campo']['data']['depositos_tratamento'][$descricaoTratamento])) {
-                            $data['trabalho_campo']['data']['depositos_tratamento'][$descricaoTratamento] = [
+                        if (!isset($data['_resumoTrabalho']['data']['depositos_tratamento'][$descricaoTratamento])) {
+                            $data['_resumoTrabalho']['data']['depositos_tratamento'][$descricaoTratamento] = [
                                 'Qtde. (gramas)' => 0,
                                 'Qtde. dep. trat.' => 0,
                             ];
                         }
-                        $data['trabalho_campo']['data']['depositos_tratamento'][$descricaoTratamento]['Qtde. (gramas)'] += 1;
-                        $data['trabalho_campo']['data']['depositos_tratamento'][$descricaoTratamento]['Qtde. dep. trat.'] += 1;
+                        $data['_resumoTrabalho']['data']['depositos_tratamento'][$descricaoTratamento]['Qtde. (gramas)'] += 1;
+                        $data['_resumoTrabalho']['data']['depositos_tratamento'][$descricaoTratamento]['Qtde. dep. trat.'] += 1;
 
                     }
                     if ($tratamento->perifocal_adulticida_tipo != null) {
-                        $data['trabalho_campo']['data']['imoveis']['Tratamento Perifocal'] += 1;
+                        $data['_resumoTrabalho']['data']['imoveis']['Tratamento Perifocal'] += 1;
 
                         /* adulticida */
                         if ($tratamento->perifocal_adulticida_qtde_cargas) {
                             $descricaoAdulticida = $imovel->tipoImovel->nome;
-                            if (!isset($data['trabalho_campo']['data']['adulticida']['Tipo'][$descricaoAdulticida])) {
-                                $data['trabalho_campo']['data']['adulticida']['Tipo'][$descricaoAdulticida] = 0;
+                            if (!isset($data['_resumoTrabalho']['data']['adulticida']['Tipo'][$descricaoAdulticida])) {
+                                $data['_resumoTrabalho']['data']['adulticida']['Tipo'][$descricaoAdulticida] = 0;
                             }
-                            $data['trabalho_campo']['data']['adulticida']['Tipo'][$descricaoAdulticida] += $tratamento->perifocal_adulticida_qtde_cargas;
+                            $data['_resumoTrabalho']['data']['adulticida']['Tipo'][$descricaoAdulticida] += $tratamento->perifocal_adulticida_qtde_cargas;
                         }
                     }
 
