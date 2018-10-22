@@ -119,8 +119,8 @@ class ResumoTrabalhoCampoReport extends Model
                 $data['trabalho_campo']['data']['tubitos'] += $imovel->quantidade_tubitos ? $imovel->quantidade_tubitos : 0;
 
                 /* pendencia */
-                if ($visita->pendencia) {
-                    $descricaoPendencia = VisitaPendencia::getDescricao($this->pendencia);
+                if ($imovel->pendencia) {
+                    $descricaoPendencia = VisitaPendencia::getDescricao($imovel->pendencia);
                     if (!isset($data['trabalho_campo']['data']['pendencias'][$descricaoPendencia])) {
                         $data['trabalho_campo']['data']['pendencias'][$descricaoPendencia] = 0;
                     }
