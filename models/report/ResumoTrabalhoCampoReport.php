@@ -110,9 +110,9 @@ class ResumoTrabalhoCampoReport extends Model
                 $data['trabalho_campo']['data']['imoveis_por_tipo']['Total'] += 1;
 
                 /* imoveis */
-                $data['trabalho_campo']['data']['imoveis_por_tipo']['Inspecionados'] += 1;
+                $data['trabalho_campo']['data']['imoveis']['Inspecionados'] += 1;
                 if ($imovel->visita_tipo == VisitaTipo::RECUPERADA) {
-                    $data['trabalho_campo']['data']['imoveis_por_tipo']['Recuperados'] += 1;
+                    $data['trabalho_campo']['data']['imoveis']['Recuperados'] += 1;
                 }
 
                 /* tubitos */
