@@ -26,7 +26,7 @@
 								</tr>
 							</tbody>
 						</table>
-					<td>
+					</td>
 				</tr>
 			</tbody>
 		</table>
