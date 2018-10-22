@@ -6,7 +6,18 @@
     	3
     </div>
     <div class="col-xs-1">
-    	1
+    	<table class="table">
+			<thead>
+				<tr>
+					<th>Nº Tubitos Amostras Coletadas</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th><?= $data['tubitos']; ?></th>
+				</tr>
+			</tbody>
+		</table>
     </div>
     <div class="col-xs-2">
     	2
