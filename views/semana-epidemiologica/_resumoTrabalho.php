@@ -198,7 +198,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<th><?= implode(',', $data['quarteiroes_trabalhados']); ?></th>
+					<th><?= implode(', ', $data['quarteiroes_trabalhados']); ?></th>
 				</tr>
 			</tbody>
 		</table>
@@ -211,7 +211,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<th><?= implode(',', $data['quarteiroes_concluidos']); ?></th>
+					<th><?= implode(', ', $data['quarteiroes_concluidos']); ?></th>
 				</tr>
 			</tbody>
 		</table>
