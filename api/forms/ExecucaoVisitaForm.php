@@ -106,7 +106,7 @@ class ExecucaoVisitaForm extends Model
                 }
 
                 $tratamentos = isset($imovel['tratamentos']) && is_array($imovel['tratamentos']);
-                if ($tratamentos) {
+                if (count($tratamentos) && $tratamentos) {
                     foreach ($imovel['tratamentos'] as $tratamento) {
                         $visitaTratamento = new VisitaImovelTratamento;
                         $visitaTratamento->visita_id = $visitaImovel->id;
@@ -125,7 +125,7 @@ class ExecucaoVisitaForm extends Model
                 }
 
                 $depositos = isset($imovel['depositos']) && is_array($imovel['depositos']);
-                if ($depositos) {
+                if (count($depositos) && $depositos) {
                     foreach ($imovel['depositos'] as $deposito) {
                         $visitaDeposito = new VisitaImovelDeposito;
                         $visitaDeposito->visita_id = $visitaImovel->id;
