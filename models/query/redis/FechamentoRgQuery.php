@@ -50,8 +50,7 @@ class FechamentoRgQuery extends RedisActiveQuery
         {
             $ids[] = $record->quarteirao_id;
         }
-        $this->where(['imovel_tipo_id' => 1]);
-        //$this->andWhere(['in', 'bairro_quarteirao_id', $ids]);
+        $this->andWhere(['in', 'bairro_quarteirao_id', $ids]);
         return $this;
     }
 }
