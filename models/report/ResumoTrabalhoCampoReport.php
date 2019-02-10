@@ -95,7 +95,7 @@ class ResumoTrabalhoCampoReport extends Model
 
             /* quarteiroes_concluidos */
             if ($visita->visita_status_id == VisitaStatus::CONCLUIDA) {
-                if (!in_array($descricaoQuarteirao, $data['_resumoTrabalho']['data']['quarteiroes_trabalhados'])) {
+                if (!in_array($descricaoQuarteirao, $data['_resumoTrabalho']['data']['quarteiroes_concluidos'])) {
                     $data['_resumoTrabalho']['data']['quarteiroes_concluidos'][] = $descricaoQuarteirao;
                 }
             }
