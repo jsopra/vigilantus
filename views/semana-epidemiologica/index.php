@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         );
                     },
                 ],
-                'template' => !Yii::$app->user->can('Supervisor') ? '{agendar} {update} {delete}' : '',
+                'template' => Yii::$app->user->can('Administrador') || Yii::$app->user->can('Supervisor') ? '{agendar} {update} {delete}' : '',
             ],
 		],
 	]);  ?>
