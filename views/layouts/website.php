@@ -221,7 +221,7 @@ $this->beginPage() ?>
                 amplitude.getInstance().logEvent('LEAD_GENERATED');
                 return true;
             }
-        <script>
+        </script>
     </body>
     <script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
