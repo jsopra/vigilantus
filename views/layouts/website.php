@@ -69,9 +69,9 @@ $this->beginPage() ?>
 
           amplitude.getInstance().logEvent('LANDING_PAGE');
 
-          function registerFunnel(){
+          function registerFunnel() {
              amplitude.getInstance().logEvent('LEAD_GENERATED');
-          {
+          }
 
           amplitude.getInstance().logEvent('LANDING_PAGE');
         </script>
