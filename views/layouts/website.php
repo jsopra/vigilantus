@@ -68,12 +68,6 @@ $this->beginPage() ?>
           amplitude.getInstance().init("f515c5250de1b9ae7dcb655674e33795");
 
           amplitude.getInstance().logEvent('LANDING_PAGE');
-
-          function registerFunnel() {
-             amplitude.getInstance().logEvent('LEAD_GENERATED');
-          }
-
-          amplitude.getInstance().logEvent('LANDING_PAGE');
         </script>
 
         <?php $this->head() ?>
@@ -222,6 +216,12 @@ $this->beginPage() ?>
             echo VigilantusLayoutHelper::getAnalyticsCode();
         }
         ?>
+        <script>
+            function registerFunnel() {
+                amplitude.getInstance().logEvent('LEAD_GENERATED');
+                return true;
+            }
+        <script>
     </body>
     <script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
