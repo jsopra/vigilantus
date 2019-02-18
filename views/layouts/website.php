@@ -74,7 +74,6 @@ $this->beginPage() ?>
           {
 
           amplitude.getInstance().logEvent('LANDING_PAGE');
-          }
         </script>
 
         <?php $this->head() ?>
