@@ -67,7 +67,14 @@ $this->beginPage() ?>
 
           amplitude.getInstance().init("f515c5250de1b9ae7dcb655674e33795");
 
-          amplitude.getInstance().logEvent('LANDING_PAGE')
+          amplitude.getInstance().logEvent('LANDING_PAGE');
+
+          function registerFunnel(){
+             amplitude.getInstance().logEvent('LEAD_GENERATED');
+          {
+
+          amplitude.getInstance().logEvent('LANDING_PAGE');
+          }
         </script>
 
         <?php $this->head() ?>
@@ -189,7 +196,7 @@ $this->beginPage() ?>
                                 <fieldset class="form-group">
                                     <textarea class="form-control" required name="text" id="user-message" placeholder="Sua mensagem" rows="5"></textarea>
                                 </fieldset>
-                                <button type="submit" class="btn btn-primary">Enviar</button>
+                                <button type="submit" class="btn btn-primary" onsubmit="registerFunnel();">Enviar</button>
                             </form>
                         </div>
                     </div>
