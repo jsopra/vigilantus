@@ -66,6 +66,8 @@ $this->beginPage() ?>
           ;e.amplitude=n})(window,document);
 
           amplitude.getInstance().init("f515c5250de1b9ae7dcb655674e33795");
+
+          amplitude.getInstance().logEvent('LANDING_PAGE')
         </script>
 
         <?php $this->head() ?>
