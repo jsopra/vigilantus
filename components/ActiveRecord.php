@@ -13,6 +13,7 @@ use yii\validators\Validator;
 use app\models\UsuarioRole;
 use app\models\Cliente;
 use perspectivain\postgis\PostgisTrait as PostgisTrait;
+use yii\helpers\Json;
 
 class ActiveRecord extends YiiActiveRecord
 {
@@ -265,7 +266,7 @@ class ActiveRecord extends YiiActiveRecord
             $object = new static($attributes);
 
             if ($save && false == $object->save()) {
-                throw new \Exception('Falhou ao salvar objeto! Erros: ' . print_r($object->errors, true));
+                throw new \Exception('Falhou ao salvar objeto! Erros: ' . Json::encode($object->errors));
             }
         }
 

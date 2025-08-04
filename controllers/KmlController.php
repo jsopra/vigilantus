@@ -18,6 +18,7 @@ use yii\data\ActiveDataProvider;
 use perspectivain\geo\kml\Kml;
 use perspectivain\geo\kml\models\Polygon;
 use perspectivain\geo\kml\models\Point;
+use yii\web\HttpException;
 
 class KmlController extends Controller
 {
@@ -151,8 +152,9 @@ class KmlController extends Controller
     public function actionFocos($clienteId = null, $especieId = null, $bairroId = null, $lira = null, $informacaoPublica = null, $inicio = null, $fim = null)
     {
         $cliente = $clienteId ? Cliente::find()->andWhere(['id' => $clienteId])->one() : \Yii::$app->user->identity->cliente;
-        if(!$cliente) {
-            exit;
+        if (!$cliente) {
+            Yii::error('Cliente não encontrado.', __METHOD__);
+            throw new HttpException(404, 'Cliente não encontrado.');
         }
 
         $cacheName = 'focos' . implode(',', [

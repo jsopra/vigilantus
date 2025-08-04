@@ -17,7 +17,6 @@ class AuthManager extends PhpManager
         }
 
         $role = Yii::$app->user->identity->getRBACRole();
-        //die(var_dump($role));
         $this->assign($this->getItem($role), Yii::$app->user->identity->id);
     }
 

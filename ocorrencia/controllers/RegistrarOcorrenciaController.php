@@ -90,7 +90,7 @@ class RegistrarOcorrenciaController extends Controller
                     Yii::$app->session->setFlash('success', 'Ocorrência enviada com sucesso. Você será notificado quando ela for avaliada.');
                     return $this->redirect(['cidade/acompanhar-ocorrencia', 'slug' => $slug, 'hash' => $ocorrencia->hash_acesso_publico]);
                 } else {
-                    var_dump($model->errors);
+                    Yii::error('Erro ao salvar a ocorrência: ' . Json::encode($model->errors), __METHOD__);
                     Yii::$app->session->setFlash('error', 'Erro ao salvar a ocorrência.');
                 }
             }
