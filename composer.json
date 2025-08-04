@@ -1,5 +1,6 @@
 {
     "minimum-stability": "stable",
+    "license": "MIT",
     "require": {
         "php": ">=5.5.0",
         "ext-gearman": "*",
