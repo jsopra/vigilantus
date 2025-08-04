@@ -1,4 +1,6 @@
 <?php
+use Yii;
+
 $dotenv = new Dotenv\Dotenv(dirname(__DIR__));
 $dotenv->overload();
 
@@ -26,7 +28,8 @@ try {
     $dotenv->required('ENVIRONMENT')->allowedValues(['development', 'test', 'production']);
 
 } catch (Exception $e) {
-    echo "Verifique o arquivo \".env\":\n";
-    echo $e->getMessage(), "\n";
-    exit(1);
+    $message = "Verifique o arquivo \".env\":\n" . $e->getMessage() . "\n";
+    echo $message;
+    Yii::error($message);
+    throw $e;
 }

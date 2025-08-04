@@ -281,8 +281,8 @@ class GridView extends YiiGridView
 
         Yii::$app->log->flushInterval = $previousFlushInterval;
 
-        // Finish application
-        exit;
+        Yii::info('Exportação CSV finalizada', __METHOD__);
+        return;
     }
 
     /**
