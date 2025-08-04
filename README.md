@@ -10,6 +10,19 @@
 * Postgres 9.4 (com a extensão Postgis)
 * Redis
 
+## Variáveis de Ambiente
+
+Copie o arquivo `.env.example` para `.env` e preencha os valores marcados com
+`YOUR_...` utilizando as credenciais obtidas nos serviços correspondentes
+(SMTP, redes sociais, AWS, etc.). Essas chaves são privadas e devem ser
+armazenadas apenas em um arquivo `.env` local, que **não** é versionado.
+
+Se alguma credencial anterior estiver exposta, revogue ou rotacione-a antes de
+utilizar a aplicação novamente.
+
+O arquivo `.env` já está listado no `.gitignore` para evitar que seja enviado ao
+repositório.
+
 ## Configurando o ambiente de desenvolvimento
 
 Adicione um novo virtual host ao Apache. As configurações do apache geralmente

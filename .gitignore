@@ -9,4 +9,6 @@ web/brasao/**
 /api/runtime/
 .editor-settings
 .env
+.env.*
+!.env.example
 /uploads/**
