@@ -1,7 +1,8 @@
 {
     "minimum-stability": "stable",
+    "license": "MIT",
     "require": {
-        "php": ">=5.5.0",
+        "php": "^8.0",
         "ext-gearman": "*",
         "ext-redis": "*",
         "ext-pdo_pgsql": "*",
@@ -9,22 +10,22 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "kartik-v/yii2-widget-select2": "v1.0.1",
-        "kartik-v/yii2-widget-colorinput": "dev-master",
+        "kartik-v/yii2-widget-colorinput": "^1.0",
         "kartik-v/yii2-widget-rating": "*",
         "2amigos/yii2-ckeditor-widget" : "*",
-        "phpoffice/phpexcel": "dev-master",
+        "phpoffice/phpspreadsheet": "^1.28",
         "yiisoft/yii2-redis": "*",
         "yiisoft/yii2-imagine": "*",
-        "perspectivain/php-postgis": "dev-master",
-        "perspectivain/yii2-mapbox-leaflet-helper": "dev-master",
-        "perspectivain/yii2-geo": "dev-master",
+        "perspectivain/php-postgis": "^1.0",
+        "perspectivain/yii2-mapbox-leaflet-helper": "^1.0",
+        "perspectivain/yii2-geo": "^1.0",
         "yiisoft/yii2-authclient": "*",
-        "cosenary/instagram": "dev-master",
+        "cosenary/instagram": "^1.0",
         "bower-asset/intro.js": "*",
-        "perspectivain/yii2-gearman": "dev-master",
+        "perspectivain/yii2-gearman": "^1.0",
         "miloschuman/yii2-highcharts-widget": "*",
         "hashids/hashids": "~1.0",
-        "robregonm/yii2-pdf": "dev-master",
+        "robregonm/yii2-pdf": "^2.0",
         "rmrevin/yii2-fontawesome": "2.12.*",
         "vlucas/phpdotenv": "~2.0",
         "frostealth/yii2-aws-s3" : "1.0.0"
@@ -35,8 +36,7 @@
         "yiisoft/yii2-gii": "*",
         "codeception/codeception": "2.*",
         "codeception/verify": "0.2.*",
-        "codeception/specify": "0.3.*",
-        "perspectiva/yii2-phactory": "*"
+        "codeception/specify": "0.3.*"
     },
     "config": {
         "process-timeout": 1800
@@ -59,10 +59,5 @@
             "bower-asset-library": "vendor/bower"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@bitbucket.org:perspectivain/yii2-phactory.git"
-        }
-    ]
+    "repositories": []
 }

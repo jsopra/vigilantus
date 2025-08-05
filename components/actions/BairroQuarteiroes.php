@@ -5,6 +5,8 @@ use yii\base\Action;
 use app\models\Bairro;
 use yii\helpers\Json;
 use app\models\BairroQuarteirao;
+use Yii;
+use yii\web\HttpException;
 
 class BairroQuarteiroes extends Action
 {
@@ -15,12 +17,14 @@ class BairroQuarteiroes extends Action
         $queryString = isset($_REQUEST['q']) ? $_REQUEST['q'] : null;
 
         if (!is_numeric($bairroID)) {
-            exit;
+            Yii::error('Parâmetro bairro_id inválido', __METHOD__);
+            throw new HttpException(400, 'Parâmetro bairro_id inválido');
         }
 
-		$oBairro = Bairro::findOne(intval($bairroID));
+        $oBairro = Bairro::findOne((int) $bairroID);
         if (!$oBairro instanceof Bairro) {
-            exit;
+            Yii::error('Bairro não encontrado: ' . $bairroID, __METHOD__);
+            throw new HttpException(404, 'Bairro não encontrado');
         }
 
         $array = [];
@@ -41,6 +45,6 @@ class BairroQuarteiroes extends Action
             }
         }
 
-		echo Json::encode($array);
+        echo Json::encode($array);
     }
 }

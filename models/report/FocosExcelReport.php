@@ -12,6 +12,12 @@ use app\helpers\models\MunicipioHelper;
 use app\models\Municipio;
 use app\models\Cliente;
 use Yii;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class FocosExcelReport extends Model
 {
@@ -79,20 +85,20 @@ class FocosExcelReport extends Model
 
         $model->dataEntradaEntre($this->inicio, $this->fim);
 
-        $objPHPExcel = new \PHPExcel();
-        $objPHPExcel->getProperties()->setCreator("Vigilantus");
-        $objPHPExcel->getProperties()->setTitle("Relatório de Focos");
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->getProperties()->setCreator("Vigilantus");
+        $spreadsheet->getProperties()->setTitle("Relatório de Focos");
 
-        $objPHPExcel->setActiveSheetIndex(0);
-        $sheet = $objPHPExcel->getActiveSheet();
+        $spreadsheet->setActiveSheetIndex(0);
+        $sheet = $spreadsheet->getActiveSheet();
 
         //cabeçalho: logo, texto prefeitura
         if($municipio->brasao) {
-            $objDrawing = new \PHPExcel_Worksheet_MemoryDrawing();
+            $objDrawing = new MemoryDrawing();
             $objDrawing->setName('Brasão de ' . $municipio->nome);
             $objDrawing->setImageResource(imagecreatefrompng(MunicipioHelper::getBrasaoUrl($municipio, 'mini')));
-            $objDrawing->setRenderingFunction(\PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
-            $objDrawing->setMimeType(\PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+            $objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_JPEG);
+            $objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
             $objDrawing->setCoordinates('A2');
             $objDrawing->setWorksheet($sheet);
             $objDrawing->setResizeProportional(false);
@@ -139,7 +145,7 @@ class FocosExcelReport extends Model
         $coluna = 0;
 
         foreach($headers as $header) {
-            $letraColuna = \PHPExcel_Cell::stringFromColumnIndex($coluna);
+            $letraColuna = Coordinate::stringFromColumnIndex($coluna);
             $sheet->setCellValue($letraColuna . $linha, $header);
             $coluna++;
         }
@@ -153,11 +159,11 @@ class FocosExcelReport extends Model
             if($i < $linha) {
                 $sheet->mergeCells("{$letra}{$i}:{$letraColuna}{$i}");
             } else {
-                $sheet->getStyle("A{$i}:{$letraColuna}{$i}")->getBorders()->getAllBorders()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+                $sheet->getStyle("A{$i}:{$letraColuna}{$i}")->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THICK);
             }
 
             if($letra == 'A') {
-                $sheet->getStyle("{$letra}{$i}:{$letraColuna}{$i}")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyle("{$letra}{$i}:{$letraColuna}{$i}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             }
         }
 
@@ -168,26 +174,26 @@ class FocosExcelReport extends Model
             $linha++;
             $coluna = -1;
 
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->bairroQuarteirao->bairro->nome);
+            $sheet->setCellValue(Coordinate::stringFromColumnIndex(++$coluna) . $linha, $row->bairroQuarteirao->bairro->nome);
 
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->imovel_id ? ImovelHelper::getEnderecoCompleto($row->imovel) : $row->planilha_endereco);
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->bairroQuarteirao->numero_quarteirao);
+            $sheet->setCellValue(Coordinate::stringFromColumnIndex(++$coluna) . $linha, $row->imovel_id ? ImovelHelper::getEnderecoCompleto($row->imovel) : $row->planilha_endereco);
+            $sheet->setCellValue(Coordinate::stringFromColumnIndex(++$coluna) . $linha, $row->bairroQuarteirao->numero_quarteirao);
 
             if(!$modelEspecie) {
-                $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->especieTransmissor->nome);
+                $sheet->setCellValue(Coordinate::stringFromColumnIndex(++$coluna) . $linha, $row->especieTransmissor->nome);
             }
 
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->imovel_id ? $row->imovel->imovelTipo->sigla : ($row->imovelTipo ? $row->imovelTipo->sigla : null));
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->tipoDeposito->sigla);
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->data_entrada);
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->data_exame);
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->data_coleta);
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->quantidade_forma_aquatica);
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->quantidade_forma_adulta);
-            $sheet->setCellValue(\PHPExcel_Cell::stringFromColumnIndex(++$coluna) . $linha, $row->quantidade_ovos);
+            $sheet->setCellValue(Coordinate::stringFromColumnIndex(++$coluna) . $linha, $row->imovel_id ? $row->imovel->imovelTipo->sigla : ($row->imovelTipo ? $row->imovelTipo->sigla : null));
+            $sheet->setCellValue(Coordinate::stringFromColumnIndex(++$coluna) . $linha, $row->tipoDeposito->sigla);
+            $sheet->setCellValue(Coordinate::stringFromColumnIndex(++$coluna) . $linha, $row->data_entrada);
+            $sheet->setCellValue(Coordinate::stringFromColumnIndex(++$coluna) . $linha, $row->data_exame);
+            $sheet->setCellValue(Coordinate::stringFromColumnIndex(++$coluna) . $linha, $row->data_coleta);
+            $sheet->setCellValue(Coordinate::stringFromColumnIndex(++$coluna) . $linha, $row->quantidade_forma_aquatica);
+            $sheet->setCellValue(Coordinate::stringFromColumnIndex(++$coluna) . $linha, $row->quantidade_forma_adulta);
+            $sheet->setCellValue(Coordinate::stringFromColumnIndex(++$coluna) . $linha, $row->quantidade_ovos);
 
-            $letraColuna = \PHPExcel_Cell::stringFromColumnIndex($coluna);
-            $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getBorders()->getAllBorders()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+            $letraColuna = Coordinate::stringFromColumnIndex($coluna);
+            $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THICK);
 
             unset($letraColuna);
         }
@@ -195,11 +201,11 @@ class FocosExcelReport extends Model
         //linha com municipio, data_extração
         $linha++;
         $linha++;
-        $letraColuna = \PHPExcel_Cell::stringFromColumnIndex($coluna -1);
+        $letraColuna = Coordinate::stringFromColumnIndex($coluna -1);
         $sheet->setCellValue('A' . $linha, ($municipio->nome . '/' . $municipio->sigla_estado . ', ' . date('d/m/Y')));
         $sheet->mergeCells("A{$linha}:{$letraColuna}{$linha}");
         $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getFont()->setBold(true);
-        $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle("A{$linha}:{$letraColuna}{$linha}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
         foreach(range('A',$letraColuna) as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true);
@@ -212,7 +218,7 @@ class FocosExcelReport extends Model
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="export.xls"');
         header('Cache-Control: max-age=0');
-        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter = IOFactory::createWriter($spreadsheet, 'Xls');
         $objWriter->save('php://output');
     }
 }

@@ -1,47 +1,87 @@
 # Vigilantus
 
-[![Build Status](http://phpci.perspectiva.in/build-status/image/1)](http://phpci.perspectiva.in/build-status/view/1)
+## Português
 
-## Softwares necessários
+### Descrição
+Vigilantus é uma plataforma web para registrar, acompanhar e analisar denúncias e ocorrências. O sistema centraliza informações para auxiliar equipes de fiscalização e gestores públicos na tomada de decisão.
 
-* Apache 2
-* PHP 5.6 (com as extensões que o Composer irá exigir quando rodar)
-* Composer
-* Postgres 9.4 (com a extensão Postgis)
-* Redis
+### Problema que resolve
+Facilita o gerenciamento de denúncias, reduzindo o tempo de resposta e permitindo monitoramento em tempo real das ocorrências registradas.
 
-## Configurando o ambiente de desenvolvimento
+### Público-alvo
+Órgãos públicos, equipes de fiscalização e iniciativas comunitárias que precisam controlar denúncias e ocorrências de forma organizada.
 
-Adicione um novo virtual host ao Apache. As configurações do apache geralmente
-se encontram no arquivo `/etc/apache2/httpd.conf`.
+### Tecnologias
+- [Yii2 Framework](https://www.yiiframework.com/)
+- PostgreSQL com PostGIS
+- Redis
+- PHP e Composer
+- Integrações com ferramentas de testes via Codeception
 
-```apache
-<VirtualHost vigilantus.dev>
-    ServerName vigilantus.dev
-    DocumentRoot /var/www/vigilantus/web
-</VirtualHost>
-```
+### Instalação
+1. Instale Apache, PHP, PostgreSQL com PostGIS e Redis.
+2. Clone este repositório e copie o arquivo `.env.example` para `.env`, ajustando as variáveis conforme o ambiente.
+3. Execute `composer install` para instalar as dependências.
+4. Rode `./bin/setup` para preparar o ambiente.
 
-Para que o host `vigilantus.dev` funcione, adicione a seguinte linha ao seu
-arquivo `/etc/hosts`:
+### Uso
+Após a instalação, acesse o sistema via navegador. Utilize as credenciais configuradas no ambiente para autenticar‑se e registrar denúncias ou acompanhar as existentes.
 
-```
-127.0.0.1 vigilantus.dev vigilantus.test.dev api.vigilantus.dev
-```
+### Contribuição
+Contribuições são bem-vindas! Leia o guia em [CONTRIBUTING.md](CONTRIBUTING.md) antes de enviar pull requests. Ao participar, você concorda em seguir nosso [Código de Conduta](CODE_OF_CONDUCT.md).
 
-**Importante**: para aplicar as configurações acima, reinicie o Apache:
+### Documentação complementar
+- [Guia de testes](tests/README.md)
+- [Documentos e diagramas](docs/)
+- [Informações sobre uploads](uploads/README.md)
 
-```bash
-sudo service apache2 reload # recarrega o Apache
-```
+### Autores
+Juliano Baggio di Sopra, Alan Willms, Gabriel Mocelin, Cristian de Oliveira, Theylor Fiorentin.
 
-Por fim, rode `./bin/setup` para preparar o ambiente. Ele alertará sobre
-quaisquer passos adicionais necessários.
+### Licença
+Nenhuma licença explicitamente definida. Consulte os autores para mais detalhes antes de utilizar o software.
 
-## Configurando o ambiente de produção
+---
 
-Para fazer deploy, logue-se via SSH no servidor na amazon, vá até /var/www/ e dê um git pull (branch master)
+## English
 
-## Configurando o ambiente de testes
+### Description
+Vigilantus is a web platform to register, track and analyse reports and incidents. It centralises information to support inspection teams and public managers in decision making.
 
-Consulte as instruções completas no [README.md](tests/README.md) do diretório `tests`.
+### Problem it solves
+It streamlines complaint management, reducing response time and enabling real‑time monitoring of registered incidents.
+
+### Target audience
+Public agencies, inspection teams and community initiatives that need an organised way to control reports and incidents.
+
+### Technologies
+- [Yii2 Framework](https://www.yiiframework.com/)
+- PostgreSQL with PostGIS
+- Redis
+- PHP and Composer
+- Codeception testing tools
+
+### Installation
+1. Install Apache, PHP, PostgreSQL with PostGIS and Redis.
+2. Clone this repository and copy `.env.example` to `.env`, adjusting environment variables as needed.
+3. Run `composer install` to install dependencies.
+4. Execute `./bin/setup` to prepare the environment.
+
+### Usage
+After installation, access the system through your browser. Use the credentials configured for your environment to log in, register reports or follow existing ones.
+
+### Contributing
+Contributions are welcome! Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting pull requests. By participating, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+### Additional documentation
+- [Tests guide](tests/README.md)
+- [Documents and diagrams](docs/)
+- [Upload information](uploads/README.md)
+
+### Authors
+Juliano Baggio di Sopra, Alan Willms, Gabriel Mocelin, Cristian de Oliveira, Theylor Fiorentin.
+
+### License
+No explicit license is provided. Contact the authors for details before using this software.
+
+

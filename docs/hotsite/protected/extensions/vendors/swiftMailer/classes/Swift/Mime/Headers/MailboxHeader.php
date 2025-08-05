@@ -107,7 +107,7 @@ class Swift_Mime_Headers_MailboxHeader extends Swift_Mime_Headers_AbstractHeader
    *  array('chris@swiftmailer.org' => 'Chris Corbyn',
    *  'mark@swiftmailer.org' => 'Mark Corbyn')
    *  );
-   * print_r($header->getNameAddressStrings());
+   * $header->getNameAddressStrings();
    * // array (
    * // 0 => Chris Corbyn <chris@swiftmailer.org>,
    * // 1 => Mark Corbyn <mark@swiftmailer.org>
@@ -134,7 +134,7 @@ class Swift_Mime_Headers_MailboxHeader extends Swift_Mime_Headers_AbstractHeader
    *  array('chris@swiftmailer.org' => 'Chris Corbyn',
    *  'mark@swiftmailer.org' => 'Mark Corbyn')
    *  );
-   * print_r($header->getNameAddresses());
+   * $header->getNameAddresses();
    * // array (
    * // chris@swiftmailer.org => Chris Corbyn,
    * // mark@swiftmailer.org => Mark Corbyn

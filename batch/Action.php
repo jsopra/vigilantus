@@ -197,10 +197,12 @@ class Action extends ViewAction
         header('Content-Transfer-Encoding: binary'); 
         header('Expires: 0'); 
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0'); 
-        header('Pragma: public'); 
-        
+        header('Pragma: public');
+
         echo "\xEF\xBB\xBF"; // UTF-8 BOM
-        die($exampleFile);
+        echo $exampleFile;
+        Yii::info('Arquivo de exemplo enviado', __METHOD__);
+        return;
     }
 
 
