@@ -3,84 +3,73 @@ Manual de contribuição
 
 ## Manual do Programador
 
-###Para clonar o projeto:
+### Para clonar o projeto:
 
-1. Acesse a URL do projeto no BitBucket
-2. Clique no botão `Fork` e confirme.
-3. Clique em `Clonar` nesse fork que foi criado.
-4. Copie o comando
-5. Execute o comando na sua máquina, no diretório desejado
-6. Entre no diretório (`cd`)
-7. Execute o comando `git remote add upstream https://SeuUsuario@bitbucket.org/perspectivain/vigilantus.git`
-6. Siga as instruções do arquivo [README.md](README.md) para configurar o seu ambiente de desenvolvimento e testes
+1. Acesse a página do repositório no GitHub e clique em **Fork**.
+2. No seu fork, clique em **Code** e copie a URL.
+3. No terminal, execute `git clone URL` e entre no diretório.
+4. Adicione o repositório original como remoto `upstream`:
 
-###Para programar:
+   ```
+   git remote add upstream https://github.com/perspectivain/vigilantus.git
+   ```
 
-1. Sempre, antes de começar algo novo, certifique-se de estar no branch `master`
-2. Rode `git fetch upstream` para atualizar o seu `master` com as últimas alterações do repositório quente
-3. Crie um branch para o seu código com um nome sucinto que descreva a atividade, com `git checkout upstream/master` (irá para o branch master do repositório quente) e `git checkout -b nome-do-seu-branch` (seu novo branch).
-4. Escreva os testes!
-5. Programe e faça os testes passarem!
-6. Certifique-se de que todos os testes rodam (não só os seus!)
-7. Commite suas mudanças com uma mensagem breve que descreva de maneira clara o que foi alterado.
-8. Novamente veja se está tudo atualizado com o repositório quente com `git pull upstream master`
-9. Envie o seu branch pro seu repositório forkado `git push -u origin nome-do-seu-branch`
+5. Siga as instruções do [README.md](README.md) para configurar o ambiente de desenvolvimento.
 
-###Para enviar o seu código:
+### Para programar:
 
-1. Vá para o seu fork do projeto no BitBucket
-2. Clique em `Branches`
-3. Clique em `nome-do-seu-branch`
-4. Clique em `Create pull request`
-5. No painel da direita, seleciona `perspectivain/NomeDoRepositorio` ao invés de `SeuUsuario/NomeDoRepositorio`.
-6. Escreva uma boa e breve descrição
-7. Clique em `Create pull request`.
-8. Alguém vai rever o seu código e vai pedir para você corrigir ou vai mesclar com o master.
-9. Caso tudo esteja certo e ele seja mesclado no master, rode os seguintes comandos para limpar o seu ambiente de desenvolvimento:
+1. Certifique-se de estar com o `master` atualizado.
+2. Atualize seu repositório local:
 
-```
-git checkout upstream/master
-git fetch upstream
-git branch -d nome-do-seu-branch
-git push origin --delete nome-do-seu-branch
-```
+   ```
+   git fetch upstream
+   git checkout master
+   ```
+
+3. Crie um branch a partir do `upstream/master`:
+
+   ```
+   git checkout -b nome-do-branch upstream/master
+   ```
+
+4. Escreva testes para seu código.
+5. Desenvolva e execute todos os testes.
+6. Faça commits com mensagens claras.
+7. Mantenha seu branch sincronizado:
+
+   ```
+   git pull --rebase upstream master
+   ```
+
+8. Envie seu branch para o fork:
+
+   ```
+   git push -u origin nome-do-branch
+   ```
+
+### Para enviar o seu código:
+
+1. Abra seu fork no GitHub e clique em **Compare & pull request**.
+2. Preencha título e descrição informativos.
+3. Aguarde a revisão. Responda aos comentários e faça ajustes quando solicitado.
+4. Após o merge, limpe o ambiente local:
+
+   ```
+   git checkout master
+   git fetch upstream
+   git branch -d nome-do-branch
+   git push origin --delete nome-do-branch
+   ```
 
 ## Manual do Supervisor
 
-###Para adicionar um novo membro de projeto:
+### Para adicionar um novo membro ao projeto:
 
-1. Vá para a página da equipe `Perspectiva`
-2. Clique em `Manage team`
-3. Clique em `Grupos`
-4. Adicione o novo membro ao grupo `NomeDoProjeto Developers`.
+1. Acesse a organização no GitHub.
+2. Nas configurações de **Teams**, inclua o novo membro no time adequado.
 
-###Para adicionar um novo projeto:
+### Para revisar um Pull Request:
 
-1. Vá para a página da equipe `Perspectiva`
-2. Clique em `Manage team`
-3. Clique em `Grupos`
-4. Crie um grupo `NomeDoProjeto Developers`
-5. Assegure-se de **remover todas as permissões** (desmarque as checkboxes e marque `não`).
-6. Adicione os membros do grupo.
-7. Na página do projeto, clique no ícone da roda dentada
-8. Clique em `Gerenciamento de Acesso`.
-9. Em `Grupos`, adicione o grupo que você criou, com permissão somente `read` (ler).
-
-### Para testar um Pull Request
-
-1. Vá até o Pull Request e veja qual é o programador/repositório/branch com as alterações dele.
-2. Rode `git fetch https://bitbucket.org/NomeProgramador/Repositorio BranchDoPullRequest`, para obter as alterações do Pull Request.
-3. Essas alterações estão "soltas" no seu git. Use `git checkout FETCH_HEAD` para testá-las.
-4. Para voltar, rode `git checkout master`.
-5. Mais informações: https://confluence.atlassian.com/display/BITBUCKET/Work+with+pull+requests#Workwithpullrequests-Resolvingapullrequestwithconflicts
-
-## Migrando do GitHub para o BitBucket
-
-1. Siga as instruções do manual do programador até a etapa `4`.
-2. Execute os seguintes comandos, lembrando de trocar `URL_AQUI` pela URL obtida do seu fork no BitBucket
-
-```bash
-git remote remove origin
-git remote add origin URL_AQUI
-git push -u origin master
-```
+1. Abra o PR e use a aba **Files changed** para verificar as alterações.
+2. Utilize comentários ou **Request changes** para sugerir melhorias.
+3. Quando aprovado, clique em **Approve** e **Merge pull request**.
