@@ -98,3 +98,18 @@ Para fazer deploy, logue-se via SSH no servidor na amazon, vá até /var/www/ e 
 ## Configurando o ambiente de testes
 
 Consulte as instruções completas no [README.md](tests/README.md) do diretório `tests`.
+
+## Adicionando novas cidades
+
+Os municípios disponíveis na aplicação são configurados no arquivo
+[`config/municipios.yaml`](config/municipios.yaml). Cada chave do arquivo
+representa o *slug* usado na URL e contém:
+
+- `nome` e `uf` do município;
+- `latitude` e `longitude` para centralizar o mapa;
+- `aliases` opcionais que apontam antigos caminhos a serem redirecionados.
+
+Para cadastrar uma nova cidade, acrescente um novo bloco seguindo o formato
+dos exemplos existentes e, se necessário, inclua *aliases* para URLs antigas.
+Após salvar o arquivo, as rotas passarão a reconhecer automaticamente a nova
+configuração.
