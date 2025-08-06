@@ -15,11 +15,11 @@ if (getenv('ENVIRONMENT') == 'production') {
         'class' => 'yii\log\EmailTarget',
         'mailer' => 'mail',
         'levels' => ['error', 'warning'],
-        'message' => [
-            'from' => ['tenha@perspectiva.in'],
-            'to' => ['dev@vigilantus.com.br'],
-            'subject' => 'Application Log',
-        ],
+            'message' => [
+                'from' => [$params['emailContato']],
+                'to' => ['dev@vigilantus.com.br'],
+                'subject' => 'Application Log',
+            ],
     ];
 }
 

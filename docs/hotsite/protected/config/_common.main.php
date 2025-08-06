@@ -37,7 +37,7 @@ return array(
             'transportType' => 'smtp',
             'transportOptions' => array(
                 'host'      => 'smtp.mandrillapp.com',
-                'username'  => 'tenha@perspectiva.in',
+                'username'  => getenv('SMTP_USERNAME'),
                 'password'  => 'PHv0GKgYhJt5xv11iHKtgA',
                 'port'      => '587',
             ),

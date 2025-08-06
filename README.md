@@ -24,8 +24,30 @@ Facilita o gerenciamento de denúncias, reduzindo o tempo de resposta e permitin
 3. Execute `composer install` para instalar as dependências.
 4. Rode `./bin/setup` para preparar o ambiente.
 
+### Docker
+1. Copie `.env.example` para `.env` e ajuste `DB_DSN` para usar o serviço `db` do `docker-compose` (por exemplo, `pgsql:host=db;port=5432;dbname=vigilantus`).
+2. Copie `config/client.example.json` (ou `client.example.yaml`) para `config/client.json` e personalize os campos.
+3. Execute `docker-compose up --build` para subir a aplicação e seus serviços.
+4. Acesse `http://localhost:8080` no navegador.
+
 ### Variáveis de ambiente
 Copie o arquivo `.env.example` para `.env` e substitua cada placeholder `YOUR_*` pelas credenciais reais obtidas nos serviços correspondentes (SMTP, redes sociais, mapas etc.). Mantenha o arquivo `.env` fora do controle de versão e rotacione quaisquer credenciais antigas que tenham sido expostas.
+
+### Configuração de cidade/cliente
+Parâmetros específicos de cada implantação foram movidos para arquivos em `config/`. Para ajustar e sobrescrever valores locais:
+
+1. Copie `config/client.example.json` (ou `client.example.yaml`) para `config/client.json` ou `config/client.yaml`.
+2. Edite os campos conforme necessário:
+
+```json
+{
+  "adminEmail": "admin@example.com",
+  "emailContato": "contato@example.com",
+  "emailFeedback": ["feedback@example.com"]
+}
+```
+
+O arquivo criado é ignorado pelo Git, permitindo configurações diferentes por cidade ou cliente sem alterar o código-fonte.
 
 ### Uso
 Após a instalação, acesse o sistema via navegador. Utilize as credenciais configuradas no ambiente para autenticar‑se e registrar denúncias ou acompanhar as existentes.
@@ -70,8 +92,30 @@ Public agencies, inspection teams and community initiatives that need an organis
 3. Run `composer install` to install dependencies.
 4. Execute `./bin/setup` to prepare the environment.
 
+### Docker
+1. Copy `.env.example` to `.env` and set `DB_DSN` to use the `db` service from `docker-compose` (e.g. `pgsql:host=db;port=5432;dbname=vigilantus`).
+2. Copy `config/client.example.json` (or `client.example.yaml`) to `config/client.json` and customise the values.
+3. Run `docker-compose up --build` to start the application and its services.
+4. Visit `http://localhost:8080` in your browser.
+
 ### Environment variables
 Copy `.env.example` to `.env` and replace each `YOUR_*` placeholder with the real credentials obtained from the appropriate providers (SMTP, social networks, map services, etc.). Keep the `.env` file out of version control and rotate any previously exposed credentials.
+
+### City/client configuration
+City‑ or client‑specific settings live in files under `config/`. To override them locally:
+
+1. Copy `config/client.example.json` (or `client.example.yaml`) to `config/client.json` or `config/client.yaml`.
+2. Edit the fields as needed:
+
+```json
+{
+  "adminEmail": "admin@example.com",
+  "emailContato": "contact@example.com",
+  "emailFeedback": ["feedback@example.com"]
+}
+```
+
+This file is ignored by Git so different deployments can maintain their own configuration without code changes.
 
 ### Usage
 After installation, access the system through your browser. Use the credentials configured for your environment to log in, register reports or follow existing ones.
