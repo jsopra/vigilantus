@@ -30,6 +30,7 @@ acompanhar inspeções, denúncias e resultados de vistoria.
 ## Documentação adicional
 
 - Consulte a pasta [`docs/`](docs) para materiais complementares;
+- Estudo de caso da implantação em Chapecó: [`docs/case-study.md`](docs/case-study.md);
 - As instruções de testes encontram-se em [`tests/README.md`](tests/README.md);
 - Atualmente não há diagrama de arquitetura público no repositório.
 
