@@ -241,32 +241,14 @@ class SiteController extends Controller
             $code = $exception->getCode();
         }
 
-        // @FIXME remover este bloco de redirecionamentos após 31/dez/2015
-        // 301 = movido permanentemente, então o Google nunca mais apontará
-        // para a URL antiga
-        switch (Yii::$app->request->url) {
-            case '/blumenau' :
-                return $this->redirect('/blumenau-sc', 301);
-            case '/cananeia' :
-                return $this->redirect('/cananeia-sp', 301);
-            case '/chapeco':
-                return $this->redirect('/chapeco-sc', 301);
-            case '/floripa':
-                return $this->redirect('/florianopolis-sc', 301);
-            case '/itajai':
-                return $this->redirect('/itajai-sc', 301);
-            case '/maravilha':
-                return $this->redirect('/maravilha-sc', 301);
-            case '/rondonopolis':
-                return $this->redirect('/rondonopolis-mt', 301);
-            case '/smo':
-                return $this->redirect('/sao-miguel-do-oeste-sc', 301);
-            case '/to':
-                return $this->redirect('/teofilo-otoni-mg', 301);
-            case '/ubirajara' :
-                return $this->redirect('/ubirajara-sp', 301);
+        $redirectsPath = Yii::getAlias('@app/config/redirects.json');
+        if (file_exists($redirectsPath)) {
+            $redirects = Json::decode(file_get_contents($redirectsPath));
+            $requestPath = trim(Yii::$app->request->url, '/');
+            if (isset($redirects[$requestPath])) {
+                return $this->redirect('/' . $redirects[$requestPath], 301);
+            }
         }
-        // @FIXME fim do bloco a ser removido
 
         if ($exception instanceof Exception) {
             $name = $exception->getName();
