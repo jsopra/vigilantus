@@ -58,7 +58,7 @@ Principais autores:
 ## Softwares necessários
 
 * Apache 2
-* PHP 5.6 (com as extensões que o Composer irá exigir quando rodar)
+* PHP 7.4 ou superior (com as extensões que o Composer irá exigir quando rodar)
 * Composer
 * Postgres 9.4 (com a extensão Postgis)
 * Redis
