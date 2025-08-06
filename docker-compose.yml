@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+      - redis
+  db:
+    image: postgis/postgis:14-3.3
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-vigilantus}
+      POSTGRES_USER: ${DB_USERNAME:-vigilantus}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-vigilantus}
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"

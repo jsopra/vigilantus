@@ -13,3 +13,5 @@ web/brasao/**
 .env.*
 !.env.example
 /uploads/**
+config/client.json
+config/client.yaml

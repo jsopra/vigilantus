@@ -1,0 +1,4 @@
+adminEmail: admin@example.com
+emailContato: contato@example.com
+emailFeedback:
+  - feedback@example.com

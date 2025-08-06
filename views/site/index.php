@@ -29,7 +29,7 @@ $this->title = Yii::$app->name;
 <section class="request-demo">
     <h1>Solicite uma demonstração gratuita</h1>
     <p>Preencha seu endereço de e-mail e solicite uma demonstração do software:</p>
-    <form class="form-inline" accept-charset="UTF-8" action="//formspree.io/tenha@perspectiva.in" method="POST" target="_blank">
+    <form class="form-inline" accept-charset="UTF-8" action="//formspree.io/<?= Yii::$app->params['emailContato'] ?>" method="POST" target="_blank">
         <div class="form-group">
             <input type="email" class="form-control" placeholder="Seu e-mail" name="email" style="width: 190px">
             <button class="btn btn-primary">Solicitar</button>

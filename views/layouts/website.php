@@ -136,14 +136,14 @@ $this->beginPage() ?>
                             </address>
                             <p>
                                 Telefone: +55 (49) 3316 0928<br>
-                                Email: <a href="mailto:tenha@perspectiva.in">tenha@perspectiva.in</a><br>
+                                Email: <a href="mailto:<?= Yii::$app->params['emailContato'] ?>"><?= Yii::$app->params['emailContato'] ?></a><br>
                                 CNPJ: 19.634.551/0001-35
                             </p>
                         </div>
 
                         <div class="col-md-7 contact-form">
                             <h3>Entre em Contato</h3>
-                            <form accept-charset="UTF-8" action="//formspree.io/tenha@perspectiva.in" method="POST" target="_blank">
+                            <form accept-charset="UTF-8" action="//formspree.io/<?= Yii::$app->params['emailContato'] ?>" method="POST" target="_blank">
                                 <fieldset class="form-group">
                                     <input type="email" required name="email" class="form-control" id="user-email" placeholder="Seu e-mail">
                                 </fieldset>
