@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ruleset name="Vigilantus">
+    <rule ref="PSR12"/>
+    <file>controllers</file>
+    <file>models</file>
+    <file>components</file>
+    <file>helpers</file>
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>runtime/*</exclude-pattern>
+</ruleset>
