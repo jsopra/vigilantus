@@ -23,20 +23,19 @@ before_script:
 
 script:
   - export ENVIRONMENT="development"
-  - export VIGILANTUS_DB_DSN="pgsql:host=localhost;dbname=vigilantus_development"
-  - export VIGILANTUS_DB_DSN_HOST="pgsql:host=localhost"
-  - export VIGILANTUS_DB_DSN_DBNAME="dbname=vigilantus_development"
-  - export VIGILANTUS_DB_DSN="pgsql:host=localhost;dbname=vigilantus_development"
-  - export VIGILANTUS_DB_USERNAME="postgres"
-  - export VIGILANTUS_DB_PASSWORD="postgres"
-  - export VIGILANTUS_TEST_DB_DSN_HOST="pgsql:host=localhost"
-  - export VIGILANTUS_TEST_DB_DSN_DBNAME="dbname=vigilantus_test"
-  - export VIGILANTUS_TEST_DB_USERNAME="postgres"
-  - export VIGILANTUS_TEST_DB_PASSWORD="postgres"
-  - export VIGILANTUS_REDIS_HOST="localhost"
-  - export VIGILANTUS_REDIS_DB_PORT="6379"
-  - export VIGILANTUS_REDIS_DB_PASSWORD=""
-  - export VIGILANTUS_REDIS_DB_NUMBER="0"
+  - export VIGILANTUS_DB_DSN
+  - export VIGILANTUS_DB_DSN_HOST
+  - export VIGILANTUS_DB_DSN_DBNAME
+  - export VIGILANTUS_DB_USERNAME
+  - export VIGILANTUS_DB_PASSWORD
+  - export VIGILANTUS_TEST_DB_DSN_HOST
+  - export VIGILANTUS_TEST_DB_DSN_DBNAME
+  - export VIGILANTUS_TEST_DB_USERNAME
+  - export VIGILANTUS_TEST_DB_PASSWORD
+  - export VIGILANTUS_REDIS_HOST
+  - export VIGILANTUS_REDIS_DB_PORT
+  - export VIGILANTUS_REDIS_DB_PASSWORD
+  - export VIGILANTUS_REDIS_DB_NUMBER
   - psql -c 'DROP DATABASE IF EXISTS vigilantus_test;' -U postgres
   - psql -c 'CREATE DATABASE vigilantus_test;' -U postgres
   - ./tests/codeception/bin/yii migrate --interactive=0

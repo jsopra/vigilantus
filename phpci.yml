@@ -4,9 +4,9 @@ build_settings:
         - "vendor"
         - "tests"
     pgsql:
-        host: "localhost"
-        user: "postgres"
-        pass: "postgres"
+        host: "${DB_HOST}"
+        user: "${DB_USERNAME}"
+        pass: "${DB_PASSWORD}"
 
 setup:
     pgsql:
@@ -16,22 +16,6 @@ setup:
         - "cd %BUILD_PATH% && cp .env.example .env"
     composer:
         action: "install"
-    # env:
-    #     ENVIRONMENT: "development"
-    #     VIGILANTUS_DB_DSN: "pgsql:host=localhost;dbname=vigilantus_development"
-    #     VIGILANTUS_DB_DSN_HOST: "pgsql:host=localhost"
-    #     VIGILANTUS_DB_DSN_DBNAME: "dbname=vigilantus_development"
-    #     VIGILANTUS_DB_DSN: "pgsql:host=localhost;dbname=vigilantus_development"
-    #     VIGILANTUS_DB_USERNAME: "postgres"
-    #     VIGILANTUS_DB_PASSWORD: "postgres"
-    #     VIGILANTUS_TEST_DB_DSN_HOST: "pgsql:host=localhost"
-    #     VIGILANTUS_TEST_DB_DSN_DBNAME: "dbname=vigilantus_test"
-    #     VIGILANTUS_TEST_DB_USERNAME: "postgres"
-    #     VIGILANTUS_TEST_DB_PASSWORD: "postgres"
-    #     VIGILANTUS_REDIS_HOST: "localhost"
-    #     VIGILANTUS_REDIS_DB_PORT: "6379"
-    #     VIGILANTUS_REDIS_DB_PASSWORD: ""
-    #     VIGILANTUS_REDIS_DB_NUMBER: "0"
 
 test:
     codeception:
