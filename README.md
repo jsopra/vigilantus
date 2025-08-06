@@ -28,7 +28,7 @@ Facilita o gerenciamento de denúncias, reduzindo o tempo de resposta e permitin
 Após a instalação, acesse o sistema via navegador. Utilize as credenciais configuradas no ambiente para autenticar‑se e registrar denúncias ou acompanhar as existentes.
 
 ### Contribuição
-Contribuições são bem-vindas! Leia o guia em [CONTRIBUTING.md](CONTRIBUTING.md) antes de enviar pull requests.
+O projeto está em manutenção mínima. Se desejar colaborar, leia o [CONTRIBUTING.md](CONTRIBUTING.md) e o [Código de Conduta](CODE_OF_CONDUCT.md) antes de enviar pull requests.
 
 ### Documentação complementar
 - [Guia de testes](tests/README.md)
@@ -71,7 +71,7 @@ Public agencies, inspection teams and community initiatives that need an organis
 After installation, access the system through your browser. Use the credentials configured for your environment to log in, register reports or follow existing ones.
 
 ### Contributing
-Contributions are welcome! Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting pull requests.
+The project is in minimal maintenance mode. If you wish to collaborate, read [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md) before submitting pull requests.
 
 ### Additional documentation
 - [Tests guide](tests/README.md)
