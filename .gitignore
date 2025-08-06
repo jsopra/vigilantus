@@ -8,5 +8,8 @@ tests/_log/**
 web/brasao/**
 /api/runtime/
 .editor-settings
+# Environment files
 .env
+.env.*
+!.env.example
 /uploads/**
