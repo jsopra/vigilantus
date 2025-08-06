@@ -24,6 +24,9 @@ Facilita o gerenciamento de denúncias, reduzindo o tempo de resposta e permitin
 3. Execute `composer install` para instalar as dependências.
 4. Rode `./bin/setup` para preparar o ambiente.
 
+### Variáveis de ambiente
+Copie o arquivo `.env.example` para `.env` e substitua cada placeholder `YOUR_*` pelas credenciais reais obtidas nos serviços correspondentes (SMTP, redes sociais, mapas etc.). Mantenha o arquivo `.env` fora do controle de versão e rotacione quaisquer credenciais antigas que tenham sido expostas.
+
 ### Uso
 Após a instalação, acesse o sistema via navegador. Utilize as credenciais configuradas no ambiente para autenticar‑se e registrar denúncias ou acompanhar as existentes.
 
@@ -66,6 +69,9 @@ Public agencies, inspection teams and community initiatives that need an organis
 2. Clone this repository and copy `.env.example` to `.env`, adjusting environment variables as needed.
 3. Run `composer install` to install dependencies.
 4. Execute `./bin/setup` to prepare the environment.
+
+### Environment variables
+Copy `.env.example` to `.env` and replace each `YOUR_*` placeholder with the real credentials obtained from the appropriate providers (SMTP, social networks, map services, etc.). Keep the `.env` file out of version control and rotate any previously exposed credentials.
 
 ### Usage
 After installation, access the system through your browser. Use the credentials configured for your environment to log in, register reports or follow existing ones.
