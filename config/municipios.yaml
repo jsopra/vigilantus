@@ -1,0 +1,70 @@
+blumenau-sc:
+  nome: Blumenau
+  uf: SC
+  latitude: -26.915
+  longitude: -49.071
+  aliases:
+    - blumenau
+cananeia-sp:
+  nome: Cananéia
+  uf: SP
+  latitude: -25.0144
+  longitude: -47.9341
+  aliases:
+    - cananeia
+chapeco-sc:
+  nome: Chapecó
+  uf: SC
+  latitude: -27.1004
+  longitude: -52.6152
+  aliases:
+    - chapeco
+florianopolis-sc:
+  nome: Florianópolis
+  uf: SC
+  latitude: -27.5954
+  longitude: -48.5480
+  aliases:
+    - floripa
+itajai-sc:
+  nome: Itajaí
+  uf: SC
+  latitude: -26.9101
+  longitude: -48.67
+  aliases:
+    - itajai
+maravilha-sc:
+  nome: Maravilha
+  uf: SC
+  latitude: -26.7606
+  longitude: -53.1737
+  aliases:
+    - maravilha
+rondonopolis-mt:
+  nome: Rondonópolis
+  uf: MT
+  latitude: -16.4708
+  longitude: -54.6353
+  aliases:
+    - rondonopolis
+sao-miguel-do-oeste-sc:
+  nome: "São Miguel do Oeste"
+  uf: SC
+  latitude: -26.7242
+  longitude: -53.5163
+  aliases:
+    - smo
+teofilo-otoni-mg:
+  nome: "Teófilo Otoni"
+  uf: MG
+  latitude: -17.857
+  longitude: -41.5092
+  aliases:
+    - to
+ubirajara-sp:
+  nome: Ubirajara
+  uf: SP
+  latitude: -22.5278
+  longitude: -49.6686
+  aliases:
+    - ubirajara
