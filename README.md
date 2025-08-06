@@ -64,6 +64,34 @@ Principais autores:
 * Postgres 9.4 (com a extensão Postgis)
 * Redis
 
+## Subindo o ambiente com Docker
+
+É possível levantar toda a aplicação utilizando Docker e `docker-compose`.
+
+1. Copie o arquivo de variáveis de ambiente:
+
+```bash
+cp .env.example .env
+```
+
+2. Construa e inicie os contêineres:
+
+```bash
+docker-compose up -d --build
+```
+
+3. Instale as dependências do Composer (apenas no primeiro uso):
+
+```bash
+docker-compose exec app composer install
+```
+
+A aplicação estará disponível em http://localhost:8080. Para finalizar os serviços:
+
+```bash
+docker-compose down
+```
+
 ## Configurando o ambiente de desenvolvimento
 
 Adicione um novo virtual host ao Apache. As configurações do apache geralmente
