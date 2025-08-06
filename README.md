@@ -2,6 +2,59 @@
 
 [![Build Status](http://phpci.perspectiva.in/build-status/image/1)](http://phpci.perspectiva.in/build-status/view/1)
 
+## Descrição
+
+Vigilantus é uma plataforma web de código aberto voltada ao monitoramento de
+focos do mosquito *Aedes aegypti* e à gestão de denúncias ambientais. O sistema
+centraliza o registro de ocorrências, auxilia na tomada de decisão e permite o
+acompanhamento de ações de combate.
+
+### Problema resolvido
+
+O projeto surgiu para apoiar municípios no enfrentamento a doenças
+transmitidas pelo mosquito, oferecendo uma forma simples de registrar e
+acompanhar inspeções, denúncias e resultados de vistoria.
+
+### Público-alvo
+
+- Cidadãos que desejam denunciar possíveis focos do mosquito;
+- Equipes de vigilância em saúde que analisam e tratam as ocorrências;
+- Gestores que acompanham indicadores e planejamento das ações.
+
+### Exemplos de uso
+
+- Um morador informa um foco do mosquito por meio do sistema;
+- Um agente de saúde registra o andamento da vistoria em campo;
+- A gestão municipal acompanha relatórios consolidados de ocorrências.
+
+## Documentação adicional
+
+- Consulte a pasta [`docs/`](docs) para materiais complementares;
+- As instruções de testes encontram-se em [`tests/README.md`](tests/README.md);
+- Atualmente não há diagrama de arquitetura público no repositório.
+
+## Contribuindo
+
+Contribuições são bem-vindas! Leia o guia de contribuição em
+[`CONTRIBUTING.md`](CONTRIBUTING.md) e envie *pull requests* com melhorias.
+
+## Licença
+
+Este projeto é distribuído sob a licença [MIT](LICENSE).
+
+## Créditos
+
+Desenvolvido pela equipe Vigilantus e comunidade de colaboradores.
+Principais autores:
+
+- Juliano Baggio di Sopra;
+- Alan Willms;
+- Juliano Sopra;
+- Gabriel;
+- Cristian de Oliveira;
+- Theylor Fiorentin;
+- Gabriel Mocelin.
+
 ## Softwares necessários
 
 * Apache 2
